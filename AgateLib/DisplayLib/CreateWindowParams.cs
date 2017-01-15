@@ -59,7 +59,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="bpp"></param>
 		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams FullScreen(string title, Resolution resolution, ICoordinateSystem coordinates)
+		public static CreateWindowParams FullScreen(string title, IResolution resolution, ICoordinateSystem coordinates)
 		{
 			CreateWindowParams result = new CreateWindowParams();
 
@@ -180,7 +180,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// The information about the window resolution.
 		/// </summary>
-		public Resolution Resolution { get; set; }
+		public IResolution Resolution { get; set; }
 
 		/// <summary>
 		/// Sets the initial position of the window.

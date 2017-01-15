@@ -10,7 +10,7 @@ namespace AgateLib.Tests.DisplayTests
 {
 	class FullScreenTest : IAgateTest
 	{
-		private static readonly List<Resolution> resolutions = new List<Resolution>
+		private static readonly List<IResolution> resolutions = new List<IResolution>
 		{
 			new Resolution(640, 480, RenderMode.RetainAspectRatio),
 			new Resolution(800, 600, RenderMode.RetainAspectRatio),
@@ -29,7 +29,7 @@ namespace AgateLib.Tests.DisplayTests
 		private string topText = @"Press Esc or Enter to exit.
 Press arrow keys to adjust resolution
 ";
-		private string bottomText = $@"Press F1-F12 to change resolution
+		private string bottomText = $@"Press F1-F12 to change resolution - Hold shift to use new DisplayWindow
     F1 - {resolutions[0 % resolutions.Count]}
     F2 - {resolutions[1 % resolutions.Count]}
     F3 - {resolutions[2 % resolutions.Count]}
@@ -45,7 +45,7 @@ Press arrow keys to adjust resolution
 
 		private DisplayWindow wind;
 		private Point mousePosition;
-		private Resolution currentResolution;
+		private IResolution currentResolution;
 
 		public string Name => "Full Screen";
 
@@ -55,7 +55,7 @@ Press arrow keys to adjust resolution
 
 		public void Run()
 		{
-			ChangeResolution(3);
+			ChangeDisplayWindow(3);
 
 			Surface mySurface = new Surface("Images/pointer.png");
 
@@ -70,7 +70,7 @@ Press arrow keys to adjust resolution
 			// Run the program while the window is open.
 			while (Core.IsAlive)
 			{
-				var mouseText = topText + 
+				var mouseText = topText +
 					$"Resolution: {currentResolution}\nMouse: {mousePosition}";
 
 				Display.BeginFrame();
@@ -95,7 +95,7 @@ Press arrow keys to adjust resolution
 
 		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
-			Resolution resolution;
+			IResolution resolution;
 
 			switch (e.KeyCode)
 			{
@@ -117,42 +117,45 @@ Press arrow keys to adjust resolution
 				case KeyCode.F12:
 					var index = e.KeyCode - KeyCode.F1;
 
-					ChangeResolution(index);
+					if (e.KeyModifiers.Shift)
+						ChangeDisplayWindow(index);
+					else
+						ChangeResolution(index);
 
 					break;
 
 				case KeyCode.Left:
-					resolution = currentResolution.Clone();
-					resolution.Width--;
-					ChangeResolutionSimple(resolution);
+					resolution = currentResolution.Clone(
+						new Size(currentResolution.Width - 1, currentResolution.Height));
+					ChangeResolution(resolution);
 					break;
 
 				case KeyCode.Right:
-					resolution = currentResolution.Clone();
-					resolution.Width++;
-					ChangeResolutionSimple(resolution);
+					resolution = currentResolution.Clone(
+						new Size(currentResolution.Width + 1, currentResolution.Height));
+					ChangeResolution(resolution);
 					break;
 
 				case KeyCode.Up:
-					resolution = currentResolution.Clone();
-					resolution.Height--;
-					ChangeResolutionSimple(resolution);
+					resolution = currentResolution.Clone(
+						new Size(currentResolution.Width, currentResolution.Height - 1));
+					ChangeResolution(resolution);
 					break;
 
 				case KeyCode.Down:
-					resolution = currentResolution.Clone();
-					resolution.Height++;
-					ChangeResolutionSimple(resolution);
+					resolution = currentResolution.Clone(
+						new Size(currentResolution.Width, currentResolution.Height + 1));
+					ChangeResolution(resolution);
 					break;
 			}
 		}
 
-		private void ChangeResolution(int index)
+		private void ChangeDisplayWindow(int index)
 		{
-			ChangeResolution(resolutions[index % resolutions.Count]);
+			ChangeDisplayWindow(resolutions[index % resolutions.Count]);
 		}
 
-		private void ChangeResolution(Resolution resolution)
+		private void ChangeDisplayWindow(IResolution resolution)
 		{
 			currentResolution = resolution;
 
@@ -162,11 +165,16 @@ Press arrow keys to adjust resolution
 			Display.RenderTarget = wind.FrameBuffer;
 		}
 
-		private void ChangeResolutionSimple(Resolution resolution)
+		private void ChangeResolution(int index)
+		{
+			ChangeResolution(resolutions[index % resolutions.Count]);
+		}
+
+		private void ChangeResolution(IResolution resolution)
 		{
 			currentResolution = resolution;
 
-			wind.Size = resolution.Size;
+			wind.Resolution = resolution;
 		}
 
 		public void ModifySetup(IAgateSetup setup)

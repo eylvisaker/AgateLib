@@ -7,7 +7,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
 {
-	public class Resolution
+	public class Resolution : IResolution
 	{
 		public Resolution(Size size, IRenderMode mode = null)
 		{
@@ -21,9 +21,9 @@ namespace AgateLib.DisplayLib
 			RenderMode = mode;
 		}
 
-		public Resolution Clone()
+		public IResolution Clone(Size? newSize = null)
 		{
-			return new Resolution(Size, RenderMode);
+			return new Resolution(newSize ?? Size, RenderMode);
 		}
 
 		public Size Size
@@ -46,5 +46,18 @@ namespace AgateLib.DisplayLib
 			return $"{Size.Width} x {Size.Height} - {RenderMode?.Name ?? "None"}";
 		}
 
+	}
+
+	public interface IResolution
+	{
+		Size Size { get; }
+
+		int Width { get; }
+
+		int Height { get; }
+
+		IRenderMode RenderMode { get; }
+
+		IResolution Clone(Size? newSize = null);
 	}
 }

@@ -142,10 +142,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			FlushDeleteQueue();
 		}
 
-		public GLDrawBuffer DrawBuffer
-		{
-			get { return ((GL_FrameBuffer)RenderTarget.Impl).DrawBuffer; }
-		}
+		public GLDrawBuffer DrawBuffer => ((GL_FrameBuffer)RenderTarget.Impl).DrawBuffer;
 
 		// TODO: Test clip rect stuff.
 		public override void SetClipRect(Rectangle newClipRect)

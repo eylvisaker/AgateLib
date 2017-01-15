@@ -46,9 +46,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	/// </summary>
 	public sealed class GL_DisplayControlFull : GL_DisplayControl, IPrimaryWindow
 	{
+		private readonly SurfaceState rtSurfaceState = new SurfaceState();
+
 		private FrameBuffer rtFrameBuffer;
 		private GL_Surface rtSurface;
-		private SurfaceState rtSurfaceState = new SurfaceState();
 		private Screen targetScreen;
 
 		public GL_DisplayControlFull(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
@@ -59,7 +60,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			Require.False<ArgumentException>(windowParams.RenderToControl, invalidMessage);
 			Require.True<ArgumentException>(windowParams.IsFullScreen, invalidMessage);
-			
+
 			CreateFullScreenDisplay(Array.IndexOf(Screen.AllScreens, Screen.PrimaryScreen));
 
 			_applicationContext.AddForm(wfForm);
@@ -98,20 +99,19 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override bool IsFullScreen => true;
 
-		public override Size Size
+		public override IResolution Resolution
 		{
-			get { return rtSurface.SurfaceSize; }
+			get { return chooseResolution; }
 			set
 			{
-				if (wfRenderTarget.InvokeRequired)
-				{
-					wfRenderTarget.Invoke(new Action(() => Size = value));
-					return;
-				}
+				bool setRenderTarget = Display.RenderTarget == owner.FrameBuffer;
 
-				chooseResolution.Size = value;
+				chooseResolution = value.Clone();
 
 				CreateTargetFrameBuffer(chooseResolution.Size);
+
+				if (setRenderTarget)
+					Display.RenderTarget = owner.FrameBuffer;
 			}
 		}
 
@@ -132,7 +132,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				}
 			}
 		}
-		
+
 		private void CreateFullScreenDisplay(int targetScreenIndex)
 		{
 			DetachEvents();
@@ -194,8 +194,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				rtSurface.SurfaceSize, ctxFrameBuffer.Size) ??
 				new Rectangle(Point.Empty, rtSurface.SurfaceSize);
 
-			rtSurfaceState.ScaleWidth = destRect.Width / (double) rtSurface.SurfaceWidth;
-			rtSurfaceState.ScaleHeight = destRect.Height / (double) rtSurface.SurfaceHeight;
+			rtSurfaceState.ScaleWidth = destRect.Width / (double)rtSurface.SurfaceWidth;
+			rtSurfaceState.ScaleHeight = destRect.Height / (double)rtSurface.SurfaceHeight;
 
 			rtSurfaceState.DrawInstances.Clear();
 			rtSurfaceState.DrawInstances.Add(

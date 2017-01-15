@@ -64,6 +64,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				wfRenderTarget = (Control)windowParams.RenderTarget;
 				windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
+				chooseResolution = new Resolution(wfRenderTarget.Size.ToGeometry());
+
 				if (wfRenderTarget.TopLevelControl == null)
 					throw new ArgumentException("The specified render target has not been added to a Form yet.  " +
 						"Check to make sure that you are creating the DisplayWindow after all controls are added " +
@@ -111,26 +113,28 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override bool IsFullScreen => false;
 
-		public override Size Size
+		public override IResolution Resolution
 		{
-			get { return wfRenderTarget.ClientSize.ToGeometry(); }
+			get { return chooseResolution; }
 			set
 			{
 				if (wfRenderTarget.InvokeRequired)
 				{
-					wfRenderTarget.Invoke(new Action(() => Size = value));
+					wfRenderTarget.Invoke(new Action(() => Resolution = value));
 					return;
 				}
 
-				wfRenderTarget.ClientSize = value.ToDrawing();
+				chooseResolution = value;
+
+				wfRenderTarget.ClientSize = chooseResolution.Size.ToDrawing();
 
 				if (wfForm != null)
 				{
-					wfForm.ClientSize = value.ToDrawing();
+					wfForm.ClientSize = chooseResolution.Size.ToDrawing();
 				}
 			}
 		}
-
+		
 		public override string Title
 		{
 			get { return wfForm?.Text; }

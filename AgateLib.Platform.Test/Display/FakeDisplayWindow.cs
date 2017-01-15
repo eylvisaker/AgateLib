@@ -16,11 +16,7 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
@@ -29,52 +25,39 @@ namespace AgateLib.Platform.Test.Display
 {
 	public class FakeDisplayWindow : DisplayWindowImpl
 	{
-		private DisplayWindow owner;
 		private CreateWindowParams windowParams;
-		private FrameBufferImpl frameBuffer;
 		private bool isDisposed;
 
 		public FakeDisplayWindow(Size size)
 		{
-			frameBuffer = new FakeFrameBuffer(this);
+			FrameBuffer = new FakeFrameBuffer(this);
 
-			this.Size = size;
+			Size = size;
 		}
+
 		public FakeDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
-			:this(windowParams.Resolution.Size)
+			: this(windowParams.Resolution.Size)
 		{
 			// TODO: Complete member initialization
-			this.owner = owner;
+			Owner = owner;
 			this.windowParams = windowParams;
 		}
 
-		public DisplayWindow Owner
-		{
-			get { return owner; }
-			set { owner = value; }
-		}
 		public override void Dispose()
 		{
 			isDisposed = true;
 		}
 
-		public override bool IsClosed
-		{
-			get { return isDisposed; }
-		}
+		public DisplayWindow Owner { get; set; }
 
-		public override bool IsFullScreen
-		{
-			get { return false; }
-		}
+		public override bool IsClosed => isDisposed;
 
-		public override FrameBufferImpl FrameBuffer
-		{
-			get { return frameBuffer; }
-		}
+		public override bool IsFullScreen => false;
 
-		public override Size Size { get;set;}
+		public override FrameBufferImpl FrameBuffer { get; }
 
-		public override string Title { get;set;}
+		public override IResolution Resolution { get; set; }
+
+		public override string Title { get; set; }
 	}
 }

@@ -19,10 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Utility;
 
 namespace AgateLib.DisplayLib.ImplementationBase
 {
@@ -74,25 +72,32 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		public abstract FrameBufferImpl FrameBuffer { get; }
 
+		public abstract IResolution Resolution { get; set; }
+
 		/// <summary>
 		/// Gets or sets the size of the render area.
 		/// </summary>
-		public abstract Size Size { get; set; }
+		public Size Size
+		{
+			get { return Resolution.Size; }
+			set
+			{
+				var newRes = Resolution.Clone(value);
+
+				Resolution = newRes;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the width of the render area.
 		/// </summary>
-		public int Width
-		{
-			get { return Size.Width; }
-		}
+		public int Width => Size.Width;
+
 		/// <summary>
 		/// Gets or sets the height of the render area.
 		/// </summary>
-		public int Height
-		{
-			get { return Size.Height; }
-		}
+		public int Height => Size.Height;
+
 		/// <summary>
 		/// Gets or sets the window title.
 		/// </summary>

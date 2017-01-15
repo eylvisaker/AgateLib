@@ -113,7 +113,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="title"></param>
 		/// <param name="resolution"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateFullScreen(string title, Resolution resolution,
+		public static DisplayWindow CreateFullScreen(string title, IResolution resolution,
 			ICoordinateSystem coordinates = null)
 		{
 			return new DisplayWindow(CreateWindowParams.FullScreen(title, resolution, coordinates));
@@ -265,6 +265,12 @@ namespace AgateLib.DisplayLib
 		public Matrix4x4 OrthoProjection
 		{
 			get { return Matrix4x4.Ortho(new RectangleF(0, 0, Width, Height), -1, 1); }
+		}
+
+		public IResolution Resolution
+		{
+			get { return mImpl.Resolution; }
+			set { mImpl.Resolution = value; }
 		}
 
 		/// <summary>
