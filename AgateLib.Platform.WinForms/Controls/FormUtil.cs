@@ -48,7 +48,8 @@ namespace AgateLib.Platform.WinForms.Controls
 			out Form frm,
 			out Control renderTarget,
 			WindowPosition position,
-			string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize, bool hasFrame)
+			string title, AgateLib.Geometry.Size clientSize,
+			bool startFullscreen, bool allowResize, bool hasFrame)
 		{
 			DisplayWindowForm mainForm = new DisplayWindowForm();
 
@@ -58,7 +59,7 @@ namespace AgateLib.Platform.WinForms.Controls
 
 			// set properties
 			frm.Text = title;
-			frm.ClientSize = new System.Drawing.Size(clientWidth, clientHeight);
+			frm.ClientSize = clientSize.ToDrawingSize();
 			frm.KeyPreview = true;
 			frm.Icon = FormUtil.AgateLibIcon;
 

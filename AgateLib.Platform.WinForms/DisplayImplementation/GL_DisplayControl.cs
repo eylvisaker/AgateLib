@@ -44,34 +44,28 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	/// </summary>
 	public abstract class GL_DisplayControl : DisplayWindowImpl, IPrimaryWindow
 	{
-		private readonly DisplayWindow owner;
-		private Form wfForm;
-		private Control wfRenderTarget;
-		private IWindowInfo windowInfo;
+		static protected DisplayControlContext _applicationContext { get; private set; }
 
-		private DesktopGLDisplay display;
-		private readonly System.Drawing.Icon icon;
-		private bool isClosed;
-		private bool isFullScreen;
-
-		private readonly string title;
-		private readonly bool chooseFullscreen;
-		private readonly int chooseWidth;
-		private readonly int chooseHeight;
-		private readonly bool chooseResize;
-		private readonly WindowPosition choosePosition;
-		private Point lastMousePoint;
-
-		private readonly bool hasFrame = true;
-
-		private ContextFrameBuffer ctxFrameBuffer;
-		private FrameBuffer rtFrameBuffer;
-		private GL_Surface rtSurface;
-		private SurfaceState rtSurfaceState = new SurfaceState();
-
-		private readonly ICoordinateSystem coords;
-
-		static DisplayControlContext _applicationContext;
+		protected readonly DisplayWindow owner;
+		protected Form wfForm;
+		protected Control wfRenderTarget;
+		protected IWindowInfo windowInfo;
+		
+		protected DesktopGLDisplay display;
+		protected readonly System.Drawing.Icon icon;
+		protected bool isClosed;
+		
+		protected readonly string title;
+		protected readonly Resolution chooseResolution;
+		protected readonly bool chooseResize;
+		protected readonly WindowPosition choosePosition;
+		protected Point lastMousePoint;
+		
+		protected readonly bool hasFrame = true;
+		
+		protected ContextFrameBuffer ctxFrameBuffer;
+		
+		protected readonly ICoordinateSystem coords;
 
 		public GL_DisplayControl(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 		{
@@ -85,6 +79,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			{
 				_applicationContext = new DisplayControlContext();
 			}
+
+			if (string.IsNullOrEmpty(windowParams.IconFile) == false)
+				icon = new System.Drawing.Icon(windowParams.IconFile);
+
+			title = windowParams.Title;
+			chooseResolution = windowParams.Resolution;
+			chooseResize = windowParams.IsResizable;
+			hasFrame = windowParams.HasFrame;
 		}
 
 		public override void Dispose()
@@ -111,12 +113,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		Form TopLevelForm => (Form)wfRenderTarget.TopLevelControl;
 
-		public override FrameBufferImpl FrameBuffer => 
-			rtFrameBuffer ?? (FrameBufferImpl)ctxFrameBuffer;
+		public override FrameBufferImpl FrameBuffer => ctxFrameBuffer;
 
 		public override bool IsClosed => isClosed;
-
-		public override bool IsFullScreen => isFullScreen;
 
 		public override Size Size
 		{
@@ -187,99 +186,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			ctxFrameBuffer.CreateContextForThread();
 		}
-
-		private void CreateFullScreenDisplay(int targetScreenIndex)
-		{
-			DetachEvents();
-
-			using (new ResourceDisposer(windowInfo, wfForm, rtSurface, rtFrameBuffer))
-			{
-				var targetScreen = Screen.AllScreens[targetScreenIndex];
-
-				wfForm = new frmFullScreen
-				{
-					ClientSize = targetScreen.Bounds.Size,
-					Location = targetScreen.Bounds.Location,
-					Text = title,
-					Icon = icon,
-					TopLevel = true
-				};
-
-				wfRenderTarget = wfForm;
-				windowInfo = CreateWindowInfo(CreateGraphicsMode());
-
-				AttachEvents();
-
-				CreateContextFrameBuffer(new NativeCoordinates());
-				CreateTargetFrameBuffer(new Size(chooseWidth, chooseHeight));
-
-				wfForm.Show();
-				wfForm.Activate();
-
-				isFullScreen = true;
-			}
-
-			Core.IsActive = true;
-		}
-
-		private void CreateTargetFrameBuffer(Size size)
-		{
-			rtSurface = new GL_Surface(size);
-
-			rtFrameBuffer = new FrameBuffer(rtSurface);
-			rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
-		}
-
-		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
-		{
-			ctxFrameBuffer.MakeCurrent();
-			ctxFrameBuffer.BeginRender();
-
-			var destRect = new Rectangle(Point.Empty, ctxFrameBuffer.Size);
-
-			rtSurfaceState.ScaleWidth = destRect.Width / (double) rtSurface.SurfaceWidth;
-			rtSurfaceState.ScaleHeight = destRect.Height / (double) rtSurface.SurfaceHeight;
-
-			rtSurfaceState.DrawInstances.Clear();
-			rtSurfaceState.DrawInstances.Add(
-				new SurfaceDrawInstance(destRect.Location));
-			rtSurface.Draw(rtSurfaceState);
-
-			display.DrawBuffer.Flush();
-			ctxFrameBuffer.EndRender();
-		}
-
-		private void CreateWindowedDisplay()
-		{
-			DetachEvents();
-			
-			using (new ResourceDisposer(windowInfo, wfForm, rtSurface, rtFrameBuffer))
-			{
-				isFullScreen = false;
-
-				Form myform;
-				Control myRenderTarget;
-
-				FormUtil.InitializeWindowsForm(
-					out myform, out myRenderTarget, choosePosition,
-					title, chooseWidth, chooseHeight, chooseFullscreen, chooseResize, hasFrame);
-
-				wfForm = myform;
-				wfRenderTarget = myRenderTarget;
-				windowInfo = CreateWindowInfo(CreateGraphicsMode());
-
-				if (icon != null)
-					wfForm.Icon = icon;
-
-				wfForm.Show();
-				CreateContextFrameBuffer(coords);
-
-				AttachEvents();
-			}
-
-			Core.IsActive = true;
-		}
-
+		
 		public GraphicsContext CreateContext()
 		{
 			GraphicsMode newMode = CreateGraphicsMode();
@@ -314,7 +221,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
-		private IWindowInfo CreateWindowInfo(GraphicsMode mode)
+		protected IWindowInfo CreateWindowInfo(GraphicsMode mode)
 		{
 			switch (Core.Platform.PlatformType)
 			{
@@ -329,7 +236,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
-		private IWindowInfo CreateX11WindowInfo(GraphicsMode mode)
+		protected IWindowInfo CreateX11WindowInfo(GraphicsMode mode)
 		{
 			Type xplatui = Type.GetType("System.Windows.Forms.XplatUIX11, System.Windows.Forms");
 			if (xplatui == null) throw new PlatformNotSupportedException(
@@ -362,7 +269,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		}
 
-		private void AttachEvents()
+		protected void AttachEvents()
 		{
 			if (wfRenderTarget == null)
 				return;
@@ -386,7 +293,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			form.FormClosed += form_FormClosed;
 		}
 
-		private void DetachEvents()
+		protected void DetachEvents()
 		{
 			if (wfRenderTarget == null)
 				return;
@@ -539,12 +446,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		#endregion
 		#region --- Utility functions for reading/writing non-public static fields through reflection ---
 
-		private static object GetStaticFieldValue(Type type, string fieldName)
+		protected static object GetStaticFieldValue(Type type, string fieldName)
 		{
 			return type.GetField(fieldName,
 				BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 		}
-		private static void SetStaticFieldValue(Type type, string fieldName, object value)
+		protected static void SetStaticFieldValue(Type type, string fieldName, object value)
 		{
 			type.GetField(fieldName,
 				BindingFlags.Static | BindingFlags.NonPublic).SetValue(null, value);

@@ -98,24 +98,17 @@ namespace AgateLib.Tests
 
 		private void LaunchTestModel(IAgateTest test)
 		{
-			try
+			using (var setup = new AgateLib.Platform.WinForms.AgateSetup(CommandLineArguments))
 			{
-				using (var setup = new AgateLib.Platform.WinForms.AgateSetup(CommandLineArguments))
-				{
-					setup.ApplicationName = $"{test.Category} :: {test.Name}";
-					setup.AssetLocations.Path = "Assets";
-					setup.DesiredDisplayWindowResolution = new Size(800, 600);
-					test.ModifySetup(setup);
+				setup.ApplicationName = $"{test.Category} :: {test.Name}";
+				setup.AssetLocations.Path = "Assets";
+				setup.DesiredDisplayWindowResolution = new Size(800, 600);
+				test.ModifySetup(setup);
 
-					setup.InitializeAgateLib();
+				setup.InitializeAgateLib();
 
-					test.Configuration = setup.Configuration;
-					test.Run();
-				}
-			}
-			catch(Exception e)
-			{
-				MessageBox.Show("Test exited with exception:\n" + e.ToString());
+				test.Configuration = setup.Configuration;
+				test.Run();
 			}
 		}
 

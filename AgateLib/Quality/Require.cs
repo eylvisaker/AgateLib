@@ -48,7 +48,7 @@ namespace AgateLib.Quality
 		public static void True<TE>(bool state, string message)
 			where TE : Exception, new()
 		{
-			if (state == true)
+			if (state)
 				return;
 
 			var exception = (TE)Activator.CreateInstance(typeof(TE), message);
@@ -65,7 +65,7 @@ namespace AgateLib.Quality
 		public static void False<TE>(bool state, string message)
 			where TE : Exception, new()
 		{
-			if (state == true)
+			if (!state)
 				return;
 
 			var exception = (TE)Activator.CreateInstance(typeof(TE), message);
