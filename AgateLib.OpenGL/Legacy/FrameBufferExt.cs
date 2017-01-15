@@ -172,8 +172,8 @@ namespace AgateLib.OpenGL.Legacy
 					+ code.ToString());
 			}
 
-			mHasDepth = depth;
-			mHasStencil = stencil;
+			hasDepth = depth;
+			hasStencil = stencil;
 		}
 
 		public override SurfaceImpl RenderTarget
@@ -222,11 +222,11 @@ namespace AgateLib.OpenGL.Legacy
 		}
 		public override bool HasDepthBuffer
 		{
-			get { return mHasDepth; }
+			get { return hasDepth; }
 		}
 		public override bool HasStencilBuffer
 		{
-			get { return mHasStencil; }
+			get { return hasStencil; }
 		}
 	}
 }

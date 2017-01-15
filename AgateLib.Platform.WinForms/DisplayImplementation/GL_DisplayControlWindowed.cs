@@ -105,8 +105,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
-		Form TopLevelForm => (Form)wfRenderTarget.TopLevelControl;
-		
 		public override bool IsClosed => isClosed;
 
 		public override bool IsFullScreen => false;
@@ -147,16 +145,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					wfForm.Text = value;
 				}
 			}
-		}
-		
-		public void ExitMessageLoop()
-		{
-			_applicationContext?.ExitThread();
-		}
-
-		public void CreateContextForThread()
-		{
-			ctxFrameBuffer.CreateContextForThread();
 		}
 		
 		private void CreateWindowedDisplay()

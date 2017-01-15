@@ -48,6 +48,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private FrameBuffer rtFrameBuffer;
 		private GL_Surface rtSurface;
 		private SurfaceState rtSurfaceState = new SurfaceState();
+		private Screen targetScreen;
 
 		public GL_DisplayControlFull(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 			: base(display, owner, windowParams)
@@ -57,8 +58,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			Require.False<ArgumentException>(windowParams.RenderToControl, invalidMessage);
 			Require.True<ArgumentException>(windowParams.IsFullScreen, invalidMessage);
-
-			this.display = display;
 			
 			CreateFullScreenDisplay(Array.IndexOf(Screen.AllScreens, Screen.PrimaryScreen));
 
@@ -100,7 +99,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override Size Size
 		{
-			get { return wfRenderTarget.ClientSize.ToGeometry(); }
+			get { return rtSurface.SurfaceSize; }
 			set
 			{
 				if (wfRenderTarget.InvokeRequired)
@@ -109,12 +108,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					return;
 				}
 
-				wfRenderTarget.ClientSize = value.ToDrawing();
+				chooseResolution.Size = value;
 
-				if (wfForm != null)
-				{
-					wfForm.ClientSize = value.ToDrawing();
-				}
+				CreateTargetFrameBuffer(chooseResolution.Size);
 			}
 		}
 
@@ -174,7 +170,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			using (new ResourceDisposer(windowInfo, wfForm, rtSurface, rtFrameBuffer))
 			{
-				var targetScreen = Screen.AllScreens[targetScreenIndex];
+				targetScreen = Screen.AllScreens[targetScreenIndex];
 
 				wfForm = new frmFullScreen
 				{
@@ -184,6 +180,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					Icon = icon,
 					TopLevel = true
 				};
+
 				wfForm.Show();
 
 				wfRenderTarget = wfForm;
@@ -202,21 +199,32 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void CreateTargetFrameBuffer(Size size)
 		{
-			rtSurface = new GL_Surface(size);
+			using (new ResourceDisposer(rtSurface, rtFrameBuffer))
+			{
+				rtSurface = new GL_Surface(size);
 
-			rtFrameBuffer = new FrameBuffer(rtSurface);
-			rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
+				rtFrameBuffer = new FrameBuffer(rtSurface);
+				rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
+			}
 		}
 
 		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
+		{
+			DrawBuffer();
+		}
+
+		private void DrawBuffer()
 		{
 			ctxFrameBuffer.MakeCurrent();
 			ctxFrameBuffer.BeginRender();
 
 			var destRect = new Rectangle(Point.Empty, ctxFrameBuffer.Size);
 
-			rtSurfaceState.ScaleWidth = destRect.Width / (double)rtSurface.SurfaceWidth;
-			rtSurfaceState.ScaleHeight = destRect.Height / (double)rtSurface.SurfaceHeight;
+			rtSurfaceState.ScaleWidth = destRect.Width / (double) rtSurface.SurfaceWidth;
+			rtSurfaceState.ScaleHeight = destRect.Height / (double) rtSurface.SurfaceHeight;
+
+			rtSurfaceState.ScaleWidth = 1;
+			rtSurfaceState.ScaleHeight = 1;
 
 			rtSurfaceState.DrawInstances.Clear();
 			rtSurfaceState.DrawInstances.Add(
@@ -225,23 +233,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			display.DrawBuffer.Flush();
 			ctxFrameBuffer.EndRender();
-		}
-
-		public GraphicsContext CreateContext()
-		{
-			GraphicsMode newMode = CreateGraphicsMode();
-
-			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
-
-			GraphicsContextFlags flags = GraphicsContextFlags.Default;
-#if DEBUG
-			//flags = GraphicsContextFlags.ForwardCompatible;
-#endif
-			var context = new GraphicsContext(newMode, windowInfo, 3, 1, flags);
-			context.MakeCurrent(windowInfo);
-			context.LoadAll();
-
-			return context;
 		}
 
 		private static GraphicsMode CreateGraphicsMode()
@@ -257,7 +248,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			using (new ResourceDisposer(ctxFrameBuffer))
 			{
-				ctxFrameBuffer = new ContextFrameBuffer(owner, CreateGraphicsMode(), windowInfo, Size, true, false, fbCoords);
+				ctxFrameBuffer = new ContextFrameBuffer(owner, CreateGraphicsMode(), windowInfo, targetScreen.Bounds.Size.ToGeometry(), true, false, fbCoords);
 			}
 		}
 	}

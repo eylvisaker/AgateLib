@@ -51,8 +51,8 @@ namespace AgateLib.OpenGL
 			mWindowInfo = window;
 			mSize = size;
 
-			mHasDepth = depthBuffer;
-			mHasStencil = stencilBuffer;
+			hasDepth = depthBuffer;
+			hasStencil = stencilBuffer;
 
 			CreateContextForThread();
 

@@ -80,8 +80,8 @@ namespace AgateLib.OpenGL.GL3
 					+ code.ToString());
 			}
 
-			mHasDepth = true;
-			mHasStencil = true;
+			hasDepth = true;
+			hasStencil = true;
 
 
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
@@ -106,6 +106,9 @@ namespace AgateLib.OpenGL.GL3
 		public override void BeginRender()
 		{
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			GL.Viewport(0, 0, Width, Height);
+
 			//GL.PushAttrib(AttribMask.ViewportBit);
 		}
 
@@ -129,7 +132,7 @@ namespace AgateLib.OpenGL.GL3
 
 		public override bool CanAccessRenderTarget => true;
 
-		public override bool HasDepthBuffer => mHasDepth;
-		public override bool HasStencilBuffer => mHasStencil;
+		public override bool HasDepthBuffer => hasDepth;
+		public override bool HasStencilBuffer => hasStencil;
 	}
 }

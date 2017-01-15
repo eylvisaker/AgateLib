@@ -84,7 +84,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				icon = new System.Drawing.Icon(windowParams.IconFile);
 
 			title = windowParams.Title;
-			chooseResolution = windowParams.Resolution;
+			chooseResolution = windowParams.Resolution?.Clone();
 			chooseResize = windowParams.IsResizable;
 			hasFrame = windowParams.HasFrame;
 		}

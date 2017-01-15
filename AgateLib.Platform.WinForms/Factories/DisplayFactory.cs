@@ -54,8 +54,8 @@ namespace AgateLib.Platform.WinForms.Factories
 			if (windowParams.IsFullScreen)
 				return new GL_DisplayControlFull(FullDisplayImpl, owner, 
 					windowParams);
-			else
-				return new GL_DisplayControlWindowed(FullDisplayImpl, owner, 
+
+			return new GL_DisplayControlWindowed(FullDisplayImpl, owner, 
 					windowParams);
 
 		}

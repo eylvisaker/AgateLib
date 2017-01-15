@@ -38,7 +38,8 @@ Press arrow keys to adjust resolution
     F12 - {resolutions[11 % resolutions.Count]} - Stretch";
 
 		private DisplayWindow wind;
-		Point mousePosition;
+		private Point mousePosition;
+		private Resolution currentResolution;
 
 		public string Name => "Full Screen";
 
@@ -48,7 +49,7 @@ Press arrow keys to adjust resolution
 
 		public void Run()
 		{
-			wind = DisplayWindow.CreateFullScreen(Name, resolutions[3]);
+			ChangeResolution(3);
 
 			Surface mySurface = new Surface("Images/jellybean.png");
 
@@ -58,17 +59,18 @@ Press arrow keys to adjust resolution
 			IFont font = Font.AgateSans;
 
 			Size bottomSize = font.MeasureString(bottomText);
-			Size topSize = font.MeasureString(topText + "abc");
+			Size topSize = font.MeasureString(topText + "z\nz");
 
 			// Run the program while the window is open.
 			while (Core.IsAlive)
 			{
-				var mouseText = topText + $"Mouse: {mousePosition}";
+				var mouseText = topText + 
+					$"Resolution: {currentResolution}\nMouse: {mousePosition}";
 
 				Display.BeginFrame();
 				Display.Clear(Color.DarkGreen);
 
-				font.DrawText(0, Display.CurrentWindow.Height - bottomSize.Height, topText);
+				font.DrawText(0, Display.CurrentWindow.Height - bottomSize.Height, bottomText);
 
 				Display.FillRect(new Rectangle(0, 0, Display.CurrentWindow.Width, topSize.Height),
 					Color.Maroon);
@@ -87,6 +89,8 @@ Press arrow keys to adjust resolution
 
 		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
+			Resolution resolution;
+
 			switch (e.KeyCode)
 			{
 				case KeyCode.Escape:
@@ -107,12 +111,58 @@ Press arrow keys to adjust resolution
 				case KeyCode.F12:
 					var index = e.KeyCode - KeyCode.F1;
 
-					wind.Dispose();
-					wind = DisplayWindow.CreateFullScreen(Name,
-						resolutions[index % resolutions.Count]);
+					ChangeResolution(index);
 
 					break;
+
+				case KeyCode.Left:
+					resolution = currentResolution.Clone();
+					resolution.Width--;
+					ChangeResolutionSimple(resolution);
+					break;
+
+				case KeyCode.Right:
+					resolution = currentResolution.Clone();
+					resolution.Width++;
+					ChangeResolutionSimple(resolution);
+					break;
+
+				case KeyCode.Up:
+					resolution = currentResolution.Clone();
+					resolution.Height--;
+					ChangeResolutionSimple(resolution);
+					break;
+
+				case KeyCode.Down:
+					resolution = currentResolution.Clone();
+					resolution.Height++;
+					ChangeResolutionSimple(resolution);
+					break;
 			}
+		}
+
+		private void ChangeResolution(int index)
+		{
+			ChangeResolution(resolutions[index % resolutions.Count]);
+		}
+
+		private void ChangeResolution(Resolution resolution)
+		{
+			currentResolution = resolution;
+
+			var oldWind = wind;
+
+			wind = DisplayWindow.CreateFullScreen(Name, resolution);
+			Display.CurrentWindow = wind;
+
+			oldWind?.Dispose();
+		}
+
+		private void ChangeResolutionSimple(Resolution resolution)
+		{
+			currentResolution = resolution;
+
+			wind.Size = resolution.Size;
 		}
 
 		public void ModifySetup(IAgateSetup setup)

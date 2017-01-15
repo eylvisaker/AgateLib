@@ -132,9 +132,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected override void OnBeginFrame()
 		{
 			mRenderTarget.BeginRender();
-
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-			GL.Viewport(0, 0, mRenderTarget.Width, mRenderTarget.Height);
 		}
 		protected override void OnEndFrame()
 		{

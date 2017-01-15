@@ -28,26 +28,25 @@ namespace AgateLib.OpenGL
 {
 	public abstract class GL_FrameBuffer: FrameBufferImpl 
 	{
-		GLDrawBuffer mDrawBuffer;
-		protected bool mHasDepth;
-		protected bool mHasStencil;
+		GLDrawBuffer drawBuffer;
+		protected bool hasDepth;
+		protected bool hasStencil;
 
 		protected GL_FrameBuffer(ICoordinateSystem coords) : base(coords)
 		{
 		}
 
-		public override bool HasDepthBuffer => mHasDepth;
+		public override bool HasDepthBuffer => hasDepth;
 
-		public override bool HasStencilBuffer => mHasStencil;
+		public override bool HasStencilBuffer => hasStencil;
 
-		public GLDrawBuffer DrawBuffer => mDrawBuffer;
+		public GLDrawBuffer DrawBuffer => drawBuffer;
 
 		public abstract void MakeCurrent();
 
 		protected void InitializeDrawBuffer()
 		{
-			mDrawBuffer = ((IGL_Display)Display.Impl).CreateDrawBuffer();
+			drawBuffer = ((IGL_Display)Display.Impl).CreateDrawBuffer();
 		}
-
 	}
 }

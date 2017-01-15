@@ -123,22 +123,19 @@ namespace AgateLib.OpenGL.Legacy
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mBufferID);
 
-			unsafe
+			GCHandle handle = new GCHandle();
+
+			try
 			{
-				GCHandle handle = new GCHandle();
+				handle = GCHandle.Alloc(mVerts, GCHandleType.Pinned);
 
-				try
-				{
-					handle = GCHandle.Alloc(mVerts, GCHandleType.Pinned);
+				IntPtr ptr = handle.AddrOfPinnedObject();
 
-					IntPtr ptr = handle.AddrOfPinnedObject();
-
-					GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)bufferSize, ptr, BufferUsageHint.DynamicDraw);
-				}
-				finally
-				{
-					handle.Free();
-				}
+				GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)bufferSize, ptr, BufferUsageHint.DynamicDraw);
+			}
+			finally
+			{
+				handle.Free();
 			}
 		}
 
