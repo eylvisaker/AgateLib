@@ -72,8 +72,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override void Dispose()
 		{
-			ExitMessageLoop();
-
 			if (ctxFrameBuffer != null)
 			{
 				ctxFrameBuffer.Dispose();
@@ -90,6 +88,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				wfForm.Dispose();
 				wfForm = null;
 			}
+
+			ExitMessageLoop();   
 		}
 
 		public override FrameBufferImpl FrameBuffer =>

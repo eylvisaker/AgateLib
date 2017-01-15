@@ -11,7 +11,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class CoordinateSystem : IAgateTest 
+	class CoordinateSystem : IAgateTest
 	{
 		int ortho = 0;
 
@@ -26,8 +26,7 @@ namespace AgateLib.Tests.DisplayTests
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseDown += Mouse_MouseDown;
 
-			Surface surf = new Surface("Images/jellybean.png");
-			surf.Color = Color.Cyan;
+			Surface surf = new Surface("Images/jellybean.png") { Color = Color.Cyan };
 
 			while (Core.IsAlive)
 			{

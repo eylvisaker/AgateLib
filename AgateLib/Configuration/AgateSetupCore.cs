@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.IO;
 
@@ -108,10 +109,21 @@ namespace AgateLib.Configuration
 		public bool CreateFullScreenWindow { get; set; } = true;
 
 		/// <summary>
+		/// Set to indicate how full screen mode should be done.
+		/// </summary>
+		public FullScreenCaptureMode FullScreenCaptureMode { get; set; }
+
+		/// <summary>
+		/// An IRenderMode object which determines how to stretch the back buffer to
+		/// the full screen. Defaults to RenderMode.RetainAspectRatio.
+		/// </summary>
+		public IRenderMode FullScreenRenderMode { get; set; } = RenderMode.RetainAspectRatio;
+
+		/// <summary>
 		/// Set to true to create a display window for each monitor.
 		/// </summary>
 		public bool CreateWindowForEachMonitor { get; set; } = false;
-		
+
 		/// <summary>
 		/// Gets the configuration of AgateLib that resulted from the
 		/// call to AgateLibInitialize.
@@ -182,7 +194,7 @@ namespace AgateLib.Configuration
 				case "-novsync":
 					VerticalSync = false;
 					break;
-					
+
 				default:
 					ProcessCustomArgument(arg, parameters);
 					break;
@@ -197,5 +209,11 @@ namespace AgateLib.Configuration
 		protected virtual void ProcessCustomArgument(string arg, IList<string> parameters)
 		{
 		}
+	}
+
+	public enum FullScreenCaptureMode
+	{
+		PrimaryScreenOnly,
+		AllScreens,
 	}
 }

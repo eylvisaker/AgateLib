@@ -83,10 +83,10 @@ namespace AgateLib.Tests
 			}
 			catch (TargetInvocationException e)
 			{
-				Exception ex_relevant = e.InnerException ?? e;
-				string info = ex_relevant.Message;
+				Exception exRelevant = e.InnerException ?? e;
+				string info = exRelevant.Message;
 
-				frm.TestExceptionMessage($"{ex_relevant.GetType().Name}\n{info}", $"AgateLib Test {m.Name} threw an exception.");
+				frm.TestExceptionMessage($"{exRelevant.GetType().Name}\n{info}", $"AgateLib Test {m.Name} threw an exception.");
 
 			}
 			finally
@@ -103,6 +103,7 @@ namespace AgateLib.Tests
 				setup.ApplicationName = $"{test.Category} :: {test.Name}";
 				setup.AssetLocations.Path = "Assets";
 				setup.DesiredDisplayWindowResolution = new Size(800, 600);
+
 				test.ModifySetup(setup);
 
 				setup.InitializeAgateLib();
