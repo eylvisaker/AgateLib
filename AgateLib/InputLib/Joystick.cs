@@ -49,25 +49,28 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Returns the name of the joystick.
 		/// </summary>
-		public string Name { get { return impl.Name; } }
+		public string Name => impl.Name;
+
 		/// <summary>
 		/// Returns the GUID that identifies this joystick hardware.
 		/// </summary>
-		public Guid Guid { get { return impl.Guid; } }
+		public Guid Guid => impl.Guid;
 
 		/// <summary>
 		/// Gets how many axes are available on this joystick.
 		/// </summary>
-		public int AxisCount { get { return impl.AxisCount; } }
+		public int AxisCount => impl.AxisCount;
+
 		/// <summary>
 		/// Returns the number of buttons this joystick has.
 		/// </summary>
-		public int ButtonCount { get { return impl.ButtonCount; } }
+		public int ButtonCount => impl.ButtonCount;
+
 		/// <summary>
 		/// Returns the number of POV hats this joystick has.
 		/// </summary>
-		public int HatCount { get { return impl.HatCount; } }
-		
+		public int HatCount => impl.HatCount;
+
 		private HatState GetHatStateImpl(int hatIndex)
 		{
 			return impl.GetHatState(hatIndex);
@@ -76,10 +79,8 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Gets an array indicating the state of the joystick hats.
 		/// </summary>
-		public HatState[] HatState
-		{
-			get { return mHatState; }
-		}
+		public HatState[] HatState => mHatState;
+
 		/// <summary>
 		/// Gets the current value for the given axis.
 		/// Axis 0 is always the x-axis, axis 1 is always the y-axis on
@@ -100,10 +101,7 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Gets an array indicating the state of the buttons.
 		/// </summary>
-		public bool[] ButtonState
-		{
-			get { return mButtonState; }
-		}
+		public bool[] ButtonState => mButtonState;
 
 		/// <summary>
 		/// Recalibrates this joystick.
@@ -138,10 +136,8 @@ namespace AgateLib.InputLib
 		/// when pushed down, instead of exactly 1.
 		/// 
 		/// </summary>
-		public double Xaxis
-		{
-			get { return impl.GetAxisValue(0); }
-		}
+		public double Xaxis => impl.GetAxisValue(0);
+
 		/// <summary>
 		/// Returns the value of the joystick y-axis.
 		/// Ranges are:
@@ -155,10 +151,7 @@ namespace AgateLib.InputLib
 		/// when pushed down, instead of exactly 1.
 		/// 
 		/// </summary>
-		public double Yaxis
-		{
-			get { return impl.GetAxisValue(1); }
-		}
+		public double Yaxis => impl.GetAxisValue(1);
 
 		/// <summary>
 		/// Returns whether or not this joystick is plugged in.
@@ -166,10 +159,7 @@ namespace AgateLib.InputLib
 		/// If a joystick is removed, you must throw away the reference to 
 		/// this object and get a new one.
 		/// </summary>
-		public bool PluggedIn
-		{
-			get { return impl.PluggedIn; }
-		}
+		public bool PluggedIn => impl.PluggedIn;
 
 		/// <summary>
 		/// Polls the joystick for data.
@@ -216,33 +206,37 @@ namespace AgateLib.InputLib
 			}
 		}
 
+		[Obsolete("Use input handler instead.", true)]
 		public event JoystickEventHandler AxisChanged;
+		[Obsolete("Use input handler instead.", true)]
 		public event JoystickEventHandler ButtonPressed;
+		[Obsolete("Use input handler instead.", true)]
 		public event JoystickEventHandler ButtonReleased;
+		[Obsolete("Use input handler instead.", true)]
 		public event JoystickEventHandler HatStateChanged;
 
 		private void OnAxisChanged(int axisIndex)
 		{
-			if (AxisChanged != null)
-				AxisChanged(this, new JoystickEventArgs(JoystickEventType.Axis, axisIndex));
+			Input.QueueInputEvent(AgateInputEventArgs
+				.JoystickAxisChanged(this, axisIndex));
 		}
+
 		private void OnButtonPressed(int index)
 		{
-			if (ButtonPressed != null)
-				ButtonPressed(this,
-					new JoystickEventArgs(JoystickEventType.Button, index));
+			Input.QueueInputEvent(AgateInputEventArgs
+				.JoystickButtonPressed(this, index));
 		}
+
 		private void OnButtonReleased(int index)
 		{
-			if (ButtonReleased != null)
-				ButtonReleased(this,
-					new JoystickEventArgs(JoystickEventType.Button, index));
+			Input.QueueInputEvent(AgateInputEventArgs
+				.JoystickButtonReleased(this, index));
 		}
+
 		private void OnHatStateChanged(int index)
 		{
-			if (HatStateChanged != null)
-				HatStateChanged(this,
-					new JoystickEventArgs(JoystickEventType.Hat, index));
+			Input.QueueInputEvent(AgateInputEventArgs
+				.JoystickHatStateChanged(this, index));
 		}
 	}
 }

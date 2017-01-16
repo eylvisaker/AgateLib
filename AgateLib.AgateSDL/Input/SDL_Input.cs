@@ -53,8 +53,7 @@ namespace AgateLib.AgateSDL.Input
 					result = new Joystick_SDL(i);
 				}
 
-				Debug.Print("Created joystick: {0} : {1}", 
-					result.Guid, result.Name);
+				Debug.Print($"Created joystick: {result.Guid} : {result.Name}");
 
 				yield return result;
 			}
@@ -73,7 +72,7 @@ namespace AgateLib.AgateSDL.Input
 			// that is required for joysticks to work on windows (at least).
 			if (sdl.SDL_InitSubSystem(SDLConstants.SDL_INIT_JOYSTICK | SDLConstants.SDL_INIT_VIDEO) != 0)
 			{
-				throw new AgateLib.AgateException("Failed to initialize SDL joysticks.");
+				throw new AgateException("Failed to initialize SDL joysticks.");
 			}
 			
 			sdl.SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1"); 

@@ -433,8 +433,6 @@ namespace AgateLib
 			Audio.Update();
 
 			// Poll for joystick input.
-			JoystickInput.PollTimer();
-
 			Input.PollJoysticks();
 
 			Input.DispatchQueuedEvents();

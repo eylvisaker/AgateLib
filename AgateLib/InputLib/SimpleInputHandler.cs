@@ -141,8 +141,9 @@ namespace AgateLib.InputLib
 		public event EventHandler<AgateInputEventArgs> MouseWheel;
 		public event EventHandler<AgateInputEventArgs> MouseDoubleClick;
 		public event EventHandler<AgateInputEventArgs> JoystickAxisChanged;
-		public event EventHandler<AgateInputEventArgs> JoystickButton;
-		public event EventHandler<AgateInputEventArgs> JoystickPovHat;
+		public event EventHandler<AgateInputEventArgs> JoystickButtonPressed;
+		public event EventHandler<AgateInputEventArgs> JoystickButtonReleased;
+		public event EventHandler<AgateInputEventArgs> JoystickHatChanged;
 
 		/// <summary>
 		/// Tracks the state of keys (true for depressed, false otherwise).
@@ -196,12 +197,16 @@ namespace AgateLib.InputLib
 					JoystickAxisChanged?.Invoke(this, args);
 					break;
 
-				case InputEventType.JoystickButton:
-					JoystickButton?.Invoke(this, args);
+				case InputEventType.JoystickButtonPressed:
+					JoystickButtonPressed?.Invoke(this, args);
 					break;
 
-				case InputEventType.JoystickPovHat:
-					JoystickPovHat?.Invoke(this, args);
+				case InputEventType.JoystickButtonReleased:
+					JoystickButtonReleased?.Invoke(this, args);
+					break;
+
+				case InputEventType.JoystickHatChanged:
+					JoystickHatChanged?.Invoke(this, args);
 					break;
 
 				default:

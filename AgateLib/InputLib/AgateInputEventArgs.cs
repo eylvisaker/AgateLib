@@ -343,6 +343,46 @@ namespace AgateLib.InputLib
 			return "";
 		}
 
+		public static AgateInputEventArgs JoystickAxisChanged(Joystick joystick, int axisIndex)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.JoystickAxisChanged,
+				JoystickIndex = Input.Joysticks?.IndexOf(joystick) ?? 0,
+				JoystickAxisIndex = axisIndex,
+			};
+		}
+
+		public static AgateInputEventArgs JoystickButtonPressed(Joystick joystick, int buttonIndex)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.JoystickAxisChanged,
+				JoystickIndex = Input.Joysticks?.IndexOf(joystick) ?? 0,
+				JoystickButtonIndex = buttonIndex,
+			};
+		}
+
+		public static AgateInputEventArgs JoystickButtonReleased(Joystick joystick, int buttonIndex)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.JoystickAxisChanged,
+				JoystickIndex = Input.Joysticks?.IndexOf(joystick) ?? 0,
+				JoystickButtonIndex = buttonIndex,
+			};
+		}
+
+		public static AgateInputEventArgs JoystickHatStateChanged(Joystick joystick, int buttonIndex)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.JoystickAxisChanged,
+				JoystickIndex = Input.Joysticks?.IndexOf(joystick) ?? 0,
+				JoystickButtonIndex = buttonIndex,
+			};
+		}
+
 		#endregion
 
 		/// <summary>
@@ -360,6 +400,11 @@ namespace AgateLib.InputLib
 		public Point MousePosition { get; set; }
 		public MouseButton MouseButton { get; set; }
 		public int MouseWheelDelta { get; set; }
+
+		public int JoystickIndex { get; set; }
+		public int JoystickAxisIndex { get; set; }
+		public int JoystickButtonIndex { get; set; }
+
 
 		/// <summary>
 		/// Gets the DisplayWindow this event occurred in. This property is null for 
@@ -390,7 +435,7 @@ namespace AgateLib.InputLib
 		{
 			get
 			{
-				switch(InputEventType)
+				switch (InputEventType)
 				{
 					case InputEventType.KeyDown:
 					case InputEventType.KeyUp:
@@ -415,7 +460,8 @@ namespace AgateLib.InputLib
 		MouseWheel,
 
 		JoystickAxisChanged,
-		JoystickButton,
-		JoystickPovHat,
+		JoystickButtonPressed,
+		JoystickButtonReleased,
+		JoystickHatChanged,
 	}
 }

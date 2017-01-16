@@ -44,11 +44,14 @@ namespace AgateLib.Tests.InputTests.InputTester
 			this.lblJoystick2 = new System.Windows.Forms.Label();
 			this.lblJoystick3 = new System.Windows.Forms.Label();
 			this.lblJoystick4 = new System.Windows.Forms.Label();
+			this.lblJoystickEvent = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.lblJoystick = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// lblKeyPress
 			// 
-			this.lblKeyPress.Location = new System.Drawing.Point(12, 9);
+			this.lblKeyPress.Location = new System.Drawing.Point(246, 32);
 			this.lblKeyPress.Name = "lblKeyPress";
 			this.lblKeyPress.Size = new System.Drawing.Size(180, 17);
 			this.lblKeyPress.TabIndex = 0;
@@ -56,19 +59,19 @@ namespace AgateLib.Tests.InputTests.InputTester
 			// 
 			// lblMouseMove
 			// 
-			this.lblMouseMove.Location = new System.Drawing.Point(12, 64);
+			this.lblMouseMove.Location = new System.Drawing.Point(12, 33);
 			this.lblMouseMove.Name = "lblMouseMove";
 			this.lblMouseMove.Size = new System.Drawing.Size(180, 16);
 			this.lblMouseMove.TabIndex = 1;
-			this.lblMouseMove.Text = "label1";
+			this.lblMouseMove.Text = "lblMouseMove";
 			// 
 			// lblMouseButton
 			// 
-			this.lblMouseButton.Location = new System.Drawing.Point(12, 91);
+			this.lblMouseButton.Location = new System.Drawing.Point(12, 60);
 			this.lblMouseButton.Name = "lblMouseButton";
 			this.lblMouseButton.Size = new System.Drawing.Size(191, 15);
 			this.lblMouseButton.TabIndex = 2;
-			this.lblMouseButton.Text = "label1";
+			this.lblMouseButton.Text = "lblMouseButton";
 			// 
 			// lblKeyEvent
 			// 
@@ -81,8 +84,8 @@ namespace AgateLib.Tests.InputTests.InputTester
 			// 
 			// lblKeyString
 			// 
-			this.lblKeyString.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblKeyString.Location = new System.Drawing.Point(12, 32);
+			this.lblKeyString.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblKeyString.Location = new System.Drawing.Point(246, 54);
 			this.lblKeyString.Name = "lblKeyString";
 			this.lblKeyString.Size = new System.Drawing.Size(213, 21);
 			this.lblKeyString.TabIndex = 5;
@@ -147,11 +150,40 @@ namespace AgateLib.Tests.InputTests.InputTester
 			this.lblJoystick4.TabIndex = 13;
 			this.lblJoystick4.Text = "Joystick Info";
 			// 
+			// lblJoystickEvent
+			// 
+			this.lblJoystickEvent.AutoSize = true;
+			this.lblJoystickEvent.Location = new System.Drawing.Point(478, 9);
+			this.lblJoystickEvent.Name = "lblJoystickEvent";
+			this.lblJoystickEvent.Size = new System.Drawing.Size(76, 13);
+			this.lblJoystickEvent.TabIndex = 14;
+			this.lblJoystickEvent.Text = "Joystick Event";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(70, 13);
+			this.label1.TabIndex = 15;
+			this.label1.Text = "Mouse Event";
+			// 
+			// lblJoystick
+			// 
+			this.lblJoystick.Location = new System.Drawing.Point(478, 32);
+			this.lblJoystick.Name = "lblJoystick";
+			this.lblJoystick.Size = new System.Drawing.Size(169, 33);
+			this.lblJoystick.TabIndex = 16;
+			this.lblJoystick.Text = "Joystick Info Appears Here";
+			// 
 			// frmInputTester
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(659, 326);
+			this.Controls.Add(this.lblJoystick);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.lblJoystickEvent);
 			this.Controls.Add(this.lblJoystick4);
 			this.Controls.Add(this.lblJoystick3);
 			this.Controls.Add(this.lblJoystick2);
@@ -185,6 +217,9 @@ namespace AgateLib.Tests.InputTests.InputTester
 		private System.Windows.Forms.Label lblJoystick2;
 		private System.Windows.Forms.Label lblJoystick3;
 		private System.Windows.Forms.Label lblJoystick4;
+		private System.Windows.Forms.Label lblJoystickEvent;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label lblJoystick;
 	}
 }
 

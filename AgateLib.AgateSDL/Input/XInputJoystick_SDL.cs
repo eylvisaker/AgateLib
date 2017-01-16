@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AgateLib.AgateSDL.Sdl2;
 using AgateLib.InputLib;
 using AgateLib.InputLib.ImplementationBase;

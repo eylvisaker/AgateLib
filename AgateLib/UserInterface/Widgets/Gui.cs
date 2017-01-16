@@ -36,15 +36,14 @@ namespace AgateLib.UserInterface.Widgets
 		Widget mHoverWidget;
 		Widget mMouseEventWidget;
 
-		Gamepad mGamepad;
 		Gesture mCurrentGesture = new Gesture();
 		IGestureController mGestureController;
 
 
 		public Gui(IGuiRenderer renderer, IGuiLayoutEngine layout)
 		{
-			Condition.RequireArgumentNotNull(renderer, nameof(renderer));
-			Condition.RequireArgumentNotNull(layout, nameof(layout));
+			Require.ArgumentNotNull(renderer, nameof(renderer));
+			Require.ArgumentNotNull(layout, nameof(layout));
 
 			mRenderer = renderer;
 			mLayout = layout;
@@ -57,22 +56,8 @@ namespace AgateLib.UserInterface.Widgets
 			ForwardUnhandledEvents = true;
 
 			GuiStack.Add(this);
-
-			if (JoystickInput.Joysticks?.Count > 0)
-			{
-				CreateGamepad();
-			}
 		}
-
-		private void CreateGamepad()
-		{
-			mGamepad = new Gamepad(JoystickInput.Joysticks.First());
-
-			mGamepad.LeftStickMoved += mGamepad_LeftStickMoved;
-			mGamepad.ButtonPressed += mGamepad_ButtonPressed;
-			mGamepad.ButtonReleased += mGamepad_ButtonReleased;
-		}
-
+		
 		public InputMap InputMap { get; set; }
 
 		public void Dispose()
@@ -93,11 +78,9 @@ namespace AgateLib.UserInterface.Widgets
 
 		void DispatchEvent(Func<Window, bool> action)
 		{
-			bool handled = false;
-
 			foreach (var window in mDesktop.Windows.Reverse())
 			{
-				handled = action(window);
+				bool handled = action(window);
 
 				if (handled)
 					return;
@@ -313,18 +296,6 @@ namespace AgateLib.UserInterface.Widgets
 				testWidget = testWidget.Parent;
 
 			return testWidget;
-		}
-
-		void mGamepad_ButtonReleased(object sender, GamepadButtonEventArgs e)
-		{
-		}
-
-		void mGamepad_ButtonPressed(object sender, GamepadButtonEventArgs e)
-		{
-		}
-
-		void mGamepad_LeftStickMoved(object sender, EventArgs e)
-		{
 		}
 
 		#endregion

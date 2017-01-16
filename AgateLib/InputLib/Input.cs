@@ -34,12 +34,30 @@ namespace AgateLib.InputLib
 	{
 		internal static void Initialize(InputImpl inputImpl)
 		{
-			JoystickInput.Initialize(inputImpl);
+			Impl = inputImpl;
+
+			inputImpl.Initialize();
+			InitializeJoysticks();
 
 			State.Handlers.HandlerRemoved += Handlers_HandlerRemoved;
 		}
 
+		internal static void Dispose()
+		{
+			if (Impl != null)
+			{
+				Impl.Dispose();
+				Impl = null;
+			}
+		}
+
 		private static InputState State => Core.State?.Input;
+
+		private static InputImpl Impl
+		{
+			get { return State.Impl; }
+			set { State.Impl = value; }
+		}
 
 		private static List<AgateInputEventArgs> EventQueue => State?.EventQueue;
 
@@ -65,6 +83,9 @@ namespace AgateLib.InputLib
 		}
 
 		private static IInputHandler FirstInputHandler => Core.State.Input.FirstHandler;
+
+		internal static List<Joystick> Joysticks => Core.State?.Input?.RawJoysticks;
+
 
 		/// <summary>
 		/// Last chance input handler for events which are not handled by any of the handlers on the 
@@ -147,7 +168,10 @@ namespace AgateLib.InputLib
 			if (State == null)
 				return;
 
-			JoystickInput.PollTimer();
+			Impl.Poll();
+
+			for (int i = 0; i < Joysticks.Count; i++)
+				Joysticks[i].Poll();
 		}
 
 		private static void DispatchEvent(AgateInputEventArgs evt)
@@ -226,6 +250,13 @@ namespace AgateLib.InputLib
 		private static void Handlers_HandlerRemoved(object sender, InputHandlerEventArgs e)
 		{
 			HandlerStates.Remove(e.Handler);
+		}
+
+
+		private static void InitializeJoysticks()
+		{
+			Joysticks.Clear();
+			Joysticks.AddRange(Impl.CreateJoysticks().Select(x => new Joystick(x)));
 		}
 	}
 }

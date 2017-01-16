@@ -33,25 +33,30 @@ namespace AgateLib.Tests.InputTests.InputTester
 			Input.Unhandled.MouseUp += Mouse_MouseUp;
 			Input.Unhandled.MouseDoubleClick += Mouse_MouseDoubleClickEvent;
 
+			Input.Unhandled.JoystickAxisChanged += Joystick_AxisChanged;
+			Input.Unhandled.JoystickButtonPressed += Joystick_ButtonPressed;
+			Input.Unhandled.JoystickButtonReleased += Joystick_ButtonReleased;
+			Input.Unhandled.JoystickHatChanged += Joystick_HatChanged;
+
 			DisplayWindow.CreateFromControl(agateRenderTarget1);
 
 			joystickLabels[0] = lblJoystick1;
 			joystickLabels[1] = lblJoystick2;
 			joystickLabels[2] = lblJoystick3;
 			joystickLabels[3] = lblJoystick4;
-
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			Application_Idle(sender, e);
 		}
+
 		void Application_Idle(object sender, EventArgs e)
 		{
 			if (Visible == false)
 				return;
 
-			for (int i = 0; i < JoystickInput.Joysticks.Count; i++ )
+			for (int i = 0; i < Input.Joysticks.Count; i++ )
 			{
 				FillJoystickInfo(i, joystickLabels[i]);
 			}
@@ -64,7 +69,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 
 		private void FillJoystickInfo(int index, Label label)
 		{
-			Joystick j = JoystickInput.Joysticks[index];
+			Joystick j = Input.Joysticks[index];
 
 			StringBuilder b = new StringBuilder();
 			b.Append("Joystick ");
@@ -148,6 +153,24 @@ namespace AgateLib.Tests.InputTests.InputTester
 		{
 			this.lblKeyPress.Text = "Pressed key " + e.KeyCode;
 			this.lblKeyString.Text = "Pressed key string [" + e.KeyString + "]";
+		}
+
+
+		private void Joystick_AxisChanged(object sender, AgateInputEventArgs e)
+		{
+			lblJoystick.Text = $"Joystick {e.JoystickIndex} axis changed.";
+		}
+		private void Joystick_ButtonPressed(object sender, AgateInputEventArgs e)
+		{
+			lblJoystick.Text = $"Joystick {e.JoystickIndex} button {e.JoystickButtonIndex} pressed.";
+		}
+		private void Joystick_ButtonReleased(object sender, AgateInputEventArgs e)
+		{
+			lblJoystick.Text = $"Joystick {e.JoystickIndex} button {e.JoystickButtonIndex} released.";
+		}
+		private void Joystick_HatChanged(object sender, AgateInputEventArgs e)
+		{
+			lblJoystick.Text = $"Joystick {e.JoystickIndex} hat changed.";
 		}
 
 		protected override void OnFormClosed(FormClosedEventArgs e)
