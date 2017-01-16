@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 
@@ -69,7 +70,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 
 		private void FillJoystickInfo(int index, Label label)
 		{
-			Joystick j = Input.Joysticks[index];
+			IJoystick j = Input.Joysticks[index];
 
 			StringBuilder b = new StringBuilder();
 			b.Append("Joystick ");
@@ -83,16 +84,16 @@ namespace AgateLib.Tests.InputTests.InputTester
 				b.Append("Axis ");
 				b.Append(i.ToString());
 				b.Append(": ");
-				b.Append(j.GetAxisValue(i).ToString());
+				b.Append(j.AxisState(i));
 				b.AppendLine();
 			}
 
 			b.AppendLine();
 
 			b.Append("X: ");
-			b.AppendLine(j.Xaxis.ToString());
+			b.AppendLine(j.AxisState(0).ToString(CultureInfo.CurrentCulture));
 			b.Append("Y: ");
-			b.AppendLine(j.Yaxis.ToString());
+			b.AppendLine(j.AxisState(1).ToString(CultureInfo.CurrentCulture));
 			b.AppendLine();
 
 			b.Append("Buttons: ");
@@ -100,7 +101,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 			bool comma = false;
 			for (int i = 0; i < j.ButtonCount; i++)
 			{
-				if (j.ButtonState[i])
+				if (j.ButtonState(i))
 				{
 					if (comma)
 						b.Append(",");
@@ -117,7 +118,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 				b.Append("    ");
 				b.Append(i.ToString());
 				b.Append(": ");
-				b.Append(j.HatState[i].ToString());
+				b.Append(j.HatState(i));
 				b.AppendLine();
 			}
 

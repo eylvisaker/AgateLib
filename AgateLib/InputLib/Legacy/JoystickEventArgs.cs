@@ -20,30 +20,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Geometry;
-using AgateLib.InputLib;
-using AgateLib.InputLib.ImplementationBase;
 
-namespace AgateLib.Configuration.State
+namespace AgateLib.InputLib.Legacy
 {
-	class InputState
+	public enum JoystickEventType
 	{
-		internal InputImpl Impl;
+		Axis,
+		Button,
+		Hat,
+	}
 
-		internal List<AgateInputEventArgs> EventQueue = new List<AgateInputEventArgs>();
-		internal InputHandlerList Handlers = new InputHandlerList();
-		internal List<Joystick> Joysticks = new List<Joystick>();
+	public class JoystickEventArgs : EventArgs
+	{
+		private JoystickEventType mEventType;
+		private int mIndex;
 
-		internal bool LegacyIsMouseHidden;
-		internal Point LegacyMousePosition;
+		public JoystickEventArgs(JoystickEventType joystickEventType, int index)
+		{
+			// TODO: Complete member initialization
+			this.mEventType = joystickEventType;
+			this.mIndex = index;
+		}
 
-		internal SimpleInputHandler Unhandled = new SimpleInputHandler();
-		internal IInputHandler FirstHandler;
+		public JoystickEventType JoystickEventType
+		{
+			get { return mEventType; }
+		}
 
-		internal IInputHandler MouseInputOwner;
-		internal HashSet<KeyCode> KeysPressed = new HashSet<KeyCode>();
+		public int Index
+		{
+			get { return mIndex; }
+		}
 
-		internal Dictionary<IInputHandler, HandlerState> HandlerStates = new Dictionary<IInputHandler, HandlerState>();
 	}
 }

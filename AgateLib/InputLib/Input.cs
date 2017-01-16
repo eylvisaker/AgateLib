@@ -87,7 +87,7 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Gets the list of joysticks attached to the system.
 		/// </summary>
-		public static IReadOnlyList<Joystick> Joysticks => State?.RawJoysticks;
+		public static IReadOnlyList<IJoystick> Joysticks => State?.Joysticks;
 
 		/// <summary>
 		/// Last chance input handler for events which are not handled by any of the handlers on the 
@@ -125,7 +125,7 @@ namespace AgateLib.InputLib
 		/// <returns></returns>
 		public static int IndexOfJoystick(Joystick joystick)
 		{
-			return Core.State?.Input?.RawJoysticks.IndexOf(joystick) ?? -1;
+			return Core.State?.Input?.Joysticks.IndexOf(joystick) ?? -1;
 		}
 
 		/// <summary>
@@ -182,8 +182,8 @@ namespace AgateLib.InputLib
 
 			Impl.Poll();
 
-			for (int i = 0; i < Joysticks.Count; i++)
-				Joysticks[i].Poll();
+			foreach (Joystick joystick in State.Joysticks)
+				joystick.Poll();
 		}
 
 		private static void DispatchEvent(AgateInputEventArgs evt)
@@ -267,8 +267,8 @@ namespace AgateLib.InputLib
 
 		private static void InitializeJoysticks()
 		{
-			State?.RawJoysticks.Clear();
-			State?.RawJoysticks.AddRange(Impl.CreateJoysticks().Select(x => new Joystick(x)));
+			State?.Joysticks.Clear();
+			State?.Joysticks.AddRange(Impl.CreateJoysticks().Select(x => new Joystick(x)));
 		}
 	}
 }

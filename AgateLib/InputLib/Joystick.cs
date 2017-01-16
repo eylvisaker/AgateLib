@@ -26,9 +26,100 @@ using AgateLib.InputLib.Legacy;
 namespace AgateLib.InputLib
 {
 	/// <summary>
+	/// Represents a joystick connected to the system.
+	/// </summary>
+	public interface IJoystick
+	{
+		[Obsolete("Use input handler instead.", true)]
+		event JoystickEventHandler AxisChanged;
+		[Obsolete("Use input handler instead.", true)]
+		event JoystickEventHandler ButtonPressed;
+		[Obsolete("Use input handler instead.", true)]
+		event JoystickEventHandler ButtonReleased;
+		[Obsolete("Use input handler instead.", true)]
+		event JoystickEventHandler HatStateChanged;
+
+		/// <summary>
+		/// Returns the name of the joystick.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
+		/// Returns the GUID that identifies this joystick hardware.
+		/// </summary>
+		Guid Guid { get; }
+
+		/// <summary>
+		/// Gets how many axes are available on this joystick.
+		/// </summary>
+		int AxisCount { get; }
+
+		/// <summary>
+		/// Returns the number of buttons this joystick has.
+		/// </summary>
+		int ButtonCount { get; }
+
+		/// <summary>
+		/// Returns the number of POV hats this joystick has.
+		/// </summary>
+		int HatCount { get; }
+
+		/// <summary>
+		/// Values smaller than this value for axes will
+		/// be truncated and returned as zero.
+		/// </summary>
+		double AxisThreshold { get; set; }
+
+		/// <summary>
+		/// Returns whether or not this joystick is plugged in.
+		/// 
+		/// If a joystick is removed, you must throw away the reference to 
+		/// this object and get a new one.
+		/// </summary>
+		bool PluggedIn { get; }
+
+		/// <summary>
+		/// Gets an array indicating the state of the buttons.
+		/// </summary>
+		bool ButtonState(int buttonIndex);
+
+		/// <summary>
+		/// Gets the state of the specified hat.
+		/// </summary>
+		HatState HatState(int hatIndex);
+
+		/// <summary>
+		/// Returns the value of a joystick axis.
+		/// Ranges are:
+		/// -1 all the way to the top
+		///  0 centered
+		///  1 all the way to the bottom
+		/// 
+		/// Values outside this range may be returned.
+		/// Never do tests which expect exact return values.
+		/// Even digital gamepads will sometimes return values close to 1
+		/// when pushed down, instead of exactly 1.
+		/// 
+		/// Axis 0 is always the x-axis, axis 1 is always the y-axis on
+		/// controllers which have this capability.
+		/// </summary>
+		/// <param name="axisIndex"></param>
+		/// <returns></returns>
+		double AxisState(int axisIndex);
+
+		/// <summary>
+		/// Recalibrates this joystick.
+		/// 
+		/// Behavior is driver-dependent, however this usually means taking
+		/// the current position as the "zeroed" position for the joystick.
+		/// </summary>
+		void Recalibrate();
+	}
+
+	/// <summary>
 	/// Class which encapsulates a single joystick.
 	/// </summary>
-	public class Joystick
+	public class Joystick : IJoystick
 	{
 		JoystickImpl impl;
 		bool[] mButtonState;
@@ -45,6 +136,15 @@ namespace AgateLib.InputLib
 			mHatState = new HatState[HatCount];
 			mAxisState = new double[AxisCount];
 		}
+
+		[Obsolete("Use input handler instead.", true)]
+		public event JoystickEventHandler AxisChanged;
+		[Obsolete("Use input handler instead.", true)]
+		public event JoystickEventHandler ButtonPressed;
+		[Obsolete("Use input handler instead.", true)]
+		public event JoystickEventHandler ButtonReleased;
+		[Obsolete("Use input handler instead.", true)]
+		public event JoystickEventHandler HatStateChanged;
 
 		/// <summary>
 		/// Returns the name of the joystick.
@@ -71,37 +171,61 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public int HatCount => impl.HatCount;
 
-		private HatState GetHatStateImpl(int hatIndex)
-		{
-			return impl.GetHatState(hatIndex);
-		}
-
 		/// <summary>
-		/// Gets an array indicating the state of the joystick hats.
+		/// Values smaller than this value for axes will
+		/// be truncated and returned as zero.
 		/// </summary>
-		public HatState[] HatState => mHatState;
-
+		public double AxisThreshold
+		{
+			get { return impl.AxisThreshold; }
+			set { impl.AxisThreshold = value; }
+		}
+		
 		/// <summary>
-		/// Gets the current value for the given axis.
-		/// Axis 0 is always the x-axis, axis 1 is always the y-axis on
-		/// controlers which have this capability.
+		/// Returns whether or not this joystick is plugged in.
+		/// 
+		/// If a joystick is removed, you must throw away the reference to 
+		/// this object and get a new one.
 		/// </summary>
-		/// <param name="axisIndex"></param>
-		/// <returns></returns>
-		public double GetAxisValue(int axisIndex)
-		{
-			return impl.GetAxisValue(axisIndex);
-		}
-
-		private bool GetButtonStateImpl(int buttonIndex)
-		{
-			return impl.GetButtonState(buttonIndex);
-		}
+		public bool PluggedIn => impl.PluggedIn;
 
 		/// <summary>
 		/// Gets an array indicating the state of the buttons.
 		/// </summary>
-		public bool[] ButtonState => mButtonState;
+		public bool ButtonState(int buttonIndex)
+		{
+			return mButtonState[buttonIndex];
+		}
+
+		/// <summary>
+		/// Gets the state of the specified hat.
+		/// </summary>
+		public HatState HatState(int hatIndex)
+		{
+			return mHatState[hatIndex];
+		}
+
+		/// <summary>
+		/// Returns the value of a joystick axis.
+		/// Ranges are:
+		/// -1 all the way to the top
+		///  0 centered
+		///  1 all the way to the bottom
+		/// 
+		/// Values outside this range may be returned.
+		/// Never do tests which expect exact return values.
+		/// Even digital gamepads will sometimes return values close to 1
+		/// when pushed down, instead of exactly 1.
+		/// 
+		/// Axis 0 is always the x-axis, axis 1 is always the y-axis on
+		/// controllers which have this capability.
+		/// </summary>
+		/// <param name="axisIndex"></param>
+		/// <returns></returns>
+		public double AxisState(int axisIndex)
+		{
+			return impl.GetAxisValue(axisIndex);
+		}
 
 		/// <summary>
 		/// Recalibrates this joystick.
@@ -113,58 +237,11 @@ namespace AgateLib.InputLib
 		{
 			impl.Recalibrate();
 		}
-		/// <summary>
-		/// Values smaller than this value for axes will
-		/// be truncated and returned as zero.
-		/// </summary>
-		public double AxisThreshold
-		{
-			get { return impl.AxisThreshold; }
-			set { impl.AxisThreshold = value; }
-		}
-
-		/// <summary>
-		/// Returns the value of the joystick x-axis.
-		/// Ranges are:
-		/// -1 all the way to the left
-		///  0 centered
-		///  1 all the way to the right
-		/// 
-		/// Values outside this range may be returned.
-		/// Never do tests which expect exact return values.
-		/// Even digital gamepads will sometimes return values close to 1
-		/// when pushed down, instead of exactly 1.
-		/// 
-		/// </summary>
-		public double Xaxis => impl.GetAxisValue(0);
-
-		/// <summary>
-		/// Returns the value of the joystick y-axis.
-		/// Ranges are:
-		/// -1 all the way to the top
-		///  0 centered
-		///  1 all the way to the bottom
-		/// 
-		/// Values outside this range may be returned.
-		/// Never do tests which expect exact return values.
-		/// Even digital gamepads will sometimes return values close to 1
-		/// when pushed down, instead of exactly 1.
-		/// 
-		/// </summary>
-		public double Yaxis => impl.GetAxisValue(1);
-
-		/// <summary>
-		/// Returns whether or not this joystick is plugged in.
-		/// 
-		/// If a joystick is removed, you must throw away the reference to 
-		/// this object and get a new one.
-		/// </summary>
-		public bool PluggedIn => impl.PluggedIn;
 
 		/// <summary>
 		/// Polls the joystick for data.
 		/// </summary>
-		public void Poll()
+		internal void Poll()
 		{
 			impl.Poll();
 
@@ -196,7 +273,7 @@ namespace AgateLib.InputLib
 
 			for (int i = 0; i < mAxisState.Length; i++)
 			{
-				double newValue = GetAxisValue(i);
+				double newValue = AxisState(i);
 
 				if (Math.Abs(newValue - mAxisState[i]) > 0.001)
 				{
@@ -205,15 +282,6 @@ namespace AgateLib.InputLib
 				}
 			}
 		}
-
-		[Obsolete("Use input handler instead.", true)]
-		public event JoystickEventHandler AxisChanged;
-		[Obsolete("Use input handler instead.", true)]
-		public event JoystickEventHandler ButtonPressed;
-		[Obsolete("Use input handler instead.", true)]
-		public event JoystickEventHandler ButtonReleased;
-		[Obsolete("Use input handler instead.", true)]
-		public event JoystickEventHandler HatStateChanged;
 
 		private void OnAxisChanged(int axisIndex)
 		{
@@ -238,5 +306,16 @@ namespace AgateLib.InputLib
 			Input.QueueInputEvent(AgateInputEventArgs
 				.JoystickHatStateChanged(this, index));
 		}
+
+		private HatState GetHatStateImpl(int hatIndex)
+		{
+			return impl.GetHatState(hatIndex);
+		}
+
+		private bool GetButtonStateImpl(int buttonIndex)
+		{
+			return impl.GetButtonState(buttonIndex);
+		}
+
 	}
 }
