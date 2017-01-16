@@ -330,6 +330,7 @@ namespace AgateLib
 		{
 			Display.Dispose();
 			Audio.Dispose();
+			Input.Dispose();
 
 			State = null;
 		}
@@ -344,10 +345,7 @@ namespace AgateLib
 		/// <summary>
 		/// Gets an object which describes details about the current platform.
 		/// </summary>
-		public static IPlatformInfo Platform
-		{
-			get { return State.Core.Platform; }
-		}
+		public static IPlatformInfo Platform => State.Core.Platform;
 
 		/// <summary>
 		/// Gets an object which contains the persistant settings for the application.

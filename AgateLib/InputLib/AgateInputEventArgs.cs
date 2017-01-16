@@ -348,7 +348,7 @@ namespace AgateLib.InputLib
 			return new AgateInputEventArgs
 			{
 				InputEventType = InputEventType.JoystickAxisChanged,
-				JoystickIndex = Input.Joysticks?.IndexOf(joystick) ?? 0,
+				JoystickIndex = Input.IndexOfJoystick(joystick),
 				JoystickAxisIndex = axisIndex,
 			};
 		}
@@ -358,7 +358,7 @@ namespace AgateLib.InputLib
 			return new AgateInputEventArgs
 			{
 				InputEventType = InputEventType.JoystickAxisChanged,
-				JoystickIndex = Input.Joysticks?.IndexOf(joystick) ?? 0,
+				JoystickIndex = Input.IndexOfJoystick(joystick),
 				JoystickButtonIndex = buttonIndex,
 			};
 		}
@@ -368,7 +368,7 @@ namespace AgateLib.InputLib
 			return new AgateInputEventArgs
 			{
 				InputEventType = InputEventType.JoystickAxisChanged,
-				JoystickIndex = Input.Joysticks?.IndexOf(joystick) ?? 0,
+				JoystickIndex = Input.IndexOfJoystick(joystick),
 				JoystickButtonIndex = buttonIndex,
 			};
 		}
@@ -378,7 +378,7 @@ namespace AgateLib.InputLib
 			return new AgateInputEventArgs
 			{
 				InputEventType = InputEventType.JoystickAxisChanged,
-				JoystickIndex = Input.Joysticks?.IndexOf(joystick) ?? 0,
+				JoystickIndex = Input.IndexOfJoystick(joystick),
 				JoystickButtonIndex = buttonIndex,
 			};
 		}

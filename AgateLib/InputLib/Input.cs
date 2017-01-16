@@ -82,23 +82,25 @@ namespace AgateLib.InputLib
 			}
 		}
 
-		private static IInputHandler FirstInputHandler => Core.State.Input.FirstHandler;
+		private static IInputHandler FirstInputHandler => State?.FirstHandler;
 
-		internal static List<Joystick> Joysticks => Core.State?.Input?.RawJoysticks;
-
+		/// <summary>
+		/// Gets the list of joysticks attached to the system.
+		/// </summary>
+		public static IReadOnlyList<Joystick> Joysticks => State?.RawJoysticks;
 
 		/// <summary>
 		/// Last chance input handler for events which are not handled by any of the handlers on the 
 		/// input stack. This can also be useful for small applications that don't need input handlers.
 		/// </summary>
-		public static SimpleInputHandler Unhandled => Core.State.Input.Unhandled;
+		public static SimpleInputHandler Unhandled => State?.Unhandled;
 
 		/// <summary>
 		/// A stack of handlers for processing user input events. The handlers are applied in order
 		/// from last to first in the list, ie. Handlers[0] is the last one to process an
 		/// event.
 		/// </summary>
-		public static IList<IInputHandler> Handlers => Core.State.Input.Handlers;
+		public static IList<IInputHandler> Handlers => State?.Handlers;
 
 		/// <summary>
 		/// Adds an input event to the list of queued events that will be processed 
@@ -114,6 +116,16 @@ namespace AgateLib.InputLib
 			{
 				EventQueue.Add(args);
 			}
+		}
+
+		/// <summary>
+		/// Returns the index of the specified joystick.
+		/// </summary>
+		/// <param name="joystick"></param>
+		/// <returns></returns>
+		public static int IndexOfJoystick(Joystick joystick)
+		{
+			return Core.State?.Input?.RawJoysticks.IndexOf(joystick) ?? -1;
 		}
 
 		/// <summary>
@@ -255,8 +267,8 @@ namespace AgateLib.InputLib
 
 		private static void InitializeJoysticks()
 		{
-			Joysticks.Clear();
-			Joysticks.AddRange(Impl.CreateJoysticks().Select(x => new Joystick(x)));
+			State?.RawJoysticks.Clear();
+			State?.RawJoysticks.AddRange(Impl.CreateJoysticks().Select(x => new Joystick(x)));
 		}
 	}
 }
