@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AgateLib.Platform.Test;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.Test;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests
 {
 	[TestClass]
 	public class AgateUnitTest : IDisposable
 	{
-		UnitTestPlatform platform;
-		DisplayWindow window;
+		private readonly UnitTestPlatform platform;
+		private readonly DisplayWindow window;
 
 		public AgateUnitTest()
 		{
-			platform = new UnitTestPlatform();
-			platform.DesiredDisplayWindowResolution = new Size(1920, 1080);
+			platform = new UnitTestPlatform {DesiredDisplayWindowResolution = new Size(1920, 1080)};
 			platform.InitializeAgateLib();
 
 			window = DisplayWindow.CreateWindowed("AgateLib", new Size(1920, 1080));
@@ -29,6 +24,7 @@ namespace AgateLib.UnitTests
 		{
 			Dispose(true);
 
+			window.Dispose();
 			platform.Dispose();
 			Core.Dispose();
 		}

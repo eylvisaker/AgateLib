@@ -126,6 +126,7 @@
     <Compile Include="Geometry\ColorTests.cs" />
     <Compile Include="Geometry\RectangleTest.cs" />
     <Compile Include="Geometry\TypeConverters\GeometryConverterTests.cs" />
+    <Compile Include="Input\SimpleInputHandlerTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
     <Compile Include="Platform\IntegrationTest\IntegrationTestPlatformTests.cs" />
