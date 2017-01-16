@@ -446,6 +446,39 @@ namespace AgateLib.InputLib
 				}
 			}
 		}
+
+		public override string ToString()
+		{
+			switch (InputEventType)
+			{
+				case InputEventType.MouseMove:
+					return $"Mouse Move: {MousePosition}";
+
+				case InputEventType.MouseDown:
+				case InputEventType.MouseDoubleClick:
+				case InputEventType.MouseUp:
+					return $"{InputEventType}: {MouseButton} @ {MousePosition}";
+
+				case InputEventType.MouseWheel:
+					return $"Mouse Wheel: {MouseWheelDelta} @ {MousePosition}";
+
+				case InputEventType.KeyDown:
+				case InputEventType.KeyUp:
+					return $"{InputEventType}: {KeyCode}";
+
+				case InputEventType.JoystickButtonPressed:
+				case InputEventType.JoystickButtonReleased:
+					return $"{InputEventType}: {JoystickButtonIndex}";
+
+				case InputEventType.JoystickAxisChanged:
+					return $"{InputEventType}: {JoystickAxisIndex}";
+
+				case InputEventType.JoystickHatChanged:
+					return $"Joystick Hat Changed";
+			}
+
+			return base.ToString();
+		}
 	}
 
 	public enum InputEventType
