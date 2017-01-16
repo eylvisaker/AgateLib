@@ -26,6 +26,7 @@ namespace AgateLib.InputLib
 	/// <summary>
 	/// An enum containing the possible states of a POV hat on a joystick.
 	/// </summary>
+	[Flags]
 	public enum HatState
 	{
 		/// <summary>
@@ -35,34 +36,34 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// A value indicating the POV hat is pressed to the right.
 		/// </summary>
-		Right,
+		Right = 1,
 		/// <summary>
 		/// A value indicating the POV hat is pressed to the upper right.
 		/// </summary>
-		UpRight,
+		UpRight = 3,
 		/// <summary>
 		/// A value indicating the POV hat is pressed upwards.
 		/// </summary>
-		Up,
+		Up = 2,
 		/// <summary>
 		/// A value indicating the POV hat is pressed up left.
 		/// </summary>
-		UpLeft,
+		UpLeft = 6,
 		/// <summary>
 		/// A value indicating the POV hat is pressed to the left.
 		/// </summary>
-		Left,
+		Left = 4,
 		/// <summary>
 		/// A value indicating the POV hat is pressed down left.
 		/// </summary>
-		DownLeft,
+		DownLeft = 12,
 		/// <summary>
 		/// A value indicating the POV hat is pressed downwards.
 		/// </summary>
-		Down,
+		Down = 8,
 		/// <summary>
 		/// A value indicating the POV hat is pressed down-right.
 		/// </summary>
-		DownRight,
+		DownRight = 9,
 	}
 }

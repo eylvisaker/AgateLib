@@ -16,7 +16,7 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using System;
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -40,7 +40,18 @@ namespace AgateLib.AgateSDL.Input
 		{
 			for (int i = 0; i < JoystickCount; i++)
 			{
-				var result = new Joystick_SDL(i);
+				var name = sdl.SDL_JoystickNameForIndex(i);
+
+				JoystickImpl result;
+
+				if (name.StartsWith("XInput"))
+				{
+					result = new XInputJoystick_SDL(i);
+				}
+				else
+				{
+					result = new Joystick_SDL(i);
+				}
 
 				Debug.Print("Created joystick: {0} : {1}", 
 					result.Guid, result.Name);
