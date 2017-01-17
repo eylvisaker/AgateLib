@@ -29,10 +29,10 @@ namespace AgateLib.Platform.Test
 {
 	public class FakePlatformFactory : IPlatformFactory
 	{
-		public FakePlatformFactory()
+		public FakePlatformFactory(FakeReadFileProvider appFolderFileProvider)
 		{
 			Info = new FakePlatformInfo();
-			ApplicationFolderFileProvider = new FakeReadFileProvider();
+			ApplicationFolderFileProvider = appFolderFileProvider;
 		}
 
 		public Platform.IPlatformInfo Info { get; private set; }

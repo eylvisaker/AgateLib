@@ -34,7 +34,6 @@ namespace AgateLib.UnitTests.Input
 			Assert.IsTrue(called);
 		}
 
-
 		[TestMethod]
 		public void SimpleInputHandler_MouseDown()
 		{

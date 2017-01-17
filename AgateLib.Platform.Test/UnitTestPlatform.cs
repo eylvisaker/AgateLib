@@ -30,9 +30,13 @@ namespace AgateLib.Platform.Test
 	{
 		public void InitializeAgateLib()
 		{
-			Core.Initialize(new FakeAgateFactory());
+			AppFolderFileProvider = new FakeReadFileProvider();
+
+			Core.Initialize(new FakeAgateFactory(AppFolderFileProvider));
 			Core.InitAssetLocations(AssetLocations);
 		}
+
+		public FakeReadFileProvider AppFolderFileProvider { get; private set; }
 
 		protected override void Dispose(bool disposing)
 		{

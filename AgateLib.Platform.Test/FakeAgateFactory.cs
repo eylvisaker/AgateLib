@@ -30,19 +30,12 @@ namespace AgateLib.Platform.Test
 {
 	public class FakeAgateFactory : IAgateFactory
 	{
-		private bool useRealFilesystem;
-
-		public FakeAgateFactory() : this(new FakePlatformFactory())
-		{
-
-		}
-
-		public FakeAgateFactory(FakePlatformFactory platformFactory)
+		public FakeAgateFactory(FakeReadFileProvider appFolderFileProvider)
 		{
 			DisplayFactory = new FakeDisplayFactory();
 			AudioFactory = new FakeAudioFactory();
 			InputFactory = new FakeInputFactory();
-			PlatformFactory = platformFactory;
+			PlatformFactory = new FakePlatformFactory(appFolderFileProvider);
 		}
 
 		public FakeDisplayFactory DisplayFactory { get; private set; }
@@ -62,10 +55,7 @@ namespace AgateLib.Platform.Test
 			}
 		}
 
-		IDisplayFactory IAgateFactory.DisplayFactory
-		{
-			get { return DisplayFactory; }
-		}
+		IDisplayFactory IAgateFactory.DisplayFactory => DisplayFactory;
 
 		IAudioFactory IAgateFactory.AudioFactory
 		{
