@@ -42,34 +42,13 @@ namespace AgateLib.Platform.Test
 		public FakeAudioFactory AudioFactory { get; private set; }
 		public FakeInputFactory InputFactory { get; private set; }
 		public FakePlatformFactory PlatformFactory { get; private set; }
-
-		public DisplayLib.FontSurface DefaultFont
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-
+		
 		IDisplayFactory IAgateFactory.DisplayFactory => DisplayFactory;
 
-		IAudioFactory IAgateFactory.AudioFactory
-		{
-			get { return AudioFactory; }
-		}
+		IAudioFactory IAgateFactory.AudioFactory => AudioFactory;
 
-		IInputFactory IAgateFactory.InputFactory
-		{
-			get { return InputFactory; }
-		}
+		IInputFactory IAgateFactory.InputFactory => InputFactory;
 
-		IPlatformFactory IAgateFactory.PlatformFactory
-		{
-			get { return PlatformFactory; }
-		}
+		IPlatformFactory IAgateFactory.PlatformFactory => PlatformFactory;
 	}
 }
