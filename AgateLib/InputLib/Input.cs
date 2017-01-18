@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Configuration.State;
 using AgateLib.InputLib.ImplementationBase;
+using AgateLib.Quality;
 
 namespace AgateLib.InputLib
 {
@@ -32,6 +33,20 @@ namespace AgateLib.InputLib
 	/// </summary>
 	public static class Input
 	{
+		private static InputState State => Core.State?.Input;
+
+		private static InputImpl Impl
+		{
+			get { return State?.Impl; }
+			set
+			{
+				Require.True<InvalidOperationException>(State != null,
+					"Core.State.Input should not be null. This is likely a bug in AgateLib.");
+
+				State.Impl = value;
+			}
+		}
+
 		internal static void Initialize(InputImpl inputImpl)
 		{
 			Impl = inputImpl;
@@ -49,14 +64,6 @@ namespace AgateLib.InputLib
 				Impl.Dispose();
 				Impl = null;
 			}
-		}
-
-		private static InputState State => Core.State?.Input;
-
-		private static InputImpl Impl
-		{
-			get { return State.Impl; }
-			set { State.Impl = value; }
 		}
 
 		private static List<AgateInputEventArgs> EventQueue => State?.EventQueue;

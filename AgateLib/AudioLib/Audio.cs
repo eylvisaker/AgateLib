@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.Configuration.State;
+using AgateLib.Quality;
 
 namespace AgateLib.AudioLib
 {
@@ -32,19 +34,21 @@ namespace AgateLib.AudioLib
 	/// </summary>
 	public static class Audio
 	{
+		private static AudioState State => Core.State?.Audio;
+
 		/// <summary>
 		/// Gets the capabilities querying object for the audio subsystem.
 		/// </summary>
 		public static AudioCapsInfo Caps
 		{
-			get { return Core.State.Audio.Caps; }
+			get { return State?.Caps; }
 		}
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Audio functions.
 		/// </summary>
 		public static AudioImpl Impl
 		{
-			get { return Core.State.Audio.Impl; }
+			get { return State?.Impl; }
 		}
 		/// <summary>
 		/// Initializes the audio system by instantiating the driver with the given
@@ -54,8 +58,11 @@ namespace AgateLib.AudioLib
 		/// <param name="audioType"></param>
 		public static void Initialize(AudioImpl audioImpl)
 		{
-			Core.State.Audio.Impl = audioImpl;
-			Core.State.Audio.Impl.Initialize();
+			Require.True<InvalidOperationException>(State != null,
+				"Core.State.Audio should not be null. This is likely a bug in AgateLib.");
+
+			State.Impl = audioImpl;
+			State.Impl.Initialize();
 		}
 		/// <summary>
 		/// Disposes of the audio driver.
@@ -64,16 +71,18 @@ namespace AgateLib.AudioLib
 		{
 			OnDispose();
 
-			if (Core.State.Audio.Impl != null)
+			if (State?.Impl != null)
 			{
-				Core.State.Audio.Impl.Dispose();
-				Core.State.Audio.Impl = null;
+				State.Impl.Dispose();
+				State.Impl = null;
 			}
 		}
+
 		private static void OnDispose()
 		{
 			DisposeAudio?.Invoke();
 		}
+
 		/// <summary>
 		/// Stops all sound and music currently playing.
 		/// </summary>
@@ -82,6 +91,7 @@ namespace AgateLib.AudioLib
 			StopAllSounds();
 			StopAllMusic();
 		}
+
 		/// <summary>
 		/// Stops all sound effects playing.  Music objects will continue playing.
 		/// </summary>
@@ -89,6 +99,7 @@ namespace AgateLib.AudioLib
 		{
 			EventStopAllSounds?.Invoke();
 		}
+
 		/// <summary>
 		/// Stops all music currently playing.  Sound objects will continue playing.
 		/// </summary>
@@ -96,6 +107,7 @@ namespace AgateLib.AudioLib
 		{
 			EventStopAllMusic?.Invoke();
 		}
+
 		/// <summary>
 		/// Delegate type for events which are raised by this class.
 		/// </summary>
@@ -127,6 +139,7 @@ namespace AgateLib.AudioLib
 			else
 				return Math.Log(1000 * x, 1000);
 		}
+
 		/// <summary>
 		/// This is for use by drivers whose underlying technology does not provide
 		/// a volume control which sounds linear.
@@ -147,7 +160,7 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		public static void Update()
 		{
-			Core.State.Audio.Impl?.Update();
+			State?.Impl?.Update();
 		}
 	}
 

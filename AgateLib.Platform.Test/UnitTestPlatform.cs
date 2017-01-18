@@ -40,6 +40,7 @@ namespace AgateLib.Platform.Test
 
 		protected override void Dispose(bool disposing)
 		{
+			Core.Dispose();
 		}
 	}
 }
