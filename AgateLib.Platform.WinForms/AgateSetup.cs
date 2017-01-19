@@ -67,7 +67,7 @@ namespace AgateLib.Platform.WinForms
 
 		#endregion
 
-		Thread agateThread;
+		Thread windowThread;
 		FormsFactory factory;
 		Assembly entryAssembly;
 		IPrimaryWindow primaryWindow;
@@ -78,7 +78,7 @@ namespace AgateLib.Platform.WinForms
 
 		public AgateSetup()
 		{
-
+			InitializeLibrary();
 		}
 
 		public AgateSetup(string[] commandLineArguments) : this()
@@ -92,7 +92,7 @@ namespace AgateLib.Platform.WinForms
 
 			primaryWindow?.ExitMessageLoop();
 
-			while (agateThread?.ThreadState == ThreadState.Running)
+			while (windowThread?.ThreadState == ThreadState.Running)
 			{
 				Thread.Sleep(0);
 			}
@@ -114,12 +114,8 @@ namespace AgateLib.Platform.WinForms
 
 		public void InitializeAgateLib()
 		{
-			entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
-
-			FillMissingProperties(entryAssembly);
-
-			agateThread = new Thread(AgateThread);
-			agateThread.Start();
+			windowThread = new Thread(WindowThread);
+			windowThread.Start();
 
 			var watch = System.Diagnostics.Stopwatch.StartNew();
 			const int maxTime = 10;
@@ -141,8 +137,8 @@ namespace AgateLib.Platform.WinForms
 						Core.IsAlive = false;
 						return;
 					}
-					else
-						watch = System.Diagnostics.Stopwatch.StartNew();
+					
+					watch = System.Diagnostics.Stopwatch.StartNew();
 				}
 			}
 
@@ -154,11 +150,20 @@ namespace AgateLib.Platform.WinForms
 			}
 		}
 
-		private void AgateThread()
+		private void WindowThread()
 		{
-			Initialize(Path.GetDirectoryName(Path.GetFullPath(entryAssembly.Location)));
+			Initialize();
 
 			primaryWindow?.RunApplication();
+		}
+
+		private string GetAppRootPath()
+		{
+			entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
+
+			FillMissingProperties(entryAssembly);
+
+			return Path.GetDirectoryName(Path.GetFullPath(entryAssembly.Location));
 		}
 
 		private void FillMissingProperties(Assembly assembly)
@@ -175,20 +180,21 @@ namespace AgateLib.Platform.WinForms
 			}
 		}
 
-		/// <summary>
-		/// Initializes AgateLib.
-		/// </summary>
-		/// <param name="appRootPath">Path to the folder where the application files reside in.</param>
-		private void Initialize(string appRootPath)
+		private void InitializeLibrary()
 		{
-			Condition.Requires<ArgumentNullException>(appRootPath != null, "appRootPath");
-			Condition.Requires<InvalidOperationException>(factory == null, "Initialize should only be called once.");
+			Condition.Requires<InvalidOperationException>(factory == null, "InitializeLibrary should only be called once.");
 
-			var result = new AgateConfig();
-
-			factory = new FormsFactory(appRootPath);
+			factory = new FormsFactory(GetAppRootPath());
 
 			Core.Initialize(factory);
+
+			CreateHiddenDisplayWindow();
+		}
+
+		private void Initialize()
+		{
+			var result = new AgateConfig();
+
 			Core.InitAssetLocations(AssetLocations);
 
 			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -204,18 +210,14 @@ namespace AgateLib.Platform.WinForms
 		{
 			OpenTK.Graphics.GraphicsContext.ShareContexts = true;
 
-			foreach (var window in Configuration.DisplayWindows.Select(x => x.Impl as GL_DisplayControl))
+			foreach (var window in Configuration.DisplayWindows.Select(x => (GL_DisplayControl)x.Impl))
 			{
 				window.CreateContextForCurrentThread();
 			}
-
-			//primaryWindow.CreateContextForCurrentThread();
 		}
 
 		private void InitializeDisplayWindow(AgateConfig config)
 		{
-			CreateHiddenDisplayWindow(config);
-
 			if (base.CreateDisplayWindow == false)
 				return;
 
@@ -226,58 +228,13 @@ namespace AgateLib.Platform.WinForms
 
 			DisplayWindow primaryDisplayWindow = null;
 
-			if (CreateFullScreenWindow)
+			if (FullScreen)
 			{
-				switch (FullScreenCaptureMode)
-				{
-					case FullScreenCaptureMode.PrimaryScreenOnly:
-						primaryDisplayWindow = DisplayWindow.CreateFullScreen(
-							ApplicationName,
-							new Resolution(DesiredDisplayWindowResolution, FullScreenRenderMode));
-
-						config.DisplayWindows = new List<DisplayWindow> { primaryDisplayWindow };
-
-						break;
-
-					default:
-						var results = new List<DisplayWindow>();
-
-						foreach (var screen in Display.Screens.AllScreens)
-						{
-							var windowParams = CreateWindowParams.FullScreen(ApplicationName,
-								new Resolution(DesiredDisplayWindowResolution, FullScreenRenderMode), null);
-
-							windowParams.TargetScreen = screen;
-
-							var displayWindow = new DisplayWindow(windowParams);
-
-							if (screen.IsPrimary)
-								primaryDisplayWindow = displayWindow;
-
-							results.Add(displayWindow);
-						}
-
-						config.DisplayWindows = results;
-
-						break;
-				}
+				primaryDisplayWindow = _CreateFullScreenWindow(config);
 			}
 			else
 			{
-				var size = DesiredDisplayWindowResolution;
-
-				var scale = IgnoreDesktopScaling ? 1.0 : DesktopScaling;
-
-				var windowSize = new Size(
-					(int) (size.Width * scale),
-					(int) (size.Height * scale));
-
-				primaryDisplayWindow = DisplayWindow.CreateWindowed(
-					ApplicationName,
-					windowSize,
-					new FixedCoordinateSystem(new Rectangle(Point.Empty, size)));
-
-				config.DisplayWindows = new List<DisplayWindow> {primaryDisplayWindow};
+				primaryDisplayWindow = CreateWindowedDisplay(config);
 			}
 
 			Display.RenderState.WaitForVerticalBlank = VerticalSync;
@@ -287,7 +244,69 @@ namespace AgateLib.Platform.WinForms
 			primaryWindow = primaryDisplayWindow.Impl as IPrimaryWindow;
 		}
 
-		private void CreateHiddenDisplayWindow(AgateConfig config)
+		private DisplayWindow CreateWindowedDisplay(AgateConfig config)
+		{
+			DisplayWindow primaryDisplayWindow;
+
+			var size = DesiredDisplayWindowResolution;
+
+			var scale = IgnoreDesktopScaling ? 1.0 : DesktopScaling;
+
+			var windowSize = new Size(
+				(int) (size.Width * scale),
+				(int) (size.Height * scale));
+
+			primaryDisplayWindow = DisplayWindow.CreateWindowed(
+				ApplicationName,
+				windowSize,
+				new FixedCoordinateSystem(new Rectangle(Point.Empty, size)));
+
+			config.DisplayWindows = new List<DisplayWindow> {primaryDisplayWindow};
+			return primaryDisplayWindow;
+		}
+
+		private DisplayWindow _CreateFullScreenWindow(AgateConfig config)
+		{
+			DisplayWindow primaryDisplayWindow = null;
+
+			switch (FullScreenCaptureMode)
+			{
+				case FullScreenCaptureMode.PrimaryScreenOnly:
+					primaryDisplayWindow = DisplayWindow.CreateFullScreen(
+						ApplicationName,
+						new Resolution(DesiredDisplayWindowResolution, FullScreenRenderMode));
+
+					config.DisplayWindows = new List<DisplayWindow> {primaryDisplayWindow};
+
+					break;
+
+				default:
+					var results = new List<DisplayWindow>();
+
+					foreach (var screen in Display.Screens.AllScreens)
+					{
+						var windowParams = CreateWindowParams.FullScreen(ApplicationName,
+							new Resolution(DesiredDisplayWindowResolution, FullScreenRenderMode), null);
+
+						windowParams.TargetScreen = screen;
+
+						var displayWindow = new DisplayWindow(windowParams);
+
+						if (screen.IsPrimary)
+							primaryDisplayWindow = displayWindow;
+
+						results.Add(displayWindow);
+					}
+
+					config.DisplayWindows = results;
+
+					break;
+			}
+
+			return primaryDisplayWindow;
+		}
+
+		private void CreateHiddenDisplayWindow()
 		{
 			hiddenForm = new System.Windows.Forms.Form();
 			hiddenDisplayWindow = DisplayWindow.CreateFromControl(hiddenForm);

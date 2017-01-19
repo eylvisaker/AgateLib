@@ -106,7 +106,10 @@ namespace AgateLib.Configuration
 		/// Set to indicate whether the window created will be full screen. This
 		/// can be turned off on the command line by specifying '-window'
 		/// </summary>
-		public bool CreateFullScreenWindow { get; set; } = true;
+		public bool FullScreen { get; set; } = true;
+
+		[Obsolete("Use FullScreen property instead.", true)]
+		public bool CreateFullScreenWindow { get; set; }
 
 		/// <summary>
 		/// Set to indicate how full screen mode should be done.
@@ -186,7 +189,7 @@ namespace AgateLib.Configuration
 			switch (arg)
 			{
 				case "-window":
-					CreateFullScreenWindow = false;
+					FullScreen = false;
 					if (parameters.Count > 0)
 						DisplayWindowPhysicalSize = Size.FromString(parameters[0]);
 					break;

@@ -23,11 +23,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Configuration.State;
 
 namespace AgateLib.IO
 {
 	public static class Assets
 	{
+		private static IOState State => Core.State.IO;
+
 		public static void AddAssetLocations(IReadFileProvider ap, AssetLocations assetLocations)
 		{
 			Condition.Requires<ArgumentNullException>(ap != null, "ap");
@@ -100,38 +103,38 @@ namespace AgateLib.IO
 
 		internal static IReadFileProvider AssetProvider
 		{
-			get { return Core.State.IO.mAssetProvider; }
-			set { Core.State.IO.mAssetProvider = value; }
+			get { return State.mAssetProvider; }
+			set { State.mAssetProvider = value; }
 		}
 
 		public static IReadFileProvider Images
 		{
-			get { return Core.State.IO.mImages; }
-			set { Core.State.IO.mImages = value; }
+			get { return State.mImages; }
+			set { State.mImages = value; }
 		}
 
 		public static IReadFileProvider Resources
 		{
-			get { return Core.State.IO.mResources; }
-			set { Core.State.IO.mResources = value; }
+			get { return State.mResources; }
+			set { State.mResources = value; }
 		}
 
 		public static IReadFileProvider Music
 		{
-			get { return Core.State.IO.mMusic; }
-			set { Core.State.IO.mMusic = value; }
+			get { return State.mMusic; }
+			set { State.mMusic = value; }
 		}
 
 		public static IReadFileProvider Sounds
 		{
-			get { return Core.State.IO.mSounds; }
-			set { Core.State.IO.mSounds = value; }
+			get { return State.mSounds; }
+			set { State.mSounds = value; }
 		}
 
 		public static IReadFileProvider UserInterfaceAssets
 		{
-			get { return Core.State.IO.mUserInterfaceAssets; }
-			set { Core.State.IO.mUserInterfaceAssets = value; }
+			get { return State.mUserInterfaceAssets; }
+			set { State.mUserInterfaceAssets = value; }
 		}
 
 		/// <summary>

@@ -92,11 +92,11 @@ namespace AgateLib.Configuration
 		/// Set to indicate whether the window created will be full screen. This
 		/// can be turned off on the command line by specifying '-window'
 		/// </summary>
-		bool CreateFullScreenWindow { get; set; }
+		bool FullScreen { get; set; }
 
 		/// <summary>
 		/// Sets whether AgateLib should create a separate DisplayWindow
-		/// for each monitor the user has. This is ignored unless CreateFullScreenWindow is true.
+		/// for each monitor the user has. This is ignored unless FullScreen is true.
 		/// </summary>
 		FullScreenCaptureMode FullScreenCaptureMode { get; set; }
 	}

@@ -35,9 +35,14 @@ namespace AgateLib.Platform.Test.Display
 			CoordinateSystem.RenderTargetSize = Size;
 		}
 
-		public int Height { get { return 400; } }
-		public int Width { get { return 640; } }
-		public Size Size { get { return new Size(Width, Height); } }
+		public void Dispose()
+		{ }
+
+		public int Height => 400;
+
+		public int Width => 640;
+
+		public Size Size => new Size(Width, Height);
 
 		public ICoordinateSystem CoordinateSystem { get; set; }
 	}

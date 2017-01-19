@@ -33,7 +33,7 @@ namespace AgateLib.DisplayLib
 	/// after rendering to it.  For the most part, FrameBuffers which are associated with
 	/// a DisplayWindow cannot be used as Surfaces.
 	/// </summary>
-	public class FrameBuffer : IDisposable, AgateLib.DisplayLib.IFrameBuffer 
+	public class FrameBuffer : IFrameBuffer 
 	{
 		FrameBufferImpl impl;
 		Surface mRenderTarget;
@@ -77,64 +77,44 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets the implementation object of the FrameBuffer.
 		/// </summary>
-		public FrameBufferImpl Impl
-		{
-			get { return impl; }
-		}
+		public FrameBufferImpl Impl => impl;
 
 		/// <summary>
 		/// Size in pixels of the render target.
 		/// </summary>
-		public Size Size
-		{
-			get { return Impl.Size; }
-		}
+		public Size Size => Impl.Size;
+
 		/// <summary>
 		/// Width in pixels of the render target.
 		/// </summary>
-		public int Width
-		{
-			get { return Impl.Width; }
-		}
+		public int Width => Impl.Width;
+
 		/// <summary>
 		/// Height in pixels of the render target.
 		/// </summary>
-		public int Height
-		{
-			get { return Impl.Height; }
-		}
+		public int Height => Impl.Height;
+
 		/// <summary>
 		/// Gets whether or not the frame buffer has a depth buffer.
 		/// </summary>
-		public bool HasDepthBuffer
-		{
-			get { return Impl.HasDepthBuffer; }
-		}
+		public bool HasDepthBuffer => Impl.HasDepthBuffer;
+
 		/// <summary>
 		/// Gets whether or not the frame buffer has a stencil buffer.
 		/// </summary>
-		public bool HasStencilBuffer
-		{
-			get { return Impl.HasStencilBuffer; }
-		}
+		public bool HasStencilBuffer => Impl.HasStencilBuffer;
 
 		/// <summary>
 		/// Gets the window that this frame buffer is attached to. Returns null
 		/// if this FrameBuffer is not attached to any window.
 		/// </summary>
-		public DisplayWindow AttachedWindow
-		{
-			get { return Impl.AttachedWindow; }
-		}
+		public DisplayWindow AttachedWindow => Impl.AttachedWindow;
 
 		/// <summary>
 		/// Returns true if the RenderTarget property is readable, and this surface that is
 		/// rendered to can be used to draw from.
 		/// </summary>
-		public bool CanAccessRenderTarget
-		{
-			get { return Impl.CanAccessRenderTarget; }
-		}
+		public bool CanAccessRenderTarget => Impl.CanAccessRenderTarget;
 
 		/// <summary>
 		/// Gets the Surface object that was rendered to, if it is available.

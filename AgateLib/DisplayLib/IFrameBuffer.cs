@@ -26,7 +26,7 @@ namespace AgateLib.DisplayLib
 	/// to allow you to create a fake object implementing the interface in order to 
 	/// write unit tests for drawing code.
 	/// </summary>
-	public interface IFrameBuffer
+	public interface IFrameBuffer : IDisposable
 	{
 		/// <summary>
 		/// Height of the IFrameBuffer object.

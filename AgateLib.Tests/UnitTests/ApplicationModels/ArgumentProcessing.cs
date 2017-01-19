@@ -14,7 +14,7 @@ namespace AgateLib.UnitTests.ApplicationModels
 		{
 			var setup = new AgateSetup(Args("-window 640x480"));
 
-			Assert.IsFalse(setup.CreateFullScreenWindow);
+			Assert.IsFalse(setup.FullScreen);
 			Assert.AreEqual(new Size(640, 480), setup.DisplayWindowPhysicalSize);
 		}
 
