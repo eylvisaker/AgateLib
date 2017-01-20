@@ -71,8 +71,8 @@ namespace AgateLib.Platform.WinForms
 		Assembly entryAssembly;
 		bool windowClosed;
 		private WinFormsEventThread eventThread => factory.DisplayFactory.FullDisplayImpl.EventThread;
-		
-		public AgateSetup(string[] commandLineArguments = null) 
+
+		public AgateSetup(string[] commandLineArguments = null)
 		{
 			ParseCommandLineArgs(commandLineArguments);
 
@@ -83,9 +83,12 @@ namespace AgateLib.Platform.WinForms
 		{
 			Core.IsAlive = false;
 
-			foreach (var displayWindow in Configuration.DisplayWindows)
+			if (Configuration != null)
 			{
-				displayWindow.Dispose();
+				foreach (var displayWindow in Configuration.DisplayWindows)
+				{
+					displayWindow.Dispose();
+				}
 			}
 
 			eventThread.Dispose();
@@ -97,11 +100,13 @@ namespace AgateLib.Platform.WinForms
 		{
 			var result = new AgateConfig();
 
-			Core.InitAssetLocations(AssetLocations);
+			Core.InitAssetLocations(AssetLocations,
+				new FileSystemProvider(GetAppRootPath()));
 
 			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-			FileProvider.UserFiles = new FileSystemProvider(Path.Combine(appData, ApplicationName));
+			Core.UserFiles =
+				new FileSystemProvider(Path.Combine(appData, ApplicationName));
 
 			InitializeDisplayWindow(result);
 
@@ -145,10 +150,6 @@ namespace AgateLib.Platform.WinForms
 			Core.Initialize(factory);
 		}
 
-		private void Initialize()
-		{
-		}
-
 		private void InitializeDisplayWindow(AgateConfig config)
 		{
 			if (base.CreateDisplayWindow == false)
@@ -159,8 +160,8 @@ namespace AgateLib.Platform.WinForms
 				throw new AgateException("DesiredDisplayWindowResolution must be set to a non-zero value.");
 			}
 
-			DisplayWindow primaryDisplayWindow = FullScreen 
-				? CreateFullScreenDisplay(config) 
+			DisplayWindow primaryDisplayWindow = FullScreen
+				? CreateFullScreenDisplay(config)
 				: CreateWindowedDisplay(config);
 
 			Display.RenderState.WaitForVerticalBlank = VerticalSync;
@@ -177,15 +178,15 @@ namespace AgateLib.Platform.WinForms
 			var scale = IgnoreDesktopScaling ? 1.0 : DesktopScaling;
 
 			var windowSize = new Size(
-				(int) (size.Width * scale),
-				(int) (size.Height * scale));
+				(int)(size.Width * scale),
+				(int)(size.Height * scale));
 
 			primaryDisplayWindow = DisplayWindow.CreateWindowed(
 				ApplicationName,
 				windowSize,
 				new FixedCoordinateSystem(new Rectangle(Point.Empty, size)));
 
-			config.DisplayWindows = new List<DisplayWindow> {primaryDisplayWindow};
+			config.DisplayWindows = new List<DisplayWindow> { primaryDisplayWindow };
 			return primaryDisplayWindow;
 		}
 
@@ -200,7 +201,7 @@ namespace AgateLib.Platform.WinForms
 						ApplicationName,
 						new Resolution(DesiredDisplayWindowResolution, FullScreenRenderMode));
 
-					config.DisplayWindows = new List<DisplayWindow> {primaryDisplayWindow};
+					config.DisplayWindows = new List<DisplayWindow> { primaryDisplayWindow };
 
 					break;
 
@@ -229,41 +230,12 @@ namespace AgateLib.Platform.WinForms
 
 			return primaryDisplayWindow;
 		}
-		
+
 		private void window_Closed(object sender, EventArgs args)
 		{
 			windowClosed = true;
 
 			Core.IsAlive = false;
-		}
-
-		private ICoordinateSystem CreateFullScreenCoords(Size fullScreenSize)
-		{
-			var desired = this.DesiredDisplayWindowResolution;
-			if (fullScreenSize == desired)
-				return new NativeCoordinates();
-
-			var aspectRatio = fullScreenSize.AspectRatio;
-			var desiredAspectRatio = DesiredDisplayWindowResolution.AspectRatio;
-
-			if (Math.Abs(aspectRatio - desiredAspectRatio) < 1e-6)
-				return new FixedCoordinateSystem(new Rectangle(Point.Empty, desired));
-
-			switch (this.DisplayWindowExpansionType)
-			{
-				case WindowExpansionType.VerticalSizeFixed:
-					return new FixedCoordinateSystem(new Rectangle(Point.Empty,
-						new Size((int)(aspectRatio * desired.Height), desired.Height)));
-				case WindowExpansionType.HorizontalSizeFixed:
-
-					return new FixedCoordinateSystem(new Rectangle(Point.Empty,
-						new Size(desired.Width, (int)(desired.Width / aspectRatio))));
-				case WindowExpansionType.Scale:
-					return new FixedCoordinateSystem(new Rectangle(Point.Empty, desired));
-
-				default:
-					throw new NotImplementedException();
-			}
 		}
 	}
 }

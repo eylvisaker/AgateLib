@@ -12,7 +12,7 @@ namespace AgateLib.DisplayLib
 		public Resolution(Size size, IRenderMode mode = null)
 		{
 			Size = size;
-			RenderMode = mode;
+			RenderMode = mode ?? DisplayLib.RenderMode.RetainAspectRatio;
 		}
 
 		public Resolution(int width, int height, IRenderMode mode = null)

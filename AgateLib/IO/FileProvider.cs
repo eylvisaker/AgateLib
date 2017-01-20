@@ -25,6 +25,7 @@ using AgateLib.Quality;
 
 namespace AgateLib.IO
 {
+	[Obsolete("This is going away very quickly.", true)]
 	public static class FileProvider
 	{
 		public static void Initialize(IReadFileProvider assetProvider, AssetLocations assetLocations)
@@ -36,8 +37,8 @@ namespace AgateLib.IO
 
 		public static IReadWriteFileProvider UserFiles
 		{
-			get { return Core.State.IO.UserFiles; }
-			set { Core.State.IO.UserFiles = value; }
+			get { return Core.State.Core.UserFiles; }
+			set { Core.State.Core.UserFiles = value; }
 		}
 	}
 }

@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using System.IO;
+using System.Linq;
 
 namespace AgateLib.Platform.WinForms.Controls
 {
@@ -47,6 +48,7 @@ namespace AgateLib.Platform.WinForms.Controls
 		public static void InitializeWindowsForm(
 			out Form frm,
 			out Control renderTarget,
+			ScreenInfo targetScreen,
 			WindowPosition position,
 			string title, AgateLib.Geometry.Size clientSize,
 			bool startFullscreen, bool allowResize, bool hasFrame)
@@ -71,9 +73,11 @@ namespace AgateLib.Platform.WinForms.Controls
 				frm.MaximizeBox = false;
 			}
 
+			var screen = Screen.AllScreens[(int)targetScreen.SystemIndex];
+
 			Point centerPoint = new Point(
-				(Screen.PrimaryScreen.WorkingArea.Width - frm.Width) / 2,
-				(Screen.PrimaryScreen.WorkingArea.Height - frm.Height) / 2);
+				screen.WorkingArea.X + (screen.WorkingArea.Width - frm.Width) / 2,
+				screen.WorkingArea.Y + (screen.WorkingArea.Height - frm.Height) / 2);
 
 			switch (position)
 			{

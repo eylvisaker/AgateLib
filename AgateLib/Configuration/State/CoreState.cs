@@ -18,6 +18,7 @@
 //
 using System;
 using AgateLib.Drivers;
+using AgateLib.IO;
 using AgateLib.Platform;
 using AgateLib.Settings;
 
@@ -47,5 +48,8 @@ namespace AgateLib.Configuration.State
 		public CrossPlatformDebugLevel CrossPlatformDebugLevel { get; set; } = CrossPlatformDebugLevel.Comment;
 		public IStopwatch Time { get; set; }
 		public bool IsAlive { get; set; } = true;
+
+		public IReadFileProvider Assets { get; set; }
+		public IReadWriteFileProvider UserFiles { get; set; }
 	}
 }

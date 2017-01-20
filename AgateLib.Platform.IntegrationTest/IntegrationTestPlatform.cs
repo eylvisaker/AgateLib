@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Configuration;
+using AgateLib.IO;
 using AgateLib.Platform.Test;
 using AgateLib.Quality;
 
@@ -44,7 +45,8 @@ namespace AgateLib.Platform.IntegrationTest
 			factory = new IntegrationTestFactory(appPath);
 
 			Core.Initialize(factory);
-			Core.InitAssetLocations(AssetLocations);
+			Core.InitAssetLocations(AssetLocations, 
+				new FileSystemProvider(Path.Combine(appPath, AssetLocations.Path)));
 		}
 
 		protected override void Dispose(bool disposing)

@@ -188,9 +188,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			ctxFrameBuffer.BeginRender();
 			display.Clear(Color.Black);
 
-			var destRect = chooseResolution.RenderMode?.DestRect(
-				rtSurface.SurfaceSize, ctxFrameBuffer.Size) ??
-				new Rectangle(Point.Empty, rtSurface.SurfaceSize);
+			var destRect = chooseResolution.RenderMode.DestRect(
+				rtSurface.SurfaceSize, ctxFrameBuffer.Size);
 
 			rtSurfaceState.ScaleWidth = destRect.Width / (double)rtSurface.SurfaceWidth;
 			rtSurfaceState.ScaleHeight = destRect.Height / (double)rtSurface.SurfaceHeight;

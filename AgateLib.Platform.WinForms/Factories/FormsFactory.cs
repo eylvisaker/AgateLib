@@ -45,12 +45,14 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public AgateSdlFactory SdlFactory { get; private set; }
 
-		public IPlatformFactory PlatformFactory { get; private set; }
+		public PlatformFactory PlatformFactory { get; private set; }
 
 		IDisplayFactory IAgateFactory.DisplayFactory => DisplayFactory;
 
 		IAudioFactory IAgateFactory.AudioFactory => SdlFactory;
 
 		IInputFactory IAgateFactory.InputFactory => SdlFactory;
+
+		IPlatformFactory IAgateFactory.PlatformFactory => PlatformFactory;
 	}
 }

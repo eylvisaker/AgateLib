@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
+using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.InputLib;
 
 namespace AgateLib.DisplayLib
@@ -39,7 +40,6 @@ namespace AgateLib.DisplayLib
 	{
 		DisplayWindowImpl mImpl;
 		FrameBuffer mFrameBuffer;
-		ICoordinateSystem mCoordinates;
 
 		/// <summary>
 		/// Creates a DisplayWindow object using the specified CreateWindowParams to create
@@ -61,9 +61,6 @@ namespace AgateLib.DisplayLib
 
 			// TODO: Fix this hack
 			Display.CurrentWindow = this;
-
-			mCoordinates = windowParams.Coordinates;
-			mCoordinates.RenderTargetSize = Size;
 		}
 
 		#region --- Static Creation Methods ---

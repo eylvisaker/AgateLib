@@ -42,7 +42,6 @@ namespace AgateLib.DisplayLib
 			{
 				RenderToControl = true,
 				RenderTarget = control,
-				Coordinates = coordinates ?? new NativeCoordinates()
 			};
 
 			return result;
@@ -64,7 +63,6 @@ namespace AgateLib.DisplayLib
 				IsFullScreen = true,
 				Title = title,
 				Resolution = resolution,
-				Coordinates = coordinates ?? new NativeCoordinates()
 			};
 
 			return result;
@@ -87,7 +85,6 @@ namespace AgateLib.DisplayLib
 				IsFullScreen = true,
 				Title = title,
 				Resolution = new Resolution(width, height, null),
-				Coordinates = coordinates ?? new NativeCoordinates()
 			};
 
 			return result;
@@ -113,7 +110,6 @@ namespace AgateLib.DisplayLib
 				IconFile = iconFile,
 				IsResizable = allowResize,
 				HasMaximize = allowResize,
-				Coordinates = coordinates ?? new NativeCoordinates()
 			};
 
 			return result;
@@ -136,7 +132,6 @@ namespace AgateLib.DisplayLib
 				Resolution = new Resolution(width, height),
 				IsResizable = false,
 				HasFrame = false,
-				Coordinates = coordinates ?? new NativeCoordinates()
 			};
 
 			return result;
@@ -207,11 +202,5 @@ namespace AgateLib.DisplayLib
 		///     Control to be rendered to.  This is ignored if RenderToControl is false.
 		/// </summary>
 		public object RenderTarget { get; set; }
-
-		/// <summary>
-		///     The object which will be used to set the coordinate system for the window
-		///     at the beginning of each frame.
-		/// </summary>
-		public ICoordinateSystem Coordinates { get; set; }
 	}
 }

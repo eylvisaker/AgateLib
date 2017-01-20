@@ -27,12 +27,10 @@ namespace AgateLib.Configuration.State
 {
 	class IOState
 	{
-		internal IReadFileProvider mAssetProvider;
 		internal IReadFileProvider mImages;
 		internal IReadFileProvider mResources;
 		internal IReadFileProvider mMusic;
 		internal IReadFileProvider mSounds;
 		internal IReadFileProvider mUserInterfaceAssets;
-		internal IReadWriteFileProvider UserFiles;
 	}
 }

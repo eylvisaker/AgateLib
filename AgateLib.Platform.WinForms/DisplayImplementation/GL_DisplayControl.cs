@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
+using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.InputLib;
 using AgateLib.OpenGL;
 using AgateLib.Platform.WinForms.Controls;
@@ -59,7 +60,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected bool isClosed;
 
 		protected IResolution chooseResolution;
-		protected ICoordinateSystem coords;
+		protected ICoordinateSystem coords = new NativeCoordinates();
+
 
 		protected Point lastMousePoint;
 
@@ -69,7 +71,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			this.owner = owner;
 			choosePosition = windowParams.WindowPosition;
-			coords = windowParams.Coordinates;
 
 			this.display = display;
 
@@ -138,6 +139,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				}
 			}
 		}
+
+		public AgateLib.Geometry.Rectangle DesktopBounds => new AgateLib.Geometry.Rectangle(
+			wfRenderTarget.PointToScreen(System.Drawing.Point.Empty).ToGeometry(),
+			wfRenderTarget.Size.ToGeometry());
 
 		public void HideCursor()
 		{

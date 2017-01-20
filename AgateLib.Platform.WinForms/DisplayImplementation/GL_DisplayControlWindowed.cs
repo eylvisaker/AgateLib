@@ -77,7 +77,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 			else
 			{
-				CreateWindowedDisplay();
+				CreateWindowedDisplay(windowParams.TargetScreen);
 
 				_applicationContext.AddForm(wfForm);
 			}
@@ -130,9 +130,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				}
 			}
 		}
-		
-		private void CreateWindowedDisplay()
+
+
+		private void CreateWindowedDisplay(ScreenInfo targetScreen)
 		{
+			Require.True<InvalidOperationException>(chooseResolution != null,
+				"The resolution must not be null. This is most likely caused by " +
+				"Resolution in your CreateWindowParams being null.");
+
 			DetachEvents();
 
 			using (new ResourceDisposer(windowInfo, wfForm))
@@ -142,7 +147,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				display.EventThread.Invoke(() => 
 					FormUtil.InitializeWindowsForm(
-						out myform, out myRenderTarget, choosePosition,
+						out myform, out myRenderTarget, targetScreen, choosePosition,
 						title, chooseResolution.Size, false, chooseResize, hasFrame));
 
 				wfForm = myform;

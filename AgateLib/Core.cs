@@ -335,11 +335,13 @@ namespace AgateLib
 			State = null;
 		}
 
-		public static void InitAssetLocations(AssetLocations assets)
+		public static void InitAssetLocations(AssetLocations assets, IReadFileProvider assetProvider)
 		{
 			Require.ArgumentNotNull(assets, nameof(assets));
 
-			FileProvider.Initialize(State.Factory.PlatformFactory.ApplicationFolderFileProvider, assets);
+			State.Core.Assets = assetProvider;
+
+			AgateLib.IO.Assets.AddAssetLocations(assetProvider, assets);
 		}
 
 		/// <summary>
@@ -408,6 +410,30 @@ namespace AgateLib
 			}
 		}
 
+		/// <summary>
+		/// Gets the file provider for the programs assets folder.
+		/// </summary>
+		public static IReadFileProvider Assets
+		{
+			get { return State.Core?.Assets; }
+			set
+			{
+				Require.ArgumentNotNull(value, nameof(Assets));
+
+				State.Core.Assets = value;
+			}
+		}
+
+		public static IReadWriteFileProvider UserFiles
+		{
+			get { return State.Core?.UserFiles; }
+			set
+			{
+				Require.ArgumentNotNull(value, nameof(UserFiles));
+
+				State.Core.UserFiles = value;
+			}
+		}
 		/// <summary>
 		/// Plays nice with the OS, by allowing events to be handled.
 		/// This also handles user input events associated with the application,

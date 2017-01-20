@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Configuration;
+using AgateLib.IO;
 
 namespace AgateLib.Platform.Test
 {
@@ -33,7 +34,8 @@ namespace AgateLib.Platform.Test
 			AppFolderFileProvider = new FakeReadFileProvider();
 
 			Core.Initialize(new FakeAgateFactory(AppFolderFileProvider));
-			Core.InitAssetLocations(AssetLocations);
+
+			Core.InitAssetLocations(AssetLocations, new SubdirectoryProvider(AppFolderFileProvider, AssetLocations.Path));
 		}
 
 		public FakeReadFileProvider AppFolderFileProvider { get; private set; }
