@@ -99,11 +99,10 @@ namespace AgateLib.Platform.WinForms
 		public void InitializeAgateLib()
 		{
 			var result = new AgateConfig();
+			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
 			Core.InitAssetLocations(AssetLocations,
 				new FileSystemProvider(GetAppRootPath()));
-
-			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
 			Core.UserFiles =
 				new FileSystemProvider(Path.Combine(appData, ApplicationName));

@@ -57,12 +57,6 @@ Press arrow keys to adjust resolution
 
 		public void Run()
 		{
-			if (Display.Screens.PrimaryScreen.DisplayWindow == null)
-			{
-				ShowInvalidRunMessage();
-				return;
-			}
-
 			Surface mousePointerSurface = new Surface("Images/pointer.png");
 
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
@@ -126,27 +120,6 @@ Press arrow keys to adjust resolution
 			mousePosition = e.MousePosition;
 			mouseWindow = e.MouseWindow;
 		}
-
-		private void ShowInvalidRunMessage()
-		{
-			Input.Unhandled.KeyDown += (sender, e) => Core.IsAlive = false;
-			var message = "This test cannot be run with the -window switch.\nRemove that switch and rerun the test.";
-
-			var font = new Font(Font.AgateSans, 16) { Color = Color.Black };
-			font.DisplayAlignment = OriginAlignment.Center;
-
-			while (Core.IsAlive)
-			{
-				Display.BeginFrame();
-				Display.Clear(Color.White);
-
-				font.DrawText(Display.CurrentWindow.Width / 2, Display.CurrentWindow.Height / 2, message);
-
-				Display.EndFrame();
-				Core.KeepAlive();
-			}
-		}
-
 
 		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
@@ -238,6 +211,7 @@ Press arrow keys to adjust resolution
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.FullScreenCaptureMode = FullScreenCaptureMode.AllScreens;
+			setup.FullScreen = true;
 		}
 	}
 }
