@@ -46,6 +46,7 @@ namespace AgateLib.Platform.WinForms.Factories
 		}
 
 		public DisplayImpl DisplayImpl => FullDisplayImpl;
+
 		public DesktopGLDisplay FullDisplayImpl { get; }
 
 		public DisplayWindowImpl CreateDisplayWindow(

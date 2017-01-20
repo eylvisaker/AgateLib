@@ -20,12 +20,12 @@ namespace AgateLib.Tests.FontTests
 			Display.EndFrame();
 			Core.KeepAlive();
 
-			BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyles.Bold);
+			BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyles.None);
 			fontOptions.TextRenderer = TextRenderEngine.TextRenderer;
 
 			FontSurface surface = new FontSurface(BitmapFontUtil.ConstructFromOSFont(fontOptions));
 			Font font = new FontBuilder("Times")
-				.AddFontSurface(new FontSettings(18, FontStyles.Bold), surface)
+				.AddFontSurface(new FontSettings(18, FontStyles.None), surface)
 				.Build();
 
 			// TODO: Fix this

@@ -31,23 +31,26 @@ namespace AgateLib.Platform.WinForms.Factories
 {
 	class FormsFactory : IAgateFactory
 	{
-		PlatformFactory mPlatformFactory;
-
 		public FormsFactory(string rootAppPath)
 		{
 			DisplayFactory = new DisplayFactory();
-            mPlatformFactory = new PlatformFactory(rootAppPath);
+			PlatformFactory = new PlatformFactory(rootAppPath);
 
 			var sdl = new AgateSdlFactory();
 
-			AudioFactory = sdl;
-			InputFactory = sdl;
+			SdlFactory = sdl;
 		}
 
-		public IDisplayFactory DisplayFactory { get; private set; }
-		public IAudioFactory AudioFactory { get; private set; }
-		public IInputFactory InputFactory { get; private set; }
-		public IPlatformFactory PlatformFactory { get { return mPlatformFactory; } }
+		public DisplayFactory DisplayFactory { get; private set; }
 
+		public AgateSdlFactory SdlFactory { get; private set; }
+
+		public IPlatformFactory PlatformFactory { get; private set; }
+
+		IDisplayFactory IAgateFactory.DisplayFactory => DisplayFactory;
+
+		IAudioFactory IAgateFactory.AudioFactory => SdlFactory;
+
+		IInputFactory IAgateFactory.InputFactory => SdlFactory;
 	}
 }

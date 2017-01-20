@@ -42,7 +42,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	/// </summary>
 	public abstract class GL_DisplayControl : DisplayWindowImpl, IPrimaryWindow
 	{
-		protected static DisplayControlContext _applicationContext { get; private set; }
+		protected static WinFormsControlContext _applicationContext { get; private set; }
 
 		protected readonly DisplayWindow owner;
 		protected DesktopGLDisplay display;
@@ -74,7 +74,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			this.display = display;
 
 			if (_applicationContext == null)
-				_applicationContext = new DisplayControlContext();
+				_applicationContext = new WinFormsControlContext();
 
 			if (string.IsNullOrEmpty(windowParams.IconFile) == false)
 				icon = new Icon(windowParams.IconFile);
@@ -301,6 +301,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void form_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			isClosed = true;
+
 			DetachEvents();
 			OnClosed();
 		}

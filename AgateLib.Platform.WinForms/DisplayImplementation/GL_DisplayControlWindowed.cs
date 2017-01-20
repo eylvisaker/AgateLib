@@ -137,12 +137,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			using (new ResourceDisposer(windowInfo, wfForm))
 			{
-				Form myform;
-				Control myRenderTarget;
+				Form myform = null;
+				Control myRenderTarget = null;
 
-				FormUtil.InitializeWindowsForm(
-					out myform, out myRenderTarget, choosePosition,
-					title, chooseResolution.Size, false, chooseResize, hasFrame);
+				display.EventThread.Invoke(() => 
+					FormUtil.InitializeWindowsForm(
+						out myform, out myRenderTarget, choosePosition,
+						title, chooseResolution.Size, false, chooseResize, hasFrame));
 
 				wfForm = myform;
 				wfRenderTarget = myRenderTarget;

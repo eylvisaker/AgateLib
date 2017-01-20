@@ -64,6 +64,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				$"A full screen window already exists for {windowParams.TargetScreen.DeviceName}.");
 
 			CreateFullScreenDisplay((int) windowParams.TargetScreen.SystemIndex);
+
 			windowParams.TargetScreen.DisplayWindow = owner;
 
 			_applicationContext.AddForm(wfForm);
@@ -136,14 +137,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			{
 				targetScreen = Screen.AllScreens[targetScreenIndex];
 
-				wfForm = new frmFullScreen
+				wfForm = display.EventThread.Invoke(() => new frmFullScreen
 				{
 					ClientSize = targetScreen.Bounds.Size,
 					Location = targetScreen.Bounds.Location,
 					Text = title,
 					Icon = icon,
 					TopLevel = true
-				};
+				});
 
 				wfForm.Show();
 
@@ -156,6 +157,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				wfForm.Activate();
 
 				CreateTargetFrameBuffer(chooseResolution.Size);
+
+				CreateContextForCurrentThread();
 			}
 
 			Core.IsActive = true;

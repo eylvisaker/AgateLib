@@ -49,13 +49,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private bool mSupportsShaders;
 		private decimal mGLVersion;
 		List<int> mTexturesToDelete = new List<int>();
-
-		System.Windows.Forms.Form mFakeWindow;
-		DisplayWindow mFakeDisplayWindow;
-
+		
 		PrimitiveRenderer mPrimitives;
 		private IScreenConfiguration screens = new WinFormsScreenConfiguration();
-
+		
 		public override IScreenConfiguration Screens => screens;
 
 		public Surface WhiteSurface
@@ -247,7 +244,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override void Initialize()
 		{
-			CreateFakeWindow();
+			CreateHiddenWindow();
 
 			Report("OpenTK / OpenGL driver instantiated for display.");
 		}
@@ -279,12 +276,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
-		private void CreateFakeWindow()
+		private void CreateHiddenWindow()
 		{
-			mFakeWindow = new System.Windows.Forms.Form();
-			mFakeDisplayWindow = DisplayWindow.CreateFromControl(mFakeWindow);
-
-			mFakeWindow.Visible = false;
+			EventThread = new WinFormsEventThread();
+			EventThread.CreateContextForCurrentThread();
 
 			string vendor = GL.GetString(StringName.Vendor);
 			mSupportsShaders = false;
@@ -428,15 +423,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing)
-			{
-				mFakeDisplayWindow.Dispose();
-
-				if (mFakeWindow.InvokeRequired)
-				{
-					mFakeWindow.Invoke(new Action(mFakeWindow.Dispose));
-				}
-			}
+			EventThread.Dispose();
 
 			base.Dispose(disposing);
 		}
@@ -544,6 +531,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
 		}
+
+		internal WinFormsEventThread EventThread { get; set; }
 
 		#endregion
 		#region --- Render States ---

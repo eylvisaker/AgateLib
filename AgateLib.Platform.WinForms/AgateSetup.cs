@@ -67,94 +67,50 @@ namespace AgateLib.Platform.WinForms
 
 		#endregion
 
-		Thread windowThread;
 		FormsFactory factory;
 		Assembly entryAssembly;
-		IPrimaryWindow primaryWindow;
 		bool windowClosed;
-
-		System.Windows.Forms.Form hiddenForm;
-		DisplayWindow hiddenDisplayWindow;
-
-		public AgateSetup()
-		{
-			InitializeLibrary();
-		}
-
-		public AgateSetup(string[] commandLineArguments) : this()
+		private WinFormsEventThread eventThread => factory.DisplayFactory.FullDisplayImpl.EventThread;
+		
+		public AgateSetup(string[] commandLineArguments = null) 
 		{
 			ParseCommandLineArgs(commandLineArguments);
+
+			InitializeLibrary();
 		}
 
 		protected override void Dispose(bool disposing)
 		{
 			Core.IsAlive = false;
 
-			primaryWindow?.ExitMessageLoop();
-
-			while (windowThread?.ThreadState == ThreadState.Running)
-			{
-				Thread.Sleep(0);
-			}
-
-			hiddenDisplayWindow?.Dispose();
-
-			if (hiddenForm?.InvokeRequired ?? false)
-			{
-				hiddenForm.Invoke(new Action(hiddenForm.Dispose));
-			}
-
 			foreach (var displayWindow in Configuration.DisplayWindows)
 			{
 				displayWindow.Dispose();
 			}
+
+			eventThread.Dispose();
 
 			Core.Dispose();
 		}
 
 		public void InitializeAgateLib()
 		{
-			windowThread = new Thread(WindowThread);
-			windowThread.Start();
+			var result = new AgateConfig();
 
-			var watch = System.Diagnostics.Stopwatch.StartNew();
-			const int maxTime = 10;
+			Core.InitAssetLocations(AssetLocations);
 
-			while (Configuration == null)
-			{
-				Thread.Sleep(0);
+			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-				if (watch.Elapsed.TotalSeconds > maxTime)
-				{
-					var choice = System.Windows.Forms.MessageBox.Show(
-						$"Failed to initialize AgateLib after {maxTime} seconds.",
-						"Failed to Initialize",
-						System.Windows.Forms.MessageBoxButtons.RetryCancel,
-						System.Windows.Forms.MessageBoxIcon.Stop);
+			FileProvider.UserFiles = new FileSystemProvider(Path.Combine(appData, ApplicationName));
 
-					if (choice == System.Windows.Forms.DialogResult.Cancel)
-					{
-						Core.IsAlive = false;
-						return;
-					}
-					
-					watch = System.Diagnostics.Stopwatch.StartNew();
-				}
-			}
+			InitializeDisplayWindow(result);
 
-			CreateContextForCurrentThread();
+			Configuration = result;
 
 			if (InitializeConsole)
 			{
 				AgateConsole.Initialize();
 			}
-		}
-
-		private void WindowThread()
-		{
-			Initialize();
-
-			primaryWindow?.RunApplication();
 		}
 
 		private string GetAppRootPath()
@@ -187,33 +143,10 @@ namespace AgateLib.Platform.WinForms
 			factory = new FormsFactory(GetAppRootPath());
 
 			Core.Initialize(factory);
-
-			CreateHiddenDisplayWindow();
 		}
 
 		private void Initialize()
 		{
-			var result = new AgateConfig();
-
-			Core.InitAssetLocations(AssetLocations);
-
-			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-			FileProvider.UserFiles = new FileSystemProvider(Path.Combine(appData, ApplicationName));
-
-			InitializeDisplayWindow(result);
-
-			Configuration = result;
-		}
-
-		private void CreateContextForCurrentThread()
-		{
-			OpenTK.Graphics.GraphicsContext.ShareContexts = true;
-
-			foreach (var window in Configuration.DisplayWindows.Select(x => (GL_DisplayControl)x.Impl))
-			{
-				window.CreateContextForCurrentThread();
-			}
 		}
 
 		private void InitializeDisplayWindow(AgateConfig config)
@@ -226,22 +159,13 @@ namespace AgateLib.Platform.WinForms
 				throw new AgateException("DesiredDisplayWindowResolution must be set to a non-zero value.");
 			}
 
-			DisplayWindow primaryDisplayWindow = null;
-
-			if (FullScreen)
-			{
-				primaryDisplayWindow = _CreateFullScreenWindow(config);
-			}
-			else
-			{
-				primaryDisplayWindow = CreateWindowedDisplay(config);
-			}
+			DisplayWindow primaryDisplayWindow = FullScreen 
+				? CreateFullScreenDisplay(config) 
+				: CreateWindowedDisplay(config);
 
 			Display.RenderState.WaitForVerticalBlank = VerticalSync;
 
 			primaryDisplayWindow.Closed += window_Closed;
-
-			primaryWindow = primaryDisplayWindow.Impl as IPrimaryWindow;
 		}
 
 		private DisplayWindow CreateWindowedDisplay(AgateConfig config)
@@ -265,7 +189,7 @@ namespace AgateLib.Platform.WinForms
 			return primaryDisplayWindow;
 		}
 
-		private DisplayWindow _CreateFullScreenWindow(AgateConfig config)
+		private DisplayWindow CreateFullScreenDisplay(AgateConfig config)
 		{
 			DisplayWindow primaryDisplayWindow = null;
 
@@ -305,19 +229,10 @@ namespace AgateLib.Platform.WinForms
 
 			return primaryDisplayWindow;
 		}
-
-		private void CreateHiddenDisplayWindow()
-		{
-			hiddenForm = new System.Windows.Forms.Form();
-			hiddenDisplayWindow = DisplayWindow.CreateFromControl(hiddenForm);
-
-			primaryWindow = hiddenDisplayWindow.Impl as IPrimaryWindow;
-		}
-
+		
 		private void window_Closed(object sender, EventArgs args)
 		{
 			windowClosed = true;
-			primaryWindow.ExitMessageLoop();
 
 			Core.IsAlive = false;
 		}
@@ -350,11 +265,5 @@ namespace AgateLib.Platform.WinForms
 					throw new NotImplementedException();
 			}
 		}
-	}
-
-	[Obsolete("Just use AgateSetup type instead.", true)]
-	public class AgateSetupWinForms : AgateSetup
-	{
-
 	}
 }

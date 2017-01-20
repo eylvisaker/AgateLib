@@ -25,7 +25,7 @@ using System.Windows.Forms;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
-	public class DisplayControlContext : ApplicationContext
+	public class WinFormsControlContext : ApplicationContext
 	{
 		private List<Form> forms = new List<Form>();
 		
