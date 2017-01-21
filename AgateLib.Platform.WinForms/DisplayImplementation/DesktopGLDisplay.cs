@@ -49,10 +49,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private bool mSupportsShaders;
 		private decimal mGLVersion;
 		List<int> mTexturesToDelete = new List<int>();
-		
+
 		PrimitiveRenderer mPrimitives;
-		private IScreenConfiguration screens = new WinFormsScreenConfiguration();
-		
+		private IScreenConfiguration screens;
+
 		public override IScreenConfiguration Screens => screens;
 
 		public Surface WhiteSurface
@@ -245,6 +245,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public override void Initialize()
 		{
 			CreateHiddenWindow();
+
+			// This needs to be created after the hidden window is created
+			// because until we create a window, Windows does not assume that
+			// the application is DPI aware, so it will report the wrong
+			// display dimensions.
+			screens = new WinFormsScreenConfiguration();
 
 			Report("OpenTK / OpenGL driver instantiated for display.");
 		}

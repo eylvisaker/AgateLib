@@ -568,8 +568,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 			{
 				FlushDrawBuffer();
 
-				if (mShader != null)
-					mShader.EndInternal();
+				mShader?.EndInternal();
 
 				if (value is IShader2D && mShader is IShader2D)
 					TransferShader2DSettings((IShader2D)value, (IShader2D)mShader);

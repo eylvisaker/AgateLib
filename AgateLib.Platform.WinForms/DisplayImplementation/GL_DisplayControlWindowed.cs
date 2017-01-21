@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.Platform.WinForms.Controls;
 using AgateLib.Quality;
 using OpenTK.Graphics;
@@ -126,30 +127,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				wfForm = myform;
 				wfRenderTarget = myRenderTarget;
-				windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
-				if (icon != null)
-					wfForm.Icon = icon;
-
-				wfForm.Show();
-
-				CreateTargetFrameBuffer(chooseResolution.Size);
-				CreateContextFrameBuffer(coords);
-				CreateContextForCurrentThread();
-
-				AttachEvents();
+				InitializeContexts();
 			}
 
 			Core.IsActive = true;
-		}
-
-		private static GraphicsMode CreateGraphicsMode()
-		{
-			GraphicsMode newMode = new GraphicsMode(
-						 GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
-						 0, 0, new ColorFormat(0), 2, false);
-
-			return newMode;
 		}
 	}
 }

@@ -199,7 +199,15 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			ctxFrameBuffer.CreateContextForThread();
 		}
 
-		private static GraphicsMode CreateGraphicsMode()
+		public override Point PixelToLogicalCoords(Point point)
+		{
+			var bufferPoint = chooseResolution.RenderMode
+				?.MousePoint(point, rtSurface.SurfaceSize, ctxFrameBuffer.Size) ?? point;
+
+			return base.PixelToLogicalCoords(bufferPoint);
+		}
+
+		protected static GraphicsMode CreateGraphicsMode()
 		{
 			var newMode = new GraphicsMode(
 				GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
@@ -321,14 +329,25 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
-		public override Point PixelToLogicalCoords(Point point)
+		protected void InitializeContexts()
 		{
-			var bufferPoint = chooseResolution.RenderMode
-				?.MousePoint(point, rtSurface.SurfaceSize, ctxFrameBuffer.Size) ?? point;
+			if (icon != null)
+				wfForm.Icon = icon;
 
-			return base.PixelToLogicalCoords(bufferPoint);
+			wfForm.Show();
+
+			windowInfo = CreateWindowInfo(CreateGraphicsMode());
+
+			AttachEvents();
+
+			// The context framebuffer must be created before the target framebuffer,
+			// or this may cause the dreaded black screen on some configurations
+			// (Intel hardware seems to be notorious here).
+			CreateContextFrameBuffer(new NativeCoordinates());
+			CreateTargetFrameBuffer(chooseResolution.Size);
+			CreateContextForCurrentThread();
 		}
-
+		
 		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
 		{
 			BlitBufferImage();

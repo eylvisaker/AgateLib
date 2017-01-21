@@ -47,10 +47,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			Require.False<ArgumentException>(windowParams.RenderToControl, invalidMessage);
 			Require.True<ArgumentException>(windowParams.IsFullScreen, invalidMessage);
-			Require.True<InvalidOperationException>(windowParams.TargetScreen.DisplayWindow == null, 
+			Require.True<InvalidOperationException>(windowParams.TargetScreen.DisplayWindow == null,
 				$"A full screen window already exists for {windowParams.TargetScreen.DeviceName}.");
 
-			CreateFullScreenDisplay((int) windowParams.TargetScreen.SystemIndex);
+			CreateFullScreenDisplay((int)windowParams.TargetScreen.SystemIndex);
 
 			windowParams.TargetScreen.DisplayWindow = owner;
 
@@ -75,7 +75,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public override bool IsClosed => isClosed;
 
 		public override bool IsFullScreen => true;
-		
+
 		private void CreateFullScreenDisplay(int targetScreenIndex)
 		{
 			DetachEvents();
@@ -93,31 +93,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					TopLevel = true
 				});
 
-				wfForm.Show();
-
 				wfRenderTarget = wfForm;
-				windowInfo = CreateWindowInfo(CreateGraphicsMode());
-				CreateContextFrameBuffer(new NativeCoordinates());
 
-				AttachEvents();
-
-				wfForm.Activate();
-
-				CreateTargetFrameBuffer(chooseResolution.Size);
-
-				CreateContextForCurrentThread();
+				InitializeContexts();
 			}
 
 			Core.IsActive = true;
-		}
-
-		private static GraphicsMode CreateGraphicsMode()
-		{
-			GraphicsMode newMode = new GraphicsMode(
-						 GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
-						 0, 0, new ColorFormat(0), 2, false);
-
-			return newMode;
 		}
 	}
 }
