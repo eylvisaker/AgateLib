@@ -61,6 +61,47 @@ namespace AgateLib.OpenGL
 			InitializeDrawBuffer();
 		}
 
+		public override void Dispose()
+		{
+			if (mIsDisposed)
+				return;
+
+			foreach (var context in mContexts.Values)
+			{
+				context.Dispose();
+			}
+
+			mContexts.Clear();
+			mIsDisposed = true;
+		}
+
+		GraphicsContext CurrentContext
+		{
+			get
+			{
+				if (mContexts.ContainsKey(Thread.CurrentThread) == false)
+					return null;
+
+				return mContexts[Thread.CurrentThread];
+			}
+		}
+
+		public bool IsDisposed => mIsDisposed;
+
+		public override AgateLib.Geometry.Size Size => mSize;
+
+		public void SetSize(Size size)
+		{
+			mSize = size;
+
+			foreach (var context in mContexts.Values)
+				context.Update(mWindowInfo);
+
+			CoordinateSystem.RenderTargetSize = mSize;
+		}
+
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => mAttachedWindow;
+
 		public void CreateContextForThread()
 		{
 			if (IsDisposed)
@@ -76,47 +117,6 @@ namespace AgateLib.OpenGL
 
 			Debug.WriteLine($"Created context {context} for thread {Thread.CurrentThread.ManagedThreadId}");
 		}
-
-		public bool IsDisposed { get { return mIsDisposed; } }
-
-		GraphicsContext CurrentContext
-		{
-			get
-			{
-				if (mContexts.ContainsKey(Thread.CurrentThread) == false)
-					return null;
-
-				return mContexts[Thread.CurrentThread];
-			}
-		}
-
-		public override void Dispose()
-		{
-			if (mIsDisposed)
-				return;
-
-			foreach(var context in mContexts.Values)
-			{
-				context.Dispose();
-			}
-
-			mContexts.Clear();
-			mIsDisposed = true;
-		}
-
-		public override AgateLib.Geometry.Size Size => mSize;
-
-		public void SetSize(Size size)
-		{
-			mSize = size;
-
-			foreach (var context in mContexts.Values)
-				context.Update(mWindowInfo);
-
-			CoordinateSystem.RenderTargetSize = mSize;
-		}
-
-		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => mAttachedWindow;
 
 		public override void MakeCurrent()
 		{

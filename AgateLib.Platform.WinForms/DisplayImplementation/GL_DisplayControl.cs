@@ -88,6 +88,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override void Dispose(bool disposing)
 		{
+			SafeDispose(ref windowInfo);
 			SafeDispose(ref ctxFrameBuffer);
 
 			if (wfForm != null)

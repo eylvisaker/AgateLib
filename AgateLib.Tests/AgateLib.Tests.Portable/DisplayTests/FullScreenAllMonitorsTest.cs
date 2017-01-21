@@ -44,7 +44,6 @@ Press arrow keys to adjust resolution
     F11 - {resolutions[10 % resolutions.Count]}
     F12 - {resolutions[11 % resolutions.Count]}";
 
-		private DisplayWindow wind;
 		private Point mousePosition;
 		private DisplayWindow mouseWindow;
 		private IResolution currentResolution;
@@ -187,10 +186,17 @@ Press arrow keys to adjust resolution
 		{
 			currentResolution = resolution;
 
-			wind?.Dispose();
+			foreach (var screen in Display.Screens.AllScreens)
+			{
+				screen.DisplayWindow?.Dispose();
 
-			wind = DisplayWindow.CreateFullScreen(Name, resolution);
-			Display.RenderTarget = wind.FrameBuffer;
+				var createWindowParams = CreateWindowParams.FullScreen(
+					Name, resolution, null);
+
+				createWindowParams.TargetScreen = screen;
+
+				new DisplayWindow(createWindowParams);
+			}
 		}
 
 		private void ChangeResolution(int index)

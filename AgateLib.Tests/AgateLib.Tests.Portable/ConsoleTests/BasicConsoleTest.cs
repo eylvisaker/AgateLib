@@ -48,7 +48,7 @@ namespace AgateLib.Tests.ConsoleTests
 		}
 
 		[ConsoleCommand("Type 'remove library' to remove the command library.\nThis method will completely remove the throw/remove commands and there is no way to get them back. So be careful if you're going to use it. That is obviously the point of the test but this is a lot of explanatory text to demonstrate the text wrapping algorithm.")]
-		public void Remove(string library)
+		public void Remove(string library = null)
 		{
 			if (library != "library")
 			{
@@ -57,6 +57,7 @@ namespace AgateLib.Tests.ConsoleTests
 			else
 			{
 				AgateConsole.CommandLibraries.Clear();
+				AgateConsole.WriteLine("Removed the throw and remove commands.");
 			}
 		}
 	}
