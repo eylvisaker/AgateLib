@@ -323,6 +323,8 @@ namespace AgateLib
 			Audio.Initialize(factory.AudioFactory.AudioImpl);
 			Input.Initialize(factory.InputFactory.CreateJoystickInputImpl());
 
+			AgateConsole.Initialize();
+
 			State.Core.Inititalized = true;
 		}
 

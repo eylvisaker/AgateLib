@@ -86,7 +86,7 @@ namespace AgateLib.Diagnostics
 			set { Core.State.Console.BackgroundColor = value; }
 		}
 
-		public static void Initialize()
+		internal static void Initialize()
 		{
 			if (Instance != null)
 				return;

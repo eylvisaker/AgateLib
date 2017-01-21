@@ -26,7 +26,6 @@ namespace AgateLib.Tests.ConsoleTests
 
 		public void Run()
 		{
-			AgateConsole.Initialize();
 			AgateConsole.CommandLibraries.Add(new LibraryVocabulary(this));
 
 			while (Core.IsAlive)

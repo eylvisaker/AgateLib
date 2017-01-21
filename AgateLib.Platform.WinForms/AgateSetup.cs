@@ -70,7 +70,6 @@ namespace AgateLib.Platform.WinForms
 		FormsFactory factory;
 		Assembly entryAssembly;
 		bool windowClosed;
-		private WinFormsEventThread eventThread => factory.DisplayFactory.FullDisplayImpl.EventThread;
 
 		public AgateSetup(string[] commandLineArguments = null)
 		{
@@ -91,10 +90,12 @@ namespace AgateLib.Platform.WinForms
 				}
 			}
 
-			eventThread.Dispose();
+			EventThread.Dispose();
 
 			Core.Dispose();
 		}
+
+		private WinFormsEventThread EventThread => factory.DisplayFactory.FullDisplayImpl.EventThread;
 
 		public void InitializeAgateLib()
 		{
@@ -110,11 +111,6 @@ namespace AgateLib.Platform.WinForms
 			InitializeDisplayWindow(result);
 
 			Configuration = result;
-
-			if (InitializeConsole)
-			{
-				AgateConsole.Initialize();
-			}
 		}
 
 		private string GetAppRootPath()
