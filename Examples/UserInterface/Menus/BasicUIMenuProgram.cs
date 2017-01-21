@@ -13,7 +13,7 @@ using AgateLib.UserInterface.Widgets;
 
 namespace Examples.UserInterface.Menus
 {
-	static class BasicInitializationProgram
+	static class BasicUIMenuProgram
 	{
 		/// <summary>
 		/// This class is used to hold the user

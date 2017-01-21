@@ -17,10 +17,10 @@
   },
   "UserInterface": {
     "Menus": {
-      "name": "Menus",
+      "name": "Basic Menus",
       "path": "UserInterface/Menus",
       "desc": "instructions.md",
-      "code": [ "UIMenuProgram.cs", "Resources.yaml" ],
+      "code": [ "BasicUIMenuProgram.cs", "Assets/Resources.yaml" ],
       "images": [ ]
     }
   }

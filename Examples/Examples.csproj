@@ -121,7 +121,7 @@
     <Compile Include="Initialization\WindowsFormsInitialization\Program.cs" />
     <Compile Include="ExampleLauncherProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInterface\Menus\UIMenuProgram.cs" />
+    <Compile Include="UserInterface\Menus\BasicUIMenuProgram.cs" />
     <EmbeddedResource Include="Initialization\WindowsFormsInitialization\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,6 +157,7 @@
     <Content Include="UserInterface\Menus\Assets\Resources.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="UserInterface\Menus\instructions.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
