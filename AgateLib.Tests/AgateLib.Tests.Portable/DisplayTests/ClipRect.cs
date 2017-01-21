@@ -67,7 +67,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void ModifySetup(IAgateSetup setup)
 		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
+			setup.DesiredDisplayWindowResolution = new Size(800, 400);
 		}
 
 		public void Run()

@@ -59,8 +59,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			display.InitializeCurrentContext();
 		}
 
-		protected override Size ContextSize => targetScreen.Bounds.Size.ToGeometry();
-
 		protected override void Dispose(bool disposing)
 		{
 			foreach (var screen in display.Screens.AllScreens)
@@ -71,6 +69,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			base.Dispose(disposing);
 		}
+
+		protected override Size ContextSize => targetScreen.Bounds.Size.ToGeometry();
 
 		public override bool IsClosed => isClosed;
 

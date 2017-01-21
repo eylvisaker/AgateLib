@@ -176,10 +176,12 @@ namespace AgateLib.Platform.WinForms
 				(int)(size.Width * scale),
 				(int)(size.Height * scale));
 
-			primaryDisplayWindow = DisplayWindow.CreateWindowed(
-				ApplicationName,
-				windowSize,
-				new FixedCoordinateSystem(new Rectangle(Point.Empty, size)));
+			var createParams = CreateWindowParams.Windowed(
+				ApplicationName, size.Width, size.Height, false, null, null);
+
+			createParams.PhysicalSize = windowSize;
+
+			primaryDisplayWindow = new DisplayWindow(createParams);
 
 			config.DisplayWindows = new List<DisplayWindow> { primaryDisplayWindow };
 			return primaryDisplayWindow;

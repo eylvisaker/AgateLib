@@ -148,6 +148,14 @@ namespace AgateLib.DisplayLib
 		///     Whether or not the window should be created as a full screen window.  Defaults to false.
 		/// </summary>
 		public bool IsFullScreen { get; set; }
+		
+		/// <summary>
+		/// Sets the physical size of the display window. This is ignored for
+		/// full screen or render-to-control situations. If set to null (the 
+		/// default), the physical size of the display window will be set 
+		/// according to the user's desktop scaling.
+		/// </summary>
+		public Size? PhysicalSize { get; set; }
 
 		/// <summary>
 		/// Indicates which screen the display winodw should be created on.
