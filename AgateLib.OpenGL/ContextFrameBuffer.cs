@@ -109,6 +109,7 @@ namespace AgateLib.OpenGL
 			if (mContexts.ContainsKey(Thread.CurrentThread))
 				return;
 
+			GraphicsContext.ShareContexts = true;
 			var context = new GraphicsContext(mGraphicsMode, mWindowInfo);
 			mContexts.Add(Thread.CurrentThread, context);
 

@@ -177,23 +177,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			ctxFrameBuffer.CreateContextForThread();
 		}
 
-		public GraphicsContext CreateContext()
-		{
-			var newMode = CreateGraphicsMode();
-
-			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
-
-			var flags = GraphicsContextFlags.Default;
-#if DEBUG
-			//flags = GraphicsContextFlags.ForwardCompatible;
-#endif
-			var context = new GraphicsContext(newMode, windowInfo, 3, 1, flags);
-			context.MakeCurrent(windowInfo);
-			context.LoadAll();
-
-			return context;
-		}
-
 		private static GraphicsMode CreateGraphicsMode()
 		{
 			var newMode = new GraphicsMode(

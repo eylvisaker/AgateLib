@@ -17,14 +17,22 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private Form hiddenForm;
 		private DisplayWindow hiddenDisplayWindow;
 		private GL_DisplayControl hiddenDisplayWindowImpl;
-		private AutoResetEvent hiddenWindowInitializedWaitHandle = new AutoResetEvent(false);
+		private AutoResetEvent hiddenWindowCreatedWaitHandle = new AutoResetEvent(false);
+		private AutoResetEvent displayWindowCreatedWaitHandle = new AutoResetEvent(false);
 
 		public WinFormsEventThread()
 		{
 			windowThread = new Thread(EventThread);
 			windowThread.Start();
 
-			hiddenWindowInitializedWaitHandle.WaitOne();
+			hiddenWindowCreatedWaitHandle.WaitOne();
+
+			hiddenDisplayWindow = DisplayWindow.CreateFromControl(hiddenForm);
+			hiddenDisplayWindowImpl = (GL_DisplayControl)hiddenDisplayWindow.Impl;
+
+			displayWindowCreatedWaitHandle.Set();
+
+			hiddenForm.Visible = false;
 		}
 
 		public void Dispose()
@@ -40,6 +48,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			
 			hiddenDisplayWindow.Dispose();
 			Invoke(() => hiddenForm.Dispose());
+
+			hiddenWindowCreatedWaitHandle.Dispose();
+			displayWindowCreatedWaitHandle.Dispose();
 		}
 
 		public bool InvokeRequired => hiddenForm.InvokeRequired;
@@ -48,15 +59,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			hiddenForm = new Form();
 			hiddenForm.Text = "It's a secret to everybody.";
-			hiddenDisplayWindow = DisplayWindow.CreateFromControl(hiddenForm);
-			hiddenDisplayWindowImpl = (GL_DisplayControl) hiddenDisplayWindow.Impl;
 
-			hiddenForm.Visible = false;
-
-			hiddenWindowInitializedWaitHandle.Set();
+			hiddenWindowCreatedWaitHandle.Set();
+			displayWindowCreatedWaitHandle.WaitOne();
 
 			applicationContext = new WinFormsControlContext();
-
 			applicationContext.RunMessageLoop();
 		}
 

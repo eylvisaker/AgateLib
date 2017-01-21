@@ -43,7 +43,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	/// <summary>
 	/// No OpenGL code here.
 	/// </summary>
-	public sealed class GL_DisplayControlWindowed : GL_DisplayControl, IPrimaryWindow
+	public sealed class GL_DisplayControlWindowed : GL_DisplayControl
 	{
 		public GL_DisplayControlWindowed(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 			: base(display, owner, windowParams)
@@ -159,6 +159,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				wfForm.Show();
 				CreateContextFrameBuffer(coords);
+
+				CreateContextForCurrentThread();
 
 				AttachEvents();
 			}
