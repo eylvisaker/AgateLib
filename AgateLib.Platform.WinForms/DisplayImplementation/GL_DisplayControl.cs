@@ -19,12 +19,11 @@
 
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.InputLib;
@@ -33,28 +32,26 @@ using AgateLib.Platform.WinForms.Controls;
 using OpenTK.Graphics;
 using OpenTK.Platform;
 using OpenTK.Platform.X11;
-using Point = AgateLib.Geometry.Point;
-using Size = AgateLib.Geometry.Size;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	/// <summary>
 	///     No OpenGL code here.
 	/// </summary>
-	public abstract class GL_DisplayControl : DisplayWindowImpl, IPrimaryWindow
+	public abstract class GL_DisplayControl : DisplayWindowImpl
 	{
 		protected static WinFormsControlContext _applicationContext { get; private set; }
 
 		protected readonly DisplayWindow owner;
 		protected DesktopGLDisplay display;
-		protected readonly Icon icon;
+		protected readonly System.Drawing.Icon icon;
 		protected readonly string title;
 		protected readonly bool chooseResize;
 		protected readonly WindowPosition choosePosition;
 		protected readonly bool hasFrame = true;
 
-		protected Form wfForm;
-		protected Control wfRenderTarget;
+		protected System.Windows.Forms.Form wfForm;
+		protected System.Windows.Forms.Control wfRenderTarget;
 		protected IWindowInfo windowInfo;
 
 		protected bool isClosed;
@@ -62,10 +59,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected IResolution chooseResolution;
 		protected ICoordinateSystem coords = new NativeCoordinates();
 
-
 		protected Point lastMousePoint;
 
 		protected ContextFrameBuffer ctxFrameBuffer;
+
+		private readonly SurfaceState rtSurfaceState = new SurfaceState();
+
+		protected AgateLib.OpenGL.GL3.FrameBuffer rtFrameBuffer;
+		protected GL_Surface rtSurface;
 
 		protected GL_DisplayControl(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 		{
@@ -78,7 +79,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				_applicationContext = new WinFormsControlContext();
 
 			if (string.IsNullOrEmpty(windowParams.IconFile) == false)
-				icon = new Icon(windowParams.IconFile);
+				icon = new System.Drawing.Icon(windowParams.IconFile);
 
 			title = windowParams.Title;
 			chooseResolution = windowParams.Resolution?.Clone();
@@ -90,6 +91,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			SafeDispose(ref windowInfo);
 			SafeDispose(ref ctxFrameBuffer);
+
+			SafeDispose(ref rtFrameBuffer);
+			SafeDispose(ref rtSurface);
 
 			if (wfForm != null)
 			{
@@ -115,11 +119,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			disposable = null;
 		}
 
-		private Form TopLevelForm => (Form)wfRenderTarget.TopLevelControl;
+		private System.Windows.Forms.Form TopLevelForm 
+			=> (System.Windows.Forms.Form)wfRenderTarget.TopLevelControl;
 
 		protected abstract Size ContextSize { get; }
 
-		public override FrameBufferImpl FrameBuffer => ctxFrameBuffer;
+		public override FrameBufferImpl FrameBuffer =>
+			rtFrameBuffer ?? (FrameBufferImpl)ctxFrameBuffer;
 
 		public override bool IsClosed => isClosed;
 
@@ -164,7 +170,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				return;
 			}
 
-			wfRenderTarget.Cursor = Cursors.Arrow;
+			wfRenderTarget.Cursor = System.Windows.Forms.Cursors.Arrow;
 		}
 
 		public void ExitMessageLoop()
@@ -256,7 +262,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			wfRenderTarget.MouseUp += pct_MouseUp;
 			wfRenderTarget.DoubleClick += mRenderTarget_DoubleClick;
 
-			var form = wfRenderTarget.TopLevelControl as Form;
+			var form = wfRenderTarget.TopLevelControl as System.Windows.Forms.Form;
 			form.KeyPreview = true;
 
 			form.KeyDown += form_KeyDown;
@@ -288,7 +294,46 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			form.FormClosed -= form_FormClosed;
 		}
 
-		private void form_FormClosed(object sender, FormClosedEventArgs e)
+		protected void CreateTargetFrameBuffer(Size size)
+		{
+			using (new ResourceDisposer(rtSurface, rtFrameBuffer))
+			{
+				rtSurface = new GL_Surface(size);
+
+				rtFrameBuffer = new AgateLib.OpenGL.GL3.FrameBuffer(rtSurface);
+				rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
+			}
+		}
+
+		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
+		{
+			BlitBufferImage();
+		}
+
+		private void BlitBufferImage()
+		{
+			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = ctxFrameBuffer.CoordinateSystem.Coordinates;
+			AgateBuiltInShaders.Basic2DShader.Activate();
+
+			ctxFrameBuffer.BeginRender();
+			display.Clear(Color.Black);
+
+			var destRect = chooseResolution.RenderMode.DestRect(
+				rtSurface.SurfaceSize, ctxFrameBuffer.Size);
+
+			rtSurfaceState.ScaleWidth = destRect.Width / (double)rtSurface.SurfaceWidth;
+			rtSurfaceState.ScaleHeight = destRect.Height / (double)rtSurface.SurfaceHeight;
+
+			rtSurfaceState.DrawInstances.Clear();
+			rtSurfaceState.DrawInstances.Add(
+				new SurfaceDrawInstance(destRect.Location));
+			rtSurface.Draw(rtSurfaceState);
+
+			display.DrawBuffer.Flush();
+			ctxFrameBuffer.EndRender();
+		}
+
+		private void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
 		{
 			isClosed = true;
 
@@ -296,7 +341,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			OnClosed();
 		}
 
-		private void form_FormClosing(object sender, FormClosingEventArgs e)
+		private void form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
 		{
 			var cancel = false;
 
@@ -322,38 +367,38 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			OnInputEvent(AgateInputEventArgs.MouseDoubleClick(lastMousePoint, MouseButton.Primary));
 		}
 
-		private void mRenderTarget_MouseWheel(object sender, MouseEventArgs e)
+		private void mRenderTarget_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			OnInputEvent(AgateInputEventArgs.MouseWheel(lastMousePoint, -(e.Delta * 100) / 120));
 		}
 
-		private void pct_MouseUp(object sender, MouseEventArgs e)
+		private void pct_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
 			OnInputEvent(AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMousebutton()));
 		}
 
-		private void pct_MouseDown(object sender, MouseEventArgs e)
+		private void pct_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
 			OnInputEvent(AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMousebutton()));
 		}
 
-		private void pct_MouseMove(object sender, MouseEventArgs e)
+		private void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
 			OnInputEvent(AgateInputEventArgs.MouseMove(lastMousePoint));
 		}
 
-		private void form_KeyUp(object sender, KeyEventArgs e)
+		private void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			OnInputEvent(AgateInputEventArgs.KeyUp(e.AgateKeyCode(), e.AgateKeyModifiers()));
 		}
 
-		private void form_KeyDown(object sender, KeyEventArgs e)
+		private void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			OnInputEvent(AgateInputEventArgs.KeyDown(e.AgateKeyCode(), e.AgateKeyModifiers()));
 		}
@@ -361,11 +406,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private void renderTarget_Disposed(object sender, EventArgs e)
 		{
 			isClosed = true;
-		}
-
-		void IPrimaryWindow.RunApplication()
-		{
-			_applicationContext.RunMessageLoop();
 		}
 
 		#region --- X11 imports ---

@@ -19,24 +19,12 @@
 
 using System;
 using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
+using System.Linq;
 using AgateLib.DisplayLib;
-using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
-using AgateLib.InputLib;
-using AgateLib.OpenGL;
 using AgateLib.Platform.WinForms.Controls;
 using AgateLib.Quality;
 using OpenTK.Graphics;
-using OpenTK.Platform;
-using OpenTK.Platform.X11;
-using FrameBuffer = AgateLib.OpenGL.GL3.FrameBuffer;
-using Point = AgateLib.Geometry.Point;
-using PointF = AgateLib.Geometry.PointF;
-using Size = AgateLib.Geometry.Size;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
@@ -57,11 +45,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			
 			if (windowParams.RenderToControl)
 			{
-				if (windowParams.RenderTarget is Control == false)
-					throw new AgateException(string.Format("The specified render target is of type {0}, " +
-						"which does not derive from System.Windows.Forms.Control.", windowParams.RenderTarget.GetType().Name));
+				wfRenderTarget = windowParams.RenderTarget as System.Windows.Forms.Control;
 
-				wfRenderTarget = (Control)windowParams.RenderTarget;
+				if (wfRenderTarget == null)
+					throw new AgateException($"The specified render target is of type {windowParams.RenderTarget.GetType().Name}, " +
+					                         "which does not derive from System.Windows.Forms.Control.");
+
 				windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
 				chooseResolution = new Resolution(wfRenderTarget.Size.ToGeometry());
@@ -142,8 +131,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			using (new ResourceDisposer(windowInfo, wfForm))
 			{
-				Form myform = null;
-				Control myRenderTarget = null;
+				System.Windows.Forms.Form myform = null;
+				System.Windows.Forms.Control myRenderTarget = null;
 
 				display.EventThread.Invoke(() => 
 					FormUtil.InitializeWindowsForm(

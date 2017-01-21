@@ -21,36 +21,23 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
-using AgateLib.InputLib;
-using AgateLib.OpenGL;
-using AgateLib.Platform.WinForms.Controls;
 using AgateLib.Quality;
 using OpenTK.Graphics;
-using OpenTK.Platform;
-using OpenTK.Platform.X11;
 using FrameBuffer = AgateLib.OpenGL.GL3.FrameBuffer;
-using Point = AgateLib.Geometry.Point;
-using PointF = AgateLib.Geometry.PointF;
-using Size = AgateLib.Geometry.Size;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	/// <summary>
 	/// No OpenGL code here.
 	/// </summary>
-	public sealed class GL_DisplayControlFull : GL_DisplayControl, IPrimaryWindow
+	public sealed class GL_DisplayControlFull : GL_DisplayControl
 	{
-		private readonly SurfaceState rtSurfaceState = new SurfaceState();
-
-		private FrameBuffer rtFrameBuffer;
-		private GL_Surface rtSurface;
-		private Screen targetScreen;
+		private System.Windows.Forms.Screen targetScreen;
 
 		public GL_DisplayControlFull(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 			: base(display, owner, windowParams)
@@ -76,9 +63,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override void Dispose(bool disposing)
 		{
-			SafeDispose(ref rtFrameBuffer);
-			SafeDispose(ref rtSurface);
-
 			foreach (var screen in display.Screens.AllScreens)
 			{
 				if (screen.DisplayWindow == owner)
@@ -87,9 +71,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			base.Dispose(disposing);
 		}
-
-		public override FrameBufferImpl FrameBuffer =>
-			rtFrameBuffer ?? (FrameBufferImpl)ctxFrameBuffer;
 
 		public override bool IsClosed => isClosed;
 
@@ -135,7 +116,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			using (new ResourceDisposer(windowInfo, wfForm, rtSurface, rtFrameBuffer))
 			{
-				targetScreen = Screen.AllScreens[targetScreenIndex];
+				targetScreen = System.Windows.Forms.Screen.AllScreens[targetScreenIndex];
 
 				wfForm = display.EventThread.Invoke(() => new frmFullScreen
 				{
@@ -162,45 +143,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 
 			Core.IsActive = true;
-		}
-
-		private void CreateTargetFrameBuffer(Size size)
-		{
-			using (new ResourceDisposer(rtSurface, rtFrameBuffer))
-			{
-				rtSurface = new GL_Surface(size);
-
-				rtFrameBuffer = new FrameBuffer(rtSurface);
-				rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
-			}
-		}
-
-		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
-		{
-			BlitBufferImage();
-		}
-
-		private void BlitBufferImage()
-		{
-			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = ctxFrameBuffer.CoordinateSystem.Coordinates;
-			AgateBuiltInShaders.Basic2DShader.Activate();
-
-			ctxFrameBuffer.BeginRender();
-			display.Clear(Color.Black);
-
-			var destRect = chooseResolution.RenderMode.DestRect(
-				rtSurface.SurfaceSize, ctxFrameBuffer.Size);
-
-			rtSurfaceState.ScaleWidth = destRect.Width / (double)rtSurface.SurfaceWidth;
-			rtSurfaceState.ScaleHeight = destRect.Height / (double)rtSurface.SurfaceHeight;
-
-			rtSurfaceState.DrawInstances.Clear();
-			rtSurfaceState.DrawInstances.Add(
-				new SurfaceDrawInstance(destRect.Location));
-			rtSurface.Draw(rtSurfaceState);
-
-			display.DrawBuffer.Flush();
-			ctxFrameBuffer.EndRender();
 		}
 
 		public override Point PixelToLogicalCoords(Point point)
