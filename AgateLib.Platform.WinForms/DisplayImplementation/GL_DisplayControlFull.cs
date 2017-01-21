@@ -75,41 +75,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public override bool IsClosed => isClosed;
 
 		public override bool IsFullScreen => true;
-
-		public override IResolution Resolution
-		{
-			get { return chooseResolution; }
-			set
-			{
-				bool setRenderTarget = Display.RenderTarget == owner.FrameBuffer;
-
-				chooseResolution = value.Clone();
-
-				CreateTargetFrameBuffer(chooseResolution.Size);
-
-				if (setRenderTarget)
-					Display.RenderTarget = owner.FrameBuffer;
-			}
-		}
-
-		public override string Title
-		{
-			get { return wfForm?.Text; }
-			set
-			{
-				if (wfForm != null)
-				{
-					if (wfForm.InvokeRequired)
-					{
-						wfForm.BeginInvoke(new Action(() => Title = value));
-						return;
-					}
-
-					wfForm.Text = value;
-				}
-			}
-		}
-
+		
 		private void CreateFullScreenDisplay(int targetScreenIndex)
 		{
 			DetachEvents();
@@ -143,14 +109,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 
 			Core.IsActive = true;
-		}
-
-		public override Point PixelToLogicalCoords(Point point)
-		{
-			var bufferPoint = chooseResolution.RenderMode
-				?.MousePoint(point, rtSurface.SurfaceSize, ctxFrameBuffer.Size) ?? point;
-
-			return base.PixelToLogicalCoords(bufferPoint);
 		}
 
 		private static GraphicsMode CreateGraphicsMode()

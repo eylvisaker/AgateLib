@@ -179,7 +179,7 @@ namespace AgateLib.Platform.WinForms
 			var createParams = CreateWindowParams.Windowed(
 				ApplicationName, size.Width, size.Height, false, null, null);
 
-			createParams.PhysicalSize = windowSize;
+			createParams.PhysicalSize = DisplayWindowPhysicalSize ?? windowSize;
 
 			primaryDisplayWindow = new DisplayWindow(createParams);
 

@@ -74,7 +74,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			display.InitializeCurrentContext();
 		}
 
-		protected override Size ContextSize => Size;
+		protected override Size ContextSize => wfRenderTarget.Size.ToGeometry();
 
 		public override bool IsClosed => isClosed;
 
@@ -102,25 +102,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 		
-		public override string Title
-		{
-			get { return wfForm?.Text; }
-			set
-			{
-				if (wfForm != null)
-				{
-					if (wfForm.InvokeRequired)
-					{
-						wfForm.BeginInvoke(new Action(() => Title = value));
-						return;
-					}
-
-					wfForm.Text = value;
-				}
-			}
-		}
-
-
 		private void CreateWindowedDisplay(CreateWindowParams createParams)
 		{
 			Require.True<InvalidOperationException>(chooseResolution != null,

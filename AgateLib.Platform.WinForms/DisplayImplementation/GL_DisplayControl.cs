@@ -147,6 +147,22 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
+		public override IResolution Resolution
+		{
+			get { return chooseResolution; }
+			set
+			{
+				bool setRenderTarget = Display.RenderTarget == owner.FrameBuffer;
+
+				chooseResolution = value.Clone();
+
+				CreateTargetFrameBuffer(chooseResolution.Size);
+
+				if (setRenderTarget)
+					Display.RenderTarget = owner.FrameBuffer;
+			}
+		}
+
 		public AgateLib.Geometry.Rectangle DesktopBounds => new AgateLib.Geometry.Rectangle(
 			wfRenderTarget.PointToScreen(System.Drawing.Point.Empty).ToGeometry(),
 			wfRenderTarget.Size.ToGeometry());
@@ -303,6 +319,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				rtFrameBuffer = new AgateLib.OpenGL.GL3.FrameBuffer(rtSurface);
 				rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
 			}
+		}
+
+		public override Point PixelToLogicalCoords(Point point)
+		{
+			var bufferPoint = chooseResolution.RenderMode
+				?.MousePoint(point, rtSurface.SurfaceSize, ctxFrameBuffer.Size) ?? point;
+
+			return base.PixelToLogicalCoords(bufferPoint);
 		}
 
 		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
