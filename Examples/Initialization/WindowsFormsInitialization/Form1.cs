@@ -20,7 +20,9 @@ namespace Examples.Initialization.WindowsFormsInitialization
 		{
 			InitializeComponent();
 
-			window = DisplayWindow.CreateFromControl(renderTarget);
+			window = new DisplayWindowBuilder()
+				.RenderToControl(renderTarget)
+				.Build();
 		}
 
 		private void Draw()

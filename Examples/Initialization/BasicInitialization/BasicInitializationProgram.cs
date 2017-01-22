@@ -6,7 +6,6 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WinForms;
 
 namespace Examples.Initialization.BasicInitialization
 {
@@ -18,16 +17,21 @@ namespace Examples.Initialization.BasicInitialization
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (var setup = new AgateSetup(args))
+			using (AgateLib.Platform.WinForms.AgateWinForms.Initialize(args))
 			{
-				// At minimum, we must specify to the setup object what the desired size of the display window is.
-				setup.DesiredDisplayWindowResolution = new Size(500, 400);
+				// Use the DisplayWindowBuilder fluent interface
+				// to construct a DisplayWindow to render to.
+				// This specifies the title, the size of the back buffer, and
+				// that we want the application to quit when the window is
+				// closed.
+				DisplayWindow window = new DisplayWindowBuilder(args)
+					.Title("Basic AgateLib Initialization")
+					.BackbufferSize(500, 400) 
+					.QuitOnClose()
+					.Build();
 
-				// Tells AgateLib what to title the window.
-				setup.ApplicationName = "Basic AgateLib Initialization";
-
-				// This call completes initialization of AgateLib and allows us to begin drawing.
-				setup.InitializeAgateLib();
+				// Set the window as the current render target.
+				Display.RenderTarget = window.FrameBuffer;
 
 				// Register a key press handler. This will terminate the application if the escape key is pressed.
 				Input.Unhandled.KeyDown += (sender, e) =>
@@ -54,6 +58,15 @@ namespace Examples.Initialization.BasicInitialization
 						point.X += 10;
 						point.Y += 10;
 					}
+
+					var font = new Font(Font.AgateSerif)
+					{
+						Size = 14,
+						Style = FontStyles.Bold,
+						DisplayAlignment = OriginAlignment.Center
+					};
+					
+					font.DrawText(350, 75, "Welcome to\nAgateLib!");
 
 					Display.EndFrame();
 

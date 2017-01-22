@@ -318,24 +318,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			form.FormClosed -= form_FormClosed;
 		}
 
-		protected void CreateTargetFrameBuffer(Size size)
-		{
-			using (new ResourceDisposer(rtSurface, rtFrameBuffer))
-			{
-				rtSurface = new GL_Surface(size);
-
-				rtFrameBuffer = new AgateLib.OpenGL.GL3.FrameBuffer(rtSurface);
-				rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
-			}
-		}
-
 		protected void InitializeContexts()
 		{
-			if (icon != null)
-				wfForm.Icon = icon;
-
-			wfForm.Show();
-
 			windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
 			AttachEvents();
@@ -347,7 +331,26 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			CreateTargetFrameBuffer(chooseResolution.Size);
 			CreateContextForCurrentThread();
 		}
-		
+
+		protected void ShowOwnedForm()
+		{
+			if (icon != null)
+				wfForm.Icon = icon;
+
+			wfForm.Show();
+		}
+
+		private void CreateTargetFrameBuffer(Size size)
+		{
+			using (new ResourceDisposer(rtSurface, rtFrameBuffer))
+			{
+				rtSurface = new GL_Surface(size);
+
+				rtFrameBuffer = new AgateLib.OpenGL.GL3.FrameBuffer(rtSurface);
+				rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
+			}
+		}
+
 		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
 		{
 			BlitBufferImage();

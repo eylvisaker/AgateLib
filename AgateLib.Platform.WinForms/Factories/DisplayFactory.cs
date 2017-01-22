@@ -32,6 +32,7 @@ using AgateLib.Geometry;
 using AgateLib.OpenGL;
 using AgateLib.Platform.WinForms.DisplayImplementation;
 using AgateLib.Platform.WinForms.Resources;
+using AgateLib.Quality;
 
 namespace AgateLib.Platform.WinForms.Factories
 {
@@ -52,13 +53,29 @@ namespace AgateLib.Platform.WinForms.Factories
 		public DisplayWindowImpl CreateDisplayWindow(
 			DisplayWindow owner, CreateWindowParams windowParams)
 		{
+			const string errorPrefix = "Inconsistent window paramters: ";
+
 			if (windowParams.IsFullScreen)
-				return new GL_DisplayControlFull(FullDisplayImpl, owner, 
+			{
+				Require.True<ArgumentException>(windowParams.RenderToControl == false,
+					$"{errorPrefix}{nameof(windowParams.IsFullScreen)} " +
+					$"and {nameof(windowParams.RenderToControl)} cannot both be true.");
+
+				Require.True<ArgumentException>(windowParams.RenderTarget == null,
+					$"{errorPrefix}{nameof(windowParams.IsFullScreen)} is true " +
+					$"but {nameof(windowParams.RenderToControl)} is not null.");
+
+				return new GL_DisplayControlFull(FullDisplayImpl, owner,
 					windowParams);
+			}
+			
+			Require.True<ArgumentException>(
+				windowParams.RenderToControl == (windowParams.RenderTarget != null),
+				$"{errorPrefix}{nameof(windowParams.RenderToControl)} should be " +
+				$"true if and only if {nameof(windowParams.RenderTarget)} is not null.");
 
 			return new GL_DisplayControlWindowed(FullDisplayImpl, owner, 
 					windowParams);
-
 		}
 
 		public SurfaceImpl CreateSurface(IReadFileProvider provider, string filename)

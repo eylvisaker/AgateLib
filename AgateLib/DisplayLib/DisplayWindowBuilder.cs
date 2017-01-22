@@ -40,6 +40,12 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// The CreateWindowParams object being constructed, which will be
+		/// used to create the DisplayWindow.
+		/// </summary>
+		public CreateWindowParams CreateWindowParams => createParams;
+
+		/// <summary>
 		/// Constructs a single DisplayWindow object.
 		/// </summary>
 		/// <returns></returns>
@@ -85,6 +91,18 @@ namespace AgateLib.DisplayLib
 			}
 
 			return results.ToArray();
+		}
+
+		/// <summary>
+		/// Sets the window title.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <returns></returns>
+		public DisplayWindowBuilder Title(string title)
+		{
+			createParams.Title = title;
+
+			return this;
 		}
 
 		/// <summary>
@@ -140,7 +158,8 @@ namespace AgateLib.DisplayLib
 
 		/// <summary>
 		/// Indicates a full screen window should be created.
-		/// This is the default behavior.
+		/// This is the default behavior, and does not need to 
+		/// be explicitly specified.
 		/// </summary>
 		/// <returns></returns>
 		public DisplayWindowBuilder FullScreen()
@@ -159,20 +178,6 @@ namespace AgateLib.DisplayLib
 		public DisplayWindowBuilder Windowed()
 		{
 			createParams.IsFullScreen = false;
-
-			return this;
-		}
-
-		/// <summary>
-		/// Indicates a DisplayWindow object should be created that renders
-		/// to a target control. This control can be a System.Windows.Forms.Control
-		/// object, if the platform in WinForms, for example.
-		/// </summary>
-		/// <param name="renderTarget"></param>
-		/// <returns></returns>
-		public DisplayWindowBuilder RenderToControl(object renderTarget)
-		{
-			createParams.RenderTarget = renderTarget;
 
 			return this;
 		}

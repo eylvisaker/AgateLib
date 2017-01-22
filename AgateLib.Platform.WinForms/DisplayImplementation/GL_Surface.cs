@@ -44,7 +44,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	public sealed class GL_Surface : SurfaceImpl, IGL_Surface
 	{
 		DesktopGLDisplay mDisplay;
-		GLDrawBuffer mDrawBuffer;
 
 		string mFilename;
 
@@ -68,7 +67,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public GL_Surface(string filename)
 		{
 			mDisplay = Display.Impl as DesktopGLDisplay;
-			mDrawBuffer = mDisplay.DrawBuffer;
 
 			mFilename = filename;
 
@@ -77,7 +75,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public GL_Surface(Stream st)
 		{
 			mDisplay = Display.Impl as DesktopGLDisplay;
-			mDrawBuffer = mDisplay.DrawBuffer;
 
 			// Load The Bitmap
 			using (Drawing.Bitmap sourceImage = new Drawing.Bitmap(st))
@@ -88,16 +85,15 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public GL_Surface(Size size)
 		{
 			mDisplay = Display.Impl as DesktopGLDisplay;
-			mDrawBuffer = mDisplay.DrawBuffer;
 
 			mSourceRect = new Rectangle(Point.Empty, size);
 
 			mTextureSize = GetOGLSize(size);
 
-			int textureID;
-			GL.GenTextures(1, out textureID);
+			int textureId;
+			GL.GenTextures(1, out textureId);
 
-			AddTextureRef(textureID);
+			AddTextureRef(textureId);
 
 			IntPtr fake = IntPtr.Zero;
 
@@ -131,6 +127,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			mTexCoord = GetTextureCoords(mSourceRect);
 		}
+
+		private GLDrawBuffer DrawBuffer => mDisplay.DrawBuffer;
 
 		private void AddTextureRef(int textureID)
 		{
@@ -207,8 +205,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			mTexCoord = GetTextureCoords(srcRect);
 
-			mDrawBuffer = mDisplay.DrawBuffer;
-			mDrawBuffer.SetInterpolationMode(InterpolationHint);
+			DrawBuffer.SetInterpolationMode(InterpolationHint);
 
 			BufferQuad(destX, destY, rotationCenter.X, rotationCenter.Y,
 				dispSize.Width, dispSize.Height, mTexCoord, state.ColorGradient,
@@ -236,7 +233,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			//                     new SizeF(displayWidth, displayHeight));
 
 
-			mDrawBuffer.AddQuad(mTextureID, color, texCoord, pt);
+			DrawBuffer.AddQuad(mTextureID, color, texCoord, pt);
 		}
 
 		private void SetPoints(PointF[] pt, float destX, float destY, float rotationCenterX, float rotationCenterY,

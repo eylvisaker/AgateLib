@@ -95,6 +95,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				wfRenderTarget = wfForm;
 
+				ShowOwnedForm();
+
 				InitializeContexts();
 			}
 

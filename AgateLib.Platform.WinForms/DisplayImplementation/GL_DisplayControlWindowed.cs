@@ -61,7 +61,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 						"Check to make sure that you are creating the DisplayWindow after all controls are added " +
 						"to the Form. Do not create a DisplayWindow in a constructor for a UserControl, for example.");
 				
-				CreateContextFrameBuffer(coords);
+				InitializeContexts();
 
 				AttachEvents();
 			}
@@ -127,6 +127,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				wfForm = myform;
 				wfRenderTarget = myRenderTarget;
+
+				ShowOwnedForm();
 
 				InitializeContexts();
 			}
