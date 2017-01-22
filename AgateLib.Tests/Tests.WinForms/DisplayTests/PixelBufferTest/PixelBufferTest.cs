@@ -26,7 +26,7 @@ namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			using (frm = new PixelBufferForm())
 			{

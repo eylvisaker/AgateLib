@@ -108,7 +108,7 @@ namespace AgateLib.Tests.AudioTests
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			LoopingStream sa = new LoopingStream();
 			sa.Frequency = 100;

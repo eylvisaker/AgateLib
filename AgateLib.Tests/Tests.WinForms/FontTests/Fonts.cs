@@ -24,7 +24,7 @@ namespace AgateLib.Tests.FontTests
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			DisplayWindow wind = DisplayWindow.CreateWindowed("Font Tester", 800, 600);
 			DisplayWindow fullWind = null;

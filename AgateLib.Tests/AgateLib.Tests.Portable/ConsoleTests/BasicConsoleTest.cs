@@ -24,7 +24,7 @@ namespace AgateLib.Tests.ConsoleTests
 			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			AgateConsole.CommandLibraries.Add(new LibraryVocabulary(this));
 

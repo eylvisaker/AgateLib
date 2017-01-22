@@ -16,7 +16,7 @@ namespace AgateLib.Tests.DisplayTests.SpriteTester
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			frmSpriteTester form = new frmSpriteTester();
 

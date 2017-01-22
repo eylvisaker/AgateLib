@@ -104,12 +104,10 @@ namespace AgateLib.Tests
 				setup.AssetLocations.Path = "Assets";
 				setup.DesiredDisplayWindowResolution = new Size(800, 600);
 
-				test.ModifySetup(setup);
-
 				setup.InitializeAgateLib();
 
 				test.Configuration = setup.Configuration;
-				test.Run();
+				test.Run(CommandLineArguments);
 			}
 		}
 

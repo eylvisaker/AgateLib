@@ -30,7 +30,7 @@ namespace AgateLib.Tests.FontTests
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			var resources = new AgateResourceManager("UserInterface/FontAlignment.yaml");
 			resources.InitializeContainer(this);

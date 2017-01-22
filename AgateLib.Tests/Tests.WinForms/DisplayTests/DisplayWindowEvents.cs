@@ -27,7 +27,7 @@ namespace AgateLib.Tests.DisplayTests
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			DisplayWindow wind = DisplayWindow.CreateWindowed("Display Window Events", 640, 480, true);
 

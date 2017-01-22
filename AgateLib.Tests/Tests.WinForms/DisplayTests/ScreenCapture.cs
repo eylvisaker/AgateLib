@@ -19,7 +19,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			Surface someSurface = new Surface("Images/wallpaper.png");
 			bool capturing = false;

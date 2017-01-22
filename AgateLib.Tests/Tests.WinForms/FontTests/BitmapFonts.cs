@@ -13,7 +13,7 @@ namespace AgateLib.Tests.FontTests
 
 		public AgateConfig Configuration { get; set; }
 		
-		public void Run()
+		public void Run(string[] args)
 		{
 			Display.BeginFrame();
 			Display.Clear(Color.Navy);

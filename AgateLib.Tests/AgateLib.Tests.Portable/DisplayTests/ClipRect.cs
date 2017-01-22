@@ -70,7 +70,7 @@ namespace AgateLib.Tests.DisplayTests
 			setup.DesiredDisplayWindowResolution = new Size(800, 400);
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			Input.Unhandled.KeyDown += (sender, e) =>
 			{

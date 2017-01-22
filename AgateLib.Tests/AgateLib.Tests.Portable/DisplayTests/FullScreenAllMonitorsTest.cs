@@ -54,7 +54,7 @@ Press arrow keys to adjust resolution
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			Surface mousePointerSurface = new Surface("Images/pointer.png");
 

@@ -28,7 +28,7 @@ namespace AgateLib.Tests.AudioTests.AudioPlayer
 			setup.AssetLocations.Path = "";
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			new frmAudioTester().ShowDialog();
 		}

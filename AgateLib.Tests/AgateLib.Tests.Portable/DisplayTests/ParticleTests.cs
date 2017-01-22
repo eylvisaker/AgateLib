@@ -39,7 +39,7 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			Initialize();
 

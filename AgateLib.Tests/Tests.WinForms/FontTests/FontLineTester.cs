@@ -28,7 +28,7 @@ namespace AgateLib.Tests.FontTests
 		{
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			AgateApp.AutoPause = true;

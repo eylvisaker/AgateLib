@@ -36,7 +36,7 @@ namespace AgateLib.Tests.Shaders
 		{
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			IFont font = Font.AgateSans;
 			Surface texture = new Surface("bg-bricks.png");

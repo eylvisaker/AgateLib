@@ -21,7 +21,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			new frmInputTester().ShowDialog();
 		}

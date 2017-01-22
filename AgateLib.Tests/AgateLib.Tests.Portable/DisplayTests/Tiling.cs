@@ -23,7 +23,7 @@ namespace AgateLib.Tests.DisplayTests
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		public void Run()
+		public void Run(string[] args)
 		{
 			double time = 0;
 

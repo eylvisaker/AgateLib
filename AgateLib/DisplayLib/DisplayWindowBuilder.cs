@@ -1,0 +1,281 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using AgateLib.Geometry;
+
+namespace AgateLib.DisplayLib
+{
+	/// <summary>
+	/// Fluent interface for creating a display window.
+	/// </summary>
+	public class DisplayWindowBuilder
+	{
+		private CreateWindowParams createParams = new CreateWindowParams();
+		private string[] args;
+		private bool quitOnClose;
+
+		/// <summary>
+		/// Constructs a DisplayWindowBuilder object. For creating your primary
+		/// DisplayWindows, it is recommended that you
+		/// use the <code>(string[] args)</code> overload instead to allow
+		/// for command line parameters to override the window construction 
+		/// behaviore.
+		/// </summary>
+		public DisplayWindowBuilder()
+		{
+			createParams.IsFullScreen = true;
+		}
+
+		/// <summary>
+		/// Constructs a DisplayWindowBuilder object.
+		/// </summary>
+		/// <param name="args">The command line arguments the user
+		/// passed to your application.</param>
+		public DisplayWindowBuilder(string[] args) : this()
+		{
+			this.args = args;
+		}
+
+		/// <summary>
+		/// Constructs a single DisplayWindow object.
+		/// </summary>
+		/// <returns></returns>
+		public DisplayWindow Build()
+		{
+			ParseCommandLineArgs();
+
+			if (createParams.TargetScreen == null)
+				createParams.TargetScreen = Display.Screens.PrimaryScreen;
+
+			var result = new DisplayWindow(createParams);
+
+			if (Display.RenderTarget == null)
+				Display.RenderTarget = result.FrameBuffer;
+
+			if (quitOnClose)
+				result.Closed += DisplayWindow_Closed;
+
+			return result;
+		}
+
+		/// <summary>
+		/// Constructs a DisplayWindow object for each physical monitor
+		/// attached to the system.
+		/// </summary>
+		/// <returns></returns>
+		public DisplayWindow[] BuildForAllScreens()
+		{
+			ParseCommandLineArgs();
+
+			List<DisplayWindow> results = new List<DisplayWindow>();
+
+			foreach (var screen in Display.Screens.AllScreens)
+			{
+				createParams.TargetScreen = screen;
+
+				var result = new DisplayWindow(createParams);
+
+				if (Display.RenderTarget == null)
+					Display.RenderTarget = result.FrameBuffer;
+
+				results.Add(result);
+			}
+
+			return results.ToArray();
+		}
+
+		/// <summary>
+		/// Sets the size of the DisplayWindow's back buffer. 
+		/// </summary>
+		/// <param name="size">The size of the buffer in pixels.</param>
+		/// <param name="renderMode">An IRenderMode object which indicates
+		/// how to transform the backbuffer when rendering it to the screen.
+		/// If left null, then RenderMode.RetainAspectRation will be used
+		/// to preserve the backbuffer's aspect ratio while scaling to take
+		/// the full physical size of the DisplayWindow.</param>
+		/// <returns></returns>
+		public DisplayWindowBuilder BackbufferSize(Size size, IRenderMode renderMode = null)
+		{
+			createParams.Resolution = new Resolution(
+				size,
+				renderMode ?? createParams?.Resolution?.RenderMode ?? RenderMode.RetainAspectRatio);
+
+			return this;
+		}
+
+		/// <summary>
+		/// Sets the size of the DisplayWindow's back buffer. 
+		/// </summary>
+		/// <param name="width">The width of the buffer in pixels.</param>
+		/// <param name="height">The height of the buffer in pixels.</param>
+		/// <param name="renderMode">An IRenderMode object which indicates
+		/// how to transform the backbuffer when rendering it to the screen.
+		/// If left null, then RenderMode.RetainAspectRation will be used
+		/// to preserve the backbuffer's aspect ratio while scaling to take
+		/// the full physical size of the DisplayWindow.</param>
+		/// <returns></returns>
+		public DisplayWindowBuilder BackbufferSize(int width, int height, IRenderMode renderMode = null)
+		{
+			return BackbufferSize(new Size(width, height), renderMode);
+		}
+
+		/// <summary>
+		/// Sets the physical size in pixels of the DisplayWindow.
+		/// Command line arguments will override this. If this property is not
+		/// set, the DisplayWindow's physical size will be chosen automaticall.
+		/// If this is set, the user's desktop scaling preferences will be 
+		/// ignored.
+		/// </summary>
+		/// <param name="size">Size of the display window in pixels</param>
+		/// <returns></returns>
+		public DisplayWindowBuilder PhysicalSize(Size size)
+		{
+			createParams.PhysicalSize = size;
+
+			return this;
+		}
+
+		/// <summary>
+		/// Indicates a full screen window should be created.
+		/// This is the default behavior.
+		/// </summary>
+		/// <returns></returns>
+		public DisplayWindowBuilder FullScreen()
+		{
+			createParams.IsFullScreen = true;
+
+			return this;
+		}
+
+		/// <summary>
+		/// Indicates a desktop window should be created, allowing the
+		/// user to move the window around and have it overlap with other
+		/// desktop windows.
+		/// </summary>
+		/// <returns></returns>
+		public DisplayWindowBuilder Windowed()
+		{
+			createParams.IsFullScreen = false;
+
+			return this;
+		}
+
+		/// <summary>
+		/// Indicates a DisplayWindow object should be created that renders
+		/// to a target control. This control can be a System.Windows.Forms.Control
+		/// object, if the platform in WinForms, for example.
+		/// </summary>
+		/// <param name="renderTarget"></param>
+		/// <returns></returns>
+		public DisplayWindowBuilder RenderToControl(object renderTarget)
+		{
+			createParams.RenderTarget = renderTarget;
+
+			return this;
+		}
+
+		/// <summary>
+		/// Indicates the application should quit automatically when the 
+		/// window is closed by the user.
+		/// </summary>
+		/// <returns></returns>
+		public DisplayWindowBuilder QuitOnClose()
+		{
+			quitOnClose = true;
+
+			return this;
+		}
+
+		/// <summary>
+		/// Indicates which screen this display window should be created for.
+		/// Default is to use the user's primary screen.
+		/// </summary>
+		/// <param name="screen"></param>
+		/// <returns></returns>
+		public DisplayWindowBuilder TargetScreen(ScreenInfo screen)
+		{
+			createParams.TargetScreen = screen;
+
+			return this;
+		}
+
+		private void DisplayWindow_Closed(object sender, EventArgs e)
+		{
+			AgateApp.IsAlive = false;
+		}
+
+
+		/// <summary>
+		/// Processes command line arguments. 
+		/// </summary>
+		/// <remarks>
+		/// Arguments are only processed if they start
+		/// with a dash (-). Any arguments which do not start with a dash are considered
+		/// parameters to the previous argument. For example, the argument string 
+		/// <code>-window 640,480 test -novsync</code> would call ProcessArgument once
+		/// for -window with the parameters <code>640,480 test</code> and again for
+		/// -novsync.
+		/// </remarks>
+		private void ParseCommandLineArgs()
+		{
+			if (args == null)
+				return;
+
+			List<string> parameters = new List<string>();
+
+			for (int i = 0; i < args.Length; i++)
+			{
+				var arg = args[i];
+
+				int extraArguments = args.Length - i - 1;
+
+				parameters.Clear();
+
+				for (int j = i + 1; j < args.Length; j++)
+				{
+					if (args[j].StartsWith("-") == false)
+						parameters.Add(args[j]);
+					else
+						break;
+				}
+
+				if (arg.StartsWith("-"))
+				{
+					ProcessArgument(arg, parameters);
+
+					i += parameters.Count;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Processes a single command line argument. Override this to replace how
+		/// command line arguments interact with AgateLib. Unrecognized arguments will be
+		/// passed to ProcessCustomArgument. 
+		/// </summary>
+		/// <param name="arg"></param>
+		/// <param name="parameters"></param>
+		protected virtual void ProcessArgument(string arg, IList<string> parameters)
+		{
+			switch (arg)
+			{
+				case "-window":
+					Windowed();
+					if (parameters.Count > 0)
+						PhysicalSize(Size.FromString(parameters[0]));
+					break;
+
+				default:
+					ProcessCustomArgument(arg, parameters);
+					break;
+			}
+		}
+
+		private void ProcessCustomArgument(string arg, IList<string> parameters)
+		{
+		}
+	}
+}

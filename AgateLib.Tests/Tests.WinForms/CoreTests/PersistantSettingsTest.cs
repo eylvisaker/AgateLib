@@ -16,7 +16,7 @@ namespace AgateLib.Tests.CoreTests
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			if (AgateApp.Settings["Testy"].IsEmpty)
 			{

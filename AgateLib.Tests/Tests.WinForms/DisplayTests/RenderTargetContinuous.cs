@@ -18,7 +18,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			DisplayWindow wind = Configuration.DisplayWindows.First();
 			FrameBuffer buffer = new FrameBuffer(300, 300);

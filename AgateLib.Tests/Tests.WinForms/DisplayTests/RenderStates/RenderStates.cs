@@ -20,7 +20,7 @@ namespace AgateLib.Tests.DisplayTests.RenderStates
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			frmRenderStateTest frm = new frmRenderStateTest();
 			frm.Show();

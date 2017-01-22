@@ -15,14 +15,19 @@ namespace AgateLib.Tests.DisplayTests
 	{
 		int ortho = 0;
 
-		public string Name { get { return "Coordinate System"; } }
+		public string Name => "Coordinate System";
 
-		public string Category { get { return "Display"; } }
+		public string Category => "Display";
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
+			var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build();
+
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseDown += Mouse_MouseDown;
 
@@ -31,7 +36,7 @@ namespace AgateLib.Tests.DisplayTests
 			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
-				Display.Clear();
+				Display.Clear(Color.DarkGreen);
 
 				switch (ortho)
 				{

@@ -13,7 +13,7 @@ namespace AgateLib.Tests.DisplayTests.Capabilities
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			new frmCapabilities().ShowDialog();
 		}

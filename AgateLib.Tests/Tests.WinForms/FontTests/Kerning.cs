@@ -27,7 +27,7 @@ namespace AgateLib.Tests.FontTests
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			DisplayWindow wind = DisplayWindow.CreateWindowed("Kerning test", 800, 600);

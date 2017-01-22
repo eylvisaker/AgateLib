@@ -53,7 +53,7 @@ Press arrow keys to adjust resolution
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			ChangeDisplayWindow(3);
 

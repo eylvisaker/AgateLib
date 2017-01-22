@@ -30,7 +30,7 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			MultipleRenderTargetExample myForm = new MultipleRenderTargetExample();
 			myForm.Show();

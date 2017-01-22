@@ -15,8 +15,9 @@ namespace AgateLib.Tests
 
 		AgateConfig Configuration { get; set; }
 
+		[Obsolete]
 		void ModifySetup(IAgateSetup setup);
 
-		void Run();
+		void Run(string[] args);
 	}
 }

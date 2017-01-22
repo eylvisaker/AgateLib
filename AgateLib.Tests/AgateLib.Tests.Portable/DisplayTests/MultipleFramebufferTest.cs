@@ -31,7 +31,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			font = Font.AgateSans;
 			font.Size = 14;

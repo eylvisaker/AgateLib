@@ -21,7 +21,7 @@ namespace AgateLib.Tests.Shaders.LightingTest
 		{
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			//LightingTestForm frm = new LightingTestForm();
 			//frm.Show();

@@ -25,7 +25,7 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		public void Run()
+		public void Run(string[] args)
 		{
 			// create a random number generation object 
 			// so that we can make pretty colors.

@@ -18,7 +18,7 @@ namespace AgateLib.Tests.DisplayTests.SurfaceTester
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			frmSurfaceTester form = new frmSurfaceTester();
 

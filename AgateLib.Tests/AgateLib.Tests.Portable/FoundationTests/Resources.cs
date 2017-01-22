@@ -54,7 +54,7 @@ namespace AgateLib.Tests.FoundationTests
 		{
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			SceneStack.Start(this);
 		}

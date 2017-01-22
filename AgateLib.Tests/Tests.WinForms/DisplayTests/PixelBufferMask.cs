@@ -20,7 +20,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			PixelBuffer pbMaskBg = PixelBuffer.FromFile("mask_bg-bricks.png");
 			PixelBuffer pbBg = PixelBuffer.FromFile("bg-bricks.png");

@@ -49,7 +49,7 @@ namespace AgateLib.Tests.DisplayTests
 		{
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			SceneStack.Start(this);
 		}

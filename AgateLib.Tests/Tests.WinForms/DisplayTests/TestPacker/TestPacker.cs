@@ -15,7 +15,7 @@ namespace AgateLib.Tests.DisplayTests.TestPacker
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			new frmTestPacker().ShowDialog();
 		}

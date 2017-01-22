@@ -18,7 +18,7 @@ namespace AgateLib.Tests.CoreTests.ErrorReport
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			new frmErrorReportTester().ShowDialog();
 		}

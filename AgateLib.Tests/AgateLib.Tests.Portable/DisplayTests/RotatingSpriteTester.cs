@@ -58,7 +58,7 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			SceneStack.Start(this);
 		}

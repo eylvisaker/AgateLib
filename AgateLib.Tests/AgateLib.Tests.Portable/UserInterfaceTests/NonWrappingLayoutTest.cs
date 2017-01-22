@@ -77,7 +77,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 		{
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			SceneStack.Start(this);
 		}

@@ -33,7 +33,7 @@ namespace AgateLib.Tests.AudioTests
 			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			snda = new SoundBuffer("snda.wav");
 			sndb = new SoundBuffer("sndb.wav");

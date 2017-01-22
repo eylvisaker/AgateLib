@@ -47,7 +47,7 @@ namespace AgateLib.Tests.WinFormsTests
 		{
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			SceneStack.Start(this);
 		}

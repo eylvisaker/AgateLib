@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AgateLib.DisplayLib;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
@@ -11,11 +12,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public WinFormsScreenConfiguration()
 		{
 			var allScreens = System.Windows.Forms.Screen.AllScreens;
-			
+
 			for (int i = 0; i < allScreens.Length; i++)
 			{
 				screens.Add(CreateScreenInfo(allScreens[i], new IntPtr(i)));
 			}
+
+			screens.Sort((a, b) => -a.IsPrimary.CompareTo(b.IsPrimary));
 		}
 
 		private ScreenInfo CreateScreenInfo(System.Windows.Forms.Screen wfScreen, IntPtr index)

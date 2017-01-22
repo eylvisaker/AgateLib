@@ -18,7 +18,7 @@ namespace AgateLib.Tests.UserInterfaceTests.CssTests
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			var f1 = new frmCssEdit();
 			f1.Show();

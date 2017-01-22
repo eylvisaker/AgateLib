@@ -18,7 +18,7 @@ namespace AgateLib.Tests.CoreTests.Timers
 
 		public AgateConfig Configuration { get; set; }
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			frmTimerTester frm = new frmTimerTester();
 			frm.Show();

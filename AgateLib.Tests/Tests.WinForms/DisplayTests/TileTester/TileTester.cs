@@ -23,7 +23,7 @@ namespace AgateLib.Tests.DisplayTests.TileTester
 			setup.CreateDisplayWindow = false;
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			frmTileTester frm = new frmTileTester();
 			frm.Show();
