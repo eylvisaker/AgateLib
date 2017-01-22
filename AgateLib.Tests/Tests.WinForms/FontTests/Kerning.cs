@@ -59,7 +59,7 @@ namespace AgateLib.Tests.FontTests
 				thisFont.DrawText(state, 0, thisFont.FontHeight(state), text);
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 

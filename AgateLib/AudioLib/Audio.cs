@@ -34,7 +34,7 @@ namespace AgateLib.AudioLib
 	/// </summary>
 	public static class Audio
 	{
-		private static AudioState State => Core.State?.Audio;
+		private static AudioState State => AgateApp.State?.Audio;
 
 		/// <summary>
 		/// Gets the capabilities querying object for the audio subsystem.

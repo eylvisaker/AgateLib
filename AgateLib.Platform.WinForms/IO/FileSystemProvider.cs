@@ -120,7 +120,7 @@ namespace AgateLib.Platform.WinForms.IO
 			if (File.Exists(path) == false)
 				return null;
 
-			if (Core.ErrorReporting.CrossPlatformDebugLevel != CrossPlatformDebugLevel.Comment)
+			if (AgateApp.ErrorReporting.CrossPlatformDebugLevel != CrossPlatformDebugLevel.Comment)
 			{
 				string[] files = Directory.GetFiles(mPath);
 				string badMatch = "";
@@ -143,12 +143,12 @@ namespace AgateLib.Platform.WinForms.IO
 				}
 
 				if (matchCount > 1)
-					Core.ErrorReporting.ReportCrossPlatformError(
+					AgateApp.ErrorReporting.ReportCrossPlatformError(
 						"The file " + filename + " located in directory \"" + mPath + "\"" +
 						" has multiple case-insensitive matches.  This will present problems " +
 						"when porting to an operating system with a case-insensitive filesystem (eg. Windows, MacOS).");
 				if (badCaseMatch)
-					Core.ErrorReporting.ReportCrossPlatformError(
+					AgateApp.ErrorReporting.ReportCrossPlatformError(
 						"The search file " + filename + " does not have an exact case match in directory \"" +
 						mPath + "\".  The closest match was " + badMatch +
 						".  This will present problems when porting to an operating system " +
@@ -179,7 +179,7 @@ namespace AgateLib.Platform.WinForms.IO
 
 			string text = b.ToString();
 
-			Core.ErrorReporting.ReportCrossPlatformError(text);
+			AgateApp.ErrorReporting.ReportCrossPlatformError(text);
 		}
 
 		/// <summary>

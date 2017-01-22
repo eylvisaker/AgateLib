@@ -36,8 +36,9 @@ using AgateLib.Settings;
 namespace AgateLib
 {
 	/// <summary>
-	/// Class which contains methods commonly used by the entire library.
+	/// Obsolete class. Use AgateApp instead.
 	/// </summary>
+	[Obsolete("Use AgateApp static class instead.", true)]
 	public static class Core
 	{
 		#region --- Error Reporting ---

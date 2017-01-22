@@ -23,7 +23,7 @@ namespace AgateLib.Tests.DisplayTests
 			DisplayWindow wind = Configuration.DisplayWindows.First();
 			FrameBuffer buffer = new FrameBuffer(300, 300);
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				IFont font = Font.AgateSans;
 				font.Size = 24;
@@ -44,7 +44,7 @@ namespace AgateLib.Tests.DisplayTests
 				buffer.RenderTarget.Draw();
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 

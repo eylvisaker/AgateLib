@@ -63,7 +63,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 			}
 
 			timer1.Enabled = false;
-			Core.KeepAlive();
+			AgateApp.KeepAlive();
 
 			timer1.Enabled = true;
 		}

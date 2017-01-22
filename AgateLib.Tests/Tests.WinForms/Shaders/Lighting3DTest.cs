@@ -54,7 +54,7 @@ namespace AgateLib.Tests.Shaders
 			lightMesh.Length = 0.02f;
 			lightMesh.CreateVertexBuffer();
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Blue);
@@ -104,7 +104,7 @@ namespace AgateLib.Tests.Shaders
 				font.DrawText(0, font.FontHeight * 2, "Press L to toggle lighting effects.");
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				angle += 1 * Display.DeltaTime / 1000.0f;
 				lightAngle += 2.1 * Display.DeltaTime / 1000.0f;
@@ -116,8 +116,8 @@ namespace AgateLib.Tests.Shaders
 
 				if (paused)
 				{
-					while (paused && advance == false && done == false && Core.IsAlive)
-						Core.KeepAlive();
+					while (paused && advance == false && done == false && AgateApp.IsAlive)
+						AgateApp.KeepAlive();
 
 					advance = false;
 				}

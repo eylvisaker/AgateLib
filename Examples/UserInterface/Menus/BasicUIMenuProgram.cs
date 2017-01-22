@@ -62,7 +62,7 @@ namespace Examples.UserInterface.Menus
 
 				// If the user hits escape or the B button on a game controller,
 				// exit the program.
-				facet.MainMenu.MenuCancel += (sender, e) => { Core.IsAlive = false; };
+				facet.MainMenu.MenuCancel += (sender, e) => { AgateApp.IsAlive = false; };
 
 				// Attach a handler to each menu item if the user
 				// hits enter, the A button on a game controller, or 
@@ -74,14 +74,14 @@ namespace Examples.UserInterface.Menus
 
 				facet.QuitItem.PressAccept += (sender, e) =>
 				{
-					Core.IsAlive = false;
+					AgateApp.IsAlive = false;
 				};
 
 				// Install the user interface so that it captures input.
 				Input.Handlers.Add(facet.InterfaceRoot);
 
 				// Run the game loop
-				while (Core.IsAlive)
+				while (AgateApp.IsAlive)
 				{
 					// Update the UI outside a BeginFrame..EndFrame section.
 					facet.InterfaceRoot.OnUpdate(Display.DeltaTime, true);
@@ -93,7 +93,7 @@ namespace Examples.UserInterface.Menus
 					facet.InterfaceRoot.Draw();
 
 					Display.EndFrame();
-					Core.KeepAlive();
+					AgateApp.KeepAlive();
 				}
 			}
 		}

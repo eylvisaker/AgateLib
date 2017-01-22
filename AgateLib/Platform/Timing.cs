@@ -62,7 +62,7 @@ namespace AgateLib.Platform
 
 		public static IStopwatch CreateStopWatch()
 		{
-			return Core.State.Factory.PlatformFactory.CreateStopwatch();
+			return AgateApp.State.Factory.PlatformFactory.CreateStopwatch();
 		}
 
 		/// <summary>

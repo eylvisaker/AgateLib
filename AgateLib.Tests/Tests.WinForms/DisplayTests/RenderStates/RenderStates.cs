@@ -35,7 +35,7 @@ namespace AgateLib.Tests.DisplayTests.RenderStates
 				if (count > 60)
 					frm.Text = string.Format("Render States - {0:0.00} FPS", AgateLib.DisplayLib.Display.FramesPerSecond);
 
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 	}

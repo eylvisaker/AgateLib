@@ -45,7 +45,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="size"></param>
 		public FrameBuffer(Size size)
 		{
-			impl = Core.State.Factory.DisplayFactory.CreateFrameBuffer(size);
+			impl = AgateApp.State.Factory.DisplayFactory.CreateFrameBuffer(size);
 			CoordinateSystem = new NativeCoordinates();
 		}
 		/// <summary>

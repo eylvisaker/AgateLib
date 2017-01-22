@@ -26,7 +26,7 @@ namespace AgateLib.Tests.DisplayTests
 
 			FrameBuffer capture = new FrameBuffer(1600, 1200);
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				if (Input.Unhandled.Keys[KeyCode.C])
 				{
@@ -58,7 +58,7 @@ namespace AgateLib.Tests.DisplayTests
 					Debug.Print("Captured image to CapturedImage.png");
 				}
 
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 				System.Threading.Thread.Sleep(10);
 			}
 		}

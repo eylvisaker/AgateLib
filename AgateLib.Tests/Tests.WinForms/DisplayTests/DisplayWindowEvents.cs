@@ -45,7 +45,7 @@ namespace AgateLib.Tests.DisplayTests
 				Font.AgateSans.DrawText(0, Font.AgateSans.FontHeight, text);
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 
 			if (closedEvent == false)

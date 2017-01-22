@@ -30,7 +30,7 @@ namespace AgateLib.IO
 	[Obsolete("This is going away. Use Core.Assets instead.")]
 	public static class Assets
 	{
-		private static IOState State => Core.State.IO;
+		private static IOState State => AgateApp.State.IO;
 
 		public static void AddAssetLocations(IReadFileProvider ap, AssetLocations assetLocations)
 		{
@@ -46,15 +46,15 @@ namespace AgateLib.IO
 			var resources = NewProviderFromSubdirectory(assetProvider, assetLocations.Resources);
 			var userInterfaceAssets = NewProviderFromSubdirectory(assetProvider, assetLocations.UserInterface);
 
-			var coreAssets = Core.State.Core.Assets;
+			var coreAssets = AgateApp.State.Core.Assets;
 			AddOrCombine(ref coreAssets, assetProvider);
-			Core.State.Core.Assets = coreAssets;
+			AgateApp.State.Core.Assets = coreAssets;
 
-			AddOrCombine(ref Core.State.IO.mImages, surfaces);
-			AddOrCombine(ref Core.State.IO.mResources, resources);
-			AddOrCombine(ref Core.State.IO.mMusic, music);
-			AddOrCombine(ref Core.State.IO.mSounds, sounds);
-			AddOrCombine(ref Core.State.IO.mUserInterfaceAssets, userInterfaceAssets);
+			AddOrCombine(ref AgateApp.State.IO.mImages, surfaces);
+			AddOrCombine(ref AgateApp.State.IO.mResources, resources);
+			AddOrCombine(ref AgateApp.State.IO.mMusic, music);
+			AddOrCombine(ref AgateApp.State.IO.mSounds, sounds);
+			AddOrCombine(ref AgateApp.State.IO.mUserInterfaceAssets, userInterfaceAssets);
 
 			if (assetLocations.ExtraAssets != null)
 			{
@@ -107,8 +107,8 @@ namespace AgateLib.IO
 
 		internal static IReadFileProvider AssetProvider
 		{
-			get { return Core.State.Core.Assets; }
-			set { Core.State.Core.Assets = value; }
+			get { return AgateApp.State.Core.Assets; }
+			set { AgateApp.State.Core.Assets = value; }
 		}
 
 		[Obsolete("Use your own read file provider to get subdirectories of the assets folder.")]
@@ -154,7 +154,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static Task<Stream> OpenReadAsync(string filename)
 		{
-			return Core.State.Core.Assets.OpenReadAsync(filename);
+			return AgateApp.State.Core.Assets.OpenReadAsync(filename);
 		}
 
 		/// <summary>
@@ -165,7 +165,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static Stream OpenRead(string filename)
 		{
-			return Core.State.Core.Assets.OpenRead(filename);
+			return AgateApp.State.Core.Assets.OpenRead(filename);
 		}
 		/// <summary>
 		/// Checks to if the specified file exists in the file provider.
@@ -174,7 +174,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static bool FileExists(string filename)
 		{
-			return Core.State.Core.Assets.FileExists(filename);
+			return AgateApp.State.Core.Assets.FileExists(filename);
 		}
 
 		/// <summary>

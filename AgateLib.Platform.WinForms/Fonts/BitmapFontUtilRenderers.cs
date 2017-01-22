@@ -317,7 +317,7 @@ namespace AgateLib.Platform.WinForms.Fonts
 
 			public GdiWindows(Drawing.Font font)
 			{
-				Condition.Requires<InvalidOperationException>(Core.Platform.PlatformType == PlatformType.Windows,
+				Condition.Requires<InvalidOperationException>(AgateApp.Platform.PlatformType == PlatformType.Windows,
 					"Gdi renderer only works on Windows.");
 
 				Font = font;

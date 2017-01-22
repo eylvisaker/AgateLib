@@ -80,7 +80,7 @@ namespace AgateLib.Platform.WinForms
 
 		protected override void Dispose(bool disposing)
 		{
-			Core.IsAlive = false;
+			AgateApp.IsAlive = false;
 
 			if (Configuration != null)
 			{
@@ -92,7 +92,7 @@ namespace AgateLib.Platform.WinForms
 
 			EventThread.Dispose();
 
-			Core.Dispose();
+			AgateApp.Dispose();
 		}
 
 		private WinFormsEventThread EventThread => factory.DisplayFactory.FullDisplayImpl.EventThread;
@@ -102,10 +102,10 @@ namespace AgateLib.Platform.WinForms
 			var result = new AgateConfig();
 			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-			Core.InitAssetLocations(AssetLocations,
+			AgateApp.InitAssetLocations(AssetLocations,
 				new FileSystemProvider(GetAppRootPath()));
 
-			Core.UserFiles =
+			AgateApp.UserFiles =
 				new FileSystemProvider(Path.Combine(appData, ApplicationName));
 
 			InitializeDisplayWindow(result);
@@ -142,7 +142,7 @@ namespace AgateLib.Platform.WinForms
 
 			factory = new FormsFactory(GetAppRootPath());
 
-			Core.Initialize(factory);
+			AgateApp.Initialize(factory);
 		}
 
 		private void InitializeDisplayWindow(AgateConfig config)
@@ -232,7 +232,7 @@ namespace AgateLib.Platform.WinForms
 		{
 			windowClosed = true;
 
-			Core.IsAlive = false;
+			AgateApp.IsAlive = false;
 		}
 	}
 }

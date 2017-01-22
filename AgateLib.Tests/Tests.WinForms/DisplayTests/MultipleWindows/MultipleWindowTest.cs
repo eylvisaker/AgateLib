@@ -93,7 +93,7 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 				surf.Draw(0, 0);
 				Display.EndFrame();
 
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 				time = Timing.TotalSeconds;
 			}
 		}

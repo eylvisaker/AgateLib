@@ -65,7 +65,7 @@ namespace AgateLib.AudioLib
 		/// <param name="filename"></param>
 		public SoundBuffer(string filename)
 		{
-			mImpl = Core.State.Factory.AudioFactory.CreateSoundBuffer(filename);
+			mImpl = AgateApp.State.Factory.AudioFactory.CreateSoundBuffer(filename);
 
 			mFilename = filename;
 		}
@@ -76,7 +76,7 @@ namespace AgateLib.AudioLib
 		/// <param name="source"></param>
 		public SoundBuffer(Stream source)
 		{
-			mImpl = Core.State.Factory.AudioFactory.CreateSoundBuffer(source);
+			mImpl = AgateApp.State.Factory.AudioFactory.CreateSoundBuffer(source);
 		}
 
 		/// <summary>

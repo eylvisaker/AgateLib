@@ -42,7 +42,7 @@ namespace AgateLib.AudioLib
 		/// new data is required.</param>
 		public StreamingSoundBuffer(Stream input, SoundFormat format, int chunkSize)
 		{
-			impl = Core.State.Factory.AudioFactory.CreateStreamingSoundBuffer(input, format);
+			impl = AgateApp.State.Factory.AudioFactory.CreateStreamingSoundBuffer(input, format);
 			stream = input;
 			ChunkSize = chunkSize;
 		}

@@ -52,7 +52,7 @@ namespace AgateLib.Diagnostics
 			emergencyVocab = new LibraryVocabulary(new AgateEmergencyVocabulary(this));
 		}
 
-		private long CurrentTime => Core.State.Core.MasterTime.ElapsedMilliseconds;
+		private long CurrentTime => AgateApp.State.Core.MasterTime.ElapsedMilliseconds;
 
 		internal IEnumerable<ICommandLibrary> CommandLibrarySet
 		{
@@ -77,8 +77,8 @@ namespace AgateLib.Diagnostics
 
 		public KeyCode VisibleToggleKey
 		{
-			get { return Core.State.Console.VisibleToggleKey; }
-			set { Core.State.Console.VisibleToggleKey = value; }
+			get { return AgateApp.State.Console.VisibleToggleKey; }
+			set { AgateApp.State.Console.VisibleToggleKey = value; }
 		}
 
 		public bool IsVisible
@@ -89,23 +89,23 @@ namespace AgateLib.Diagnostics
 
 		public Color TextColor
 		{
-			get { return Core.State.Console.TextColor; }
-			set { Core.State.Console.TextColor = value; }
+			get { return AgateApp.State.Console.TextColor; }
+			set { AgateApp.State.Console.TextColor = value; }
 		}
 		public Color EntryColor
 		{
-			get { return Core.State.Console.EntryColor; }
-			set { Core.State.Console.EntryColor = value; }
+			get { return AgateApp.State.Console.EntryColor; }
+			set { AgateApp.State.Console.EntryColor = value; }
 		}
 		public Color BackgroundColor
 		{
-			get { return Core.State.Console.BackgroundColor; }
-			set { Core.State.Console.BackgroundColor = value; }
+			get { return AgateApp.State.Console.BackgroundColor; }
+			set { AgateApp.State.Console.BackgroundColor = value; }
 		}
 
 		public string InputText { get { return inputText; } }
 
-		public IFont Font { get { return Core.State.Console.Font; } }
+		public IFont Font { get { return AgateApp.State.Console.Font; } }
 
 		public List<ConsoleMessage> Messages { get { return messages; } }
 
@@ -219,7 +219,7 @@ namespace AgateLib.Diagnostics
 			var message = new ConsoleMessage
 			{
 				Text = text,
-				Time = Core.State.Core.MasterTime.ElapsedMilliseconds,
+				Time = AgateApp.State.Core.MasterTime.ElapsedMilliseconds,
 				MessageType = ConsoleMessageType.Text,
 			};
 
@@ -491,7 +491,7 @@ namespace AgateLib.Diagnostics
 
 		private void ExecuteFailure(Exception e)
 		{
-			if (Core.State.Debug)
+			if (AgateApp.State.Debug)
 			{
 				WriteLine("Failed to execute command.");
 				WriteLine(e.ToString());

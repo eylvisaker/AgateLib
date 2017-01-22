@@ -75,7 +75,7 @@ namespace AgateLib.Tests.DisplayTests
 			Input.Unhandled.KeyDown += (sender, e) =>
 			{
 				if (e.KeyCode == KeyCode.Escape)
-					Core.IsAlive = false;
+					AgateApp.IsAlive = false;
 			};
 
 			SceneStack.Start(this);

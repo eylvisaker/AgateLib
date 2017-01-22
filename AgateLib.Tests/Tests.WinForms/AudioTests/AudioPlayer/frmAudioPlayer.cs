@@ -170,10 +170,10 @@ namespace AgateLib.Tests.AudioTests.AudioPlayer
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			if (Core.IsAlive == false)
+			if (AgateApp.IsAlive == false)
 				return;
 
-			Core.KeepAlive();
+			AgateApp.KeepAlive();
 		}
 	}
 }

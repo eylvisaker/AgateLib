@@ -74,7 +74,7 @@ namespace AgateLib.DisplayLib
 
 			fileprovider = fileprovider ?? Assets.Images;
 
-			mImpl = Core.State.Factory.DisplayFactory.CreateSurface(fileprovider, filename);
+			mImpl = AgateApp.State.Factory.DisplayFactory.CreateSurface(fileprovider, filename);
 
 			Display.DisposeDisplay += Dispose;
 			Display.PackAllSurfacesEvent += Display_PackAllSurfacesEvent;
@@ -88,7 +88,7 @@ namespace AgateLib.DisplayLib
 		{
 			Verify.DisplayIsInitialized();
 
-			mImpl = Core.State.Factory.DisplayFactory.CreateSurface(st);
+			mImpl = AgateApp.State.Factory.DisplayFactory.CreateSurface(st);
 
 			Display.DisposeDisplay += Dispose;
 			Display.PackAllSurfacesEvent += Display_PackAllSurfacesEvent;
@@ -115,7 +115,7 @@ namespace AgateLib.DisplayLib
 		{
 			Verify.DisplayIsInitialized();
 
-			mImpl = Core.State.Factory.DisplayFactory.CreateSurface(size);
+			mImpl = AgateApp.State.Factory.DisplayFactory.CreateSurface(size);
 
 			AttachEvents();
 		}
@@ -128,7 +128,7 @@ namespace AgateLib.DisplayLib
 		{
 			Verify.DisplayIsInitialized();
 
-			mImpl = Core.State.Factory.DisplayFactory.CreateSurface(pixels);
+			mImpl = AgateApp.State.Factory.DisplayFactory.CreateSurface(pixels);
 
 			AttachEvents();
 		}

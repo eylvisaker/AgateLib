@@ -65,7 +65,7 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 				// allowing events to be processed and such.
 				// This is also required to process events that happen in our OWN 
 				// code (ie. user input), so be sure to call this once a frame.
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				// This gives a nice 1 second delay between each frame.
 				// Using the Sleep() call causes this application to

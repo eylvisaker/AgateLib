@@ -81,13 +81,13 @@ namespace AgateLib.InputLib.Legacy
 
 		private static bool mIsHidden
 		{
-			get { return Core.State.Input.LegacyIsMouseHidden; }
-			set { Core.State.Input.LegacyIsMouseHidden = value; }
+			get { return AgateApp.State.Input.LegacyIsMouseHidden; }
+			set { AgateApp.State.Input.LegacyIsMouseHidden = value; }
 		}
 		private static Point mPosition
 		{
-			get { return Core.State.Input.LegacyMousePosition; }
-			set { Core.State.Input.LegacyMousePosition = value; }
+			get { return AgateApp.State.Input.LegacyMousePosition; }
+			set { AgateApp.State.Input.LegacyMousePosition = value; }
 		}
 
 		static Mouse()
@@ -118,7 +118,7 @@ namespace AgateLib.InputLib.Legacy
 			set
 			{
 				// do not adjust the mouse position if we are not the active application.
-				if (Core.IsActive == false)
+				if (AgateApp.IsActive == false)
 					return;
 
 				mPosition = value;
@@ -136,7 +136,7 @@ namespace AgateLib.InputLib.Legacy
 			get { return mPosition.X; }
 			set
 			{
-				Core.State.Input.LegacyMousePosition.X = value;
+				AgateApp.State.Input.LegacyMousePosition.X = value;
 				OnMouseMove();
 			}
 		}
@@ -150,7 +150,7 @@ namespace AgateLib.InputLib.Legacy
 			get { return mPosition.Y; }
 			set
 			{
-				Core.State.Input.LegacyMousePosition.Y = value;
+				AgateApp.State.Input.LegacyMousePosition.Y = value;
 				OnMouseMove();
 			}
 		}
@@ -250,7 +250,7 @@ namespace AgateLib.InputLib.Legacy
 
 				// this is required, because if the mouse position is adjusted
 				// a new MouseMove event will be generated.
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 			finally
 			{

@@ -35,15 +35,15 @@ namespace AgateLib.Tests.DisplayTests
 
 			var wnd = Configuration.DisplayWindows.First();
 
-			while (Core.IsAlive && tiles.Any(x => x.IsLoaded == false))
+			while (AgateApp.IsAlive && tiles.Any(x => x.IsLoaded == false))
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Blue);
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.FromArgb(
@@ -95,7 +95,7 @@ namespace AgateLib.Tests.DisplayTests
 				}
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				time += Display.DeltaTime / 1000.0;
 			}

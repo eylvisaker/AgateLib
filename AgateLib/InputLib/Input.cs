@@ -33,7 +33,7 @@ namespace AgateLib.InputLib
 	/// </summary>
 	public static class Input
 	{
-		private static InputState State => Core.State?.Input;
+		private static InputState State => AgateApp.State?.Input;
 
 		private static InputImpl Impl
 		{
@@ -132,7 +132,7 @@ namespace AgateLib.InputLib
 		/// <returns></returns>
 		public static int IndexOfJoystick(Joystick joystick)
 		{
-			return Core.State?.Input?.Joysticks.IndexOf(joystick) ?? -1;
+			return AgateApp.State?.Input?.Joysticks.IndexOf(joystick) ?? -1;
 		}
 
 		/// <summary>

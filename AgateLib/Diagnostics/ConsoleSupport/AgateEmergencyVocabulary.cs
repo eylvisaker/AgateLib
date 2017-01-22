@@ -73,7 +73,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		[ConsoleCommand("Quits the application. No option to save is given.", Hidden = true)]
 		public void Quit()
 		{
-			Core.IsAlive = false;
+			AgateApp.IsAlive = false;
 		}
 
 		[ConsoleCommand("Enable or disable debug info with 'debug on' or 'debug off'", Hidden = true)]
@@ -82,13 +82,13 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			if (mode == "off")
 			{
 				AgateConsole.WriteLine("Disabling debug information.");
-				Core.State.Debug = false;
+				AgateApp.State.Debug = false;
 				return;
 			}
 			if (mode == "on")
 			{
 				AgateConsole.WriteLine("Enabling debug information. Type 'debug off' to turn it off.");
-				Core.State.Debug = true;
+				AgateApp.State.Debug = true;
 				return;
 			}
 

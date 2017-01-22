@@ -45,7 +45,7 @@ namespace AgateLib.AudioLib
 		/// <param name="filename">The name of the file to load.</param>
 		public Music(string filename)
 		{
-			impl = Core.State.Factory.AudioFactory.CreateMusic(filename);
+			impl = AgateApp.State.Factory.AudioFactory.CreateMusic(filename);
 			mFilename = filename;
 		}
 
@@ -56,7 +56,7 @@ namespace AgateLib.AudioLib
 		public Music(Stream source)
 			: this()
 		{
-			impl = Core.State.Factory.AudioFactory.CreateMusic(source);
+			impl = AgateApp.State.Factory.AudioFactory.CreateMusic(source);
 		}
 
 		/// <summary>

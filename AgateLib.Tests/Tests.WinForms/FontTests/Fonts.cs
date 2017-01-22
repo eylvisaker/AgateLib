@@ -77,7 +77,7 @@ namespace AgateLib.Tests.FontTests
 				text = "F2: Toggle VSync   F5:  Toggle Windowed / Fullscreen      ";
 				text += "FPS: " + Display.FramesPerSecond.ToString("0.00") + "    ";
 
-				if (Core.IsActive)
+				if (AgateApp.IsActive)
 					text += "Active";
 				else
 					text += "Not Active";
@@ -115,7 +115,7 @@ namespace AgateLib.Tests.FontTests
 
 				// and we're done.
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				frame++;
 

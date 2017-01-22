@@ -28,7 +28,7 @@ namespace AgateLib.Tests.ConsoleTests
 		{
 			AgateConsole.CommandLibraries.Add(new LibraryVocabulary(this));
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.LightBlue);
@@ -37,7 +37,7 @@ namespace AgateLib.Tests.ConsoleTests
 				Font.AgateSans.DrawText("Press ~ key to open console.");
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 

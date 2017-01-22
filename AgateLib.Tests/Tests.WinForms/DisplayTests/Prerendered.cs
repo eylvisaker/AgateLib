@@ -25,7 +25,7 @@ namespace AgateLib.Tests.DisplayTests
 
 			var watch = System.Diagnostics.Stopwatch.StartNew();
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Black);
@@ -35,7 +35,7 @@ namespace AgateLib.Tests.DisplayTests
 
 				Display.EndFrame();
 
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				if (watch.ElapsedMilliseconds > 3000)
 				{

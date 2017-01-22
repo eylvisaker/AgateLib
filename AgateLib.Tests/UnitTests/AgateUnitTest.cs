@@ -26,7 +26,7 @@ namespace AgateLib.UnitTests
 
 			window.Dispose();
 			platform.Dispose();
-			Core.Dispose();
+			AgateApp.Dispose();
 		}
 
 		protected virtual void Dispose(bool disposing)

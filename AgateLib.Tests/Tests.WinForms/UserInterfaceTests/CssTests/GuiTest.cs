@@ -28,7 +28,7 @@ namespace AgateLib.Tests.UserInterfaceTests.CssTests
 			while (f1.IsDisposed == false)
 			{
 				f1.RenderAgateStuff();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 				Thread.Sleep(5);
 			}
 		}

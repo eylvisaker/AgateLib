@@ -55,12 +55,12 @@ namespace AgateLib.Platform.WinForms.Controls
 
 		private void DisplayWindowForm_Deactivate(object sender, EventArgs e)
 		{
-			Core.IsActive = false;
+			AgateApp.IsActive = false;
 		}
 
 		private void DisplayWindowForm_Activated(object sender, EventArgs e)
 		{
-			Core.IsActive = true;
+			AgateApp.IsActive = true;
 		}
 
 		private void DisplayWindowForm_Load(object sender, EventArgs e)

@@ -73,7 +73,7 @@ namespace AgateLib.Tests
 				string group, key;
 				SplitName(kvp.Key, out group, out key);
 
-				AgateLib.Core.Settings[group][key] = kvp.Value;
+				AgateLib.AgateApp.Settings[group][key] = kvp.Value;
 			}
 
 			try

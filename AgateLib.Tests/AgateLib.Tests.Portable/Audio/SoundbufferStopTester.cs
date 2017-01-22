@@ -43,7 +43,7 @@ namespace AgateLib.Tests.AudioTests
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseDown += Mouse_MouseDown;
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear();
@@ -58,7 +58,7 @@ namespace AgateLib.Tests.AudioTests
 					font.DrawText(0, 60, "second sound is playing");
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 

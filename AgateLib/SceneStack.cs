@@ -28,7 +28,7 @@ namespace AgateLib
 {
 	public static class SceneStack
 	{
-		private static List<Scene> Scenes => Core.State.Scenes;
+		private static List<Scene> Scenes => AgateApp.State.Scenes;
 
 		public static Scene CurrentScene => Scenes[Scenes.Count - 1];
 
@@ -89,7 +89,7 @@ namespace AgateLib
 			if (sceneToStartWith != null)
 				Add(sceneToStartWith);
 
-			while (Count > 0 && Core.IsAlive)
+			while (Count > 0 && AgateApp.IsAlive)
 			{
 				RunSingleFrame();
 			}
@@ -107,7 +107,7 @@ namespace AgateLib
 				sc.Draw();
 
 			Display.EndFrame();
-			Core.KeepAlive();
+			AgateApp.KeepAlive();
 		}
 
 		private static IEnumerable<Scene> ScenesAbove(Func<Scene, bool> pred)

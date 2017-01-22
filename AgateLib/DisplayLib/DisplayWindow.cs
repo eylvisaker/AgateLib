@@ -53,7 +53,7 @@ namespace AgateLib.DisplayLib
 					"Display has not been initialized." + Environment.NewLine +
 					"Did you forget to call AgateSetup.Initialize or Display.Initialize?");
 
-			mImpl = Core.State.Factory.DisplayFactory.CreateDisplayWindow(this, windowParams);
+			mImpl = AgateApp.State.Factory.DisplayFactory.CreateDisplayWindow(this, windowParams);
 			mImpl.InputEvent += InputEvent;
 
 			Display.RenderTarget = FrameBuffer;

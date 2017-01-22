@@ -31,7 +31,7 @@ namespace Examples.Initialization.WindowsFormsInitialization
 			Display.FillRect(new AgateLib.Geometry.Rectangle(20, 20, 80, 80), AgateLib.Geometry.Color.Blue);
 
 			Display.EndFrame();
-			Core.KeepAlive();
+			AgateApp.KeepAlive();
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)

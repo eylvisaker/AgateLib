@@ -131,7 +131,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				InitializeContexts();
 			}
 
-			Core.IsActive = true;
+			AgateApp.IsActive = true;
 		}
 	}
 }

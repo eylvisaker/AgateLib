@@ -226,7 +226,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected IWindowInfo CreateWindowInfo(GraphicsMode mode)
 		{
-			switch (Core.Platform.PlatformType)
+			switch (AgateApp.Platform.PlatformType)
 			{
 				case PlatformType.Windows:
 					return Utilities.CreateWindowsWindowInfo(wfRenderTarget.Handle);

@@ -34,22 +34,22 @@ namespace AgateLib.Diagnostics
 	{
 		public static IAgateConsole Instance
 		{
-			get { return Core.State.Console.Instance; }
-			set { Core.State.Console.Instance = value; }
+			get { return AgateApp.State.Console.Instance; }
+			set { AgateApp.State.Console.Instance = value; }
 		}
 
 		public static bool IsInitialized { get { return Instance != null; } }
 
 		public static IFont Font
 		{
-			get { return Core.State.Console.Font; }
-			set { Core.State.Console.Font = value; }
+			get { return AgateApp.State.Console.Font; }
+			set { AgateApp.State.Console.Font = value; }
 		}
 
 		public static KeyCode VisibleToggleKey
 		{
-			get { return Core.State.Console.VisibleToggleKey; }
-			set { Core.State.Console.VisibleToggleKey = value; }
+			get { return AgateApp.State.Console.VisibleToggleKey; }
+			set { AgateApp.State.Console.VisibleToggleKey = value; }
 		}
 
 		public static bool IsVisible
@@ -72,18 +72,18 @@ namespace AgateLib.Diagnostics
 
 		public static Color TextColor
 		{
-			get { return Core.State.Console.TextColor; }
-			set { Core.State.Console.TextColor = value; }
+			get { return AgateApp.State.Console.TextColor; }
+			set { AgateApp.State.Console.TextColor = value; }
 		}
 		public static Color EntryColor
 		{
-			get { return Core.State.Console.EntryColor; }
-			set { Core.State.Console.EntryColor = value; }
+			get { return AgateApp.State.Console.EntryColor; }
+			set { AgateApp.State.Console.EntryColor = value; }
 		}
 		public static Color BackgroundColor
 		{
-			get { return Core.State.Console.BackgroundColor; }
-			set { Core.State.Console.BackgroundColor = value; }
+			get { return AgateApp.State.Console.BackgroundColor; }
+			set { AgateApp.State.Console.BackgroundColor = value; }
 		}
 
 		internal static void Initialize()

@@ -22,7 +22,7 @@ namespace AgateLib.Tests
 
 			Application.Run(frm);
 
-			Core.Settings?.SaveSettings();
+			AgateApp.Settings?.SaveSettings();
 		}
 	}
 }

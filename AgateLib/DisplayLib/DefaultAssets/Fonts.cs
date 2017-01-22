@@ -31,7 +31,7 @@ namespace AgateLib.DisplayLib.DefaultAssets
 	{
 		internal static void Initialize(DefaultResources res)
 		{
-			Core.State.Display.DefaultResources = res;
+			AgateApp.State.Display.DefaultResources = res;
 		}
 
 		/// <summary>
@@ -40,7 +40,7 @@ namespace AgateLib.DisplayLib.DefaultAssets
 		[Obsolete("Use Font.AgateSans instead.", true)]
 		public static IFont AgateSans
 		{
-			get { return Core.State.Display.DefaultResources.AgateSans; }
+			get { return AgateApp.State.Display.DefaultResources.AgateSans; }
 		}
 	}
 }

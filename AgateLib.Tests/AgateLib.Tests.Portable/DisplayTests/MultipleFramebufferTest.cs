@@ -40,7 +40,7 @@ namespace AgateLib.Tests.DisplayTests
 
 			mySurface = new Surface("9ball.png");
 
-			while (Core.IsAlive && done == false)
+			while (AgateApp.IsAlive && done == false)
 			{
 				Display.RenderTarget = Display.CurrentWindow.FrameBuffer;
 				Display.BeginFrame();
@@ -65,7 +65,7 @@ namespace AgateLib.Tests.DisplayTests
 				}
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 

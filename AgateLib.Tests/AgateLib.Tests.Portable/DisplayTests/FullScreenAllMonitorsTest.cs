@@ -67,7 +67,7 @@ Press arrow keys to adjust resolution
 			Size topSize = font.MeasureString(topText + "z\nz");
 
 			// Run the program while the window is open.
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				var mouseText = topText +
 					$"Resolution: {currentResolution}\nMouse: {mousePosition}";
@@ -100,7 +100,7 @@ Press arrow keys to adjust resolution
 					Display.EndFrame();
 				}
 
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 
 			mousePointerSurface.Dispose();
@@ -127,7 +127,7 @@ Press arrow keys to adjust resolution
 			switch (e.KeyCode)
 			{
 				case KeyCode.Escape:
-					Core.IsAlive = false;
+					AgateApp.IsAlive = false;
 					break;
 
 				case KeyCode.F1:

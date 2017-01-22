@@ -18,24 +18,24 @@ namespace AgateLib.Tests.CoreTests
 
 		public void Run()
 		{
-			if (Core.Settings["Testy"].IsEmpty)
+			if (AgateApp.Settings["Testy"].IsEmpty)
 			{
 				InitializeSettings();
 			}
 
-			int runcount = int.Parse(Core.Settings["Testy"]["RunCount"]);
+			int runcount = int.Parse(AgateApp.Settings["Testy"]["RunCount"]);
 			runcount++;
-			Core.Settings["Testy"]["RunCount"] = runcount.ToString();
+			AgateApp.Settings["Testy"]["RunCount"] = runcount.ToString();
 
-			Core.Settings.SaveSettings();
+			AgateApp.Settings.SaveSettings();
 
 			MessageBox.Show($"RunCount = {runcount}.");
 		}
 
 		private void InitializeSettings()
 		{
-			Core.Settings["Testy"]["MyTest"] = "true";
-			Core.Settings["Testy"]["RunCount"] = "0";
+			AgateApp.Settings["Testy"]["MyTest"] = "true";
+			AgateApp.Settings["Testy"]["RunCount"] = "0";
 		}
 
 		public void ModifySetup(IAgateSetup setup)

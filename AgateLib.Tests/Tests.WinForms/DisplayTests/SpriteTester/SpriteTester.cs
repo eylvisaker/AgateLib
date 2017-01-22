@@ -26,7 +26,7 @@ namespace AgateLib.Tests.DisplayTests.SpriteTester
 			{
 				form.UpdateDisplay();
 
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 

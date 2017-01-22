@@ -29,9 +29,9 @@ namespace AgateLib.DisplayLib
 {
 	public class Font : IFont
 	{
-		public static Font AgateSans => Core.State.Display.DefaultResources.AgateSans;
-		public static Font AgateSerif => Core.State.Display.DefaultResources.AgateSerif;
-		public static Font AgateMono => Core.State.Display.DefaultResources.AgateMono;
+		public static Font AgateSans => AgateApp.State.Display.DefaultResources.AgateSans;
+		public static Font AgateSerif => AgateApp.State.Display.DefaultResources.AgateSerif;
+		public static Font AgateMono => AgateApp.State.Display.DefaultResources.AgateMono;
 
 		IFontImpl impl;
 		FontState state = new FontState();

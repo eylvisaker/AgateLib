@@ -57,7 +57,7 @@ namespace AgateLib.UserInterface.Widgets
 			this.StartPoint = startPoint;
 			this.FocusWidget = this.TargetWidget = gestureWidget;
 			this.Axis = AxisType.Unknown;
-			this.StartTime = Core.GetTime();
+			this.StartTime = AgateApp.GetTime();
 
 			IsValidForTarget = false;
 		}

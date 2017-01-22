@@ -10,7 +10,7 @@ namespace AgateLib.UnitTests.DisplayLib
 	{
 		public AgateUninitializedUnitTest()
 		{
-			Core.Dispose();
+			AgateApp.Dispose();
 		}
 	}
 }

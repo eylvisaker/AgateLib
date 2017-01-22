@@ -41,10 +41,10 @@ namespace AgateLib.Resources
 
 		public ResourceDataLoader(IReadFileProvider fileProvider = null)
 		{
-			this.fileProvider = fileProvider ?? Core.Assets;
+			this.fileProvider = fileProvider ?? AgateApp.Assets;
 
 			Require.ArgumentNotNull(this.fileProvider, nameof(fileProvider),
-				$"Either {nameof(fileProvider)} or {nameof(Core)}.{nameof(Core.Assets)} should not be null.");
+				$"Either {nameof(fileProvider)} or {nameof(AgateApp)}.{nameof(AgateApp.Assets)} should not be null.");
 		}
 
 		/// <summary>

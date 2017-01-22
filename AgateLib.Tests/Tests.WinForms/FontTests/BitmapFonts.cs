@@ -18,7 +18,7 @@ namespace AgateLib.Tests.FontTests
 			Display.BeginFrame();
 			Display.Clear(Color.Navy);
 			Display.EndFrame();
-			Core.KeepAlive();
+			AgateApp.KeepAlive();
 
 			BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyles.None);
 			fontOptions.TextRenderer = TextRenderEngine.TextRenderer;
@@ -33,7 +33,7 @@ namespace AgateLib.Tests.FontTests
 
 			//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Navy);
@@ -43,7 +43,7 @@ namespace AgateLib.Tests.FontTests
 				//second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 

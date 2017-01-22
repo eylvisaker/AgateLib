@@ -33,11 +33,11 @@ namespace Examples.Initialization.BasicInitialization
 				Input.Unhandled.KeyDown += (sender, e) =>
 				{
 					if (e.KeyCode == KeyCode.Escape)
-						Core.IsAlive = false;
+						AgateApp.IsAlive = false;
 				};
 
 				// Run the game loop
-				while (Core.IsAlive)
+				while (AgateApp.IsAlive)
 				{
 					// All drawing calls must be contained between Display.BeginFrame and Display.EndFrame calls.
 					Display.BeginFrame();
@@ -58,7 +58,7 @@ namespace Examples.Initialization.BasicInitialization
 					Display.EndFrame();
 
 					// A call to Core.KeepAlive is required to process input events and play nice with the OS.
-					Core.KeepAlive();
+					AgateApp.KeepAlive();
 				}
 			}
 		}

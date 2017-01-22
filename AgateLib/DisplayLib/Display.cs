@@ -121,7 +121,7 @@ namespace AgateLib.DisplayLib
 			remove { State.DisposeDisplay -= value; }
 		}
 
-		private static DisplayState State => Core.State?.Display;
+		private static DisplayState State => AgateApp.State?.Display;
 
 		/// <summary>
 		///     Gets the object which handles all of the actual calls to Display functions.
@@ -199,10 +199,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static DisplayWindow CurrentWindow
 		{
-			get { return Core.State.Display.CurrentWindow; }
+			get { return AgateApp.State.Display.CurrentWindow; }
 			internal set
 			{
-				Core.State.Display.CurrentWindow = value;
+				AgateApp.State.Display.CurrentWindow = value;
 				Impl.RenderTarget.CoordinateSystem.RenderTargetSize = Impl.RenderTarget.Size;
 			}
 		}
@@ -235,8 +235,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static SurfacePacker SurfacePacker
 		{
-			get { return Core.State.Display.SurfacePacker; }
-			private set { Core.State.Display.SurfacePacker = value; }
+			get { return AgateApp.State.Display.SurfacePacker; }
+			private set { AgateApp.State.Display.SurfacePacker = value; }
 		}
 
 		/// <summary>
@@ -322,7 +322,7 @@ namespace AgateLib.DisplayLib
 			if (CurrentWindow.IsClosed)
 				throw new AgateException(
 					"The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
-			if (Core.IsAlive == false)
+			if (AgateApp.IsAlive == false)
 				throw new AgateException(
 					"The user has closed the game window - all game loops should check Core.IsAlive and terminate immediately.");
 
@@ -332,7 +332,7 @@ namespace AgateLib.DisplayLib
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = RenderTarget.CoordinateSystem.Coordinates;
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
-			Core.State.Display.CurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);
+			AgateApp.State.Display.CurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);
 
 			RenderState.AlphaBlend = true;
 		}
@@ -375,7 +375,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="newClipRect"></param>
 		public static void PushClipRect(Rectangle newClipRect)
 		{
-			Core.State.Display.ClipRects.Push(Core.State.Display.CurrentClipRect);
+			AgateApp.State.Display.ClipRects.Push(AgateApp.State.Display.CurrentClipRect);
 			SetClipRect(newClipRect);
 		}
 
@@ -384,9 +384,9 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void PopClipRect()
 		{
-			if (Core.State.Display.ClipRects.Count == 0)
+			if (AgateApp.State.Display.ClipRects.Count == 0)
 				throw new AgateException("You have popped the cliprect too many times.");
-			SetClipRect(Core.State.Display.ClipRects.Pop());
+			SetClipRect(AgateApp.State.Display.ClipRects.Pop());
 		}
 		
 		/// <summary>
@@ -401,7 +401,7 @@ namespace AgateLib.DisplayLib
 		{
 			SurfacePacker.ClearQueue();
 
-			Core.State.Display.PackAllSurfacesEvent?.Invoke(null, EventArgs.Empty);
+			AgateApp.State.Display.PackAllSurfacesEvent?.Invoke(null, EventArgs.Empty);
 
 			SurfacePacker.PackQueue();
 
@@ -663,8 +663,8 @@ namespace AgateLib.DisplayLib
 		{
 			var res = new DefaultResources();
 
-			var task = Core.State.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
-			Core.State.Display.DefaultResources = res;
+			var task = AgateApp.State.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
+			AgateApp.State.Display.DefaultResources = res;
 
 			task.GetAwaiter().GetResult();
 		}

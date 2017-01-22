@@ -44,8 +44,8 @@ namespace AgateLib.Platform.IntegrationTest
 
 			factory = new IntegrationTestFactory(appPath);
 
-			Core.Initialize(factory);
-			Core.InitAssetLocations(AssetLocations, 
+			AgateApp.Initialize(factory);
+			AgateApp.InitAssetLocations(AssetLocations, 
 				new FileSystemProvider(Path.Combine(appPath, AssetLocations.Path)));
 		}
 

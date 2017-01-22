@@ -37,8 +37,8 @@ namespace AgateLib.IO
 
 		public static IReadWriteFileProvider UserFiles
 		{
-			get { return Core.State.Core.UserFiles; }
-			set { Core.State.Core.UserFiles = value; }
+			get { return AgateApp.State.Core.UserFiles; }
+			set { AgateApp.State.Core.UserFiles = value; }
 		}
 	}
 }

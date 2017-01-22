@@ -43,7 +43,7 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 		{
 			Initialize();
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Update(Display.DeltaTime);
 				Draw();
@@ -137,7 +137,7 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 			font.DrawText((int)se.Position.X, (int)se.Position.Y, "Particles: " + se.Particles.Count + "/" + se.Particles.Capacity);
 
 			Display.EndFrame();
-			Core.KeepAlive();
+			AgateApp.KeepAlive();
 		}
 	}
 }

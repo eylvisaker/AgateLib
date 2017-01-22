@@ -54,7 +54,7 @@ namespace AgateLib.Tests.DisplayTests
 			};
 			Input.Unhandled.MouseMove += (sender, e) => mouse = e.MousePosition;
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.CurrentWindow.Title = Display.FramesPerSecond.ToString();
 				Display.BeginFrame();
@@ -92,7 +92,7 @@ namespace AgateLib.Tests.DisplayTests
 				surfRealBg.Draw();
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 			}
 		}
 

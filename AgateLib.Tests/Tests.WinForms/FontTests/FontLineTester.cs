@@ -31,7 +31,7 @@ namespace AgateLib.Tests.FontTests
 		public void Run()
 		{
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-			Core.AutoPause = true;
+			AgateApp.AutoPause = true;
 
 			// TODO: Fix this
 			//FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
@@ -41,7 +41,7 @@ namespace AgateLib.Tests.FontTests
 			fonts.Add(Font.AgateSerif);
 			fonts.Add(Font.AgateMono);
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Navy);
@@ -57,7 +57,7 @@ namespace AgateLib.Tests.FontTests
 				//    "Measured size was: " + drawRect.Size.ToString());
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				if (Input.Unhandled.Keys[KeyCode.Escape])
 					return;

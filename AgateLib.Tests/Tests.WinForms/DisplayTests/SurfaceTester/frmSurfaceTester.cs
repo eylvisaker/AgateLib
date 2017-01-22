@@ -109,7 +109,7 @@ namespace AgateLib.Tests.DisplayTests.SurfaceTester
 
             
             Display.EndFrame();
-            Core.KeepAlive();
+            AgateApp.KeepAlive();
 
         }
 

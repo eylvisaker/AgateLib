@@ -104,7 +104,7 @@ namespace AgateLib.IO
                 return true;
             if (filename.StartsWith("/"))
                 return true;
-            if (Core.Platform.PlatformType == Platform.PlatformType.Windows &&
+            if (AgateApp.Platform.PlatformType == Platform.PlatformType.Windows &&
                 filename.StartsWith("\\"))
                 return true;
 

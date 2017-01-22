@@ -122,7 +122,7 @@ namespace AgateLib.Tests.AudioTests
 
 			var font = Font.AgateSans;
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear();
@@ -131,7 +131,7 @@ namespace AgateLib.Tests.AudioTests
 				font.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				if (w.ElapsedMilliseconds > 500)
 				{

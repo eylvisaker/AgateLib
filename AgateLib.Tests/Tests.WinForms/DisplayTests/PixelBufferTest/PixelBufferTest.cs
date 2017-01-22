@@ -41,7 +41,7 @@ namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 				Input.Unhandled.MouseMove += Mouse_MouseMove;
 				Input.Unhandled.MouseUp += (sender, e) => mouseDown = false;
 
-				while (Core.IsAlive && frm.IsDisposed == false)
+				while (AgateApp.IsAlive && frm.IsDisposed == false)
 				{
 					Display.BeginFrame();
 					Display.Clear();
@@ -49,7 +49,7 @@ namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 					image.Draw(imageLocation);
 
 					Display.EndFrame();
-					Core.KeepAlive();
+					AgateApp.KeepAlive();
 				}
 			}
 		}

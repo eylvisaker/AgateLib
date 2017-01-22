@@ -109,7 +109,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			string value;
 
-			if (AgateLib.Core.Settings["AgateLib.OpenGL"].TryGetValue(name, out value) == false)
+			if (AgateLib.AgateApp.Settings["AgateLib.OpenGL"].TryGetValue(name, out value) == false)
 				return false;
 
 			if (value == "false" || value == "0")

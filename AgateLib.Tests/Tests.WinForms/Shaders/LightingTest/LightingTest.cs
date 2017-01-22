@@ -65,7 +65,7 @@ namespace AgateLib.Tests.Shaders.LightingTest
 					lt2.Position = new Vector3(e.MousePosition.X, e.MousePosition.Y, -1);
 				};
 
-			while (Core.IsAlive)
+			while (AgateApp.IsAlive)
 			{
 				//if (frm.chkMoveLight.Checked)
 				time += Display.DeltaTime / 1000.0;
@@ -112,7 +112,7 @@ namespace AgateLib.Tests.Shaders.LightingTest
 				ball.Draw(ballPt);
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				//frm.lblFPS.Text = "FPS: " + Display.FramesPerSecond.ToString("0.00");
 			}

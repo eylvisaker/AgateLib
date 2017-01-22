@@ -15,8 +15,8 @@ namespace AgateLib.Tests.CoreTests.PlatformDetection
 		{
 			InitializeComponent();
 
-			lblPlatform.Text = "Platform: " + AgateLib.Core.Platform.PlatformType.ToString();
-			lblRuntime.Text = "Runtime: " + AgateLib.Core.Platform.Runtime.ToString();
+			lblPlatform.Text = "Platform: " + AgateLib.AgateApp.Platform.PlatformType.ToString();
+			lblRuntime.Text = "Runtime: " + AgateLib.AgateApp.Platform.Runtime.ToString();
 		}
 
 		private void button1_Click(object sender, EventArgs e)

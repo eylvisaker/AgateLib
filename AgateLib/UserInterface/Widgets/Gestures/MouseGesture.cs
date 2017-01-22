@@ -64,7 +64,7 @@ namespace AgateLib.UserInterface.Widgets.Gestures
 
 		public void OnComplete()
 		{
-			GestureData.CurrentTime = Core.GetTime();
+			GestureData.CurrentTime = AgateApp.GetTime();
 
 			if (GestureData.GestureType == GestureType.Drag && GestureData.Velocity.Magnitude > 1000)
 				GestureData.GestureType = GestureType.Swipe;
@@ -79,7 +79,7 @@ namespace AgateLib.UserInterface.Widgets.Gestures
 
 			if (GestureData.GestureType == GestureType.Touch)
 			{
-				double delta = Core.GetTime() - GestureData.StartTime;
+				double delta = AgateApp.GetTime() - GestureData.StartTime;
 
 				if (delta > 1000)
 				{

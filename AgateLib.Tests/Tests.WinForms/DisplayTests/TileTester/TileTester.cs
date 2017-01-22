@@ -38,7 +38,7 @@ namespace AgateLib.Tests.DisplayTests.TileTester
 				DrawTiles();
 
 				Display.EndFrame();
-				Core.KeepAlive();
+				AgateApp.KeepAlive();
 
 				// move at 100 pixels per second
 				if (frm.ScrollX)
