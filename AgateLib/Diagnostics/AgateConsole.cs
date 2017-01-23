@@ -97,8 +97,6 @@ namespace AgateLib.Diagnostics
 
 		public static void Initialize(IAgateConsole instance)
 		{
-			Condition.Requires<InvalidOperationException>(Instance == null);
-
 			Instance = instance;
 			Input.Handlers.Add(Instance);
 
