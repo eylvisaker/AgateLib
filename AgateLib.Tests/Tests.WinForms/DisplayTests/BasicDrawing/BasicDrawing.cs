@@ -43,34 +43,37 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 
 			// This creates the window that we will be drawing in.
 			// 640x480 are the dimensions of the screen area that we will write to
-			DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
-
-			while (wind.IsClosed == false)
+			using (var window = new DisplayWindowBuilder(args)
+				.RenderToControl(frm.panel1)
+				.Build())
 			{
-				// Display.BeginFrame must be called before any rendering takes place.
-				Display.BeginFrame();
+				while (window.IsClosed == false)
+				{
+					// Display.BeginFrame must be called before any rendering takes place.
+					Display.BeginFrame();
 
-				// Clear back buffer
-				Display.Clear();
+					// Clear back buffer
+					Display.Clear();
 
-				// draw shapes
-				foreach (Shape s in shapes)
-					s.Draw();
+					// draw shapes
+					foreach (Shape s in shapes)
+						s.Draw();
 
-				// Display.EndFrame must be called after rendering is done
-				// in order to actually update the display.
-				Display.EndFrame();
+					// Display.EndFrame must be called after rendering is done
+					// in order to actually update the display.
+					Display.EndFrame();
 
-				// Core.KeepAlive is where we play nice window the OS, 
-				// allowing events to be processed and such.
-				// This is also required to process events that happen in our OWN 
-				// code (ie. user input), so be sure to call this once a frame.
-				AgateApp.KeepAlive();
+					// Core.KeepAlive is where we play nice window the OS, 
+					// allowing events to be processed and such.
+					// This is also required to process events that happen in our OWN 
+					// code (ie. user input), so be sure to call this once a frame.
+					AgateApp.KeepAlive();
 
-				// This gives a nice 1 second delay between each frame.
-				// Using the Sleep() call causes this application to
-				// relinquish CPU time.
-				System.Threading.Thread.Sleep(10);
+					// This gives a nice 1 second delay between each frame.
+					// Using the Sleep() call causes this application to
+					// relinquish CPU time.
+					System.Threading.Thread.Sleep(10);
+				}
 			}
 		}
 

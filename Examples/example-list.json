@@ -15,7 +15,7 @@
       "images": [ "Screencap.png" ]
     }
   },
-  "UserInterface": {
+  "User Interface": {
     "Menus": {
       "name": "Basic Menus",
       "path": "UserInterface/Menus",

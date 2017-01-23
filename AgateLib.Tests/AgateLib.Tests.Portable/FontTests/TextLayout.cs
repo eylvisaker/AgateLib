@@ -11,6 +11,7 @@ namespace AgateLib.Tests.FontTests.TextLayout
 	class TextLayout : Scene, IAgateTest
 	{
 		Surface image;
+
 		public string Name
 		{
 			get { return "Text Layout Test"; }
@@ -49,7 +50,7 @@ namespace AgateLib.Tests.FontTests.TextLayout
 				image);
 
 			font.DrawText(0, 450, "This is a test of the {0}AlterText{1} stuff." +
-				"The last word here should appear really {2}Large{3}.",
+			                      "The last word here should appear really {2}Large{3}.",
 				LayoutCacheAlterFont.Color(Color.Green), LayoutCacheAlterFont.Color(Color.Black),
 				LayoutCacheAlterFont.Scale(3.0, 3.0), LayoutCacheAlterFont.Scale(1.0, 1.0));
 
@@ -67,7 +68,13 @@ namespace AgateLib.Tests.FontTests.TextLayout
 
 		public void Run(string[] args)
 		{
-			SceneStack.Start(this);
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
+			{
+				SceneStack.Start(this);
+			}
 		}
 	}
 }

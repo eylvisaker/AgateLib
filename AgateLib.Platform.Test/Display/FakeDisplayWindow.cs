@@ -61,6 +61,8 @@ namespace AgateLib.Platform.Test.Display
 
 		public sealed override IResolution Resolution { get; set; }
 
+		public override Size PhysicalSize => Resolution?.Size ?? Size.Empty;
+
 		public override string Title { get; set; }
 	}
 }

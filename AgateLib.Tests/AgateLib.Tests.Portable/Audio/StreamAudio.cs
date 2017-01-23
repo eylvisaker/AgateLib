@@ -110,38 +110,44 @@ namespace AgateLib.Tests.AudioTests
 
 		public void Run(string[] args)
 		{
-			LoopingStream sa = new LoopingStream();
-			sa.Frequency = 100;
-
-			StreamingSoundBuffer buf = new StreamingSoundBuffer(sa, SoundFormat.Pcm16(44100), 100);
-
-			buf.Play();
-
-			Stopwatch w = new Stopwatch();
-			w.Start();
-
-			var font = Font.AgateSans;
-
-			while (AgateApp.IsAlive)
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
-				Display.BeginFrame();
-				Display.Clear();
+				LoopingStream sa = new LoopingStream();
+				sa.Frequency = 100;
 
-				font.Color = Color.White;
-				font.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
+				StreamingSoundBuffer buf = new StreamingSoundBuffer(sa, SoundFormat.Pcm16(44100), 100);
 
-				Display.EndFrame();
-				AgateApp.KeepAlive();
+				buf.Play();
 
-				if (w.ElapsedMilliseconds > 500)
+				Stopwatch w = new Stopwatch();
+				w.Start();
+
+				var font = Font.AgateSans;
+
+				while (AgateApp.IsAlive)
 				{
-					sa.Frequency += 50;
-					w.Reset();
-					w.Start();
-				}
-			}
+					Display.BeginFrame();
+					Display.Clear();
 
-			buf.Stop();
+					font.Color = Color.White;
+					font.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
+
+					Display.EndFrame();
+					AgateApp.KeepAlive();
+
+					if (w.ElapsedMilliseconds > 500)
+					{
+						sa.Frequency += 50;
+						w.Reset();
+						w.Start();
+					}
+				}
+
+				buf.Stop();
+			}
 		}
 
 		public void ModifySetup(IAgateSetup setup)

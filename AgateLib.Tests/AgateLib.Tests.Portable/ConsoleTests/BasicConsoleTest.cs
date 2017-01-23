@@ -26,18 +26,24 @@ namespace AgateLib.Tests.ConsoleTests
 
 		public void Run(string[] args)
 		{
-			AgateConsole.CommandLibraries.Add(new LibraryVocabulary(this));
-
-			while (AgateApp.IsAlive)
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
-				Display.BeginFrame();
-				Display.Clear(Color.LightBlue);
+				AgateConsole.CommandLibraries.Add(new LibraryVocabulary(this));
 
-				Font.AgateSans.Color = Color.Black;
-				Font.AgateSans.DrawText("Press ~ key to open console.");
+				while (AgateApp.IsAlive)
+				{
+					Display.BeginFrame();
+					Display.Clear(Color.LightBlue);
 
-				Display.EndFrame();
-				AgateApp.KeepAlive();
+					Font.AgateSans.Color = Color.Black;
+					Font.AgateSans.DrawText("Press ~ key to open console.");
+
+					Display.EndFrame();
+					AgateApp.KeepAlive();
+				}
 			}
 		}
 

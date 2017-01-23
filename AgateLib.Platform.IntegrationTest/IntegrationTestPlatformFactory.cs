@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,13 +15,15 @@ namespace AgateLib.Platform.IntegrationTest
 	class IntegrationTestPlatformFactory : IPlatformFactory
 	{
 		FakePlatformInfo info = new FakePlatformInfo();
+		private string appDirPath;
 
 		public IntegrationTestPlatformFactory(string appDirPath)
 		{
-			ApplicationFolderFileProvider = new FileSystemProvider(appDirPath);
+			this.appDirPath = appDirPath;
+			ApplicationFolderFiles = new FileSystemProvider(appDirPath);
 		}
 
-		public IReadFileProvider ApplicationFolderFileProvider { get; private set; }
+		public IReadFileProvider ApplicationFolderFiles { get; private set; }
 
 		public IPlatformInfo Info => info;
 		
@@ -31,6 +34,16 @@ namespace AgateLib.Platform.IntegrationTest
 
 		public void Initialize(FileSystemObjects fileSystemObjects)
 		{
+		}
+
+		public IReadFileProvider OpenAppFolder(string subpath)
+		{
+			return new FileSystemProvider(Path.Combine(appDirPath, subpath));
+		}
+
+		public IReadWriteFileProvider OpenUserAppStorage(string subpath)
+		{
+			return new FileSystemProvider(Path.Combine(appDirPath, subpath));
 		}
 	}
 }

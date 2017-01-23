@@ -36,16 +36,28 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 			myForm.Show();
 
 			// create three display windows
-			DisplayWindow wnd_1 = DisplayWindow.CreateFromControl(myForm.pictureBox1);
-			DisplayWindow wnd_2 = DisplayWindow.CreateFromControl(myForm.pictureBox2);
-			DisplayWindow wnd_3 = DisplayWindow.CreateFromControl(myForm.pictureBox3);
+			DisplayWindow wnd_1 = new DisplayWindowBuilder()
+				.RenderToControl(myForm.pictureBox1)
+				.AutoResizeBackBuffer()
+				.Build();
 
-			myForm.pictureBox3.Resize += new EventHandler(wnd_3_Resize);
+			DisplayWindow wnd_2 = new DisplayWindowBuilder()
+				.RenderToControl(myForm.pictureBox2)
+				.AutoResizeBackBuffer()
+				.Build();
+
+			DisplayWindow wnd_3 = new DisplayWindowBuilder()
+				.RenderToControl(myForm.pictureBox3)
+				.AutoResizeBackBuffer()
+				.Build();
+			
+			myForm.pictureBox3.Resize += wnd_3_Resize;
 
 			// this is the code that will be called when the button is pressed
-			myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
-			myForm.btnClearSurface.Click += new EventHandler(btnClear_Click);
-			myForm.btnDrawText.Click += new EventHandler(btnDrawText_Click);
+			myForm.btnDraw.Click += btnDraw_Click;
+			myForm.btnClearSurface.Click += btnClear_Click;
+			myForm.btnDrawText.Click += btnDrawText_Click;
+
 			Surface image1 = new Surface("Images/jellybean.png");
 			Surface image2 = new Surface("Images/9ball.png");
 			image1.DisplayWidth = 40;

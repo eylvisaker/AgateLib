@@ -71,10 +71,12 @@ namespace Examples.Launcher
 
 				foreach (var example in categories[category].Keys)
 				{
+					var item = categories[category][example];
+
 					lstExamples.Items.Add(new ListBoxItem
 					{
-						Name = example,
-						Example = categories[category][example]
+						Name = item.Name,
+						Example = item
 					});
 
 					if (selection == -1)

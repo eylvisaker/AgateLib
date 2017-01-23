@@ -27,7 +27,7 @@ using AgateLib.Configuration.State;
 
 namespace AgateLib.IO
 {
-	[Obsolete("This is going away. Use Core.Assets instead.")]
+	[Obsolete("This is going away. Use AgateApp.Assets instead.")]
 	public static class Assets
 	{
 		private static IOState State => AgateApp.State.IO;

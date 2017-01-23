@@ -19,8 +19,15 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 		Point location = new Point(150, 100);
 		Sprite sp;
 
-		public string Name { get { return "Rotating Sprite"; } }
-		public string Category { get { return "Display"; } }
+		public string Name
+		{
+			get { return "Rotating Sprite"; }
+		}
+
+		public string Category
+		{
+			get { return "Display"; }
+		}
 
 		public Scene StartScene
 		{
@@ -39,6 +46,7 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 			sp.RotationAngleDegrees = 90;
 			sp.SetScale(2, 2);
 		}
+
 		public override void Update(double deltaT)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
@@ -60,7 +68,13 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 
 		public void Run(string[] args)
 		{
-			SceneStack.Start(this);
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
+			{
+				SceneStack.Start(this);
+			}
 		}
 	}
 }

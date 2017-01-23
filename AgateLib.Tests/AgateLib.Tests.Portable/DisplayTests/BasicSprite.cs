@@ -14,16 +14,10 @@ namespace AgateLib.Tests.DisplayTests
 	{
 		Sprite p;
 
-		public string Name
-		{
-			get { return "Basic Sprite"; }
-		}
+		public string Name => "Basic Sprite";
 
-		public string Category
-		{
-			get { return "Display"; }
-		}
-		
+		public string Category => "Display";
+
 		public AgateConfig Configuration { get; set; }
 
 		protected override void OnSceneStart()
@@ -58,7 +52,13 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run(string[] args)
 		{
-			SceneStack.Start(this);
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
+			{
+				SceneStack.Start(this);
+			}
 		}
 	}
 }

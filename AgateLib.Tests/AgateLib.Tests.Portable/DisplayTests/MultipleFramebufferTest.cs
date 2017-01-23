@@ -33,39 +33,45 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run(string[] args)
 		{
-			font = Font.AgateSans;
-			font.Size = 14;
-
-			Input.Unhandled.MouseDown += Mouse_MouseDown;
-
-			mySurface = new Surface("9ball.png");
-
-			while (AgateApp.IsAlive && done == false)
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
-				Display.RenderTarget = Display.CurrentWindow.FrameBuffer;
-				Display.BeginFrame();
-				Display.Clear(Color.Gray);
+				font = Font.AgateSans;
+				font.Size = 14;
 
-				font.Color = Color.White;
-				font.DisplayAlignment = OriginAlignment.TopLeft;
-				font.DrawText("Click or tap to create another frame buffer.");
+				Input.Unhandled.MouseDown += Mouse_MouseDown;
 
-				int y = font.FontHeight;
-				int x = 10;
-				foreach (var surf in tests)
+				mySurface = new Surface("9ball.png");
+
+				while (AgateApp.IsAlive && done == false)
 				{
-					surf.Draw(x, y);
-					y += surf.DisplayHeight + 10;
+					Display.RenderTarget = Display.CurrentWindow.FrameBuffer;
+					Display.BeginFrame();
+					Display.Clear(Color.Gray);
 
-					if (y + 42 >= Display.CurrentWindow.Height)
+					font.Color = Color.White;
+					font.DisplayAlignment = OriginAlignment.TopLeft;
+					font.DrawText("Click or tap to create another frame buffer.");
+
+					int y = font.FontHeight;
+					int x = 10;
+					foreach (var surf in tests)
 					{
-						y = font.FontHeight;
-						x += 42;
-					}
-				}
+						surf.Draw(x, y);
+						y += surf.DisplayHeight + 10;
 
-				Display.EndFrame();
-				AgateApp.KeepAlive();
+						if (y + 42 >= Display.CurrentWindow.Height)
+						{
+							y = font.FontHeight;
+							x += 42;
+						}
+					}
+
+					Display.EndFrame();
+					AgateApp.KeepAlive();
+				}
 			}
 		}
 

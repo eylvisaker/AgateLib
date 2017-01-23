@@ -16,6 +16,7 @@ namespace AgateLib.DisplayLib
 		private CreateWindowParams createParams = new CreateWindowParams();
 		private string[] args;
 		private bool quitOnClose;
+		private bool autoResize;
 
 		/// <summary>
 		/// Constructs a DisplayWindowBuilder object. For creating your primary
@@ -64,6 +65,8 @@ namespace AgateLib.DisplayLib
 			if (quitOnClose)
 				result.Closed += DisplayWindow_Closed;
 
+			ApplyAutoResize(result);
+
 			return result;
 		}
 
@@ -86,6 +89,8 @@ namespace AgateLib.DisplayLib
 
 				if (Display.RenderTarget == null)
 					Display.RenderTarget = result.FrameBuffer;
+
+				ApplyAutoResize(result);
 
 				results.Add(result);
 			}
@@ -207,9 +212,68 @@ namespace AgateLib.DisplayLib
 			return this;
 		}
 
+		/// <summary>
+		/// Allows the user to resize the window by dragging the borders.
+		/// </summary>
+		public DisplayWindowBuilder AllowResize()
+		{
+			createParams.IsResizable = true;
+
+			return this;
+		}
+
+		/// <summary>
+		/// If true, this will automatically
+		/// resize the backbuffer in response to window size change events.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public DisplayWindowBuilder AutoResizeBackBuffer(bool value = true)
+		{
+			autoResize = value;
+
+			return this;
+		}
+
+		/// <summary>
+		/// Processes a single command line argument. Override this to replace how
+		/// command line arguments interact with AgateLib. Unrecognized arguments will be
+		/// passed to ProcessCustomArgument. 
+		/// </summary>
+		/// <param name="arg"></param>
+		/// <param name="parameters"></param>
+		protected virtual void ProcessArgument(string arg, IList<string> parameters)
+		{
+			switch (arg)
+			{
+				case "-window":
+					Windowed();
+					if (parameters.Count > 0)
+						PhysicalSize(Size.FromString(parameters[0]));
+					break;
+
+				default:
+					ProcessCustomArgument(arg, parameters);
+					break;
+			}
+		}
+
 		private void DisplayWindow_Closed(object sender, EventArgs e)
 		{
 			AgateApp.IsAlive = false;
+		}
+
+
+		private void ApplyAutoResize(DisplayWindow result)
+		{
+			result.Resize += DisplayWindow_Resized;
+		}
+
+		private void DisplayWindow_Resized(object sender, EventArgs e)
+		{
+			DisplayWindow window = (DisplayWindow) sender;
+
+			window.Resolution = window.Resolution.Clone(window.PhysicalSize);
 		}
 
 
@@ -253,29 +317,6 @@ namespace AgateLib.DisplayLib
 
 					i += parameters.Count;
 				}
-			}
-		}
-
-		/// <summary>
-		/// Processes a single command line argument. Override this to replace how
-		/// command line arguments interact with AgateLib. Unrecognized arguments will be
-		/// passed to ProcessCustomArgument. 
-		/// </summary>
-		/// <param name="arg"></param>
-		/// <param name="parameters"></param>
-		protected virtual void ProcessArgument(string arg, IList<string> parameters)
-		{
-			switch (arg)
-			{
-				case "-window":
-					Windowed();
-					if (parameters.Count > 0)
-						PhysicalSize(Size.FromString(parameters[0]));
-					break;
-
-				default:
-					ProcessCustomArgument(arg, parameters);
-					break;
 			}
 		}
 

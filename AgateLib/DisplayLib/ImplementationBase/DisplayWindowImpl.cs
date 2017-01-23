@@ -118,40 +118,42 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		public abstract string Title { get; set; }
 
+		public abstract Size PhysicalSize { get; }
+
 		/// <summary>
 		/// Event raised when the window is resized by the user.
 		/// Be sure to call the base class method so that client events are raised.
 		/// </summary>
-		protected virtual void OnResize()
+		protected virtual void OnResize(IDisplayWindow owner)
 		{
-			Resize?.Invoke(this, EventArgs.Empty);
+			Resize?.Invoke(owner, EventArgs.Empty);
 		}
 
 		/// <summary>
 		/// Event raised when the window is closed by the user.
 		/// Be sure to call the base class method so that client events are raised.
 		/// </summary>
-		protected virtual void OnClosed()
+		protected virtual void OnClosed(IDisplayWindow owner)
 		{
-			Closed?.Invoke(this, EventArgs.Empty);
+			Closed?.Invoke(owner, EventArgs.Empty);
 		}
 
 		/// <summary>
 		/// Event raised when the user clicks the close box but before the window is closed.
 		/// Be sure to call the base class method so that client events are raised.
 		/// </summary>
-		protected virtual void OnClosing(ref bool cancel)
+		protected virtual void OnClosing(IDisplayWindow owner, ref bool cancel)
 		{
-			Closing?.Invoke(this, ref cancel);
+			Closing?.Invoke(owner, ref cancel);
 		}
 
 		/// <summary>
 		/// Event raised when there is any mouse/keyboard input from the user.
 		/// </summary>
 		/// <param name="args"></param>
-		protected virtual void OnInputEvent(AgateInputEventArgs args)
+		protected virtual void OnInputEvent(IDisplayWindow owner, AgateInputEventArgs args)
 		{
-			InputEvent?.Invoke(this, args);
+			InputEvent?.Invoke(owner, args);
 		}
 
 		/// <summary>

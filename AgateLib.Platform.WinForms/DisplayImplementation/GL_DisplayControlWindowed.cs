@@ -80,28 +80,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public override bool IsClosed => isClosed;
 
 		public override bool IsFullScreen => false;
-
-		public override IResolution Resolution
-		{
-			get { return chooseResolution; }
-			set
-			{
-				if (wfRenderTarget.InvokeRequired)
-				{
-					wfRenderTarget.Invoke(new Action(() => Resolution = value));
-					return;
-				}
-
-				chooseResolution = value.Clone();
-
-				wfRenderTarget.ClientSize = chooseResolution.Size.ToDrawing();
-
-				if (wfForm != null)
-				{
-					wfForm.ClientSize = chooseResolution.Size.ToDrawing();
-				}
-			}
-		}
 		
 		private void CreateWindowedDisplay(CreateWindowParams createParams)
 		{

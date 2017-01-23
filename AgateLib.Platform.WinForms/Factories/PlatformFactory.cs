@@ -35,15 +35,61 @@ namespace AgateLib.Platform.WinForms.Factories
 {
 	class PlatformFactory : IPlatformFactory
 	{
-		public PlatformFactory(string appRootPath)
+		private Assembly entryAssembly;
+		private string applicationDirectory;
+		private string userAppDataPath;
+		private string documentsPath;
+
+		public PlatformFactory(string appRootPath = null)
 		{
+			entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
+
+			var companyAttribute = GetCustomAttribute<AssemblyCompanyAttribute>(entryAssembly);
+			var nameAttribute = GetCustomAttribute<AssemblyProductAttribute>(entryAssembly);
+
+			SetPaths(
+				companyAttribute != null ? companyAttribute.Company : string.Empty,
+				nameAttribute != null ? nameAttribute.Product : string.Empty);
+
 			Info = new FormsPlatformInfo();
 
-			ApplicationFolderFileProvider = new FileSystemProvider(appRootPath);
+			applicationDirectory = appRootPath ?? GetApplicationDirectory();
+			documentsPath = GetUserDocumentsDirectory();
+
+			ApplicationFolderFiles = OpenAppFolder("");
+
+			UserAppStorage = OpenUserAppStorage("");
 		}
 
+		public string AppCompanyName { get; private set; }
+
+		public string AppProductName { get; private set; }
+
 		public IPlatformInfo Info { get; private set; }
-		public IReadFileProvider ApplicationFolderFileProvider { get; private set; }
+
+		public IReadFileProvider ApplicationFolderFiles { get; private set; }
+
+		public IReadWriteFileProvider UserAppStorage { get; private set; }
+
+		public IReadFileProvider OpenAppFolder(string subpath)
+		{
+			return new FileSystemProvider(Path.Combine(applicationDirectory, subpath));
+		}
+
+		public IReadWriteFileProvider OpenUserAppStorage(string subpath)
+		{
+			return new FileSystemProvider(Path.Combine(userAppDataPath, subpath));
+		}
+
+		public void SetPaths(string applicationName, string companyName)
+		{
+			userAppDataPath = GetUserAppDataDirectory();
+
+			AppCompanyName = companyName;
+			AppProductName = applicationName;
+
+			UserAppStorage = OpenUserAppStorage("");
+		}
 
 		public IStopwatch CreateStopwatch()
 		{
@@ -57,33 +103,48 @@ namespace AgateLib.Platform.WinForms.Factories
 			fileSystemObjects.Directory = new SysIoDirectory();
 		}
 
-		static public string AssemblyLoadDirectory
+		private string GetApplicationDirectory()
 		{
-			get
-			{
-				string codeBase = Assembly.GetCallingAssembly().CodeBase;
-				UriBuilder uri = new UriBuilder(codeBase);
-				string path = Uri.UnescapeDataString(uri.Path);
-				return Path.GetDirectoryName(path);
-			}
+			string fqn = entryAssembly.GetLoadedModules()[0].FullyQualifiedName;
+
+			var dir = Path.GetDirectoryName(fqn);
+			Log.WriteLine("App Dir: {0}", dir);
+
+			return dir;
 		}
 
-		public IEnumerable<Assembly> GetSerializationSearchAssemblies(Type objectType)
+		private string GetUserAppDataDirectory()
 		{
-			var assembly = Assembly.GetEntryAssembly();
+			string combDir;
+			string rootPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-			yield return assembly;
+			// If only one is non null, use that one. Otherwise,
+			// combine them.
+			if (AppCompanyName == null) combDir = AppProductName;
+			else if (AppProductName == null) combDir = AppCompanyName;
+			else 
+				combDir = Path.Combine(AppCompanyName, AppProductName);
 
-			// add names of assemblies referenced by the current assembly.
-			Assembly[] loaded = AppDomain.CurrentDomain.GetAssemblies();
-			AssemblyName[] referenced = assembly.GetReferencedAssemblies();
+			if (combDir == null)
+				return rootPath;
 
-			foreach (AssemblyName assname in referenced)
+			return Path.Combine(rootPath, combDir);
+		}
+
+		private string GetUserDocumentsDirectory()
+		{
+			return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+		}
+
+		private static T GetCustomAttribute<T>(Assembly ass) where T : Attribute
+		{
+			try
 			{
-				Assembly ass = loaded.FirstOrDefault(x => x.FullName == assname.FullName);
-
-				if (ass != null)
-					yield return ass;
+				return ass.GetCustomAttributes(typeof(T), false)[0] as T;
+			}
+			catch
+			{
+				return null;
 			}
 		}
 	}

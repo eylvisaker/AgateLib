@@ -12,38 +12,44 @@ namespace AgateLib.Tests.FontTests
 		public string Category => "Fonts";
 
 		public AgateConfig Configuration { get; set; }
-		
+
 		public void Run(string[] args)
 		{
-			Display.BeginFrame();
-			Display.Clear(Color.Navy);
-			Display.EndFrame();
-			AgateApp.KeepAlive();
-
-			BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyles.None);
-			fontOptions.TextRenderer = TextRenderEngine.TextRenderer;
-
-			FontSurface surface = new FontSurface(BitmapFontUtil.ConstructFromOSFont(fontOptions));
-			Font font = new FontBuilder("Times")
-				.AddFontSurface(new FontSettings(18, FontStyles.None), surface)
-				.Build();
-
-			// TODO: Fix this
-			//font.Save("testfont.xml");
-
-			//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
-
-			while (AgateApp.IsAlive)
+			using (new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Navy);
-
-				font.DrawText("The quick brown fox jumped over the lazy dogs.");
-
-				//second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
-
 				Display.EndFrame();
 				AgateApp.KeepAlive();
+
+				BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyles.None);
+				fontOptions.TextRenderer = TextRenderEngine.TextRenderer;
+
+				FontSurface surface = new FontSurface(BitmapFontUtil.ConstructFromOSFont(fontOptions));
+				Font font = new FontBuilder("Times")
+					.AddFontSurface(new FontSettings(18, FontStyles.None), surface)
+					.Build();
+
+				// TODO: Fix this
+				//font.Save("testfont.xml");
+
+				//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
+
+				while (AgateApp.IsAlive)
+				{
+					Display.BeginFrame();
+					Display.Clear(Color.Navy);
+
+					font.DrawText("The quick brown fox jumped over the lazy dogs.");
+
+					//second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
+
+					Display.EndFrame();
+					AgateApp.KeepAlive();
+				}
 			}
 		}
 

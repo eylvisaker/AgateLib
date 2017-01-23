@@ -100,11 +100,16 @@ namespace AgateLib
 			foreach (var sc in UpdateScenes)
 				sc.Update(Display.DeltaTime);
 
+			if (!AgateApp.IsAlive)
+				return;
+
 			CheckForFinishedScenes();
 			Display.BeginFrame();
 
 			foreach (var sc in DrawScenes)
+			{
 				sc.Draw();
+			}
 
 			Display.EndFrame();
 			AgateApp.KeepAlive();

@@ -32,54 +32,60 @@ namespace AgateLib.Tests.FontTests
 
 		public void Run(string[] args)
 		{
-			var resources = new AgateResourceManager("UserInterface/FontAlignment.yaml");
-			resources.InitializeContainer(this);
-
-			var fonts = new List<IFont> { Font.AgateSans, Font.AgateSerif, Font.AgateMono, };
-
-			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-
-			int[] numbers = new int[] { 0, 0, 1, 11, 22, 33, 44, 99, 100, 111, 222, 333, 444, 555, 666, 777, 888, 999 };
-
-			while (AgateApp.IsAlive)
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
-				IFont f = fonts[fontIndex];
+				var resources = new AgateResourceManager("UserInterface/FontAlignment.yaml");
+				resources.InitializeContainer(this);
 
-				Display.BeginFrame();
-				Display.Clear(Color.Black);
+				var fonts = new List<IFont> {Font.AgateSans, Font.AgateSerif, Font.AgateMono,};
 
-				var firstLineFont = fonts.First();
-				var firstLineHeight = firstLineFont.FontHeight;
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
 
-				Display.FillRect(new Rectangle(0, firstLineHeight, 300, 600), Color.DarkSlateGray);
-				Display.FillRect(new Rectangle(300, firstLineHeight, 300, 600), Color.DarkBlue);
+				int[] numbers = new int[] {0, 0, 1, 11, 22, 33, 44, 99, 100, 111, 222, 333, 444, 555, 666, 777, 888, 999};
 
-				firstLineFont.DisplayAlignment = OriginAlignment.TopLeft;
-				firstLineFont.Color = Color.White;
-				firstLineFont.DrawText(0, 0 ,"Press space to cycle fonts.");
-				
-				f.Color = Color.White;
-				f.DisplayAlignment = OriginAlignment.TopLeft;
-				f.DrawText(0, firstLineHeight, "Left-aligned numbers");
-
-				for (int i = 1; i < numbers.Length; i++)
+				while (AgateApp.IsAlive)
 				{
-					f.DrawText(0, firstLineHeight + i * f.FontHeight, numbers[i].ToString());
+					IFont f = fonts[fontIndex];
+
+					Display.BeginFrame();
+					Display.Clear(Color.Black);
+
+					var firstLineFont = fonts.First();
+					var firstLineHeight = firstLineFont.FontHeight;
+
+					Display.FillRect(new Rectangle(0, firstLineHeight, 300, 600), Color.DarkSlateGray);
+					Display.FillRect(new Rectangle(300, firstLineHeight, 300, 600), Color.DarkBlue);
+
+					firstLineFont.DisplayAlignment = OriginAlignment.TopLeft;
+					firstLineFont.Color = Color.White;
+					firstLineFont.DrawText(0, 0, "Press space to cycle fonts.");
+
+					f.Color = Color.White;
+					f.DisplayAlignment = OriginAlignment.TopLeft;
+					f.DrawText(0, firstLineHeight, "Left-aligned numbers");
+
+					for (int i = 1; i < numbers.Length; i++)
+					{
+						f.DrawText(0, firstLineHeight + i * f.FontHeight, numbers[i].ToString());
+					}
+
+					f.DisplayAlignment = OriginAlignment.TopRight;
+					f.DrawText(600, firstLineHeight, "Right-aligned numbers");
+
+					for (int i = 1; i < numbers.Length; i++)
+					{
+						f.DrawText(600.0, firstLineHeight + i * f.FontHeight, numbers[i].ToString());
+					}
+
+					Display.EndFrame();
+					AgateApp.KeepAlive();
+
+					if (fontIndex >= fonts.Count)
+						fontIndex = 0;
 				}
-
-				f.DisplayAlignment = OriginAlignment.TopRight;
-				f.DrawText(600, firstLineHeight, "Right-aligned numbers");
-
-				for (int i = 1; i < numbers.Length; i++)
-				{
-					f.DrawText(600.0, firstLineHeight + i * f.FontHeight, numbers[i].ToString());
-				}
-
-				Display.EndFrame();
-				AgateApp.KeepAlive();
-
-				if (fontIndex >= fonts.Count)
-					fontIndex = 0;
 			}
 		}
 

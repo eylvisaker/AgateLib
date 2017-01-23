@@ -362,6 +362,7 @@ namespace AgateLib
 
 		/// <summary>
 		/// Gets the file provider for the programs assets folder.
+		/// Sets all the asset providers to the same value.
 		/// </summary>
 		public static IReadFileProvider Assets
 		{
@@ -371,6 +372,10 @@ namespace AgateLib
 				Require.ArgumentNotNull(value, nameof(Assets));
 
 				State.Core.Assets = value;
+				State.IO.mImages = value;
+				State.IO.mMusic = value;
+				State.IO.mResources = value;
+				State.IO.mUserInterfaceAssets = value;
 			}
 		}
 
@@ -383,6 +388,16 @@ namespace AgateLib
 
 				State.Core.UserFiles = value;
 			}
+		}
+
+		public static void SetAssetPath(string path)
+		{
+			Assets = State.Factory.PlatformFactory.OpenAppFolder(path);
+		}
+
+		public static void SetUserAppStoragePath(string path)
+		{
+			UserFiles = State.Factory.PlatformFactory.OpenUserAppStorage(path);
 		}
 		/// <summary>
 		/// Plays nice with the OS, by allowing events to be handled.
@@ -420,6 +435,20 @@ namespace AgateLib
 		internal static double GetTime()
 		{
 			return State.Core.Time.TotalMilliseconds;
+		}
+
+		/// <summary>
+		/// Sets the location that user files are saved.
+		/// </summary>
+		/// <remarks>In general the path user files are saved to 
+		/// will be ~/companyName/name with ~ replaced with the 
+		/// operating system's path to user configuration files. 
+		/// </remarks>
+		/// <param name="name"></param>
+		/// <param name="companyName"></param>
+		public static void SetApplicationName(string name, string companyName)
+		{
+
 		}
 	}
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib.Geometry;
+using AgateLib.Platform.WinForms.IO;
 using AgateLib.Settings;
 
 namespace AgateLib.Tests
@@ -100,15 +101,15 @@ namespace AgateLib.Tests
 		{
 			using (var setup = new AgateLib.Platform.WinForms.AgateSetup(CommandLineArguments))
 			{
-				setup.ApplicationName = $"{test.Category} :: {test.Name}";
-				setup.AssetLocations.Path = "Assets";
-				setup.DesiredDisplayWindowResolution = new Size(800, 600);
-
-				setup.InitializeAgateLib();
+				AgateApp.SetApplicationName($"{test.Category} :: {test.Name}", "AgateLib");
+				AgateApp.SetAssetPath("Assets");
 
 				test.Configuration = setup.Configuration;
 				test.Run(CommandLineArguments);
 			}
+
+			Application.DoEvents();
+			GC.Collect();
 		}
 
 		private void SplitName(string p, out string group, out string key)

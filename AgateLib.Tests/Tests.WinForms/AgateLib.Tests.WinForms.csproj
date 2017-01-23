@@ -151,11 +151,7 @@
     <Compile Include="DisplayTests\Capabilities\frmCapabilities.Designer.cs">
       <DependentUpon>frmCapabilities.cs</DependentUpon>
     </Compile>
-    <Compile Include="DisplayTests\LargeImage.cs" />
     <Compile Include="DisplayTests\DisplayWindowEvents.cs" />
-    <Compile Include="DisplayTests\PixelBufferMask.cs" />
-    <Compile Include="DisplayTests\Prerendered.cs" />
-    <Compile Include="DisplayTests\RenderTargetContinuous.cs" />
     <Compile Include="FontTests\Kerning.cs" />
     <Compile Include="frmLauncher.cs">
       <SubType>Form</SubType>
@@ -195,9 +191,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CoreTests\Timers\Timers.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayTests\ScreenCapture.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayTests\BasicDrawing\BasicDrawing.cs">

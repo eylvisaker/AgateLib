@@ -71,7 +71,7 @@ Press arrow keys to adjust resolution
 			while (AgateApp.IsAlive)
 			{
 				var mouseText = topText +
-					$"Resolution: {currentResolution}\nMouse: {mousePosition}";
+								$"Resolution: {currentResolution}\nMouse: {mousePosition}";
 
 				Display.BeginFrame();
 				Display.Clear(Color.DarkGreen);

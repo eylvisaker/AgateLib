@@ -12,25 +12,29 @@ namespace AgateLib.Tests.FoundationTests
 {
 	class ResourceTester : Scene, IAgateTest
 	{
-		public string Name { get { return "Resources"; } }
-		public string Category { get { return "Foundation"; } }
+		public string Name
+		{
+			get { return "Resources"; }
+		}
+
+		public string Category
+		{
+			get { return "Foundation"; }
+		}
 
 		public AgateConfig Configuration { get; set; }
 
-		[BindTo("sample_surf")]
-		public Surface surf;
-		
-		[BindTo("sample_sprite")]
-		public ISprite sprite;
+		[BindTo("sample_surf")] public Surface surf;
 
-		[BindTo("sample_font")]
-		public Font font;
+		[BindTo("sample_sprite")] public ISprite sprite;
+
+		[BindTo("sample_font")] public Font font;
 
 		protected override void OnSceneStart()
 		{
 			var resources = new AgateResourceManager("ResourceTester.yaml");
 			resources.InitializeContainer(this);
-			
+
 			sprite.StartAnimation();
 		}
 
@@ -56,7 +60,13 @@ namespace AgateLib.Tests.FoundationTests
 
 		public void Run(string[] args)
 		{
-			SceneStack.Start(this);
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
+			{
+				SceneStack.Start(this);
+			}
 		}
 	}
 }

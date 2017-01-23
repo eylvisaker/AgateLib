@@ -42,7 +42,13 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run(string[] args)
 		{
-			SceneStack.Start(this);
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
+			{
+				SceneStack.Start(this);
+			}
 		}
 
 		public Scene StartScene

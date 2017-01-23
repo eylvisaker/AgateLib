@@ -140,7 +140,7 @@ namespace AgateLib.Platform.WinForms
 		{
 			Condition.Requires<InvalidOperationException>(factory == null, "InitializeLibrary should only be called once.");
 
-			factory = new FormsFactory(GetAppRootPath());
+			factory = new FormsFactory();
 
 			AgateApp.Initialize(factory);
 		}

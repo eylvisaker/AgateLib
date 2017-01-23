@@ -5,6 +5,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Configuration;
+using AgateLib.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -29,29 +30,35 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run(string[] args)
 		{
-			DisplayWindow wind = DisplayWindow.CreateWindowed("Display Window Events", 640, 480, true);
-
-			wind.Resize += new EventHandler(wind_Resize);
-			wind.Closed += new EventHandler(wind_Closed);
-			wind.Closing += new CancelEventHandler(wind_Closing);
-
-			while (wind.IsClosed == false)
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(640, 480)
+				.QuitOnClose()
+				.AllowResize()
+				.AutoResizeBackBuffer()
+				.Build())
 			{
-				Display.BeginFrame();
-				Display.Clear();
+				window.Resize += wind_Resize;
+				window.Closed += wind_Closed;
+				window.Closing += wind_Closing;
 
-				Font.AgateSans.Size = 12;
-				Font.AgateSans.DrawText(instructionText + count);
-				Font.AgateSans.DrawText(0, Font.AgateSans.FontHeight, text);
+				while (window.IsClosed == false)
+				{
+					Display.BeginFrame();
+					Display.Clear(Color.Blue);
 
-				Display.EndFrame();
-				AgateApp.KeepAlive();
-			}
+					Font.AgateSans.Size = 12;
+					Font.AgateSans.DrawText(instructionText + count);
+					Font.AgateSans.DrawText(0, Font.AgateSans.FontHeight, text);
 
-			if (closedEvent == false)
-			{
-				System.Windows.Forms.MessageBox.Show(
-					"Closed event did not fire!");
+					Display.EndFrame();
+					AgateApp.KeepAlive();
+				}
+
+				if (closedEvent == false)
+				{
+					System.Windows.Forms.MessageBox.Show(
+						"Closed event did not fire!");
+				}
 			}
 		}
 

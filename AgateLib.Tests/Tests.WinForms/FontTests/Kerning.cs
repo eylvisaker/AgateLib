@@ -29,37 +29,43 @@ namespace AgateLib.Tests.FontTests
 
 		public void Run(string[] args)
 		{
-			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-			DisplayWindow wind = DisplayWindow.CreateWindowed("Kerning test", 800, 600);
-			FontState state = new FontState
+			using (var wind = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
-				Size = 14,
-				Style = FontStyles.None,
-			};
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
 
-			FontSurface font = Font.AgateSans.Impl.FontSurface(state);
+				FontState state = new FontState
+				{
+					Size = 14,
+					Style = FontStyles.None,
+				};
 
-			FontSurface unkerned = ConstructUnkernedFont(font);
+				FontSurface font = Font.AgateSans.Impl.FontSurface(state);
 
-			string text = ConstructKerningText(wind, font);
+				FontSurface unkerned = ConstructUnkernedFont(font);
 
-			while (wind.IsClosed == false)
-			{
-				Display.BeginFrame();
-				Display.Clear();
+				string text = ConstructKerningText(wind, font);
 
-				FontSurface thisFont = useKerning ? font : unkerned;
+				while (AgateApp.IsAlive)
+				{
+					Display.BeginFrame();
+					Display.Clear();
 
-				if (useKerning)
-					thisFont.DrawText(state,"Using kerning. (space to toggle)");
-				else
-					thisFont.DrawText(state, "No kerning used. (space to toggle)");
+					FontSurface thisFont = useKerning ? font : unkerned;
 
-				state.Color = Color.White;
-				thisFont.DrawText(state, 0, thisFont.FontHeight(state), text);
+					if (useKerning)
+						thisFont.DrawText(state, "Using kerning. (space to toggle)");
+					else
+						thisFont.DrawText(state, "No kerning used. (space to toggle)");
 
-				Display.EndFrame();
-				AgateApp.KeepAlive();
+					state.Color = Color.White;
+					thisFont.DrawText(state, 0, thisFont.FontHeight(state), text);
+
+					Display.EndFrame();
+					AgateApp.KeepAlive();
+				}
 			}
 		}
 

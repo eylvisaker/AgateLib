@@ -56,56 +56,73 @@ Press arrow keys to adjust resolution
 
 		public void Run(string[] args)
 		{
-			Surface mousePointerSurface = new Surface("Images/pointer.png");
+			DisplayWindow[] windows = null;
 
-			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-			Input.Unhandled.MouseMove += Mouse_MouseMove;
-
-			IFont font = Font.AgateSans;
-
-			Size bottomSize = font.MeasureString(bottomText);
-			Size topSize = font.MeasureString(topText + "z\nz");
-
-			// Run the program while the window is open.
-			while (AgateApp.IsAlive)
+			try
 			{
-				var mouseText = topText +
-					$"Resolution: {currentResolution}\nMouse: {mousePosition}";
+				windows = new DisplayWindowBuilder()
+					.BackbufferSize(800, 600)
+					.QuitOnClose()
+					.BuildForAllScreens();
 
-				Display.RenderTarget = Display.Screens.PrimaryScreen.DisplayWindow.FrameBuffer;
-				Display.BeginFrame();
-				Display.Clear(Color.DarkGreen);
+				Surface mousePointerSurface = new Surface("Images/pointer.png");
 
-				font.DrawText(0, Display.CurrentWindow.Height - bottomSize.Height, bottomText);
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
+				Input.Unhandled.MouseMove += Mouse_MouseMove;
 
-				Display.FillRect(new Rectangle(0, 0, Display.CurrentWindow.Width, topSize.Height),
-					Color.Maroon);
+				IFont font = Font.AgateSans;
 
-				font.DrawText(mouseText);
+				Size bottomSize = font.MeasureString(bottomText);
+				Size topSize = font.MeasureString(topText + "z\nz");
 
-				DrawMousePointer(Display.Screens.PrimaryScreen.DisplayWindow, mousePointerSurface);
-
-				Display.EndFrame();
-
-				foreach (var screen in Display.Screens.AllScreens.Where(screen => !screen.IsPrimary))
+				// Run the program while the window is open.
+				while (AgateApp.IsAlive)
 				{
-					Display.RenderTarget = screen.DisplayWindow.FrameBuffer;
+					var mouseText = topText +
+					                $"Resolution: {currentResolution}\nMouse: {mousePosition}";
+
+					Display.RenderTarget = Display.Screens.PrimaryScreen.DisplayWindow.FrameBuffer;
 					Display.BeginFrame();
-					Display.Clear(Color.Gray);
+					Display.Clear(Color.DarkGreen);
 
-					font.DrawText(0, 0, $"Screen {screen.Bounds}");
+					font.DrawText(0, Display.CurrentWindow.Height - bottomSize.Height, bottomText);
 
-					DrawMousePointer(screen.DisplayWindow, mousePointerSurface);
+					Display.FillRect(new Rectangle(0, 0, Display.CurrentWindow.Width, topSize.Height),
+						Color.Maroon);
+
+					font.DrawText(mouseText);
+
+					DrawMousePointer(Display.Screens.PrimaryScreen.DisplayWindow, mousePointerSurface);
 
 					Display.EndFrame();
+
+					foreach (var screen in Display.Screens.AllScreens.Where(screen => !screen.IsPrimary))
+					{
+						Display.RenderTarget = screen.DisplayWindow.FrameBuffer;
+						Display.BeginFrame();
+						Display.Clear(Color.Gray);
+
+						font.DrawText(0, 0, $"Screen {screen.Bounds}");
+
+						DrawMousePointer(screen.DisplayWindow, mousePointerSurface);
+
+						Display.EndFrame();
+					}
+
+					AgateApp.KeepAlive();
 				}
 
-				AgateApp.KeepAlive();
+				mousePointerSurface.Dispose();
 			}
-
-			mousePointerSurface.Dispose();
+			finally
+			{
+				foreach (var window in windows ?? Enumerable.Empty<DisplayWindow>())
+				{
+					window.Dispose();
+				}
+			}
 		}
-
+		
 		private void DrawMousePointer(DisplayWindow targetWindow, Surface mousePointerSurface)
 		{
 			if (mouseWindow == targetWindow)

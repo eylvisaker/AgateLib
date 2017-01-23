@@ -15,9 +15,13 @@ namespace AgateLib.Tests.FontTests
 	{
 		List<IFont> fonts = new List<IFont>();
 		int currentFont = 0;
-		string text = "This text is a test\nof multiline text.  How\ndid it work?\n\n" +
-			"You can type into this box with the keyboard.\nThe rectangle is drawn by calling " +
-			"the\nStringDisplaySize function to get the size of the text.";
+		string text = "This text is a test\n" +
+		              "of multiline text.  How\n" +
+		              "did it work?\n\n" +
+		              "You can type into this box with the keyboard.\n" +
+		              "The rectangle is drawn by calling the\n" +
+		              "StringDisplaySize function to get the size of the text.\n" +
+		              "You can use the numeric keypad to change fonts.";
 
 		public string Name => "Font Lines";
 		public string Category => "Fonts";
@@ -30,37 +34,35 @@ namespace AgateLib.Tests.FontTests
 
 		public void Run(string[] args)
 		{
-			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-			AgateApp.AutoPause = true;
-
-			// TODO: Fix this
-			//FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
-
-			//fonts.Add(bmpFont);
-			fonts.Add(Font.AgateSans);
-			fonts.Add(Font.AgateSerif);
-			fonts.Add(Font.AgateMono);
-
-			while (AgateApp.IsAlive)
+			using (new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
-				Display.BeginFrame();
-				Display.Clear(Color.Navy);
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
+				AgateApp.AutoPause = true;
+				
+				fonts.Add(Font.AgateSans);
+				fonts.Add(Font.AgateSerif);
+				fonts.Add(Font.AgateMono);
 
-				Rectangle drawRect;
+				while (AgateApp.IsAlive)
+				{
+					Display.BeginFrame();
+					Display.Clear(Color.Navy);
 
-				FontTests(fonts[currentFont], out drawRect);
+					Rectangle drawRect;
 
-				Display.DrawRect(drawRect, Color.Red);
+					FontTests(fonts[currentFont], out drawRect);
 
-				//bmpFont.DrawText(0, 370, "Use numeric keypad to switch fonts.");
-				//bmpFont.DrawText(0, 400,
-				//    "Measured size was: " + drawRect.Size.ToString());
+					Display.DrawRect(drawRect, Color.Red);
+					
+					Display.EndFrame();
+					AgateApp.KeepAlive();
 
-				Display.EndFrame();
-				AgateApp.KeepAlive();
-
-				if (Input.Unhandled.Keys[KeyCode.Escape])
-					return;
+					if (Input.Unhandled.Keys[KeyCode.Escape])
+						return;
+				}
 			}
 		}
 

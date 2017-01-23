@@ -72,13 +72,19 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run(string[] args)
 		{
-			Input.Unhandled.KeyDown += (sender, e) =>
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
-				if (e.KeyCode == KeyCode.Escape)
-					AgateApp.IsAlive = false;
-			};
+				Input.Unhandled.KeyDown += (sender, e) =>
+				{
+					if (e.KeyCode == KeyCode.Escape)
+						AgateApp.IsAlive = false;
+				};
 
-			SceneStack.Start(this);
+				SceneStack.Start(this);
+			}
 		}
 	}
 }

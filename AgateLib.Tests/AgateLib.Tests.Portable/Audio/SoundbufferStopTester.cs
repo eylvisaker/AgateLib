@@ -35,30 +35,36 @@ namespace AgateLib.Tests.AudioTests
 
 		public void Run(string[] args)
 		{
-			snda = new SoundBuffer("snda.wav");
-			sndb = new SoundBuffer("sndb.wav");
-
-			IFont font = Font.AgateSans;
-
-			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-			Input.Unhandled.MouseDown += Mouse_MouseDown;
-
-			while (AgateApp.IsAlive)
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
 			{
-				Display.BeginFrame();
-				Display.Clear();
+				snda = new SoundBuffer("snda.wav");
+				sndb = new SoundBuffer("sndb.wav");
 
-				font.Size = 14;
-				font.Color = Color.White;
-				font.DrawText("Press a for first sound, b for second sound.");
+				IFont font = Font.AgateSans;
 
-				if (snda.IsPlaying)
-					font.DrawText(0, 30, "first sound is playing");
-				if (sndb.IsPlaying)
-					font.DrawText(0, 60, "second sound is playing");
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
+				Input.Unhandled.MouseDown += Mouse_MouseDown;
 
-				Display.EndFrame();
-				AgateApp.KeepAlive();
+				while (AgateApp.IsAlive)
+				{
+					Display.BeginFrame();
+					Display.Clear();
+
+					font.Size = 14;
+					font.Color = Color.White;
+					font.DrawText("Press a for first sound, b for second sound.");
+
+					if (snda.IsPlaying)
+						font.DrawText(0, 30, "first sound is playing");
+					if (sndb.IsPlaying)
+						font.DrawText(0, 60, "second sound is playing");
+
+					Display.EndFrame();
+					AgateApp.KeepAlive();
+				}
 			}
 		}
 

@@ -31,10 +31,10 @@ namespace AgateLib.Platform.WinForms.Factories
 {
 	class FormsFactory : IAgateFactory
 	{
-		public FormsFactory(string rootAppPath)
+		public FormsFactory()
 		{
 			DisplayFactory = new DisplayFactory();
-			PlatformFactory = new PlatformFactory(rootAppPath);
+			PlatformFactory = new PlatformFactory();
 
 			var sdl = new AgateSdlFactory();
 

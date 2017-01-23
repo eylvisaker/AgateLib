@@ -57,11 +57,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected bool isClosed;
 
 		protected IResolution chooseResolution;
-		protected ICoordinateSystem coords = new NativeCoordinates();
 
 		protected Point lastMousePoint;
 
 		protected ContextFrameBuffer ctxFrameBuffer;
+		protected ICoordinateSystem ctxCoords = new NativeCoordinates();
 
 		private readonly SurfaceState rtSurfaceState = new SurfaceState();
 
@@ -123,6 +123,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			=> (System.Windows.Forms.Form)wfRenderTarget.TopLevelControl;
 
 		protected abstract Size ContextSize { get; }
+
+		public override Size PhysicalSize => wfRenderTarget.Size.ToGeometry();
 
 		public override FrameBufferImpl FrameBuffer =>
 			rtFrameBuffer ?? (FrameBufferImpl)ctxFrameBuffer;
@@ -358,10 +360,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void BlitBufferImage()
 		{
+			// The window context needs to be set current before we do 
+			// any of the other things in this method.
+			ctxFrameBuffer.BeginRender();
+
+			ctxFrameBuffer.CoordinateSystem.RenderTargetSize = ctxFrameBuffer.Size;
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = ctxFrameBuffer.CoordinateSystem.Coordinates;
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
-			ctxFrameBuffer.BeginRender();
 			display.Clear(Color.Black);
 
 			var destRect = chooseResolution.RenderMode.DestRect(
@@ -384,14 +390,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			isClosed = true;
 
 			DetachEvents();
-			OnClosed();
+			OnClosed(owner);
 		}
 
 		private void form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
 		{
 			var cancel = false;
 
-			OnClosing(ref cancel);
+			OnClosing(owner, ref cancel);
 
 			e.Cancel = cancel;
 		}
@@ -405,48 +411,48 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			ctxFrameBuffer.SetSize(new Size(wfRenderTarget.Width, wfRenderTarget.Height));
 
-			OnResize();
+			OnResize(owner);
 		}
 
 		private void mRenderTarget_DoubleClick(object sender, EventArgs e)
 		{
-			OnInputEvent(AgateInputEventArgs.MouseDoubleClick(lastMousePoint, MouseButton.Primary));
+			OnInputEvent(owner, AgateInputEventArgs.MouseDoubleClick(lastMousePoint, MouseButton.Primary));
 		}
 
 		private void mRenderTarget_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			OnInputEvent(AgateInputEventArgs.MouseWheel(lastMousePoint, -(e.Delta * 100) / 120));
+			OnInputEvent(owner, AgateInputEventArgs.MouseWheel(lastMousePoint, -(e.Delta * 100) / 120));
 		}
 
 		private void pct_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			OnInputEvent(AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMousebutton()));
+			OnInputEvent(owner, AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMousebutton()));
 		}
 
 		private void pct_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			OnInputEvent(AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMousebutton()));
+			OnInputEvent(owner, AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMousebutton()));
 		}
 
 		private void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			OnInputEvent(AgateInputEventArgs.MouseMove(lastMousePoint));
+			OnInputEvent(owner, AgateInputEventArgs.MouseMove(lastMousePoint));
 		}
 
 		private void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			OnInputEvent(AgateInputEventArgs.KeyUp(e.AgateKeyCode(), e.AgateKeyModifiers()));
+			OnInputEvent(owner, AgateInputEventArgs.KeyUp(e.AgateKeyCode(), e.AgateKeyModifiers()));
 		}
 
 		private void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			OnInputEvent(AgateInputEventArgs.KeyDown(e.AgateKeyCode(), e.AgateKeyModifiers()));
+			OnInputEvent(owner, AgateInputEventArgs.KeyDown(e.AgateKeyCode(), e.AgateKeyModifiers()));
 		}
 
 		private void renderTarget_Disposed(object sender, EventArgs e)

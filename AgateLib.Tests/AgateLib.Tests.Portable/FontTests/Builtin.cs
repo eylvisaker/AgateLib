@@ -32,7 +32,7 @@ namespace AgateLib.Tests.FontTests
 			fonts.Add(Font.AgateSans);
 			fonts.Add(Font.AgateSerif);
 
-			for (char i = (char)128; i < 255; i++)
+			for (char i = (char) 128; i < 255; i++)
 			{
 				nonenglish += i;
 			}
@@ -78,7 +78,13 @@ namespace AgateLib.Tests.FontTests
 
 		public void Run(string[] args)
 		{
-			SceneStack.Start(this);
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
+			{
+				SceneStack.Start(this);
+			}
 		}
 	}
 }

@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
@@ -26,6 +27,66 @@ using AgateLib.InputLib;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Interface for a display window. A display window is an area on the screen where the images
+	/// drawn by the game will appear for the user.
+	/// </summary>
+	public interface IDisplayWindow : IDisposable
+	{
+		/// <summary>
+		/// Gets the FrameBuffer object which represents the memory to draw to.
+		/// </summary>
+		FrameBuffer FrameBuffer { get; }
+
+		/// <summary>
+		/// Returns true if this DisplayWindow has been closed, either
+		/// by a call to Dispose(), or perhaps the user clicked the close
+		/// box in a form.
+		/// </summary>
+		bool IsClosed { get; }
+
+		/// <summary>
+		/// Gets or sets the size of the client area in pixels.
+		/// </summary>
+		Size Size { get; set; }
+
+		/// <summary>
+		/// Gets or sets the title of the window.
+		/// </summary>
+		string Title { get; set; }
+
+		/// <summary>
+		/// Returns true if this window is displayed fullscreen.
+		/// </summary>
+		bool IsFullScreen { get; }
+
+		/// <summary>
+		/// Gets or sets the IResolution object that describes the backbuffer.
+		/// </summary>
+		IResolution Resolution { get; set; }
+
+		/// <summary>
+		/// Gets the "physical" size of the DisplayWindow - the size in pixels it is
+		/// on the desktop.
+		/// </summary>
+		Size PhysicalSize { get; }
+
+		/// <summary>
+		/// Event raised when the window is resized by the user.
+		/// </summary>
+		event EventHandler Resize;
+
+		/// <summary>
+		/// Event raised when the window is closed by the user.
+		/// </summary>
+		event EventHandler Closed;
+
+		/// <summary>
+		/// Event raised when the user clicks the close box but before the window is closed.
+		/// </summary>
+		event CancelEventHandler Closing;
+	}
+
 	/// <summary>
 	/// A class representing a screen region which is used as a RenderTarget.
 	/// </summary>
@@ -36,7 +97,7 @@ namespace AgateLib.DisplayLib
 	/// 
 	/// Alternatively, a control may be specified to render into.
 	/// </remarks>
-	public sealed class DisplayWindow : IDisposable
+	public sealed class DisplayWindow : IDisplayWindow
 	{
 		DisplayWindowImpl mImpl;
 		FrameBuffer mFrameBuffer;
@@ -178,6 +239,12 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void Dispose()
 		{
+			foreach (var screen in Display.Screens?.AllScreens ?? Enumerable.Empty<ScreenInfo>())
+			{
+				if (screen.DisplayWindow == this)
+					screen.DisplayWindow = null;
+			}
+
 			if (mImpl != null)
 			{
 				mImpl.Dispose();
@@ -265,11 +332,20 @@ namespace AgateLib.DisplayLib
 			get { return Matrix4x4.Ortho(new RectangleF(0, 0, Width, Height), -1, 1); }
 		}
 
+		/// <summary>
+		/// Gets or sets the IResolution object that describes the backbuffer.
+		/// </summary>
 		public IResolution Resolution
 		{
 			get { return mImpl.Resolution; }
 			set { mImpl.Resolution = value; }
 		}
+
+		/// <summary>
+		/// Gets the "physical" size of the DisplayWindow - the size in pixels it is
+		/// on the desktop.
+		/// </summary>
+		public Size PhysicalSize => mImpl.PhysicalSize;
 
 		/// <summary>
 		/// Event raised when the window is resized by the user.

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.Diagnostics;
+using AgateLib.IO;
 
 namespace AgateLib.Drivers
 {
@@ -36,6 +37,22 @@ namespace AgateLib.Drivers
 		/// <summary>
 		/// Gets a file provider which points to the application directory.
 		/// </summary>
-		IReadFileProvider ApplicationFolderFileProvider { get; }
+		IReadFileProvider ApplicationFolderFiles { get; }
+
+		/// <summary>
+		/// Creates a file provider which points to a subfolder of the application
+		/// directory.
+		/// </summary>
+		/// <param name="subpath"></param>
+		/// <returns></returns>
+		IReadFileProvider OpenAppFolder(string subpath);
+
+		/// <summary>
+		/// Creates a file provider which points to a subfolder of the user's
+		/// app storage folder.
+		/// </summary>
+		/// <param name="subpath"></param>
+		/// <returns></returns>
+		IReadWriteFileProvider OpenUserAppStorage(string subpath);
 	}
 }

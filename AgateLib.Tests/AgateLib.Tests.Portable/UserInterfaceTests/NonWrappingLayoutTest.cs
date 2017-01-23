@@ -79,7 +79,13 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 		public void Run(string[] args)
 		{
-			SceneStack.Start(this);
+			using (var window = new DisplayWindowBuilder(args)
+				.BackbufferSize(800, 600)
+				.QuitOnClose()
+				.Build())
+			{
+				SceneStack.Start(this);
+			}
 		}
 
 		protected override void OnSceneStart()

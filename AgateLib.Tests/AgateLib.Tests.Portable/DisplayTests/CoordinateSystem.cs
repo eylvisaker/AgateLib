@@ -23,49 +23,50 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run(string[] args)
 		{
-			var window = new DisplayWindowBuilder(args)
+			using (var window = new DisplayWindowBuilder(args)
 				.BackbufferSize(800, 600)
 				.QuitOnClose()
-				.Build();
-
-			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-			Input.Unhandled.MouseDown += Mouse_MouseDown;
-
-			Surface surf = new Surface("Images/jellybean.png") { Color = Color.Cyan };
-
-			while (AgateApp.IsAlive)
+				.Build())
 			{
-				Display.BeginFrame();
-				Display.Clear(Color.DarkGreen);
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
+				Input.Unhandled.MouseDown += Mouse_MouseDown;
 
-				switch (ortho)
+				Surface surf = new Surface("Images/jellybean.png") {Color = Color.Cyan};
+
+				while (AgateApp.IsAlive)
 				{
-					case 1:
-						AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle
-							(0, 0, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
-						break;
+					Display.BeginFrame();
+					Display.Clear(Color.DarkGreen);
 
-					case 2:
-						AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle
-							(-surf.SurfaceWidth, -surf.SurfaceHeight, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
-						break;
+					switch (ortho)
+					{
+						case 1:
+							AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle
+								(0, 0, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
+							break;
+
+						case 2:
+							AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle
+								(-surf.SurfaceWidth, -surf.SurfaceHeight, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
+							break;
+					}
+
+					AgateBuiltInShaders.Basic2DShader.Activate();
+
+					Display.FillRect(-2, -2, 4, 4, Color.Red);
+					surf.Draw();
+
+					Display.FlushDrawBuffer();
+					AgateBuiltInShaders.Basic2DShader.CoordinateSystem =
+						new Rectangle(Point.Empty, Display.CurrentWindow.Size);
+					AgateBuiltInShaders.Basic2DShader.Activate();
+
+					Font.AgateSans.DrawText("Press space to cycle through coordinate systems.");
+
+					Display.EndFrame();
+
+					AgateApp.KeepAlive();
 				}
-
-				AgateBuiltInShaders.Basic2DShader.Activate();
-
-				Display.FillRect(-2, -2, 4, 4, Color.Red);
-				surf.Draw();
-
-				Display.FlushDrawBuffer();
-				AgateBuiltInShaders.Basic2DShader.CoordinateSystem =
-					new Rectangle(Point.Empty, Display.CurrentWindow.Size);
-				AgateBuiltInShaders.Basic2DShader.Activate();
-
-				Font.AgateSans.DrawText("Press space to cycle through coordinate systems.");
-
-				Display.EndFrame();
-
-				AgateApp.KeepAlive();
 			}
 		}
 
