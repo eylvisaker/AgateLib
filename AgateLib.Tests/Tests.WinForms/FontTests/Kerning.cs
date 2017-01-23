@@ -9,7 +9,6 @@ using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.Resources;
 using AgateLib.InputLib.Legacy;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FontTests
 {
@@ -19,11 +18,6 @@ namespace AgateLib.Tests.FontTests
 
 		public string Name => "Kerning";
 		public string Category => "Fonts";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
-		}
 
 		public void Run(string[] args)
 		{

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.AudioLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
@@ -146,11 +145,6 @@ namespace AgateLib.Tests.AudioTests
 
 				buf.Stop();
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

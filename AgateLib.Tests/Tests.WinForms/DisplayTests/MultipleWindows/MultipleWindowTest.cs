@@ -9,7 +9,6 @@ using AgateLib.Geometry;
 using AgateLib.Platform;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Resources;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.MultipleWindows
 {
@@ -22,11 +21,6 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 		public string Name =>"Multiple Render Targets";
 
 		public string Category => "Display";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
-		}
 
 		public void Run(string[] args)
 		{

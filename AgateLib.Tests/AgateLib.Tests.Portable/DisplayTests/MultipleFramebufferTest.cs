@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -114,11 +113,6 @@ namespace AgateLib.Tests.DisplayTests
 			tests.Add(frame.RenderTarget);
 
 			hueAngle += angleIncrement;
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

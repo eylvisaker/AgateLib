@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.Geometry;
@@ -41,11 +40,6 @@ namespace AgateLib.Tests.DisplayTests
 			Display.Clear(Color.Blue);
 
 			p.Draw(0, 0);
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
 		public void Run(string[] args)

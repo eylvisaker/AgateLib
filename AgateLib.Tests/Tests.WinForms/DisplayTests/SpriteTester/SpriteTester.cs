@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.SpriteTester
 {
@@ -26,11 +25,6 @@ namespace AgateLib.Tests.DisplayTests.SpriteTester
 
 				AgateApp.KeepAlive();
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

@@ -6,7 +6,6 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.Resources;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FoundationTests
 {
@@ -50,10 +49,6 @@ namespace AgateLib.Tests.FoundationTests
 			surf.Draw(20, 20);
 
 			sprite.Draw(100, 150);
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
 		}
 
 		public void Run(string[] args)

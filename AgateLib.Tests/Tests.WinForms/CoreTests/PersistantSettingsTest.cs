@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Configuration;
 using System.Windows.Forms;
 
 namespace AgateLib.Tests.CoreTests
@@ -34,11 +33,6 @@ namespace AgateLib.Tests.CoreTests
 		{
 			AgateApp.Settings["Testy"]["MyTest"] = "true";
 			AgateApp.Settings["Testy"]["RunCount"] = "0";
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

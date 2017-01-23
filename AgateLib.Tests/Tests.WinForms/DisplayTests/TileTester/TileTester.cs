@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
@@ -15,11 +14,6 @@ namespace AgateLib.Tests.DisplayTests.TileTester
 
 		public string Name => "Tile Tester";
 		public string Category => "Display";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
-		}
 
 		public void Run(string[] args)
 		{

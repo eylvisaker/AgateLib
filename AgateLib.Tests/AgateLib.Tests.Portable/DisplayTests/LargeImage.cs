@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -43,10 +42,6 @@ namespace AgateLib.Tests.DisplayTests
 				watch.Stop();
 				mLoadTime = watch.ElapsedMilliseconds / 1000.0;
 			};
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
 		}
 
 		public void Run(string[] args)

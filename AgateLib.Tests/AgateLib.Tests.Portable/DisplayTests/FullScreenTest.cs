@@ -4,7 +4,6 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -173,11 +172,6 @@ Press arrow keys to adjust resolution
 			currentResolution = resolution;
 
 			wind.Resolution = resolution;
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

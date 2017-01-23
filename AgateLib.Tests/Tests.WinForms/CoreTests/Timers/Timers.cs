@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Platform;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.CoreTests.Timers
 {
@@ -33,11 +32,6 @@ namespace AgateLib.Tests.CoreTests.Timers
 				Application.DoEvents();
 				System.Threading.Thread.Sleep(0);
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

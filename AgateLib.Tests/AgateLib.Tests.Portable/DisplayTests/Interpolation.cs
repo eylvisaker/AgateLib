@@ -5,7 +5,6 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -60,11 +59,6 @@ namespace AgateLib.Tests.DisplayTests
 
 		public override void Update(double deltaT)
 		{
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

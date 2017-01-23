@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Configuration;
 using AgateLib.Diagnostics;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
@@ -16,11 +15,6 @@ namespace AgateLib.Tests.ConsoleTests
 		public string Category => "Console";
 
 		public string Name => "Basic Console Test";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
-		}
 
 		public void Run(string[] args)
 		{

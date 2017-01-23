@@ -7,7 +7,6 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Utility;
 using AgateLib.InputLib.Legacy;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FontTests
 {
@@ -25,10 +24,6 @@ namespace AgateLib.Tests.FontTests
 
 		public string Name => "Font Lines";
 		public string Category => "Fonts";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-		}
 
 		public void Run(string[] args)
 		{

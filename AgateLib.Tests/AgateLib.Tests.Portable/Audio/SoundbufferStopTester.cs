@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.AudioLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -24,11 +23,6 @@ namespace AgateLib.Tests.AudioTests
 		public string Category
 		{
 			get { return "Audio"; }
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
 		public void Run(string[] args)

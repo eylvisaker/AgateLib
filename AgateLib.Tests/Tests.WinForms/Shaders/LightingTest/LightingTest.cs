@@ -6,7 +6,6 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.Shaders.LightingTest
 {
@@ -14,10 +13,6 @@ namespace AgateLib.Tests.Shaders.LightingTest
 	{
 		public string Name => "Lighting";
 		public string Category => "Shaders";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-		}
 
 		public void Run(string[] args)
 		{

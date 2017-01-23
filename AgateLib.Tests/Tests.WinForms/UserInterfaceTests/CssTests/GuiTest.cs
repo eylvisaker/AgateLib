@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 
 namespace AgateLib.Tests.UserInterfaceTests.CssTests
@@ -29,11 +28,6 @@ namespace AgateLib.Tests.UserInterfaceTests.CssTests
 				AgateApp.KeepAlive();
 				Thread.Sleep(5);
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

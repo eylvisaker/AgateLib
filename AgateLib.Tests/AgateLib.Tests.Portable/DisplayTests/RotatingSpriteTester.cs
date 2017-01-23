@@ -10,7 +10,6 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 {
@@ -57,11 +56,6 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 
 			sp.RotationAngleDegrees += 180 * Display.DeltaTime / 1000.0;
 			sp.Draw(location);
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
 		public void Run(string[] args)

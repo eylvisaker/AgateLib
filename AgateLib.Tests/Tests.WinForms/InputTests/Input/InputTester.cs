@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.InputTests.InputTester
 {
@@ -13,11 +12,6 @@ namespace AgateLib.Tests.InputTests.InputTester
 	{
 		public string Name => "Input Tester";
 		public string Category => "Input";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
-		}
 
 		public void Run(string[] args)
 		{

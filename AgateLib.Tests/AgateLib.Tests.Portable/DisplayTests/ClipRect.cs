@@ -5,7 +5,6 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Configuration;
 using AgateLib.InputLib;
 
 namespace AgateLib.Tests.DisplayTests
@@ -19,15 +18,9 @@ namespace AgateLib.Tests.DisplayTests
 
 		double time;
 
-		public string Name
-		{
-			get { return "Clip Rects"; }
-		}
+		public string Name => "Clip Rects";
 
-		public string Category
-		{
-			get { return "Display"; }
-		}
+		public string Category => "Display";
 
 		protected override void OnSceneStart()
 		{
@@ -61,11 +54,6 @@ namespace AgateLib.Tests.DisplayTests
 				index++;
 				index %= colors.Length;
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 400);
 		}
 
 		public void Run(string[] args)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -67,11 +66,6 @@ namespace AgateLib.Tests.DisplayTests
 			Display.EndFrame();
 
 			Display.RenderTarget = save;
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

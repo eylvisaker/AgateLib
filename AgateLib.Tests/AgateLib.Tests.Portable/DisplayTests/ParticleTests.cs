@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.Geometry;
@@ -31,11 +30,6 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 		public string Name { get { return "Particles"; } }
 
 		public string Category { get { return "Display"; } }
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
-		}
 
 		public void Run(string[] args)
 		{

@@ -5,7 +5,6 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FontTests
 {
@@ -67,11 +66,6 @@ namespace AgateLib.Tests.FontTests
 
 				y += font.FontHeight;
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
 		public void Run(string[] args)

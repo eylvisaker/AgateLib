@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.CoreTests.PlatformDetection
 {
@@ -15,11 +14,6 @@ namespace AgateLib.Tests.CoreTests.PlatformDetection
 		public void Run(string[] args)
 		{
 			new PlatformDetection().ShowDialog();
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

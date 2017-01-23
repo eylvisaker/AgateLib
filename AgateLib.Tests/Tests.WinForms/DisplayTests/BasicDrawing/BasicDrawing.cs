@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
@@ -133,11 +132,6 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 		{
 			shapes.Clear();
 
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 	enum ShapeType

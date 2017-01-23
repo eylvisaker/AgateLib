@@ -5,21 +5,14 @@ using System.Text;
 using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
 	class ColorTest : Scene, IAgateTest
 	{
-		public string Name
-		{
-			get { return "Color Test"; }
-		}
+		public string Name => "Color Test";
 
-		public string Category
-		{
-			get { return "Display"; }
-		}
+		public string Category => "Display";
 
 		public override void Update(double deltaT)
 		{
@@ -33,11 +26,6 @@ namespace AgateLib.Tests.DisplayTests
 			{
 				Display.FillRect(new Rectangle(i * 2, 0, 2, 75), Color.FromHsv(i, 1, 1));
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
 		public void Run(string[] args)

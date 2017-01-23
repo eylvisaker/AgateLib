@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
@@ -90,11 +89,6 @@ namespace AgateLib.Tests.DisplayTests
 			ortho++;
 			if (ortho > 2)
 				ortho = 0;
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

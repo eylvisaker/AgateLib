@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -98,10 +97,6 @@ namespace AgateLib.Tests.DisplayTests
 					AgateApp.KeepAlive();
 				}
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
 		}
 	}
 }

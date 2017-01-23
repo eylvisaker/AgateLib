@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Platform.WinForms;
@@ -39,10 +38,6 @@ namespace AgateLib.Tests.WinFormsTests
 			System.Drawing.Bitmap bmp = surf.ToBitmap();
 
 			bmp.Save("test.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
 		}
 
 		public void Run(string[] args)

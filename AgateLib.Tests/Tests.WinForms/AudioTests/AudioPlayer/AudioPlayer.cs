@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.AudioTests.AudioPlayer
 {
@@ -18,12 +17,6 @@ namespace AgateLib.Tests.AudioTests.AudioPlayer
 		public string Category
 		{
 			get { return "Audio"; }
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
-			setup.AssetLocations.Path = "";
 		}
 
 		public void Run(string[] args)

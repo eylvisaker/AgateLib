@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Configuration;
 using AgateLib.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
@@ -20,11 +19,6 @@ namespace AgateLib.Tests.DisplayTests
 		public string Name => "Display Window Events";
 
 		public string Category => "Display";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
-		}
 
 		public void Run(string[] args)
 		{

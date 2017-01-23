@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -69,10 +68,6 @@ namespace AgateLib.Tests.UserInterfaceTests
 			CreateGui();
 		}
 
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-		}
 
 		public void Run(string[] args)
 		{

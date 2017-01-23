@@ -1,4 +1,3 @@
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
@@ -49,10 +48,6 @@ namespace AgateLib.Tests.FontTests
 					AgateApp.KeepAlive();
 				}
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
 		}
 	}
 }

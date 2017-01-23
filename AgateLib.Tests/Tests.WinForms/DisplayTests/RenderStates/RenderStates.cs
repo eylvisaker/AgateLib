@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.RenderStates
 {
@@ -12,11 +11,6 @@ namespace AgateLib.Tests.DisplayTests.RenderStates
 		public string Name => "Render States";
 
 		public string Category => "Display";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
-		}
 
 		public void Run(string[] args)
 		{

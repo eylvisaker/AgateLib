@@ -5,7 +5,6 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -62,11 +61,6 @@ namespace AgateLib.Tests.DisplayTests
 					AgateApp.KeepAlive();
 				}
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

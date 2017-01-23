@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
@@ -29,10 +28,6 @@ namespace AgateLib.Tests.Shaders
 		public string Name => "Lighting 3D";
 
 		public string Category => "Shaders";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-		}
 
 		public void Run(string[] args)
 		{

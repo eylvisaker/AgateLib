@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.SurfaceTester
 {
@@ -30,11 +29,6 @@ namespace AgateLib.Tests.DisplayTests.SurfaceTester
 
 				frame++;
 			}
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

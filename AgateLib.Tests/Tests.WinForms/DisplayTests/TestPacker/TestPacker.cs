@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.TestPacker
 {
@@ -16,11 +15,6 @@ namespace AgateLib.Tests.DisplayTests.TestPacker
 		public void Run(string[] args)
 		{
 			new frmTestPacker().ShowDialog();
-		}
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

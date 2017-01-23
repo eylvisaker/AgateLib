@@ -4,7 +4,6 @@ using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 {
@@ -18,11 +17,6 @@ namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 
 		public string Name => "Pixel Buffer";
 		public string Category => "Display";
-
-		public void ModifySetup(IAgateSetup setup)
-		{
-			setup.CreateDisplayWindow = false;
-		}
 
 		public void Run(string[] args)
 		{
