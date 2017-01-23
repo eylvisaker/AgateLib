@@ -374,6 +374,7 @@ namespace AgateLib
 				State.Core.Assets = value;
 				State.IO.mImages = value;
 				State.IO.mMusic = value;
+				State.IO.mSounds = value;
 				State.IO.mResources = value;
 				State.IO.mUserInterfaceAssets = value;
 			}
