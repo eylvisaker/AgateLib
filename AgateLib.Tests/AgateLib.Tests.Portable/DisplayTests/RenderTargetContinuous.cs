@@ -16,8 +16,6 @@ namespace AgateLib.Tests.DisplayTests
 
 		public string Category => "Display";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			using (var wind = new DisplayWindowBuilder(args)

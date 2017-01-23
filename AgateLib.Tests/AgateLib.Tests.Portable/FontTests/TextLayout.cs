@@ -22,8 +22,6 @@ namespace AgateLib.Tests.FontTests.TextLayout
 			get { return "Fonts"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		protected override void OnSceneStart()
 		{
 			image = new Surface("9ball.png");

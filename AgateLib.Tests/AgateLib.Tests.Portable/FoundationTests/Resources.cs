@@ -22,8 +22,6 @@ namespace AgateLib.Tests.FoundationTests
 			get { return "Foundation"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		[BindTo("sample_surf")] public Surface surf;
 
 		[BindTo("sample_sprite")] public ISprite sprite;

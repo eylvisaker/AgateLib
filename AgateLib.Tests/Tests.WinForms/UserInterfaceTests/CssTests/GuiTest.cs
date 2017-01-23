@@ -16,8 +16,6 @@ namespace AgateLib.Tests.UserInterfaceTests.CssTests
 
 		public string Category => "User Interface";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			var f1 = new frmCssEdit();

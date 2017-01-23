@@ -20,8 +20,6 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 
 		public string Category => "Display";
 
-		public AgateConfig Configuration { get; set; }
-
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>

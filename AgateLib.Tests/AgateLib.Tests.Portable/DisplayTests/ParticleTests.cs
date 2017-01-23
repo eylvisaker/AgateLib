@@ -32,8 +32,6 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 
 		public string Category { get { return "Display"; } }
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.DesiredDisplayWindowResolution = new Size(800, 600);

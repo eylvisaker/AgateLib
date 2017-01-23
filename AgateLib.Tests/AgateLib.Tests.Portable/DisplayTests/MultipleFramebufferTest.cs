@@ -29,8 +29,6 @@ namespace AgateLib.Tests.DisplayTests
 			get { return "Display"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			using (var window = new DisplayWindowBuilder(args)

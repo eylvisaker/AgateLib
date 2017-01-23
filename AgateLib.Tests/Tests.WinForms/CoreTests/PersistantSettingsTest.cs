@@ -14,8 +14,6 @@ namespace AgateLib.Tests.CoreTests
 
 		public string Category => "Core";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			if (AgateApp.Settings["Testy"].IsEmpty)

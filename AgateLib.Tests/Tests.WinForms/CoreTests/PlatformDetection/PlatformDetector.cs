@@ -12,8 +12,6 @@ namespace AgateLib.Tests.CoreTests.PlatformDetection
 
 		public string Category => "Core";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			new PlatformDetection().ShowDialog();

@@ -20,8 +20,6 @@ namespace AgateLib.Tests.AudioTests.AudioPlayer
 			get { return "Audio"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.CreateDisplayWindow = false;

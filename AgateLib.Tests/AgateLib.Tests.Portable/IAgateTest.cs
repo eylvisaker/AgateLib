@@ -13,8 +13,6 @@ namespace AgateLib.Tests
 
 		string Category { get; }
 
-		AgateConfig Configuration { get; set; }
-
 		[Obsolete]
 		void ModifySetup(IAgateSetup setup);
 

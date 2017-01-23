@@ -18,8 +18,6 @@ namespace AgateLib.Tests.DisplayTests
 
 		public string Category => "Display";
 
-		public AgateConfig Configuration { get; set; }
-
 		protected override void OnSceneStart()
 		{
 			p = new Sprite("Images/boxsprite.png", new Size(96, 96));

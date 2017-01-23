@@ -21,8 +21,6 @@ namespace AgateLib.Tests.DisplayTests
 
 		public string Category => "Display";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.CreateDisplayWindow = false;

@@ -26,8 +26,6 @@ namespace AgateLib.Tests.AudioTests
 			get { return "Audio"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.DesiredDisplayWindowResolution = new Size(800, 600);

@@ -23,8 +23,6 @@ namespace AgateLib.Tests.WinFormsTests
 			get { return "WinForms"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		public override void Update(double deltaT)
 		{
 		}

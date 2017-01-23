@@ -104,7 +104,6 @@ namespace AgateLib.Tests
 				AgateApp.SetApplicationName($"{test.Category} :: {test.Name}", "AgateLib");
 				AgateApp.SetAssetPath("Assets");
 
-				test.Configuration = setup.Configuration;
 				test.Run(CommandLineArguments);
 			}
 

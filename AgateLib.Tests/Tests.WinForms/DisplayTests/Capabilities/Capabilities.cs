@@ -11,8 +11,6 @@ namespace AgateLib.Tests.DisplayTests.Capabilities
 
 		public string Category => "Display";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			new frmCapabilities().ShowDialog();

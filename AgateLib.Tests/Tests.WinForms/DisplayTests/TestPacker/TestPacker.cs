@@ -13,8 +13,6 @@ namespace AgateLib.Tests.DisplayTests.TestPacker
 		public string Name => "Packing";
 		public string Category => "Display";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			new frmTestPacker().ShowDialog();

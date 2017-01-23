@@ -11,8 +11,6 @@ namespace AgateLib.Tests.CoreTests.ErrorReport
 		public string Name { get { return "Error Reporting"; } }
 		public string Category { get { return "Core"; } }
 
-		public AgateConfig Configuration { get; set; }
-		
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.CreateDisplayWindow = false;

@@ -34,8 +34,6 @@ namespace AgateLib.Tests.DisplayTests
 			surf = new Surface("Images/wallpaper.png");
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		public override void Update(double deltaT)
 		{
 			time += deltaT / 1000.0;

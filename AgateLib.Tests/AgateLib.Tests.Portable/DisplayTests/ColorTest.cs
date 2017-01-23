@@ -55,7 +55,5 @@ namespace AgateLib.Tests.DisplayTests
 		{
 			get { return this; }
 		}
-
-		public AgateConfig Configuration { get; set; }
 	}
 }

@@ -14,8 +14,6 @@ namespace AgateLib.Tests.InputTests.InputTester
 		public string Name => "Input Tester";
 		public string Category => "Input";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.CreateDisplayWindow = false;

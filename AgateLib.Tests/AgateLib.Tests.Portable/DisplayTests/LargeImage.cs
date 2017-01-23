@@ -17,8 +17,6 @@ namespace AgateLib.Tests.DisplayTests
 		public string Name { get { return "Large Image"; } }
 		public string Category { get { return "Display"; } }
 
-		public AgateConfig Configuration { get; set; }
-
 		public override void Update(double deltaT)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])

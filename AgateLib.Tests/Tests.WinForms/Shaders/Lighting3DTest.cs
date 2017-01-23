@@ -30,8 +30,6 @@ namespace AgateLib.Tests.Shaders
 
 		public string Category => "Shaders";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 		}

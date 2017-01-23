@@ -13,8 +13,6 @@ namespace AgateLib.Tests.DisplayTests
 {
 	class Tiling : IAgateTest
 	{
-		public AgateConfig Configuration { get; set; }
-
 		public string Name => "Tiling";
 
 		public string Category => "Display";

@@ -34,8 +34,6 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 			get { return this; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		protected override void OnSceneStart()
 		{
 			sp = new Sprite("Images/spike.png", 16, 16);

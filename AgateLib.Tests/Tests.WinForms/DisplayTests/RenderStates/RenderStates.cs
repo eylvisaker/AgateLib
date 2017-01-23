@@ -13,8 +13,6 @@ namespace AgateLib.Tests.DisplayTests.RenderStates
 
 		public string Category => "Display";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.CreateDisplayWindow = false;

@@ -15,8 +15,6 @@ namespace AgateLib.Tests.Shaders.LightingTest
 		public string Name => "Lighting";
 		public string Category => "Shaders";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 		}

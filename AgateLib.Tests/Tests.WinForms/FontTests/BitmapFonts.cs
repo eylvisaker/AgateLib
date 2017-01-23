@@ -11,8 +11,6 @@ namespace AgateLib.Tests.FontTests
 		public string Name => "Bitmap Fonts";
 		public string Category => "Fonts";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			using (new DisplayWindowBuilder(args)

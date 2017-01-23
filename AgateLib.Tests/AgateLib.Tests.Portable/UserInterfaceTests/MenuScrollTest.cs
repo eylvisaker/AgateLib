@@ -44,8 +44,6 @@ namespace AgateLib.Tests.UserInterfaceTests
 			get { return "User Interface"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		public override void Update(double deltaT)
 		{
 			facet.InterfaceRoot.OnUpdate(deltaT, true);

@@ -26,8 +26,6 @@ namespace AgateLib.Tests.FontTests
 		public string Name => "Font Lines";
 		public string Category => "Fonts";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 		}

@@ -106,8 +106,6 @@ namespace AgateLib.Tests.AudioTests
 			get { return "Audio"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			using (var window = new DisplayWindowBuilder(args)

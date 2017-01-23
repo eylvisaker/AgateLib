@@ -16,8 +16,6 @@ namespace AgateLib.Tests.DisplayTests.TileTester
 		public string Name => "Tile Tester";
 		public string Category => "Display";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.CreateDisplayWindow = false;

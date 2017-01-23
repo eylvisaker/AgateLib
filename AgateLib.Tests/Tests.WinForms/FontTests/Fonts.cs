@@ -17,8 +17,6 @@ namespace AgateLib.Tests.FontTests
 		public string Name => "Font Tester";
 		public string Category => "Fonts";
 
-		public AgateConfig Configuration { get; set; }
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.CreateDisplayWindow = false;

@@ -28,8 +28,6 @@ namespace AgateLib.Tests.FontTests
 
 		public Font font { get; set; }
 
-		public AgateConfig Configuration { get; set; }
-
 		public void Run(string[] args)
 		{
 			using (var window = new DisplayWindowBuilder(args)

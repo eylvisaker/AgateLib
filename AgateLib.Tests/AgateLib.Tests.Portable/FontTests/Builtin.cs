@@ -24,8 +24,6 @@ namespace AgateLib.Tests.FontTests
 			get { return "Fonts"; }
 		}
 
-		public AgateConfig Configuration { get; set; }
-
 		protected override void OnSceneStart()
 		{
 			fonts.Add(Font.AgateMono);
