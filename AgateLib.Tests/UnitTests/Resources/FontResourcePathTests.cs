@@ -160,7 +160,7 @@ fonts:
 
 			var resources = new AgateResourceManager(dataModel);
 			resources.InitializeContainer(container);
-
 		}
+
 	}
 }

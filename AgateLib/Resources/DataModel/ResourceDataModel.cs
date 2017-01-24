@@ -34,7 +34,7 @@ namespace AgateLib.Resources.DataModel
 		/// <summary>
 		/// The root path of files referred to from this file.
 		/// </summary>
-		internal string Path { get; set; }
+		internal string Path { get; private set; }
 
 		public FontResourceCollection Fonts { get; set; } = new FontResourceCollection();
 
@@ -57,6 +57,13 @@ namespace AgateLib.Resources.DataModel
 		internal void Validate()
 		{
 			Facets.Validate();
+		}
+
+		internal void ApplyPath(string path)
+		{
+			Path = path;
+
+			Fonts.ApplyPath(path);
 		}
 	}
 }

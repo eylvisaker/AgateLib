@@ -134,5 +134,9 @@ namespace AgateLib.Resources.DataModel
 				facet.Validate();
 			}
 		}
+
+		public void ApplyPath(string path)
+		{
+		}
 	}
 }

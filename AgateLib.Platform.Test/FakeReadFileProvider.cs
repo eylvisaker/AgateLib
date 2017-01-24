@@ -42,24 +42,26 @@ namespace AgateLib.Platform.Test
 
 		public int ReadCount(string filename)
 		{
-			return files[filename].ReadCount;
+			return files[NormalizePath(filename)].ReadCount;
 		}
 
 		public void Add(string filename, string fileContents)
 		{
-			Add(filename, Encoding.UTF8.GetBytes(fileContents));
+			Add(NormalizePath(NormalizePath(filename)), Encoding.UTF8.GetBytes(fileContents));
 		}
 
 		private void Add(string filename, byte[] fileContents)
 		{
-			files.Add(filename, new FileInfo(fileContents));
+			files.Add(NormalizePath(filename), new FileInfo(fileContents));
 		}
 
 		public Task<Stream> OpenReadAsync(string filename)
 		{
-			VerifyFileExists(filename);
+			var normalFilename = NormalizePath(filename);
 
-			return Task.FromResult<Stream>(new MemoryStream(files[filename].Contents));
+			VerifyFileExists(normalFilename);
+
+			return Task.FromResult<Stream>(new MemoryStream(files[normalFilename].Contents));
 		}
 
 		public bool FileExists(string filename)
@@ -79,8 +81,10 @@ namespace AgateLib.Platform.Test
 
 		public string ReadAllText(string filename)
 		{
-			VerifyFileExists(filename);
-			var data = files[filename].Contents;
+			var normalFilename = NormalizePath(filename);
+			
+			VerifyFileExists(normalFilename);
+			var data = files[normalFilename].Contents;
 
 			return Encoding.UTF8.GetString(data, 0, data.Length);
 		}
@@ -95,22 +99,27 @@ namespace AgateLib.Platform.Test
 			return filename;
 		}
 
-		public bool IsLogicalFilesystem
-		{
-			get { return true; }
-		}
+		public bool IsLogicalFilesystem => true;
 
 		private void VerifyFileExists(string filename)
 		{
-			if (files.ContainsKey(filename) == false)
+			var normalFilename = NormalizePath(filename);
+
+			if (files.ContainsKey(normalFilename) == false)
 				throw new FileNotFoundException($"Could not find file {filename} in {nameof(FakeReadFileProvider)}.");
 
-			files[filename].ReadCount++;
+			files[normalFilename].ReadCount++;
 		}
 
 		private bool SearchPatternMatches(string searchPattern, string file)
 		{
 			return true;
 		}
+
+		private string NormalizePath(string filename)
+		{
+			return filename.Replace("\\", "/");
+		}
+
 	}
 }

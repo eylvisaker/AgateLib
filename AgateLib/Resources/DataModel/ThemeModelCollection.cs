@@ -125,5 +125,11 @@ namespace AgateLib.Resources.DataModel
 		{
 			return ((IDictionary<string, ThemeModel>)themes).GetEnumerator();
 		}
+
+		internal void ApplyPath(string path)
+		{
+			foreach (var theme in this)
+				theme.Value.ApplyPath(path);
+		}
 	}
 }

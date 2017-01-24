@@ -125,5 +125,11 @@ namespace AgateLib.Resources.DataModel
 		{
 			return ((IDictionary<string, FontResource>)fontModels).GetEnumerator();
 		}
+
+		internal void ApplyPath(string path)
+		{
+			foreach (var font in this)
+				font.Value.ApplyPath(path);
+		}
 	}
 }

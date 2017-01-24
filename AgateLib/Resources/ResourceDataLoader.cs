@@ -68,7 +68,7 @@ namespace AgateLib.Resources
 			{
 				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(file);
 				result.FileProvider = fileProvider;
-				result.Path = Path.GetDirectoryName(filename);
+				result.ApplyPath(Path.GetDirectoryName(filename));
 
 				ReadExternalFiles(deserializer, result);
 
