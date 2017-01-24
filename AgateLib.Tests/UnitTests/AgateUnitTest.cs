@@ -14,10 +14,11 @@ namespace AgateLib.UnitTests
 
 		public AgateUnitTest()
 		{
-			platform = new UnitTestPlatform {DesiredDisplayWindowResolution = new Size(1920, 1080)};
-			platform.InitializeAgateLib();
+			platform = UnitTestPlatform.Initialize();
 
-			window = DisplayWindow.CreateWindowed("AgateLib", new Size(1920, 1080));
+			window = new DisplayWindowBuilder()
+				.BackbufferSize(1920, 1080)
+				.Build();
 		}
 
 		public void Dispose()

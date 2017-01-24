@@ -108,11 +108,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AgateAppTests\AssetLocationTests.cs" />
     <Compile Include="AgateUnitTest.cs" />
     <Compile Include="Algorithms\PathFinding\AStarTest.cs" />
     <Compile Include="Algorithms\EMathTest.cs" />
-    <Compile Include="ApplicationModels\ArgumentProcessing.cs" />
-    <Compile Include="ApplicationModels\CoordinateSystemTest.cs" />
+    <Compile Include="AgateAppTests\ArgumentProcessing.cs" />
+    <Compile Include="AgateAppTests\CoordinateSystemTest.cs" />
     <Compile Include="Diagnostics\ConsoleTests.cs" />
     <Compile Include="AgateUninitializedUnitTest.cs" />
     <Compile Include="Diagnostics\CommandLibraryTests.cs" />

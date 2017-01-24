@@ -273,6 +273,8 @@ namespace AgateLib
 
 			AgateConsole.Initialize();
 
+			Assets = factory.PlatformFactory.ApplicationFolderFiles;
+
 			State.Core.Inititalized = true;
 		}
 

@@ -29,13 +29,25 @@ namespace AgateLib.Platform.Test
 {
 	public class UnitTestPlatform : AgateSetupCore
 	{
+		public static UnitTestPlatform Initialize()
+		{
+			var result = new UnitTestPlatform();
+			result.InitializeAgateLib_();
+
+			return result;
+		}
+
+		[Obsolete("Use UnitTestPlatform.Initialize() instead.")]
 		public void InitializeAgateLib()
+		{
+			InitializeAgateLib_();
+		}
+
+		private void InitializeAgateLib_()
 		{
 			AppFolderFileProvider = new FakeReadFileProvider();
 
 			AgateApp.Initialize(new FakeAgateFactory(AppFolderFileProvider));
-
-			AgateApp.InitAssetLocations(AssetLocations, new SubdirectoryProvider(AppFolderFileProvider, AssetLocations.Path));
 		}
 
 		public FakeReadFileProvider AppFolderFileProvider { get; private set; }
