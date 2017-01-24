@@ -134,5 +134,33 @@ AgateFont:
 
 			Assert.AreEqual(1, fileProvider.ReadCount("Assets/UserInterface/Fonts/image.png"));
 		}
+
+		[TestMethod]
+		public void FontResourceDirectIncludeWithPath()
+		{
+			string rootFile = @"
+fonts:
+    AgateFont:
+    - name: AgateFont-8
+      image: Fonts/image.png
+      size: 8
+      metrics:
+        32:
+          source-rect: 1 2 3 13
+          kerning-pairs: {}";
+
+			var fileProvider = new FakeReadFileProvider();
+			fileProvider.Add("Assets/UserInterface/resources.yaml", rootFile);
+			fileProvider.Add("Assets/UserInterface/Fonts/image.png", "");
+
+			var dataLoader = new ResourceDataLoader(fileProvider);
+			var dataModel = dataLoader.Load("Assets/UserInterface/resources.yaml");
+
+			var container = new FontContainer();
+
+			var resources = new AgateResourceManager(dataModel);
+			resources.InitializeContainer(container);
+
+		}
 	}
 }
