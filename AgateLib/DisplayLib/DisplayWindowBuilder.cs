@@ -17,6 +17,7 @@ namespace AgateLib.DisplayLib
 		private string[] args;
 		private bool quitOnClose;
 		private bool autoResize;
+		private ICoordinateSystem coords;
 
 		/// <summary>
 		/// Constructs a DisplayWindowBuilder object. For creating your primary
@@ -65,7 +66,7 @@ namespace AgateLib.DisplayLib
 			if (quitOnClose)
 				result.Closed += DisplayWindow_Closed;
 
-			ApplyAutoResize(result);
+			ApplyProperties(result);
 
 			return result;
 		}
@@ -90,7 +91,7 @@ namespace AgateLib.DisplayLib
 				if (Display.RenderTarget == null)
 					Display.RenderTarget = result.FrameBuffer;
 
-				ApplyAutoResize(result);
+				ApplyProperties(result);
 
 				results.Add(result);
 			}
@@ -235,6 +236,12 @@ namespace AgateLib.DisplayLib
 			return this;
 		}
 
+		public DisplayWindowBuilder WithCoordinates(ICoordinateSystem coords)
+		{
+			this.coords = coords;
+
+			return this;
+		}
 		/// <summary>
 		/// Processes a single command line argument. Override this to replace how
 		/// command line arguments interact with AgateLib. Unrecognized arguments will be
@@ -264,9 +271,24 @@ namespace AgateLib.DisplayLib
 		}
 
 
-		private void ApplyAutoResize(DisplayWindow result)
+		private void ApplyProperties(DisplayWindow window)
 		{
-			result.Resize += DisplayWindow_Resized;
+			ApplyAutoResize(window);
+			ApplyCoordinateSystem(window);
+		}
+
+		private void ApplyCoordinateSystem(DisplayWindow window)
+		{
+			if (coords != null)
+				window.FrameBuffer.CoordinateSystem = coords;
+		}
+
+		private void ApplyAutoResize(DisplayWindow window)
+		{
+			if (autoResize)
+			{
+				window.Resize += DisplayWindow_Resized;
+			}
 		}
 
 		private void DisplayWindow_Resized(object sender, EventArgs e)

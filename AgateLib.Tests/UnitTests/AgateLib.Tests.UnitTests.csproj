@@ -118,6 +118,7 @@
     <Compile Include="AgateUninitializedUnitTest.cs" />
     <Compile Include="Diagnostics\CommandLibraryTests.cs" />
     <Compile Include="DisplayLib\DisplayTests.cs" />
+    <Compile Include="DisplayLib\DisplayWindowBuilderTests.cs" />
     <Compile Include="DisplayLib\DisplayWindowTest.cs" />
     <Compile Include="DisplayLib\FontTests.cs" />
     <Compile Include="DisplayLib\LayoutTextTests.cs" />
