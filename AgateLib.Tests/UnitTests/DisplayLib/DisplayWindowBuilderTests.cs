@@ -17,7 +17,7 @@ namespace AgateLib.UnitTests.DisplayLib
 		[TestMethod]
 		public void ApplyCoordinates()
 		{
-			using (UnitTestPlatform.Initialize())
+			using (AgateUnitTestPlatform.Initialize())
 			{
 				var coordRect = new Rectangle(-10, -25, 200, 300);
 

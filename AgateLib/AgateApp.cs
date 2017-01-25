@@ -274,6 +274,7 @@ namespace AgateLib
 			AgateConsole.Initialize();
 
 			Assets = factory.PlatformFactory.ApplicationFolderFiles;
+			UserFiles = factory.PlatformFactory.OpenUserAppStorage("");
 
 			State.Core.Inititalized = true;
 		}
@@ -392,7 +393,7 @@ namespace AgateLib
 				State.Core.UserFiles = value;
 			}
 		}
-
+		
 		public static void SetAssetPath(string path)
 		{
 			Assets = State.Factory.PlatformFactory.OpenAppFolder(path);

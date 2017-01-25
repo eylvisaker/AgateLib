@@ -27,19 +27,19 @@ using AgateLib.IO;
 
 namespace AgateLib.Platform.Test
 {
-	public class UnitTestPlatform : AgateSetupCore
+	public class AgateUnitTestPlatform : AgateSetupCore
 	{
 		private FakeAgateFactory fakeAgateFactory;
 
-		public static UnitTestPlatform Initialize()
+		public static AgateUnitTestPlatform Initialize()
 		{
-			var result = new UnitTestPlatform();
+			var result = new AgateUnitTestPlatform();
 			result.InitializeAgateLib_();
 
 			return result;
 		}
 
-		[Obsolete("Use UnitTestPlatform.Initialize() instead.")]
+		[Obsolete("Use AgateUnitTestPlatform.Initialize() instead.")]
 		public void InitializeAgateLib()
 		{
 			InitializeAgateLib_();

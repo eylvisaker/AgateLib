@@ -116,7 +116,7 @@
     <Compile Include="UserInterface\FakeLayout.cs" />
     <Compile Include="Input\FakeInputImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTestPlatform.cs" />
+    <Compile Include="AgateUnitTestPlatform.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.Platform.Test.nuspec">

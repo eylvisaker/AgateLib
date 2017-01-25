@@ -109,6 +109,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AgateAppTests\AssetLocationTests.cs" />
+    <Compile Include="AgateAppTests\UserFileLocationTests.cs" />
     <Compile Include="AgateUnitTest.cs" />
     <Compile Include="Algorithms\PathFinding\AStarTest.cs" />
     <Compile Include="Algorithms\EMathTest.cs" />
