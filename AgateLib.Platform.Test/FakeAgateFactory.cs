@@ -30,12 +30,12 @@ namespace AgateLib.Platform.Test
 {
 	public class FakeAgateFactory : IAgateFactory
 	{
-		public FakeAgateFactory(FakeReadFileProvider appFolderFileProvider)
+		public FakeAgateFactory()
 		{
 			DisplayFactory = new FakeDisplayFactory();
 			AudioFactory = new FakeAudioFactory();
 			InputFactory = new FakeInputFactory();
-			PlatformFactory = new FakePlatformFactory(appFolderFileProvider);
+			PlatformFactory = new FakePlatformFactory();
 		}
 
 		public FakeDisplayFactory DisplayFactory { get; private set; }

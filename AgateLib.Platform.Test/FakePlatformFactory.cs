@@ -31,17 +31,20 @@ namespace AgateLib.Platform.Test
 {
 	public class FakePlatformFactory : IPlatformFactory
 	{
-		private Dictionary<string, FakeReadFileProvider> appFolders = new Dictionary<string, FakeReadFileProvider>();
+		private Dictionary<string, IReadFileProvider> appFolders = new Dictionary<string, IReadFileProvider>();
 		private Dictionary<string, FakeReadWriteFileProvider> userFolders = new Dictionary<string, FakeReadWriteFileProvider>();
 
-		public FakePlatformFactory(FakeReadFileProvider appFolderFileProvider)
+		public FakePlatformFactory()
 		{
 			Info = new FakePlatformInfo();
-			ApplicationFolderFiles = appFolderFileProvider;
+			ApplicationFolderFiles = new FakeReadFileProvider();
 		}
 
-		public Platform.IPlatformInfo Info { get; private set; }
-		public IReadFileProvider ApplicationFolderFiles { get; protected set; }
+		public Platform.IPlatformInfo Info { get; }
+
+		public FakeReadFileProvider ApplicationFolderFiles { get; }
+
+		IReadFileProvider IPlatformFactory.ApplicationFolderFiles => ApplicationFolderFiles;
 
 		public Platform.IStopwatch CreateStopwatch()
 		{
@@ -56,7 +59,7 @@ namespace AgateLib.Platform.Test
 		{
 			if (!appFolders.ContainsKey(subpath))
 			{
-				appFolders[subpath] = new FakeReadFileProvider();
+				appFolders[subpath] = new SubdirectoryProvider(ApplicationFolderFiles, subpath);
 			}
 
 			return appFolders[subpath];

@@ -29,6 +29,8 @@ namespace AgateLib.Platform.Test
 {
 	public class UnitTestPlatform : AgateSetupCore
 	{
+		private FakeAgateFactory fakeAgateFactory;
+
 		public static UnitTestPlatform Initialize()
 		{
 			var result = new UnitTestPlatform();
@@ -45,12 +47,12 @@ namespace AgateLib.Platform.Test
 
 		private void InitializeAgateLib_()
 		{
-			AppFolderFileProvider = new FakeReadFileProvider();
+			fakeAgateFactory = new FakeAgateFactory();
 
-			AgateApp.Initialize(new FakeAgateFactory(AppFolderFileProvider));
+			AgateApp.Initialize(fakeAgateFactory);
 		}
 
-		public FakeReadFileProvider AppFolderFileProvider { get; private set; }
+		public FakeReadFileProvider AppFolderFileProvider => fakeAgateFactory.PlatformFactory.ApplicationFolderFiles;
 
 		protected override void Dispose(bool disposing)
 		{
