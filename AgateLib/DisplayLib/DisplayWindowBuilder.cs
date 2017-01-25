@@ -29,6 +29,7 @@ namespace AgateLib.DisplayLib
 		public DisplayWindowBuilder()
 		{
 			createParams.IsFullScreen = true;
+			createParams.IsResizable = true;
 		}
 
 		/// <summary>
@@ -215,10 +216,12 @@ namespace AgateLib.DisplayLib
 
 		/// <summary>
 		/// Allows the user to resize the window by dragging the borders.
+		/// This is ignored for full screen or render to control situations.
+		/// This is true by default.
 		/// </summary>
-		public DisplayWindowBuilder AllowResize()
+		public DisplayWindowBuilder AllowResize(bool value = true)
 		{
-			createParams.IsResizable = true;
+			createParams.IsResizable = false;
 
 			return this;
 		}

@@ -31,10 +31,25 @@ namespace AgateLib.Configuration
 	{
 		public void Dispose()
 		{
+			AgateApp.Dispose();
 			Dispose(true);
 		}
 
-		protected abstract void Dispose(bool disposing);
+		protected virtual void Dispose(bool disposing)
+		{
+		}
+
+		/// <summary>
+		/// Sets the path in the application directory that all assets reside under.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		public AgateSetupCore AssetPath(string path)
+		{
+			AgateApp.SetAssetPath(path);
+
+			return this;
+		}
 
 		/// <summary>
 		/// Sets the title of the display windows.

@@ -99,11 +99,9 @@ namespace AgateLib.Tests
 
 		private void LaunchTestModel(IAgateTest test)
 		{
-			using (var setup = new AgateLib.Platform.WinForms.AgateSetup(CommandLineArguments))
+			using (AgateLib.Platform.WinForms.AgateWinForms.Initialize(CommandLineArguments)
+				.AssetPath("Assets"))
 			{
-				AgateApp.SetApplicationName($"{test.Category} :: {test.Name}", "AgateLib");
-				AgateApp.SetAssetPath("Assets");
-
 				test.Run(CommandLineArguments);
 			}
 

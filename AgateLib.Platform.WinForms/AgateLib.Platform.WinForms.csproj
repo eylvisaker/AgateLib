@@ -92,7 +92,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgateSetup.cs" />
     <Compile Include="AgateWinForms.cs" />
     <Compile Include="Diagnostics\AgateConsoleTraceListener.cs" />
     <Compile Include="AgateLib.DisplayLib\DisplayExtensions.cs" />

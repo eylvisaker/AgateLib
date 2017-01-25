@@ -33,30 +33,20 @@ namespace AgateLib.Platform.Test
 
 		public static AgateUnitTestPlatform Initialize()
 		{
-			var result = new AgateUnitTestPlatform();
-			result.InitializeAgateLib_();
-
-			return result;
+			return new AgateUnitTestPlatform();
 		}
 
-		[Obsolete("Use AgateUnitTestPlatform.Initialize() instead.")]
-		public void InitializeAgateLib()
-		{
-			InitializeAgateLib_();
-		}
-
-		private void InitializeAgateLib_()
+		public AgateUnitTestPlatform()
 		{
 			fakeAgateFactory = new FakeAgateFactory();
 
 			AgateApp.Initialize(fakeAgateFactory);
 		}
-
-		public FakeReadFileProvider AppFolderFileProvider => fakeAgateFactory.PlatformFactory.ApplicationFolderFiles;
-
 		protected override void Dispose(bool disposing)
 		{
 			AgateApp.Dispose();
 		}
+
+		public FakeReadFileProvider AppFolderFileProvider => fakeAgateFactory.PlatformFactory.ApplicationFolderFiles;
 	}
 }

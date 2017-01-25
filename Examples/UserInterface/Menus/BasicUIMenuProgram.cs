@@ -45,12 +45,12 @@ namespace Examples.UserInterface.Menus
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (var setup = new AgateSetup(args))
+			using (AgateWinForms.Initialize(args)
+					.AssetPath("Assets"))
+			using (new DisplayWindowBuilder(args)
+					.BackbufferSize(500, 400)
+					.Build())
 			{
-				setup.AssetLocations.Path = "Assets";
-				setup.DesiredDisplayWindowResolution = new Size(500, 400);
-				setup.InitializeAgateLib();
-
 				// Load the resource file and initialize the resource manager.
 				var resourceLoader = new ResourceDataLoader();
 				var resourceManager = new AgateResourceManager(resourceLoader.Load("resources.yaml"));
