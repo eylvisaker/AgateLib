@@ -30,9 +30,6 @@ namespace Examples.Initialization.BasicInitialization
 					.QuitOnClose()
 					.Build();
 
-				// Set the window as the current render target.
-				Display.RenderTarget = window.FrameBuffer;
-
 				// Register a key press handler. This will terminate the application if the escape key is pressed.
 				Input.Unhandled.KeyDown += (sender, e) =>
 				{
@@ -40,9 +37,14 @@ namespace Examples.Initialization.BasicInitialization
 						AgateApp.IsAlive = false;
 				};
 
-				// Run the game loop
+				// Run the game loop. Always check AgateApp.IsAlive before continuing the game loop.
+				// AgateApp.IsAlive will be set false if the user closes the window or if the system
+				// is shutting down.
 				while (AgateApp.IsAlive)
 				{
+					// Set the window as the current render target.
+					Display.RenderTarget = window.FrameBuffer;
+
 					// All drawing calls must be contained between Display.BeginFrame and Display.EndFrame calls.
 					Display.BeginFrame();
 					Display.Clear(Color.Gray);
@@ -70,7 +72,7 @@ namespace Examples.Initialization.BasicInitialization
 
 					Display.EndFrame();
 
-					// A call to Core.KeepAlive is required to process input events and play nice with the OS.
+					// A call to AgateApp.KeepAlive is required to process input events and play nice with the OS.
 					AgateApp.KeepAlive();
 				}
 			}
