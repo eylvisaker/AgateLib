@@ -19,7 +19,7 @@ namespace AgateLib.Tests.IntegrationTests.WinForms
 			bool failure = false;
 			StringBuilder builder = new StringBuilder();
 
-			using (var setup = new AgateSetup())
+			using (AgateWinForms.Initialize(null))
 			{
 				foreach (var screen in Display.Screens.AllScreens)
 				{
