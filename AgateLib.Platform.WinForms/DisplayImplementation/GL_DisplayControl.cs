@@ -40,8 +40,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	/// </summary>
 	public abstract class GL_DisplayControl : DisplayWindowImpl
 	{
-		protected static WinFormsControlContext _applicationContext { get; private set; }
-
 		protected readonly DisplayWindow owner;
 		protected DesktopGLDisplay display;
 		protected readonly System.Drawing.Icon icon;
@@ -61,7 +59,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected Point lastMousePoint;
 
 		protected ContextFrameBuffer ctxFrameBuffer;
-		protected ICoordinateSystem ctxCoords = new NativeCoordinates();
 
 		private readonly SurfaceState rtSurfaceState = new SurfaceState();
 
@@ -75,9 +72,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			this.display = display;
 
-			if (_applicationContext == null)
-				_applicationContext = new WinFormsControlContext();
-
 			if (string.IsNullOrEmpty(windowParams.IconFile) == false)
 				icon = new System.Drawing.Icon(windowParams.IconFile);
 
@@ -89,11 +83,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override void Dispose(bool disposing)
 		{
-			SafeDispose(ref windowInfo);
+			ctxFrameBuffer.MakeCurrent();
 			SafeDispose(ref ctxFrameBuffer);
 
 			SafeDispose(ref rtFrameBuffer);
 			SafeDispose(ref rtSurface);
+
+			SafeDispose(ref windowInfo);
 
 			if (wfForm != null)
 			{
@@ -105,12 +101,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				wfForm = null;
 			}
 
-			ExitMessageLoop();
-
 			base.Dispose(disposing);
 		}
 
-		protected void SafeDispose<T>(ref T disposable) where T : class, IDisposable
+		private void SafeDispose<T>(ref T disposable) where T : class, IDisposable
 		{
 			if (disposable == null)
 				return;
@@ -165,7 +159,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
-		public AgateLib.Geometry.Rectangle DesktopBounds => new AgateLib.Geometry.Rectangle(
+		public Rectangle DesktopBounds => new Rectangle(
 			wfRenderTarget.PointToScreen(System.Drawing.Point.Empty).ToGeometry(),
 			wfRenderTarget.Size.ToGeometry());
 
@@ -190,12 +184,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			wfRenderTarget.Cursor = System.Windows.Forms.Cursors.Arrow;
 		}
-
-		public void ExitMessageLoop()
-		{
-			_applicationContext?.ExitThread();
-		}
-
+		
 		public void CreateContextForCurrentThread()
 		{
 			ctxFrameBuffer.CreateContextForThread();
@@ -218,7 +207,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return newMode;
 		}
 
-		protected void CreateContextFrameBuffer(ICoordinateSystem fbCoords)
+		private void CreateContextFrameBuffer(ICoordinateSystem fbCoords)
 		{
 			using (new ResourceDisposer(ctxFrameBuffer))
 			{
@@ -288,7 +277,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			wfRenderTarget.MouseUp += pct_MouseUp;
 			wfRenderTarget.DoubleClick += mRenderTarget_DoubleClick;
 
-			var form = wfRenderTarget.TopLevelControl as System.Windows.Forms.Form;
+			var form = TopLevelForm;
 			form.KeyPreview = true;
 
 			form.KeyDown += form_KeyDown;

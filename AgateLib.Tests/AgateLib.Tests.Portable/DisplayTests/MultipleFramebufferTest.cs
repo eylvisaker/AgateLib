@@ -17,20 +17,15 @@ namespace AgateLib.Tests.DisplayTests
 		bool done;
 		IFont font;
 		Surface mySurface;
+		int hueAngle = 0;
 
-		public string Name
-		{
-			get { return "Multiple Framebuffer Test"; }
-		}
+		public string Name => "Multiple Framebuffer Test";
 
-		public string Category
-		{
-			get { return "Display"; }
-		}
+		public string Category => "Display";
 
 		public void Run(string[] args)
 		{
-			using (var window = new DisplayWindowBuilder(args)
+			using (new DisplayWindowBuilder(args)
 				.BackbufferSize(800, 600)
 				.QuitOnClose()
 				.Build())
@@ -39,6 +34,8 @@ namespace AgateLib.Tests.DisplayTests
 				font.Size = 14;
 
 				Input.Unhandled.MouseDown += Mouse_MouseDown;
+				Input.Unhandled.KeyDown +=
+					(sender, e) => done = e.KeyCode == KeyCode.Escape;
 
 				mySurface = new Surface("9ball.png");
 
@@ -74,15 +71,10 @@ namespace AgateLib.Tests.DisplayTests
 
 		void Mouse_MouseDown(object sender, AgateInputEventArgs e)
 		{
-			if (e.MouseButton == MouseButton.Primary)
-				CreateTests();
-			else
-				done = true;
+			CreateTestFramebuffer();
 		}
 
-		int hueAngle = 0;
-
-		private void CreateTests()
+		private void CreateTestFramebuffer()
 		{
 			const int angleIncrement = 373 / 8;
 			font.Color = Color.Black;

@@ -77,11 +77,11 @@ namespace AgateLib.DisplayLib
 		/// attached to the system.
 		/// </summary>
 		/// <returns></returns>
-		public DisplayWindow[] BuildForAllScreens()
+		public DisplayWindowCollection BuildForAllScreens()
 		{
 			ParseCommandLineArgs();
 
-			List<DisplayWindow> results = new List<DisplayWindow>();
+			DisplayWindowCollection results = new DisplayWindowCollection();
 
 			foreach (var screen in Display.Screens.AllScreens)
 			{
@@ -97,7 +97,7 @@ namespace AgateLib.DisplayLib
 				results.Add(result);
 			}
 
-			return results.ToArray();
+			return results;
 		}
 
 		/// <summary>
@@ -221,7 +221,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public DisplayWindowBuilder AllowResize(bool value = true)
 		{
-			createParams.IsResizable = false;
+			createParams.IsResizable = value;
 
 			return this;
 		}

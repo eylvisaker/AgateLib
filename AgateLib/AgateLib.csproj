@@ -188,14 +188,13 @@
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
     <Compile Include="Algorithms\ThreeD\MapConversion.cs" />
-    <Compile Include="Configuration\AgateConfig.cs" />
     <Compile Include="Configuration\AgateSetupCore.cs" />
+    <Compile Include="DisplayLib\DisplayWindowCollection.cs" />
     <Compile Include="Configuration\State\AudioState.cs" />
     <Compile Include="Configuration\State\ConsoleState.cs" />
     <Compile Include="Configuration\State\DisplayState.cs" />
     <Compile Include="Configuration\State\InputState.cs" />
     <Compile Include="Configuration\State\IOState.cs" />
-    <Compile Include="Configuration\WindowExpansionType.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateEmergencyVocabulary.cs" />
     <Compile Include="Diagnostics\ConsoleCommandAttribute.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleImpl.cs" />
@@ -217,7 +216,6 @@
     <Compile Include="DisplayLib\ScreenInfo.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
-    <Compile Include="Configuration\IAgateSetup.cs" />
     <Compile Include="InputLib\HandlerState.cs" />
     <Compile Include="InputLib\SimpleInputHandler.cs" />
     <Compile Include="Quality\Require.cs" />

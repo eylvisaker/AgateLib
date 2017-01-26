@@ -13,7 +13,7 @@ namespace AgateLib.UnitTests.Platform.IntegrationTest
 {
 	public class AgateIntegrationTest : IDisposable
 	{
-		IntegrationTestPlatform platform;
+		AgateIntegrationTestPlatform platform;
 
 		string appDirPath;
 
@@ -21,8 +21,7 @@ namespace AgateLib.UnitTests.Platform.IntegrationTest
 		{
 			appDirPath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(AgateIntegrationTest)).Location);
 
-			platform = new IntegrationTestPlatform();
-			platform.InitializeAgateLib();
+			platform = new AgateIntegrationTestPlatform();
 		}
 
 		public void Dispose()

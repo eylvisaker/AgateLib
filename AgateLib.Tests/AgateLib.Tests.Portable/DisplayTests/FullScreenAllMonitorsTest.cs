@@ -53,21 +53,17 @@ Press arrow keys to adjust resolution
 
 		public void Run(string[] args)
 		{
-			DisplayWindow[] windows = null;
-
-			try
-			{
-				windows = new DisplayWindowBuilder()
+			using (var windows = new DisplayWindowBuilder()
 					.BackbufferSize(800, 600)
 					.QuitOnClose()
-					.BuildForAllScreens();
-
+					.BuildForAllScreens())
+			{ 
 				Surface mousePointerSurface = new Surface("Images/pointer.png");
 
 				Input.Unhandled.KeyDown += Keyboard_KeyDown;
 				Input.Unhandled.MouseMove += Mouse_MouseMove;
 
-				IFont font = Font.AgateSans;
+				Font font = new Font(Font.AgateSans);
 
 				Size bottomSize = font.MeasureString(bottomText);
 				Size topSize = font.MeasureString(topText + "z\nz");
@@ -110,13 +106,6 @@ Press arrow keys to adjust resolution
 				}
 
 				mousePointerSurface.Dispose();
-			}
-			finally
-			{
-				foreach (var window in windows ?? Enumerable.Empty<DisplayWindow>())
-				{
-					window.Dispose();
-				}
 			}
 		}
 		

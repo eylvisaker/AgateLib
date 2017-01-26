@@ -42,10 +42,6 @@ namespace AgateLib.Platform.Test
 
 			AgateApp.Initialize(fakeAgateFactory);
 		}
-		protected override void Dispose(bool disposing)
-		{
-			AgateApp.Dispose();
-		}
 
 		public FakeReadFileProvider AppFolderFileProvider => fakeAgateFactory.PlatformFactory.ApplicationFolderFiles;
 	}

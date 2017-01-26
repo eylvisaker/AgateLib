@@ -33,11 +33,11 @@ namespace AgateLib.Platform.IntegrationTest
 	/// <summary>
 	/// Initializes AgateLib for doing integration testing, using the physical file system.
 	/// </summary>
-	public class IntegrationTestPlatform : AgateSetupCore
+	public class AgateIntegrationTestPlatform : AgateSetupCore
 	{
 		IntegrationTestFactory factory;
 
-		public void InitializeAgateLib()
+		public AgateIntegrationTestPlatform()
 		{
 			var entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 			var appPath = Path.GetDirectoryName(Path.GetFullPath(entryAssembly.Location));
@@ -45,12 +45,6 @@ namespace AgateLib.Platform.IntegrationTest
 			factory = new IntegrationTestFactory(appPath);
 
 			AgateApp.Initialize(factory);
-			AgateApp.InitAssetLocations(AssetLocations, 
-				new FileSystemProvider(Path.Combine(appPath, AssetLocations.Path)));
-		}
-
-		protected override void Dispose(bool disposing)
-		{
 		}
 	}
 }

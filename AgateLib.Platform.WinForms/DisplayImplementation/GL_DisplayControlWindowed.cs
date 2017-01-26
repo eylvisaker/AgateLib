@@ -68,8 +68,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			else
 			{
 				CreateWindowedDisplay(windowParams);
-
-				_applicationContext.AddForm(wfForm);
 			}
 
 			display.InitializeCurrentContext();

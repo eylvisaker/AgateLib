@@ -54,8 +54,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			windowParams.TargetScreen.DisplayWindow = owner;
 
-			_applicationContext.AddForm(wfForm);
-
 			display.InitializeCurrentContext();
 		}
 
