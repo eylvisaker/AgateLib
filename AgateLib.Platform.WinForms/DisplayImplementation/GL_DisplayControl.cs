@@ -83,20 +83,33 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override void Dispose(bool disposing)
 		{
-			ctxFrameBuffer.MakeCurrent();
-			SafeDispose(ref ctxFrameBuffer);
+			if (wfForm != null && wfForm.InvokeRequired)
+			{
+				wfForm.Invoke(new Action(() => Dispose(disposing)));
+				return;
+			}
+
+			if (wfForm != null && ctxFrameBuffer != null)
+			{
+				// This odd hack seems to be required if we have full screen
+				// display windows on all monitors. Without this code, "something"
+				// gets left behind and one of the monitors retains its full screen
+				// context, rendering it annoyingly useless for the user.
+				wfForm.Size = new System.Drawing.Size(100, 100);
+				System.Windows.Forms.Application.DoEvents();
+				ctxFrameBuffer.MakeCurrent();
+			}
 
 			SafeDispose(ref rtFrameBuffer);
 			SafeDispose(ref rtSurface);
+
+			SafeDispose(ref ctxFrameBuffer);
 
 			SafeDispose(ref windowInfo);
 
 			if (wfForm != null)
 			{
-				if (wfForm.InvokeRequired)
-					wfForm.Invoke(new Action(() => wfForm?.Dispose()));
-				else
-					wfForm.Dispose();
+				wfForm.Dispose();
 
 				wfForm = null;
 			}

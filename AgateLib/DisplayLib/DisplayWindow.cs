@@ -250,6 +250,8 @@ namespace AgateLib.DisplayLib
 				mImpl.Dispose();
 				mImpl = null;
 			}
+
+			Display.DisposeDisplay -= Dispose;
 		}
 
 		/// <summary>
