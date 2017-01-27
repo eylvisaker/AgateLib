@@ -52,7 +52,7 @@ namespace AgateLib.Diagnostics
 			emergencyVocab = new LibraryVocabulary(new AgateEmergencyVocabulary(this));
 		}
 
-		private long CurrentTime => AgateApp.State.Core.MasterTime.ElapsedMilliseconds;
+		private long CurrentTime => AgateApp.State.App.MasterTime.ElapsedMilliseconds;
 
 		internal IEnumerable<ICommandLibrary> CommandLibrarySet
 		{
@@ -219,7 +219,7 @@ namespace AgateLib.Diagnostics
 			var message = new ConsoleMessage
 			{
 				Text = text,
-				Time = AgateApp.State.Core.MasterTime.ElapsedMilliseconds,
+				Time = AgateApp.State.App.MasterTime.ElapsedMilliseconds,
 				MessageType = ConsoleMessageType.Text,
 			};
 

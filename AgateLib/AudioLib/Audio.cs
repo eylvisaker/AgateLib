@@ -59,7 +59,7 @@ namespace AgateLib.AudioLib
 		public static void Initialize(AudioImpl audioImpl)
 		{
 			Require.True<InvalidOperationException>(State != null,
-				"Core.State.Audio should not be null. This is likely a bug in AgateLib.");
+				"AgateApp.State.Audio should not be null. This is likely a bug in AgateLib.");
 
 			State.Impl = audioImpl;
 			State.Impl.Initialize();
@@ -156,7 +156,7 @@ namespace AgateLib.AudioLib
 
 		/// <summary>
 		/// Updates audio information.  There is no need to call this explicitly
-		/// if you are calling Core.KeepAlive on a regular basis.
+		/// if you are calling App.KeepAlive on a regular basis.
 		/// </summary>
 		public static void Update()
 		{

@@ -45,7 +45,7 @@ facets:
 				.Setup(x => x.OpenReadAsync(filename))
 				.Returns(() => Task.FromResult((Stream)new MemoryStream(Encoding.UTF8.GetBytes(yaml))));
 
-			Assets.AssetProvider = fileProvider.Object;
+			AgateApp.Assets = fileProvider.Object;
 		}
 
 		[TestMethod]

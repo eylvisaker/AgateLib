@@ -41,7 +41,7 @@ namespace AgateLib.InputLib
 			set
 			{
 				Require.True<InvalidOperationException>(State != null,
-					"Core.State.Input should not be null. This is likely a bug in AgateLib.");
+					"AgateApp.State.Input should not be null. This is likely a bug in AgateLib.");
 
 				State.Impl = value;
 			}
@@ -111,7 +111,7 @@ namespace AgateLib.InputLib
 
 		/// <summary>
 		/// Adds an input event to the list of queued events that will be processed 
-		/// at the next Core.KeepAlive call.
+		/// at the next App.KeepAlive call.
 		/// </summary>
 		/// <param name="args"></param>
 		public static void QueueInputEvent(AgateInputEventArgs args)

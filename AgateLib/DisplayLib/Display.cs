@@ -51,7 +51,7 @@ namespace AgateLib.DisplayLib
 	///     Display.DrawRect(new Rectangle(10, 10, 30, 30), Color.Red);
 	/// 
 	///     Display.EndFrame();
-	///     Core.KeepAlive();
+	///     AgateApp.KeepAlive();
 	/// }
 	/// </code>
 	/// </example>
@@ -324,7 +324,7 @@ namespace AgateLib.DisplayLib
 					"The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 			if (AgateApp.IsAlive == false)
 				throw new AgateException(
-					"The user has closed the game window - all game loops should check Core.IsAlive and terminate immediately.");
+					"The user has closed the game window - all game loops should check AgateApp.IsAlive and terminate immediately.");
 
 			Impl.BeginFrame();
 

@@ -7,8 +7,8 @@ namespace AgateLib.Tests.CoreTests.ErrorReport
 {
 	class ErrorReportTester : IAgateTest
 	{
-		public string Name { get { return "Error Reporting"; } }
-		public string Category { get { return "Core"; } }
+		public string Name => "Error Reporting";
+		public string Category => "App";
 
 		public void Run(string[] args)
 		{

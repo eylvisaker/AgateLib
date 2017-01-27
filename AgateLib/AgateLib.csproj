@@ -230,7 +230,7 @@
     <Compile Include="Resources\Managers\Display\DisplayResourceManager.cs" />
     <Compile Include="Resources\Managers\Display\IDisplayResourceManager.cs" />
     <Compile Include="Resources\ResourceDataSerializer.cs" />
-    <Compile Include="Configuration\State\CoreState.cs" />
+    <Compile Include="Configuration\State\AppState.cs" />
     <Compile Include="DisplayLib\DefaultAssets\DefaultResources.cs" />
     <Compile Include="DisplayLib\DefaultAssets\Fonts.cs" />
     <Compile Include="DisplayLib\Verify.cs" />
@@ -314,7 +314,6 @@
     <Compile Include="InputLib\InputHandlerList.cs" />
     <Compile Include="InputLib\Input.cs" />
     <Compile Include="InputLib\MouseButton.cs" />
-    <Compile Include="IO\FileProvider.cs" />
     <Compile Include="IO\IReadFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -327,7 +326,6 @@
     <Compile Include="IO\IFile.cs" />
     <Compile Include="IO\IPath.cs" />
     <Compile Include="IO\IReadWriteFileProvider.cs" />
-    <Compile Include="IO\IWriteFileProvider.cs" />
     <Compile Include="IO\SubDirectoryProvider.cs" />
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />

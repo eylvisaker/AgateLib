@@ -60,7 +60,7 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 					// in order to actually update the display.
 					Display.EndFrame();
 
-					// Core.KeepAlive is where we play nice window the OS, 
+					// AgateApp.KeepAlive() is where we play nice window the OS, 
 					// allowing events to be processed and such.
 					// This is also required to process events that happen in our OWN 
 					// code (ie. user input), so be sure to call this once a frame.

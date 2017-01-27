@@ -33,7 +33,7 @@ namespace AgateLib.Configuration.State
 		}
 
 		public IAgateFactory Factory { get; set; }
-		public CoreState Core { get; private set; } = new CoreState();
+		public AppState App { get; private set; } = new AppState();
 		public ConsoleState Console { get; private set; } = new ConsoleState();
 
 		public AudioState Audio { get; private set; } = new AudioState();

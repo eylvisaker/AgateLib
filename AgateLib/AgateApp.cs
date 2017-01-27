@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.AudioLib;
@@ -53,8 +54,8 @@ namespace AgateLib
 			/// </summary>
 			public static string ErrorFile
 			{
-				get { return State.Core.ErrorReporting.ErrorFile; }
-				set { State.Core.ErrorReporting.ErrorFile = value; }
+				get { return State.App.ErrorReporting.ErrorFile; }
+				set { State.App.ErrorReporting.ErrorFile = value; }
 			}
 
 			/// <summary>
@@ -66,14 +67,14 @@ namespace AgateLib
 			/// code accomplishes that.
 			/// <code>
 			/// #if _DEBUG
-			///     AgateLib.Core.AutoStackTrace = true;
+			///     AgateLib.AgateApp.AutoStackTrace = true;
 			/// #endif
 			/// </code>
 			/// </example>
 			public static bool AutoStackTrace
 			{
-				get { return State.Core.ErrorReporting.AutoStackTrace; }
-				set { State.Core.ErrorReporting.AutoStackTrace = value; }
+				get { return State.App.ErrorReporting.AutoStackTrace; }
+				set { State.App.ErrorReporting.AutoStackTrace = value; }
 			}
 
 			/// <summary>
@@ -82,8 +83,8 @@ namespace AgateLib
 			/// </summary>
 			public static CrossPlatformDebugLevel CrossPlatformDebugLevel
 			{
-				get { return State.Core.CrossPlatformDebugLevel; }
-				set { State.Core.CrossPlatformDebugLevel = value; }
+				get { return State.App.CrossPlatformDebugLevel; }
+				set { State.App.CrossPlatformDebugLevel = value; }
 			}
 
 			/// <summary>
@@ -173,7 +174,7 @@ namespace AgateLib
 			}
 
 			/// <summary>
-			/// Reports a cross platform error, according to the setting of Core.CrossPlatformDebugLevel.
+			/// Reports a cross platform error, according to the setting of AgateApp.CrossPlatformDebugLevel.
 			/// </summary>
 			/// <param name="message"></param>
 			public static void ReportCrossPlatformError(string message)
@@ -194,7 +195,7 @@ namespace AgateLib
 			{
 				try
 				{
-					if (State.Core.ErrorReporting.WroteHeader == true)
+					if (State.App.ErrorReporting.WroteHeader == true)
 					{
 						Stream stream = FileSystem.File.OpenWrite(ErrorFile, true);
 
@@ -207,7 +208,7 @@ namespace AgateLib
 
 						WriteHeader(writer);
 
-						State.Core.ErrorReporting.WroteHeader = true;
+						State.App.ErrorReporting.WroteHeader = true;
 
 						return writer;
 					}
@@ -250,20 +251,20 @@ namespace AgateLib
 		internal static AgateLibState State { get; private set; } = new AgateLibState();
 
 		/// <summary>
-		/// Initializes Core class. Also causes the Registrar to probe drivers.
+		/// Initializes AgateApp class with a platform factory.
 		/// Can be called multiple times without adverse effects.
 		/// </summary>
 		public static void Initialize(IAgateFactory factory)
 		{
 			Require.ArgumentNotNull(factory, nameof(factory));
 
-			if (State?.Core.Inititalized ?? false)
+			if (State?.App.Inititalized ?? false)
 				return;
 
 			State = new AgateLibState();
 			State.Factory = factory;
-			State.Core.Platform = factory.PlatformFactory.Info;
-			State.Core.Time = factory.PlatformFactory.CreateStopwatch();
+			State.App.Platform = factory.PlatformFactory.Info;
+			State.App.Time = factory.PlatformFactory.CreateStopwatch();
 
 			FileSystem.Initialize(factory.PlatformFactory);
 
@@ -276,7 +277,7 @@ namespace AgateLib
 			Assets = factory.PlatformFactory.ApplicationFolderFiles;
 			UserFiles = factory.PlatformFactory.OpenUserAppStorage("");
 
-			State.Core.Inititalized = true;
+			State.App.Inititalized = true;
 		}
 
 		public static void Dispose()
@@ -288,19 +289,22 @@ namespace AgateLib
 			State = null;
 		}
 
-		public static void InitAssetLocations(AssetLocations assets, IReadFileProvider assetProvider)
+		/// <summary>
+		/// Adds an action to a queue that is executed when AgateApp.KeepAlive is called.
+		/// </summary>
+		/// <param name="action"></param>
+		public static void QueueWorkItem(Action action)
 		{
-			Require.ArgumentNotNull(assets, nameof(assets));
-
-			State.Core.Assets = assetProvider;
-
-			AgateLib.IO.Assets.AddAssetLocations(assetProvider, assets);
+			lock (State.App.WorkItems)
+			{
+				State.App.WorkItems.Add(action);
+			}
 		}
 
 		/// <summary>
 		/// Gets an object which describes details about the current platform.
 		/// </summary>
-		public static IPlatformInfo Platform => State.Core.Platform;
+		public static IPlatformInfo Platform => State.App.Platform;
 
 		/// <summary>
 		/// Gets an object which contains the persistant settings for the application.
@@ -312,12 +316,12 @@ namespace AgateLib
 				if (State == null)
 					return null;
 
-				if (State.Core.Settings == null)
+				if (State.App.Settings == null)
 				{
-					State.Core.Settings = new PersistantSettings();
+					State.App.Settings = new PersistantSettings();
 				}
 
-				return State.Core.Settings;
+				return State.App.Settings;
 			}
 		}
 
@@ -329,8 +333,8 @@ namespace AgateLib
 		/// </summary>
 		public static bool IsActive
 		{
-			get { return State.Core.IsActive; }
-			set { State.Core.IsActive = value; }
+			get { return State.App.IsActive; }
+			set { State.App.IsActive = value; }
 		}
 
 		/// <summary>
@@ -338,7 +342,7 @@ namespace AgateLib
 		/// should automatically pause execution when the application
 		/// loses focus.
 		/// 
-		/// The automatic pause will occur during Core.KeepAlive().  This
+		/// The automatic pause will occur during App.KeepAlive().  This
 		/// will prevent the DisplayWindow from being updated at all.  As 
 		/// such, this should not be used in production builds if your app
 		/// is windowed.  Instead check the IsActive property and respond 
@@ -346,8 +350,8 @@ namespace AgateLib
 		/// </summary>
 		public static bool AutoPause
 		{
-			get { return State.Core.AutoPause; }
-			set { State.Core.AutoPause = value; }
+			get { return State.App.AutoPause; }
+			set { State.App.AutoPause = value; }
 		}
 
 		/// <summary>
@@ -355,11 +359,11 @@ namespace AgateLib
 		/// </summary>
 		public static bool IsAlive
 		{
-			get { return State.Core.IsAlive; }
+			get { return State.App.IsAlive; }
 			set
 			{
 				if (!value)
-					State.Core.IsAlive = false;
+					State.App.IsAlive = false;
 			}
 		}
 
@@ -369,12 +373,12 @@ namespace AgateLib
 		/// </summary>
 		public static IReadFileProvider Assets
 		{
-			get { return State.Core?.Assets; }
+			get { return State.App?.Assets; }
 			set
 			{
 				Require.ArgumentNotNull(value, nameof(Assets));
 
-				State.Core.Assets = value;
+				State.App.Assets = value;
 				State.IO.mImages = value;
 				State.IO.mMusic = value;
 				State.IO.mSounds = value;
@@ -385,12 +389,12 @@ namespace AgateLib
 
 		public static IReadWriteFileProvider UserFiles
 		{
-			get { return State.Core?.UserFiles; }
+			get { return State.App?.UserFiles; }
 			set
 			{
 				Require.ArgumentNotNull(value, nameof(UserFiles));
 
-				State.Core.UserFiles = value;
+				State.App.UserFiles = value;
 			}
 		}
 		
@@ -429,6 +433,24 @@ namespace AgateLib
 			Input.PollJoysticks();
 
 			Input.DispatchQueuedEvents();
+
+			ExecuteWorkItemQueue();
+		}
+
+		private static void ExecuteWorkItemQueue()
+		{
+			while (State.App.WorkItems.Count > 0)
+			{
+				Action workItem = null;
+
+				lock (State.App.WorkItems)
+				{
+					workItem = State.App.WorkItems.First();
+					State.App.WorkItems.RemoveAt(0);
+				}
+
+				workItem();
+			}
 		}
 
 
@@ -438,7 +460,7 @@ namespace AgateLib
 		/// <returns></returns>
 		internal static double GetTime()
 		{
-			return State.Core.Time.TotalMilliseconds;
+			return State.App.Time.TotalMilliseconds;
 		}
 
 		/// <summary>

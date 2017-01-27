@@ -11,7 +11,7 @@ namespace AgateLib.Tests.CoreTests
 	{
 		public string Name => "Persistant Settings";
 
-		public string Category => "Core";
+		public string Category => "App";
 
 		public void Run(string[] args)
 		{

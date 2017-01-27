@@ -17,14 +17,14 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
-using AgateLib.Drivers;
+using System.Collections.Generic;
 using AgateLib.IO;
 using AgateLib.Platform;
 using AgateLib.Settings;
 
 namespace AgateLib.Configuration.State
 {
-	class CoreState
+	internal class AppState
 	{
 		internal class ErrorReportingState
 		{
@@ -51,5 +51,7 @@ namespace AgateLib.Configuration.State
 
 		public IReadFileProvider Assets { get; set; }
 		public IReadWriteFileProvider UserFiles { get; set; }
+
+		public List<Action> WorkItems { get; set; } = new List<Action>();
 	}
 }

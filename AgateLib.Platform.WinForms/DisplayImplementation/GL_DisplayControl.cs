@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
@@ -126,7 +127,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			disposable = null;
 		}
 
-		private System.Windows.Forms.Form TopLevelForm 
+		private System.Windows.Forms.Form TopLevelForm
 			=> (System.Windows.Forms.Form)wfRenderTarget.TopLevelControl;
 
 		protected abstract Size ContextSize { get; }
@@ -197,7 +198,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			wfRenderTarget.Cursor = System.Windows.Forms.Cursors.Arrow;
 		}
-		
+
 		public void CreateContextForCurrentThread()
 		{
 			ctxFrameBuffer.CreateContextForThread();
@@ -387,21 +388,36 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			ctxFrameBuffer.EndRender();
 		}
 
-		private void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+		private async void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
 		{
 			isClosed = true;
 
 			DetachEvents();
-			OnClosed(owner);
+
+			AgateApp.QueueWorkItem(() =>
+			{
+				OnClosed(owner);
+			});
+
+			await Task.Delay(250);
 		}
 
 		private void form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
 		{
-			var cancel = false;
+			e.Cancel = true;
 
-			OnClosing(owner, ref cancel);
+			AgateApp.QueueWorkItem(() =>
+			{
+				var cancel = false;
 
-			e.Cancel = cancel;
+				OnClosing(owner, ref cancel);
+
+				if (!cancel)
+				{
+					OnClosed(owner);
+					wfForm.Dispose();
+				}
+			});
 		}
 
 		private void mRenderTarget_Disposed(object sender, EventArgs e)
@@ -411,9 +427,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void mRenderTarget_Resize(object sender, EventArgs e)
 		{
-			ctxFrameBuffer.SetSize(new Size(wfRenderTarget.Width, wfRenderTarget.Height));
+			AgateApp.QueueWorkItem(() =>
+			{
+				ctxFrameBuffer.SetSize(new Size(wfRenderTarget.Width, wfRenderTarget.Height));
 
-			OnResize(owner);
+				OnResize(owner);
+			});
 		}
 
 		private void mRenderTarget_DoubleClick(object sender, EventArgs e)

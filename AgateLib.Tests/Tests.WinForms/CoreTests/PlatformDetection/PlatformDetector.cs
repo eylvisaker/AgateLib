@@ -9,7 +9,7 @@ namespace AgateLib.Tests.CoreTests.PlatformDetection
 	{
 		public string Name => "Platform Detection";
 
-		public string Category => "Core";
+		public string Category => "App";
 
 		public void Run(string[] args)
 		{

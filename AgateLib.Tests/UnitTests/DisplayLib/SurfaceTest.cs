@@ -110,8 +110,7 @@ namespace AgateLib.UnitTests.DisplayLib
 			var fileProvider = new FakeReadFileProvider();
 			fileProvider.Add("test.png", "");
 
-			Assets.Images = fileProvider;
-			surface = new Surface("test.png");
+			surface = new Surface("test.png", fileProvider);
 
 			Assert.AreEqual(1, fileProvider.ReadCount("test.png"));
 		}

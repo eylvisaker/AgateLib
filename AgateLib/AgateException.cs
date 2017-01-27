@@ -54,7 +54,7 @@ namespace AgateLib
 	/// <summary>
 	/// Exception which is thrown when AgateLib detects that it is used in a way that
 	/// may not be portable to different platforms, 
-	/// and Core.CrossPlatformDebugLevel is set to Exception.
+	/// and AgateApp.CrossPlatformDebugLevel is set to Exception.
 	/// </summary>
 	public class AgateCrossPlatformException : AgateException
 	{

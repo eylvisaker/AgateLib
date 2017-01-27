@@ -119,7 +119,7 @@ namespace AgateLib.Settings
 			get
 			{
 				return "settings";
-				//return FileSystem.Path.Combine(Core.Platform.AppDataDirectory, "settings.xml");
+				//return FileSystem.Path.Combine(AgateApp.Platform.AppDataDirectory, "settings.xml");
 			}
 		}
 
@@ -152,7 +152,7 @@ namespace AgateLib.Settings
 
 			// TODO: Implement settings saving.
 
-			//Core.Platform.EnsureAppDataDirectoryExists();
+			//AgateApp.Platform.EnsureAppDataDirectoryExists();
 
 			////doc.Save(SettingsFilename);
 			//throw new NotImplementedException();

@@ -84,7 +84,7 @@ default_facet:
 			SetupFile(fileProvider, themeFilename, themesyaml);
 			SetupFile(fileProvider, facetFilename, facetsyaml);
 
-			Assets.AssetProvider = fileProvider.Object;
+			AgateApp.Assets = fileProvider.Object;
 
 			DataModel = new ResourceDataLoader().Load(resourceFilename);
 			Manager = new AgateResourceManager(DataModel);

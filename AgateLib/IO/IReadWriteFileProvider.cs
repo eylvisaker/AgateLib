@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.IO
 {
-	public interface IReadWriteFileProvider : IReadFileProvider, IWriteFileProvider
+	public interface IReadWriteFileProvider : IReadFileProvider
 	{
 		Task<Stream> OpenWriteAsync(string file);
 
