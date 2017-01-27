@@ -394,16 +394,22 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			DetachEvents();
 
-			AgateApp.QueueWorkItem(() =>
+			if (wfForm != null)
 			{
-				OnClosed(owner);
-			});
+				AgateApp.QueueWorkItem(() =>
+				{
+					OnClosed(owner);
+				});
 
-			await Task.Delay(250);
+				await Task.Delay(250);
+			}
 		}
 
 		private void form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
 		{
+			if (wfForm == null)
+				return;
+
 			e.Cancel = true;
 
 			AgateApp.QueueWorkItem(() =>
@@ -415,7 +421,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				if (!cancel)
 				{
 					OnClosed(owner);
-					wfForm.Dispose();
+					wfForm?.Dispose();
 				}
 			});
 		}
