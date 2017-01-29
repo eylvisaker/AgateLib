@@ -175,6 +175,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\AgateRenderTarget.resx">
+      <DependentUpon>AgateRenderTarget.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DisplayImplementation\frmFullScreen.resx">
       <DependentUpon>frmFullScreen.cs</DependentUpon>
       <SubType>Designer</SubType>

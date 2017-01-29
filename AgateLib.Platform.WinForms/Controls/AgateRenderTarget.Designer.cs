@@ -46,7 +46,13 @@ namespace AgateLib.Platform.WinForms.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			components = new System.ComponentModel.Container();
+			this.SuspendLayout();
+			// 
+			// AgateRenderTarget
+			// 
+			this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+			this.ResumeLayout(false);
+
 		}
 
 		#endregion
