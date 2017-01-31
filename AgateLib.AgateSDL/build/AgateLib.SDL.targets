@@ -1,0 +1,136 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\LICENSE.FLAC.txt">
+			<Link>lib32/LICENSE.FLAC.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\LICENSE.mikmod.txt">
+			<Link>lib32/LICENSE.mikmod.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\LICENSE.modplug.txt">
+			<Link>lib32/LICENSE.modplug.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\LICENSE.ogg-vorbis.txt">
+			<Link>lib32/LICENSE.ogg-vorbis.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\LICENSE.smpeg.txt">
+			<Link>lib32/LICENSE.smpeg.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\README-SDL.txt">
+			<Link>lib32/README-SDL.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\README-SDL_mixer.txt">
+			<Link>lib32/README-SDL_mixer.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		
+		<None Include="$(MSBuildThisFileDirectory)\lib64\LICENSE.FLAC.txt">
+			<Link>lib64/LICENSE.FLAC.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\LICENSE.mikmod.txt">
+			<Link>lib64/LICENSE.mikmod.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\LICENSE.modplug.txt">
+			<Link>lib64/LICENSE.modplug.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\LICENSE.ogg-vorbis.txt">
+			<Link>lib64/LICENSE.ogg-vorbis.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\LICENSE.smpeg.txt">
+			<Link>lib64/LICENSE.smpeg.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\README-SDL.txt">
+			<Link>lib64/README-SDL.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\README-SDL_mixer.txt">
+			<Link>lib64/README-SDL_mixer.txt</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		
+		<None Include="$(MSBuildThisFileDirectory)\lib32\libFLAC-8.dll">
+			<Link>lib32/libFLAC-8.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\libmikmod-2.dll">	
+			<Link>lib32/libmikmod-2.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\libmodplug-1.dll">
+			<Link>lib32/libmodplug-1.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\libogg-0.dll">
+			<Link>lib32/libogg-0.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\libvorbis-0.dll">
+			<Link>lib32/libvorbis-0.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\libvorbisfile-3.dll">
+			<Link>lib32/libvorbisfile-3.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\SDL2.dll">
+			<Link>lib32/SDL2.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\SDL2_mixer.dll">
+			<Link>lib32/SDL2_mixer.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib32\smpeg2.dll">
+			<Link>lib32/smpeg2.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Include="$(MSBuildThisFileDirectory)\lib64\libFLAC-8.dll">
+			<Link>lib64/libFLAC-8.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\libmikmod-2.dll">	
+			<Link>lib64/libmikmod-2.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\libmodplug-1.dll">
+			<Link>lib64/libmodplug-1.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\libogg-0.dll">
+			<Link>lib64/libogg-0.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\libvorbis-0.dll">
+			<Link>lib64/libvorbis-0.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\libvorbisfile-3.dll">
+			<Link>lib64/libvorbisfile-3.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\SDL2.dll">
+			<Link>lib64/SDL2.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\SDL2_mixer.dll">
+			<Link>lib64/SDL2_mixer.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\lib64\smpeg2.dll">
+			<Link>lib64/smpeg2.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>	
+	</ItemGroup>
+
+</Project>

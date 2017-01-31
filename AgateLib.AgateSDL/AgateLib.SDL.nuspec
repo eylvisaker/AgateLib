@@ -15,12 +15,12 @@
     <copyright>Copyright 2015</copyright>
     <tags>Game</tags>
     <dependencies>
-      <dependency id="AgateLib" version="2.0.43" />
+      <dependency id="AgateLib" version="$version$" />
     </dependencies>
   </metadata>
   <files>
-    <file src="lib32\*" target="content/lib32" />
-    <file src="lib64\*" target="content/lib64" />
-    <file src="tools\Install.ps1" target="tools" />
+    <file src="lib32\*" target="build/lib32" />
+    <file src="lib64\*" target="build/lib64" />
+    <file src="build\AgateLib.SDL.targets" target="build" />
   </files>
 </package>

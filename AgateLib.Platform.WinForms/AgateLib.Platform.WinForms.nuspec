@@ -15,9 +15,9 @@
     <copyright>Copyright 2015</copyright>
     <tags>Game</tags>
     <dependencies>
-      <dependency id="AgateLib" version="2.0.43" />
-      <dependency id="AgateLib.OpenGL" version="2.0.43" />
-      <dependency id="AgateLib.SDL" version="2.0.43" />
+      <dependency id="AgateLib" version="$version$" />
+      <dependency id="AgateLib.OpenGL" version="$version$" />
+      <dependency id="AgateLib.SDL" version="$version$" />
       <dependency id="OpenTK" version="2.0.0" />
     </dependencies>
   </metadata>

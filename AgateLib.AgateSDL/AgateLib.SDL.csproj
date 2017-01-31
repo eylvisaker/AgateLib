@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.SDL.dll.config" />
+    <None Include="build\AgateLib.SDL.targets" />
     <None Include="tools\Install.ps1" />
   </ItemGroup>
   <ItemGroup>
