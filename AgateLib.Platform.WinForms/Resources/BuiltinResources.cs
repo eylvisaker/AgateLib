@@ -40,7 +40,7 @@ namespace AgateLib.Platform.WinForms.Resources
 				mProvider = new ZipFileProvider("Fonts.zip", new MemoryStream(Builtin.Fonts));
 				mResources = new AgateResourceManager(
 					new ResourceDataLoader(mProvider).Load("Fonts.yaml"), 
-					mProvider, mProvider);
+					mProvider);
 			}
 
 			return mResources.Display.FindFont(name);

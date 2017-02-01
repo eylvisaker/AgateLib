@@ -72,7 +72,7 @@ namespace AgateLib.DisplayLib
 			Verify.DisplayIsInitialized();
 			Condition.Requires<ArgumentException>(!string.IsNullOrEmpty(filename), "You must supply a file name.");
 
-			fileprovider = fileprovider ?? Assets.Images;
+			fileprovider = fileprovider ?? AgateApp.Assets;
 
 			mImpl = AgateApp.State.Factory.DisplayFactory.CreateSurface(fileprovider, filename);
 

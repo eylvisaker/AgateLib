@@ -43,11 +43,11 @@ namespace AgateLib.Resources
 		public AgateResourceManager(string filename) : this(new ResourceDataLoader().Load(filename))
 		{ }
 
-		public AgateResourceManager(ResourceDataModel data) : this(data, Assets.Images, Assets.UserInterfaceAssets)
+		public AgateResourceManager(ResourceDataModel data) : this(data, AgateApp.Assets)
 		{
 		}
 
-		public AgateResourceManager(ResourceDataModel dataModel, IReadFileProvider imageFileProvider, IReadFileProvider fontFileProvider)
+		public AgateResourceManager(ResourceDataModel dataModel, IReadFileProvider fileProvider)
 		{
 			this.data = dataModel;
 

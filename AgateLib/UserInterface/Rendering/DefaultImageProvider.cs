@@ -34,7 +34,7 @@ namespace AgateLib.UserInterface.Rendering
 
 		public DefaultImageProvider(IReadFileProvider fileProvider)
 		{
-			this.fileProvider = fileProvider ?? Assets.UserInterfaceAssets;
+			this.fileProvider = fileProvider ?? AgateApp.Assets;
 		}
 
 		public Surface GetImage(string file)

@@ -38,7 +38,6 @@ namespace AgateLib.UnitTests.AgateAppTests
 					"Assets/Images/Sprites.yaml",
 					"Sprite.yaml contents go here");
 
-				Assets.OpenRead("Images/Sprites.yaml");
 				AgateApp.Assets.OpenRead("Images/Sprites.yaml");
 			}
 		}

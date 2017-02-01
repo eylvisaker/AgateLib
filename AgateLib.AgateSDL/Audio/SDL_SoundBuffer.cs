@@ -51,7 +51,7 @@ namespace AgateLib.AgateSDL.Audio
 		{
 			sdl = SdlFactory.CreateSDL();
 
-			this.filename = IO.Assets.Sounds.ResolveFile(filename);
+			this.filename = AgateApp.Assets.ResolveFile(filename);
 			LoadFromFile(this.filename);
 		}
 

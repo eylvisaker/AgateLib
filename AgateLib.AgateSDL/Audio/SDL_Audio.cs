@@ -35,23 +35,11 @@ namespace AgateLib.AgateSDL.Audio
 		Action<int> mChannelFinishedDelegate;
 		ISDL sdl;
 
-		public SDL_Audio()
-		{
-			FileProvider = AgateLib.IO.Assets.Sounds;
-		}
-
-		public SDL_Audio(IReadFileProvider fileProvider)
-		{
-			FileProvider = fileProvider;
-		}
-
 		~SDL_Audio()
 		{
 			Dispose(false);
 		}
-
-		public IReadFileProvider FileProvider { get; private set; }
-
+		
         protected override void Dispose(bool disposing)
 		{
 			sdl.Mixer.Mix_CloseAudio();

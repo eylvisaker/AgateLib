@@ -359,7 +359,7 @@ namespace AgateLib
 		/// </summary>
 		public static bool IsAlive
 		{
-			get { return State.App.IsAlive; }
+			get { return State?.App?.IsAlive ?? false; }
 			set
 			{
 				if (!value)
