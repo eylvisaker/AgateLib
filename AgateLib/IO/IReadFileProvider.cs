@@ -23,6 +23,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.IO;
 
 namespace AgateLib
 {
@@ -96,6 +97,16 @@ namespace AgateLib
 			Condition.Requires<ArgumentNullException>(filename != null, "filename");
 
 			var task = provider.OpenReadAsync(filename);
+
+			return task.GetAwaiter().GetResult();
+		}
+
+		public static Stream OpenWrite(this IReadWriteFileProvider provider, string filename)
+		{
+			Condition.Requires<ArgumentNullException>(provider != null, "provider");
+			Condition.Requires<ArgumentNullException>(filename != null, "filename");
+
+			var task = provider.OpenWriteAsync(filename);
 
 			return task.GetAwaiter().GetResult();
 		}

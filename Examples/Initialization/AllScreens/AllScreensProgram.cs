@@ -18,7 +18,7 @@ namespace Examples.Initialization.AllScreens
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (AgateWinForms.Initialize(args))
+			using (new AgateWinForms(args).Initialize())
 			using (DisplayWindowCollection windows = new DisplayWindowBuilder()
 				.Title("Full Screen All Monitors")
 				.BackbufferSize(500, 400)

@@ -301,6 +301,10 @@ namespace AgateLib.Platform.WinForms.IO
 		public Task<Stream> OpenWriteAsync(string file)
 		{
             string resolvedName = Path.Combine(mPath, file);
+
+			var dir = Path.GetDirectoryName(resolvedName);
+			Directory.CreateDirectory(dir);
+
 			var result = File.Open(resolvedName, FileMode.Create);
 
 			return Task.FromResult<Stream>(result);

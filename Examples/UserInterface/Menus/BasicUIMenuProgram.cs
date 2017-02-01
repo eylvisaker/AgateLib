@@ -45,8 +45,9 @@ namespace Examples.UserInterface.Menus
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (AgateWinForms.Initialize(args)
-					.AssetPath("Assets"))
+			using (new AgateWinForms(args)
+					.AssetPath("Assets")
+					.Initialize())
 			using (new DisplayWindowBuilder(args)
 					.BackbufferSize(500, 400)
 					.Build())

@@ -39,7 +39,7 @@ namespace AgateLib.Configuration.State
 		public bool IsActive { get; set; } = true;
 		public bool Inititalized { get; set; }
 		public IPlatformInfo Platform { get; set; }
-		public PersistantSettings Settings { get; set; }
+		public PersistantSettings Settings { get; } = new PersistantSettings();
 
 		public System.Diagnostics.Stopwatch MasterTime { get; private set; } = System.Diagnostics.Stopwatch.StartNew();
 		/// <summary>

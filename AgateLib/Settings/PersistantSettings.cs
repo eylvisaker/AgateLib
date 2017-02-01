@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using YamlDotNet.Serialization;
 
 namespace AgateLib.Settings
 {
@@ -35,173 +36,70 @@ namespace AgateLib.Settings
 	/// These settings are stored on a per-user basis.
 	/// </summary>
 	/// <remarks>On Windows Vista and up the file is stored in 
-	/// %HOME%\AppData\Company Name\Application Name\settings.xml.
+	/// %HOME%\AppData\Company Name\Application Name\Settings\.
 	/// On Unix the file is stored at
-	/// $HOME/.config/Company Name/Application Name/settings.xml.
+	/// $HOME/.config/Company Name/Application Name/Settings/.
 	/// </remarks>
 	public class PersistantSettings
 	{
-		readonly Dictionary<string, SettingsGroup> mSettings = new Dictionary<string, SettingsGroup>();
+		List<IYamlTypeConverter> typeConverters = new List<IYamlTypeConverter>();
+		Dictionary<string, ISettingsData> settings = new Dictionary<string, ISettingsData>();
 
-		#region --- Static Members ---
-
-		public static ISettingsTracer SettingsTracer { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether PersistantSettings objects are in
-		/// debugging mode. If true, every access to a setting value will be echoed to System.Diagnostics.Trace.
-		/// </summary>
-		/// <value>
-		/// <c>true</c> if debug; otherwise, <c>false</c>.
-		/// </value>
-		public static bool Debug { get; set; }
-
-		internal static void TraceSettingsRead(string groupName, string key, string value)
+		public void AddTypeConverter(IYamlTypeConverter typeConverter)
 		{
-			if (Debug)
-			{
-				Log.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"]=\"{2}\" read.", groupName, key, value));
-			}
-
-			if (SettingsTracer == null) return;
-
-			SettingsTracer.OnReadSetting(groupName, key, value);
-		}
-		internal static void TraceSettingsWrite(string groupName, string key, string value)
-		{
-			if (Debug)
-			{
-				Log.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"]=\"{2}\" written.", groupName, key, value));
-			}
-
-			if (SettingsTracer == null) return;
-
-			SettingsTracer.OnWriteSetting(groupName, key, value);
+			typeConverters.Add(typeConverter);
 		}
 
-		#endregion
-
-		internal PersistantSettings()
+		public T GetOrCreate<T>(string name, Func<T> initializer)
 		{
-			LoadSettings();
-		}
-
-
-		private SettingsGroup GetOrCreateSettingsGroup(string name)
-		{
-			if (name.Contains(" ")) throw new ArgumentException("Settings group name cannot contain a space.");
-			if (string.IsNullOrEmpty(name)) throw new ArgumentException("Settings group name cannot be blank.");
-
-			if (mSettings.ContainsKey(name) == false)
+			if (settings.ContainsKey(name) == false)
 			{
-				mSettings[name] = new SettingsGroup();
-				mSettings[name].Name = name;
+				lock (settings)
+				{
+					if (settings.ContainsKey(name) == false)
+					{
+						var item = new SettingsData<T>(typeConverters, initializer) {Filename = "Settings/" + name + ".settings"};
+
+						try
+						{
+							using (var stream = new StreamReader(AgateApp.UserFiles.OpenRead(item.Filename)))
+							{
+								item.Load(stream);
+							}
+						}
+						catch
+						{
+							item.Initialize();
+						}
+						settings[name] = item;
+					}
+				}
+
 			}
 
-			return mSettings[name];
+			return Get<T>(name);
 		}
 
 		/// <summary>
-		/// Gets a settings group, or creates it if it does not exist.
+		/// Gets a settings object.
 		/// </summary>
-		/// <param name="name">The name of the group is case-sensitive, and must not contain any spaces
-		/// or special characters.</param>
+		/// <typeparam name="T">The object type.</typeparam>
+		/// <param name="name"></param>
 		/// <returns></returns>
-		public SettingsGroup this[string name]
+		public T Get<T>(string name)
 		{
-			get { return GetOrCreateSettingsGroup(name); }
-		}
-		/// <summary>
-		/// Gets the full path to the location where the settings file is stored.
-		/// </summary>
-		public string SettingsFilename
-		{
-			get
-			{
-				return "settings";
-				//return FileSystem.Path.Combine(AgateApp.Platform.AppDataDirectory, "settings.xml");
-			}
+			return (T)settings[name].Data;
 		}
 
-		/// <summary>
-		/// Saves the settings to the persistant storage on disk.
-		/// </summary>
-		public void SaveSettings()
+		public void Save()
 		{
-			XDocument doc = new XDocument();
-			XElement root = new XElement("Settings");
-
-			foreach (string group in mSettings.Keys)
+			foreach (var item in settings.Values)
 			{
-				XElement groupNode = new XElement(group);
-
-				foreach (var kvp in mSettings[group])
+				using (var stream = new StreamWriter(
+					AgateApp.UserFiles.OpenWriteAsync(item.Filename).Result))
 				{
-					XElement set = new XElement(kvp.Key);
-					set.Value = kvp.Value;
-
-					groupNode.Add(set);
+					item.Save(stream);
 				}
-
-				root.Add(groupNode);
-			}
-
-			doc.Add(root);
-
-			Log.WriteLine("Saving settings to " + SettingsFilename);
-
-			// TODO: Implement settings saving.
-
-			//AgateApp.Platform.EnsureAppDataDirectoryExists();
-
-			////doc.Save(SettingsFilename);
-			//throw new NotImplementedException();
-		}
-
-		private void LoadSettings()
-		{
-			XDocument doc;
-
-			if (FileSystem.File == null)
-				return;
-
-			try
-			{
-				if (FileSystem.File.Exists(SettingsFilename) == false)
-					return;
-
-				doc = XDocument.Load(XmlReader.Create(FileSystem.File.OpenRead(SettingsFilename)));
-			}
-			catch (FileNotFoundException)
-			{
-				return;
-			}
-			catch (XmlException e)
-			{
-				Log.WriteLine("Error reading settings file:" + Environment.NewLine +
-					e.Message);
-
-				return;
-			}
-
-			XElement root = doc.Element("Settings");
-
-			if (root == null)
-				throw new AgateException("Could not understand settings file\n" + SettingsFilename +
-					"\nYou may need to delete it.");
-
-			foreach (XElement node in root.Elements())
-			{
-				SettingsGroup g = new SettingsGroup();
-
-				g.Name = node.Name.LocalName;
-
-				foreach (XElement pair in node.Elements())
-				{
-					g.Add(pair.Name.LocalName, pair.Value);
-				}
-
-				mSettings.Add(g.Name, g);
 			}
 		}
 	}

@@ -266,6 +266,9 @@ namespace AgateLib
 			State.App.Platform = factory.PlatformFactory.Info;
 			State.App.Time = factory.PlatformFactory.CreateStopwatch();
 
+			Assets = factory.PlatformFactory.ApplicationFolderFiles;
+			UserFiles = factory.PlatformFactory.OpenUserAppStorage("");
+
 			FileSystem.Initialize(factory.PlatformFactory);
 
 			Display.Initialize(factory.DisplayFactory.DisplayCore);
@@ -273,9 +276,6 @@ namespace AgateLib
 			Input.Initialize(factory.InputFactory.InputCore);
 
 			AgateConsole.Initialize();
-
-			Assets = factory.PlatformFactory.ApplicationFolderFiles;
-			UserFiles = factory.PlatformFactory.OpenUserAppStorage("");
 
 			State.App.Inititalized = true;
 		}
@@ -309,21 +309,7 @@ namespace AgateLib
 		/// <summary>
 		/// Gets an object which contains the persistant settings for the application.
 		/// </summary>
-		public static PersistantSettings Settings
-		{
-			get
-			{
-				if (State == null)
-					return null;
-
-				if (State.App.Settings == null)
-				{
-					State.App.Settings = new PersistantSettings();
-				}
-
-				return State.App.Settings;
-			}
-		}
+		public static PersistantSettings Settings => State?.App.Settings;
 
 		/// <summary>
 		/// Gets or sets a bool value which indicates whether or not your

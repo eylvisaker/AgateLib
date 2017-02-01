@@ -35,35 +35,51 @@ namespace AgateLib.Platform.WinForms.Factories
 {
 	class PlatformFactory : IPlatformFactory
 	{
-		private Assembly entryAssembly;
-		private string applicationDirectory;
+		private readonly Assembly entryAssembly;
+		private readonly string applicationDirectory;
+
 		private string userAppDataPath;
+		private string appCompanyName;
+		private string appProductName;
 		private string documentsPath;
 
-		public PlatformFactory(string appRootPath = null)
+		public PlatformFactory()
 		{
 			entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 
 			var companyAttribute = GetCustomAttribute<AssemblyCompanyAttribute>(entryAssembly);
 			var nameAttribute = GetCustomAttribute<AssemblyProductAttribute>(entryAssembly);
 
-			SetPaths(
-				companyAttribute != null ? companyAttribute.Company : string.Empty,
-				nameAttribute != null ? nameAttribute.Product : string.Empty);
+			appCompanyName = companyAttribute?.Company ?? string.Empty;
+			appProductName = nameAttribute?.Product ?? string.Empty;
+
+			userAppDataPath = GetUserAppDataDirectory();
+			SetUserDataDirectory();
 
 			Info = new FormsPlatformInfo();
 
-			applicationDirectory = appRootPath ?? GetApplicationDirectory();
+			applicationDirectory = GetApplicationDirectory();
 			documentsPath = GetUserDocumentsDirectory();
 
 			ApplicationFolderFiles = OpenAppFolder("");
-
-			UserAppStorage = OpenUserAppStorage("");
 		}
 
-		public string AppCompanyName { get; private set; }
+		public string AppCompanyName
+		{
+			get { return appCompanyName; }
+			set
+			{
+				appCompanyName = value;
+				SetUserDataDirectory();
+			}
+		}
 
-		public string AppProductName { get; private set; }
+		public string AppProductName
+		{
+			get { return appProductName; }
+			set { appProductName = value; SetUserDataDirectory(); }
+		}
+
 
 		public IPlatformInfo Info { get; private set; }
 
@@ -79,16 +95,6 @@ namespace AgateLib.Platform.WinForms.Factories
 		public IReadWriteFileProvider OpenUserAppStorage(string subpath)
 		{
 			return new FileSystemProvider(Path.Combine(userAppDataPath, subpath));
-		}
-
-		public void SetPaths(string applicationName, string companyName)
-		{
-			userAppDataPath = GetUserAppDataDirectory();
-
-			AppCompanyName = companyName;
-			AppProductName = applicationName;
-
-			UserAppStorage = OpenUserAppStorage("");
 		}
 
 		public IStopwatch CreateStopwatch()
@@ -144,6 +150,11 @@ namespace AgateLib.Platform.WinForms.Factories
 			{
 				return null;
 			}
+		}
+
+		private void SetUserDataDirectory()
+		{
+			UserAppStorage = OpenUserAppStorage("");
 		}
 	}
 }

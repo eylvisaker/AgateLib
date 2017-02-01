@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib.Geometry;
+using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.IO;
 using AgateLib.Settings;
 
@@ -32,9 +33,6 @@ namespace AgateLib.Tests
 			frm.FormClosed += HandleFormClosed;
 
 			ReadSettingsNames();
-
-			AgateLib.Settings.PersistantSettings.SettingsTracer = this;
-			AgateLib.Settings.PersistantSettings.Debug = true;
 
 			LoadTests();
 		}
@@ -73,8 +71,6 @@ namespace AgateLib.Tests
 
 				string group, key;
 				SplitName(kvp.Key, out group, out key);
-
-				AgateLib.AgateApp.Settings[group][key] = kvp.Value;
 			}
 
 			try
@@ -99,8 +95,9 @@ namespace AgateLib.Tests
 
 		private void LaunchTestModel(IAgateTest test)
 		{
-			using (AgateLib.Platform.WinForms.AgateWinForms.Initialize(CommandLineArguments)
-				.AssetPath("Assets"))
+			using (new AgateWinForms(CommandLineArguments)
+				.AssetPath("Assets")
+				.Initialize())
 			{
 				test.Run(CommandLineArguments);
 			}

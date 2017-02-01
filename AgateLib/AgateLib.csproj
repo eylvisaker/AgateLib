@@ -328,7 +328,8 @@
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformEnums.cs" />
-    <Compile Include="Settings\SettingsGroup.cs" />
+    <Compile Include="Settings\ISettingsData.cs" />
+    <Compile Include="Settings\SettingsData.cs" />
     <Compile Include="Platform\Timing.cs">
       <SubType>Code</SubType>
     </Compile>

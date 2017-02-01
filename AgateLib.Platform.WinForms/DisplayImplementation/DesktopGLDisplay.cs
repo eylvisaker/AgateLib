@@ -43,6 +43,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	public sealed class DesktopGLDisplay : DisplayImpl, AgateLib.OpenGL.IGL_Display
 	{
 		GL_FrameBuffer mRenderTarget;
+		private GLSettings settings;
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
 		private bool mVSync = true;
@@ -74,7 +75,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
-			mRenderTarget = RenderTarget.Impl as GL_FrameBuffer;
+			mRenderTarget = (GL_FrameBuffer) RenderTarget.Impl;
 			mRenderTarget.MakeCurrent();
 
 			OnRenderTargetResize();
@@ -104,19 +105,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected internal override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
 		{
 			return new GL_IndexBuffer(type, size);
-		}
-
-		public bool ReadSettingsBool(string name)
-		{
-			string value;
-
-			if (AgateLib.AgateApp.Settings["AgateLib.OpenGL"].TryGetValue(name, out value) == false)
-				return false;
-
-			if (value == "false" || value == "0")
-				return false;
-
-			return true;
 		}
 
 		public GLDrawBuffer CreateDrawBuffer()
@@ -245,6 +233,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override void Initialize()
 		{
+			settings = AgateApp.Settings.GetOrCreate("AgateLib.OpenGL", () => new GLSettings());
+
 			CreateHiddenWindow();
 
 			// This needs to be created after the hidden window is created
@@ -294,7 +284,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			mGLVersion = DetectOpenGLVersion();
 			if (mGLVersion >= 3m)
 			{
-				if (ReadSettingsBool("EnableGL3"))
+				if (settings.EnableGL3)
 				{
 					GL3 = true;
 				}

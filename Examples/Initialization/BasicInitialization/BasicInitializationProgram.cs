@@ -6,6 +6,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WinForms;
 
 namespace Examples.Initialization.BasicInitialization
 {
@@ -17,7 +18,7 @@ namespace Examples.Initialization.BasicInitialization
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (AgateLib.Platform.WinForms.AgateWinForms.Initialize(args))
+			using (new AgateWinForms(args).Initialize())
 			{
 				// Use the DisplayWindowBuilder fluent interface
 				// to construct a DisplayWindow to render to.

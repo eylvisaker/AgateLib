@@ -38,7 +38,8 @@ namespace AgateLib.Platform.WinForms.Factories
 {
 	class DisplayFactory : IDisplayFactory
 	{
-		BuiltinResources builtIn;
+		private BuiltinResources builtIn;
+		private GLSettings settings;
 
 		public DisplayFactory()
 		{
@@ -131,13 +132,18 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public FrameBufferImpl CreateFrameBuffer(Size size)
 		{
+			if (settings == null)
+			{
+				settings = AgateApp.Settings.GetOrCreate("AgateLib.OpenGL", () => new GLSettings());
+			}
+
 			if (Core.GL3)
 				return new AgateLib.OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(size).Impl);
 
-			if (SupportsFramebufferArb && ReadSettingsBool("DisableFramebufferArb") == false)
+			if (SupportsFramebufferArb && settings.DisableFramebufferArb == false)
 				return new AgateLib.OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(size).Impl);
 
-			if (SupportsFramebufferExt && ReadSettingsBool("DisableFramebufferExt") == false)
+			if (SupportsFramebufferExt && settings.DisableFramebufferExt == false)
 			{
 				try
 				{
@@ -158,12 +164,7 @@ namespace AgateLib.Platform.WinForms.Factories
 
 			return new AgateLib.OpenGL.Legacy.FrameBufferReadPixels((IGL_Surface)new Surface(size).Impl);
 		}
-
-		private bool ReadSettingsBool(string name)
-		{
-			return Core.ReadSettingsBool(name);
-		}
-
+		
 		public bool SupportsFramebufferArb { get { return Core.SupportsFramebufferArb; } }
 		public bool SupportsFramebufferExt
 		{

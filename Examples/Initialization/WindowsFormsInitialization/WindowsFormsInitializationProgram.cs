@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AgateLib.Platform.WinForms;
 
 namespace Examples.Initialization.WindowsFormsInitialization
 {
@@ -14,7 +15,7 @@ namespace Examples.Initialization.WindowsFormsInitialization
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (AgateLib.Platform.WinForms.AgateWinForms.Initialize(args))
+			using (new AgateWinForms(args).Initialize())
 			{
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);

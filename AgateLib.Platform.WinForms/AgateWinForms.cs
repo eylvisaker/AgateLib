@@ -14,18 +14,60 @@ using AgateLib.Quality;
 
 namespace AgateLib.Platform.WinForms
 {
-	public class AgateWinForms : AgateSetupCore
+	public class AgateWinForms
 	{
-		public static AgateWinForms Initialize(string[] args)
+		private FormsFactory factory;
+		private string[] args;
+		private string assetPath;
+
+		public AgateWinForms(string[] args)
 		{
-			return new AgateWinForms(args);
+			this.args = args;
+
+			factory = new FormsFactory();
 		}
 
-		public AgateWinForms(string[] commandLineArguments = null)
+		public WinFormsPlatform Initialize()
+		{
+			var result = new WinFormsPlatform(factory, args);
+
+			if (assetPath != null)
+				result.AssetPath(assetPath);
+
+			return result;
+		}
+
+		public AgateWinForms ApplicationCompany(string appCompany)
+		{
+			factory.PlatformFactory.AppCompanyName = appCompany;
+
+			return this;
+		}
+
+		public AgateWinForms ApplicationName(string appName)
+		{
+			factory.PlatformFactory.AppProductName = appName;
+
+			return this;
+		}
+
+
+		public AgateWinForms AssetPath(string assets)
+		{
+			assetPath = assets;
+
+			return this;
+		}
+	}
+
+	public class WinFormsPlatform : AgateSetupCore
+	{
+		internal WinFormsPlatform(FormsFactory factory, string[] commandLineArguments = null)
 		{
 			ParseCommandLineArgs(commandLineArguments);
 
-			AgateApp.Initialize(new FormsFactory());
+			AgateApp.Initialize(factory);
 		}
+
 	}
 }

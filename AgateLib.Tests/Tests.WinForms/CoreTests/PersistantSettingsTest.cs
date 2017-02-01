@@ -9,30 +9,26 @@ namespace AgateLib.Tests.CoreTests
 {
 	class PersistantSettingsTest : IAgateTest
 	{
+		class TestSettings
+		{
+			public int RunCount { get; set; }
+			public bool MyTest { get; set; } = true;
+		}
+
 		public string Name => "Persistant Settings";
 
 		public string Category => "App";
 
 		public void Run(string[] args)
 		{
-			if (AgateApp.Settings["Testy"].IsEmpty)
-			{
-				InitializeSettings();
-			}
+			var settings = AgateApp.Settings.GetOrCreate<TestSettings>("Testy", () => new TestSettings());
 
-			int runcount = int.Parse(AgateApp.Settings["Testy"]["RunCount"]);
-			runcount++;
-			AgateApp.Settings["Testy"]["RunCount"] = runcount.ToString();
+			settings.RunCount++;
 
-			AgateApp.Settings.SaveSettings();
+			AgateApp.Settings.Save();
 
-			MessageBox.Show($"RunCount = {runcount}.");
+			MessageBox.Show($"RunCount = {settings.RunCount}.");
 		}
-
-		private void InitializeSettings()
-		{
-			AgateApp.Settings["Testy"]["MyTest"] = "true";
-			AgateApp.Settings["Testy"]["RunCount"] = "0";
-		}
+		
 	}
 }
