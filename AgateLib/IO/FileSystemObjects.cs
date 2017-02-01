@@ -26,7 +26,5 @@ namespace AgateLib.IO
     public class FileSystemObjects
     {
         public IFile File { get; set; }
-        public IPath Path { get; set; }
-        public IDirectory Directory { get; set; }
     }
 }

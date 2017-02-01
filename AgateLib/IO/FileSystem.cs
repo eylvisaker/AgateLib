@@ -24,44 +24,16 @@ using System.Text;
 
 namespace AgateLib.IO
 {
-    public static class FileSystem
-    {
-        static FileSystemObjects fileSystemObjects;
+	public static class FileSystem
+	{
+		static FileSystemObjects fileSystemObjects;
 
-        public static IFile File
-        {
-            get
-            {
-                if (fileSystemObjects == null)
-                    return null;
-                return fileSystemObjects.File;
-            }
-        }
+		public static IFile File => fileSystemObjects?.File;
 
-        public static IPath Path
-        {
-            get
-            {
-                if (fileSystemObjects == null)
-                    return null;
-                return fileSystemObjects.Path;
-            }
-        }
-
-        public static IDirectory Directory
-        {
-            get
-            {
-                if (fileSystemObjects == null)
-                    return null;
-                return fileSystemObjects.Directory;
-            }
-        }
-
-        internal static void Initialize(Drivers.IPlatformFactory platformFactory)
-        {
-            fileSystemObjects = new FileSystemObjects();
-            platformFactory.Initialize(fileSystemObjects);
-        }
-    }
+		internal static void Initialize(Drivers.IPlatformFactory platformFactory)
+		{
+			fileSystemObjects = new FileSystemObjects();
+			platformFactory.Initialize(fileSystemObjects);
+		}
+	}
 }

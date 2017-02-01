@@ -99,8 +99,6 @@ namespace AgateLib.Platform.WinForms.Factories
 		public void Initialize(FileSystemObjects fileSystemObjects)
 		{
 			fileSystemObjects.File = new SysIoFile();
-			fileSystemObjects.Path = new SysIoPath();
-			fileSystemObjects.Directory = new SysIoDirectory();
 		}
 
 		private string GetApplicationDirectory()

@@ -87,7 +87,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <param name="characterSize">Size of each character in the image.</param>
 		public BitmapFontImpl(string filename, Size characterSize)
 		{
-			FontName = FileSystem.Path.GetFileNameWithoutExtension(filename);
+			FontName = filename;
 			mFontMetrics = new FontMetrics();
 
 			mSurface = new Surface(filename);
@@ -132,19 +132,13 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// Gets the font metric information.
 		/// </summary>
 		/// <returns></returns>
-		public FontMetrics FontMetrics
-		{
-			get { return mFontMetrics; }
-		}
+		public FontMetrics FontMetrics => mFontMetrics;
 
 		/// <summary>
 		/// Gets the surface containing the glyphs.
 		/// </summary>
 		/// <returns></returns>
-		public ISurface Surface
-		{
-			get { return mSurface; }
-		}
+		public ISurface Surface => mSurface;
 
 		private void ExtractMonoSpaceAsciiFont(Size characterSize)
 		{
