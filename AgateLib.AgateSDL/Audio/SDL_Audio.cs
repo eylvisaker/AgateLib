@@ -24,6 +24,7 @@ using AgateLib;
 using AgateLib.AudioLib.ImplementationBase;
 using SDL2;
 using AgateLib.AgateSDL.Sdl2;
+using AgateLib.Diagnostics;
 
 namespace AgateLib.AgateSDL.Audio
 {
@@ -38,6 +39,7 @@ namespace AgateLib.AgateSDL.Audio
 		{
 			FileProvider = AgateLib.IO.Assets.Sounds;
 		}
+
 		public SDL_Audio(IReadFileProvider fileProvider)
 		{
 			FileProvider = fileProvider;
@@ -63,8 +65,8 @@ namespace AgateLib.AgateSDL.Audio
 				}
 				catch (Exception)
 				{
-					System.Diagnostics.Trace.WriteLine(string.Format(
-						"Failed to delete the temp file {0}.", file));
+					Log.WriteLine(
+						$"Failed to delete the temp file {file}.");
 				}
 			}
 
@@ -102,7 +104,7 @@ namespace AgateLib.AgateSDL.Audio
 
 			sdl.Mixer.Mix_ChannelFinished(mChannelFinishedDelegate);
 
-			Report("SDL driver instantiated for audio.");
+			Log.WriteLine("SDL driver instantiated for audio.");
 		}
 
 		void ChannelFinished(int channel)

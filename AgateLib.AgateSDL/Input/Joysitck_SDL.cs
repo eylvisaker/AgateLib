@@ -24,7 +24,7 @@ using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateLib.AgateSDL.Input
 {
-	public sealed class Joystick_SDL : JoystickImpl
+	public sealed class Joystick_SDL : IJoystickImpl
 	{
 		private readonly ISDL sdl;
 
@@ -43,7 +43,7 @@ namespace AgateLib.AgateSDL.Input
 			buttons = new bool[ButtonCount];
 		}
 
-		public override string Name
+		public string Name
 		{
 			get
 			{
@@ -53,15 +53,15 @@ namespace AgateLib.AgateSDL.Input
 			}
 		}
 
-		public override Guid Guid => sdl.SDL_JoystickGetDeviceGUID(joystickIndex);
+		public Guid Guid => sdl.SDL_JoystickGetDeviceGUID(joystickIndex);
 
-		public override int AxisCount => sdl.SDL_JoystickNumAxes(joystick);
+		public int AxisCount => sdl.SDL_JoystickNumAxes(joystick);
 
-		public override int HatCount => sdl.SDL_JoystickNumHats(joystick);
+		public int HatCount => sdl.SDL_JoystickNumHats(joystick);
 
-		public override double AxisThreshold { get; set; } = 0.04f;
+		public double AxisThreshold { get; set; } = 0.04f;
 
-		public override int ButtonCount
+		public int ButtonCount
 		{
 			get
 			{
@@ -72,14 +72,14 @@ namespace AgateLib.AgateSDL.Input
 			}
 		}
 
-		public override bool PluggedIn => true;
+		public bool PluggedIn => true;
 
-		public override bool GetButtonState(int buttonIndex)
+		public bool GetButtonState(int buttonIndex)
 		{
 			return buttons[buttonIndex];
 		}
 
-		public override HatState GetHatState(int hatIndex)
+		public HatState GetHatState(int hatIndex)
 		{
 			switch (sdl.SDL_JoystickGetHat(joystick, hatIndex))
 			{
@@ -106,7 +106,7 @@ namespace AgateLib.AgateSDL.Input
 			}
 		}
 
-		public override double GetAxisValue(int axisIndex)
+		public double GetAxisValue(int axisIndex)
 		{
 			// Convert joystick coordinate to the agatelib coordinate system of -1..1.
 			var value = sdl.SDL_JoystickGetAxis(joystick, axisIndex) / 32767.0;
@@ -120,13 +120,13 @@ namespace AgateLib.AgateSDL.Input
 			return value;
 		}
 
-		public override void Poll()
+		public void Poll()
 		{
 			for (var i = 0; i < ButtonCount; i++)
 				buttons[i] = sdl.SDL_JoystickGetButton(joystick, i) != 0;
 		}
 
-		public override void Recalibrate()
+		public void Recalibrate()
 		{
 		}
 	}

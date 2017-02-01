@@ -21,11 +21,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateLib.Drivers
 {
 	public interface IInputFactory
 	{
-		InputLib.ImplementationBase.InputImpl CreateJoystickInputImpl();
+		InputImpl InputCore { get; }
 	}
 }

@@ -121,12 +121,12 @@ namespace AgateLib.InputLib
 	/// </summary>
 	public class Joystick : IJoystick
 	{
-		JoystickImpl impl;
+		IJoystickImpl impl;
 		bool[] mButtonState;
 		HatState[] mHatState;
 		double[] mAxisState;
 
-		internal Joystick(JoystickImpl i)
+		internal Joystick(IJoystickImpl i)
 		{
 			impl = i;
 

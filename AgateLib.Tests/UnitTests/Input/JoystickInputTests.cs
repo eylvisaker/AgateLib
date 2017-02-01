@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 using AgateLib.Platform.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.UnitTests.AgateAppTests
+namespace AgateLib.UnitTests.Input
 {
 	[TestClass]
-	public class UserFileLocationTests
+	public class JoystickInputTests
 	{
 		[TestMethod]
-		public void UserFileIsNotNull()
+		public void CountJoysticks()
 		{
-			using (new AgateUnitTestPlatform().Initialize())
+			using (new AgateUnitTestPlatform()
+					.JoystickCount(4)
+					.Initialize())
 			{
-				Assert.IsNotNull(AgateApp.UserFiles);
+				Assert.AreEqual(4, InputLib.Input.Joysticks.Count);
 			}
 		}
 	}

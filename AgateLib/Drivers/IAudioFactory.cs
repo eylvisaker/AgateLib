@@ -32,7 +32,7 @@ namespace AgateLib.Drivers
 		/// <summary>
 		/// Gets the audio system implementation object.
 		/// </summary>
-		AudioImpl AudioImpl { get; }
+		AudioImpl AudioCore { get; }
 
 		/// <summary>
 		/// Creates a SoundBufferImpl object.

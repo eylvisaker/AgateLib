@@ -17,12 +17,14 @@
 //     Contributor(s): Erik Ylvisaker
 //
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using AgateLib.Drivers;
 using AgateLib.InputLib.ImplementationBase;
 using AgateLib.AgateSDL.Sdl2;
+using AgateLib.Diagnostics;
 
 namespace AgateLib.AgateSDL.Input
 {
@@ -34,15 +36,28 @@ namespace AgateLib.AgateSDL.Input
 		{
 			sdl = SdlFactory.CreateSDL();
 		}
-		public override int JoystickCount => sdl.SDL_NumJoysticks();
 
-		public override IEnumerable<JoystickImpl> CreateJoysticks()
+		~SDL_Input()
+		{
+			Dispose(false);
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		
+		public int JoystickCount => sdl.SDL_NumJoysticks();
+
+		public IEnumerable<IJoystickImpl> CreateJoysticks()
 		{
 			for (int i = 0; i < JoystickCount; i++)
 			{
 				var name = sdl.SDL_JoystickNameForIndex(i);
 
-				JoystickImpl result;
+				IJoystickImpl result;
 
 				if (name.StartsWith("XInput"))
 				{
@@ -59,14 +74,12 @@ namespace AgateLib.AgateSDL.Input
 			}
 		}
 
-        protected override void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
 		{
 			sdl.SDL_QuitSubSystem(SDLConstants.SDL_INIT_JOYSTICK);
-
-            base.Dispose(disposing);
 		}
 
-		public override void Initialize()
+		public void Initialize()
 		{
 			// apparently initializing the video has some side-effect 
 			// that is required for joysticks to work on windows (at least).
@@ -77,10 +90,10 @@ namespace AgateLib.AgateSDL.Input
 			
 			sdl.SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1"); 
 
-			Report("SDL driver version 2.0.3 instantiated for joystick input.");
+			Log.WriteLine("SDL driver version 2.0.3 instantiated for joystick input.");
 		}
 
-		public override void Poll()
+		public void Poll()
 		{
 			sdl.CallPollEvent();
 		}

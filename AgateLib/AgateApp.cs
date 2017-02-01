@@ -268,9 +268,9 @@ namespace AgateLib
 
 			FileSystem.Initialize(factory.PlatformFactory);
 
-			Display.Initialize(factory.DisplayFactory.DisplayImpl);
-			Audio.Initialize(factory.AudioFactory.AudioImpl);
-			Input.Initialize(factory.InputFactory.CreateJoystickInputImpl());
+			Display.Initialize(factory.DisplayFactory.DisplayCore);
+			Audio.Initialize(factory.AudioFactory.AudioCore);
+			Input.Initialize(factory.InputFactory.InputCore);
 
 			AgateConsole.Initialize();
 

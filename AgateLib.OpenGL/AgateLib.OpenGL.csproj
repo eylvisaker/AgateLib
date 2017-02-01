@@ -90,7 +90,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AL_Audio.cs" />
     <Compile Include="ContextFrameBuffer.cs" />
     <Compile Include="GeoHelper.cs" />
     <Compile Include="GL3\DrawBuffer.cs" />

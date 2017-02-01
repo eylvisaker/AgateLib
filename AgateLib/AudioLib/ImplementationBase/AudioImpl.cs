@@ -28,7 +28,7 @@ namespace AgateLib.AudioLib.ImplementationBase
 	/// <summary>
 	/// Implements Audio class factory.
 	/// </summary>
-	public abstract class AudioImpl : DriverImplBase
+	public abstract class AudioImpl : IDriverCore
 	{
 
 		/// <summary>
@@ -48,6 +48,17 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// <param name="audioBoolCaps"></param>
 		/// <returns></returns>
 		protected internal abstract bool CapsBool(AudioBoolCaps audioBoolCaps);
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{ }
+
+		public abstract void Initialize();
 	}
 
 }

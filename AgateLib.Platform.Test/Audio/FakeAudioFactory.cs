@@ -29,10 +29,12 @@ namespace AgateLib.Platform.Test.Audio
 	{
 		public FakeAudioFactory()
 		{
-			AudioImpl = new FakeAudioImpl();
+			AudioCore = new FakeAudioCore();
 		}
 
-		public FakeAudioImpl AudioImpl { get; private set; }
+		public FakeAudioCore AudioCore { get; private set; }
+
+		AudioImpl IAudioFactory.AudioCore => AudioCore;
 
 
 
@@ -65,11 +67,5 @@ namespace AgateLib.Platform.Test.Audio
 		{
 			throw new NotImplementedException();
 		}
-
-		AudioImpl IAudioFactory.AudioImpl
-		{
-			get { return AudioImpl; }
-		}
-
 	}
 }

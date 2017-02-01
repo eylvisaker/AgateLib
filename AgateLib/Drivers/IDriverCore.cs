@@ -1,4 +1,4 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -16,24 +16,21 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+using AgateLib.Diagnostics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using AgateLib.AudioLib.ImplementationBase;
 
-namespace AgateLib.Platform.Test.Audio
+namespace AgateLib.Drivers
 {
-	public class FakeAudioImpl : AudioImpl
+	/// <summary>
+	/// Base class all driver classes should implement.
+	/// </summary>
+	public interface IDriverCore : IDisposable
 	{
-		protected override bool CapsBool(AudioLib.AudioBoolCaps audioBoolCaps)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Initialize()
-		{
-		}
+		/// <summary>
+		/// Initialization beyond what the constructor does.
+		/// </summary>
+		void Initialize();
 	}
 }

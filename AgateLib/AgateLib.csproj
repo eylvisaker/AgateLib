@@ -298,7 +298,7 @@
     <Compile Include="DisplayLib\Shaders\Implementation\Lighting3DImpl.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
-    <Compile Include="Drivers\DriverImplBase.cs">
+    <Compile Include="Drivers\IDriverCore.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Drivers\IAgateFactory.cs" />
@@ -517,7 +517,7 @@
     <Compile Include="InputLib\ImplementationBase\InputImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputLib\ImplementationBase\JoystickImpl.cs">
+    <Compile Include="InputLib\ImplementationBase\IJoystickImpl.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ImplementationBase\SurfaceImpl.cs">

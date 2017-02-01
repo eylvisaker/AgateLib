@@ -42,13 +42,13 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public DisplayFactory()
 		{
-			FullDisplayImpl = new DesktopGLDisplay();
+			Core = new DesktopGLDisplay();
 			builtIn = new Resources.BuiltinResources();
 		}
 
-		public DisplayImpl DisplayImpl => FullDisplayImpl;
+		public DisplayImpl DisplayCore => Core;
 
-		public DesktopGLDisplay FullDisplayImpl { get; }
+		public DesktopGLDisplay Core { get; }
 
 		public DisplayWindowImpl CreateDisplayWindow(
 			DisplayWindow owner, CreateWindowParams windowParams)
@@ -65,7 +65,7 @@ namespace AgateLib.Platform.WinForms.Factories
 					$"{errorPrefix}{nameof(windowParams.IsFullScreen)} is true " +
 					$"but {nameof(windowParams.RenderToControl)} is not null.");
 
-				return new GL_DisplayControlFull(FullDisplayImpl, owner,
+				return new GL_DisplayControlFull(Core, owner,
 					windowParams);
 			}
 			
@@ -74,7 +74,7 @@ namespace AgateLib.Platform.WinForms.Factories
 				$"{errorPrefix}{nameof(windowParams.RenderToControl)} should be " +
 				$"true if and only if {nameof(windowParams.RenderTarget)} is not null.");
 
-			return new GL_DisplayControlWindowed(FullDisplayImpl, owner, 
+			return new GL_DisplayControlWindowed(Core, owner, 
 					windowParams);
 		}
 
@@ -131,7 +131,7 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public FrameBufferImpl CreateFrameBuffer(Size size)
 		{
-			if (FullDisplayImpl.GL3)
+			if (Core.GL3)
 				return new AgateLib.OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(size).Impl);
 
 			if (SupportsFramebufferArb && ReadSettingsBool("DisableFramebufferArb") == false)
@@ -161,14 +161,14 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		private bool ReadSettingsBool(string name)
 		{
-			return FullDisplayImpl.ReadSettingsBool(name);
+			return Core.ReadSettingsBool(name);
 		}
 
-		public bool SupportsFramebufferArb { get { return FullDisplayImpl.SupportsFramebufferArb; } }
+		public bool SupportsFramebufferArb { get { return Core.SupportsFramebufferArb; } }
 		public bool SupportsFramebufferExt
 		{
-			get { return FullDisplayImpl.SupportsFramebufferExt; }
-			set { FullDisplayImpl.SupportsFramebufferExt = value; }
+			get { return Core.SupportsFramebufferExt; }
+			set { Core.SupportsFramebufferExt = value; }
 		}
 
 

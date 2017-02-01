@@ -34,12 +34,12 @@ namespace AgateLib.Platform.Test.Display
 	{
 		public FakeDisplayFactory()
 		{
-			DisplayImpl = new FakeDisplayDriver();
+			DisplayCore = new FakeDisplayDriver();
 		}
 
-		public FakeDisplayDriver DisplayImpl { get; private set; }
+		public FakeDisplayDriver DisplayCore { get; private set; }
 
-		DisplayImpl IDisplayFactory.DisplayImpl {  get { return DisplayImpl; } }
+		DisplayImpl IDisplayFactory.DisplayCore => DisplayCore;
 
 		public DisplayWindowImpl CreateDisplayWindow(AgateLib.DisplayLib.DisplayWindow owner, AgateLib.DisplayLib.CreateWindowParams windowParams)
 		{

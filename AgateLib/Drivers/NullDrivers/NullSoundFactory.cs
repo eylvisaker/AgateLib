@@ -29,10 +29,10 @@ namespace AgateLib.Drivers.NullDrivers
 	{
 		public NullSoundFactory()
 		{
-			AudioImpl = new NullSoundImpl();
+			AudioCore = new NullSoundImpl();
 		}
 
-		public AudioImpl AudioImpl { get;private set;}
+		public AudioImpl AudioCore { get; private set; }
 
 		public SoundBufferImpl CreateSoundBuffer(string filename)
 		{

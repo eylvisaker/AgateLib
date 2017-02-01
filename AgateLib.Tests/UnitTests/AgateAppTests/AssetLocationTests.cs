@@ -16,7 +16,7 @@ namespace AgateLib.UnitTests.AgateAppTests
 		[TestMethod]
 		public void NoAssetLocationSet()
 		{
-			using (var platform = AgateUnitTestPlatform.Initialize())
+			using (var platform = new AgateUnitTestPlatform().Initialize())
 			{
 				platform.AppFolderFileProvider.Add("test", "");
 
@@ -28,7 +28,9 @@ namespace AgateLib.UnitTests.AgateAppTests
 		[TestMethod]
 		public void SetAssetLocationUnitTestPlatform()
 		{
-			using (var platform = AgateUnitTestPlatform.Initialize())
+			using (var platform = new AgateUnitTestPlatform()
+				.AssetPath("Assets")
+				.Initialize())
 			{
 				AgateApp.SetAssetPath("Assets");
 

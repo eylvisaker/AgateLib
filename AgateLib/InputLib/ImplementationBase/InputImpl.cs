@@ -26,20 +26,23 @@ namespace AgateLib.InputLib.ImplementationBase
 	/// <summary>
 	/// Implementation for Input Manager.
 	/// </summary>
-	public abstract class InputImpl : DriverImplBase
+	public interface InputImpl : IDriverCore
 	{
 		/// <summary>
 		/// Returns the number of joysticks attached to the system.
 		/// </summary>
 		/// <returns></returns>
-		public abstract int JoystickCount { get; }
+		int JoystickCount { get; }
 
 		/// <summary>
 		/// Creates joystick impls.
 		/// </summary>
 		/// <returns></returns>
-		public abstract IEnumerable<JoystickImpl> CreateJoysticks();
+		IEnumerable<IJoystickImpl> CreateJoysticks();
 
-		public abstract void Poll();
+		/// <summary>
+		/// Called once per frame to update the joystick state.
+		/// </summary>
+		void Poll();
 	}
 }

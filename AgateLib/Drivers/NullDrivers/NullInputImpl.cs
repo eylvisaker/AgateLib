@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using AgateLib.Diagnostics;
 using AgateLib.Drivers;
 using AgateLib.InputLib.ImplementationBase;
 
@@ -27,22 +27,23 @@ namespace AgateLib.Drivers.NullDrivers
 {
 	public class NullInputImpl : InputImpl
 	{
-		public override void Initialize()
+		public void Initialize()
 		{
-			Report("No input driver found.  Joysticks will not work.");
+			Log.WriteLine("No input driver found. Joysticks will not work.");
 		}
 
-		public override int JoystickCount
+		public void Dispose()
 		{
-			get { return 0; }
 		}
 
-		public override IEnumerable<JoystickImpl> CreateJoysticks()
+		public int JoystickCount => 0;
+
+		public IEnumerable<IJoystickImpl> CreateJoysticks()
 		{
-			return new List<JoystickImpl>();
+			return new List<IJoystickImpl>();
 		}
 
-		public override void Poll()
+		public void Poll()
 		{
 		}
 	}

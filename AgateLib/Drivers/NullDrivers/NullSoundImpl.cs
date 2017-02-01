@@ -19,9 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using AgateLib.Drivers;
 using AgateLib.AudioLib.ImplementationBase;
+using AgateLib.Diagnostics;
 
 namespace AgateLib.Drivers.NullDrivers
 {
@@ -29,7 +29,7 @@ namespace AgateLib.Drivers.NullDrivers
 	{
 		public override void Initialize()
 		{
-			Report("No audio driver found.  Audio will not be heard.");
+			Log.WriteLine("No audio driver found.  Audio will not be heard.");
 		}
 
 		protected internal override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)
@@ -37,21 +37,12 @@ namespace AgateLib.Drivers.NullDrivers
 			return false;
 		}
 	}
+
 	class NullSoundBufferImpl : SoundBufferImpl
 	{
-		public override double Volume
-		{
-			get
-			{
-				return 0;
-			}
-			set
-			{
-
-			}
-		}
-
+		public override double Volume { get; set; }
 	}
+
 	public class NullSoundBufferSessionImpl : SoundBufferSessionImpl
 	{
 		public override void Play()

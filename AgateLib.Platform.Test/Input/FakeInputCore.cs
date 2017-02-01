@@ -25,23 +25,39 @@ using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateLib.Platform.Test.Input
 {
-	public class FakeInputImpl : InputImpl
+	public class FakeInputCore : InputImpl
 	{
-		public override int JoystickCount
-		{
-			get { return 0; }
-		}
+		private List<FakeJoystickImpl> joysticks = new List<FakeJoystickImpl>();
 
-		public override IEnumerable<JoystickImpl> CreateJoysticks()
-		{
-			yield break;
-		}
-
-		public override void Poll()
+		public void Initialize()
 		{
 		}
 
-		public override void Initialize()
+		public void Dispose()
+		{
+		}
+
+		public int JoystickCount
+		{
+			get { return joysticks.Count; }
+			set
+			{
+				while (joysticks.Count < value)
+					joysticks.Add(new FakeJoystickImpl());
+
+				while (joysticks.Count > value)
+					joysticks.RemoveAt(joysticks.Count - 1);
+			}
+		}
+
+		public IReadOnlyList<FakeJoystickImpl> Joystics => joysticks;
+
+		public IEnumerable<IJoystickImpl> CreateJoysticks()
+		{
+			return joysticks;
+		}
+
+		public void Poll()
 		{
 		}
 	}

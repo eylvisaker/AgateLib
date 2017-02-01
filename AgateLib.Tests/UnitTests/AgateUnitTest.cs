@@ -9,17 +9,19 @@ namespace AgateLib.UnitTests
 	[TestClass]
 	public class AgateUnitTest : IDisposable
 	{
-		private readonly AgateUnitTestPlatform platform;
+		private readonly UnitTestPlatform platform;
 		private readonly DisplayWindow window;
 
 		public AgateUnitTest()
 		{
-			platform = AgateUnitTestPlatform.Initialize();
+			platform = new AgateUnitTestPlatform().Initialize();
 
 			window = new DisplayWindowBuilder()
 				.BackbufferSize(1920, 1080)
 				.Build();
 		}
+
+		protected UnitTestPlatform Platform => platform;
 
 		public void Dispose()
 		{

@@ -8,7 +8,7 @@ using AgateLib.Quality;
 
 namespace AgateLib.AgateSDL.Input
 {
-	public class XInputJoystick_SDL : JoystickImpl
+	public class XInputJoystick_SDL : IJoystickImpl
 	{
 		private static Dictionary<int, int> xinputButtonMap = new Dictionary<int, int>
 		{
@@ -31,13 +31,13 @@ namespace AgateLib.AgateSDL.Input
 			joystick = sdl.SDL_JoystickOpen(index);
 		}
 
-		public override int AxisCount => 6;
+		public int AxisCount => 6;
 
-		public override int ButtonCount => 10;
+		public int ButtonCount => 10;
 
-		public override int HatCount => 1;
+		public int HatCount => 1;
 
-		public override string Name
+		public string Name
 		{
 			get
 			{
@@ -47,13 +47,13 @@ namespace AgateLib.AgateSDL.Input
 			}
 		}
 
-		public override Guid Guid => sdl.SDL_JoystickGetDeviceGUID(joystickIndex);
+		public Guid Guid => sdl.SDL_JoystickGetDeviceGUID(joystickIndex);
 
-		public override double AxisThreshold { get; set; } = 0.04f;
+		public double AxisThreshold { get; set; } = 0.04f;
 
-		public override bool PluggedIn => true;
+		public bool PluggedIn => true;
 
-		public override bool GetButtonState(int buttonIndex)
+		public bool GetButtonState(int buttonIndex)
 		{
 			// We add 4 here because SDL reports the first four buttons of an XInput
 			// controller as belonging to the d-pad.
@@ -62,7 +62,7 @@ namespace AgateLib.AgateSDL.Input
 			return buttons[targetIndex];
 		}
 
-		public override double GetAxisValue(int axisIndex)
+		public double GetAxisValue(int axisIndex)
 		{
 			// Convert joystick coordinate to the agatelib coordinate system of -1..1.
 			var value = sdl.SDL_JoystickGetAxis(joystick, axisIndex) / 32767.0;
@@ -76,7 +76,7 @@ namespace AgateLib.AgateSDL.Input
 			return value;
 		}
 
-		public override HatState GetHatState(int hatIndex)
+		public HatState GetHatState(int hatIndex)
 		{
 			Require.True<IndexOutOfRangeException>(hatIndex == 0, "XInput only has one dpad.");
 
@@ -90,11 +90,11 @@ namespace AgateLib.AgateSDL.Input
 			return result;
 		}
 
-		public override void Recalibrate()
+		public void Recalibrate()
 		{
 		}
 
-		public override void Poll()
+		public void Poll()
 		{
 			for (var i = 0; i < buttons.Length; i++)
 				buttons[i] = sdl.SDL_JoystickGetButton(joystick, i) != 0;

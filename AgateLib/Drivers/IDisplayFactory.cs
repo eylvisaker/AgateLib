@@ -35,7 +35,7 @@ namespace AgateLib.Drivers
 	/// </summary>
 	public interface IDisplayFactory
 	{
-		DisplayImpl DisplayImpl { get; }
+		DisplayImpl DisplayCore { get; }
 
 		/// <summary>
 		/// Creates a DisplayWindowImpl derived object.

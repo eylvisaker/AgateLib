@@ -20,18 +20,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using AgateLib.AudioLib.ImplementationBase;
 
-using AgateLib.Drivers;
-using AgateLib.InputLib.ImplementationBase;
-
-namespace AgateLib.Platform.Test.Input
+namespace AgateLib.Platform.Test.Audio
 {
-	public class FakeInputFactory : IInputFactory
+	public class FakeAudioCore : AudioImpl
 	{
-		private readonly FakeInputCore input = new FakeInputCore();
+		protected override bool CapsBool(AudioLib.AudioBoolCaps audioBoolCaps)
+		{
+			return false;
+		}
 
-		public FakeInputCore InputCore => input;
-
-		InputImpl IInputFactory.InputCore => input;
+		public override void Initialize()
+		{
+		}
 	}
 }

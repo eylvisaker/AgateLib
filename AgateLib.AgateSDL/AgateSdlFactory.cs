@@ -8,17 +8,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using AgateLib.AgateSDL.Input;
+using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateLib.AgateSDL
 {
 	public class AgateSdlFactory : IAudioFactory, IInputFactory
 	{
+		private SDL_Audio mAudioImpl;
+		private SDL_Input inputImpl;
+
 		#region --- Audio Factory ---
 
-		SDL_Audio mAudioImpl;
 
-
-		public AudioImpl AudioImpl
+		public AudioImpl AudioCore
 		{
 			get
 			{
@@ -57,9 +60,14 @@ namespace AgateLib.AgateSDL
 		#endregion
 		#region --- Input Factory ---
 
-		public InputLib.ImplementationBase.InputImpl CreateJoystickInputImpl()
+
+		public InputImpl InputCore
 		{
-			return new AgateLib.AgateSDL.Input.SDL_Input();
+			get
+			{
+				// Don't let SDL get initialized before the display object gets initialized!! 
+				return inputImpl ?? (inputImpl = new SDL_Input());
+			}
 		}
 
 		#endregion

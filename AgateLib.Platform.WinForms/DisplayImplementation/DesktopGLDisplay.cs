@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using AgateLib.Diagnostics;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
@@ -252,7 +253,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			// display dimensions.
 			screens = new WinFormsScreenConfiguration();
 
-			Report("OpenTK / OpenGL driver instantiated for display.");
+			Log.WriteLine("OpenTK / OpenGL driver instantiated for display.");
 		}
 		public void InitializeCurrentContext()
 		{

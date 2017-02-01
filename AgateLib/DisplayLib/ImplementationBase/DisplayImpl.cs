@@ -33,7 +33,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	/// <summary>
 	/// Abstract base class for implementing the Display object.
 	/// </summary>
-	public abstract class DisplayImpl : DriverImplBase
+	public abstract class DisplayImpl : IDriverCore
 	{
 		private double mAlphaThreshold = 5.0 / 255.0;
 		Point[] mEllipsePoints;
@@ -611,5 +611,16 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <returns></returns>
 		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType);
 
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+		}
+
+		public abstract void Initialize();
 	}
 }

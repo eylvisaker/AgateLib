@@ -35,10 +35,7 @@ namespace AgateLib.Platform.WinForms.Factories
 		{
 			DisplayFactory = new DisplayFactory();
 			PlatformFactory = new PlatformFactory();
-
-			var sdl = new AgateSdlFactory();
-
-			SdlFactory = sdl;
+			SdlFactory = new AgateSdlFactory();
 		}
 
 		public DisplayFactory DisplayFactory { get; private set; }
