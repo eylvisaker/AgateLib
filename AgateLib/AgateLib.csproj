@@ -707,7 +707,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Shaders\IShader2D.cs" />
-    <Compile Include="Settings\ISettingsTracer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.nuspec" />

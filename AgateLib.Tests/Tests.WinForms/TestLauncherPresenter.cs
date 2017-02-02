@@ -14,7 +14,7 @@ using AgateLib.Settings;
 
 namespace AgateLib.Tests
 {
-	public class TestLauncherPresenter : ISettingsTracer
+	public class TestLauncherPresenter
 	{
 		private frmLauncher frm;
 
@@ -31,8 +31,6 @@ namespace AgateLib.Tests
 
 			frm.LaunchTest += Frm_LaunchTest;
 			frm.FormClosed += HandleFormClosed;
-
-			ReadSettingsNames();
 
 			LoadTests();
 		}
@@ -143,75 +141,5 @@ namespace AgateLib.Tests
 				}
 			}
 		}
-
-		#region --- ISettingsTracer implementation ---
-
-		void AgateLib.Settings.ISettingsTracer.OnReadSetting(string groupName, string key, string value)
-		{
-			if (string.IsNullOrEmpty(groupName))
-				throw new ArgumentException();
-
-			string name = groupName + "." + key;
-
-			StoreSetting(name, value);
-		}
-		void AgateLib.Settings.ISettingsTracer.OnWriteSetting(string groupName, string key, string value)
-		{
-			if (string.IsNullOrEmpty(groupName))
-				throw new ArgumentException();
-
-			string name = groupName + "." + key;
-
-			StoreSetting(name, value);
-		}
-
-		void ReadSettingsNames()
-		{
-			//StreamReader r = null;
-			//string targetDirectory = "../../../Tests/Assets/";
-			//string filename = "settings_list.txt";
-
-			//try
-			//{
-			//	settingsFile = System.IO.Path.GetFullPath(targetDirectory + filename);
-			//	r = new StreamReader(targetDirectory + filename);
-			//}
-			//catch (DirectoryNotFoundException)
-			//{
-			//	settingsFile = filename;
-			//	r = new StreamReader(filename);
-			//}
-
-			//using (r)
-			//{
-			//	while (r.EndOfStream == false)
-			//	{
-			//		string x = r.ReadLine().Trim();
-
-			//		if (string.IsNullOrEmpty(x))
-			//			continue;
-
-			//		int index = x.IndexOf('\t');
-
-			//		if (index == -1)
-			//		{
-			//			mSettings[x] = null;
-			//		}
-			//		else
-			//			mSettings[x.Substring(0, index)] = x.Substring(index + 1);
-			//	}
-			//}
-		}
-		void StoreSetting(string name, string value)
-		{
-			if (mSettings.ContainsKey(name)) return;
-
-			System.Diagnostics.Debug.Print("Storing setting " + name);
-
-			mSettings.Add(name, value);
-		}
-
-		#endregion
-
 	}
 }

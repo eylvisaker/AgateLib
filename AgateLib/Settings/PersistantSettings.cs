@@ -67,10 +67,13 @@ namespace AgateLib.Settings
 								item.Load(stream);
 							}
 						}
-						catch
+						catch(Exception e)
 						{
+							Log.WriteLine($"Failed to read settings file {item.Filename}. {e.Message}");
+
 							item.Initialize();
 						}
+
 						settings[name] = item;
 					}
 				}
