@@ -985,19 +985,19 @@ namespace AgateLib.Geometry
 		/// Returns a Color object calculated from hue, saturation and value.
 		/// See algorithm at http://en.wikipedia.org/wiki/HSL_and_HSV#From_HSV
 		/// </summary>
-		/// <param name="h">The hue angle in degrees.</param>
-		/// <param name="s">A value from 0 to 1 representing saturation.</param>
-		/// <param name="v">A value from 0 to 1 representing the value.</param>
+		/// <param name="hue">The hue angle in degrees.</param>
+		/// <param name="saturation">A value from 0 to 1 representing saturation.</param>
+		/// <param name="value">A value from 0 to 1 representing the value.</param>
 		/// <returns></returns>
-		public static Color FromHsv(double h, double s, double v)
+		public static Color FromHsv(double hue, double saturation, double value)
 		{
-			while (h < 0)
-				h += 360;
-			if (h > 360)
-				h = h % 360;
+			while (hue < 0)
+				hue += 360;
+			if (hue > 360)
+				hue = hue % 360;
 
-			double hp = h / 60;
-			double chroma = v * s;
+			double hp = hue / 60;
+			double chroma = value * saturation;
 			double X = chroma * (1 - Math.Abs(hp % 2 - 1));
 
 			double r1 = 0, b1 = 0, g1 = 0;
@@ -1012,7 +1012,7 @@ namespace AgateLib.Geometry
 				case 5: r1 = chroma; b1 = X; break;
 			}
 
-			double m = v - chroma;
+			double m = value - chroma;
 
 			return Color.FromArgb((int)(255 * (r1 + m)), (int)(255 * (g1 + m)), (int)(255 * (b1 + m)));
 		}

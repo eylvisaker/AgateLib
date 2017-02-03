@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using AgateLib.Geometry.TypeConverters;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.Settings
@@ -45,20 +46,44 @@ namespace AgateLib.Settings
 		List<IYamlTypeConverter> typeConverters = new List<IYamlTypeConverter>();
 		Dictionary<string, ISettingsData> settings = new Dictionary<string, ISettingsData>();
 
+		internal PersistantSettings()
+		{
+			typeConverters.AddRange(new IYamlTypeConverter[]
+			{
+				new ColorConverterYaml(),
+				new PointConverterYaml(),
+				new RectangleConverterYaml(),
+				new SizeConverterYaml(),
+			});
+		}
+
+		/// <summary>
+		/// Adds a type converter that can serialize/deserialize types to Yaml.
+		/// </summary>
+		/// <param name="typeConverter"></param>
 		public void AddTypeConverter(IYamlTypeConverter typeConverter)
 		{
 			typeConverters.Add(typeConverter);
 		}
 
-		public T GetOrCreate<T>(string name, Func<T> initializer)
+		/// <summary>
+		/// Retrieves a settings object from the settings repository.
+		/// If the object is not available, the initializer is run to create it.
+		/// </summary>
+		/// <typeparam name="T">The object type for the settings data. This type
+		/// must be serializable to YAML.</typeparam>
+		/// <param name="key">The unique key used to retrieve the settings object.</param>
+		/// <param name="initializer">An initializer which creates the settings object if it does not exist.</param>
+		/// <returns></returns>
+		public T GetOrCreate<T>(string key, Func<T> initializer)
 		{
-			if (settings.ContainsKey(name) == false)
+			if (settings.ContainsKey(key) == false)
 			{
 				lock (settings)
 				{
-					if (settings.ContainsKey(name) == false)
+					if (settings.ContainsKey(key) == false)
 					{
-						var item = new SettingsData<T>(typeConverters, initializer) {Filename = "Settings/" + name + ".settings"};
+						var item = new SettingsData<T>(typeConverters, initializer) { Filename = "Settings/" + key + ".settings" };
 
 						try
 						{
@@ -67,33 +92,37 @@ namespace AgateLib.Settings
 								item.Load(stream);
 							}
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
 							Log.WriteLine($"Failed to read settings file {item.Filename}. {e.Message}");
 
 							item.Initialize();
 						}
 
-						settings[name] = item;
+						settings[key] = item;
 					}
 				}
 
 			}
 
-			return Get<T>(name);
+			return Get<T>(key);
 		}
 
 		/// <summary>
-		/// Gets a settings object.
+		/// Gets a settings object from the settings repository.
 		/// </summary>
 		/// <typeparam name="T">The object type.</typeparam>
-		/// <param name="name"></param>
+		/// <param name="key"></param>
 		/// <returns></returns>
-		public T Get<T>(string name)
+		public T Get<T>(string key)
 		{
-			return (T)settings[name].Data;
+			return (T)settings[key].Data;
 		}
 
+		/// <summary>
+		/// Saves all the settings to disk. This must be called before your application exits
+		/// to persist your settings.
+		/// </summary>
 		public void Save()
 		{
 			foreach (var item in settings.Values)

@@ -18,3 +18,4 @@ AgateLib-Windows.sln.ide/
 .vs/*
 TestResults/*
 /Examples/BallBuster.Net/out
+/.git-rewrite

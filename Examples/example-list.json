@@ -8,17 +8,26 @@
       "images": [ "Screencap.png" ]
     },
     "AllMonitors": {
-      "name": "Full Screen All Screens",
+      "name": "Full Screen - All Monitors",
       "path": "Initialization/AllScreens",
       "desc": "instructions.md",
       "code": [ "AllScreensProgram.cs" ],
-      "images": [] 
+      "images": [ ]
     },
     "WindowsForms": {
       "name": "Windows Forms",
       "path": "Initialization/WindowsFormsInitialization",
       "desc": "instructions.md",
       "code": [ "WindowsFormsInitializationProgram.cs", "Form1.cs" ],
+      "images": [ "Screencap.png" ]
+    }
+  },
+  "Configuration": {
+    "Settings": {
+      "name": "Settings",
+      "path": "Configuration/Settings",
+      "desc": "instructions.md",
+      "code": [ "SettingsProgram.cs" ],
       "images": [ "Screencap.png" ]
     }
   },

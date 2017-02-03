@@ -355,7 +355,6 @@ namespace AgateLib
 
 		/// <summary>
 		/// Gets the file provider for the programs assets folder.
-		/// Sets all the asset providers to the same value.
 		/// </summary>
 		public static IReadFileProvider Assets
 		{
@@ -373,6 +372,13 @@ namespace AgateLib
 			}
 		}
 
+		/// <summary>
+		/// Gets the file provider that allows reading and writing to 
+		/// the user's app data folder for this application. 
+		/// </summary>
+		/// <remarks>
+		/// Typically on Windows this is in C:\Users\XXXX\AppData\Roaming\Company Name\Product Name
+		/// </remarks>
 		public static IReadWriteFileProvider UserFiles
 		{
 			get { return State.App?.UserFiles; }
@@ -423,6 +429,15 @@ namespace AgateLib
 			ExecuteWorkItemQueue();
 		}
 
+		/// <summary>
+		/// returns time since agatelib was initialized in milliseconds.
+		/// </summary>
+		/// <returns></returns>
+		internal static double GetTime()
+		{
+			return State.App.Time.TotalMilliseconds;
+		}
+
 		private static void ExecuteWorkItemQueue()
 		{
 			while (State.App.WorkItems.Count > 0)
@@ -437,30 +452,6 @@ namespace AgateLib
 
 				workItem();
 			}
-		}
-
-
-		/// <summary>
-		/// returns time since agatelib was initialized in milliseconds.
-		/// </summary>
-		/// <returns></returns>
-		internal static double GetTime()
-		{
-			return State.App.Time.TotalMilliseconds;
-		}
-
-		/// <summary>
-		/// Sets the location that user files are saved.
-		/// </summary>
-		/// <remarks>In general the path user files are saved to 
-		/// will be ~/companyName/name with ~ replaced with the 
-		/// operating system's path to user configuration files. 
-		/// </remarks>
-		/// <param name="name"></param>
-		/// <param name="companyName"></param>
-		public static void SetApplicationName(string name, string companyName)
-		{
-
 		}
 	}
 }

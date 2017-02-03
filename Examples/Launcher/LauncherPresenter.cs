@@ -41,7 +41,14 @@ namespace Examples.Launcher
 
 			image = e.Example.Path + "/" + image;
 
-			view.Image = Image.FromFile(image);
+			try
+			{
+				view.Image = Image.FromFile(image);
+			}
+			catch (FileNotFoundException)
+			{
+				view.Image = null;
+			}
 		}
 
 		private void LaunchExample(ExampleItem example)

@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="Configuration\Settings\SettingsProgram.cs" />
     <Compile Include="Initialization\AllScreens\AllScreensProgram.cs" />
     <Compile Include="Launcher\ExampleCategory.cs" />
     <Compile Include="Launcher\ExampleEventArgs.cs" />
@@ -143,6 +144,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest" />
+    <None Include="Configuration\Settings\instructions.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Initialization\AllScreens\instructions.md" />
     <None Include="Initialization\BasicInitialization\instructions.md" />
     <None Include="Initialization\WindowsFormsInitialization\instructions.md" />
