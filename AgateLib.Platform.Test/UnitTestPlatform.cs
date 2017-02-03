@@ -33,13 +33,7 @@ namespace AgateLib.Platform.Test
 	public class UnitTestPlatform : AgateSetupCore
 	{
 		private FakeAgateFactory fakeAgateFactory;
-
-		[Obsolete("Use new AgateUnitTestPlatform().Initialize() instead.", true)]
-		public static UnitTestPlatform Initialize()
-		{
-			return new UnitTestPlatform();
-		}
-
+		
 		public UnitTestPlatform(int joystickCount = 0)
 		{
 			fakeAgateFactory = new FakeAgateFactory();

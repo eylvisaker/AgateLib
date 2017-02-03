@@ -39,23 +39,19 @@ namespace AgateLib.AudioLib
 		/// <summary>
 		/// Gets the capabilities querying object for the audio subsystem.
 		/// </summary>
-		public static AudioCapsInfo Caps
-		{
-			get { return State?.Caps; }
-		}
+		public static AudioCapsInfo Caps => State?.Caps;
+
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Audio functions.
 		/// </summary>
-		public static AudioImpl Impl
-		{
-			get { return State?.Impl; }
-		}
+		public static AudioImpl Impl => State?.Impl;
+
 		/// <summary>
 		/// Initializes the audio system by instantiating the driver with the given
 		/// AudioTypeID.  The audio driver must be registered with the Registrar
 		/// class.
 		/// </summary>
-		/// <param name="audioType"></param>
+		/// <param name="audioImpl"></param>
 		public static void Initialize(AudioImpl audioImpl)
 		{
 			Require.True<InvalidOperationException>(State != null,
@@ -116,6 +112,7 @@ namespace AgateLib.AudioLib
 		/// Event that is called when Display.Dispose() is invoked, to shut down the
 		/// display system and release all resources.
 		/// </summary>
+		[Obsolete("This doesn't appear to be used anywhere.")]
 		public static event AudioCoreEventDelegate DisposeAudio;
 
 		internal static event AudioCoreEventDelegate EventStopAllSounds;

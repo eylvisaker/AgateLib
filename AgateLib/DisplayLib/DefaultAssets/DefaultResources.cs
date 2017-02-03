@@ -36,9 +36,9 @@ namespace AgateLib.DisplayLib.DefaultAssets
 
 		public void Dispose()
 		{
-			if (AgateSans != null) AgateSans.Dispose();
-			if (AgateSerif != null) AgateSerif.Dispose();
-			if (AgateMono != null) AgateMono.Dispose();
+			AgateSans?.Dispose();
+			AgateSerif?.Dispose();
+			AgateMono?.Dispose();
 
 			AgateSans = null;
 			AgateSerif = null;

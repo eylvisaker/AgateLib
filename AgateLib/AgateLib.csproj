@@ -233,7 +233,6 @@
     <Compile Include="Resources\ResourceDataSerializer.cs" />
     <Compile Include="Configuration\State\AppState.cs" />
     <Compile Include="DisplayLib\DefaultAssets\DefaultResources.cs" />
-    <Compile Include="DisplayLib\DefaultAssets\Fonts.cs" />
     <Compile Include="DisplayLib\Verify.cs" />
     <Compile Include="Geometry\CoordinateSystems\FixedCoordinateSystem.cs" />
     <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />

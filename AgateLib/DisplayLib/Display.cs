@@ -223,13 +223,7 @@ namespace AgateLib.DisplayLib
 		///     and the last one.
 		/// </summary>
 		public static double DeltaTime => Impl.DeltaTime;
-
-		/// <summary>
-		///     Returns the maximum size a surface object can be.
-		/// </summary>
-		[Obsolete("Use Display.Caps.MaxSurfaceSize instead.", true)]
-		public static Size MaxSurfaceSize => Caps.MaxSurfaceSize;
-
+		
 		/// <summary>
 		///     Gets the object which handles packing of all surfaces.
 		/// </summary>
