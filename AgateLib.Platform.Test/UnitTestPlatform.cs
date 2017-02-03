@@ -51,6 +51,8 @@ namespace AgateLib.Platform.Test
 
 		public FakeReadFileProvider AppFolderFileProvider => fakeAgateFactory.PlatformFactory.ApplicationFolderFiles;
 
+		public FakeReadWriteFileProvider UserAppDataFileProvider => fakeAgateFactory.PlatformFactory.UserAppDataFiles;
+
 		public FakeDisplayDriver Display => fakeAgateFactory.DisplayFactory.DisplayCore;
 
 		public FakeAudioCore Audio => fakeAgateFactory.AudioFactory.AudioCore;

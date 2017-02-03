@@ -298,9 +298,9 @@ namespace AgateLib.Platform.WinForms.IO
 			get { return true; }
 		}
 
-		public Task<Stream> OpenWriteAsync(string file)
+		public Task<Stream> OpenWriteAsync(string filename)
 		{
-            string resolvedName = Path.Combine(mPath, file);
+            string resolvedName = Path.Combine(mPath, filename);
 
 			var dir = Path.GetDirectoryName(resolvedName);
 			Directory.CreateDirectory(dir);

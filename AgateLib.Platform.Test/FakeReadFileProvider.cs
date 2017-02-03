@@ -27,7 +27,7 @@ namespace AgateLib.Platform.Test
 {
 	public class FakeReadFileProvider : IReadFileProvider
 	{
-		class FileInfo
+		protected class FileInfo
 		{
 			public FileInfo(byte[] contents)
 			{
@@ -39,6 +39,8 @@ namespace AgateLib.Platform.Test
 		}
 
 		Dictionary<string, FileInfo> files = new Dictionary<string, FileInfo>();
+
+		protected Dictionary<string, FileInfo> Files => files;
 
 		public int ReadCount(string filename)
 		{

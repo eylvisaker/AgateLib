@@ -79,30 +79,7 @@ namespace AgateLib.Settings
 		{
 			if (settings.ContainsKey(key) == false)
 			{
-				lock (settings)
-				{
-					if (settings.ContainsKey(key) == false)
-					{
-						var item = new SettingsData<T>(typeConverters, initializer) { Filename = "Settings/" + key + ".settings" };
-
-						try
-						{
-							using (var stream = new StreamReader(AgateApp.UserFiles.OpenRead(item.Filename)))
-							{
-								item.Load(stream);
-							}
-						}
-						catch (Exception e)
-						{
-							Log.WriteLine($"Failed to read settings file {item.Filename}. {e.Message}");
-
-							item.Initialize();
-						}
-
-						settings[key] = item;
-					}
-				}
-
+				LoadSettings<T>(key, (item, ex) => item.Initialize(initializer()));
 			}
 
 			return Get<T>(key);
@@ -116,7 +93,45 @@ namespace AgateLib.Settings
 		/// <returns></returns>
 		public T Get<T>(string key)
 		{
+			if (settings.ContainsKey(key) == false)
+			{
+				LoadSettings<T>(key, (item, ex) =>
+				{
+					throw new AgateException(ex, $"Failed to load settings for {key}.");
+				});
+			}
+
 			return (T)settings[key].Data;
+		}
+
+		private void LoadSettings<T>(string key, Action<SettingsData<T>, Exception> onFailure)
+		{
+			lock (settings)
+			{
+				if (settings.ContainsKey(key) == false)
+				{
+					var item = new SettingsData<T>(typeConverters) { Filename = "Settings/" + key + ".settings" };
+
+					try
+					{
+						using (var stream = new StreamReader(AgateApp.UserFiles.OpenRead(item.Filename)))
+						{
+							item.Load(stream);
+						}
+
+						if (item.Data == null)
+							onFailure(item, null);
+					}
+					catch (Exception e)
+					{
+						Log.WriteLine($"Failed to read settings file {item.Filename}. {e.Message}");
+
+						onFailure(item, e);
+					}
+
+					settings[key] = item;
+				}
+			}
 		}
 
 		/// <summary>

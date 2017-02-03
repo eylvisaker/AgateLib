@@ -303,9 +303,9 @@ namespace AgateLib.Platform.IntegrationTest
 			get { return true; }
 		}
 
-		public Task<Stream> OpenWriteAsync(string file)
+		public Task<Stream> OpenWriteAsync(string filename)
 		{
-			string resolvedName = Path.Combine(mPath, file);
+			string resolvedName = Path.Combine(mPath, filename);
 			var result = File.Open(resolvedName, FileMode.Create);
 
 			return Task.FromResult<Stream>(result);

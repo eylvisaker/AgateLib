@@ -27,8 +27,6 @@ namespace AgateLib.IO
 {
 	public interface IReadWriteFileProvider : IReadFileProvider
 	{
-		Task<Stream> OpenWriteAsync(string file);
-
-		void CreateDirectory(string folder);
+		Task<Stream> OpenWriteAsync(string filename);
 	}
 }

@@ -145,6 +145,7 @@
     <Compile Include="Resources\ResourceDataLoaderReferenceReadingTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderFontReadingTests.cs" />
     <Compile Include="Resources\FontResourcePathTests.cs" />
+    <Compile Include="Settings\SettingsTests.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterTest.cs" />
     <Compile Include="UserInterface\FacetUnitTest.cs" />
     <Compile Include="UserInterface\Fulfillment\MenuItemLabelReferenceTest.cs" />

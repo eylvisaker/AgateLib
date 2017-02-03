@@ -218,6 +218,8 @@
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="InputLib\HandlerState.cs" />
     <Compile Include="InputLib\SimpleInputHandler.cs" />
+    <Compile Include="IO\SubdirectoryProviderReadWrite.cs" />
+    <Compile Include="IO\SubdirectoryProviderReadOnly.cs" />
     <Compile Include="Quality\Require.cs" />
     <Compile Include="Resources\DataModel\FontResource.cs" />
     <Compile Include="Resources\DataModel\SpriteResourceAnimationData.cs" />
@@ -324,7 +326,7 @@
     <Compile Include="IO\IFile.cs" />
     <Compile Include="IO\IPath.cs" />
     <Compile Include="IO\IReadWriteFileProvider.cs" />
-    <Compile Include="IO\SubDirectoryProvider.cs" />
+    <Compile Include="IO\SubdirectoryProvider.cs" />
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformEnums.cs" />

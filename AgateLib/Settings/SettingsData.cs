@@ -10,13 +10,10 @@ namespace AgateLib.Settings
 	{
 		private Serializer serializer;
 		private Deserializer deserializer;
-		private Func<T> initializer;
 		private T data;
 
-		public SettingsData(List<IYamlTypeConverter> typeConverters, Func<T> initializer)
+		public SettingsData(List<IYamlTypeConverter> typeConverters)
 		{
-			this.initializer = initializer;
-
 			var serializerBuilder = new SerializerBuilder()
 				.EmitDefaults();
 
@@ -43,9 +40,6 @@ namespace AgateLib.Settings
 		public void Load(TextReader reader)
 		{
 			data = deserializer.Deserialize<T>(reader);
-
-			if (data == null)
-				Initialize();
 		}
 
 		public void Save(TextWriter stream)
@@ -53,9 +47,9 @@ namespace AgateLib.Settings
 			serializer.Serialize(stream, data);
 		}
 
-		public void Initialize()
+		public void Initialize(T newData)
 		{
-			data = initializer();
+			data = newData;
 		}
 	}
 }

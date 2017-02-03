@@ -105,6 +105,7 @@
     <Compile Include="Display\FakeFontSurface.cs" />
     <Compile Include="Display\FakeFrameBuffer.cs" />
     <Compile Include="Display\FakeSurfaceImpl.cs" />
+    <Compile Include="FakeReadWriteFileProvider.cs" />
     <Compile Include="Input\FakeInputFactory.cs" />
     <Compile Include="FakePlatformFactory.cs" />
     <Compile Include="FakePlatformInfo.cs" />

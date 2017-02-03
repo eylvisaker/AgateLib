@@ -16,13 +16,9 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using System;
-using System.Collections.Generic;
-using System.IO;
+
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Drivers;
 using AgateLib.IO;
 using AgateLib.Platform.Common.PlatformImplementation;
@@ -31,18 +27,18 @@ namespace AgateLib.Platform.Test
 {
 	public class FakePlatformFactory : IPlatformFactory
 	{
-		private Dictionary<string, IReadFileProvider> appFolders = new Dictionary<string, IReadFileProvider>();
-		private Dictionary<string, FakeReadWriteFileProvider> userFolders = new Dictionary<string, FakeReadWriteFileProvider>();
-
 		public FakePlatformFactory()
 		{
 			Info = new FakePlatformInfo();
 			ApplicationFolderFiles = new FakeReadFileProvider();
+			UserAppDataFiles = new FakeReadWriteFileProvider();
 		}
 
 		public Platform.IPlatformInfo Info { get; }
 
 		public FakeReadFileProvider ApplicationFolderFiles { get; }
+
+		public FakeReadWriteFileProvider UserAppDataFiles { get; }
 
 		IReadFileProvider IPlatformFactory.ApplicationFolderFiles => ApplicationFolderFiles;
 
@@ -57,78 +53,18 @@ namespace AgateLib.Platform.Test
 
 		public IReadFileProvider OpenAppFolder(string subpath)
 		{
-			if (!appFolders.ContainsKey(subpath))
-			{
-				appFolders[subpath] = new SubdirectoryProvider(ApplicationFolderFiles, subpath);
-			}
+			if (string.IsNullOrEmpty(subpath))
+				return UserAppDataFiles;
 
-			return appFolders[subpath];
+			return SubdirectoryProvider.ReadOnly(ApplicationFolderFiles, subpath);
 		}
 
 		public IReadWriteFileProvider OpenUserAppStorage(string subpath)
 		{
-			if (!userFolders.ContainsKey(subpath))
-			{
-				userFolders[subpath] = new FakeReadWriteFileProvider();
-			}
+			if (string.IsNullOrEmpty(subpath))
+				return UserAppDataFiles;
 
-			return userFolders[subpath];
-		}
-	}
-
-	public class FakeReadWriteFileProvider : IReadWriteFileProvider
-	{
-		public bool IsLogicalFilesystem
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public void CreateDirectory(string folder)
-		{
-			throw new NotImplementedException();
-		}
-
-		public bool FileExists(string filename)
-		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<string> GetAllFiles()
-		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<string> GetAllFiles(string searchPattern)
-		{
-			throw new NotImplementedException();
-		}
-
-		public bool IsRealFile(string filename)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<Stream> OpenReadAsync(string filename)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<Stream> OpenWriteAsync(string file)
-		{
-			throw new NotImplementedException();
-		}
-
-		public string ReadAllText(string filename)
-		{
-			throw new NotImplementedException();
-		}
-
-		public string ResolveFile(string filename)
-		{
-			throw new NotImplementedException();
+			return SubdirectoryProvider.ReadWrite(UserAppDataFiles, subpath);
 		}
 	}
 }
