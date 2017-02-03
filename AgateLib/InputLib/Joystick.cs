@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.Geometry;
 using AgateLib.InputLib.ImplementationBase;
-using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.InputLib
 {
@@ -30,15 +29,6 @@ namespace AgateLib.InputLib
 	/// </summary>
 	public interface IJoystick
 	{
-		[Obsolete("Use input handler instead.", true)]
-		event JoystickEventHandler AxisChanged;
-		[Obsolete("Use input handler instead.", true)]
-		event JoystickEventHandler ButtonPressed;
-		[Obsolete("Use input handler instead.", true)]
-		event JoystickEventHandler ButtonReleased;
-		[Obsolete("Use input handler instead.", true)]
-		event JoystickEventHandler HatStateChanged;
-
 		/// <summary>
 		/// Returns the name of the joystick.
 		/// </summary>
@@ -136,16 +126,7 @@ namespace AgateLib.InputLib
 			mHatState = new HatState[HatCount];
 			mAxisState = new double[AxisCount];
 		}
-
-		[Obsolete("Use input handler instead.", true)]
-		public event JoystickEventHandler AxisChanged;
-		[Obsolete("Use input handler instead.", true)]
-		public event JoystickEventHandler ButtonPressed;
-		[Obsolete("Use input handler instead.", true)]
-		public event JoystickEventHandler ButtonReleased;
-		[Obsolete("Use input handler instead.", true)]
-		public event JoystickEventHandler HatStateChanged;
-
+		
 		/// <summary>
 		/// Returns the name of the joystick.
 		/// </summary>

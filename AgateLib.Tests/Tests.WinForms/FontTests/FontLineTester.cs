@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Utility;
-using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.FontTests
 {

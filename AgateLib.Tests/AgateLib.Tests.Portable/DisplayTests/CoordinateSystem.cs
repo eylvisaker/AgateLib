@@ -6,7 +6,6 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.DisplayTests
 {

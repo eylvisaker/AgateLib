@@ -317,9 +317,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
-    <Compile Include="InputLib\Legacy\Delegates.cs" />
     <Compile Include="InputLib\HatState.cs" />
-    <Compile Include="InputLib\Legacy\JoystickEventArgs.cs" />
     <Compile Include="IO\FileSystem.cs" />
     <Compile Include="IO\IFile.cs" />
     <Compile Include="IO\IReadWriteFileProvider.cs" />
@@ -524,22 +522,13 @@
     <Compile Include="DisplayLib\ImplementationBase\VertexBufferImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputLib\Legacy\InputEventArgs.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="InputLib\Joystick.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InputLib\Legacy\Keyboard.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputLib\KeyCode.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputLib\KeyModifiers.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InputLib\Legacy\Mouse.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Particles\Particle.cs">

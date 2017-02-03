@@ -8,7 +8,6 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.Resources;
-using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.FontTests
 {

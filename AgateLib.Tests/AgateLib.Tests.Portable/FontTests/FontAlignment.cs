@@ -6,7 +6,6 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.InputLib.Legacy;
 using AgateLib.Resources;
 
 namespace AgateLib.Tests.FontTests
@@ -15,15 +14,9 @@ namespace AgateLib.Tests.FontTests
 	{
 		int fontIndex;
 
-		public string Name
-		{
-			get { return "Font Alignment"; }
-		}
+		public string Name => "Font Alignment";
 
-		public string Category
-		{
-			get { return "Fonts"; }
-		}
+		public string Category => "Fonts";
 
 		public Font font { get; set; }
 
