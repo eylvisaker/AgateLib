@@ -364,11 +364,6 @@ namespace AgateLib
 				Require.ArgumentNotNull(value, nameof(Assets));
 
 				State.App.Assets = value;
-				State.IO.mImages = value;
-				State.IO.mMusic = value;
-				State.IO.mSounds = value;
-				State.IO.mResources = value;
-				State.IO.mUserInterfaceAssets = value;
 			}
 		}
 

@@ -40,15 +40,8 @@ namespace AgateLib.Configuration.State
 		public DisplayState Display { get; private set; } = new DisplayState();
 		public InputState Input { get; private set; } = new InputState();
 
-		public IOState IO { get; private set; } = new IOState();
-
 		public bool Debug { get; internal set; }
 
 		internal List<Scene> Scenes { get; private set; } = new List<Scene>();
-
-		internal void Dispose()
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

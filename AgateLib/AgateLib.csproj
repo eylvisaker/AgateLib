@@ -194,7 +194,6 @@
     <Compile Include="Configuration\State\ConsoleState.cs" />
     <Compile Include="Configuration\State\DisplayState.cs" />
     <Compile Include="Configuration\State\InputState.cs" />
-    <Compile Include="Configuration\State\IOState.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateEmergencyVocabulary.cs" />
     <Compile Include="Diagnostics\ConsoleCommandAttribute.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleImpl.cs" />
@@ -322,9 +321,7 @@
     <Compile Include="InputLib\HatState.cs" />
     <Compile Include="InputLib\Legacy\JoystickEventArgs.cs" />
     <Compile Include="IO\FileSystem.cs" />
-    <Compile Include="IO\IDirectory.cs" />
     <Compile Include="IO\IFile.cs" />
-    <Compile Include="IO\IPath.cs" />
     <Compile Include="IO\IReadWriteFileProvider.cs" />
     <Compile Include="IO\SubdirectoryProvider.cs" />
     <Compile Include="Platform\IStopWatch.cs" />
