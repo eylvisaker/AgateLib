@@ -97,6 +97,7 @@
 			this.cboArgs.Name = "cboArgs";
 			this.cboArgs.Size = new System.Drawing.Size(430, 21);
 			this.cboArgs.TabIndex = 3;
+			this.cboArgs.Text = "-window";
 			// 
 			// label1
 			// 

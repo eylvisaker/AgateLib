@@ -92,9 +92,9 @@ namespace AgateLib.InputLib
 			{
 				get
 				{
-					for(int i = 0; i < mKeyState.Length; i++)
+					for (int i = 0; i < mKeyState.Length; i++)
 						if (mKeyState[i] > 0)
-							yield return (KeyCode) i;
+							yield return (KeyCode)i;
 				}
 			}
 
@@ -120,8 +120,6 @@ namespace AgateLib.InputLib
 			{
 				mKeyState[(int)id] = 0;
 				mWaitForKeyUp[(int)id] = waitForKeyUp;
-
-				Input.QueueInputEvent(AgateInputEventArgs.KeyUp(id, CurrentModifiers));
 			}
 
 			internal bool AnyKeyPressed => mKeyState.Any(x => x > 0);
@@ -146,7 +144,15 @@ namespace AgateLib.InputLib
 		}
 
 		KeyState keys = new KeyState();
-		
+		bool[] mouseButtons;
+
+		public SimpleInputHandler()
+		{
+			var enumValues = (MouseButton[])Enum.GetValues(typeof(MouseButton));
+
+			mouseButtons = new bool[enumValues.Select(x => (int)x).Max()];
+		}
+
 		public event EventHandler<AgateInputEventArgs> KeyDown;
 		public event EventHandler<AgateInputEventArgs> KeyUp;
 		public event EventHandler<AgateInputEventArgs> MouseDown;
@@ -170,7 +176,12 @@ namespace AgateLib.InputLib
 		{
 			Input.Handlers.Remove(this);
 		}
-		
+
+		public bool IsMouseButtonDown(MouseButton button)
+		{
+			return mouseButtons[(int)button];
+		}
+
 		private void ProcessEvent(AgateInputEventArgs args)
 		{
 			args.Handled = true;
@@ -188,6 +199,7 @@ namespace AgateLib.InputLib
 					break;
 
 				case InputEventType.MouseDown:
+					SetMouseButton(args.MouseButton, true);
 					MouseDown?.Invoke(this, args);
 					break;
 
@@ -196,6 +208,7 @@ namespace AgateLib.InputLib
 					break;
 
 				case InputEventType.MouseUp:
+					SetMouseButton(args.MouseButton, false);
 					MouseUp?.Invoke(this, args);
 					break;
 
@@ -227,6 +240,11 @@ namespace AgateLib.InputLib
 					args.Handled = false;
 					return;
 			}
+		}
+
+		private void SetMouseButton(MouseButton button, bool value)
+		{
+			mouseButtons[(int) button] = value;
 		}
 
 		bool IInputHandler.ForwardUnhandledEvents => false;

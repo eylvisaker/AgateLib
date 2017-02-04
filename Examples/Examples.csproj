@@ -102,6 +102,7 @@
     <Compile Include="Configuration\Settings\SettingsProgram.cs" />
     <Compile Include="Initialization\FullScreenAllMonitors\FullScreenAllMonitorsProgram.cs" />
     <Compile Include="Initialization\WindowedAllMonitors\WindowedAllMonitorsProgram.cs" />
+    <Compile Include="InputExamples\SimpleInputHandlerExample\SimpleInputHandlerProgram.cs" />
     <Compile Include="Launcher\ExampleCategory.cs" />
     <Compile Include="Launcher\ExampleEventArgs.cs" />
     <Compile Include="Launcher\ExampleItem.cs" />
@@ -151,6 +152,7 @@
     <None Include="Initialization\FullScreenAllMonitors\instructions.md" />
     <None Include="Initialization\BasicInitialization\instructions.md" />
     <None Include="Initialization\WindowsFormsInitialization\instructions.md" />
+    <None Include="InputExamples\SimpleInputHandlerExample\instructions.md" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

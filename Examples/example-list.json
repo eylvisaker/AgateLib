@@ -29,6 +29,15 @@
       "images": [ "Screencap.png" ]
     }
   },
+  "Input": {
+    "SimpleInputHandler": {
+      "name": "Simple Input Handler",
+      "path": "InputExamples/SimpleInputHandlerExample",
+      "desc": "instructions.md",
+      "code": [ "SimpleInputHandlerProgram.cs" ],
+      "images": []
+    }
+  },
   "Configuration": {
     "Settings": {
       "name": "Settings",
@@ -44,7 +53,7 @@
       "path": "UserInterface/Menus",
       "desc": "instructions.md",
       "code": [ "BasicUIMenuProgram.cs", "Assets/Resources.yaml" ],
-      "images": [ ]
+      "images": []
     }
   }
 }

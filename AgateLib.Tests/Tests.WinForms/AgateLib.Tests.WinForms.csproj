@@ -289,14 +289,14 @@
     <Compile Include="FontTests\Fonts.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputTests\Input\frmInputTester.cs">
+    <Compile Include="InputTests\Input\frmWinFormsInputTester.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InputTests\Input\frmInputTester.Designer.cs">
-      <DependentUpon>frmInputTester.cs</DependentUpon>
+    <Compile Include="InputTests\Input\frmWinFormsInputTester.Designer.cs">
+      <DependentUpon>frmWinFormsInputTester.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputTests\Input\InputTester.cs">
+    <Compile Include="InputTests\Input\WinFormsInputTester.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -385,9 +385,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmTileTester.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputTests\Input\frmInputTester.resx">
+    <EmbeddedResource Include="InputTests\Input\frmWinFormsInputTester.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmInputTester.cs</DependentUpon>
+      <DependentUpon>frmWinFormsInputTester.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shaders\LightingTest\LightingTestForm.resx">
       <SubType>Designer</SubType>

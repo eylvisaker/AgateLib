@@ -143,13 +143,22 @@ namespace AgateLib.InputLib
 			if (State == null)
 				return;
 
+			RunDispatch();
+
+			FixKeystate();
+
+			RunDispatch();
+		}
+
+		private static void FixKeystate()
+		{
 			foreach (var handler in AllInputHandlers)
 			{
 				var handlerState = GetOrCreateHandlerState(handler);
 
 				if (!handlerState.KeysPressed.SetEquals(State.KeysPressed))
 				{
-					foreach(var key in handlerState.KeysPressed)
+					foreach (var key in handlerState.KeysPressed)
 					{
 						if (!State.KeysPressed.Contains(key))
 						{
@@ -164,7 +173,10 @@ namespace AgateLib.InputLib
 				if (handler.ForwardUnhandledEvents == false)
 					break;
 			}
+		}
 
+		private static void RunDispatch()
+		{
 			while (EventQueue.Count > 0)
 			{
 				AgateInputEventArgs args;
@@ -172,7 +184,7 @@ namespace AgateLib.InputLib
 				lock (EventQueue)
 				{
 					if (EventQueue.Count == 0)
-						return;
+						break;
 
 					args = EventQueue[0];
 					EventQueue.RemoveAt(0);
