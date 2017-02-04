@@ -21,32 +21,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Diagnostics.ConsoleSupport;
-using AgateLib.InputLib;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
 
 namespace AgateLib.Diagnostics
 {
-	public interface IAgateConsole : IInputHandler
+	public class ConsoleMessage
 	{
-		event EventHandler VisibleChanged;
-		event EventHandler KeyProcessed;
+		string text;
 
-		bool IsVisible { get; set; }
+		public string Text
+		{
+			get { return text; }
+			set
+			{
+				text = value;
+				Layout = null;
+			}
+		}
 
-		IReadOnlyList<ConsoleMessage> Messages { get; }
+		public long Time { get; set; }
 
-		IList<ICommandLibrary> CommandLibraries { get; set; }
-		string InputText { get; }
-		int ViewShift { get; }
-		int InsertionPoint { get; }
+		public ConsoleMessageType MessageType { get; set; }
 
-		void WriteLine(string text);
-		void WriteMessage(ConsoleMessage message);
+		internal ContentLayout Layout { get; set; }
 
-		/// <summary>
-		/// Executes the command as if the user had typed it in.
-		/// </summary>
-		/// <param name="command"></param>
-		void Execute(string command);
+		internal void ClearCache()
+		{
+			Layout = null;
+		}
 	}
 }

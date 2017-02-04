@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using AgateLib.Configuration.State;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
@@ -32,10 +33,14 @@ namespace AgateLib.Diagnostics
 	/// </summary>
 	public static class AgateConsole
 	{
+		private static ConsoleState State => AgateApp.State?.Console;
+
+		private static IConsoleRenderer Renderer => State?.Renderer;
+	
 		public static IAgateConsole Instance
 		{
-			get { return AgateApp.State?.Console?.Instance; }
-			set { AgateApp.State.Console.Instance = value; }
+			get { return State?.Instance; }
+			set { State.Instance = value; }
 		}
 
 		public static bool IsInitialized => Instance != null;
@@ -91,8 +96,8 @@ namespace AgateLib.Diagnostics
 		/// </summary>
 		public static IConsoleTheme Theme
 		{
-			get { return Instance.Theme; }
-			set { Instance.Theme = value; }
+			get { return Renderer.Theme; }
+			set { Renderer.Theme = value; }
 		}
 
 		/// <summary>
@@ -114,7 +119,7 @@ namespace AgateLib.Diagnostics
 			if (Font == null)
 				Font = new Font(DisplayLib.Font.AgateMono, 10, FontStyles.Bold);
 
-			Instance.Draw();
+			Renderer.Draw();
 		}
 
 		/// <summary>
@@ -145,7 +150,7 @@ namespace AgateLib.Diagnostics
 			if (Instance != null)
 				return;
 
-			var instance = new AgateConsoleImpl();
+			var instance = new AgateConsoleCore();
 			Initialize(instance);
 		}
 
@@ -162,6 +167,7 @@ namespace AgateLib.Diagnostics
 			if (Instance == null)
 				throw new InvalidOperationException();
 
+			State.Renderer = new ConsoleRenderer(Instance);
 			VisibleToggleKey = KeyCode.Tilde;
 		}
 	}

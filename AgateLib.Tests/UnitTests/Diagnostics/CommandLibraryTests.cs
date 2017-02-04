@@ -30,7 +30,7 @@ namespace AgateLib.UnitTests.Diagnostics
 		}
 
 		Vocabulary library = new Vocabulary();
-		AgateConsoleImpl console = new AgateConsoleImpl();
+		AgateConsoleCore console = new AgateConsoleCore();
 
 		[TestInitialize]
 		public void Initialize()

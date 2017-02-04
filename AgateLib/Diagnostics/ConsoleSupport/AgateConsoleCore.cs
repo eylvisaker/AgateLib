@@ -32,28 +32,28 @@ using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics
 {
-	class AgateConsoleImpl : IAgateConsole
+	class AgateConsoleCore : IAgateConsole
 	{
 		private bool visible = false;
 		private List<ConsoleMessage> inputHistory = new List<ConsoleMessage>();
 		private List<ConsoleMessage> messages = new List<ConsoleMessage>();
 
 		private string inputText = "";
-		private int height;
 		private int historyIndex;
 		private int insertionPoint;
-		private long timeOffset;
 		private int viewShift;
-		private int entryHeight;
 
 		private IList<ICommandLibrary> commandLibraries = new List<ICommandLibrary>();
 		private LibraryVocabulary emergencyVocab;
-		private IConsoleTheme theme = ConsoleThemes.Default;
 
-		public AgateConsoleImpl()
+		public AgateConsoleCore()
 		{
 			emergencyVocab = new LibraryVocabulary(new AgateEmergencyVocabulary(this));
 		}
+
+		public event EventHandler VisibleChanged;
+
+		public event EventHandler KeyProcessed;
 
 		private long CurrentTime => AgateApp.State.App.MasterTime.ElapsedMilliseconds;
 
@@ -95,47 +95,28 @@ namespace AgateLib.Diagnostics
 		public bool IsVisible
 		{
 			get { return visible; }
-			set { visible = value; }
-		}
-
-		public IConsoleTheme Theme
-		{
-			get { return theme; }
 			set
 			{
-				Require.ArgumentNotNull(value, nameof(Theme));
-				theme = value;
-
-				foreach (var message in messages)
-					message.Layout = null;
+				visible = value;
+				VisibleChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
 		public string InputText => inputText;
 
-		public IFont Font => AgateApp.State.Console.Font;
+		public int ViewShift => viewShift;
+
+		public int InsertionPoint => insertionPoint;
 
 		public IReadOnlyList<ConsoleMessage> Messages => messages;
-
-		public void Draw()
-		{
-			Display.Shader = AgateBuiltInShaders.Basic2DShader;
-			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.CurrentWindow.Width, Display.CurrentWindow.Height);
-
-			if (visible == false)
-			{
-				DrawRecentMessages();
-			}
-			else
-			{
-				DrawConsoleWindow();
-			}
-		}
 
 		public void WriteMessage(ConsoleMessage message)
 		{
 			if (message.MessageType == ConsoleMessageType.Temporary)
 				ClearTemporaryMessage();
+
+			while (messages.Count > 100)
+				messages.RemoveAt(0);
 
 			messages.Add(message);
 		}
@@ -263,115 +244,6 @@ namespace AgateLib.Diagnostics
 			return command == "debug" || command.StartsWith("debug ");
 		}
 
-		private void DrawRecentMessages()
-		{
-			long time = CurrentTime;
-			int y = 0;
-			Font.DisplayAlignment = OriginAlignment.TopLeft;
-			Font.Color = theme.RecentMessageColor;
-
-			for (int i = 0; i < messages.Count; i++)
-			{
-				if (time - messages[i].Time > 5000)
-					continue;
-				if (messages[i].MessageType != ConsoleMessageType.Text)
-					continue;
-
-				Font.DrawText(new Point(0, y), messages[i].Text);
-				y += Font.FontHeight;
-			}
-
-			while (messages.Count > 100)
-				messages.RemoveAt(0);
-		}
-
-		private void DrawConsoleWindow()
-		{
-			Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, height), theme.BackgroundColor);
-
-			DrawUserEntry();
-
-			var y = height - entryHeight;
-			y += Font.FontHeight * viewShift;
-
-			for (int i = messages.Count - 1; i >= 0; i--)
-			{
-				var message = messages[i];
-				var messageTheme = theme.MessageTheme(message);
-
-				if (message.Layout == null)
-				{
-					var text = message.Text;
-
-					if (message.MessageType == ConsoleMessageType.UserInput)
-					{
-						text = Theme.EntryPrefix + message.Text;
-					}
-
-					Font.Color = messageTheme.ForeColor;
-					message.Layout = Font.LayoutText(text, Display.RenderTarget.Width);
-				}
-
-				y -= message.Layout.Height;
-
-				if (messageTheme.BackColor.A > 0)
-				{
-					Display.FillRect(
-						new Rectangle(0, y, 
-							Display.RenderTarget.Width, message.Layout.Height),
-						messageTheme.BackColor);
-				}
-
-				message.Layout.Draw(new Point(0, y));
-
-				if (y < 0)
-					break;
-			}
-		}
-
-		private void DrawUserEntry()
-		{
-			int y = height;
-			Font.DisplayAlignment = OriginAlignment.BottomLeft;
-
-			string currentLineText = Theme.EntryPrefix;
-
-			currentLineText += EscapeText(inputText);
-
-			entryHeight = Font.FontHeight;
-
-			if (Theme.EntryBackgroundColor.A > 0)
-			{
-				Display.FillRect(0, height - entryHeight, Display.RenderTarget.Width, entryHeight,
-					Theme.EntryBackgroundColor);
-			}
-
-			Font.Color = theme.EntryColor;
-			Font.DrawText(0, y, currentLineText);
-
-			// draw insertion point
-			if ((CurrentTime - timeOffset) % 1000 < 500)
-			{
-				int x = Font.MeasureString(currentLineText.Substring(0, Theme.EntryPrefix.Length + insertionPoint)).Width;
-
-				Display.DrawLine(
-					new Point(x, y - Font.FontHeight),
-					new Point(x, y),
-					theme.EntryColor);
-			}
-
-			Font.DisplayAlignment = OriginAlignment.TopLeft;
-		}
-
-		private string EscapeText(string p)
-		{
-			if (p == null)
-				return p;
-
-			return p.Replace("{", "{{}");
-		}
-
-
 		#region --- Input Handling ---
 
 		void IInputHandler.ProcessEvent(AgateInputEventArgs args)
@@ -388,8 +260,6 @@ namespace AgateLib.Diagnostics
 			{
 				IsVisible = !IsVisible;
 				args.Handled = true;
-
-				height = Display.Coordinates.Height * 5 / 12;
 			}
 			else if (IsVisible)
 			{
@@ -404,8 +274,6 @@ namespace AgateLib.Diagnostics
 
 		public void ProcessKeyDown(KeyCode keyCode, string keystring, KeyModifiers modifiers = default(KeyModifiers))
 		{
-			timeOffset = CurrentTime;
-
 			if (keyCode == KeyCode.Escape)
 			{
 				IsVisible = false;
@@ -456,6 +324,8 @@ namespace AgateLib.Diagnostics
 			{
 				Delete();
 			}
+
+			KeyProcessed?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void ClearInputText()
@@ -630,6 +500,5 @@ namespace AgateLib.Diagnostics
 		}
 
 		#endregion
-
 	}
 }

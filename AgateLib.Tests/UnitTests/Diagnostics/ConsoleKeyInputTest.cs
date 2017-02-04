@@ -40,12 +40,12 @@ namespace AgateLib.UnitTests.Diagnostics
 		}
 
 		HelpProbe probe = new HelpProbe();
-		AgateConsoleImpl console;
+		AgateConsoleCore console;
 
 		[TestInitialize]
 		public void Init()
 		{
-			console = new AgateConsoleImpl();
+			console = new AgateConsoleCore();
 
 			AgateConsole.Initialize(console);
 			AgateConsole.CommandLibraries.Add(probe);

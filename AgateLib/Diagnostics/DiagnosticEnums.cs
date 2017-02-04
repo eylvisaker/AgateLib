@@ -21,32 +21,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Diagnostics.ConsoleSupport;
-using AgateLib.InputLib;
 
 namespace AgateLib.Diagnostics
 {
-	public interface IAgateConsole : IInputHandler
+	public enum ConsoleMessageType
 	{
-		event EventHandler VisibleChanged;
-		event EventHandler KeyProcessed;
-
-		bool IsVisible { get; set; }
-
-		IReadOnlyList<ConsoleMessage> Messages { get; }
-
-		IList<ICommandLibrary> CommandLibraries { get; set; }
-		string InputText { get; }
-		int ViewShift { get; }
-		int InsertionPoint { get; }
-
-		void WriteLine(string text);
-		void WriteMessage(ConsoleMessage message);
+		/// <summary>
+		/// Output from the application
+		/// </summary>
+		Text,
 
 		/// <summary>
-		/// Executes the command as if the user had typed it in.
+		/// Input from the user.
 		/// </summary>
-		/// <param name="command"></param>
-		void Execute(string command);
+		UserInput,
+
+		/// <summary>
+		/// Temporary message to notify the user. 
+		/// A temporary message is removed as soon as another temporary 
+		/// message is added to the console, or the user hits enter.
+		/// </summary>
+		Temporary,
 	}
 }

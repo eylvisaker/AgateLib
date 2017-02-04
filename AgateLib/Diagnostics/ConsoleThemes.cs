@@ -20,7 +20,7 @@ namespace AgateLib.Diagnostics
 				{
 					{ ConsoleMessageType.Text, new MessageTheme(Color.FromRgb(0x70, 0x60, 0x3a)) },
 					{ ConsoleMessageType.UserInput, new MessageTheme(Color.FromRgb(0x50, 0x40, 0x1a)) },
-					{ ConsoleMessageType.Temporary, new MessageTheme(Color.Red) }
+					{ ConsoleMessageType.Temporary, new MessageTheme(Color.Red, Color.FromRgb(0x6ffffe8)) }
 				}
 			});
 
@@ -30,9 +30,9 @@ namespace AgateLib.Diagnostics
 				EntryColor = Color.LightGreen,
 				MessageThemes =
 				{
-					{ConsoleMessageType.Text, new MessageTheme(Color.Green)},
+					{ConsoleMessageType.Text, new MessageTheme(Color.FromRgb(0x44bb44))},
 					{ConsoleMessageType.UserInput, new MessageTheme(Color.LightGreen)},
-					{ConsoleMessageType.Temporary, new MessageTheme(Color.Red, Color.White)}
+					{ConsoleMessageType.Temporary, new MessageTheme(Color.White, Color.FromRgb(0x50, 0x50, 0x50))}
 				}
 			});
 
@@ -48,14 +48,14 @@ namespace AgateLib.Diagnostics
 				}
 			});
 			
-			Boring = Validate(new ConsoleTheme
+			HighContrastOnBlack = Validate(new ConsoleTheme
 			{
 				BackgroundColor = Color.FromArgb(224, 0, 0, 0),
 				EntryColor = Color.Yellow,
 				MessageThemes =
 				{
 					{ ConsoleMessageType.Text, new MessageTheme(Color.White) },
-					{ ConsoleMessageType.UserInput, new MessageTheme(Color.LightYellow) },
+					{ ConsoleMessageType.UserInput, new MessageTheme(Color.Yellow) },
 					{ ConsoleMessageType.Temporary, new MessageTheme(Color.Red, Color.White) }
 				}
 			});
@@ -71,7 +71,7 @@ namespace AgateLib.Diagnostics
 
 		public static IConsoleTheme Green { get; }
 
-		public static IConsoleTheme Boring { get; }
+		public static IConsoleTheme HighContrastOnBlack { get; }
 
 		private static IConsoleTheme Validate(ConsoleTheme consoleTheme)
 		{

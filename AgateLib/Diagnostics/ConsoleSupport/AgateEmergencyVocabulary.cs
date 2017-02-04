@@ -27,11 +27,11 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 	class AgateEmergencyVocabulary : IVocabulary
 	{
 		const string helpCommand = "help";
-		private AgateConsoleImpl agateConsoleImpl;
+		private AgateConsoleCore agateConsoleCore;
 
-		public AgateEmergencyVocabulary(AgateConsoleImpl agateConsoleImpl)
+		public AgateEmergencyVocabulary(AgateConsoleCore agateConsoleCore)
 		{
-			this.agateConsoleImpl = agateConsoleImpl;
+			this.agateConsoleCore = agateConsoleCore;
 		}
 
 		public string Namespace => "";
@@ -39,7 +39,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		[ConsoleCommand("Provides help for commands. You can type 'help' or 'help <command>' to get more information.", Hidden = true)]
 		public void Help([JoinArgs] string command = null)
 		{
-			var commandLibraries = agateConsoleImpl.CommandLibrarySet;
+			var commandLibraries = agateConsoleCore.CommandLibrarySet;
 
 			if (commandLibraries.Any())
 			{

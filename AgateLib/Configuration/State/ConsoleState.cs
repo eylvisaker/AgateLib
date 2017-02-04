@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Diagnostics;
+using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -33,5 +34,6 @@ namespace AgateLib.Configuration.State
 		internal IAgateConsole Instance;
 		internal KeyCode VisibleToggleKey;
 		internal IFont Font;
+		public IConsoleRenderer Renderer { get; set; }
 	}
 }
