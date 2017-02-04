@@ -51,7 +51,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AgateIntegrationTest.cs" />
-    <Compile Include="DisplayWindowInitializeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
