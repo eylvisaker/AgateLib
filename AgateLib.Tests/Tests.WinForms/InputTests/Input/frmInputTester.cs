@@ -147,11 +147,21 @@ namespace AgateLib.Tests.InputTests.InputTester
 		void Keyboard_KeyUp(object sender, AgateInputEventArgs e)
 		{
 			this.lblKeyPress.Text = "Released key " + e.KeyCode;
+
+			UpdatePressedKeys();
 		}
 		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			this.lblKeyPress.Text = "Pressed key " + e.KeyCode;
 			this.lblKeyString.Text = "Pressed key string [" + e.KeyString + "]";
+
+			UpdatePressedKeys();
+		}
+
+		private void UpdatePressedKeys()
+		{
+			lblPressedKeys.Text = "Pressed Keys:\n" +
+			                      string.Join(",", Input.Unhandled.Keys.PressedKeys);
 		}
 
 
@@ -190,11 +200,5 @@ namespace AgateLib.Tests.InputTests.InputTester
 		{
 			Input.Unhandled.Keys.ReleaseAll();
 		}
-
-		private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-		{
-
-		}
-
 	}
 }

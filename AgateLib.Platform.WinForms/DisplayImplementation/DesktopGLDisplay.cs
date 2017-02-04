@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Runtime.InteropServices;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib;
@@ -54,14 +53,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		PrimitiveRenderer mPrimitives;
 		private IScreenConfiguration screens;
+		private KeyMessageFilter messageFilter;
 
 		public override IScreenConfiguration Screens => screens;
 
-		public Surface WhiteSurface
-		{
-			get;
-			private set;
-		}
+		public Surface WhiteSurface { get; private set; }
 
 		public bool SupportsNonPowerOf2Textures
 		{
@@ -75,7 +71,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
-			mRenderTarget = (GL_FrameBuffer) RenderTarget.Impl;
+			mRenderTarget = (GL_FrameBuffer)RenderTarget.Impl;
 			mRenderTarget.MakeCurrent();
 
 			OnRenderTargetResize();
@@ -90,7 +86,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		#region --- Object Factory ---
 
-		protected internal override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
+		protected internal override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(
+			AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
 		{
 			return ShaderFactory.CreateBuiltInShader(builtInShaderType);
 		}
@@ -102,6 +99,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			else
 				return new AgateLib.OpenGL.Legacy.LegacyVertexBuffer(layout, vertexCount);
 		}
+
 		protected internal override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
 		{
 			return new GL_IndexBuffer(type, size);
@@ -122,6 +120,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			mRenderTarget.BeginRender();
 		}
+
 		protected override void OnEndFrame()
 		{
 			DrawBuffer.Flush();
@@ -166,6 +165,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			GL.Clear(mask);
 		}
+
 		public override void Clear(Color color, Rectangle destRect)
 		{
 			// hack because FBO's need to be flipped. So we shift the rectangle.
@@ -196,6 +196,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			DrawRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
 		}
+
 		public override void DrawRect(RectangleF rect, Color color)
 		{
 			DrawBuffer.Flush();
@@ -206,6 +207,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			FillRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
 		}
+
 		public override void FillRect(RectangleF rect, Color color)
 		{
 			DrawBuffer.Flush();
@@ -216,6 +218,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			FillRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
 		}
+
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
 			DrawBuffer.Flush();
@@ -229,10 +232,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 
 		#endregion
+
 		#region --- Initialization ---
 
 		public override void Initialize()
 		{
+			messageFilter = new KeyMessageFilter();
+			System.Windows.Forms.Application.AddMessageFilter(messageFilter);
+
 			settings = AgateApp.Settings.GetOrCreate("AgateLib.OpenGL", () => new GLSettings());
 
 			CreateHiddenWindow();
@@ -245,12 +252,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			Log.WriteLine("OpenTK / OpenGL driver instantiated for display.");
 		}
+
 		public void InitializeCurrentContext()
 		{
-			GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
-			GL.ClearDepth(1);                                                 // Depth Buffer Setup
-			GL.Enable(EnableCap.DepthTest);                            // Enables Depth Testing
-			GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
+			GL.ClearColor(0, 0, 0, 1.0f); // Black Background
+			GL.ClearDepth(1); // Depth Buffer Setup
+			GL.Enable(EnableCap.DepthTest); // Enables Depth Testing
+			GL.DepthFunc(DepthFunction.Lequal); // The Type Of Depth Testing To Do
 		}
 
 		private void CreateWhiteSurface()
@@ -315,9 +323,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			{
 				System.Windows.Forms.MessageBox.Show(
 					"Error: OpenGL 1.2 or higher is required, but your system only supports OpenGL " + mGLVersion.ToString(),
-					"OpenGL 1.2 not aviable", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Stop);
+					"OpenGL 1.2 not available", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Stop);
 
-				throw new AgateLib.AgateException("OpenGL 1.2 or higher is required, but this system only supports OpenGL " + mGLVersion.ToString() + ".");
+				throw new AgateLib.AgateException("OpenGL 1.2 or higher is required, but this system only supports OpenGL " +
+												  mGLVersion.ToString() + ".");
 			}
 
 			if (GL3)
@@ -340,6 +349,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 
 		string[] extensions;
+
 		private void LoadExtensions()
 		{
 			if (GL3)
@@ -369,6 +379,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				}
 			}
 		}
+
 		private bool SupportsExtension(string name)
 		{
 			return extensions.Contains(name.ToLowerInvariant());
@@ -400,7 +411,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			decimal result;
 
 			if (decimal.TryParse(versionString, System.Globalization.NumberStyles.Number,
-				System.Globalization.CultureInfo.InvariantCulture, out result) == false)
+					System.Globalization.CultureInfo.InvariantCulture, out result) == false)
 			{
 				Trace.WriteLine("AgateLib.OpenGL was unable to parse the OpenGL version string.");
 				Trace.WriteLine("    The reported string was: " + versionString);
@@ -422,6 +433,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			EventThread.Dispose();
 
+			System.Windows.Forms.Application.RemoveMessageFilter(messageFilter);
+
 			base.Dispose(disposing);
 		}
 
@@ -432,6 +445,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			array[1] = vec.Y;
 			array[2] = vec.Z;
 		}
+
 		private void SetArray(float[] array, Color color)
 		{
 			array[0] = color.R / 255.0f;
@@ -458,6 +472,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				((GL_DisplayControl)impl).HideCursor();
 			}
 		}
+
 		protected internal override void ShowCursor()
 		{
 			System.Windows.Forms.Cursor.Show();
@@ -476,21 +491,33 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			switch (caps)
 			{
-				case DisplayBoolCaps.Scaling: return true;
-				case DisplayBoolCaps.Rotation: return true;
-				case DisplayBoolCaps.Color: return true;
-				case DisplayBoolCaps.Gradient: return true;
-				case DisplayBoolCaps.SurfaceAlpha: return true;
-				case DisplayBoolCaps.PixelAlpha: return true;
-				case DisplayBoolCaps.IsHardwareAccelerated: return true;
-				case DisplayBoolCaps.FullScreen: return true;
-				case DisplayBoolCaps.FullScreenModeSwitching: return true;
-				case DisplayBoolCaps.CustomShaders: return false;
-				case DisplayBoolCaps.CanCreateBitmapFont: return true;
+				case DisplayBoolCaps.Scaling:
+					return true;
+				case DisplayBoolCaps.Rotation:
+					return true;
+				case DisplayBoolCaps.Color:
+					return true;
+				case DisplayBoolCaps.Gradient:
+					return true;
+				case DisplayBoolCaps.SurfaceAlpha:
+					return true;
+				case DisplayBoolCaps.PixelAlpha:
+					return true;
+				case DisplayBoolCaps.IsHardwareAccelerated:
+					return true;
+				case DisplayBoolCaps.FullScreen:
+					return true;
+				case DisplayBoolCaps.FullScreenModeSwitching:
+					return true;
+				case DisplayBoolCaps.CustomShaders:
+					return false;
+				case DisplayBoolCaps.CanCreateBitmapFont:
+					return true;
 			}
 
 			return false;
 		}
+
 		public override Size CapsSize(DisplaySizeCaps caps)
 		{
 			switch (caps)
@@ -508,6 +535,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			return new Size(0, 0);
 		}
+
 		public override double CapsDouble(DisplayDoubleCaps caps)
 		{
 			switch (caps)
@@ -532,6 +560,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		internal WinFormsEventThread EventThread { get; set; }
 
 		#endregion
+
 		#region --- Render States ---
 
 		bool mAlphaBlend;
@@ -540,17 +569,23 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			switch (renderStateBool)
 			{
-				case RenderStateBool.WaitForVerticalBlank: return mVSync;
-				case RenderStateBool.AlphaBlend: return mAlphaBlend;
+				case RenderStateBool.WaitForVerticalBlank:
+					return mVSync;
+				case RenderStateBool.AlphaBlend:
+					return mAlphaBlend;
 
-				case RenderStateBool.StencilBufferTest: return false;
-				case RenderStateBool.ZBufferTest: return false;
-				case RenderStateBool.ZBufferWrite: return false;
+				case RenderStateBool.StencilBufferTest:
+					return false;
+				case RenderStateBool.ZBufferTest:
+					return false;
+				case RenderStateBool.ZBufferWrite:
+					return false;
 
 				default:
 					throw new NotSupportedException($"The specified render state, {renderStateBool}, is not supported by this driver.");
 			}
 		}
+
 		protected internal override void SetRenderState(RenderStateBool renderStateBool, bool value)
 		{
 			switch (renderStateBool)

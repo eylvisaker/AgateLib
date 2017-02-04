@@ -292,10 +292,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			wfRenderTarget.DoubleClick += mRenderTarget_DoubleClick;
 
 			var form = TopLevelForm;
-			form.KeyPreview = true;
-
-			form.KeyDown += form_KeyDown;
-			form.KeyUp += form_KeyUp;
 
 			form.FormClosing += form_FormClosing;
 			form.FormClosed += form_FormClosed;
@@ -317,8 +313,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			var form = TopLevelForm;
 
-			form.KeyDown -= form_KeyDown;
-			form.KeyUp -= form_KeyUp;
 			form.FormClosing -= form_FormClosing;
 			form.FormClosed -= form_FormClosed;
 		}
@@ -471,17 +465,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			OnInputEvent(owner, AgateInputEventArgs.MouseMove(lastMousePoint));
 		}
-
-		private void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-		{
-			OnInputEvent(owner, AgateInputEventArgs.KeyUp(e.AgateKeyCode(), e.AgateKeyModifiers()));
-		}
-
-		private void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-		{
-			OnInputEvent(owner, AgateInputEventArgs.KeyDown(e.AgateKeyCode(), e.AgateKeyModifiers()));
-		}
-
+		
 		private void renderTarget_Disposed(object sender, EventArgs e)
 		{
 			isClosed = true;

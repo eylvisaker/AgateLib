@@ -85,6 +85,20 @@ namespace AgateLib.InputLib
 			}
 
 			/// <summary>
+			/// Returns the list of keys which are currently
+			/// pressed.
+			/// </summary>
+			public IEnumerable<KeyCode> PressedKeys
+			{
+				get
+				{
+					for(int i = 0; i < mKeyState.Length; i++)
+						if (mKeyState[i] > 0)
+							yield return (KeyCode) i;
+				}
+			}
+
+			/// <summary>
 			/// Returns true if any key is pressed.
 			/// </summary>
 			public bool Any => mKeyState.Any(x => x > 0);

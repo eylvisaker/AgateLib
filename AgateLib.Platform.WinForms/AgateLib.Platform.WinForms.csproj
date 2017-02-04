@@ -97,6 +97,7 @@
     <Compile Include="AgateLib.DisplayLib\DisplayExtensions.cs" />
     <Compile Include="DisplayImplementation\ContextInfo.cs" />
     <Compile Include="DisplayImplementation\GLSettings.cs" />
+    <Compile Include="DisplayImplementation\KeyMessageFilter.cs" />
     <Compile Include="DisplayImplementation\WinFormsControlContext.cs" />
     <Compile Include="DisplayImplementation\WinFormsEventThread.cs" />
     <Compile Include="DisplayImplementation\frmFullScreen.cs">
