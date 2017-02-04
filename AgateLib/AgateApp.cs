@@ -400,6 +400,7 @@ namespace AgateLib
 		{
 			UserFiles = State.Factory.PlatformFactory.OpenUserAppStorage(path);
 		}
+
 		/// <summary>
 		/// Plays nice with the OS, by allowing events to be handled.
 		/// This also handles user input events associated with the application,
@@ -407,7 +408,7 @@ namespace AgateLib
 		/// </summary>
 		public static void KeepAlive()
 		{
-			while (IsActive == false && AutoPause)
+			while (IsAlive && IsActive == false && AutoPause)
 			{
 				Audio.Update();
 
@@ -429,7 +430,10 @@ namespace AgateLib
 
 			ExecuteWorkItemQueue();
 
-			State.App.AfterKeepAlive?.Invoke(null, EventArgs.Empty);
+			if (IsAlive)
+			{
+				State.App.AfterKeepAlive?.Invoke(null, EventArgs.Empty);
+			}
 		}
 
 		/// <summary>

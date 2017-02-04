@@ -23,6 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib
 {
@@ -45,9 +46,13 @@ namespace AgateLib.DisplayLib
 		/// <param name="size"></param>
 		public FrameBuffer(Size size)
 		{
+			Require.ArgumentInRange(size.Width > 0, "width", "Width must be positive.");
+			Require.ArgumentInRange(size.Height > 0, "height", "Height must be positive.");
+
 			impl = AgateApp.State.Factory.DisplayFactory.CreateFrameBuffer(size);
 			CoordinateSystem = new NativeCoordinates();
 		}
+
 		/// <summary>
 		/// Constructs a frame buffer to be used as a render target.  FrameBuffers constructed
 		/// with this constructor can be used as surfaces after drawing to them is complete.

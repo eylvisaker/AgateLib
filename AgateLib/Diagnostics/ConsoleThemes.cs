@@ -14,19 +14,20 @@ namespace AgateLib.Diagnostics
 		{
 			Paper = Validate(new ConsoleTheme
 			{
-				BackgroundColor = Color.FromArgb(0xe0fffed3),
-				EntryColor = Color.FromRgb(0x50, 0x40, 0x1a),
+				BackgroundColor = Color.FromRgb(0xfffed3),
+				EntryColor = Color.FromRgb(0x40, 0x30, 0x1a),
+				EntryBackgroundColor = Color.FromRgb(0xffffe3),
 				MessageThemes =
 				{
-					{ ConsoleMessageType.Text, new MessageTheme(Color.FromRgb(0x70, 0x60, 0x3a)) },
-					{ ConsoleMessageType.UserInput, new MessageTheme(Color.FromRgb(0x50, 0x40, 0x1a)) },
+					{ ConsoleMessageType.Text, new MessageTheme(Color.FromRgb(0x60, 0x50, 0x2a)) },
+					{ ConsoleMessageType.UserInput, new MessageTheme(Color.FromRgb(0x40, 0x30, 0x1a), Color.FromRgb(0xffffe3)) },
 					{ ConsoleMessageType.Temporary, new MessageTheme(Color.Red, Color.FromRgb(0x6ffffe8)) }
 				}
 			});
 
 			Green = Validate(new ConsoleTheme
 			{
-				BackgroundColor = Color.FromArgb(224, 0x20, 0x20, 0x20),
+				BackgroundColor = Color.FromRgb(0x202020),
 				EntryColor = Color.LightGreen,
 				MessageThemes =
 				{
@@ -38,7 +39,7 @@ namespace AgateLib.Diagnostics
 
 			Classic = Validate(new ConsoleTheme
 			{
-				BackgroundColor = Color.FromArgb(240, 0x33, 0x27, 0x99),
+				BackgroundColor = Color.FromRgb(0x332799),
 				EntryColor = Color.FromRgb(0x7064d6),
 				MessageThemes =
 				{
@@ -50,7 +51,7 @@ namespace AgateLib.Diagnostics
 			
 			HighContrastOnBlack = Validate(new ConsoleTheme
 			{
-				BackgroundColor = Color.FromArgb(224, 0, 0, 0),
+				BackgroundColor = Color.Black,
 				EntryColor = Color.Yellow,
 				MessageThemes =
 				{

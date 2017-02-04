@@ -53,6 +53,20 @@ namespace AgateLib.Quality
 		}
 
 		/// <summary>
+		/// Throws an ArgumentOutOfRangeException if the condition is not met.
+		/// </summary>
+		/// <param name="condition">If false, this method throws an exception.</param>
+		/// <param name="paramName">Name of the parameter.</param>
+		/// <param name="message">Message for the exception.</param>
+		[DebuggerStepThrough]
+		public static void ArgumentInRange(bool condition, string paramName, string message)
+		{
+			if (condition)
+				return;
+
+			throw new ArgumentOutOfRangeException(paramName, message);
+		}
+		/// <summary>
 		/// Throws an ArgumentNull Exception if the specified
 		/// argument is null.
 		/// </summary>
@@ -102,5 +116,6 @@ namespace AgateLib.Quality
 			var exception = (TE)Activator.CreateInstance(typeof(TE), message);
 			throw exception;
 		}
+
 	}
 }

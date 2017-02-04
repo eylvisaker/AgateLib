@@ -26,6 +26,7 @@ using AgateLib.Diagnostics;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
@@ -133,14 +134,15 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override void SetClipRect(Rectangle newClipRect)
 		{
+			DrawBuffer.Flush();
+
 			GL.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,
 				newClipRect.Width, newClipRect.Height);
-
-			if (Display.Shader is AgateLib.DisplayLib.Shaders.IShader2D)
+ 
+			var shader = Display.Shader as IShader2D;
+			if (shader != null)
 			{
-				AgateLib.DisplayLib.Shaders.IShader2D s = (AgateLib.DisplayLib.Shaders.IShader2D)Display.Shader;
-
-				s.CoordinateSystem = newClipRect;
+				shader.CoordinateSystem = newClipRect;
 			}
 
 			mCurrentClip = newClipRect;

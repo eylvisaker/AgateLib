@@ -15,7 +15,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 	{
 		private readonly IAgateConsole console;
 
-		private int height;
+		private Size size;
 		private int entryHeight;
 		private long timeOffset;
 
@@ -27,7 +27,6 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		{
 			this.console = instance;
 
-			console.VisibleChanged += (sender, e) => { height = Display.Coordinates.Height * 5 / 12; };
 			console.KeyProcessed += (sender, e) => { timeOffset = CurrentTime; };
 		}
 
@@ -48,7 +47,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			}
 		}
 
-		public double Alpha { get; set; } = 0.875;
+		public double Alpha { get; set; } = 0.95;
 	
 		public IFont Font => AgateApp.State.Console.Font;
 
@@ -63,18 +62,23 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 				return;
 			}
 
+			Display.SetClipRect(new Rectangle(Point.Empty, Display.RenderTarget.Size));
+
+			Display.Shader = AgateBuiltInShaders.Basic2DShader;
+			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.RenderTarget.Width,
+				Display.RenderTarget.Height);
+
 			renderTarget.RenderTarget.Alpha = Alpha;
 			renderTarget.RenderTarget.Draw(Point.Empty);
 		}
 
 		public void Update()
 		{
-			if (renderTarget == null)
-				renderTarget = new FrameBuffer(Display.RenderTarget.Width, height);
+			ResizeRenderTarget();
 
 			Display.PushRenderTarget(renderTarget);
 			Display.BeginFrame();
-			Display.Clear();
+			Display.Clear(Theme.BackgroundColor);
 
 			Redraw();
 
@@ -82,12 +86,20 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			Display.PopRenderTarget();
 		}
 
+		private void ResizeRenderTarget()
+		{
+			var newSize = new Size(Display.Coordinates.Width, Display.Coordinates.Height * 5 / 12);
+
+			if (renderTarget == null || newSize != size)
+			{
+				renderTarget?.Dispose();
+				renderTarget = new FrameBuffer(newSize);
+				size = newSize;
+			}
+		}
+
 		private void Redraw()
 		{
-			Display.Shader = AgateBuiltInShaders.Basic2DShader;
-			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.CurrentWindow.Width,
-				Display.CurrentWindow.Height);
-			
 			DrawConsoleWindow();
 		}
 
@@ -112,11 +124,17 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 		private void DrawConsoleWindow()
 		{
-			Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, height), Theme.BackgroundColor);
-
 			DrawUserEntry();
 
-			var y = height - entryHeight;
+			DrawHistory();
+		}
+
+		private void DrawHistory()
+		{
+			var y = size.Height - entryHeight;
+
+			Display.PushClipRect(new Rectangle(0, 0, size.Width, y));
+
 			y += Font.FontHeight * console.ViewShift;
 
 			for (int i = Messages.Count - 1; i >= 0; i--)
@@ -156,7 +174,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 		private void DrawUserEntry()
 		{
-			int y = height;
+			int y = size.Height;
 			Font.DisplayAlignment = OriginAlignment.BottomLeft;
 
 			string currentLineText = Theme.EntryPrefix;
@@ -167,7 +185,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 			if (Theme.EntryBackgroundColor.A > 0)
 			{
-				Display.FillRect(0, height - entryHeight, Display.RenderTarget.Width, entryHeight,
+				Display.FillRect(0, size.Height - entryHeight, Display.RenderTarget.Width, entryHeight,
 					Theme.EntryBackgroundColor);
 			}
 
