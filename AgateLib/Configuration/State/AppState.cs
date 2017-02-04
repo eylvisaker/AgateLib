@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using AgateLib.IO;
 using AgateLib.Platform;
 using AgateLib.Settings;
@@ -26,6 +27,8 @@ namespace AgateLib.Configuration.State
 {
 	internal class AppState
 	{
+		internal EventHandler AfterKeepAlive;
+
 		internal class ErrorReportingState
 		{
 			public string ErrorFile { get; set; } = "errorlog.txt";
@@ -41,7 +44,7 @@ namespace AgateLib.Configuration.State
 		public IPlatformInfo Platform { get; set; }
 		public PersistantSettings Settings { get; } = new PersistantSettings();
 
-		public System.Diagnostics.Stopwatch MasterTime { get; private set; } = System.Diagnostics.Stopwatch.StartNew();
+		public Stopwatch MasterTime { get; private set; } = Stopwatch.StartNew();
 		/// <summary>
 		/// 
 		/// </summary>

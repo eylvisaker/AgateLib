@@ -21,6 +21,8 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 		private IConsoleTheme theme = ConsoleThemes.Default;
 
+		private FrameBuffer renderTarget;
+
 		public ConsoleRenderer(IAgateConsole instance)
 		{
 			this.console = instance;
@@ -46,23 +48,47 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			}
 		}
 
+		public double Alpha { get; set; } = 0.875;
+	
 		public IFont Font => AgateApp.State.Console.Font;
-
 
 		public void Draw()
 		{
-			Display.Shader = AgateBuiltInShaders.Basic2DShader;
-			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.CurrentWindow.Width,
-				Display.CurrentWindow.Height);
+			if (renderTarget == null)
+				return;
 
 			if (console.IsVisible == false)
 			{
 				DrawRecentMessages();
+				return;
 			}
-			else
-			{
-				DrawConsoleWindow();
-			}
+
+			renderTarget.RenderTarget.Alpha = Alpha;
+			renderTarget.RenderTarget.Draw(Point.Empty);
+		}
+
+		public void Update()
+		{
+			if (renderTarget == null)
+				renderTarget = new FrameBuffer(Display.RenderTarget.Width, height);
+
+			Display.PushRenderTarget(renderTarget);
+			Display.BeginFrame();
+			Display.Clear();
+
+			Redraw();
+
+			Display.EndFrame();
+			Display.PopRenderTarget();
+		}
+
+		private void Redraw()
+		{
+			Display.Shader = AgateBuiltInShaders.Basic2DShader;
+			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.CurrentWindow.Width,
+				Display.CurrentWindow.Height);
+			
+			DrawConsoleWindow();
 		}
 
 		private void DrawRecentMessages()
@@ -176,5 +202,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		IConsoleTheme Theme { get; set; }
 
 		void Draw();
+
+		void Update();
 	}
 }

@@ -110,19 +110,6 @@ namespace AgateLib.Diagnostics
 		}
 
 		/// <summary>
-		/// Draws the console window. Call this right before your Display.EndFrame call.
-		/// </summary>
-		public static void Draw()
-		{
-			if (Instance == null) return;
-
-			if (Font == null)
-				Font = new Font(DisplayLib.Font.AgateMono, 10, FontStyles.Bold);
-
-			Renderer.Draw();
-		}
-
-		/// <summary>
 		/// Writes a line to the output part of the console window.
 		/// </summary>
 		/// <param name="text"></param>
@@ -143,6 +130,19 @@ namespace AgateLib.Diagnostics
 		public static void WriteMessage(ConsoleMessage message)
 		{
 			Instance?.WriteMessage(message);
+		}
+
+		/// <summary>
+		/// Draws the console window.
+		/// </summary>
+		private static void Draw()
+		{
+			if (Instance == null) return;
+
+			if (Font == null)
+				Font = new Font(DisplayLib.Font.AgateMono, 10, FontStyles.Bold);
+
+			Renderer.Draw();
 		}
 
 		internal static void Initialize()
@@ -169,6 +169,9 @@ namespace AgateLib.Diagnostics
 
 			State.Renderer = new ConsoleRenderer(Instance);
 			VisibleToggleKey = KeyCode.Tilde;
+
+			Display.BeforeEndFrame += (sender, e) => Draw();
+			AgateApp.AfterKeepAlive += (sender, e) => Renderer.Update();
 		}
 	}
 }

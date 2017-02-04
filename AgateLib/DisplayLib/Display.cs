@@ -102,6 +102,12 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
+		internal static event EventHandler BeforeEndFrame
+		{
+			add { State.BeforeEndFrame += value; }
+			remove { State.BeforeEndFrame -= value; }
+		}
+
 		/// <summary>
 		///     Event fired when PackAllSurfacesEvent
 		/// </summary>
@@ -339,9 +345,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void EndFrame()
 		{
-			if (AgateConsole.IsVisible)
-				AgateConsole.Draw();
-
+			State.BeforeEndFrame?.Invoke(null, EventArgs.Empty);
 			Impl.EndFrame();
 		}
 
@@ -664,5 +668,19 @@ namespace AgateLib.DisplayLib
 			task.GetAwaiter().GetResult();
 		}
 
+		public static void PushRenderTarget(FrameBuffer renderTarget)
+		{
+			AgateApp.State.Display.RenderTargetStack.Push(RenderTarget);
+
+			RenderTarget = renderTarget;
+		}
+
+		public static void PopRenderTarget()
+		{
+			if (AgateApp.State.Display.RenderTargetStack.Count == 0)
+				throw new AgateException("You have popped the render target too many times.");
+
+			RenderTarget = AgateApp.State.Display.RenderTargetStack.Pop();
+		}
 	}
 }

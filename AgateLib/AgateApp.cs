@@ -248,6 +248,12 @@ namespace AgateLib
 
 		#endregion
 
+		internal static event EventHandler AfterKeepAlive
+		{
+			add { State.App.AfterKeepAlive += value; }
+			remove { State.App.AfterKeepAlive -= value; }
+		}
+
 		internal static AgateLibState State { get; private set; } = new AgateLibState();
 
 		/// <summary>
@@ -403,7 +409,7 @@ namespace AgateLib
 		{
 			while (IsActive == false && AutoPause)
 			{
-				AudioLib.Audio.Update();
+				Audio.Update();
 
 				if (Display.CurrentWindow == null)
 					break;
@@ -422,6 +428,8 @@ namespace AgateLib
 			Input.DispatchQueuedEvents();
 
 			ExecuteWorkItemQueue();
+
+			State.App.AfterKeepAlive?.Invoke(null, EventArgs.Empty);
 		}
 
 		/// <summary>
