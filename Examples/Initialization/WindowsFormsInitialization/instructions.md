@@ -1,3 +1,7 @@
-﻿Create a new Windows Forms project targetting .NET framework 4.6.1.
+﻿This project demonstrates how AgateLib code can be mixed with
+Windows.Forms controls.
 
-Add a new AgateRenderTarget control to the form.
+It is highly recommended that you not use AgateLib drawing code inside
+your `Form` class. Otherwise you will be annoyed with name collisions
+between AgateLib's `Point`, `Rectangle`, `Color`, *et al.* types with 
+similarly named types in System.Drawing.

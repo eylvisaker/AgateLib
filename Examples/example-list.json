@@ -7,12 +7,19 @@
       "code": [ "BasicInitializationProgram.cs" ],
       "images": [ "Screencap.png" ]
     },
-    "AllMonitors": {
+    "FullScreenAllMonitors": {
       "name": "Full Screen - All Monitors",
-      "path": "Initialization/AllScreens",
+      "path": "Initialization/FullScreenAllMonitors",
       "desc": "instructions.md",
-      "code": [ "AllScreensProgram.cs" ],
-      "images": [ ]
+      "code": [ "FullScreenAllMonitorsProgram.cs" ],
+      "images": []
+    },
+    "WindowedAllMonitors": {
+      "name": "Windowed - All Monitors",
+      "path": "Initialization/WindowedAllMonitors",
+      "desc": "instructions.md",
+      "code": [ "WindowedAllMonitorsProgram.cs" ],
+      "images": []
     },
     "WindowsForms": {
       "name": "Windows Forms",

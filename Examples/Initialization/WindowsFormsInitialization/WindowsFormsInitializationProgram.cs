@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AgateLib;
+using AgateLib.DisplayLib;
 using AgateLib.Platform.WinForms;
 
 namespace Examples.Initialization.WindowsFormsInitialization
 {
 	static class WindowsFormsInitializationProgram
 	{
+		static AgateFormMixtureForm form;
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -19,8 +23,27 @@ namespace Examples.Initialization.WindowsFormsInitialization
 			{
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new Form1());
+
+				form = new AgateFormMixtureForm();
+				form.Draw += (sender, e) => DrawFormContents();
+
+				Application.Run(new AgateFormMixtureForm());
 			}
 		}
+
+		private static void DrawFormContents()
+		{
+			Display.RenderTarget = form.DisplayWindow.FrameBuffer;
+			Display.BeginFrame();
+			Display.Clear(AgateLib.Geometry.Color.Green);
+
+			Display.FillRect(new AgateLib.Geometry.Rectangle(20, 20, 80, 80), AgateLib.Geometry.Color.Blue);
+
+			Font.AgateSans.DrawText(0, 0, form.EntryText);
+
+			Display.EndFrame();
+			AgateApp.KeepAlive();
+		}
+
 	}
 }

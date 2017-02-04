@@ -89,10 +89,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return agateKeyCode;
 		}
 
-		private KeyModifiers KeyModifiers
-		{
-			get { return new KeyModifiers(altKey, controlKey, shiftKey); }
-		}
+		private KeyModifiers KeyModifiers => new KeyModifiers(altKey, controlKey, shiftKey);
 
 		private void SetModifierKeyState(KeyCode agateKeyCode, bool value)
 		{

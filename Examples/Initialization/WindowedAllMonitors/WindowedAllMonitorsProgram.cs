@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AgateLib;
 using AgateLib.DisplayLib;
@@ -8,9 +9,9 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms;
 
-namespace Examples.Initialization.AllScreens
+namespace Examples.Initialization.WindowedAllMonitors
 {
-	static class AllScreensProgram
+	static class WindowedAllMonitorsProgram
 	{
 		/// <summary>
 		/// The main entry point for the application.
@@ -19,12 +20,26 @@ namespace Examples.Initialization.AllScreens
 		static void Main(string[] args)
 		{
 			using (new AgateWinForms(args).Initialize())
-			using (DisplayWindowCollection windows = new DisplayWindowBuilder()
-				.Title("Full Screen All Monitors")
-				.BackbufferSize(500, 400)
-				.QuitOnClose()
-				.BuildForAllScreens())
+			using (var windows = new DisplayWindowCollection())
 			{
+				Dictionary<DisplayWindow, Color> windowColors = new Dictionary<DisplayWindow, Color>();
+				double hue = 0;
+
+				foreach (var screen in Display.Screens.AllScreens)
+				{
+					var window = new DisplayWindow(new CreateWindowParams
+					{
+						TargetScreen = screen,
+						Resolution = new Resolution(100, 100)
+					});
+
+					// Some fancy code in here to make each window have a different color.
+					windowColors[window] = Color.FromHsv(hue, 1, 1);
+					hue += 60;
+
+					windows.Add(window);
+				}
+
 				// Register a key press handler. This will terminate the application if the escape key is pressed.
 				Input.Unhandled.KeyDown += (sender, e) =>
 				{
@@ -48,7 +63,7 @@ namespace Examples.Initialization.AllScreens
 						// each monitor individually.
 						Display.RenderTarget = window.FrameBuffer;
 						Display.BeginFrame();
-						Display.Clear(Color.Gray);
+						Display.Clear(windowColors[window]);
 
 						Point point = new Point(10, 10);
 						Size size = new Size(15, 15);
@@ -67,11 +82,7 @@ namespace Examples.Initialization.AllScreens
 
 						if (screen.IsPrimary)
 						{
-							font.DrawText(350, 75, "Welcome to\nAgateLib!");
-						}
-						else
-						{
-							font.DrawText(350, 75, screen.Bounds.ToString());
+							font.DrawText(50, 0, "Welcome to\nAgateLib!");
 						}
 
 						Display.EndFrame();

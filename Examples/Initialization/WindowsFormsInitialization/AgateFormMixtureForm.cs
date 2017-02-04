@@ -12,11 +12,11 @@ using AgateLib.DisplayLib;
 
 namespace Examples.Initialization.WindowsFormsInitialization
 {
-	public partial class Form1 : Form
+	public partial class AgateFormMixtureForm : Form
 	{
 		DisplayWindow window;
 
-		public Form1()
+		public AgateFormMixtureForm()
 		{
 			InitializeComponent();
 
@@ -25,20 +25,15 @@ namespace Examples.Initialization.WindowsFormsInitialization
 				.Build();
 		}
 
-		private void Draw()
-		{
-			Display.BeginFrame();
-			Display.Clear(AgateLib.Geometry.Color.Green);
+		public event EventHandler Draw;
 
-			Display.FillRect(new AgateLib.Geometry.Rectangle(20, 20, 80, 80), AgateLib.Geometry.Color.Blue);
+		public DisplayWindow DisplayWindow => window;
 
-			Display.EndFrame();
-			AgateApp.KeepAlive();
-		}
+		public string EntryText => txtEntry.Text;
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			Draw();
+			Draw?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
