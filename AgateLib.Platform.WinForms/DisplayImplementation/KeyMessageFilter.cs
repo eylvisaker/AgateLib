@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AgateLib.InputLib;
@@ -8,7 +9,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	public class KeyMessageFilter : IMessageFilter
 	{
-		private enum KeyMessages
+		private enum KeyMessage
 		{
 			WM_KEYFIRST = 0x100,
 			WM_KEYDOWN = 0x100,
@@ -18,48 +19,74 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			WM_SYSKEYUP = 0x0105,
 			WM_SYSCHAR = 0x0106,
 		}
-
-		[DllImport("user32.dll")]
-		private static extern IntPtr GetParent(IntPtr hwnd);
-
-		// We check the events agains this control to only handle
-		// key event that happend inside this control.
-		Control _control;
-
+		
 		private bool altKey;
 		private bool controlKey;
 		private bool shiftKey;
 
-		public KeyMessageFilter()
-		{ }
-
-		public KeyMessageFilter(Control c)
-		{
-			_control = c;
-		}
-
 		public bool PreFilterMessage(ref Message m)
 		{
-			if (m.Msg == (int)KeyMessages.WM_KEYDOWN)
+			var messageType = (KeyMessage)m.Msg;
+
+			switch (messageType)
 			{
-				Keys key = (Keys)m.WParam;
-				var agateKeyCode = FormUtil.TransformWinFormsKey(key);
+				case KeyMessage.WM_KEYDOWN:
+				case KeyMessage.WM_SYSKEYDOWN:
+					KeyDown(m);
+					break;
 
-				SetModifierKeyState(agateKeyCode, true);
-
-				Input.QueueInputEvent(AgateInputEventArgs.KeyDown(agateKeyCode, KeyModifiers));
-			}
-			else if (m.Msg == (int) KeyMessages.WM_KEYUP)
-			{
-				Keys key = (Keys)m.WParam;
-				var agateKeyCode = FormUtil.TransformWinFormsKey(key);
-
-				SetModifierKeyState(agateKeyCode, false);
-
-				Input.QueueInputEvent(AgateInputEventArgs.KeyUp(agateKeyCode, KeyModifiers));
+				case KeyMessage.WM_KEYUP:
+				case KeyMessage.WM_SYSKEYUP:
+					KeyUp(m);
+					break;
 			}
 
 			return false;
+		}
+
+		private void KeyDown(Message m)
+		{
+			var agateKeyCode = ConvertKeyCode(m);
+
+			SetModifierKeyState(agateKeyCode, true);
+
+			Input.QueueInputEvent(AgateInputEventArgs.KeyDown(agateKeyCode, KeyModifiers));
+		}
+
+		private void KeyUp(Message m)
+		{
+			var agateKeyCode = ConvertKeyCode(m);
+
+			SetModifierKeyState(agateKeyCode, false);
+
+			Input.QueueInputEvent(AgateInputEventArgs.KeyUp(agateKeyCode, KeyModifiers));
+		}
+
+		private static KeyCode ConvertKeyCode(Message m)
+		{
+			Keys key = (Keys)m.WParam;
+			bool extended = ((long)m.LParam & 0x01000000) != 0;
+			
+			if (key == Keys.ControlKey)
+				return extended ? KeyCode.ControlRight : KeyCode.ControlLeft;
+			if (key == Keys.Menu)
+				return extended ? KeyCode.AltRight : KeyCode.AltLeft;
+			if (key == Keys.ShiftKey)
+			{
+				// Obtained from information in this answer:
+				// http://stackoverflow.com/a/15967904/3856907
+
+				var scanCode = ((long) m.LParam >> 16) & 0xFF;
+
+				if (scanCode == 42)
+					return KeyCode.ShiftLeft;
+				if (scanCode == 54)
+					return KeyCode.ShiftRight;
+			}
+
+			var agateKeyCode = FormUtil.TransformWinFormsKey(key);
+
+			return agateKeyCode;
 		}
 
 		private KeyModifiers KeyModifiers
@@ -87,23 +114,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					controlKey = value;
 					break;
 			}
-		}
-
-		private bool ValidateControl(ref Message m)
-		{
-			if (_control != null)
-			{
-				IntPtr hwnd = m.HWnd;
-				IntPtr handle = _control.Handle;
-				while (hwnd != IntPtr.Zero && handle != hwnd)
-				{
-					hwnd = GetParent(hwnd);
-				}
-				if (hwnd == IntPtr.Zero) // Didn't found the window. We are not interested in the event.
-					return false;
-			}
-
-			return true;
 		}
 	}
 }

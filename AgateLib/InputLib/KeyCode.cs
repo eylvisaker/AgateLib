@@ -619,6 +619,14 @@ namespace AgateLib.InputLib
 		/// </summary>
 		Alt = 4,
 
+		/// <summary>
+		/// Left Alt key
+		/// </summary>
+		AltLeft = 240,
+		/// <summary>
+		/// Right Alt key
+		/// </summary>
+		AltRight = 241,
 	}
 
 }
