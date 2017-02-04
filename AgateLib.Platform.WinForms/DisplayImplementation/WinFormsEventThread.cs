@@ -1,28 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	internal class WinFormsEventThread : IDisposable
 	{
+		private KeyMessageFilter messageFilter;
+
 		private readonly Thread windowThread;
-		private WinFormsControlContext applicationContext;
+		private WinFormsApplicationContext applicationContext;
 
 		private Form hiddenForm;
 		private DisplayWindow hiddenDisplayWindow;
 		private GL_DisplayControl hiddenDisplayWindowImpl;
 		private AutoResetEvent hiddenWindowCreatedWaitHandle = new AutoResetEvent(false);
-		private AutoResetEvent displayWindowCreatedWaitHandle = new AutoResetEvent(false);
 
 		public WinFormsEventThread()
 		{
-			try
+			//try
 			{
 				windowThread = new Thread(EventThread);
 				windowThread.Start();
@@ -31,16 +35,16 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				hiddenDisplayWindow = DisplayWindow.CreateFromControl(hiddenForm);
 				hiddenDisplayWindowImpl = (GL_DisplayControl)hiddenDisplayWindow.Impl;
-
-				displayWindowCreatedWaitHandle.Set();
-
-				hiddenForm.Visible = false;
 			}
-			catch (Exception)
-			{
-				Dispose();
-				throw;
-			}
+			//catch (Exception ex)
+			//{
+			//	Log.WriteLine("Failed to initialize the event processing thread.");
+			//	Log.WriteLine("There's no way around this; this is a bad one.");
+			//	Log.WriteLine(ex.ToString());
+
+			//	Dispose();
+			//	throw;
+			//}
 		}
 
 		public void Dispose()
@@ -58,21 +62,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			Invoke(() => hiddenForm.Dispose());
 
 			hiddenWindowCreatedWaitHandle.Dispose();
-			displayWindowCreatedWaitHandle.Dispose();
 		}
 
 		public bool InvokeRequired => hiddenForm.InvokeRequired;
-
-		private void EventThread()
-		{
-			applicationContext = new WinFormsControlContext();
-			hiddenForm = new Form { Text = "It's a secret to everybody." };
-
-			hiddenWindowCreatedWaitHandle.Set();
-			displayWindowCreatedWaitHandle.WaitOne();
-
-			applicationContext.RunMessageLoop();
-		}
 
 		public void Invoke(Action action)
 		{
@@ -110,6 +102,58 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public void CreateContextForCurrentThread()
 		{
 			hiddenDisplayWindowImpl.CreateContextForCurrentThread();
+		}
+
+		/// <summary>
+		/// This function is the entry point for the thread which handles all of our window events.
+		/// </summary>
+		private void EventThread()
+		{
+			applicationContext = new WinFormsApplicationContext();
+
+			Application.Idle += Application_Idle_CreateWindow;
+			Application.Run(applicationContext);
+			Application.RemoveMessageFilter(messageFilter);
+		}
+
+		private void Application_Idle_CreateWindow(object sender, EventArgs e)
+		{
+			// This code is executed here because if the form is 
+			// created on the worker thread, but there is an active application context
+			// on the app's main thread, then the form's events happen on the main
+			// thread application context instead of the worker thread's context.
+			//
+			// This prevents the key filter from working, because it is getting installed
+			// on the wrong application context. 
+			// 
+			// The annoying caveat here is that this only works if the hidden form
+			// is actually shown. So a now I have to have a bunch of code to make the
+			// "hidden" form stays super-invisible.
+			hiddenForm = new Form
+			{
+				Text = "It's a secret to everybody.",
+				Visible = false,
+				ShowInTaskbar = false,
+				WindowState = FormWindowState.Minimized,
+				StartPosition = FormStartPosition.Manual,
+				Location = new Point(-100000, -100000)
+			};
+
+			applicationContext.MainForm = hiddenForm;
+
+			messageFilter = new KeyMessageFilter();
+			Application.AddMessageFilter(messageFilter);
+
+			Application.Idle -= Application_Idle_CreateWindow;
+
+			hiddenForm.Show();
+			Application.Idle += Application_Idle_HideWindow;
+		}
+
+		private void Application_Idle_HideWindow(object sender, EventArgs e)
+		{
+			hiddenWindowCreatedWaitHandle.Set();
+			hiddenForm.Hide();
 		}
 	}
 }

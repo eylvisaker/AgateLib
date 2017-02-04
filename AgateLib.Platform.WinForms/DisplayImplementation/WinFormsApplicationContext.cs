@@ -25,13 +25,14 @@ using System.Windows.Forms;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
-	public class WinFormsControlContext : ApplicationContext
+	public class WinFormsApplicationContext : ApplicationContext
 	{
-		private List<Form> forms = new List<Form>();
-		
-		public void AddForm(Form frm)
+		private KeyMessageFilter messageFilter;
+
+		public WinFormsApplicationContext()
 		{
-			forms.Add(frm);
+			messageFilter = new KeyMessageFilter();
+			Application.RemoveMessageFilter(messageFilter);
 		}
 
 		public void RunMessageLoop()

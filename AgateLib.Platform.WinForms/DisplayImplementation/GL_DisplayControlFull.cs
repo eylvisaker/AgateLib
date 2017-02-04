@@ -55,6 +55,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			windowParams.TargetScreen.DisplayWindow = owner;
 
 			display.InitializeCurrentContext();
+
+			InitializationComplete();
 		}
 
 		protected override Size ContextSize => targetScreen.Bounds.Size.ToGeometry();

@@ -53,7 +53,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		PrimitiveRenderer mPrimitives;
 		private IScreenConfiguration screens;
-		private KeyMessageFilter messageFilter;
 
 		public override IScreenConfiguration Screens => screens;
 
@@ -237,12 +236,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override void Initialize()
 		{
-			messageFilter = new KeyMessageFilter();
-			System.Windows.Forms.Application.AddMessageFilter(messageFilter);
-
 			settings = AgateApp.Settings.GetOrCreate("AgateLib.OpenGL", () => new GLSettings());
 
-			CreateHiddenWindow();
+			CreateEventThread();
 
 			// This needs to be created after the hidden window is created
 			// because until we create a window, Windows does not assume that
@@ -281,7 +277,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
-		private void CreateHiddenWindow()
+		private void CreateEventThread()
 		{
 			EventThread = new WinFormsEventThread();
 			EventThread.CreateContextForCurrentThread();
@@ -432,8 +428,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected override void Dispose(bool disposing)
 		{
 			EventThread.Dispose();
-
-			System.Windows.Forms.Application.RemoveMessageFilter(messageFilter);
 
 			base.Dispose(disposing);
 		}

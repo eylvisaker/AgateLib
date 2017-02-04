@@ -23,6 +23,7 @@ using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.Controls;
 using AgateLib.Quality;
 using OpenTK.Graphics;
@@ -52,8 +53,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					throw new AgateException($"The specified render target is of type {windowParams.RenderTarget.GetType().Name}, " +
 					                         "which does not derive from System.Windows.Forms.Control.");
 
-				windowInfo = CreateWindowInfo(CreateGraphicsMode());
-
 				chooseResolution = new Resolution(wfRenderTarget.Size.ToGeometry());
 
 				if (wfRenderTarget.TopLevelControl == null)
@@ -63,7 +62,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				
 				InitializeContexts();
 
-				AttachEvents();
+				AttachKeyboardEvents();
+
 			}
 			else
 			{
@@ -71,14 +71,37 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 
 			display.InitializeCurrentContext();
+
+			InitializationComplete();
 		}
+
 
 		protected override Size ContextSize => wfRenderTarget.Size.ToGeometry();
 
 		public override bool IsClosed => isClosed;
 
 		public override bool IsFullScreen => false;
-		
+
+		private void AttachKeyboardEvents()
+		{
+			var form = TopLevelForm;
+
+			form.KeyPreview = true;
+
+			form.KeyDown += form_KeyDown;
+			form.KeyUp += form_KeyUp;
+		}
+
+		private void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			OnInputEvent(owner, AgateInputEventArgs.KeyUp(e.AgateKeyCode(), e.AgateKeyModifiers()));
+		}
+
+		private void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			OnInputEvent(owner, AgateInputEventArgs.KeyDown(e.AgateKeyCode(), e.AgateKeyModifiers()));
+		}
+
 		private void CreateWindowedDisplay(CreateWindowParams createParams)
 		{
 			Require.True<InvalidOperationException>(chooseResolution != null,

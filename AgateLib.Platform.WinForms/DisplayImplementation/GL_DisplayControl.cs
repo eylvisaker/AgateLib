@@ -66,6 +66,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected AgateLib.OpenGL.GL3.FrameBuffer rtFrameBuffer;
 		protected GL_Surface rtSurface;
 
+		/// <summary>
+		/// Thread sync flag 
+		/// </summary>
+		private bool initializationComplete = false;
+
 		protected GL_DisplayControl(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 		{
 			this.owner = owner;
@@ -127,7 +132,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			disposable = null;
 		}
 
-		private System.Windows.Forms.Form TopLevelForm
+		protected System.Windows.Forms.Form TopLevelForm
 			=> (System.Windows.Forms.Form)wfRenderTarget.TopLevelControl;
 
 		protected abstract Size ContextSize { get; }
@@ -231,6 +236,19 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected IWindowInfo CreateWindowInfo(GraphicsMode mode)
 		{
+			if (wfRenderTarget.InvokeRequired)
+			{
+				IWindowInfo result = null;
+
+				wfRenderTarget.Invoke(new Action(() =>
+				{
+					result = CreateWindowInfo(mode); 
+					
+				}));
+
+				return result;
+			}
+
 			switch (AgateApp.Platform.PlatformType)
 			{
 				case PlatformType.Windows:
@@ -286,9 +304,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			wfRenderTarget.Disposed += mRenderTarget_Disposed;
 
 			wfRenderTarget.MouseWheel += mRenderTarget_MouseWheel;
-			wfRenderTarget.MouseMove += pct_MouseMove;
-			wfRenderTarget.MouseDown += pct_MouseDown;
-			wfRenderTarget.MouseUp += pct_MouseUp;
+			wfRenderTarget.MouseMove += mRenderTarget_MouseMove;
+			wfRenderTarget.MouseDown += mRenderTarget_MouseDown;
+			wfRenderTarget.MouseUp += mRenderTarget_MouseUp;
 			wfRenderTarget.DoubleClick += mRenderTarget_DoubleClick;
 
 			var form = TopLevelForm;
@@ -306,9 +324,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			wfRenderTarget.Disposed -= mRenderTarget_Disposed;
 
 			wfRenderTarget.MouseWheel -= mRenderTarget_MouseWheel;
-			wfRenderTarget.MouseMove -= pct_MouseMove;
-			wfRenderTarget.MouseDown -= pct_MouseDown;
-			wfRenderTarget.MouseUp -= pct_MouseUp;
+			wfRenderTarget.MouseMove -= mRenderTarget_MouseMove;
+			wfRenderTarget.MouseDown -= mRenderTarget_MouseDown;
+			wfRenderTarget.MouseUp -= mRenderTarget_MouseUp;
 			wfRenderTarget.DoubleClick -= mRenderTarget_DoubleClick;
 
 			var form = TopLevelForm;
@@ -320,6 +338,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		protected void InitializeContexts()
 		{
 			windowInfo = CreateWindowInfo(CreateGraphicsMode());
+
+			if (windowInfo.Handle == IntPtr.Zero)
+				throw new InvalidOperationException("WindowInfo Handle should not be null. Has form initialization completed?");
 
 			AttachEvents();
 
@@ -333,6 +354,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected void ShowOwnedForm()
 		{
+			if (display.EventThread.InvokeRequired)
+			{
+				display.EventThread.Invoke(ShowOwnedForm);
+				return;
+			}
+
 			if (icon != null)
 				wfForm.Icon = icon;
 
@@ -415,7 +442,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				if (!cancel)
 				{
 					OnClosed(owner);
-					wfForm?.Dispose();
+
+					display.EventThread.Invoke(new Action(() => wfForm?.Dispose()));
 				}
 			});
 		}
@@ -437,30 +465,45 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void mRenderTarget_DoubleClick(object sender, EventArgs e)
 		{
+			if (!initializationComplete)
+				return;
+
 			OnInputEvent(owner, AgateInputEventArgs.MouseDoubleClick(lastMousePoint, MouseButton.Primary));
 		}
 
 		private void mRenderTarget_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
+			if (!initializationComplete)
+				return;
+
 			OnInputEvent(owner, AgateInputEventArgs.MouseWheel(lastMousePoint, -(e.Delta * 100) / 120));
 		}
 
-		private void pct_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void mRenderTarget_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
+			if (!initializationComplete)
+				return;
+
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
 			OnInputEvent(owner, AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMousebutton()));
 		}
 
-		private void pct_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void mRenderTarget_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
+			if (!initializationComplete)
+				return;
+
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
 			OnInputEvent(owner, AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMousebutton()));
 		}
 
-		private void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void mRenderTarget_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
+			if (!initializationComplete)
+				return;
+
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
 			OnInputEvent(owner, AgateInputEventArgs.MouseMove(lastMousePoint));
@@ -469,6 +512,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private void renderTarget_Disposed(object sender, EventArgs e)
 		{
 			isClosed = true;
+		}
+
+		protected void InitializationComplete()
+		{
+			initializationComplete = true;
 		}
 
 		#region --- X11 imports ---
