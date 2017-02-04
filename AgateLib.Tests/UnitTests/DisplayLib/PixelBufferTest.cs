@@ -37,7 +37,7 @@ namespace AgateLib.UnitTests.DisplayLib
 
 		private static Color SourceColorAt(int x, int y)
 		{
-			return Color.FromArgb(255 - x * 3, 255 - y * 4, 255 - x * 2 - y * 2);
+			return Color.FromRgb(255 - x * 3, 255 - y * 4, 255 - x * 2 - y * 2);
 		}
 
 		private void VerifyCopyResult(PixelBuffer result)

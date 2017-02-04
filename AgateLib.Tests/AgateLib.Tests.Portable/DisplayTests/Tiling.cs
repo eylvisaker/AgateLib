@@ -46,7 +46,7 @@ namespace AgateLib.Tests.DisplayTests
 				while (AgateApp.IsAlive)
 				{
 					Display.BeginFrame();
-					Display.Clear(Color.FromArgb(
+					Display.Clear(Color.FromRgb(
 						(int) (128 * Math.Abs(Math.Cos(time / 3.5))),
 						(int) (128 * Math.Abs(Math.Sin(time / 4.5))),
 						(int) (128 * Math.Abs(Math.Sin(time / 5.0)))));

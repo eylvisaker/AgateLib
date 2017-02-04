@@ -11,8 +11,10 @@ namespace AgateLib.UnitTests.Diagnostics
 	[TestClass]
 	public class CommandLibraryTests : AgateUnitTest
 	{
-		class Vocabulary : ICommandVocabulary
+		class Vocabulary : IVocabulary
 		{
+			public string Namespace => "";
+
 			public int Callme_Count { get; private set; }
 			public string Callme_parameter1 { get; private set; }
 			public string Callme_parameter2 { get; private set; }

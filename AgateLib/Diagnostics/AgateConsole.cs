@@ -34,11 +34,11 @@ namespace AgateLib.Diagnostics
 	{
 		public static IAgateConsole Instance
 		{
-			get { return AgateApp.State.Console.Instance; }
+			get { return AgateApp.State?.Console?.Instance; }
 			set { AgateApp.State.Console.Instance = value; }
 		}
 
-		public static bool IsInitialized { get { return Instance != null; } }
+		public static bool IsInitialized => Instance != null;
 
 		public static IFont Font
 		{
@@ -69,55 +69,39 @@ namespace AgateLib.Diagnostics
 				Instance.IsVisible = value;
 			}
 		}
+		
+		/// <summary>
+		/// Gets or sets the list of command libraries that are available
+		/// for the user to call upon in the console window.
+		/// </summary>
+		public static IList<ICommandLibrary> CommandLibraries
+		{
+			get { return Instance?.CommandLibraries; }
+			set
+			{
+				if (Instance == null)
+					return;
 
-		public static Color TextColor
-		{
-			get { return AgateApp.State.Console.TextColor; }
-			set { AgateApp.State.Console.TextColor = value; }
-		}
-		public static Color EntryColor
-		{
-			get { return AgateApp.State.Console.EntryColor; }
-			set { AgateApp.State.Console.EntryColor = value; }
-		}
-		public static Color BackgroundColor
-		{
-			get { return AgateApp.State.Console.BackgroundColor; }
-			set { AgateApp.State.Console.BackgroundColor = value; }
-		}
-
-		internal static void Initialize()
-		{
-			if (Instance != null)
-				return;
-
-			var instance = new AgateConsoleImpl();
-			Initialize(instance);
+				Instance.CommandLibraries = value;
+			}
 		}
 
-		public static void Initialize(IAgateConsole instance)
+		/// <summary>
+		/// Gets or sets the theme for the console window.
+		/// </summary>
+		public static IConsoleTheme Theme
 		{
-			Instance = instance;
-			Input.Handlers.Add(Instance);
-
-			PrivateInitialize();
+			get { return Instance.Theme; }
+			set { Instance.Theme = value; }
 		}
 
+		/// <summary>
+		/// Executes a command as if the user had typed it in.
+		/// </summary>
+		/// <param name="command"></param>
 		public static void Execute(string command)
 		{
 			Instance.Execute(command);
-		}
-
-		private static void PrivateInitialize()
-		{
-			if (Instance == null)
-				throw new InvalidOperationException();
-
-			VisibleToggleKey = KeyCode.Tilde;
-
-			TextColor = Color.White;
-			EntryColor = Color.Yellow;
-			BackgroundColor = Color.FromArgb(192, Color.Black);
 		}
 
 		/// <summary>
@@ -128,7 +112,7 @@ namespace AgateLib.Diagnostics
 			if (Instance == null) return;
 
 			if (Font == null)
-				Font = DisplayLib.Font.AgateMono;
+				Font = new Font(DisplayLib.Font.AgateMono, 10, FontStyles.Bold);
 
 			Instance.Draw();
 		}
@@ -156,20 +140,29 @@ namespace AgateLib.Diagnostics
 			Instance?.WriteMessage(message);
 		}
 
-		/// <summary>
-		/// Gets or sets the list of command libraries that are available
-		/// for the user to call upon in the console window.
-		/// </summary>
-		public static IList<ICommandLibrary> CommandLibraries
+		internal static void Initialize()
 		{
-			get { return Instance?.CommandLibraries; }
-			set
-			{
-				if (Instance == null)
-					return;
+			if (Instance != null)
+				return;
 
-				Instance.CommandLibraries = value;
-			}
+			var instance = new AgateConsoleImpl();
+			Initialize(instance);
+		}
+
+		internal static void Initialize(IAgateConsole instance)
+		{
+			Instance = instance;
+			Input.Handlers.Add(Instance);
+
+			PrivateInitialize();
+		}
+
+		private static void PrivateInitialize()
+		{
+			if (Instance == null)
+				throw new InvalidOperationException();
+
+			VisibleToggleKey = KeyCode.Tilde;
 		}
 	}
 }

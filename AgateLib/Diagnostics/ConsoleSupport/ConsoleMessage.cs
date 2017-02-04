@@ -48,5 +48,4 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 		internal ContentLayout Layout { get; set; }
 	}
-
 }

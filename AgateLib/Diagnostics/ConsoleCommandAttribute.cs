@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 namespace AgateLib.Diagnostics
 {
 	/// <summary>
-	/// Use this attribute on public methods of a ICommandVocabulary object to signify that
+	/// Use this attribute on public methods of a IVocabulary object to signify that
 	/// those methods are commands the user can enter.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]

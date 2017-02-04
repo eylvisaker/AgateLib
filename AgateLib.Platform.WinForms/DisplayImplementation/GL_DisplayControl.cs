@@ -89,20 +89,18 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override void Dispose(bool disposing)
 		{
-			if (wfForm != null && wfForm.InvokeRequired)
-			{
-				wfForm.Invoke(new Action(() => Dispose(disposing)));
-				return;
-			}
-
-			if (wfForm != null && ctxFrameBuffer != null)
+			if (wfForm != null && ctxFrameBuffer != null && !wfForm.IsDisposed)
 			{
 				// This odd hack seems to be required if we have full screen
 				// display windows on all monitors. Without this code, "something"
 				// gets left behind and one of the monitors retains its full screen
 				// context, rendering it annoyingly useless for the user.
-				wfForm.Size = new System.Drawing.Size(100, 100);
-				System.Windows.Forms.Application.DoEvents();
+				wfForm.Invoke(new Action(() =>
+				{
+					wfForm.Size = new System.Drawing.Size(100, 100);
+					System.Windows.Forms.Application.DoEvents();
+				}));
+
 				ctxFrameBuffer.MakeCurrent();
 			}
 
@@ -113,9 +111,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			SafeDispose(ref windowInfo);
 
-			if (wfForm != null)
+			if (wfForm != null && !wfForm.IsDisposed)
 			{
-				wfForm.Dispose();
+				wfForm.Invoke(new Action(wfForm.Dispose));
 
 				wfForm = null;
 			}
@@ -242,8 +240,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				wfRenderTarget.Invoke(new Action(() =>
 				{
-					result = CreateWindowInfo(mode); 
-					
+					result = CreateWindowInfo(mode);
+
 				}));
 
 				return result;
@@ -508,7 +506,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			OnInputEvent(owner, AgateInputEventArgs.MouseMove(lastMousePoint));
 		}
-		
+
 		private void renderTarget_Disposed(object sender, EventArgs e)
 		{
 			isClosed = true;

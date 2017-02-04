@@ -32,7 +32,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			// regular expression obtained from 
 			// http://stackoverflow.com/questions/554013/regular-expression-to-split-on-spaces-unless-in-quotes
 			//
-			var regexMatches = Regex.Matches(command, @"((""((?<token>.*?)(?<!\\)"")|(?<token>[\w]+))(\s)*)");
+			var regexMatches = Regex.Matches(command, @"((""((?<token>.*?)(?<!\\)"")|(?<token>[^ ]+))(\s)*)");
 
 			string[] tokens = (from Match m in regexMatches
 							   where m.Groups["token"].Success

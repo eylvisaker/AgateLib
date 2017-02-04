@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics.ConsoleSupport
 {
-	class AgateEmergencyVocabulary : ICommandVocabulary
+	class AgateEmergencyVocabulary : IVocabulary
 	{
 		const string helpCommand = "help";
 		private AgateConsoleImpl agateConsoleImpl;
@@ -33,6 +33,8 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		{
 			this.agateConsoleImpl = agateConsoleImpl;
 		}
+
+		public string Namespace => "";
 
 		[ConsoleCommand("Provides help for commands. You can type 'help' or 'help <command>' to get more information.", Hidden = true)]
 		public void Help([JoinArgs] string command = null)

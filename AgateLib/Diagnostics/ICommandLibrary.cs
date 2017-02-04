@@ -17,6 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
+using System.Collections.Generic;
 using AgateLib.Diagnostics.ConsoleSupport;
 
 namespace AgateLib.Diagnostics
@@ -49,5 +50,13 @@ namespace AgateLib.Diagnostics
 		/// <param name="command"></param>
 		/// <returns></returns>
 		bool Execute(string command);
+
+		/// <summary>
+		/// Performs autocompletion on the specified command.
+		/// Returns a list of commands which match the input string.
+		/// </summary>
+		/// <param name="inputString">The text the user has typed so far.</param>
+		/// <returns></returns>
+		IEnumerable<string> AutoCompleteEntries(string inputString);
 	}
 }

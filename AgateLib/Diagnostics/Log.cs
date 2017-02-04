@@ -28,11 +28,12 @@ namespace AgateLib.Diagnostics
 	{
 		public static void WriteLine(string message)
 		{
+			if (AgateConsole.IsInitialized)
+			{
+				AgateConsole.WriteLine(message);
+			}
+
 			Debug.WriteLine(message);
-		}
-		public static void WriteLine(string format, params object[] args)
-		{
-			Debug.WriteLine(format, args);
 		}
 
 		public static void Indent()

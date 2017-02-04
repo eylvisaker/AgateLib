@@ -51,7 +51,6 @@ namespace AgateLib.Platform.WinForms
 			return this;
 		}
 
-
 		public AgateWinForms AssetPath(string assets)
 		{
 			assetPath = assets;

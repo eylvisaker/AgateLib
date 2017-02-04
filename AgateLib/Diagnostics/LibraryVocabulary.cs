@@ -36,16 +36,17 @@ namespace AgateLib.Diagnostics
 		class CommandInfo
 		{
 			public Delegate Delegate { get; set; }
+
 			public ConsoleCommandAttribute CommandAttribute { get; set; }
 		}
 
 		Dictionary<string, CommandInfo> commands = new Dictionary<string, CommandInfo>();
 
-		private ICommandVocabulary vocabulary;
+		private IVocabulary vocabulary;
 
-		public LibraryVocabulary(ICommandVocabulary commandLibrary)
+		public LibraryVocabulary(IVocabulary library)
 		{
-			this.vocabulary = commandLibrary;
+			this.vocabulary = library;
 
 			BuildCommands();
 		}
@@ -121,10 +122,15 @@ namespace AgateLib.Diagnostics
 			{
 				var attrib = method.GetCustomAttribute<ConsoleCommandAttribute>();
 
-				var name = method.Name.ToLowerInvariant();
+				var name = ToDashConvention(method.Name);
 
 				if (!string.IsNullOrWhiteSpace(attrib.Name))
 					name = attrib.Name;
+
+				if (!string.IsNullOrWhiteSpace(vocabulary.Namespace))
+				{
+					name = vocabulary.Namespace.ToLowerInvariant() + "." + name;
+				}
 
 				commands.Add(name, new CommandInfo
 				{
@@ -134,6 +140,18 @@ namespace AgateLib.Diagnostics
 						.Concat(new[] { method.ReturnType })
 						.ToArray()), vocabulary)
 				});
+			}
+		}
+
+		public IEnumerable<string> AutoCompleteEntries(string inputString)
+		{
+			foreach (var command in commands.Keys)
+			{
+				if (command.StartsWith(
+					inputString, StringComparison.OrdinalIgnoreCase))
+				{
+					yield return command;
+				}
 			}
 		}
 
@@ -201,6 +219,22 @@ namespace AgateLib.Diagnostics
 			{
 				WriteLine(result.ToString());
 			}
+		}
+
+		private string ToDashConvention(string methodName)
+		{
+			StringBuilder result = new StringBuilder();
+			var lower = methodName.ToLowerInvariant();
+
+			for (int i = 0; i < methodName.Length; i++)
+			{
+				if (i > 0 && methodName[i] >= 'A' && methodName[i] <= 'Z')
+					result.Append("-");
+
+				result.Append(lower[i]);
+			}
+
+			return result.ToString();
 		}
 	}
 }

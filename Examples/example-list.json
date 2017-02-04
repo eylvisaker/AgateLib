@@ -1,10 +1,10 @@
 {
   "Initialization": {
-    "Basic": {
-      "name": "Basic Initialization",
-      "path": "Initialization/BasicInitialization",
+    "HelloWorld": {
+      "name": "Hello World",
+      "path": "Initialization/HelloWorld",
       "desc": "instructions.md",
-      "code": [ "BasicInitializationProgram.cs" ],
+      "code": [ "HelloWorldProgram.cs" ],
       "images": [ "Screencap.png" ]
     },
     "FullScreenAllMonitors": {
@@ -45,6 +45,13 @@
       "desc": "instructions.md",
       "code": [ "SettingsProgram.cs" ],
       "images": [ "Screencap.png" ]
+    },
+    "Console": {
+      "name": "Console",
+      "path": "Configuration/ConsoleExample",
+      "desc": "instructions.md",
+      "code": [ "ConsoleExampleProgram.cs", "Example.cs" ],
+      "images": []  
     }
   },
   "User Interface": {

@@ -189,6 +189,10 @@
     <Compile Include="Algorithms\Inverting.cs" />
     <Compile Include="Algorithms\ThreeD\MapConversion.cs" />
     <Compile Include="Configuration\AgateSetupCore.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleVocabulary.cs" />
+    <Compile Include="Diagnostics\ConsoleTheme.cs" />
+    <Compile Include="Diagnostics\MessageTheme.cs" />
+    <Compile Include="Diagnostics\ConsoleThemes.cs" />
     <Compile Include="DisplayLib\DisplayWindowCollection.cs" />
     <Compile Include="Configuration\State\AudioState.cs" />
     <Compile Include="Configuration\State\ConsoleState.cs" />
@@ -199,8 +203,8 @@
     <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleImpl.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleTokenizer.cs" />
     <Compile Include="Diagnostics\IAgateConsole.cs" />
-    <Compile Include="Diagnostics\ICommandVocabulary.cs" />
-    <Compile Include="Diagnostics\InterfaceRootLogger.cs" />
+    <Compile Include="Diagnostics\IVocabulary.cs" />
+    <Compile Include="UserInterface\Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="Diagnostics\JoinArgsAttribute.cs" />
     <Compile Include="Diagnostics\LibraryVocabulary.cs" />
     <Compile Include="DisplayLib\BitmapFont\KerningPairModel.cs" />

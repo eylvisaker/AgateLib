@@ -21,9 +21,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Diagnostics;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.Diagnostics
+namespace AgateLib.UserInterface.Diagnostics
 {
 	/// <summary>
 	/// Provides extensions which can be used to log information about internal AgateLib structures.

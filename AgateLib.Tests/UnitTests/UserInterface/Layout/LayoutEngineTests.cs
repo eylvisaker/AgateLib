@@ -7,6 +7,7 @@ using AgateLib.Diagnostics;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.Diagnostics;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

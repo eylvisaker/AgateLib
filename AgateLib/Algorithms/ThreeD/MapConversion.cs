@@ -86,7 +86,7 @@ namespace AgateLib.Algorithms.ThreeD
                     vec = vec.Normalize();
                     vec = vec / 2;
                     vec.X += 0.5f; vec.Y += 0.5f; vec.Z += 0.5f;
-                    Color clr = Color.FromArgb((int)(vec.X * 255),
+                    Color clr = Color.FromRgb((int)(vec.X * 255),
                                        (int)(vec.Y * 255),
                                        (int)(vec.Z * 255));
 

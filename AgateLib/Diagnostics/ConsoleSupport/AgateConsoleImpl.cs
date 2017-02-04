@@ -32,7 +32,7 @@ using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics
 {
-	public class AgateConsoleImpl : IAgateConsole
+	class AgateConsoleImpl : IAgateConsole
 	{
 		private bool visible = false;
 		private List<ConsoleMessage> inputHistory = new List<ConsoleMessage>();
@@ -43,9 +43,12 @@ namespace AgateLib.Diagnostics
 		private int historyIndex;
 		private int insertionPoint;
 		private long timeOffset;
+		private int viewShift;
+		private int entryHeight;
 
 		private IList<ICommandLibrary> commandLibraries = new List<ICommandLibrary>();
 		private LibraryVocabulary emergencyVocab;
+		private IConsoleTheme theme = ConsoleThemes.Default;
 
 		public AgateConsoleImpl()
 		{
@@ -54,6 +57,10 @@ namespace AgateLib.Diagnostics
 
 		private long CurrentTime => AgateApp.State.App.MasterTime.ElapsedMilliseconds;
 
+		/// <summary>
+		/// Returns the entire list of command libraries, including those
+		/// built-into AgateLib.
+		/// </summary>
 		internal IEnumerable<ICommandLibrary> CommandLibrarySet
 		{
 			get
@@ -65,12 +72,16 @@ namespace AgateLib.Diagnostics
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the list of command libraries for the application has
+		/// installed.
+		/// </summary>
 		public IList<ICommandLibrary> CommandLibraries
 		{
 			get { return commandLibraries; }
 			set
 			{
-				Condition.RequireArgumentNotNull(value, nameof(CommandLibraries));
+				Require.ArgumentNotNull(value, nameof(CommandLibraries));
 				commandLibraries = value;
 			}
 		}
@@ -87,27 +98,24 @@ namespace AgateLib.Diagnostics
 			set { visible = value; }
 		}
 
-		public Color TextColor
+		public IConsoleTheme Theme
 		{
-			get { return AgateApp.State.Console.TextColor; }
-			set { AgateApp.State.Console.TextColor = value; }
-		}
-		public Color EntryColor
-		{
-			get { return AgateApp.State.Console.EntryColor; }
-			set { AgateApp.State.Console.EntryColor = value; }
-		}
-		public Color BackgroundColor
-		{
-			get { return AgateApp.State.Console.BackgroundColor; }
-			set { AgateApp.State.Console.BackgroundColor = value; }
+			get { return theme; }
+			set
+			{
+				Require.ArgumentNotNull(value, nameof(Theme));
+				theme = value;
+
+				foreach (var message in messages)
+					message.Layout = null;
+			}
 		}
 
-		public string InputText { get { return inputText; } }
+		public string InputText => inputText;
 
-		public IFont Font { get { return AgateApp.State.Console.Font; } }
+		public IFont Font => AgateApp.State.Console.Font;
 
-		public List<ConsoleMessage> Messages { get { return messages; } }
+		public IReadOnlyList<ConsoleMessage> Messages => messages;
 
 		public void Draw()
 		{
@@ -124,12 +132,143 @@ namespace AgateLib.Diagnostics
 			}
 		}
 
+		public void WriteMessage(ConsoleMessage message)
+		{
+			if (message.MessageType == ConsoleMessageType.Temporary)
+				ClearTemporaryMessage();
+
+			messages.Add(message);
+		}
+
+		private void ClearTemporaryMessage()
+		{
+			messages.RemoveAll(x => x.MessageType == ConsoleMessageType.Temporary);
+		}
+
+		public void WriteLine(string text)
+		{
+			var message = new ConsoleMessage
+			{
+				Text = text,
+				Time = AgateApp.State.App.MasterTime.ElapsedMilliseconds,
+				MessageType = ConsoleMessageType.Text,
+			};
+
+			WriteMessage(message);
+		}
+
+		public void Execute(string command)
+		{
+			if (string.IsNullOrEmpty(inputText))
+				return;
+			if (inputText.Trim() == string.Empty)
+				return;
+
+			bool isDebugCommand = IsDebugCommand(command);
+
+			foreach (var commandProcessor in CommandLibrarySet)
+			{
+				try
+				{
+					bool execStatus = commandProcessor.Execute(command);
+
+					if (execStatus && !isDebugCommand)
+					{
+						return;
+					}
+				}
+				catch (TargetInvocationException e)
+				{
+					ExecuteFailure(e.InnerException);
+
+					return;
+				}
+				catch (Exception e)
+				{
+					ExecuteFailure(e);
+
+					return;
+				}
+			}
+
+			if (!isDebugCommand)
+			{
+				WriteLine("Unknown command.");
+			}
+		}
+
+		private void AutoCompleteEntry()
+		{
+			var values = CommandLibrarySet.SelectMany(x => x.AutoCompleteEntries(InputText.Substring(0, insertionPoint))).ToList();
+
+			if (values.Count == 1)
+			{
+				var text = values.Single() + " ";
+				var remainder = InputText.Substring(insertionPoint);
+
+				inputText = text + remainder;
+
+				insertionPoint = text.Length;
+
+				ClearTemporaryMessage();
+			}
+			else if (values.Count > 0)
+			{
+				const int maxDisplay = 6;
+
+				var text = new StringBuilder();
+
+				foreach (var value in values.Take(maxDisplay))
+					text.AppendLine($"    {value}");
+
+				if (values.Count > maxDisplay)
+					text.AppendLine($"... and {values.Count - maxDisplay} more.");
+
+				var message = new ConsoleMessage
+				{
+					Text = text.ToString().TrimEnd(),
+					MessageType = ConsoleMessageType.Temporary
+				};
+
+				WriteMessage(message);
+			}
+			else
+			{
+				var message = new ConsoleMessage
+				{
+					Text = "No autocompletion found.",
+					MessageType = ConsoleMessageType.Temporary
+				};
+
+				WriteMessage(message);
+			}
+		}
+
+		private void ExecuteFailure(Exception e)
+		{
+			if (AgateApp.State.Debug)
+			{
+				WriteLine("Failed to execute command.");
+				WriteLine(e.ToString());
+			}
+			else
+			{
+				WriteLine(e.Message);
+				WriteLine("(Type 'help <command>' to get more information.)");
+			}
+		}
+
+		private bool IsDebugCommand(string command)
+		{
+			return command == "debug" || command.StartsWith("debug ");
+		}
+
 		private void DrawRecentMessages()
 		{
 			long time = CurrentTime;
 			int y = 0;
 			Font.DisplayAlignment = OriginAlignment.TopLeft;
-			Font.Color = TextColor;
+			Font.Color = theme.RecentMessageColor;
 
 			for (int i = 0; i < messages.Count; i++)
 			{
@@ -148,33 +287,17 @@ namespace AgateLib.Diagnostics
 
 		private void DrawConsoleWindow()
 		{
-			Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, height), BackgroundColor);
+			Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, height), theme.BackgroundColor);
 
-			int y = height;
-			Font.DisplayAlignment = OriginAlignment.BottomLeft;
+			DrawUserEntry();
 
-			const string entryPrefix = "> ";
-			string currentLineText = entryPrefix;
-
-			currentLineText += EscapeText(inputText);
-
-			Font.Color = EntryColor;
-			Font.DrawText(0, y, currentLineText);
-
-			// draw insertion point
-			if ((CurrentTime - timeOffset) % 1000 < 500)
-			{
-				int x = Font.MeasureString(currentLineText.Substring(0, entryPrefix.Length + insertionPoint)).Width;
-
-				Display.DrawLine(
-					new Point(x, y - Font.FontHeight),
-					new Point(x, y),
-					EntryColor);
-			}
+			var y = height - entryHeight;
+			y += Font.FontHeight * viewShift;
 
 			for (int i = messages.Count - 1; i >= 0; i--)
 			{
 				var message = messages[i];
+				var messageTheme = theme.MessageTheme(message);
 
 				if (message.Layout == null)
 				{
@@ -182,23 +305,62 @@ namespace AgateLib.Diagnostics
 
 					if (message.MessageType == ConsoleMessageType.UserInput)
 					{
-						Font.Color = EntryColor;
-						text = entryPrefix + message.Text;
-					}
-					else
-					{
-						Font.Color = TextColor;
+						text = Theme.EntryPrefix + message.Text;
 					}
 
+					Font.Color = messageTheme.ForeColor;
 					message.Layout = Font.LayoutText(text, Display.RenderTarget.Width);
 				}
 
 				y -= message.Layout.Height;
+
+				if (messageTheme.BackColor.A > 0)
+				{
+					Display.FillRect(
+						new Rectangle(0, y, 
+							Display.RenderTarget.Width, message.Layout.Height),
+						messageTheme.BackColor);
+				}
+
 				message.Layout.Draw(new Point(0, y));
 
 				if (y < 0)
 					break;
 			}
+		}
+
+		private void DrawUserEntry()
+		{
+			int y = height;
+			Font.DisplayAlignment = OriginAlignment.BottomLeft;
+
+			string currentLineText = Theme.EntryPrefix;
+
+			currentLineText += EscapeText(inputText);
+
+			entryHeight = Font.FontHeight;
+
+			if (Theme.EntryBackgroundColor.A > 0)
+			{
+				Display.FillRect(0, height - entryHeight, Display.RenderTarget.Width, entryHeight,
+					Theme.EntryBackgroundColor);
+			}
+
+			Font.Color = theme.EntryColor;
+			Font.DrawText(0, y, currentLineText);
+
+			// draw insertion point
+			if ((CurrentTime - timeOffset) % 1000 < 500)
+			{
+				int x = Font.MeasureString(currentLineText.Substring(0, Theme.EntryPrefix.Length + insertionPoint)).Width;
+
+				Display.DrawLine(
+					new Point(x, y - Font.FontHeight),
+					new Point(x, y),
+					theme.EntryColor);
+			}
+
+			Font.DisplayAlignment = OriginAlignment.TopLeft;
 		}
 
 		private string EscapeText(string p)
@@ -209,22 +371,6 @@ namespace AgateLib.Diagnostics
 			return p.Replace("{", "{{}");
 		}
 
-		public void WriteMessage(ConsoleMessage message)
-		{
-			Messages.Add(message);
-		}
-
-		public void WriteLine(string text)
-		{
-			var message = new ConsoleMessage
-			{
-				Text = text,
-				Time = AgateApp.State.App.MasterTime.ElapsedMilliseconds,
-				MessageType = ConsoleMessageType.Text,
-			};
-
-			WriteMessage(message);
-		}
 
 		#region --- Input Handling ---
 
@@ -232,10 +378,8 @@ namespace AgateLib.Diagnostics
 		{
 			ProcessEvent(args);
 		}
-		bool IInputHandler.ForwardUnhandledEvents
-		{
-			get { return true; }
-		}
+
+		bool IInputHandler.ForwardUnhandledEvents => true;
 
 		private void ProcessEvent(AgateInputEventArgs args)
 		{
@@ -251,24 +395,38 @@ namespace AgateLib.Diagnostics
 			{
 				if (args.InputEventType == InputEventType.KeyDown)
 				{
-					ProcessKeyDown(args.KeyCode, args.KeyString);
+					ProcessKeyDown(args.KeyCode, args.KeyString, args.KeyModifiers);
 				}
 
 				args.Handled = true;
 			}
 		}
 
-		public void ProcessKeyDown(KeyCode keyCode, string keystring)
+		public void ProcessKeyDown(KeyCode keyCode, string keystring, KeyModifiers modifiers = default(KeyModifiers))
 		{
 			timeOffset = CurrentTime;
 
-			if (keyCode == KeyCode.Up)
+			if (keyCode == KeyCode.Escape)
 			{
-				IncrementHistoryIndex();
+				IsVisible = false;
+			}
+			else if (keyCode == KeyCode.C && modifiers.Control)
+			{
+				ClearInputText();
+			}
+			else if (keyCode == KeyCode.Up)
+			{
+				if (modifiers.Shift)
+					ShiftViewUp();
+				else
+					IncrementHistoryIndex();
 			}
 			else if (keyCode == KeyCode.Down)
 			{
-				DecrementHistoryIndex();
+				if (modifiers.Shift)
+					ShiftViewDown();
+				else
+					DecrementHistoryIndex();
 			}
 			else if (keyCode == KeyCode.Left)
 			{
@@ -282,6 +440,10 @@ namespace AgateLib.Diagnostics
 			{
 				AcceptEntry();
 			}
+			else if (keyCode == KeyCode.Tab)
+			{
+				AutoCompleteEntry();
+			}
 			else if (string.IsNullOrEmpty(keystring) == false)
 			{
 				InsertKey(keyCode, keystring);
@@ -294,6 +456,25 @@ namespace AgateLib.Diagnostics
 			{
 				Delete();
 			}
+		}
+
+		private void ClearInputText()
+		{
+			inputText = "";
+			insertionPoint = 0;
+		}
+
+		private void ShiftViewUp()
+		{
+			viewShift++;
+		}
+
+		private void ShiftViewDown()
+		{
+			viewShift--;
+
+			if (viewShift < 0)
+				viewShift = 0;
 		}
 
 		private void IncrementHistoryIndex()
@@ -329,6 +510,8 @@ namespace AgateLib.Diagnostics
 
 		private void AcceptEntry()
 		{
+			ClearTemporaryMessage();
+
 			ConsoleMessage input = new ConsoleMessage
 			{
 				Text = inputText,
@@ -345,8 +528,7 @@ namespace AgateLib.Diagnostics
 			}
 			finally
 			{
-				inputText = "";
-				insertionPoint = 0;
+				ClearInputText();
 				historyIndex = 0;
 			}
 		}
@@ -449,68 +631,5 @@ namespace AgateLib.Diagnostics
 
 		#endregion
 
-		public void Execute(string command)
-		{
-			if (string.IsNullOrEmpty(inputText))
-				return;
-			if (inputText.Trim() == string.Empty)
-				return;
-
-			bool isDebugCommand = IsDebugCommand(command);
-
-			foreach (var commandProcessor in CommandLibrarySet)
-			{
-				try
-				{
-					bool execStatus = commandProcessor.Execute(command);
-
-					if (execStatus && !isDebugCommand)
-					{
-						return;
-					}
-				}
-				catch (TargetInvocationException e)
-				{
-					ExecuteFailure(e.InnerException);
-
-					return;
-				}
-				catch (Exception e)
-				{
-					ExecuteFailure(e);
-
-					return;
-				}
-			}
-
-			if (!isDebugCommand)
-			{
-				WriteLine("Unknown command.");
-			}
-		}
-
-		private void ExecuteFailure(Exception e)
-		{
-			if (AgateApp.State.Debug)
-			{
-				WriteLine("Failed to execute command.");
-				WriteLine(e.ToString());
-			}
-			else
-			{
-				WriteLine(e.Message);
-				WriteLine("(Type 'help <command>' to get more information.)");
-			}
-		}
-
-		private bool IsDebugCommand(string command)
-		{
-			return command == "debug" || command.StartsWith("debug ");
-		}
-
-		private void WriteLineFormat(string format, params object[] args)
-		{
-			WriteLine(string.Format(format, args));
-		}
 	}
 }

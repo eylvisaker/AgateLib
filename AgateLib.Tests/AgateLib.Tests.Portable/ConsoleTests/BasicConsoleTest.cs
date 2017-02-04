@@ -10,8 +10,10 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Tests.ConsoleTests
 {
-	public class BasicConsoleTest : IAgateTest, ICommandVocabulary
+	public class BasicConsoleTest : IAgateTest, IVocabulary
 	{
+		string IVocabulary.Namespace => "";
+
 		public string Category => "Console";
 
 		public string Name => "Basic Console Test";

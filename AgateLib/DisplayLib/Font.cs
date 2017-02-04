@@ -178,6 +178,11 @@ namespace AgateLib.DisplayLib
 		{
 			return impl.MeasureString(state, text);
 		}
+		
+		public override string ToString()
+		{
+			return $"{impl.Name} {Size} Style:{Style}";
+		}
 
 		internal void AddFontSurface(FontSettings settings, FontSurface fontSurface)
 		{

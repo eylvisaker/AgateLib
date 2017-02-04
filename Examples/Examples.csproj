@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="Configuration\ConsoleExample\Example.cs" />
+    <Compile Include="Configuration\ConsoleExample\ConsoleExampleProgram.cs" />
     <Compile Include="Configuration\Settings\SettingsProgram.cs" />
     <Compile Include="Initialization\FullScreenAllMonitors\FullScreenAllMonitorsProgram.cs" />
     <Compile Include="Initialization\WindowedAllMonitors\WindowedAllMonitorsProgram.cs" />
@@ -115,7 +117,7 @@
     <Compile Include="Launcher\LauncherView.Designer.cs">
       <DependentUpon>LauncherView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Initialization\BasicInitialization\BasicInitializationProgram.cs" />
+    <Compile Include="Initialization\HelloWorld\HelloWorldProgram.cs" />
     <Compile Include="Initialization\WindowsFormsInitialization\AgateFormMixtureForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,11 +148,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest" />
+    <None Include="Configuration\ConsoleExample\instructions.md" />
     <None Include="Configuration\Settings\instructions.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Initialization\FullScreenAllMonitors\instructions.md" />
-    <None Include="Initialization\BasicInitialization\instructions.md" />
+    <None Include="Initialization\HelloWorld\instructions.md" />
     <None Include="Initialization\WindowsFormsInitialization\instructions.md" />
     <None Include="InputExamples\SimpleInputHandlerExample\instructions.md" />
     <None Include="packages.config" />
@@ -173,7 +176,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Initialization\BasicInitialization\Screencap.png">
+    <Content Include="Initialization\HelloWorld\Screencap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Initialization\WindowsFormsInitialization\Screencap.png">

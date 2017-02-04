@@ -26,7 +26,21 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 {
 	public enum ConsoleMessageType
 	{
+		/// <summary>
+		/// Output from the application
+		/// </summary>
 		Text,
+
+		/// <summary>
+		/// Input from the user.
+		/// </summary>
 		UserInput,
+
+		/// <summary>
+		/// Temporary message to notify the user. 
+		/// A temporary message is removed as soon as another temporary 
+		/// message is added to the console, or the user hits enter.
+		/// </summary>
+		Temporary,
 	}
 }

@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Diagnostics;
+using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.IO;
@@ -29,6 +31,8 @@ namespace AgateLib.Configuration
 {
 	public abstract class AgateSetupCore : IDisposable
 	{
+		private bool consoleInstalled;
+
 		public void Dispose()
 		{
 			AgateApp.Dispose();
@@ -50,7 +54,19 @@ namespace AgateLib.Configuration
 
 			return this;
 		}
-		
+
+		public AgateSetupCore InstallConsoleCommands()
+		{
+			if (consoleInstalled == false)
+			{
+				AgateConsole.CommandLibraries.Add(new LibraryVocabulary(new AgateConsoleVocabulary()));
+
+				consoleInstalled = true;
+			}	
+
+			return this;
+		}
+
 		/// <summary>
 		/// Processes command line arguments. Override this to completely replace the 
 		/// comand line argument processor. 

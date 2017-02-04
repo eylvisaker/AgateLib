@@ -25,7 +25,7 @@ namespace AgateLib.Tests.DisplayTests.TileTester
 			while (frm.IsDisposed == false)
 			{
 				Display.BeginFrame();
-				Display.Clear(Color.FromArgb(255, 0, 255));
+				Display.Clear(Color.FromRgb(255, 0, 255));
 
 				DrawTiles();
 

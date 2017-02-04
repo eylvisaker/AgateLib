@@ -24,7 +24,11 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics
 {
-	public interface ICommandVocabulary
+	public interface IVocabulary
 	{
+		/// <summary>
+		/// If this value is not empty, then commands must be prefixed by "namespace."
+		/// </summary>
+		string Namespace { get; }
 	}
 }

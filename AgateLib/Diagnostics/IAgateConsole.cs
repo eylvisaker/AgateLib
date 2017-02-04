@@ -32,6 +32,8 @@ namespace AgateLib.Diagnostics
 
 		IList<ICommandLibrary> CommandLibraries { get; set; }
 
+		IConsoleTheme Theme { get; set; }
+
 		void Draw();
 		void WriteLine(string text);
 		void WriteMessage(ConsoleMessage message);

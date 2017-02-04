@@ -30,7 +30,7 @@ namespace AgateLib.UnitTests.DisplayLib
 			{
 				for (int i = 0; i < pb.Width; i++)
 				{
-					pb.SetPixel(i, j, Color.FromArgb(255 - i, 255 - j, 128));
+					pb.SetPixel(i, j, Color.FromRgb(255 - i, 255 - j, 128));
 				}
 			}
 		}

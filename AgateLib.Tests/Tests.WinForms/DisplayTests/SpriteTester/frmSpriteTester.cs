@@ -155,7 +155,7 @@ namespace AgateLib.Tests.DisplayTests.SpriteTester
 
 
 			// draw the grid
-			AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.FromArgb(0, 164, 0);
+			AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.FromRgb(0, 164, 0);
 
 			for (int x = 0; x < pctGraphics.Width; x += 16)
 				Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, Display.RenderTarget.Height), clr);

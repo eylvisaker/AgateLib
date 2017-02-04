@@ -112,7 +112,7 @@ namespace AgateLib.Platform.WinForms.Factories
 			string fqn = entryAssembly.GetLoadedModules()[0].FullyQualifiedName;
 
 			var dir = Path.GetDirectoryName(fqn);
-			Log.WriteLine("App Dir: {0}", dir);
+			Log.WriteLine($"App Dir: {dir}");
 
 			return dir;
 		}
