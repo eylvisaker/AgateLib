@@ -1,4 +1,6 @@
-﻿namespace AgateLib.Configuration
+﻿using System;
+
+namespace AgateLib.Configuration
 {
 	/// <summary>
 	/// A clock which can be used to track the passage of time.
@@ -6,8 +8,8 @@
 	public interface IClock
 	{
 		/// <summary>
-		/// Returns the current time on the clock, in milliseconds.
+		/// Returns the current time on the clock.
 		/// </summary>
-		double CurrentTime { get; }
+		TimeSpan CurrentTime { get; }
 	}
 }

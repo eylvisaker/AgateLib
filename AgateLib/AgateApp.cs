@@ -444,10 +444,19 @@ namespace AgateLib
 		}
 
 		/// <summary>
-		/// returns time since agatelib was initialized in milliseconds.
+		/// Returns time since Agatelib was initialized.
 		/// </summary>
 		/// <returns></returns>
-		internal static double GetTime()
+		internal static TimeSpan AppClockTime()
+		{
+			return TimeSpan.FromMilliseconds(State.App.Time.TotalMilliseconds);
+		}
+
+		/// <summary>
+		/// Returns time in milliseconds since agatelib was initialized in milliseconds.
+		/// </summary>
+		/// <returns></returns>
+		internal static double GetTimeInMilliseconds()
 		{
 			return State.App.Time.TotalMilliseconds;
 		}

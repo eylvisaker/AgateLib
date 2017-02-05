@@ -1,25 +1,21 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AgateLib.DisplayLib;
+using AgateLib.Quality;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.DisplayLib
 {
 	[TestClass]
-	public class DisplayTest
+	public class DisplayTest : AgateUnitTest
 	{
-		/*
-		[TestMethod]
-		public void InitializeDisplay()
-		{
-			using (AgateSetup setup = new AgateSetup())
-			{
-				setup.PreferredDisplay =  (DisplayTypeID) 1000;
-				setup.InitializeDisplay((DisplayTypeID)1000);
+		//[TestMethod]
+		//public void MultipleBeginFrameCallsThrows()
+		//{
+		//	Display.BeginFrame();
 
-				Assert.IsFalse(setup.WasCanceled);
+		//	AssertX.Throws(() => Display.BeginFrame());
 
-				DisplayWindow wind = DisplayWindow.CreateWindowed("Title", 400, 400);
-				
-			}
-		}
-		 * */
+		//	Display.EndFrame();
+		//	AgateApp.KeepAlive();
+		//}
 	}
 }

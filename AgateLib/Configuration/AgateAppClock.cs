@@ -1,7 +1,9 @@
-﻿namespace AgateLib.Configuration
+﻿using System;
+
+namespace AgateLib.Configuration
 {
 	public class AgateAppClock : IClock
 	{
-		public double CurrentTime => AgateApp.GetTime();
+		public TimeSpan CurrentTime => AgateApp.AppClockTime();
 	}
 }

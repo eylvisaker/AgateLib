@@ -24,6 +24,14 @@ namespace AgateLib.Configuration
 			this.clock = clock;
 		}
 
+		/// <summary>
+		/// Gets or sets the number of times per second
+		/// that the FPS should be updated. Larger values
+		/// will update slower but the results will be more
+		/// consistent. The default is 5 updates per second.
+		/// </summary>
+		public double FpsUpdateFrequency { get; set; } = 5;
+	
 		public TimeSpan DeltaTime { get; private set; }
 
 		public double FramesPerSecond => mFPS;
@@ -33,20 +41,17 @@ namespace AgateLib.Configuration
 		/// </summary>
 		public void Advance()
 		{
-			CalcDeltaTime();
-		}
-
-		private void CalcDeltaTime()
-		{
-			double now = clock.CurrentTime;
+			double now = clock.CurrentTime.TotalMilliseconds;
 			double millisecondsPassed = 0;
+
+			mFrames++;
 
 			if (mRanOnce)
 			{
 				millisecondsPassed = now - mLastTime;
 				mLastTime = now;
 
-				if (now - mFPSStart > 200)
+				if ((now - mFPSStart) > 1000 / FpsUpdateFrequency)
 				{
 					double time = (now - mFPSStart) * 0.001;
 

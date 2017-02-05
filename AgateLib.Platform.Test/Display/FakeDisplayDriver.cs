@@ -81,78 +81,63 @@ namespace AgateLib.Platform.Test.Display
 
 		protected override void OnRenderTargetResize()
 		{
-			throw new NotImplementedException();
 		}
 
 
 		protected override void OnBeginFrame()
 		{
-			throw new NotImplementedException();
 		}
 
 		protected override void OnEndFrame()
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void SetClipRect(AgateLib.Geometry.Rectangle newClipRect)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void Clear(AgateLib.Geometry.Color color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void Clear(AgateLib.Geometry.Color color, AgateLib.Geometry.Rectangle destRect)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void FillPolygon(AgateLib.Geometry.PointF[] pts, int startIndex, int length, AgateLib.Geometry.Color color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void DrawLine(AgateLib.Geometry.Point a, AgateLib.Geometry.Point b, AgateLib.Geometry.Color color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void DrawRect(AgateLib.Geometry.Rectangle rect, AgateLib.Geometry.Color color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void DrawRect(AgateLib.Geometry.RectangleF rect, AgateLib.Geometry.Color color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void FillRect(AgateLib.Geometry.Rectangle rect, AgateLib.Geometry.Color color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void FillRect(AgateLib.Geometry.Rectangle rect, AgateLib.Geometry.Gradient color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void FillRect(AgateLib.Geometry.RectangleF rect, AgateLib.Geometry.Color color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void FillRect(AgateLib.Geometry.RectangleF rect, AgateLib.Geometry.Gradient color)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void FlushDrawBuffer()
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void Initialize()

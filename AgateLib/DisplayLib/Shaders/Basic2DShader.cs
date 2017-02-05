@@ -41,18 +41,12 @@ namespace AgateLib.DisplayLib.Shaders
 		/// <summary>
 		/// Returns the implementation.
 		/// </summary>
-		protected new Basic2DImpl Impl
-		{
-			get { return (Basic2DImpl)base.Impl; }
-		}
+		protected new Basic2DImpl Impl => (Basic2DImpl)base.Impl;
 
 		/// <summary>
 		/// Gets the BuiltInShaderType enum corresponding to this built in shader.
 		/// </summary>
-		protected override BuiltInShader BuiltInShaderType
-		{
-			get { return BuiltInShader.Basic2DShader; }
-		}
+		protected override BuiltInShader BuiltInShaderType => BuiltInShader.Basic2DShader;
 
 		/// <summary>
 		/// Gets or sets the coordinate system used for drawing.
