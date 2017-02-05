@@ -131,6 +131,7 @@
     <Compile Include="Geometry\ColorTests.cs" />
     <Compile Include="Geometry\RectangleTest.cs" />
     <Compile Include="Geometry\TypeConverters\GeometryConverterTests.cs" />
+    <Compile Include="InputTests\GamepadInputHandlerTests.cs" />
     <Compile Include="InputTests\JoystickInputTests.cs" />
     <Compile Include="InputTests\SimpleInputHandlerTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />

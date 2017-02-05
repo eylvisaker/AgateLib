@@ -208,6 +208,13 @@
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleTokenizer.cs" />
     <Compile Include="Diagnostics\IAgateConsole.cs" />
     <Compile Include="Diagnostics\IVocabulary.cs" />
+    <Compile Include="InputLib\GamepadModel\Gamepad.cs" />
+    <Compile Include="InputLib\GamepadModel\GamepadButtonEventArgs.cs" />
+    <Compile Include="InputLib\GamepadModel\GamepadEnums.cs" />
+    <Compile Include="InputLib\GamepadModel\GamepadInputHandler.cs" />
+    <Compile Include="InputLib\GamepadModel\KeyboardGamepadMap.cs" />
+    <Compile Include="InputLib\GamepadModel\KeyMapItem.cs" />
+    <Compile Include="InputLib\InputEnums.cs" />
     <Compile Include="IO\Enums.cs" />
     <Compile Include="FileProviderExtensions.cs" />
     <Compile Include="UserInterface\Diagnostics\InterfaceRootLogger.cs" />
@@ -320,7 +327,6 @@
     <Compile Include="InputLib\IInputHandler.cs" />
     <Compile Include="InputLib\InputHandlerList.cs" />
     <Compile Include="InputLib\Input.cs" />
-    <Compile Include="InputLib\MouseButton.cs" />
     <Compile Include="IO\IReadFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -529,9 +535,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputLib\Joystick.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InputLib\KeyCode.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputLib\KeyModifiers.cs">
