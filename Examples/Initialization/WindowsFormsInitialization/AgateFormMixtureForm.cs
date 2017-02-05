@@ -22,6 +22,7 @@ namespace Examples.Initialization.WindowsFormsInitialization
 
 			window = new DisplayWindowBuilder()
 				.RenderToControl(renderTarget)
+				.AutoResizeBackBuffer()
 				.Build();
 		}
 
@@ -39,6 +40,11 @@ namespace Examples.Initialization.WindowsFormsInitialization
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			timer1.Enabled = false;
+		}
+
+		private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
 		}
 	}
 }

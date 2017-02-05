@@ -24,6 +24,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private bool controlKey;
 		private bool shiftKey;
 
+		private bool shiftLeft;
+		private bool shiftRight;
+
 		public bool PreFilterMessage(ref Message m)
 		{
 			var messageType = (KeyMessage)m.Msg;
@@ -33,12 +36,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				case KeyMessage.WM_KEYDOWN:
 				case KeyMessage.WM_SYSKEYDOWN:
 					KeyDown(m);
-					break;
+					return true;
 
 				case KeyMessage.WM_KEYUP:
 				case KeyMessage.WM_SYSKEYUP:
 					KeyUp(m);
-					break;
+					return true;
 			}
 
 			return false;
@@ -50,6 +53,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			SetModifierKeyState(agateKeyCode, true);
 
+			if (agateKeyCode == KeyCode.ShiftLeft) shiftLeft = true;
+			if (agateKeyCode == KeyCode.ShiftRight) shiftRight = true;
+
 			Input.QueueInputEvent(AgateInputEventArgs.KeyDown(agateKeyCode, KeyModifiers));
 		}
 
@@ -59,7 +65,28 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			SetModifierKeyState(agateKeyCode, false);
 
-			Input.QueueInputEvent(AgateInputEventArgs.KeyUp(agateKeyCode, KeyModifiers));
+			if (agateKeyCode == KeyCode.ShiftLeft || agateKeyCode == KeyCode.ShiftRight)
+			{
+				// It seems on windows if you press both shift keys, you won't get a key
+				// up event until both are released. I haven't found any good documentation
+				// on this so far, but it looks as if this is a legacy thing so as to not
+				// confuse applications that lower case characters should be typed when there
+				// is still a shift key being held.
+				// The workaround for AgateLib is to send a key up for both shift keys if they
+				// are down. At least this way the app won't think a shift key was left behind.
+
+				if (shiftLeft)
+					Input.QueueInputEvent(AgateInputEventArgs.KeyUp(KeyCode.ShiftLeft, KeyModifiers));
+				if (shiftRight)
+					Input.QueueInputEvent(AgateInputEventArgs.KeyUp(KeyCode.ShiftRight, KeyModifiers));
+
+				shiftLeft = false;
+				shiftRight = false;
+			}
+			else
+			{
+				Input.QueueInputEvent(AgateInputEventArgs.KeyUp(agateKeyCode, KeyModifiers));
+			}
 		}
 
 		private static KeyCode ConvertKeyCode(Message m)

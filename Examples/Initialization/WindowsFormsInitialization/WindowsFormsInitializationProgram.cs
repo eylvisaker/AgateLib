@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.Geometry;
 using AgateLib.Platform.WinForms;
 
 namespace Examples.Initialization.WindowsFormsInitialization
@@ -27,7 +28,7 @@ namespace Examples.Initialization.WindowsFormsInitialization
 				form = new AgateFormMixtureForm();
 				form.Draw += (sender, e) => DrawFormContents();
 
-				Application.Run(new AgateFormMixtureForm());
+				Application.Run(form);
 			}
 		}
 
@@ -35,15 +36,14 @@ namespace Examples.Initialization.WindowsFormsInitialization
 		{
 			Display.RenderTarget = form.DisplayWindow.FrameBuffer;
 			Display.BeginFrame();
-			Display.Clear(AgateLib.Geometry.Color.Green);
+			Display.Clear(Color.Maroon);
 
-			Display.FillRect(new AgateLib.Geometry.Rectangle(20, 20, 80, 80), AgateLib.Geometry.Color.Blue);
+			var layout = Font.AgateSans.LayoutText(form.EntryText, form.DisplayWindow.Width);
 
-			Font.AgateSans.DrawText(0, 0, form.EntryText);
+			layout.Draw(new Point(0, 0));
 
 			Display.EndFrame();
 			AgateApp.KeepAlive();
 		}
-
 	}
 }
