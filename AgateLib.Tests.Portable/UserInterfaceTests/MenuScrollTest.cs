@@ -27,25 +27,19 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 			public Gui InterfaceRoot { get; set; }
 
-			public string FacetName { get { return "MenuScroll"; } }
+			public string FacetName => "MenuScroll";
 		}
 
 		AgateResourceManager resources;
 		Facet facet = new Facet();
 
-		public string Name
-		{
-			get { return "Menu Scroll"; }
-		}
+		public string Name => "Menu Scroll";
 
-		public string Category
-		{
-			get { return "User Interface"; }
-		}
+		public string Category => "User Interface";
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
-			facet.InterfaceRoot.OnUpdate(deltaT, true);
+			facet.InterfaceRoot.OnUpdate(elapsed, true);
 		}
 
 		public override void Draw()

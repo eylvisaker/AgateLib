@@ -13,10 +13,10 @@ namespace AgateLib.Tests.DisplayTests
 		Surface mSomeSurface;
 		private double mLoadTime;
 
-		public string Name { get { return "Large Image"; } }
-		public string Category { get { return "Display"; } }
+		public string Name => "Large Image";
+		public string Category => "Display";
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
 				AgateApp.IsAlive = false;

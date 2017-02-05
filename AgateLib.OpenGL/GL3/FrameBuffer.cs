@@ -97,7 +97,9 @@ namespace AgateLib.OpenGL.GL3
 
 		public event EventHandler RenderComplete;
 
-		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => null;
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => MyAttachedWindow;
+
+		public DisplayLib.DisplayWindow MyAttachedWindow { get; set; }
 
 		public override bool CanAccessRenderTarget => true;
 

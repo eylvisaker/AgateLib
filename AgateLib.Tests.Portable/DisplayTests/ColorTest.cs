@@ -14,7 +14,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public string Category => "Display";
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
 		}
 

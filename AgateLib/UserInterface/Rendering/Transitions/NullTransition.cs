@@ -46,7 +46,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			CopyLayoutDataToAnimator();
 		}
 
-		public virtual void Update(double deltaTime)
+		public virtual void Update(TimeSpan elapsed)
 		{
 			CopyLayoutDataToAnimator();
 

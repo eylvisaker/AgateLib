@@ -553,12 +553,13 @@ namespace AgateLib.DisplayLib.Sprites
 		/// </summary>
 		public void Update()
 		{
-			Update(Display.DeltaTime);
+			Update(AgateApp.DeltaTime.TotalMilliseconds);
 		}
+
 		/// <summary>
 		/// Updates the animation of the sprite, using the given frame time.
 		/// </summary>
-		/// <param name="time_ms">The amount of time to consider passed, in milliseconds.</param>
+		/// <param name="time_ms">The amount of time to consider as passed, in milliseconds.</param>
 		public void Update(double time_ms)
 		{
 			if (IsAnimating == false)
@@ -573,6 +574,16 @@ namespace AgateLib.DisplayLib.Sprites
 				AdvanceFrame();
 			}
 		}
+
+		/// <summary>
+		/// Updates the animation of the sprite, using the given amount of time.
+		/// </summary>
+		/// <param name="elapsed">The amount of time to consider as passed.</param>
+		public void Update(TimeSpan elapsed)
+		{
+			Update(elapsed.TotalMilliseconds);
+		}
+
 		/// <summary>
 		/// Shows the next frame in the sequence.  This pays attention
 		/// to whether the animation is playing forwards or reverse.

@@ -31,7 +31,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 		bool Active { get; }
 
-		void Update(double deltaTime);
+		void Update(TimeSpan elapsed);
 
 		bool NeedTransition { get; }
 

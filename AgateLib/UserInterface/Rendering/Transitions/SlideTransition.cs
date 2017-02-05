@@ -196,8 +196,10 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			mAcceleration *= mAccelerationMag;
 		}
 
-		public override void Update(double delta_t)
+		public override void Update(TimeSpan elapsed)
 		{
+			double delta_t = elapsed.TotalSeconds;
+
 			if (delta_t > 0.1)
 				delta_t = 0.1;
 

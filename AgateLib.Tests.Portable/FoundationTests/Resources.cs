@@ -11,15 +11,9 @@ namespace AgateLib.Tests.FoundationTests
 {
 	class ResourceTester : Scene, IAgateTest
 	{
-		public string Name
-		{
-			get { return "Resources"; }
-		}
+		public string Name => "Resources";
 
-		public string Category
-		{
-			get { return "Foundation"; }
-		}
+		public string Category => "Foundation";
 
 		[BindTo("sample_surf")] public Surface surf;
 
@@ -35,7 +29,7 @@ namespace AgateLib.Tests.FoundationTests
 			sprite.StartAnimation();
 		}
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
 			sprite.Update();
 		}

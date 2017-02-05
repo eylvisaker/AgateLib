@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Rendering
 		Rectangle WidgetRect { get; }
 		IWidgetAnimator ParentCoordinateSystem { get; }
 
-		void Update(double deltaTime);
+		void Update(TimeSpan elapsed);
 		Rectangle ClientToScreen(Rectangle rectangle, bool translateForScroll = true);
 		Point ClientToScreen(Point translated, bool translateForScroll = true);
 		Point ScreenToClient(Point translated);

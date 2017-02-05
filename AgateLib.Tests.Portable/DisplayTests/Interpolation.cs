@@ -12,15 +12,9 @@ namespace AgateLib.Tests.DisplayTests
 	{
 		Surface surf, surf2;
 
-		public string Name
-		{
-			get { return "Interpolation Mode"; }
-		}
+		public string Name => "Interpolation Mode";
 
-		public string Category
-		{
-			get { return "Display"; }
-		}
+		public string Category => "Display";
 
 		public void Run(string[] args)
 		{
@@ -57,7 +51,7 @@ namespace AgateLib.Tests.DisplayTests
 			surf2.Draw(420, 10);
 		}
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
 		}
 	}

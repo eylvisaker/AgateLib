@@ -56,11 +56,12 @@ namespace AgateLib.UserInterface.Rendering
 			mBlankSurface = new Surface(buffer);
 		}
 
-		public IWidgetAdapter Adapter {  get { return mAdapter; } }
+		public IWidgetAdapter Adapter => mAdapter;
+
 		public Gui MyGui { get { return mGui; } set { mGui = value; } }
 		public Gesture ActiveGesture { get; set; }
 
-		public void Update(double deltaTime)
+		public void Update(TimeSpan elapsed)
 		{
 			UpdateAnimatorTree();
 
@@ -75,8 +76,8 @@ namespace AgateLib.UserInterface.Rendering
 				else
 					anim.Gesture = null;
 
-				anim.Update(deltaTime);
-				anim.Widget.OnUpdate(deltaTime);
+				anim.Update(elapsed);
+				anim.Widget.OnUpdate(elapsed);
 
 				if (anim.InTransition)
 					InTransition = true;

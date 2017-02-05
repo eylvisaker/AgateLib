@@ -33,7 +33,7 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 
 		public void Run(string[] args)
 		{
-			using (var window = new DisplayWindowBuilder(args)
+			using (new DisplayWindowBuilder(args)
 				.BackbufferSize(800, 600)
 				.QuitOnClose()
 				.Build())
@@ -42,7 +42,7 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 
 				while (AgateApp.IsAlive)
 				{
-					Update(Display.DeltaTime);
+					Update(AgateApp.DeltaTime.TotalMilliseconds);
 					Draw();
 				}
 			}

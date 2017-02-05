@@ -300,15 +300,15 @@ namespace AgateLib.UserInterface.Widgets
 
 		#endregion
 
-		public void OnUpdate(double delta_t, bool processInput)
+		public void OnUpdate(TimeSpan elapsed, bool processInput)
 		{
 			if (mGestureController != null)
 				mGestureController.OnTimePass();
 
 			mLayout.UpdateLayout(this);
-			mRenderer.Update(delta_t);
+			mRenderer.Update(elapsed);
 
-			DispatchEvent(window => { window.Update(delta_t, ref processInput); return false; });
+			DispatchEvent(window => { window.Update(elapsed, ref processInput); return false; });
 		}
 		public void Draw()
 		{

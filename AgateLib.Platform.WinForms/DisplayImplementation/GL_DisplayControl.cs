@@ -372,6 +372,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				rtFrameBuffer = new AgateLib.OpenGL.GL3.FrameBuffer(rtSurface);
 				rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
+				rtFrameBuffer.MyAttachedWindow = owner;
 			}
 		}
 

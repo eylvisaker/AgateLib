@@ -273,7 +273,7 @@ namespace AgateLib.UserInterface.Widgets
 			return translated;
 		}
 
-		public virtual void Update(double delta_t, ref bool processInput)
+		public virtual void Update(TimeSpan elapsed, ref bool processInput)
 		{
 
 		}
@@ -452,7 +452,7 @@ namespace AgateLib.UserInterface.Widgets
 		public bool HasFocus { get { return MyGui.FocusWidget == this; } }
 
 
-		protected internal virtual void OnUpdate(double deltaTime)
+		protected internal virtual void OnUpdate(TimeSpan elapsed)
 		{
 		}
 

@@ -148,11 +148,11 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-		public override void Update(double delta_t, ref bool processInput)
+		public override void Update(TimeSpan elapsed, ref bool processInput)
 		{
 			if (SlowRead)
 			{
-				mSlowReadTime += delta_t;
+				mSlowReadTime += elapsed.TotalSeconds;
 				
 				double period = mSlowReadTextPeriod;
 				if (AccelerateSlowReading) period /= 3;

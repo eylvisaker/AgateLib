@@ -179,7 +179,7 @@ namespace AgateLib.UserInterface.Rendering.Animators
 			Children = new List<IWidgetAnimator>();
 		}
 
-		public void Update(double deltaTime)
+		public void Update(TimeSpan elapsed)
 		{
 			if (Transition == null || mTransitionType != mStyle.Transition.Type)
 			{
@@ -198,7 +198,7 @@ namespace AgateLib.UserInterface.Rendering.Animators
 
 			if (Transition.Active)
 			{
-				Transition.Update(deltaTime);
+				Transition.Update(elapsed);
 			}
 
 

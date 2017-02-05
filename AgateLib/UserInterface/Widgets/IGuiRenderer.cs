@@ -29,7 +29,7 @@ namespace AgateLib.UserInterface.Widgets
 		Gui MyGui { get; set; }
 
 		void Draw();
-		void Update(double deltaTime);
+		void Update(TimeSpan elapsed);
 
 		Gesture ActiveGesture { get; set; }
 		/// <summary>

@@ -54,7 +54,7 @@ namespace AgateLib.Tests.FontTests.TextLayout
 			font.DrawText(0, 530, "Test of escape sequences: {{}Escaped{}}");
 		}
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
 		}
 

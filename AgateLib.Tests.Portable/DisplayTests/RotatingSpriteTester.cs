@@ -17,33 +17,23 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 		Point location = new Point(150, 100);
 		Sprite sp;
 
-		public string Name
-		{
-			get { return "Rotating Sprite"; }
-		}
+		public string Name => "Rotating Sprite";
 
-		public string Category
-		{
-			get { return "Display"; }
-		}
-
-		public Scene StartScene
-		{
-			get { return this; }
-		}
-
+		public string Category => "Display";
+		
 		protected override void OnSceneStart()
 		{
-			sp = new Sprite("Images/spike.png", 16, 16);
+			sp = new Sprite("Images/spike.png", 16, 16)
+			{
+				RotationCenter = OriginAlignment.Center,
+				DisplayAlignment = OriginAlignment.Center,
+				RotationAngleDegrees = 90
+			};
 
-			sp.RotationCenter = OriginAlignment.Center;
-			sp.DisplayAlignment = OriginAlignment.Center;
-
-			sp.RotationAngleDegrees = 90;
 			sp.SetScale(2, 2);
 		}
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
 				SceneFinished = true;
@@ -53,13 +43,13 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 		{
 			Display.Clear(Color.DarkRed);
 
-			sp.RotationAngleDegrees += 180 * Display.DeltaTime / 1000.0;
+			sp.RotationAngleDegrees += 180 * AgateApp.DeltaTime.TotalSeconds;
 			sp.Draw(location);
 		}
 
 		public void Run(string[] args)
 		{
-			using (var window = new DisplayWindowBuilder(args)
+			using (new DisplayWindowBuilder(args)
 				.BackbufferSize(800, 600)
 				.QuitOnClose()
 				.Build())

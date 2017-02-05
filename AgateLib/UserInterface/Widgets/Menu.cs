@@ -182,15 +182,15 @@ namespace AgateLib.UserInterface.Widgets
 			get { return Columns > 1 || WrapLeftRight; }
 		}
 
-		public override void Update(double delta_t, ref bool processInput)
+		public override void Update(TimeSpan elapsed, ref bool processInput)
 		{
-			base.Update(delta_t, ref processInput);
+			base.Update(elapsed, ref processInput);
 
 			mHasFocus = processInput;
 
 			if (processInput)
 			{
-				mTimeToRepeat -= delta_t;
+				mTimeToRepeat -= elapsed.TotalSeconds;
 
 				if (mTimeToRepeat < 0)
 				{
@@ -245,7 +245,7 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-		protected internal override void OnUpdate(double deltaTime)
+		protected internal override void OnUpdate(TimeSpan elapsed)
 		{
 			if (mChildCountLastUpdate != Items.Count)
 			{

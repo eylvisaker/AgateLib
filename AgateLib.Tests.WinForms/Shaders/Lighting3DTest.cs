@@ -99,8 +99,8 @@ namespace AgateLib.Tests.Shaders
 				Display.EndFrame();
 				AgateApp.KeepAlive();
 
-				angle += 1 * Display.DeltaTime / 1000.0f;
-				lightAngle += 2.1 * Display.DeltaTime / 1000.0f;
+				angle += 1 * AgateApp.DeltaTime.TotalSeconds;
+				lightAngle += 2.1 * AgateApp.DeltaTime.TotalSeconds;
 
 				if (angle > 6 * Math.PI) angle -= 6 * Math.PI;
 				if (lightAngle > 6 * Math.PI) lightAngle -= 6 * Math.PI;
@@ -126,10 +126,10 @@ namespace AgateLib.Tests.Shaders
 
 			switch (e.KeyCode)
 			{
-				case KeyCode.Up: eye += (float)(speed * Display.DeltaTime / 1000.0f) * LookDir; break;
-				case KeyCode.Down: eye -= (float)(speed * Display.DeltaTime / 1000.0f) * LookDir; break;
-				case KeyCode.Left: lookAngle += (float)(speed * Display.DeltaTime / 1000.0f); break;
-				case KeyCode.Right: lookAngle -= (float)(speed * Display.DeltaTime / 1000.0f); break;
+				case KeyCode.Up: eye += (float)(speed * AgateApp.DeltaTime.TotalSeconds) * LookDir; break;
+				case KeyCode.Down: eye -= (float)(speed * AgateApp.DeltaTime.TotalSeconds) * LookDir; break;
+				case KeyCode.Left: lookAngle += (float)(speed * AgateApp.DeltaTime.TotalSeconds); break;
+				case KeyCode.Right: lookAngle -= (float)(speed * AgateApp.DeltaTime.TotalSeconds); break;
 				case KeyCode.L: lightEnable = !lightEnable; break;
 				case KeyCode.P: paused = !paused; break;
 				case KeyCode.A: advance = true; break;

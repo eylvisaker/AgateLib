@@ -72,11 +72,11 @@ namespace AgateLib.UserInterface.Widgets
 			Children.Add(item);
 		}
 
-		public override void Update(double delta_t, ref bool processInput)
+		public override void Update(TimeSpan elapsed, ref bool processInput)
 		{
 			foreach (var child in Children)
 			{
-				child.Update(delta_t, ref processInput);
+				child.Update(elapsed, ref processInput);
 			}
 		}
 

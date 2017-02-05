@@ -24,18 +24,26 @@ namespace Examples.Initialization.WindowedAllMonitors
 			{
 				Dictionary<DisplayWindow, Color> windowColors = new Dictionary<DisplayWindow, Color>();
 				double hue = 0;
+				DisplayWindow primary = null;
 
 				foreach (var screen in Display.Screens.AllScreens)
 				{
 					var window = new DisplayWindow(new CreateWindowParams
 					{
 						TargetScreen = screen,
-						Resolution = new Resolution(100, 100)
+						Resolution = new Resolution(500, 400)
 					});
 
 					// Some fancy code in here to make each window have a different color.
 					windowColors[window] = Color.FromHsv(hue, 1, 1);
 					hue += 60;
+
+					if (screen.IsPrimary)
+					{
+						// If the primary window is closed, exit the example.
+						primary = window;
+						primary.Closed += (sender, e) => AgateApp.IsAlive = false;
+					}
 
 					windows.Add(window);
 				}
@@ -57,7 +65,7 @@ namespace Examples.Initialization.WindowedAllMonitors
 				// Run the game loop
 				while (AgateApp.IsAlive)
 				{
-					foreach (var window in windows)
+					foreach (var window in windows.Where(window => window.IsClosed == false))
 					{
 						// We need to set the render target before drawing so that we can draw to
 						// each monitor individually.
@@ -76,13 +84,10 @@ namespace Examples.Initialization.WindowedAllMonitors
 							point.X += 10;
 							point.Y += 10;
 						}
-
-						ScreenInfo screen = Display.Screens.AllScreens
-							.Single(s => s.DisplayWindow == window);
-
-						if (screen.IsPrimary)
+						
+						if (window == primary)
 						{
-							font.DrawText(50, 0, "Welcome to\nAgateLib!");
+							font.DrawText(300, 100, "Welcome to\nAgateLib!");
 						}
 
 						Display.EndFrame();

@@ -13,15 +13,9 @@ namespace AgateLib.Tests.FontTests
 		List<IFont> fonts = new List<IFont>();
 		string nonenglish;
 
-		public string Name
-		{
-			get { return "Built-in font tests"; }
-		}
+		public string Name => "Built-in font tests";
 
-		public string Category
-		{
-			get { return "Fonts"; }
-		}
+		public string Category => "Fonts";
 
 		protected override void OnSceneStart()
 		{
@@ -35,7 +29,7 @@ namespace AgateLib.Tests.FontTests
 			}
 		}
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
 		}
 

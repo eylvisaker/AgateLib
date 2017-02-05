@@ -19,9 +19,12 @@ namespace AgateLib.Tests.DisplayTests
 
 		protected override void OnSceneStart()
 		{
-			p = new Sprite("Images/boxsprite.png", new Size(96, 96));
-			p.AnimationType = SpriteAnimType.PingPong;
-			p.TimePerFrame = 250;
+			p = new Sprite("Images/boxsprite.png", new Size(96, 96))
+			{
+				AnimationType = SpriteAnimType.PingPong,
+				TimePerFrame = 250
+			};
+
 			p.StartAnimation();
 		}
 
@@ -30,9 +33,9 @@ namespace AgateLib.Tests.DisplayTests
 			p.Dispose();
 		}
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
-			p.Update(deltaT);
+			p.Update(elapsed);
 		}
 	
 		public override void Draw()

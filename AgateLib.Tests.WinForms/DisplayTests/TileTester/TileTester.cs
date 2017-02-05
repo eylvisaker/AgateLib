@@ -35,11 +35,11 @@ namespace AgateLib.Tests.DisplayTests.TileTester
 				// move at 100 pixels per second
 				if (frm.ScrollX)
 				{
-					xval += (float)Display.DeltaTime / 10.0f;
+					xval += (float)AgateApp.DeltaTime.TotalMilliseconds / 10.0f;
 				}
 				if (frm.ScrollY)
 				{
-					yval += (float)Display.DeltaTime / 10.0f;
+					yval += (float)AgateApp.DeltaTime.TotalMilliseconds / 10.0f;
 				}
 
 				frm.FPS = Display.FramesPerSecond;

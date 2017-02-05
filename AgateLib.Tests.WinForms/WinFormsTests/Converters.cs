@@ -12,17 +12,11 @@ namespace AgateLib.Tests.WinFormsTests
 {
 	class Converters : Scene, IAgateTest 
 	{
-		public string Name
-		{
-			get { return "Conversion Tests"; }
-		}
+		public string Name => "Conversion Tests";
 
-		public string Category
-		{
-			get { return "WinForms"; }
-		}
+		public string Category => "WinForms";
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
 		}
 

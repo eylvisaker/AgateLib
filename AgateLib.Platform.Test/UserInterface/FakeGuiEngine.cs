@@ -31,17 +31,14 @@ namespace AgateLib.Platform.Test.UserInterface
 		public void Draw()
 		{
 		}
-		public void Update(double deltaTime)
+		public void Update(TimeSpan elapsed)
 		{ }
 
 
 		public Gesture ActiveGesture { get; set; }
 
 
-		public bool InTransition
-		{
-			get { return false; }
-		}
+		public bool InTransition => false;
 
 		public Gui MyGui { get; set; }
 

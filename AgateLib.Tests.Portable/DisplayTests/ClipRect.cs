@@ -27,9 +27,9 @@ namespace AgateLib.Tests.DisplayTests
 			surf = new Surface("Images/wallpaper.png");
 		}
 
-		public override void Update(double deltaT)
+		public override void Update(TimeSpan elapsed)
 		{
-			time += deltaT / 1000.0;
+			time += elapsed.TotalSeconds;
 		}
 
 		public override void Draw()

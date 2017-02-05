@@ -139,7 +139,7 @@ default:
 			resources = new AgateResourceManager(dataModel);
 			resources.InitializeContainer(container);
 
-			container.InterfaceRoot.OnUpdate(0, false);
+			container.InterfaceRoot.OnUpdate(TimeSpan.Zero, false);
 			container.InterfaceRoot.Draw();
 		}
 

@@ -98,7 +98,7 @@ namespace AgateLib
 		private static void RunSingleFrame()
 		{
 			foreach (var sc in UpdateScenes)
-				sc.Update(Display.DeltaTime);
+				sc.Update(AgateApp.DeltaTime);
 
 			if (!AgateApp.IsAlive)
 				return;

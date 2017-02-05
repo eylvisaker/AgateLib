@@ -40,7 +40,7 @@ namespace AgateLib
 		protected internal virtual void OnSceneEnd()
 		{ }
 
-		public abstract void Update(double deltaT);
+		public abstract void Update(TimeSpan elapsed);
 		public abstract void Draw();
 	}
 }
