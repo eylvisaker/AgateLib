@@ -50,8 +50,8 @@
       "name": "Console",
       "path": "Configuration/ConsoleExample",
       "desc": "instructions.md",
-      "code": [ "ConsoleExampleProgram.cs", "Example.cs" ],
-      "images": []  
+      "code": [ "ConsoleExampleProgram.cs", "ExampleVocabulary.cs" ],
+      "images": [ "Screencap.png" ]  
     }
   },
   "User Interface": {

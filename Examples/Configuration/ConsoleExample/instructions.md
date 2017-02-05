@@ -1,8 +1,13 @@
-﻿Create a new project targetting .NET framework 4.6.1.
+﻿This program shows how the AgateConsole can be used to a debugging aid.
 
-Add references to:
-* AgateLib
-* AgateLib.OpenGL
-* AgateLib.Platform.WinForms
-* AgateLib.SDL
+Command libraries can be installed into AgateConsole by adding them to
+the `AgateConsole.CommandLibraries` collection. This example uses a
+`LibraryVocabulary` object, which is a command interpreter expecting an
+`IVocabulary` object. 
 
+The `ExampleVocabulary.cs` file shows how to implement
+an `IVocabulary` object. Commands are specified by decorating methods
+with the `ConsoleCommandAttribute`. 
+
+A namespace can be provided by your commands if you need to avoid any 
+name collisions.

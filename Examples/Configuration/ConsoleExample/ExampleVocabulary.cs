@@ -8,13 +8,13 @@ using AgateLib.Geometry;
 
 namespace Examples.Configuration.ConsoleExample
 {
-	class ExampleCommands : IVocabulary
+	class ExampleVocabulary : IVocabulary
 	{
 		private List<Point> points;
 
 		public string Namespace => "";
 
-		public ExampleCommands(List<Point> points)
+		public ExampleVocabulary(List<Point> points)
 		{
 			this.points = points;
 		}
@@ -22,8 +22,10 @@ namespace Examples.Configuration.ConsoleExample
 		[ConsoleCommand("Say hello! You can also tell me your name with\n    hello myname")]
 		void Hello(string name = null)
 		{
-			if(string.IsNullOrEmpty(name))
+			if (string.IsNullOrEmpty(name))
+			{
 				Log.WriteLine("Hello, anonymous user.");
+			}
 			else
 			{
 				Log.WriteLine($"Hello, {name}!");
@@ -39,6 +41,8 @@ namespace Examples.Configuration.ConsoleExample
 				points.Add(new Point(
 					rnd.Next(1280),
 					rnd.Next(720)));
+
+			Log.WriteLine($"Added {count} new boxes.");
 		}
 
 		[ConsoleCommand("Clears the boxes.")]

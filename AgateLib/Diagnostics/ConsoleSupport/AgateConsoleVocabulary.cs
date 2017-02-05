@@ -11,26 +11,43 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 	{
 		public string Namespace => "console";
 
-		[ConsoleCommand("Lists the console themes that are available.")]
-		public void ListThemes()
+		[ConsoleCommand("Lists or sets the console theme.")]
+		private void Theme(string themeName = null)
 		{
-			var type = typeof(ConsoleThemes).GetTypeInfo();
-
-			foreach (var theme in type.DeclaredProperties.Where(prop => prop.PropertyType == typeof(IConsoleTheme)))
+			if (themeName == null)
 			{
-				AgateConsole.WriteLine(theme.Name);
+				ListThemes();
+			}
+			else
+			{
+				SetTheme(themeName);
 			}
 		}
 
-		[ConsoleCommand("Sets the console theme. Use console.list-themes to see the available themes.")]
-		public void SetTheme(string themeName)
+		private void ListThemes()
 		{
 			var type = typeof(ConsoleThemes).GetTypeInfo();
 
-			var themeProp = type.DeclaredProperties.Single(prop => prop.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase));
-			var theme = (IConsoleTheme)themeProp.GetValue(null);
+			AgateConsole.WriteLine("The following themes are available:");
+			foreach (var theme in type.DeclaredProperties.Where(prop => prop.PropertyType == typeof(IConsoleTheme)))
+			{
+				AgateConsole.WriteLine($"    {theme.Name}");
+			}
+
+			AgateConsole.WriteLine("Use 'theme [name]' to set the theme.");
+		}
+
+		private void SetTheme(string themeName)
+		{
+			var type = typeof(ConsoleThemes).GetTypeInfo();
+
+			var themeProp =
+				type.DeclaredProperties.Single(prop => prop.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase));
+			var theme = (IConsoleTheme) themeProp.GetValue(null);
 
 			AgateConsole.Theme = theme;
+
+			AgateConsole.WriteLine($"Theme set to {themeName}.");
 		}
 	}
 }

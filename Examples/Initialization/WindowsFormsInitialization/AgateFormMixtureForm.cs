@@ -30,7 +30,7 @@ namespace Examples.Initialization.WindowsFormsInitialization
 		public DisplayWindow DisplayWindow => window;
 
 		public string EntryText => txtEntry.Text;
-
+		
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			Draw?.Invoke(this, EventArgs.Empty);

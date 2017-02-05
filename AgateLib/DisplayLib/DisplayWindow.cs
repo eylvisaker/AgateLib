@@ -225,6 +225,9 @@ namespace AgateLib.DisplayLib
 		{
 			get
 			{
+				if (Impl == null)
+					return null;
+
 				if (mFrameBuffer == null || mFrameBuffer.Impl != Impl.FrameBuffer)
 				{
 					mFrameBuffer = new FrameBuffer(Impl.FrameBuffer);

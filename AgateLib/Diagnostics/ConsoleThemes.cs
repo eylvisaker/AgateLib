@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.Geometry;
+using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics
 {
 	public static class ConsoleThemes
 	{
+		private static IConsoleTheme defaultTheme;
+
 		static ConsoleThemes()
 		{
 			Paper = Validate(new ConsoleTheme
@@ -28,11 +31,13 @@ namespace AgateLib.Diagnostics
 			Green = Validate(new ConsoleTheme
 			{
 				BackgroundColor = Color.FromRgb(0x202020),
-				EntryColor = Color.LightGreen,
+				EntryPrefix = "$ ",
+				EntryColor = Color.FromHsv(120, 0.8, 1),
+				EntryBackgroundColor = Color.FromRgb(0x303030),
 				MessageThemes =
 				{
-					{ConsoleMessageType.Text, new MessageTheme(Color.FromRgb(0x44bb44))},
-					{ConsoleMessageType.UserInput, new MessageTheme(Color.LightGreen)},
+					{ConsoleMessageType.Text, new MessageTheme(Color.FromHsv(120, 1, 0.8)) },
+					{ConsoleMessageType.UserInput, new MessageTheme(Color.FromHsv(120, 0.8, 1), Color.FromRgb(0x303030)) },
 					{ConsoleMessageType.Temporary, new MessageTheme(Color.White, Color.FromRgb(0x50, 0x50, 0x50))}
 				}
 			});
@@ -49,7 +54,7 @@ namespace AgateLib.Diagnostics
 				}
 			});
 			
-			HighContrastOnBlack = Validate(new ConsoleTheme
+			WhiteOnBlack = Validate(new ConsoleTheme
 			{
 				BackgroundColor = Color.Black,
 				EntryColor = Color.Yellow,
@@ -64,7 +69,15 @@ namespace AgateLib.Diagnostics
 			Default = Paper;
 		}
 
-		public static IConsoleTheme Default { get; }
+		public static IConsoleTheme Default
+		{
+			get { return defaultTheme; }
+			set
+			{
+				Require.ArgumentNotNull(value, nameof(Default));
+				defaultTheme = value;
+			}
+		}
 
 		public static IConsoleTheme Paper { get; }
 
@@ -72,7 +85,7 @@ namespace AgateLib.Diagnostics
 
 		public static IConsoleTheme Green { get; }
 
-		public static IConsoleTheme HighContrastOnBlack { get; }
+		public static IConsoleTheme WhiteOnBlack { get; }
 
 		private static IConsoleTheme Validate(ConsoleTheme consoleTheme)
 		{

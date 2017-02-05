@@ -19,7 +19,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		private int entryHeight;
 		private long timeOffset;
 
-		private IConsoleTheme theme = ConsoleThemes.Default;
+		private IConsoleTheme theme;
 
 		private FrameBuffer renderTarget;
 
@@ -48,7 +48,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		}
 
 		public double Alpha { get; set; } = 0.95;
-	
+
 		public IFont Font => AgateApp.State.Console.Font;
 
 		public void Draw()
@@ -74,6 +74,12 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 		public void Update()
 		{
+			if (console.IsVisible == false)
+				return;
+
+			if (theme == null)
+				theme = ConsoleThemes.Default;
+
 			ResizeRenderTarget();
 
 			Display.PushRenderTarget(renderTarget);

@@ -51,6 +51,19 @@ namespace Examples.Launcher
 			set
 			{
 				pctImage.Image = value;
+
+				if (value != null)
+				{
+					if (value.Width > pctImage.Width ||
+					    value.Height > pctImage.Height)
+					{
+						pctImage.SizeMode = PictureBoxSizeMode.Zoom;
+					}
+					else
+					{
+						pctImage.SizeMode = PictureBoxSizeMode.CenterImage;
+					}
+				}
 			}
 		}
 

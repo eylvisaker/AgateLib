@@ -55,6 +55,10 @@ namespace AgateLib.Configuration
 			return this;
 		}
 
+		/// <summary>
+		/// Adds AgateLib's console commands to the console.
+		/// </summary>
+		/// <returns></returns>
 		public AgateSetupCore InstallConsoleCommands()
 		{
 			if (consoleInstalled == false)
@@ -67,6 +71,17 @@ namespace AgateLib.Configuration
 			return this;
 		}
 
+		/// <summary>
+		/// Sets the default console theme.
+		/// </summary>
+		/// <param name="theme"></param>
+		/// <returns></returns>
+		public AgateSetupCore DefaultConsoleTheme(IConsoleTheme theme)
+		{
+			ConsoleThemes.Default = theme;
+
+			return this;
+		}
 		/// <summary>
 		/// Processes command line arguments. Override this to completely replace the 
 		/// comand line argument processor. 

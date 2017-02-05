@@ -15,10 +15,12 @@ namespace Examples.Configuration.ConsoleExample
 	{
 		[STAThread]
 		static void Main(string[] args)
-		{
+		{ 
+			// .InstallConsoleCommands() and .DefaultConsoleTheme() must come AFTER .Initialize() here.
 			using (new AgateWinForms(args)
 					.Initialize()
-					.InstallConsoleCommands()) // .InstallConsoleCommands() must come AFTER .Initialize().
+					.InstallConsoleCommands()
+					.DefaultConsoleTheme(ConsoleThemes.Green))
 			using (new DisplayWindowBuilder(args)
 					.Title("Console Command Example")
 					.BackbufferSize(1280, 720)
@@ -40,7 +42,7 @@ namespace Examples.Configuration.ConsoleExample
 				List<Point> points = new List<Point>();
 
 				AgateConsole.CommandLibraries.Add(
-					new LibraryVocabulary(new ExampleCommands(points)));
+					new LibraryVocabulary(new ExampleVocabulary(points)));
 
 				while (AgateApp.IsAlive)
 				{
