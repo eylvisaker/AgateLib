@@ -1,0 +1,6 @@
+AgateLib.DisplayDriver	System.Drawing
+AgateLib.AudioDriver	No audio
+AgateLib.InputDriver	No input
+AgateLib.OpenGL.DisableFramebufferArb	false
+AgateLib.OpenGL.EnableGL3	false
+AgateLib.OpenGL.DisableFramebufferExt	false

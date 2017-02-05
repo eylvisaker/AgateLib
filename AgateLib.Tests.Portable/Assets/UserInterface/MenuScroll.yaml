@@ -1,0 +1,36 @@
+﻿
+font-sources: 
+-   MedievalSharp.yaml
+
+theme-sources:
+-   PaperTheme.yaml
+
+facets:
+    MenuScroll: 
+    -   name: Window
+        type: window
+        position: 20 20
+        size: 275 200
+        children:
+        -   name: Header
+            type: label
+            text: Menu Header
+        -   name: Menu
+            type: menu
+            overflow: scroll
+            menu-items:
+            -   name: label_1
+                text: First menu item
+            -   text: Second menu item that is really long and goes on forever
+            -   text: Third menu item. This one is pretty long and has multiple sentences. (Well, one of them is a sentence fragment.)
+            -   text: Fourth menu item.
+            -   text: Fifth menu item.
+            -   text: Sixth menu item.
+    -   name: DebugWindow
+        type: window
+        position: 340 20
+        size: 300 200
+        children:
+        -   name: DebugLabel
+            type: label
+            text: Debug Message

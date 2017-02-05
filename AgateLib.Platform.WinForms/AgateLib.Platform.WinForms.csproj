@@ -160,7 +160,7 @@
     <Compile Include="Geometry\TypeConverters.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgateLib.AgateSDL\AgateLib.SDL.csproj">
+    <ProjectReference Include="..\AgateLib.SDL\AgateLib.SDL.csproj">
       <Project>{935d67a0-931e-46de-9f6a-2d6dbc99aff3}</Project>
       <Name>AgateLib.SDL</Name>
     </ProjectReference>

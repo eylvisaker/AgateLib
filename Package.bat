@@ -2,7 +2,7 @@
 nuget pack AgateLib/AgateLib.csproj -IncludeReferencedProjects -properties Configuration=Release
 if %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 
-nuget pack AgateLib.AgateSDL/AgateLib.SDL.csproj -IncludeReferencedProjects -properties Configuration=Release
+nuget pack AgateLib.SDL/AgateLib.SDL.csproj -IncludeReferencedProjects -properties Configuration=Release
 if %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 
 nuget pack AgateLib.OpenGL/AgateLib.OpenGL.csproj -IncludeReferencedProjects -properties Configuration=Release
