@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.Platform.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.UnitTests.Input
+namespace AgateLib.UnitTests.InputTests
 {
 	[TestClass]
 	public class JoystickInputTests

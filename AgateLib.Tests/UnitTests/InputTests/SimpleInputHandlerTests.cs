@@ -7,7 +7,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.UnitTests.Input
+namespace AgateLib.UnitTests.InputTests
 {
 	[TestClass]
 	public class SimpleInputHandlerTests : AgateUnitTest

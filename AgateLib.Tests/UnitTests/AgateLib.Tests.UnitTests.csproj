@@ -115,6 +115,7 @@
     <Compile Include="Algorithms\EMathTest.cs" />
     <Compile Include="AgateAppTests\ArgumentProcessing.cs" />
     <Compile Include="AgateAppTests\CoordinateSystemTest.cs" />
+    <Compile Include="Configuration\InitializationTests.cs" />
     <Compile Include="Configuration\TimeTrackerTests.cs" />
     <Compile Include="Diagnostics\ConsoleKeyInputTest.cs" />
     <Compile Include="AgateUninitializedUnitTest.cs" />
@@ -130,8 +131,8 @@
     <Compile Include="Geometry\ColorTests.cs" />
     <Compile Include="Geometry\RectangleTest.cs" />
     <Compile Include="Geometry\TypeConverters\GeometryConverterTests.cs" />
-    <Compile Include="Input\JoystickInputTests.cs" />
-    <Compile Include="Input\SimpleInputHandlerTests.cs" />
+    <Compile Include="InputTests\JoystickInputTests.cs" />
+    <Compile Include="InputTests\SimpleInputHandlerTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
     <Compile Include="Platform\IntegrationTest\IntegrationTestPlatformTests.cs" />

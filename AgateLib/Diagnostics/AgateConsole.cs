@@ -172,6 +172,8 @@ namespace AgateLib.Diagnostics
 
 			Display.BeforeEndFrame += (sender, e) => Draw();
 			AgateApp.AfterKeepAlive += (sender, e) => Renderer.Update();
+
+			AgateApp.State.Input.FirstHandler = Instance;
 		}
 	}
 }

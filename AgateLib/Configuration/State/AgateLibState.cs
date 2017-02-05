@@ -27,11 +27,6 @@ namespace AgateLib.Configuration.State
 {
 	class AgateLibState
 	{
-		public AgateLibState()
-		{
-			Input.FirstHandler = Console.Instance;
-		}
-
 		public IAgateFactory Factory { get; set; }
 		public AppState App { get; private set; } = new AppState();
 		public ConsoleState Console { get; private set; } = new ConsoleState();
