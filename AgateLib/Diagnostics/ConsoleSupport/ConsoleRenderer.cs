@@ -18,6 +18,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		private Size size;
 		private int entryHeight;
 		private long timeOffset;
+		private double viewShiftPixels;
 
 		private IConsoleTheme theme;
 
@@ -80,6 +81,8 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			if (theme == null)
 				theme = ConsoleThemes.Default;
 
+			UpdateViewShift(AgateApp.DeltaTime.TotalSeconds);
+
 			ResizeRenderTarget();
 
 			Display.PushRenderTarget(renderTarget);
@@ -90,6 +93,33 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 			Display.EndFrame();
 			Display.PopRenderTarget();
+
+		}
+
+		private void UpdateViewShift(double time)
+		{
+			const int maxDelta = 100;
+			const int viewShiftSpeed = 75;
+
+			int targetViewShift = Font.FontHeight * console.ViewShift;
+			double delta = targetViewShift - viewShiftPixels;
+
+			if (Math.Abs(delta) > 0.001)
+			{
+				delta = Math.Sign(delta) * Math.Min(Math.Abs(delta), maxDelta);
+
+				double amount = delta * viewShiftSpeed * time;
+
+				//if (Math.Abs(amount) > maxAmount)
+				//	amount = Math.Sign(amount) * maxAmount;
+
+				viewShiftPixels += amount;
+
+				if ((viewShiftPixels - targetViewShift) * delta > 0)
+				{
+					viewShiftPixels = targetViewShift;
+				}
+			}
 		}
 
 		private void ResizeRenderTarget()
@@ -141,7 +171,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 			Display.PushClipRect(new Rectangle(0, 0, size.Width, y));
 
-			y += Font.FontHeight * console.ViewShift;
+			y += (int)viewShiftPixels;
 
 			for (int i = Messages.Count - 1; i >= 0; i--)
 			{

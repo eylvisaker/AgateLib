@@ -390,7 +390,12 @@ namespace AgateLib
 				State.App.UserFiles = value;
 			}
 		}
-		
+
+		/// <summary>
+		/// Returns the amount of time that elapsed between the last two calls to KeepAlive.
+		/// </summary>
+		public static TimeSpan DeltaTime => State.App.AppTime.DeltaTime;
+
 		public static void SetAssetPath(string path)
 		{
 			Assets = State.Factory.PlatformFactory.OpenAppFolder(path);
@@ -434,6 +439,8 @@ namespace AgateLib
 			{
 				State.App.AfterKeepAlive?.Invoke(null, EventArgs.Empty);
 			}
+
+			State.App.AppTime.Advance();
 		}
 
 		/// <summary>
@@ -460,5 +467,6 @@ namespace AgateLib
 				workItem();
 			}
 		}
+
 	}
 }

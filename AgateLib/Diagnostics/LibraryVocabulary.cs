@@ -28,7 +28,7 @@ using AgateLib.Diagnostics.ConsoleSupport;
 namespace AgateLib.Diagnostics
 {
 	/// <summary>
-	/// A library is an object that represents several entrypoints - methods which are called by 
+	/// A vocabulary is an object that represents several entrypoints - methods which are called by 
 	/// name by the user in the console window. 
 	/// </summary>
 	public class LibraryVocabulary : ICommandLibrary
@@ -40,13 +40,15 @@ namespace AgateLib.Diagnostics
 			public ConsoleCommandAttribute CommandAttribute { get; set; }
 		}
 
-		Dictionary<string, CommandInfo> commands = new Dictionary<string, CommandInfo>();
+		Dictionary<string, CommandInfo> commands;
 
 		private IVocabulary vocabulary;
 
-		public LibraryVocabulary(IVocabulary library)
+		public LibraryVocabulary(IVocabulary vocabulary)
 		{
-			this.vocabulary = library;
+			commands = new Dictionary<string, CommandInfo>(StringComparer.OrdinalIgnoreCase);
+
+			this.vocabulary = vocabulary;
 
 			BuildCommands();
 		}
@@ -165,8 +167,8 @@ namespace AgateLib.Diagnostics
 
 			for (int i = 0, j = 1; i < parameters.Length || j < tokens.Length; i++, j++)
 			{
-				if (i < parameters.Length && 
-					parameters[i].GetCustomAttribute<JoinArgsAttribute>() != null && 
+				if (i < parameters.Length &&
+					parameters[i].GetCustomAttribute<JoinArgsAttribute>() != null &&
 					parameters[i].ParameterType == typeof(string))
 				{
 					args[i] = string.Join(" ", tokens.Skip(1));

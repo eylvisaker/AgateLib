@@ -56,5 +56,8 @@ namespace AgateLib.Configuration.State
 		public IReadWriteFileProvider UserFiles { get; set; }
 
 		public List<Action> WorkItems { get; set; } = new List<Action>();
+
+
+		public TimeTracker AppTime { get; } = new TimeTracker(new AgateAppClock());
 	}
 }

@@ -188,7 +188,10 @@
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
     <Compile Include="Algorithms\ThreeD\MapConversion.cs" />
+    <Compile Include="Configuration\AgateAppClock.cs" />
     <Compile Include="Configuration\AgateSetupCore.cs" />
+    <Compile Include="Configuration\IClock.cs" />
+    <Compile Include="Configuration\TimeTracker.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleVocabulary.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleRenderer.cs" />
     <Compile Include="Diagnostics\ConsoleTheme.cs" />

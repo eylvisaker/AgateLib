@@ -228,6 +228,7 @@ namespace AgateLib.DisplayLib
 		///     Gets the amount of time in milliseconds that has passed between this frame
 		///     and the last one.
 		/// </summary>
+		[Obsolete("This value does not behave correctly when multiple render targets are used. Use AgateApp.DeltaTime instead.")]
 		public static double DeltaTime => Impl.DeltaTime;
 		
 		/// <summary>

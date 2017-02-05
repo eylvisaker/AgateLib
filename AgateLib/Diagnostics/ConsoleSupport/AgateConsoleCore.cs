@@ -140,9 +140,9 @@ namespace AgateLib.Diagnostics
 
 		public void Execute(string command)
 		{
-			if (string.IsNullOrEmpty(inputText))
+			if (string.IsNullOrEmpty(command))
 				return;
-			if (inputText.Trim() == string.Empty)
+			if (command.Trim() == string.Empty)
 				return;
 
 			bool isDebugCommand = IsDebugCommand(command);
@@ -369,12 +369,7 @@ namespace AgateLib.Diagnostics
 
 		private void LoadHistoryToInput()
 		{
-			if (historyIndex == 0)
-				inputText = "";
-			else
-			{
-				inputText = inputHistory[inputHistory.Count - historyIndex].Text;
-			}
+			inputText = historyIndex == 0 ? "" : inputHistory[inputHistory.Count - historyIndex].Text;
 			insertionPoint = inputText.Length;
 		}
 
@@ -390,17 +385,19 @@ namespace AgateLib.Diagnostics
 			};
 
 			messages.Add(input);
-			inputHistory.Add(input);
 
-			try
+			if (!string.IsNullOrWhiteSpace(inputText))
 			{
-				Execute(inputText);
+				inputHistory.Add(input);
 			}
-			finally
-			{
-				ClearInputText();
-				historyIndex = 0;
-			}
+
+			var command = inputText;
+
+			ClearInputText();
+			historyIndex = 0;
+			viewShift = 0;
+
+			Execute(command);
 		}
 
 		private void IncrementInsertionPoint()
