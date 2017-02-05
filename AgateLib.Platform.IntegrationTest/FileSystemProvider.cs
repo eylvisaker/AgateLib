@@ -23,7 +23,6 @@ using System.Linq;
 using System.Text;
 using AgateLib.IO;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace AgateLib.Platform.IntegrationTest
 {
@@ -67,8 +66,6 @@ namespace AgateLib.Platform.IntegrationTest
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
 					filename, mPath), filename);
 
-			Console.WriteLine("Opening {0}", resolvedName);
-
 			var result = File.OpenRead(resolvedName);
 			return Task.FromResult<Stream>(result);
 		}
@@ -103,6 +100,7 @@ namespace AgateLib.Platform.IntegrationTest
 
 			return result;
 		}
+
 		/// <summary>
 		/// Searches through all directories in the SearchPathList object for the specified
 		/// filename.  The search is performed in the order directories have been added,
@@ -120,10 +118,7 @@ namespace AgateLib.Platform.IntegrationTest
 			string path = Path.Combine(mPath, filename);
 
 			if (File.Exists(path) == false)
-			{
-				Debug.Print("Failed to find file at path {0}", path);
 				return null;
-			}
 
 			if (AgateApp.ErrorReporting.CrossPlatformDebugLevel != CrossPlatformDebugLevel.Comment)
 			{
@@ -303,18 +298,32 @@ namespace AgateLib.Platform.IntegrationTest
 			get { return true; }
 		}
 
-		public Task<Stream> OpenWriteAsync(string filename)
+		public Task<Stream> OpenWriteAsync(string filename, FileOpenMode mode = FileOpenMode.Create)
 		{
 			string resolvedName = Path.Combine(mPath, filename);
-			var result = File.Open(resolvedName, FileMode.Create);
+
+			var dir = Path.GetDirectoryName(resolvedName);
+			Directory.CreateDirectory(dir);
+
+			var result = File.Open(resolvedName, ConvertOpenMode(mode));
 
 			return Task.FromResult<Stream>(result);
 		}
 
-		public void CreateDirectory(string folder)
+		private static FileMode ConvertOpenMode(FileOpenMode mode)
 		{
-			DebugCrossPlatform(folder);
-			Directory.CreateDirectory(Path.Combine(mPath, folder));
+			switch (mode)
+			{
+				case FileOpenMode.Create:
+					return FileMode.Create;
+
+				case FileOpenMode.Append:
+					return FileMode.Append;
+
+				default:
+					throw new ArgumentException("Unknown FileOpenMode value.",
+						nameof(mode));
+			}
 		}
 	}
 }

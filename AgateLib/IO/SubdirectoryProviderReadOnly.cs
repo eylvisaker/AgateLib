@@ -32,10 +32,10 @@ namespace AgateLib.IO
 
 		public SubdirectoryProviderReadOnly(IReadFileProvider parent, string subdir)
 		{
-			Condition.Requires<ArgumentNullException>(parent != null);
-			Condition.Requires<ArgumentException>(string.IsNullOrWhiteSpace(subdir) == false, "subdir must not be null");
+			Require.ArgumentNotNull(parent, nameof(parent));
+			Require.True<ArgumentException>(string.IsNullOrWhiteSpace(subdir) == false,
+				"subdir must not be null or empty.");
 
-			// TODO: Complete member initialization
 			this.parent = parent;
 			this.subdir = subdir.Replace('\\', '/');
 
@@ -43,23 +43,21 @@ namespace AgateLib.IO
 				this.subdir += "/";
 		}
 
+		public bool IsLogicalFilesystem => parent.IsLogicalFilesystem;
+
 		public override string ToString()
 		{
 			return System.IO.Path.Combine(parent.ToString(), subdir);
 		}
-		public async Task<System.IO.Stream> OpenReadAsync(string filename)
+
+		public Task<System.IO.Stream> OpenReadAsync(string filename)
 		{
-			if (System.IO.Path.IsPathRooted(filename) == false)
-			{
-				return await parent.OpenReadAsync(subdir + filename).ConfigureAwait(false);
-			}
-			else
-				return await parent.OpenReadAsync(filename).ConfigureAwait(false);
+			return parent.OpenReadAsync(MapFilename(filename));
 		}
 
 		public bool FileExists(string filename)
 		{
-			return parent.FileExists(subdir + filename);
+			return parent.FileExists(MapFilename(filename));
 		}
 
 		public IEnumerable<string> GetAllFiles()
@@ -82,39 +80,30 @@ namespace AgateLib.IO
 
 		public string ReadAllText(string filename)
 		{
-			return parent.ReadAllText(subdir + filename);
+			return parent.ReadAllText(MapFilename(filename));
 		}
 
 		public bool IsRealFile(string filename)
 		{
-			return parent.IsRealFile(subdir + filename);
+			return parent.IsRealFile(MapFilename(subdir + filename));
 		}
 
 		public string ResolveFile(string filename)
 		{
+			return parent.ResolveFile(MapFilename(filename));
+		}
+
+		protected string MapFilename(string filename)
+		{
 			if (IsRooted(filename))
-				return parent.ResolveFile(filename);
-
-			return parent.ResolveFile(subdir + filename);
+				return filename;
+			else
+				return subdir + filename;
 		}
 
-		private bool IsRooted(string filename)
+		protected bool IsRooted(string filename)
 		{
-			if (char.IsLetter(filename[0]) && filename[1] == ':')
-				return true;
-			if (filename.StartsWith("/"))
-				return true;
-			if (AgateApp.Platform.PlatformType == Platform.PlatformType.Windows &&
-				filename.StartsWith("\\"))
-				return true;
-
-			return false;
-		}
-
-
-		public bool IsLogicalFilesystem
-		{
-			get { return parent.IsLogicalFilesystem; }
+			return System.IO.Path.IsPathRooted(filename);
 		}
 	}
 }

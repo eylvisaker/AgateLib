@@ -59,13 +59,21 @@ namespace AgateLib.Platform.Test
 				set { throw new NotImplementedException(); }
 			}
 		}
-		
-		public Task<Stream> OpenWriteAsync(string filename)
+
+		public Task<Stream> OpenWriteAsync(string filename, FileOpenMode mode = FileOpenMode.Create)
 		{
 			var result = new WriteStream();
 
+			if (mode == FileOpenMode.Append && Files.ContainsKey(filename))
+			{
+				var existingData = Files[filename];
+
+				result.Write(existingData.Contents, 0, existingData.Contents.Length);
+			}
+
 			result.StreamClosed += (sender, args) =>
 			{
+				Files.Remove(filename);
 				Files.Add(filename, new FileInfo(result.GetData()));
 			};
 

@@ -298,22 +298,32 @@ namespace AgateLib.Platform.WinForms.IO
 			get { return true; }
 		}
 
-		public Task<Stream> OpenWriteAsync(string filename)
+		public Task<Stream> OpenWriteAsync(string filename, FileOpenMode mode = FileOpenMode.Create)
 		{
-            string resolvedName = Path.Combine(mPath, filename);
+			string resolvedName = Path.Combine(mPath, filename);
 
 			var dir = Path.GetDirectoryName(resolvedName);
 			Directory.CreateDirectory(dir);
 
-			var result = File.Open(resolvedName, FileMode.Create);
+			var result = File.Open(resolvedName, ConvertOpenMode(mode));
 
 			return Task.FromResult<Stream>(result);
 		}
 
-		public void CreateDirectory(string folder)
+		private static FileMode ConvertOpenMode(FileOpenMode mode)
 		{
-			DebugCrossPlatform(folder);
-			Directory.CreateDirectory(Path.Combine(mPath, folder));
+			switch (mode)
+			{
+				case FileOpenMode.Create:
+					return FileMode.Create;
+
+				case FileOpenMode.Append:
+					return FileMode.Append;
+
+				default:
+					throw new ArgumentException("Unknown FileOpenMode value.",
+						nameof(mode));
+			}
 		}
 	}
 }

@@ -47,10 +47,6 @@ namespace AgateLib.Platform.Test
 			return new DiagnosticsStopwatch();
 		}
 
-		public virtual void Initialize(IO.FileSystemObjects fileSystemObjects)
-		{
-		}
-
 		public IReadFileProvider OpenAppFolder(string subpath)
 		{
 			if (string.IsNullOrEmpty(subpath))

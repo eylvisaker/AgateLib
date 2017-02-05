@@ -208,6 +208,8 @@
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleTokenizer.cs" />
     <Compile Include="Diagnostics\IAgateConsole.cs" />
     <Compile Include="Diagnostics\IVocabulary.cs" />
+    <Compile Include="IO\Enums.cs" />
+    <Compile Include="FileProviderExtensions.cs" />
     <Compile Include="UserInterface\Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="Diagnostics\JoinArgsAttribute.cs" />
     <Compile Include="Diagnostics\LibraryVocabulary.cs" />
@@ -255,7 +257,6 @@
     <Compile Include="Geometry\TypeConverters\ColorConverterYaml.cs" />
     <Compile Include="Geometry\TypeConverters\SizeConverterYaml.cs" />
     <Compile Include="Configuration\State\AgateLibState.cs" />
-    <Compile Include="IO\FileSystemObjects.cs" />
     <Compile Include="IO\ReadFileProviderList.cs" />
     <Compile Include="Mathematics\MathHelper.cs" />
     <Compile Include="Algorithms\PathFinding\IAStarMap.cs" />
@@ -325,8 +326,6 @@
     </Compile>
     <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
     <Compile Include="InputLib\HatState.cs" />
-    <Compile Include="IO\FileSystem.cs" />
-    <Compile Include="IO\IFile.cs" />
     <Compile Include="IO\IReadWriteFileProvider.cs" />
     <Compile Include="IO\SubdirectoryProvider.cs" />
     <Compile Include="Platform\IStopWatch.cs" />

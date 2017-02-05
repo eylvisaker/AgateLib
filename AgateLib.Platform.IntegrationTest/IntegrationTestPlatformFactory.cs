@@ -32,10 +32,6 @@ namespace AgateLib.Platform.IntegrationTest
 			return new DiagnosticsStopwatch();
 		}
 
-		public void Initialize(FileSystemObjects fileSystemObjects)
-		{
-		}
-
 		public IReadFileProvider OpenAppFolder(string subpath)
 		{
 			return new FileSystemProvider(Path.Combine(appDirPath, subpath));

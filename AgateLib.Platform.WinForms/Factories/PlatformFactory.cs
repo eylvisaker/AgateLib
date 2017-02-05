@@ -102,11 +102,6 @@ namespace AgateLib.Platform.WinForms.Factories
 			return new DiagnosticsStopwatch();
 		}
 
-		public void Initialize(FileSystemObjects fileSystemObjects)
-		{
-			fileSystemObjects.File = new SysIoFile();
-		}
-
 		private string GetApplicationDirectory()
 		{
 			string fqn = entryAssembly.GetLoadedModules()[0].FullyQualifiedName;

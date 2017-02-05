@@ -70,6 +70,8 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 			WriteLine("    debug [on|off]");
 			WriteLine("    quit");
+			WriteLine("Use up / down arrow keys to navigate input history.");
+			WriteLine("Use shift+up / shift+down to view output history.");
 		}
 
 		[ConsoleCommand("Quits the application. No option to save is given.", Hidden = true)]

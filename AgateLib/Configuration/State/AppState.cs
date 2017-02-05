@@ -31,7 +31,7 @@ namespace AgateLib.Configuration.State
 
 		internal class ErrorReportingState
 		{
-			public string ErrorFile { get; set; } = "errorlog.txt";
+			public string ErrorFile { get; set; } = "logs/errorlog.txt";
 			public bool AutoStackTrace { get; set; } = false;
 			public bool WroteHeader { get; set; } = false;
 		}

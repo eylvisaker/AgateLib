@@ -25,8 +25,18 @@ using System.Threading.Tasks;
 
 namespace AgateLib.IO
 {
+	/// <summary>
+	/// Interface that provides read/write access to files.
+	/// </summary>
 	public interface IReadWriteFileProvider : IReadFileProvider
 	{
-		Task<Stream> OpenWriteAsync(string filename);
+		/// <summary>
+		/// Opens a file for writing.
+		/// </summary>
+		/// <param name="filename">The path and name of the file to open.</param>
+		/// <param name="mode">A flag indicating the behavior on opening.</param>
+		/// <returns></returns>
+		Task<Stream> OpenWriteAsync(string filename, 
+			FileOpenMode mode = FileOpenMode.Create);
 	}
 }

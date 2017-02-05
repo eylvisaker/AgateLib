@@ -30,8 +30,6 @@ namespace AgateLib.Drivers
 	{
 		IPlatformInfo Info { get; }
 
-		void Initialize(IO.FileSystemObjects fileSystemObjects);
-
 		IStopwatch CreateStopwatch();
 
 		/// <summary>

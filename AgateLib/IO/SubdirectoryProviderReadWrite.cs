@@ -26,106 +26,19 @@ using AgateLib.Quality;
 
 namespace AgateLib.IO
 {
-	public class SubdirectoryProviderReadWrite : IReadWriteFileProvider
+	class SubdirectoryProviderReadWrite : SubdirectoryProviderReadOnly, IReadWriteFileProvider
 	{
-		private IReadFileProvider parent;
-		private string subdir;
+		private IReadWriteFileProvider parent;
 
 		public SubdirectoryProviderReadWrite(IReadWriteFileProvider parent, string subdir)
+			: base(parent, subdir)
 		{
-			Condition.Requires<ArgumentNullException>(parent != null);
-			Condition.Requires<ArgumentException>(string.IsNullOrWhiteSpace(subdir) == false, "subdir must not be null");
-
-			// TODO: Complete member initialization
 			this.parent = parent;
-			this.subdir = subdir.Replace('\\', '/');
-
-			if (this.subdir.EndsWith("/") == false)
-				this.subdir += "/";
 		}
 
-		public override string ToString()
+		public Task<Stream> OpenWriteAsync(string filename, FileOpenMode mode = FileOpenMode.Create)
 		{
-			return System.IO.Path.Combine(parent.ToString(), subdir);
-		}
-		public async Task<System.IO.Stream> OpenReadAsync(string filename)
-		{
-			if (System.IO.Path.IsPathRooted(filename) == false)
-			{
-				return await parent.OpenReadAsync(subdir + filename).ConfigureAwait(false);
-			}
-			else
-				return await parent.OpenReadAsync(filename).ConfigureAwait(false);
-		}
-
-		public bool FileExists(string filename)
-		{
-			return parent.FileExists(subdir + filename);
-		}
-
-		public IEnumerable<string> GetAllFiles()
-		{
-			return parent.GetAllFiles(subdir + "**");
-		}
-
-		public IEnumerable<string> GetAllFiles(string searchPattern)
-		{
-			var results = parent.GetAllFiles(subdir + searchPattern);
-
-			foreach (var result in results)
-			{
-				if (result.StartsWith(subdir))
-					yield return result.Substring(subdir.Length);
-				else
-					yield return result;
-			}
-		}
-
-		public string ReadAllText(string filename)
-		{
-			return parent.ReadAllText(subdir + filename);
-		}
-
-		public bool IsRealFile(string filename)
-		{
-			return parent.IsRealFile(subdir + filename);
-		}
-
-		public string ResolveFile(string filename)
-		{
-			if (IsRooted(filename))
-				return parent.ResolveFile(filename);
-
-			return parent.ResolveFile(subdir + filename);
-		}
-
-		private bool IsRooted(string filename)
-		{
-			if (char.IsLetter(filename[0]) && filename[1] == ':')
-				return true;
-			if (filename.StartsWith("/"))
-				return true;
-			if (AgateApp.Platform.PlatformType == Platform.PlatformType.Windows &&
-				filename.StartsWith("\\"))
-				return true;
-
-			return false;
-		}
-
-
-		public bool IsLogicalFilesystem
-		{
-			get { return parent.IsLogicalFilesystem; }
-		}
-
-		public Task<Stream> OpenWriteAsync(string filename)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void CreateDirectory(string folder)
-		{
-			throw new NotImplementedException();
+			return parent.OpenWriteAsync(MapFilename(filename), mode);
 		}
 	}
 }

@@ -166,8 +166,7 @@ namespace AgateLib
 
 				using (StreamWriter filewriter = OpenErrorFile())
 				{
-					if (filewriter != null)
-						filewriter.Write(text);
+					filewriter?.Write(text);
 				}
 
 				Log.WriteLine(text);
@@ -197,13 +196,13 @@ namespace AgateLib
 				{
 					if (State.App.ErrorReporting.WroteHeader == true)
 					{
-						Stream stream = FileSystem.File.OpenWrite(ErrorFile, true);
+						Stream stream = UserFiles.OpenWrite(ErrorFile, FileOpenMode.Append);
 
 						return new StreamWriter(stream);
 					}
 					else
 					{
-						var stream = FileSystem.File.OpenWrite(ErrorFile);
+						var stream = UserFiles.OpenWrite(ErrorFile);
 						StreamWriter writer = new StreamWriter(stream);
 
 						WriteHeader(writer);
@@ -274,8 +273,6 @@ namespace AgateLib
 
 			Assets = factory.PlatformFactory.ApplicationFolderFiles;
 			UserFiles = factory.PlatformFactory.OpenUserAppStorage("");
-
-			FileSystem.Initialize(factory.PlatformFactory);
 
 			Display.Initialize(factory.DisplayFactory.DisplayCore);
 			Audio.Initialize(factory.AudioFactory.AudioCore);
