@@ -26,8 +26,6 @@ namespace AgateLib.Platform.Test
 {
 	public class FakePlatformInfo : IPlatformInfo
 	{
-		public string AppDataDirectory { get; set; }
-
 		public PlatformType PlatformType { get; set; }
 
 		public DeviceType DeviceType { get; set; }

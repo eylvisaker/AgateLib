@@ -59,7 +59,7 @@ namespace AgateLib.Platform.WinForms
 		}
 	}
 
-	public class WinFormsPlatform : AgateSetupCore
+	public class WinFormsPlatform : AgatePlatform
 	{
 		internal WinFormsPlatform(FormsFactory factory, string[] commandLineArguments = null)
 		{

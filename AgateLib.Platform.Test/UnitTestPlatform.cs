@@ -30,7 +30,7 @@ using AgateLib.Platform.Test.Input;
 
 namespace AgateLib.Platform.Test
 {
-	public class UnitTestPlatform : AgateSetupCore
+	public class UnitTestPlatform : AgatePlatform
 	{
 		private FakeAgateFactory fakeAgateFactory;
 		

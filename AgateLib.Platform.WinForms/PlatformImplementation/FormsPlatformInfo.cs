@@ -92,7 +92,6 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 			Trace.WriteLine("64-bit platform: " + m64Bit.ToString());
 
 		}
-
 		/// <summary>
 		/// Returns the version of windows being used, if the current platform is Windows.
 		/// An exception is thrown if this property is checked when the platform is not Windows.
@@ -156,16 +155,6 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 				return false;
 			}*/
 		}
-
-		private void EnsureAppDataDirectoryExists()
-		{
-			Directory.CreateDirectory(AppDataDirectory);
-		}
-
-		/// <summary>
-		/// Gets the directory where the application should store its configuration data.
-		/// </summary>
-		public string AppDataDirectory => mAppData;
 
 		static T GetCustomAttribute<T>(Assembly ass) where T : Attribute 	
 		{

@@ -189,7 +189,7 @@
     <Compile Include="Algorithms\Inverting.cs" />
     <Compile Include="Algorithms\ThreeD\MapConversion.cs" />
     <Compile Include="Configuration\AgateAppClock.cs" />
-    <Compile Include="Configuration\AgateSetupCore.cs" />
+    <Compile Include="Configuration\AgatePlatform.cs" />
     <Compile Include="Configuration\IClock.cs" />
     <Compile Include="Configuration\TimeTracker.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleVocabulary.cs" />

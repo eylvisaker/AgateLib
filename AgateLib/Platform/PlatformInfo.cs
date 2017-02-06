@@ -26,8 +26,6 @@ namespace AgateLib.Platform
 {
 	public interface IPlatformInfo
 	{
-		string AppDataDirectory { get; }
-		
 		PlatformType PlatformType { get; }
 
 		DeviceType DeviceType { get; }

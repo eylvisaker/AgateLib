@@ -33,7 +33,7 @@ namespace AgateLib.Platform.IntegrationTest
 	/// <summary>
 	/// Initializes AgateLib for doing integration testing, using the physical file system.
 	/// </summary>
-	public class AgateIntegrationTestPlatform : AgateSetupCore
+	public class AgateIntegrationTestPlatform : AgatePlatform
 	{
 		IntegrationTestFactory factory;
 

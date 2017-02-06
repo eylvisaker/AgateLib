@@ -29,7 +29,7 @@ using AgateLib.IO;
 
 namespace AgateLib.Configuration
 {
-	public abstract class AgateSetupCore : IDisposable
+	public abstract class AgatePlatform : IDisposable
 	{
 		private bool consoleInstalled;
 
@@ -48,7 +48,7 @@ namespace AgateLib.Configuration
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		public AgateSetupCore AssetPath(string path)
+		public AgatePlatform AssetPath(string path)
 		{
 			AgateApp.SetAssetPath(path);
 
@@ -59,7 +59,7 @@ namespace AgateLib.Configuration
 		/// Adds AgateLib's console commands to the console.
 		/// </summary>
 		/// <returns></returns>
-		public AgateSetupCore InstallConsoleCommands()
+		public AgatePlatform InstallConsoleCommands()
 		{
 			if (consoleInstalled == false)
 			{
@@ -76,7 +76,7 @@ namespace AgateLib.Configuration
 		/// </summary>
 		/// <param name="theme"></param>
 		/// <returns></returns>
-		public AgateSetupCore DefaultConsoleTheme(IConsoleTheme theme)
+		public AgatePlatform DefaultConsoleTheme(IConsoleTheme theme)
 		{
 			ConsoleThemes.Default = theme;
 
