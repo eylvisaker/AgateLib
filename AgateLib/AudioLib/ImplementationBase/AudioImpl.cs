@@ -49,15 +49,25 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// <returns></returns>
 		protected internal abstract bool CapsBool(AudioBoolCaps audioBoolCaps);
 
+		/// <summary>
+		/// Destroys the AudioImpl.
+		/// </summary>
 		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
+		/// <summary>
+		/// Override to dispose of local resources.
+		/// </summary>
+		/// <param name="disposing"></param>
 		protected virtual void Dispose(bool disposing)
 		{ }
 
+		/// <summary>
+		/// Override to provide initialization after the connection to the Audio class is made.
+		/// </summary>
 		public abstract void Initialize();
 	}
 

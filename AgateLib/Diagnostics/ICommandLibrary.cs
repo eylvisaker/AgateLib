@@ -22,6 +22,9 @@ using AgateLib.Diagnostics.ConsoleSupport;
 
 namespace AgateLib.Diagnostics
 {
+	/// <summary>
+	/// Interface for a class which can process user input at the console.
+	/// </summary>
 	public interface ICommandLibrary
 	{
 		/// <summary>

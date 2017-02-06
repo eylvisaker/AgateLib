@@ -107,12 +107,12 @@ namespace AgateLib.DisplayLib
 
 			mImpl = null;
 		}
-		
-		
+
+
 		/// <summary>
 		/// Measures the display size of the specified string.
 		/// </summary>
-		/// <param name="state"></param>
+		/// <param name="state">The FontState object to use.</param>
 		/// <param name="text"></param>
 		/// <returns></returns>
 		public Size MeasureString(FontState state, string text)
@@ -131,6 +131,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Draws the specified string at the specified location.
 		/// </summary>
+		/// <param name="state">The FontState object to use.</param>
 		/// <param name="destX"></param>
 		/// <param name="destY"></param>
 		/// <param name="text"></param>
@@ -147,6 +148,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Draws the specified string at the specified location.
 		/// </summary>
+		/// <param name="state">The FontState object to use.</param>
 		/// <param name="destPt"></param>
 		/// <param name="text"></param>
 		public void DrawText(FontState state, Point destPt, string text)
@@ -162,6 +164,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Draws the specified string at the specified location.
 		/// </summary>
+		/// <param name="state">The FontState object to use.</param>
 		/// <param name="destPt"></param>
 		/// <param name="text"></param>
 		public void DrawText(FontState state, PointF destPt, string text)

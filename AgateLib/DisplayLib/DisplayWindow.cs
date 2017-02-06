@@ -135,6 +135,7 @@ namespace AgateLib.DisplayLib
 		/// new DisplayWindow(CreateWindowParams.FromControl(control)).</remarks>
 		/// <param name="control">Windows.Forms control which should be used as the
 		/// render target.</param>
+		/// <param name="coordinates"></param>
 		public static DisplayWindow CreateFromControl(object control, ICoordinateSystem coordinates = null)
 		{
 			return new DisplayWindow(CreateWindowParams.FromControl(control, coordinates));
@@ -144,8 +145,8 @@ namespace AgateLib.DisplayLib
 		/// the resolution to the value specified.
 		/// </summary>
 		/// <param name="title"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
+		/// <param name="size"></param>
+		/// <param name="coordinates"></param>
 		/// <returns></returns>
 		public static DisplayWindow CreateFullScreen(string title, Size size, ICoordinateSystem coordinates = null)
 		{

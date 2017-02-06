@@ -166,6 +166,10 @@ namespace AgateLib.DisplayLib
 		/// Value for getting the maximum supported surface size.
 		/// </summary>
 		MaxSurfaceSize,
+
+		/// <summary>
+		/// Value for getting the native screen resolution.
+		/// </summary>
 		NativeScreenResolution,
 	}
 	/// <summary>

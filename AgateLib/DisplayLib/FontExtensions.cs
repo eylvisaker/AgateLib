@@ -26,8 +26,19 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Extensions for IFont objects.
+	/// </summary>
 	public static class FontExtensions
 	{
+		/// <summary>
+		/// Performs text layout, with an optional maximum width value that will automatically
+		/// wrap text at break points.
+		/// </summary>
+		/// <param name="font"></param>
+		/// <param name="text"></param>
+		/// <param name="maxWidth"></param>
+		/// <returns></returns>
 		public static ContentLayout LayoutText(this IFont font, string text, int? maxWidth)
 		{
 			var result = new ContentLayout(font, maxWidth);

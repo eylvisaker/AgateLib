@@ -24,6 +24,9 @@ using System.Text;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// An object which can be drawn.
+	/// </summary>
 	public interface IDrawable
 	{		
 		/// <summary>

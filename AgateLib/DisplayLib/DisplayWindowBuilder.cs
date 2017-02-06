@@ -239,6 +239,11 @@ namespace AgateLib.DisplayLib
 			return this;
 		}
 
+		/// <summary>
+		/// Sets the coordinate system for the display window.
+		/// </summary>
+		/// <param name="coords"></param>
+		/// <returns></returns>
 		public DisplayWindowBuilder WithCoordinates(ICoordinateSystem coords)
 		{
 			this.coords = coords;

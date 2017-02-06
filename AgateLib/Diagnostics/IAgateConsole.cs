@@ -26,21 +26,62 @@ using AgateLib.InputLib;
 
 namespace AgateLib.Diagnostics
 {
+	/// <summary>
+	/// Interface for a class providing an implementation of the console window.
+	/// </summary>
 	public interface IAgateConsole : IInputHandler
 	{
+		/// <summary>
+		/// Event raised when the visibility of the console window is changed, usually by the
+		/// user pressing the toggle key.
+		/// </summary>
 		event EventHandler VisibleChanged;
+
+		/// <summary>
+		/// Event raised after the console toggles a key input from the user.
+		/// </summary>
 		event EventHandler KeyProcessed;
 
+		/// <summary>
+		/// Gets or sets the visibility of the console window.
+		/// </summary>
 		bool IsVisible { get; set; }
 
+		/// <summary>
+		/// Returns the list of messages displayed in the console.
+		/// </summary>
 		IReadOnlyList<ConsoleMessage> Messages { get; }
 
+		/// <summary>
+		/// Gets or sets the list of command libraries available to process user input.
+		/// </summary>
 		IList<ICommandLibrary> CommandLibraries { get; set; }
+
+		/// <summary>
+		/// Gets the input text the user has typed.
+		/// </summary>
 		string InputText { get; }
+
+		/// <summary>
+		/// Gets the amount of scrollback from the user pressing the scrolling keys.
+		/// </summary>
 		int ViewShift { get; }
+
+		/// <summary>
+		/// Gets the location of the insertion point in the input text.
+		/// </summary>
 		int InsertionPoint { get; }
 
+		/// <summary>
+		/// Writes a line to the console.
+		/// </summary>
+		/// <param name="text"></param>
 		void WriteLine(string text);
+
+		/// <summary>
+		/// Writes a message to the console.
+		/// </summary>
+		/// <param name="message"></param>
 		void WriteMessage(ConsoleMessage message);
 
 		/// <summary>

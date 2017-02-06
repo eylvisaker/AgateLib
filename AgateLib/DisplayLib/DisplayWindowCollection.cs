@@ -7,10 +7,16 @@ using System.Threading.Tasks;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Disposable collection class which contains DisplayWindow objects.
+	/// </summary>
 	public class DisplayWindowCollection : ICollection<DisplayWindow>, IDisposable
 	{
 		private List<DisplayWindow> windows = new List<DisplayWindow>();
 
+		/// <summary>
+		/// Destroys all the DisplayWindow objects contained in the collection.
+		/// </summary>
 		public void Dispose()
 		{
 			foreach (var window in windows)

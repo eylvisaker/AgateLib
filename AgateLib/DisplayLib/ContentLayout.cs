@@ -25,6 +25,9 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Object which contains layout information for text.
+	/// </summary>
 	public class ContentLayout
 	{
 		class TextContent
@@ -52,14 +55,25 @@ namespace AgateLib.DisplayLib
 		private List<TextContent> layouts = new List<TextContent>();
 		private Point insertionPoint;
 
+		/// <summary>
+		/// Constructs a ContentLayout object.
+		/// </summary>
+		/// <param name="font"></param>
+		/// <param name="maxWidth"></param>
 		public ContentLayout(IFont font, int? maxWidth)
 		{
 			this.font = font;
 			MaxWidth = maxWidth;
 		}
 
+		/// <summary>
+		/// Gets the maximum width for the layout.
+		/// </summary>
 		public int? MaxWidth { get; private set; }
 
+		/// <summary>
+		/// Gets the height of the layout.
+		/// </summary>
 		public int Height
 		{
 			get
@@ -68,6 +82,27 @@ namespace AgateLib.DisplayLib
 				var items = layouts.Where(x => x.Destination.Y == lastTop);
 
 				return items.Max(x => x.Destination.Y + font.MeasureString(x.Text).Height);
+			}
+		}
+
+		/// <summary>
+		/// Adds text to the layout.
+		/// </summary>
+		/// <param name="text"></param>
+		public void Append(string text)
+		{
+			LayoutText(text);
+		}
+
+		/// <summary>
+		/// Renders the text in the layout.
+		/// </summary>
+		/// <param name="dest"></param>
+		public void Draw(Point dest)
+		{
+			foreach (var item in layouts)
+			{
+				item.Draw(dest);
 			}
 		}
 
@@ -86,11 +121,6 @@ namespace AgateLib.DisplayLib
 			var size = font.MeasureString(text);
 
 			insertionPoint.X += size.Width;
-		}
-
-		public void Append(string text)
-		{
-			LayoutText(text);
 		}
 
 		private void LayoutText(string text)
@@ -153,14 +183,6 @@ namespace AgateLib.DisplayLib
 				Add(subText);
 
 				writeLineStart = wrapPositions[i];
-			}
-		}
-
-		public void Draw(Point dest)
-		{
-			foreach(var item in layouts)
-			{
-				item.Draw(dest);
 			}
 		}
 	}

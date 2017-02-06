@@ -116,11 +116,13 @@ namespace AgateLib.DisplayLib
 
 				mColor = Color.FromArgb((int)(value * 255), mColor);
 
-				if (Cache != null)
-					Cache.OnColorChanged(this);
+				Cache?.OnColorChanged(this);
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the size of the font.
+		/// </summary>
 		public int Size
 		{
 			get { return size; }

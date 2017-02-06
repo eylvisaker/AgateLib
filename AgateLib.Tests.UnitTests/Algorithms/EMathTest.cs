@@ -2,6 +2,7 @@
 
 using AgateLib.Algorithms;
 using AgateLib.Mathematics;
+using AgateLib.Mathematics.Algorithms;
 using AgateLib.Quality;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

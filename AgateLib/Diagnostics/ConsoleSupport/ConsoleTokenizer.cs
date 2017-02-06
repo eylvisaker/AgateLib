@@ -25,6 +25,9 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics.ConsoleSupport
 {
+	/// <summary>
+	/// Static class which separates a command into its tokens. 
+	/// </summary>
 	public static class ConsoleTokenizer
 	{
 		public static string[] Tokenize(string command)

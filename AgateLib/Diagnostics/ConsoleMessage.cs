@@ -26,10 +26,16 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Diagnostics
 {
+	/// <summary>
+	/// Represents a message in the console window.
+	/// </summary>
 	public class ConsoleMessage
 	{
 		string text;
 
+		/// <summary>
+		/// Gets or sets the text of a console message.
+		/// </summary>
 		public string Text
 		{
 			get { return text; }
@@ -40,8 +46,14 @@ namespace AgateLib.Diagnostics
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the time the console message was logged.
+		/// </summary>
 		public long Time { get; set; }
 
+		/// <summary>
+		/// Gets or sets the type of console message. This is used to determine how the console message is displayed.
+		/// </summary>
 		public ConsoleMessageType MessageType { get; set; }
 
 		internal ContentLayout Layout { get; set; }

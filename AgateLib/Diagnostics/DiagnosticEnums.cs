@@ -24,6 +24,9 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics
 {
+	/// <summary>
+	/// Enum representing the different console message types.
+	/// </summary>
 	public enum ConsoleMessageType
 	{
 		/// <summary>

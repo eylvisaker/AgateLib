@@ -44,6 +44,11 @@ namespace AgateLib.Diagnostics
 
 		private IVocabulary vocabulary;
 
+		/// <summary>
+		/// Constructs a LibraryVocabulary object.
+		/// </summary>
+		/// <param name="vocabulary">The IVocabulary object which has methods
+		/// decorated with the ConsoleCommandAttribute.</param>
 		public LibraryVocabulary(IVocabulary vocabulary)
 		{
 			commands = new Dictionary<string, CommandInfo>(StringComparer.OrdinalIgnoreCase);
@@ -53,6 +58,9 @@ namespace AgateLib.Diagnostics
 			BuildCommands();
 		}
 
+		/// <summary>
+		/// Shows help for this library.
+		/// </summary>
 		public void Help()
 		{
 			StringBuilder builder = new StringBuilder();
@@ -83,6 +91,10 @@ namespace AgateLib.Diagnostics
 			}
 		}
 
+		/// <summary>
+		/// Shows help for a command.
+		/// </summary>
+		/// <param name="command"></param>
 		public void Help(string command)
 		{
 			if (commands.ContainsKey(command) == false)
@@ -95,6 +107,11 @@ namespace AgateLib.Diagnostics
 			AgateConsole.WriteLine(commandAttribute?.Description ?? "No description found.");
 		}
 
+		/// <summary>
+		/// Executes the command.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <returns></returns>
 		public bool Execute(string command)
 		{
 			string[] tokens = ConsoleTokenizer.Tokenize(command);

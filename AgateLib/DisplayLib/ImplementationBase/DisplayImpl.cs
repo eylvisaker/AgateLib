@@ -54,7 +54,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <summary>
 		/// Gets a caps value which should return a Size object.
 		/// </summary>
-		/// <param name="displaySizeCaps"></param>
+		/// <param name="caps"></param>
 		/// <returns></returns>
 		public abstract Size CapsSize(DisplaySizeCaps caps);
 

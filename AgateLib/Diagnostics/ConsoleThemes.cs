@@ -9,6 +9,9 @@ using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics
 {
+	/// <summary>
+	/// Static class which contains themes for the console window.
+	/// </summary>
 	public static class ConsoleThemes
 	{
 		private static IConsoleTheme defaultTheme;

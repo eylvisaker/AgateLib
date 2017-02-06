@@ -25,6 +25,10 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Algorithms.PathFinding
 {
+	/// <summary>
+	/// Class which represents the current state of the A* algorithm search in progress.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class AStarState<T>
 	{
 		List<T> mEndPoints = new List<T>();
@@ -47,8 +51,7 @@ namespace AgateLib.Algorithms.PathFinding
 
 		internal void OnCompleted()
 		{
-			if (Completed != null)
-				Completed(this, EventArgs.Empty);
+			Completed?.Invoke(this, EventArgs.Empty);
 		}
 		public event EventHandler Completed;
 		

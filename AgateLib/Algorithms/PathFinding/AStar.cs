@@ -25,6 +25,10 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Algorithms.PathFinding
 {
+	/// <summary>
+	/// Class which implements the A* path finding algorithm.
+	/// </summary>
+	/// <typeparam name="T">A type which represents a point on a map.</typeparam>
 	public class AStar<T>
 	{
 		const int maxSteps = 200;
@@ -32,9 +36,19 @@ namespace AgateLib.Algorithms.PathFinding
 
 		Func<T, T, bool> mEquals;
 
+		/// <summary>
+		/// Constructs an A* algorithm object.
+		/// </summary>
+		/// <param name="map"></param>
 		public AStar(IAStarMap<T> map)
 			: this(map, (x, y) => x.Equals(y))
 		{ }
+
+		/// <summary>
+		/// Constructs an A* algorithm object.
+		/// </summary>
+		/// <param name="map"></param>
+		/// <param name="comparer"></param>
 		public AStar(IAStarMap<T> map, IEqualityComparer<T> comparer)
 			: this(map, comparer.Equals)
 		{ }

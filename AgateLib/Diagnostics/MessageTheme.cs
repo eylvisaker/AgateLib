@@ -7,6 +7,11 @@ namespace AgateLib.Diagnostics
 	/// </summary>
 	public class MessageTheme : IMessageTheme
 	{
+		/// <summary>
+		/// Constructs a MessageTheme object.
+		/// </summary>
+		/// <param name="foreColor"></param>
+		/// <param name="backColor"></param>
 		public MessageTheme(Color foreColor, Color? backColor = null)
 		{
 			ForeColor = foreColor;

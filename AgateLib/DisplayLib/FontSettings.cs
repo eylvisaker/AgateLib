@@ -36,7 +36,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public int Size { get { return mSize; } set { mSize = value; } }
 		/// <summary>
-		/// Style(s) of the font. Combinations like bold&italic are possible.
+		/// Style(s) of the font. Combinations like bold &amp; italic are possible.
 		/// </summary>
 		public FontStyles Style { get { return mStyle; } set { mStyle = value; } }
 

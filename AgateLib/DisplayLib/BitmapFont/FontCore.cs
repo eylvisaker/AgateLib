@@ -175,7 +175,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		}
 	}
 
-	public interface IFontCore : IDisposable
+	internal interface IFontCore : IDisposable
 	{
 		string Name { get; }
 

@@ -51,9 +51,7 @@ namespace AgateLib.DisplayLib
 		///     Creates a CreateWindowParams object which describes a fullscreen window.
 		/// </summary>
 		/// <param name="title"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="bpp"></param>
+		/// <param name="resolution"></param>
 		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
 		public static CreateWindowParams FullScreen(string title, IResolution resolution, ICoordinateSystem coordinates)

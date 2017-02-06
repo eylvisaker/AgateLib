@@ -24,6 +24,9 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics
 {
+	/// <summary>
+	/// Interface for a class which provides commands to a LibraryVocabulary object.
+	/// </summary>
 	public interface IVocabulary
 	{
 		/// <summary>

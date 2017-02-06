@@ -21,6 +21,11 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Algorithms.PathFinding
 {
+	/// <summary>
+	/// This interface is used to provide the required communication between
+	/// an area and the A* algorithm searching that area.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public interface IAStarMap<T>
 	{
 		void ReportProgress(AStarState<T> task);

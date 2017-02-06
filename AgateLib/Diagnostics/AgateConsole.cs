@@ -37,26 +37,42 @@ namespace AgateLib.Diagnostics
 
 		private static IConsoleRenderer Renderer => State?.Renderer;
 	
+		/// <summary>
+		/// Gets or sets the instance.
+		/// </summary>
 		public static IAgateConsole Instance
 		{
 			get { return State?.Instance; }
 			set { State.Instance = value; }
 		}
 
+		/// <summary>
+		/// Returns true if Instance is not null
+		/// </summary>
 		public static bool IsInitialized => Instance != null;
 
+		/// <summary>
+		/// Gets or sets the font used to display the console.
+		/// </summary>
 		public static IFont Font
 		{
 			get { return AgateApp.State.Console.Font; }
 			set { AgateApp.State.Console.Font = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the keyboard key used to open the console window. Defaults to tilde (~)
+		/// </summary>
 		public static KeyCode VisibleToggleKey
 		{
 			get { return AgateApp.State.Console.VisibleToggleKey; }
 			set { AgateApp.State.Console.VisibleToggleKey = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the visibility of the console window. 
+		/// This value is toggled when the user presses the VisibleToggleKey button.
+		/// </summary>
 		public static bool IsVisible
 		{
 			get

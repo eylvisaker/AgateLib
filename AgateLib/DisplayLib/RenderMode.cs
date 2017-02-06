@@ -7,19 +7,24 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Static class which contains built in IRenderMode objects.
+	/// Render modes are used to determine how a backbuffer is scaled to fit
+	/// an on screen render area.
+	/// </summary>
 	public static class RenderMode
 	{
 		class RetainAspectRatioRenderMode : IRenderMode
 		{
-			public string Name => "Retain Aspect Ratio";
+			public override string ToString() => "Retain Aspect Ratio";
 
 			public Rectangle DestRect(Size backBufferSize, Size renderTargetSize)
 			{
 				var targetScale = TargetScale(backBufferSize, renderTargetSize);
 
 				Size targetSize = new Size(
-					(int) (backBufferSize.Width * targetScale),
-					(int) (backBufferSize.Height * targetScale));
+					(int)(backBufferSize.Width * targetScale),
+					(int)(backBufferSize.Height * targetScale));
 				Point targetPoint = new Point(
 					(renderTargetSize.Width - targetSize.Width) / 2,
 					(renderTargetSize.Height - targetSize.Height) / 2);
@@ -56,7 +61,7 @@ namespace AgateLib.DisplayLib
 
 		class StretchRenderMode : IRenderMode
 		{
-			public string Name => "Stretch";
+			public override string ToString() => "Stretch";
 
 			public Rectangle DestRect(Size backBufferSize, Size renderTargetSize)
 			{
@@ -65,8 +70,8 @@ namespace AgateLib.DisplayLib
 
 			public Point MousePoint(Point windowPoint, Size backBufferSize, Size renderTargetSize)
 			{
-				var scaleX = renderTargetSize.Width / (double) backBufferSize.Width;
-				var scaleY = renderTargetSize.Height / (double) backBufferSize.Height;
+				var scaleX = renderTargetSize.Width / (double)backBufferSize.Width;
+				var scaleY = renderTargetSize.Height / (double)backBufferSize.Height;
 
 				return new Point(
 					(int)(windowPoint.X / scaleX),
@@ -74,15 +79,29 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
+		/// <summary>
+		/// Returns a new IRenderMode object which preserves the aspect ratio of image.
+		/// </summary>
 		public static IRenderMode RetainAspectRatio => new RetainAspectRatioRenderMode();
-		
+
+		/// <summary>
+		/// Returns a new IRenderMode object which will stretch an image to fit.
+		/// </summary>
 		public static IRenderMode Stretch => new StretchRenderMode();
 	}
 
+	/// <summary>
+	/// Interface for an object which determines how to scale a backbuffer to the on
+	/// screen display area.
+	/// </summary>
 	public interface IRenderMode
 	{
-		string Name { get; }
-
+		/// <summary>
+		/// Computes the destination rectangle given the backbuffer and render target sizes.
+		/// </summary>
+		/// <param name="backBufferSize"></param>
+		/// <param name="renderTargetSize"></param>
+		/// <returns></returns>
 		Rectangle DestRect(Size backBufferSize, Size renderTargetSize);
 
 		/// <summary>

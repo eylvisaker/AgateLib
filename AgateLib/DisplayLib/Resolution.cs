@@ -43,7 +43,7 @@ namespace AgateLib.DisplayLib
 
 		public override string ToString()
 		{
-			return $"{Size.Width} x {Size.Height} - {RenderMode?.Name ?? "None"}";
+			return $"{Size.Width} x {Size.Height} - {RenderMode?.ToString() ?? "None"}";
 		}
 
 	}

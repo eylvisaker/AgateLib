@@ -488,6 +488,12 @@ namespace AgateLib.DisplayLib
 			Impl.DrawLines(pts, color);
 		}
 
+		/// <summary>
+		/// Draws a bunch of connected lines. The last point and the first
+		/// point are not connected.
+		/// </summary>
+		/// <param name="color"></param>
+		/// <param name="pts"></param>
 		public static void DrawLines(Color color, params Point[] pts)
 		{
 			Impl.DrawLines(pts, color);

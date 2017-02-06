@@ -70,6 +70,7 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>3</CodeContractsAnalysisWarningLevel>
+    <DocumentationFile>bin\Debug\AgateLib.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -186,7 +187,7 @@
     <Compile Include="Algorithms\PathFinding\AStar.cs" />
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
-    <Compile Include="Algorithms\Inverting.cs" />
+    <Compile Include="Mathematics\Algorithms\Inverting.cs" />
     <Compile Include="Algorithms\ThreeD\MapConversion.cs" />
     <Compile Include="Configuration\AgateAppClock.cs" />
     <Compile Include="Configuration\AgatePlatform.cs" />
@@ -268,7 +269,7 @@
     <Compile Include="IO\ReadFileProviderList.cs" />
     <Compile Include="Mathematics\MathHelper.cs" />
     <Compile Include="Algorithms\PathFinding\IAStarMap.cs" />
-    <Compile Include="Algorithms\Pair.cs" />
+    <Compile Include="Mathematics\Algorithms\Pair.cs" />
     <Compile Include="Geometry\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
     <Compile Include="Geometry\ICoordinateSystem.cs" />
     <Compile Include="Platform\DiagnosticsStopwatch.cs" />

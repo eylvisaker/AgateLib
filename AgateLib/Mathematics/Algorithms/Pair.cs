@@ -1,4 +1,4 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -18,14 +18,23 @@
 //
 using System;
 
-namespace AgateLib.Diagnostics
+namespace AgateLib.Mathematics.Algorithms
 {
 	/// <summary>
-	/// Signifies that a ConsoleCommand should have all its arguments joined 
-	/// into the decorated argument.
+	/// This structure is used instead of the generic .NET Tuple&lt;&gt; classes because
+	/// the Tuple classes are immutable, and this is needed internally by the iterating algorithms.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
-	public class JoinArgsAttribute : Attribute
+	/// <typeparam name="T1"></typeparam>
+	/// <typeparam name="T2"></typeparam>
+	struct Pair<T1, T2>
 	{
+		public T1 First;
+		public T2 Second;
+
+		public Pair(T1 f, T2 s)
+		{
+			First = f;
+			Second = s;
+		}
 	}
 }

@@ -29,6 +29,10 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	/// </summary>
 	public abstract class FrameBufferImpl : IDisposable 
 	{
+		/// <summary>
+		/// Constructs a FrameBufferImpl object.
+		/// </summary>
+		/// <param name="coords"></param>
 		public FrameBufferImpl(ICoordinateSystem coords)
 		{
 			this.CoordinateSystem = coords;

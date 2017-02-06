@@ -26,10 +26,25 @@ using AgateLib.DisplayLib.BitmapFont;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Class which represents a font. Font objects have their own state, but a new font can be constructed
+	/// from an existing font to separate the state.
+	/// </summary>
 	public class Font : IFont
 	{
+		/// <summary>
+		/// Built-in sans serif font.
+		/// </summary>
 		public static Font AgateSans => AgateApp.State.Display.DefaultResources.AgateSans;
+
+		/// <summary>
+		/// Built-in serif font
+		/// </summary>
 		public static Font AgateSerif => AgateApp.State.Display.DefaultResources.AgateSerif;
+
+		/// <summary>
+		/// Built-in monospae font.
+		/// </summary>
 		public static Font AgateMono => AgateApp.State.Display.DefaultResources.AgateMono;
 
 		IFontCore core;
