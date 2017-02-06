@@ -208,6 +208,7 @@
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleTokenizer.cs" />
     <Compile Include="Diagnostics\IAgateConsole.cs" />
     <Compile Include="Diagnostics\IVocabulary.cs" />
+    <Compile Include="DisplayLib\BitmapFont\FontCore.cs" />
     <Compile Include="InputLib\GamepadModel\Gamepad.cs" />
     <Compile Include="InputLib\GamepadModel\GamepadButtonEventArgs.cs" />
     <Compile Include="InputLib\GamepadModel\GamepadEnums.cs" />

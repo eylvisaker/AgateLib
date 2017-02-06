@@ -140,7 +140,7 @@ namespace AgateLib.Diagnostics
 			if (Instance == null) return;
 
 			if (Font == null)
-				Font = new Font(DisplayLib.Font.AgateMono, 10, FontStyles.Bold);
+				Font = new Font(DisplayLib.Font.AgateMono, 10, FontStyles.None);
 
 			Renderer.Draw();
 		}

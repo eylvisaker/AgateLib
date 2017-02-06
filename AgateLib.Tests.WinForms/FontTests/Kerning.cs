@@ -33,7 +33,7 @@ namespace AgateLib.Tests.FontTests
 					Style = FontStyles.None,
 				};
 
-				FontSurface font = Font.AgateSans.Impl.FontSurface(state);
+				FontSurface font = Font.AgateSans.Core.FontSurface(state);
 
 				FontSurface unkerned = ConstructUnkernedFont(font);
 

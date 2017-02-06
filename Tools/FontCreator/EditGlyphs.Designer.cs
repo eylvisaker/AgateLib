@@ -1,4 +1,4 @@
-namespace FontCreator
+namespace FontCreatorApp
 {
     partial class EditGlyphs
     {
@@ -205,7 +205,7 @@ namespace FontCreator
 			// btnZoomIn
 			// 
 			this.btnZoomIn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnZoomIn.Image = global::FontCreator.Properties.Resources.zoom_in;
+			this.btnZoomIn.Image = global::FontCreatorApp.Properties.Resources.zoom_in;
 			this.btnZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnZoomIn.Name = "btnZoomIn";
 			this.btnZoomIn.Size = new System.Drawing.Size(28, 29);
@@ -215,7 +215,7 @@ namespace FontCreator
 			// btnZoomOut
 			// 
 			this.btnZoomOut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnZoomOut.Image = global::FontCreator.Properties.Resources.zoom_out;
+			this.btnZoomOut.Image = global::FontCreatorApp.Properties.Resources.zoom_out;
 			this.btnZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnZoomOut.Name = "btnZoomOut";
 			this.btnZoomOut.Size = new System.Drawing.Size(28, 29);

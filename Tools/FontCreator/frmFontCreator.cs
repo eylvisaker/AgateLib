@@ -12,7 +12,7 @@ using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Controls;
 using AgateLib.Quality;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
 	public partial class frmFontCreator : Form
 	{
@@ -29,7 +29,7 @@ namespace FontCreator
 
 		AgateLib.DisplayLib.Font AgateFont
 		{
-			get { return this.createFont1.FontBuilder.Font; }
+			get { return this.createFont1.FontCreator.Font; }
 		}
 
 		int CurrentPage
@@ -59,9 +59,9 @@ namespace FontCreator
 
 					case 3:
 						pnl = pnlSaveFont;
-						saveFont1.AgateFont = createFont1.FontBuilder.Font;
+						saveFont1.AgateFont = createFont1.FontCreator.Font;
 						saveFont1.SetFontData(tempFontData);
-						saveFont1.FontName = createFont1.FontBuilder.Parameters.Family;
+						saveFont1.FontName = createFont1.FontCreator.Parameters.Family;
 
 						break;
 
@@ -95,9 +95,10 @@ namespace FontCreator
 		private void CreateTempFontData()
 		{
 			ClearTempData();
-			Condition.Requires(tempFontData.Count == 0);
+			Require.True<InvalidOperationException>(tempFontData.Count == 0,
+				"tempFontData should be empty after calling ClearTempData!");
 
-			foreach (var fs in AgateFont.FontItems)
+			foreach (var fs in AgateFont.FontSurfaces)
 			{
 				string tempImage = Path.GetTempFileName() + ".png";
 				var bfi = ((BitmapFontImpl)fs.Value.Impl);
@@ -117,7 +118,7 @@ namespace FontCreator
 
 		public bool SaveFont()
 		{
-			return createFont1.FontBuilder.SaveFont(
+			return createFont1.FontCreator.SaveFont(
 				saveFont1.ResourceFilename,
 				saveFont1.FontName,
 				saveFont1.ImageFileRoot);

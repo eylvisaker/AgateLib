@@ -49,5 +49,10 @@ namespace AgateLib.Resources
 		{
 			return serializer.Serialize(fonts);
 		}
+
+		public string Serialize(ResourceDataModel model)
+		{
+			return serializer.Serialize(model);
+		}
 	}
 }

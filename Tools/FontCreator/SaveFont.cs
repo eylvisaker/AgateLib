@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib.DisplayLib;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
 	public partial class SaveFont : UserControl
 	{

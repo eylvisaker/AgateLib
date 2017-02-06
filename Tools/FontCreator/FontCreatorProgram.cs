@@ -1,15 +1,17 @@
-﻿using AgateLib.ApplicationModels;
-using AgateLib.Platform.WinForms;
-using AgateLib.Platform.WinForms.ApplicationModels;
+﻿using AgateLib.Platform.WinForms;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
+using AgateLib;
+using AgateLib.Platform.WinForms.IO;
+using AgateLib.Resources;
+using AgateLib.Resources.DataModel;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
 	class FontCreatorProgram
 	{
@@ -24,12 +26,10 @@ namespace FontCreator
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			using (var setup = new AgateSetup(args))
+			using (new AgateWinForms(args)
+				.AssetPath("images")
+				.Initialize())
 			{
-				setup.CreateDisplayWindow = false;
-				setup.AssetLocations.Surfaces = "images";
-				setup.InitializeAgateLib();
-
 				if (args.FirstOrDefault() == "-build" && args.Length >= 2)
 				{
 					ScriptBuild(args.Skip(1));
@@ -41,29 +41,13 @@ namespace FontCreator
 				frmFontCreator frm = new frmFontCreator();
 				frm.Show();
 
-				Properties.Settings.Default.Reload();
+				var warning = AgateApp.Settings.GetOrCreate<FontCreatorWarningSettings>(
+					"warnings", () => new FontCreatorWarningSettings());
 
-				// workaround for bug in mono 
-				bool skipWarning = false;
-
-				try
-				{
-					skipWarning = Properties.Settings.Default.SkipWarning;
-				}
-				catch
-				{ }
-
-				if (skipWarning == false)
+				if (warning.SkipWarning == false)
 				{
 					new frmWarningSplash().ShowDialog(frm);
 				}
-
-				try
-				{
-					Properties.Settings.Default.Save();
-				}
-				catch
-				{ }
 
 				Application.Run(frm);
 
@@ -80,17 +64,18 @@ namespace FontCreator
 			{
 				var parameters = ReadParameters(file);
 
-				FontBuilder builder = new FontBuilder();
-				builder.Parameters = parameters;
+				FontCreator creator = new FontCreator();
+				creator.Parameters = parameters;
 
-				builder.CreateFont();
+				creator.CreateFont();
 
 				string saveName = parameters.SaveName;
 				if (string.IsNullOrWhiteSpace(saveName))
 					saveName = parameters.Family;
 
-				builder.SaveFont($"output/{saveName}.yaml",
-					saveName, $"Fonts/{saveName}");
+				string filename = $"output/{saveName}.yaml";
+
+				creator.SaveFont(filename, saveName, $"Fonts/{saveName}");
 			}
 		}
 

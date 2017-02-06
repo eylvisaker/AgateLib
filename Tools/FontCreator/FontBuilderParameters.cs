@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
+using AgateLib.Quality;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
 	public class FontBuilderParameters
 	{
@@ -15,7 +16,11 @@ namespace FontCreator
 		public List<int> FontSizes
 		{
 			get { return fontSizes; }
-			set { fontSizes = value; }
+			set
+			{
+				Require.ArgumentNotNull(value, nameof(FontSizes));
+				fontSizes = value;
+			}
 		}
 
 		public string Family { get; set; }

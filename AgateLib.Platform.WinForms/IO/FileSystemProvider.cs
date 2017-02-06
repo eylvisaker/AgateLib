@@ -52,7 +52,14 @@ namespace AgateLib.Platform.WinForms.IO
 			if (path.StartsWith("./"))
 				path = Directory.GetCurrentDirectory() + path.Substring(1);
 
-			mPathUri = new Uri(path);
+			try
+			{
+				mPathUri = new Uri(path);
+			}
+			catch (Exception e)
+			{
+				throw new AgateException("Failed to understand path value. If your path is relative, it must start with './'");
+			}
 		}
 		/// <summary>
 		/// Opens a file.
@@ -63,8 +70,7 @@ namespace AgateLib.Platform.WinForms.IO
 		{
 			string resolvedName = FindFileName(filename);
 			if (resolvedName == null)
-				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
-					filename, mPath), filename);
+				throw new FileNotFoundException($"The file {filename} was not found in the path {mPath}.", filename);
 
 			var result = File.OpenRead(resolvedName);
 			return Task.FromResult<Stream>(result);

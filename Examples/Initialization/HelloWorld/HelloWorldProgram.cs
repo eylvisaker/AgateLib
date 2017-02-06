@@ -41,7 +41,7 @@ namespace Examples.Initialization.HelloWorld
 				// Initialize a font object.
 				var font = new Font(Font.AgateSerif)
 				{
-					Size = 14,
+					Size = 18,
 					Style = FontStyles.Bold,
 					DisplayAlignment = OriginAlignment.Center
 				};

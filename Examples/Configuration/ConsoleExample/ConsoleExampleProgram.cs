@@ -20,10 +20,11 @@ namespace Examples.Configuration.ConsoleExample
 			using (new AgateWinForms(args)
 					.Initialize()
 					.InstallConsoleCommands()
-					.DefaultConsoleTheme(ConsoleThemes.Green))
+					.DefaultConsoleTheme(ConsoleThemes.Paper))
 			using (new DisplayWindowBuilder(args)
 					.Title("Console Command Example")
 					.BackbufferSize(1280, 720)
+					.AutoResizeBackBuffer()
 					.QuitOnClose()
 					.Build())
 			{
@@ -69,7 +70,7 @@ namespace Examples.Configuration.ConsoleExample
 						Color.FromArgb(128, 128, 128, 128));
 
 					font.DrawText(target,
-						"Press ~ to open the console. Type help to see a list of commands");
+						"Press ~ to open the console. Type help to see a list of commands.");
 
 					Display.EndFrame();
 					AgateApp.KeepAlive();

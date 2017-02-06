@@ -2,7 +2,7 @@
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
 	public class FontImageData
 	{

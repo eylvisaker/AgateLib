@@ -35,12 +35,12 @@ namespace AgateLib.UnitTests.DisplayLib
 		[TestMethod]
 		public void FFBasicRetrieval()
 		{
-			Assert.AreEqual(new FontSettings(8, FontStyles.None), ff.Impl.GetClosestFontSettings(new FontSettings(8, FontStyles.None)));
-			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.Impl.GetClosestFontSettings(new FontSettings(10, FontStyles.None)));
+			Assert.AreEqual(new FontSettings(8, FontStyles.None), ff.Core.GetClosestFontSettings(new FontSettings(8, FontStyles.None)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.Core.GetClosestFontSettings(new FontSettings(10, FontStyles.None)));
 
-			Assert.AreEqual(new FontSettings(8, FontStyles.None), ff.Impl.GetClosestFontSettings(new FontSettings(7, FontStyles.None)));
-			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.Impl.GetClosestFontSettings(new FontSettings(9, FontStyles.None)));
-			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.Impl.GetClosestFontSettings(new FontSettings(11, FontStyles.None)));
+			Assert.AreEqual(new FontSettings(8, FontStyles.None), ff.Core.GetClosestFontSettings(new FontSettings(7, FontStyles.None)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.Core.GetClosestFontSettings(new FontSettings(9, FontStyles.None)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.Core.GetClosestFontSettings(new FontSettings(11, FontStyles.None)));
 		}
 
 		[TestMethod]
@@ -50,7 +50,7 @@ namespace AgateLib.UnitTests.DisplayLib
 			fontState.Size = 9;
 			fontState.Style = FontStyles.None;
 
-			var font = ff.Impl.FontSurface(fontState);
+			var font = ff.Core.FontSurface(fontState);
 
 			Assert.AreEqual(0.9, fontState.ScaleHeight, 0.00001);
 		}
@@ -58,8 +58,8 @@ namespace AgateLib.UnitTests.DisplayLib
 		[TestMethod]
 		public void FFRemoveStyleRetrieval()
 		{
-			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.Impl.GetClosestFontSettings(new FontSettings(9, FontStyles.Italic)));
-			Assert.AreEqual(new FontSettings(10, FontStyles.Bold), ff.Impl.GetClosestFontSettings(new FontSettings(9, FontStyles.Italic | FontStyles.Bold)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.Core.GetClosestFontSettings(new FontSettings(9, FontStyles.Italic)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.Bold), ff.Core.GetClosestFontSettings(new FontSettings(9, FontStyles.Italic | FontStyles.Bold)));
 
 		}
 	}

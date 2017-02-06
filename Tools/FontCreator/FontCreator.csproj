@@ -18,7 +18,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>FontCreator</RootNamespace>
+    <RootNamespace>FontCreatorApp</RootNamespace>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -133,7 +133,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib.AgateSDL\AgateLib.SDL.csproj">
+    <ProjectReference Include="..\..\AgateLib.SDL\AgateLib.SDL.csproj">
       <Project>{935d67a0-931e-46de-9f6a-2d6dbc99aff3}</Project>
       <Name>AgateLib.SDL</Name>
     </ProjectReference>
@@ -168,11 +168,10 @@
     <Content Include="FontParameters\Build-MedievalSharp.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="FontParameters\Build-AgateSerif.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <Compile Include="CreateFont.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -187,13 +186,14 @@
       <DependentUpon>EditGlyphs.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FontBuilder.cs">
+    <Compile Include="FontCreator.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FontBuilderParameters.cs" />
     <Compile Include="FontCreatorProgram.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FontCreatorWarningSettings.cs" />
     <Compile Include="FontImageData.cs" />
     <Compile Include="frmFontCreator.cs">
       <SubType>Form</SubType>
@@ -224,12 +224,6 @@
       <SubType>Code</SubType>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <DependentUpon>Settings.settings</DependentUpon>
-      <SubType>Code</SubType>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="CreateFont.resx">
       <SubType>Designer</SubType>

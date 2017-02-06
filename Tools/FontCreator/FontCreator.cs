@@ -10,13 +10,13 @@ using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
 using AgateLib.Platform.WinForms;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
-	public class FontBuilder
+	public class FontCreator
 	{
 		private ResourceDataLoader dataLoader = new ResourceDataLoader();
 
-		private string mText;
+		private string mSampleText;
 		private object mRenderTarget;
 		private object mZoomRenderTarget;
 
@@ -33,7 +33,7 @@ namespace FontCreator
 		private int displaySize = 12;
 		private FontStyles displayStyle;
 
-		public FontBuilder()
+		public FontCreator()
 		{
 			StringBuilder b = new StringBuilder();
 
@@ -43,16 +43,13 @@ namespace FontCreator
 			b.AppendLine("01234567890");
 			b.AppendLine("!@#$%^&*(),<.>/?;:'\"-_=+\\|");
 
-			mText = b.ToString();
+			mSampleText = b.ToString();
 		}
 
 		public FontBuilderParameters Parameters { get; set; } = new FontBuilderParameters();
 
-		public Font Font
-		{
-			get { return font; }
-		}
-		
+		public Font Font => font;
+
 		public bool LightBackground
 		{
 			get { return mDarkBackground; }
@@ -71,12 +68,12 @@ namespace FontCreator
 			set { mColor = value; }
 		}
 
-		public string Text
+		public string SampleText
 		{
-			get { return mText; }
+			get { return mSampleText; }
 			set
 			{
-				mText = value;
+				mSampleText = value;
 				Draw();
 			}
 		}
@@ -119,10 +116,9 @@ namespace FontCreator
 		{
 			if (string.IsNullOrEmpty(Parameters.Family))
 				return;
-			if (font != null)
-				font.Dispose();
+			font?.Dispose();
 
-			font = new Font(Parameters.Family);
+			FontBuilder fontBuilder = new FontBuilder(Parameters.Family);
 
 			foreach (var fontSetting in FontSettings)
 			{
@@ -131,8 +127,10 @@ namespace FontCreator
 				var fontSurface = new FontSurface
 					(AgateLib.Platform.WinForms.Fonts.BitmapFontUtil.ConstructFromOSFont(options));
 
-				font.AddFont(fontSetting, fontSurface);
+				fontBuilder.AddFontSurface(fontSetting, fontSurface);
 			}
+
+			font = fontBuilder.Build();
 
 			Draw();
 		}
@@ -174,7 +172,7 @@ namespace FontCreator
 
 			font.Size = displaySize;
 			font.Style = DisplayStyle;
-			((BitmapFontImpl)font.FontSurface.Impl).Surface.InterpolationHint = InterpolationMode.Nicest;
+			font.InterpolationHint = InterpolationMode.Nicest;
 
 			DrawText();
 
@@ -214,7 +212,7 @@ namespace FontCreator
 
 			Display.EndFrame();
 
-			Core.KeepAlive();
+			AgateApp.KeepAlive();
 		}
 
 		private void DrawBackground()
@@ -236,7 +234,7 @@ namespace FontCreator
 				return;
 
 			font.Color = DisplayColor;
-			font.DrawText(Point.Empty, Text);
+			font.DrawText(Point.Empty, SampleText);
 		}
 
 		public bool SaveFont(string resourceFile, string fontName, string imageFileRoot)
@@ -261,10 +259,10 @@ namespace FontCreator
 
 			FontResource fontResource = new FontResource();
 
-			foreach (var fs in Font.FontItems)
+			foreach (var fs in Font.FontSurfaces)
 			{
 				var res = new FontSurfaceResource();
-				var localImagePath = localImagePartialPath + fs.Key.ToString() + ".png";
+				var localImagePath = localImagePartialPath + "-" + fs.Key.ToString() + ".png";
 				var impl = (BitmapFontImpl)fs.Value.Impl;
 
 				res.Name = fontName;
@@ -288,20 +286,7 @@ namespace FontCreator
 
 			return true;
 		}
-
-		private void EnsureDirectoryExists(string dirname)
-		{
-			if (Directory.Exists(dirname))
-				return;
-
-			string parentDir = Path.GetDirectoryName(dirname);
-
-			if (Directory.Exists(parentDir) == false)
-				EnsureDirectoryExists(parentDir);
-
-			Directory.CreateDirectory(dirname);
-		}
-
+		
 		public void SetRenderTarget(object render, object zoomRender)
 		{
 			mRenderTarget = render;

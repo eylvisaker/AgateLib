@@ -30,7 +30,7 @@ namespace AgateLib.DisplayLib
 	{
 		public static void DisplayIsInitialized()
 		{
-			Condition.Requires<AgateException>(Display.Impl != null, "AgateLib's display system has not been initialized.");
+			Require.True<AgateException>(Display.Impl != null, "AgateLib's display system has not been initialized.");
 		}
 	}
 }

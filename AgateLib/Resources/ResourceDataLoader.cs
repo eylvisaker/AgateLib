@@ -38,6 +38,7 @@ namespace AgateLib.Resources
 	public class ResourceDataLoader
 	{
 		private readonly IReadFileProvider fileProvider;
+		private Deserializer deserializer;
 
 		public ResourceDataLoader(IReadFileProvider fileProvider = null)
 		{
@@ -45,6 +46,16 @@ namespace AgateLib.Resources
 
 			Require.ArgumentNotNull(this.fileProvider, nameof(fileProvider),
 				$"Either {nameof(fileProvider)} or {nameof(AgateApp)}.{nameof(AgateApp.Assets)} should not be null.");
+
+			deserializer = new DeserializerBuilder()
+				.WithNamingConvention(new HyphenatedNamingConvention())
+				.WithTypeConverter(new ColorConverterYaml())
+				.WithTypeConverter(new LayoutBoxConverterYaml())
+				.WithTypeConverter(new PointConverterYaml())
+				.WithTypeConverter(new SizeConverterYaml())
+				.WithTypeConverter(new RectangleConverterYaml())
+				.WithTypeConverter(new KerningPairModelYaml())
+				.Build();
 		}
 
 		/// <summary>
@@ -54,16 +65,6 @@ namespace AgateLib.Resources
 		/// <returns></returns>
 		public ResourceDataModel Load(string filename)
 		{
-			var deserializer = new DeserializerBuilder()
-				.WithNamingConvention(new HyphenatedNamingConvention())
-				.WithTypeConverter(new ColorConverterYaml())
-				.WithTypeConverter(new LayoutBoxConverterYaml())
-				.WithTypeConverter(new PointConverterYaml())
-				.WithTypeConverter(new SizeConverterYaml())
-				.WithTypeConverter(new RectangleConverterYaml())
-				.WithTypeConverter(new KerningPairModelYaml())
-				.Build();
-
 			using (var file = new StreamReader(fileProvider.OpenRead(filename)))
 			{
 				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(file);

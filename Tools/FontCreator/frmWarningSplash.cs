@@ -6,26 +6,25 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using AgateLib;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
-    public partial class frmWarningSplash : Form
-    {
-        public frmWarningSplash()
-        {
-            InitializeComponent();
+	public partial class frmWarningSplash : Form
+	{
+		public frmWarningSplash()
+		{
+			InitializeComponent();
 
-            Icon = FormUtil.AgateLibIcon;
-        }
+			Icon = FormUtil.AgateLibIcon;
+		}
 
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-			try
-			{
-				Properties.Settings.Default.SkipWarning = chkSkipWarning.Checked;
-			}
-			catch
-			{ }
-        }
-    }
+		private void btnOK_Click(object sender, EventArgs e)
+		{
+			var setting = AgateApp.Settings.Get<FontCreatorWarningSettings>(
+				"warnings");
+
+			setting.SkipWarning = chkSkipWarning.Checked;
+		}
+	}
 }

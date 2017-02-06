@@ -1,4 +1,4 @@
-﻿namespace FontCreator
+﻿namespace FontCreatorApp
 {
     partial class frmWarningSplash
     {

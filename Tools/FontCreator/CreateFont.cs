@@ -10,11 +10,11 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Platform.WinForms;
 using System.Linq;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
 	public partial class CreateFont : UserControl
 	{
-		FontBuilder builder;
+		FontCreator creator;
 
 		public CreateFont()
 		{
@@ -40,7 +40,9 @@ namespace FontCreator
 			}
 		}
 
-		public FontBuilder FontBuilder { get { return builder; } }
+		public FontCreator FontCreator => creator;
+
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public FontBuilderParameters Parameters { get; set; } = new FontBuilderParameters();
 
 		protected override void OnLoad(EventArgs e)
@@ -97,10 +99,10 @@ namespace FontCreator
 
 		private void InitializeBuilder()
 		{
-			builder = new FontBuilder();
-			builder.Parameters = Parameters;
+			creator = new FontCreator();
+			creator.Parameters = Parameters;
 
-			builder.SetRenderTarget(renderTarget, zoomRenderTarget);
+			creator.SetRenderTarget(renderTarget, zoomRenderTarget);
 
 			SynchronizeParameters();
 		}
@@ -121,9 +123,6 @@ namespace FontCreator
 			Parameters.FontSizes = lstSizes.Items.Cast<object>().Select(x => int.Parse(x.ToString())).ToList();
 
 			Parameters.Bold = chkBold.Checked;
-			Parameters.Italic = chkItalic.Checked;
-			Parameters.Underline = chkUnderline.Checked;
-			Parameters.Strikeout = chkStrikeout.Checked;
 
 			Parameters.TopMarginAdjust = (int)nudTopMargin.Value;
 			Parameters.BottomMarginAdjust = (int)nudBottomMargin.Value;
@@ -137,26 +136,27 @@ namespace FontCreator
 
 			Parameters.NumberWidthAdjust = (int)nudNumberWidthAdjust.Value;
 
-			builder?.CreateFont();
+			btnGenerateFont.Enabled = true;
 		}
+
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
 
-			builder?.Draw();
+			creator?.Draw();
 		}
 
 		private void txtSampleText_TextChanged(object sender, EventArgs e)
 		{
-			if (builder == null)
+			if (creator == null)
 				return;
 
-			builder.Text = txtSampleText.Text;
+			creator.SampleText = txtSampleText.Text;
 		}
 
 		private void renderTarget_Resize(object sender, EventArgs e)
 		{
-			builder?.Draw();
+			creator?.Draw();
 		}
 
 		private void btnBorderColor_Click(object sender, EventArgs e)
@@ -167,25 +167,20 @@ namespace FontCreator
 			{
 				btnBorderColor.BackColor = colorDialog.Color;
 
-				Parameters.BorderColor = ConvertColor(colorDialog.Color);
+				Parameters.BorderColor = colorDialog.Color.ToGeometry();
 				Parameters.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, Parameters.BorderColor);
 
 				Parameters.CreateBorder = true;
 
 				chkBorder.Checked = true;
 
-				builder.CreateFont();
+				creator.CreateFont();
 			}
 		}
-
-		private AgateLib.Geometry.Color ConvertColor(System.Drawing.Color clr)
-		{
-			return AgateLib.Geometry.Color.FromArgb(clr.R, clr.G, clr.B);
-		}
-
+		
 		private void cboBg_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			builder.LightBackground = cboBg.SelectedIndex == 1;
+			creator.LightBackground = cboBg.SelectedIndex == 1;
 		}
 
 		private void btnDisplayColor_Click(object sender, EventArgs e)
@@ -196,36 +191,35 @@ namespace FontCreator
 			{
 				btnDisplayColor.BackColor = colorDialog.Color;
 
-				builder.DisplayColor = ConvertColor(colorDialog.Color);
+				creator.DisplayColor = colorDialog.Color.ToGeometry();
 			}
 		}
 
 		private void renderTarget_MouseMove(object sender, MouseEventArgs e)
 		{
-			builder.ZoomLocation = e.Location.ToAgatePoint();
-			builder.Draw();
+			creator.ZoomLocation = e.Location.ToAgatePoint();
+			creator.Draw();
 		}
 
 		private void nudDisplaySize_ValueChanged(object sender, EventArgs e)
 		{
-			builder.DisplaySize = (int)nudDisplaySize.Value;
+			creator.DisplaySize = (int)nudDisplaySize.Value;
 		}
 
 		private void chkDisplayBold_CheckedChanged(object sender, EventArgs e)
 		{
-			if (chkDisplayBold.Checked)
-			{
-				builder.DisplayStyle = AgateLib.DisplayLib.FontStyles.Bold;
-			}
-			else
-			{
-				builder.DisplayStyle = AgateLib.DisplayLib.FontStyles.None;
-			}
+			creator.DisplayStyle = chkDisplayBold.Checked ? AgateLib.DisplayLib.FontStyles.Bold : AgateLib.DisplayLib.FontStyles.None;
 		}
 
 		private void btnGenerateFont_Click(object sender, EventArgs e)
 		{
-			builder.CreateFont();
+			Cursor = Cursors.WaitCursor;
+
+			creator.CreateFont();
+
+			Cursor = Cursors.Default;
+
+			btnGenerateFont.Enabled = false;
 		}
 
 		private void removeToolStripMenuItem_Click(object sender, EventArgs e)

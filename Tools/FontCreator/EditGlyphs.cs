@@ -11,7 +11,7 @@ using System.Xml;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Platform.WinForms;
 
-namespace FontCreator
+namespace FontCreatorApp
 {
 	public partial class EditGlyphs : UserControl
 	{

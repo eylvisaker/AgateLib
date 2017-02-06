@@ -125,7 +125,7 @@ namespace AgateLib.Resources.Managers.Display
 				var impl = new BitmapFontImpl(surface, metrics, name);
 				var fontSurface = new FontSurface(impl);
 
-				result.Impl.AddFontSurface(new FontSettings(fontSurfaceModel.Size, fontSurfaceModel.Style), fontSurface);
+				result.Core.AddFontSurface(new FontSettings(fontSurfaceModel.Size, fontSurfaceModel.Style), fontSurface);
 			}
 
 			fonts[name] = result;

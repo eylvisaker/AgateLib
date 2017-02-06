@@ -171,8 +171,7 @@ namespace AgateLib.Platform.WinForms.Fonts
 			x = rend.Padding;
 			y = 2;
 			height = 0;
-			Drawing.Color borderColor = System.Drawing.Color.FromArgb(
-				options.BorderColor.A, options.BorderColor.R, options.BorderColor.G, options.BorderColor.B);
+			Drawing.Color borderColor = options.BorderColor.ToDrawing();
 
 			foreach (BitmapFontOptions.CharacterRange range in options.CharacterRanges)
 			{

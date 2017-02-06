@@ -1,3 +1,4 @@
-﻿family: Go Mono
+﻿family: DejaVu Sans
 bold: true
-save-name: AgateMono
+save-name: AgateSans
+text-renderer: textrenderer
