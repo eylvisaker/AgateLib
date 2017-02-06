@@ -88,7 +88,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 						catch (Exception e)
 						{
 							throw new AgateUserInterfaceInitializationException(
-								$"Widget named '{name}' is a {value.GetType().Name} but the container expects a {field.FieldType.Name} instead.");
+								$"Widget named '{name}' is a {value.GetType().Name} but the container expects a {field.FieldType.Name} instead.", e);
 						}
 					}
 				});
