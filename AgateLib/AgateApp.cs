@@ -285,7 +285,7 @@ namespace AgateLib
 
 		public static void Dispose()
 		{
-			Settings.Save();
+			Settings?.Save();
 
 			Display.Dispose();
 			Audio.Dispose();
