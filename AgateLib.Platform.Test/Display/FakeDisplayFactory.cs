@@ -50,18 +50,18 @@ namespace AgateLib.Platform.Test.Display
 		{
 			using (var fileStream = fileProvider.OpenRead(fileName))
 			{
-				return new FakeSurface(new Size(10, 10));
+				return new FakeSurfaceImpl(new Size(10, 10));
 			}
 		}
 
 		public SurfaceImpl CreateSurface(System.IO.Stream fileStream)
 		{
-			return new FakeSurface(new Size(10, 10));
+			return new FakeSurfaceImpl(new Size(10, 10));
 		}
 
 		public SurfaceImpl CreateSurface(Size surfaceSize)
 		{
-			return new FakeSurface(surfaceSize);
+			return new FakeSurfaceImpl(surfaceSize);
 		}
 
 		public FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, AgateLib.DisplayLib.FontStyles style)
@@ -82,7 +82,7 @@ namespace AgateLib.Platform.Test.Display
 
 		public SurfaceImpl CreateSurface(DisplayLib.PixelBuffer pixels)
 		{
-			return new FakeSurface(pixels.Size);
+			return new FakeSurfaceImpl(pixels.Size);
 		}
 		
 		public Task InitializeDefaultResourcesAsync(DefaultResources res)

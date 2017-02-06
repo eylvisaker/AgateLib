@@ -8,15 +8,14 @@ namespace AgateLib.Configuration
 {
 	class TimeTracker
 	{
-		private const double minDeltaTime = 0.0000001;
+		private const double MinDeltaTime = 0.0000001;
 
-		private bool mInFrame = false;
-		private double mLastTime;
-		private bool mRanOnce = false;
+		private double lastTime;
+		private bool ranOnce;
 
-		private double mFPSStart;
-		private int mFrames = 0;
-		private double mFPS = 0;
+		private double fpsStart;
+		private int frames;
+		private double fps;
 		private readonly IClock clock;
 
 		public TimeTracker(IClock clock)
@@ -34,7 +33,7 @@ namespace AgateLib.Configuration
 	
 		public TimeSpan DeltaTime { get; private set; }
 
-		public double FramesPerSecond => mFPS;
+		public double FramesPerSecond => fps;
 
 		/// <summary>
 		/// Advances the time tracker and computes the amount of time passed since 
@@ -44,38 +43,38 @@ namespace AgateLib.Configuration
 			double now = clock.CurrentTime.TotalMilliseconds;
 			double millisecondsPassed = 0;
 
-			mFrames++;
+			frames++;
 
-			if (mRanOnce)
+			if (ranOnce)
 			{
-				millisecondsPassed = now - mLastTime;
-				mLastTime = now;
+				millisecondsPassed = now - lastTime;
+				lastTime = now;
 
-				if ((now - mFPSStart) > 1000 / FpsUpdateFrequency)
+				if ((now - fpsStart) > 1000 / FpsUpdateFrequency)
 				{
-					double time = (now - mFPSStart) * 0.001;
+					double time = (now - fpsStart) * 0.001;
 
 					// average current framerate with that of the last update
-					mFPS = (mFrames / time) * 0.8 + mFPS * 0.2;
+					fps = (frames / time) * 0.8 + fps * 0.2;
 
-					mFPSStart = now;
-					mFrames = 0;
+					fpsStart = now;
+					frames = 0;
 				}
 
 				// hack to make sure delta time is never zero.
-				if (millisecondsPassed < minDeltaTime)
+				if (millisecondsPassed < MinDeltaTime)
 				{
-					millisecondsPassed = minDeltaTime;
+					millisecondsPassed = MinDeltaTime;
 				}
 			}
 			else
 			{
-				mLastTime = now;
+				lastTime = now;
 
-				mFPSStart = now;
-				mFrames = 0;
+				fpsStart = now;
+				frames = 0;
 
-				mRanOnce = true;
+				ranOnce = true;
 			}
 
 			DeltaTime = TimeSpan.FromMilliseconds(millisecondsPassed);

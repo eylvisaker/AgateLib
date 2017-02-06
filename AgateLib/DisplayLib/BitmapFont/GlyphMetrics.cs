@@ -148,7 +148,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 			get { return mKerning; }
 			set
 			{
-				Condition.RequireArgumentNotNull(value, nameof(value));
+				Require.ArgumentNotNull(value, nameof(KerningPairs));
 				mKerning = value;
 			}
 		}

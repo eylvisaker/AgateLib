@@ -10,10 +10,6 @@ namespace AgateLib.UnitTests.DisplayLib
 	{
 		public AgateUninitializedUnitTest()
 		{
-			// This dummy variable ensures the Castle.Core.dll file is copied by mstest.
-			// Why the hell hasn't MS fixed this issue?
-			Castle.Core.IServiceEnabledComponent dummyVariable;
-
 			AgateApp.Dispose();
 		}
 	}

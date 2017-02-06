@@ -58,7 +58,8 @@ namespace AgateLib.Platform.WinForms.IO
 			}
 			catch (Exception e)
 			{
-				throw new AgateException("Failed to understand path value. If your path is relative, it must start with './'");
+				throw new AgateException("Failed to understand path value. If your path is relative, it must start with './'",
+					e);
 			}
 		}
 		/// <summary>

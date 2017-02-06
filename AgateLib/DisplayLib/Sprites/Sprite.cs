@@ -724,15 +724,12 @@ namespace AgateLib.DisplayLib.Sprites
 		{
 			get
 			{
-				Condition.Requires(mCurrentFrameIndex >= 0);
-				Condition.Requires(mCurrentFrameIndex < Frames.Count || Frames.Count == 0);
-
 				return mCurrentFrameIndex;
 			}
 			set
 			{
-				Condition.Requires<ArgumentOutOfRangeException>((value >= 0 && value < Frames.Count) || Frames.Count == 0);
-				Condition.Requires<ArgumentOutOfRangeException>(Frames.Count > 0 || value == 0);
+				Require.ArgumentInRange((value >= 0 && value < Frames.Count) || Frames.Count == 0 && value == 0,
+					nameof(CurrentFrameIndex), "Current Frame Index must be between 0 and Frames.Count - 1");
 
 				if (Frames.Count <= 1)
 				{

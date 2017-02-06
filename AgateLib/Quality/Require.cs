@@ -101,6 +101,17 @@ namespace AgateLib.Quality
 		}
 
 		/// <summary>
+		/// Throws an InvalidOperationException if the value of state is false.
+		/// </summary>
+		/// <param name="state">If this value is false, an InvalidOperationException is thrown.</param>
+		/// <param name="message">Exception message.</param>
+		[DebuggerStepThrough]
+		public static void True(bool state, string message)
+		{
+			True<InvalidOperationException>(state, message);
+		}
+
+		/// <summary>
 		/// Throws an exception if the value of state is true.
 		/// </summary>
 		/// <typeparam name="TE"></typeparam>

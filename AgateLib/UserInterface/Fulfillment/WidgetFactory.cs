@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Fulfillment
 			get { return activators.First(); }
 			set
 			{
-				Condition.RequireArgumentNotNull(value, nameof(DefaultActivator));
+				Require.ArgumentNotNull(value, nameof(DefaultActivator));
 				activators[0] = value;
 			}
 		}
@@ -77,8 +77,8 @@ namespace AgateLib.UserInterface.Fulfillment
 		/// <returns></returns>
 		public IEnumerable<Widget> RealizeFacetModel(FacetModel facetModel, Action<string, Widget> widgetCreated)
 		{
-			Condition.RequireArgumentNotNull(facetModel, nameof(facetModel));
-			Condition.RequireArgumentNotNull(widgetCreated, nameof(widgetCreated));
+			Require.ArgumentNotNull(facetModel, nameof(facetModel));
+			Require.ArgumentNotNull(widgetCreated, nameof(widgetCreated));
 
 			return RealizeEachWidget(facetModel, widgetCreated).ToList();
 		}

@@ -60,10 +60,10 @@ namespace AgateLib.Resources.Managers.UserInterface
 						{
 							property.SetValue(obj, value);
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
 							throw new AgateUserInterfaceInitializationException(
-								$"Widget named '{name}' is a {value.GetType().Name} but the container expects a {property.PropertyType.Name} instead.");
+								$"Widget named '{name}' is a {value.GetType().Name} but the container expects a {property.PropertyType.Name} instead.", e);
 						}
 					}
 				});
@@ -85,7 +85,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 					Assign = (value) =>
 					{
 						try { field.SetValue(obj, value); }
-						catch(Exception e)
+						catch (Exception e)
 						{
 							throw new AgateUserInterfaceInitializationException(
 								$"Widget named '{name}' is a {value.GetType().Name} but the container expects a {field.FieldType.Name} instead.");

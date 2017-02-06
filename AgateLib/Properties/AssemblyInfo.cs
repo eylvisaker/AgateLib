@@ -37,7 +37,7 @@ using System.Resources;
 [assembly: InternalsVisibleTo("AgateLib.Platform.WinForms")]
 [assembly: InternalsVisibleTo("AgateLib.Tests.WinForms")]
 
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
 
 // Version information for an assembly consists of the following four values:
 //

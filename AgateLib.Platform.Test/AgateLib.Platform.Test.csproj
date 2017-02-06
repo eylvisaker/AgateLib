@@ -111,7 +111,6 @@
     <Compile Include="FakePlatformInfo.cs" />
     <Compile Include="FakeReadFileProvider.cs" />
     <Compile Include="Display\FakeRenderTarget.cs" />
-    <Compile Include="Display\FakeSurface.cs" />
     <Compile Include="Display\FakeFont.cs" />
     <Compile Include="Input\FakeJoystickImpl.cs" />
     <Compile Include="AgateUnitTestPlatform.cs" />

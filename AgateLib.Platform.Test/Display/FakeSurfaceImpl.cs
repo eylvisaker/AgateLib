@@ -81,16 +81,14 @@ namespace AgateLib.Platform.Test.Display
 			data.CopyFrom(buffer, new Rectangle(Point.Empty, buffer.Size), Point.Empty, true);
 		}
 
-		public override Size SurfaceSize
-		{
-			get { return size; }
-		}
+		public override Size SurfaceSize => size;
 
-		public override bool IsLoaded
-		{
-			get { return true; }
-		}
+		public override bool IsLoaded => true;
 
-		public override event EventHandler LoadComplete;
+		public override event EventHandler LoadComplete
+		{
+			add { value?.Invoke(this, EventArgs.Empty); }
+			remove { }
+		}
 	}
 }

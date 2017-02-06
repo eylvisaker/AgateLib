@@ -18,19 +18,15 @@ namespace AgateLib.Tests
 	{
 		private frmLauncher frm;
 
-		private bool runningTest = false;
+		private bool runningTest;
 
-		Dictionary<string, string> mSettings = new Dictionary<string, string>();
-		string settingsFile;
-
-		readonly char[] separator = new char[] { ' ' };
+		readonly char[] separator = { ' ' };
 
 		public TestLauncherPresenter(frmLauncher frm)
 		{
 			this.frm = frm;
 
 			frm.LaunchTest += Frm_LaunchTest;
-			frm.FormClosed += HandleFormClosed;
 
 			LoadTests();
 		}
@@ -62,14 +58,6 @@ namespace AgateLib.Tests
 			string[] args = { };
 
 			frm.HideBeforeTest();
-			foreach (var kvp in mSettings.ToArray())
-			{
-				if (kvp.Value == null)
-					continue;
-
-				string group, key;
-				SplitName(kvp.Key, out group, out key);
-			}
 
 			try
 			{
@@ -120,26 +108,6 @@ namespace AgateLib.Tests
 			TestCollection.AddTests(Assembly.GetAssembly(GetType()));
 
 			frm.Tests = TestCollection.Tests;
-		}
-
-		void HandleFormClosed(object sender, FormClosedEventArgs e)
-		{
-			if (settingsFile == null)
-			{
-				System.Diagnostics.Debug.Print("No settings file to save to.");
-				return;
-			}
-
-			using (StreamWriter w = new StreamWriter(settingsFile))
-			{
-				foreach (var setting in mSettings)
-				{
-					string text = setting.Key + "\t" + setting.Value;
-
-					System.Diagnostics.Debug.Print(text);
-					w.WriteLine(text);
-				}
-			}
 		}
 	}
 }

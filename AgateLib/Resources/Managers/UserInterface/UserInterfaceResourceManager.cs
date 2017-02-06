@@ -68,12 +68,11 @@ namespace AgateLib.Resources.Managers.UserInterface
 			{
 				facetName = facet.FacetName;
 
-				Condition.RequireArgumentNotNull(facetName, nameof(facet.FacetName),
+				Require.ArgumentNotNull(facetName, nameof(facet.FacetName),
 					"The value of the facet's FacetName property must not be null.");
 
-				if (data.Facets.ContainsKey(facetName) == false)
-					throw new AgateUserInterfaceInitializationException(
-						$"The facet '{facetName}' was not found.");
+				Require.True<AgateUserInterfaceInitializationException>(
+					data.Facets.ContainsKey(facetName), $"The facet '{facetName}' was not found.");
 
 				var adapter = new AgateWidgetAdapter(fontProvider);
 				var layoutEngine = new AgateLayoutEngine(adapter);

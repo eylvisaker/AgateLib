@@ -32,7 +32,6 @@ namespace AgateLib.AgateSDL.Audio
 		ISDL sdl;
 		SDL_Audio audio;
 		IntPtr music;
-		string tempfile;
 		string filename;
 		double mVolume;
 
@@ -43,9 +42,9 @@ namespace AgateLib.AgateSDL.Audio
 			throw new NotImplementedException();
 			//tempfile = audio.FileProvider.SaveStreamToTempFile(stream);
 
-			LoadFromFile(tempfile);
+			//LoadFromFile(tempfile);
 
-			audio.RegisterTempFile(tempfile);
+			//audio.RegisterTempFile(tempfile);
 		}
 
 		public SDL_Music(SDL_Audio audio, string filename)

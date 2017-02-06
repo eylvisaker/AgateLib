@@ -123,8 +123,6 @@ namespace AgateLib.DisplayLib.BitmapFont
 			{
 				var result = mGlyphs[key];
 
-				Condition.Requires(result != null);
-
 				return result;
 			}
 			set

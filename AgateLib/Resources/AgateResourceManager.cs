@@ -76,7 +76,7 @@ namespace AgateLib.Resources
 			}
 			set
 			{
-				Condition.RequireArgumentNotNull(value, nameof(Display));
+				Require.ArgumentNotNull(value, nameof(Display));
 				displayResourceManager = value;
 			}
 		}
@@ -92,7 +92,7 @@ namespace AgateLib.Resources
 			}
 			set
 			{
-				Condition.RequireArgumentNotNull(value, nameof(UserInterface));
+				Require.ArgumentNotNull(value, nameof(UserInterface));
 				uiResourceManager = value;
 			}
 		}

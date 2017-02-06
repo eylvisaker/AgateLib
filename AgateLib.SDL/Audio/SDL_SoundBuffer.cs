@@ -31,7 +31,6 @@ namespace AgateLib.AgateSDL.Audio
 	{
 		ISDL sdl;
 		IntPtr sound;
-		string tempfile;
 		double mVolume = 1.0;
 		int samplesPerSec = 22050;
 		string filename;
