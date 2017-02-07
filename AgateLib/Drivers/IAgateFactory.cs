@@ -25,11 +25,29 @@ using AgateLib.DisplayLib;
 
 namespace AgateLib.Drivers
 {
+	/// <summary>
+	/// Interface for platform factory.
+	/// </summary>
 	public interface IAgateFactory
 	{
+		/// <summary>
+		/// Gets the display factory.
+		/// </summary>
 		IDisplayFactory DisplayFactory { get; }
+
+		/// <summary>
+		/// Gets the audio factory.
+		/// </summary>
 		IAudioFactory AudioFactory { get; }
+
+		/// <summary>
+		/// Gets the input factory.
+		/// </summary>
 		IInputFactory InputFactory { get; }
+
+		/// <summary>
+		/// Gets the platform factory.
+		/// </summary>
 		IPlatformFactory PlatformFactory { get; }
 	}
 }

@@ -25,6 +25,9 @@ using AgateLib.Geometry;
 
 namespace AgateLib.InputLib
 {
+	/// <summary>
+	/// Class which represents data for an input event.
+	/// </summary>
 	public class AgateInputEventArgs : EventArgs
 	{
 		#region --- Static Members ---
@@ -32,8 +35,8 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Constructs an AgateInputEventArgs for a mouse down event.
 		/// </summary>
-		/// <param name="code"></param>
-		/// <param name="modifiers"></param>
+		/// <param name="mousePosition"></param>
+		/// <param name="button"></param>
 		/// <returns></returns>
 		public static AgateInputEventArgs MouseDown(Point mousePosition, MouseButton button)
 		{
@@ -48,8 +51,8 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Constructs an AgateInputEventArgs for a mouse upevent.
 		/// </summary>
-		/// <param name="code"></param>
-		/// <param name="modifiers"></param>
+		/// <param name="mousePosition"></param>
+		/// <param name="button"></param>
 		/// <returns></returns>
 		public static AgateInputEventArgs MouseUp(Point mousePosition, MouseButton button)
 		{
@@ -64,8 +67,7 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Constructs an AgateInputEventArgs for a mouse move event.
 		/// </summary>
-		/// <param name="code"></param>
-		/// <param name="modifiers"></param>
+		/// <param name="mousePosition"></param>
 		/// <returns></returns>
 		public static AgateInputEventArgs MouseMove(Point mousePosition)
 		{
@@ -79,8 +81,8 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Constructs an AgateInputEventArgs for a double click event.
 		/// </summary>
-		/// <param name="code"></param>
-		/// <param name="modifiers"></param>
+		/// <param name="mousePosition"></param>
+		/// <param name="mouseButton"></param>
 		/// <returns></returns>
 		public static AgateInputEventArgs MouseDoubleClick(Point mousePosition, MouseButton mouseButton)
 		{
@@ -95,8 +97,8 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Constructs an AgateInputEventArgs for a mouse wheel event.
 		/// </summary>
-		/// <param name="code"></param>
-		/// <param name="modifiers"></param>
+		/// <param name="mousePosition"></param>
+		/// <param name="wheelDelta"></param>
 		/// <returns></returns>
 		public static AgateInputEventArgs MouseWheel(Point mousePosition, int wheelDelta)
 		{
@@ -145,25 +147,25 @@ namespace AgateLib.InputLib
 		/// Creates a string from the specified KeyCode and KeyModifiers.
 		/// Unfortunately this is tied to the US English keyboard, so it needs a better solution.
 		/// </summary>
-		/// <param name="keyID"></param>
+		/// <param name="key"></param>
 		/// <param name="mods"></param>
 		/// <returns></returns>
-		public static string GetKeyString(KeyCode keyID, KeyModifiers mods)
+		public static string GetKeyString(KeyCode key, KeyModifiers mods)
 		{
-			if ((int)keyID >= 'A' && (int)keyID <= 'Z')
+			if ((int)key >= 'A' && (int)key <= 'Z')
 			{
 				char result;
 
 				if (mods.Shift)
-					result = (char)keyID;
+					result = (char)key;
 				else
-					result = (char)((int)keyID + 'a' - 'A');
+					result = (char)((int)key + 'a' - 'A');
 
 				return result.ToString();
 			}
 
 
-			switch (keyID)
+			switch (key)
 			{
 				case KeyCode.Tab:
 					return "\t";
@@ -342,6 +344,12 @@ namespace AgateLib.InputLib
 			return "";
 		}
 
+		/// <summary>
+		/// Creates an event args for a change in a joystick axis
+		/// </summary>
+		/// <param name="joystick"></param>
+		/// <param name="axisIndex"></param>
+		/// <returns></returns>
 		public static AgateInputEventArgs JoystickAxisChanged(Joystick joystick, int axisIndex)
 		{
 			return new AgateInputEventArgs
@@ -352,6 +360,12 @@ namespace AgateLib.InputLib
 			};
 		}
 
+		/// <summary>
+		/// Creates an event args for a joystick button press.
+		/// </summary>
+		/// <param name="joystick"></param>
+		/// <param name="buttonIndex"></param>
+		/// <returns></returns>
 		public static AgateInputEventArgs JoystickButtonPressed(Joystick joystick, int buttonIndex)
 		{
 			return new AgateInputEventArgs
@@ -362,6 +376,12 @@ namespace AgateLib.InputLib
 			};
 		}
 
+		/// <summary>
+		/// Creates an event args for a joystick button release event.
+		/// </summary>
+		/// <param name="joystick"></param>
+		/// <param name="buttonIndex"></param>
+		/// <returns></returns>
 		public static AgateInputEventArgs JoystickButtonReleased(Joystick joystick, int buttonIndex)
 		{
 			return new AgateInputEventArgs
@@ -372,6 +392,12 @@ namespace AgateLib.InputLib
 			};
 		}
 
+		/// <summary>
+		/// Creates an event args for a change in a joystick POV hat state.
+		/// </summary>
+		/// <param name="joystick"></param>
+		/// <param name="buttonIndex"></param>
+		/// <returns></returns>
 		public static AgateInputEventArgs JoystickHatStateChanged(Joystick joystick, int buttonIndex)
 		{
 			return new AgateInputEventArgs
@@ -390,20 +416,56 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public bool Handled { get; set; }
 
+		/// <summary>
+		/// Gets the type of input event.
+		/// </summary>
 		public InputEventType InputEventType { get; set; }
 
+		/// <summary>
+		/// Gets the KeyCode for a key down/up event.
+		/// </summary>
 		public KeyCode KeyCode { get; set; }
+
+		/// <summary>
+		/// Gets the text string for a key input event.
+		/// </summary>
 		public string KeyString { get; set; }
+
+		/// <summary>
+		/// Gets the key modifiers structure indicating whether modifier
+		/// keys are pressed for the event.
+		/// </summary>
 		public KeyModifiers KeyModifiers { get; set; }
 
+		/// <summary>
+		/// Gets the mouse position for the event.
+		/// </summary>
 		public Point MousePosition { get; set; }
+
+		/// <summary>
+		/// Gets the mouse button for the event.
+		/// </summary>
 		public MouseButton MouseButton { get; set; }
+
+		/// <summary>
+		/// Gets how far the mouse wheel was moved.
+		/// </summary>
 		public int MouseWheelDelta { get; set; }
 
+		/// <summary>
+		/// Gets the joystick index for joystick events.
+		/// </summary>
 		public int JoystickIndex { get; set; }
-		public int JoystickAxisIndex { get; set; }
-		public int JoystickButtonIndex { get; set; }
 
+		/// <summary>
+		/// Gets the joystick axis index for joystick axis changed events.
+		/// </summary>
+		public int JoystickAxisIndex { get; set; }
+
+		/// <summary>
+		/// Gets the joystick button for joystick button events.
+		/// </summary>
+		public int JoystickButtonIndex { get; set; }
 
 		/// <summary>
 		/// Gets the DisplayWindow this event occurred in. This property is null for 
@@ -411,6 +473,9 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public DisplayWindow MouseWindow { get; internal set; }
 
+		/// <summary>
+		/// Gets whether this event is a mouse event.
+		/// </summary>
 		public bool IsMouseEvent
 		{
 			get
@@ -430,6 +495,9 @@ namespace AgateLib.InputLib
 			}
 		}
 
+		/// <summary>
+		/// Gets whether this event is a keyboard event.
+		/// </summary>
 		public bool IsKeyboardEvent
 		{
 			get
@@ -446,6 +514,10 @@ namespace AgateLib.InputLib
 			}
 		}
 
+		/// <summary>
+		/// Returns a string representation.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			switch (InputEventType)
@@ -480,20 +552,4 @@ namespace AgateLib.InputLib
 		}
 	}
 
-	public enum InputEventType
-	{
-		KeyDown,
-		KeyUp,
-
-		MouseDown,
-		MouseMove,
-		MouseUp,
-		MouseDoubleClick,
-		MouseWheel,
-
-		JoystickAxisChanged,
-		JoystickButtonPressed,
-		JoystickButtonReleased,
-		JoystickHatChanged,
-	}
 }

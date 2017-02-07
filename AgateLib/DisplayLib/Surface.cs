@@ -67,6 +67,7 @@ namespace AgateLib.DisplayLib
 		/// Creates a surface object, from the specified image file.
 		/// </summary>
 		/// <param name="filename">Path and file name for the image file to load.</param>
+		/// <param name="fileprovider">The file provider to load the image file from.</param>
 		public Surface(string filename, IReadFileProvider fileprovider = null)
 		{
 			Verify.DisplayIsInitialized();

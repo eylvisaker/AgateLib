@@ -30,9 +30,7 @@ namespace AgateLib.Extensions.Collections.NonGeneric
 		/// Provides a sort method for IList&lt;T&gt; objects which 
 		/// is stable, unlike the List&lt;T&gt;.Sort() method.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
 		/// <param name="list"></param>
-		/// <param name="comparison"></param>
 		public static void InsertionSort(this IList list)
 		{
 			if (list == null) throw new ArgumentNullException("list");

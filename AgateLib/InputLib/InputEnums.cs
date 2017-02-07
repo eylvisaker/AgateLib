@@ -7,6 +7,67 @@ using System.Threading.Tasks;
 namespace AgateLib.InputLib
 {
 	/// <summary>
+	/// Enum for input event types.
+	/// </summary>
+	public enum InputEventType
+	{
+		/// <summary>
+		/// Keyboard key down event.
+		/// </summary>
+		KeyDown,
+
+		/// <summary>
+		/// Keyboard key up event.
+		/// </summary>
+		KeyUp,
+
+		/// <summary>
+		/// Mouse button down event
+		/// </summary>
+		MouseDown,
+
+		/// <summary>
+		/// Mouse move event.
+		/// </summary>
+		MouseMove,
+
+		/// <summary>
+		/// Mouse up event.
+		/// </summary>
+		MouseUp,
+
+		/// <summary>
+		/// Mouse double click event.
+		/// </summary>
+		MouseDoubleClick,
+
+		/// <summary>
+		/// Mouse wheel moved event.
+		/// </summary>
+		MouseWheel,
+
+		/// <summary>
+		/// Joystick axis changed event.
+		/// </summary>
+		JoystickAxisChanged,
+
+		/// <summary>
+		/// Joystick button pressed event.
+		/// </summary>
+		JoystickButtonPressed,
+
+		/// <summary>
+		/// Joystick button released event.
+		/// </summary>
+		JoystickButtonReleased,
+
+		/// <summary>
+		/// Joystick hat changed event.
+		/// </summary>
+		JoystickHatChanged,
+	}
+
+	/// <summary>
 	/// Mouse Buttons enum.
 	/// </summary>
 	public enum MouseButton

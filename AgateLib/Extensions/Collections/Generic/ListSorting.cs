@@ -36,7 +36,6 @@ namespace AgateLib.Extensions.Collections.Generic
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="list"></param>
-		/// <param name="comparison"></param>
 		public static void InsertionSort<T>(this IList<T> list)
 		{
 			if (list == null) throw new ArgumentNullException("list");
