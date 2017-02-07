@@ -51,11 +51,17 @@ namespace AgateLib.Diagnostics
 			emergencyVocab = new LibraryVocabulary(new AgateEmergencyVocabulary(this));
 		}
 
+		/// <summary>
+		/// Event raised when the visibility is changed.
+		/// </summary>
 		public event EventHandler VisibleChanged;
 
+		/// <summary>
+		/// Event raised after processing a user keystroke.
+		/// </summary>
 		public event EventHandler KeyProcessed;
 
-		private long CurrentTime => AgateApp.State.App.MasterTime.ElapsedMilliseconds;
+		private long CurrentTime => (long)AgateApp.State.App.ApplicationClock.CurrentTime.TotalMilliseconds;
 
 		/// <summary>
 		/// Returns the entire list of command libraries, including those
@@ -131,7 +137,7 @@ namespace AgateLib.Diagnostics
 			var message = new ConsoleMessage
 			{
 				Text = text,
-				Time = AgateApp.State.App.MasterTime.ElapsedMilliseconds,
+				Time = (long)AgateApp.State.App.ApplicationClock.CurrentTime.TotalMilliseconds,
 				MessageType = ConsoleMessageType.Text,
 			};
 

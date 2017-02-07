@@ -188,9 +188,10 @@
     <Compile Include="Algorithms\PathFinding\AStar.cs" />
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
+    <Compile Include="Configuration\AppClock.cs" />
+    <Compile Include="ErrorReporter.cs" />
     <Compile Include="Mathematics\Algorithms\Inverting.cs" />
     <Compile Include="Algorithms\ThreeD\MapConversion.cs" />
-    <Compile Include="Configuration\AgateAppClock.cs" />
     <Compile Include="Configuration\AgatePlatform.cs" />
     <Compile Include="Configuration\IClock.cs" />
     <Compile Include="Configuration\TimeTracker.cs" />
@@ -220,6 +221,8 @@
     <Compile Include="InputLib\InputEnums.cs" />
     <Compile Include="IO\Enums.cs" />
     <Compile Include="FileProviderExtensions.cs" />
+    <Compile Include="Platform\GameClock.cs" />
+    <Compile Include="Platform\MasterClock.cs" />
     <Compile Include="UserInterface\Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="Diagnostics\JoinArgsAttribute.cs" />
     <Compile Include="Diagnostics\LibraryVocabulary.cs" />

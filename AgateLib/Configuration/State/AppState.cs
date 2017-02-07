@@ -29,14 +29,12 @@ namespace AgateLib.Configuration.State
 	{
 		internal EventHandler AfterKeepAlive;
 
-		internal class ErrorReportingState
+		public AppState()
 		{
-			public string ErrorFile { get; set; } = "logs/errorlog.txt";
-			public bool AutoStackTrace { get; set; } = false;
-			public bool WroteHeader { get; set; } = false;
+			AppTime = new TimeTracker(ApplicationClock);
 		}
 
-		public ErrorReportingState ErrorReporting { get; private set; } = new ErrorReportingState();
+		public ErrorReporter ErrorReporting { get; private set; } = new ErrorReporter();
 
 		public bool AutoPause { get; set; }
 		public bool IsActive { get; set; } = true;
@@ -44,10 +42,8 @@ namespace AgateLib.Configuration.State
 		public IPlatformInfo Platform { get; set; }
 		public PersistantSettings Settings { get; } = new PersistantSettings();
 
-		public Stopwatch MasterTime { get; private set; } = Stopwatch.StartNew();
-		/// <summary>
-		/// 
-		/// </summary>
+		public AppClock ApplicationClock { get; private set; } = new AppClock();
+
 		public CrossPlatformDebugLevel CrossPlatformDebugLevel { get; set; } = CrossPlatformDebugLevel.Comment;
 		public IStopwatch Time { get; set; }
 		public bool IsAlive { get; set; } = true;
@@ -57,7 +53,6 @@ namespace AgateLib.Configuration.State
 
 		public List<Action> WorkItems { get; set; } = new List<Action>();
 
-
-		public TimeTracker AppTime { get; } = new TimeTracker(new AgateAppClock());
+		public TimeTracker AppTime { get; }
 	}
 }

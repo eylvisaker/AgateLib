@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.AudioLib;
+using AgateLib.Configuration;
 using AgateLib.Configuration.State;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
@@ -41,212 +42,6 @@ namespace AgateLib
 	/// </summary>
 	public static class AgateApp
 	{
-		#region --- Error Reporting ---
-
-		/// <summary>
-		/// Static class which is used to handle all error reports.
-		/// </summary>
-		public static class ErrorReporting
-		{
-			/// <summary>
-			/// Gets or sets the file name to which errors are recorded.  Defaults
-			/// to "errorlog.txt"
-			/// </summary>
-			public static string ErrorFile
-			{
-				get { return State.App.ErrorReporting.ErrorFile; }
-				set { State.App.ErrorReporting.ErrorFile = value; }
-			}
-
-			/// <summary>
-			/// Gets or sets whether or not a stack trace is automatically used.
-			/// </summary>
-			/// <example>
-			/// You may find it useful to turn this on during a debug build, and
-			/// then turn if off when building the release version.  The following
-			/// code accomplishes that.
-			/// <code>
-			/// #if _DEBUG
-			///     AgateLib.AgateApp.AutoStackTrace = true;
-			/// #endif
-			/// </code>
-			/// </example>
-			public static bool AutoStackTrace
-			{
-				get { return State.App.ErrorReporting.AutoStackTrace; }
-				set { State.App.ErrorReporting.AutoStackTrace = value; }
-			}
-
-			/// <summary>
-			/// Gets or sets a value indicating how AgateLib should deal with issues that may
-			/// cause problems when porting to another platform.
-			/// </summary>
-			public static CrossPlatformDebugLevel CrossPlatformDebugLevel
-			{
-				get { return State.App.CrossPlatformDebugLevel; }
-				set { State.App.CrossPlatformDebugLevel = value; }
-			}
-
-			/// <summary>
-			/// Saves an error message to the ErrorFile.
-			/// It is recommended to use an overload which takes an exception parameter,
-			/// if there is an exception available which provides more information.
-			/// </summary>
-			/// <param name="level"></param>
-			/// <param name="message"></param>
-			public static void Report(ErrorLevel level, string message)
-			{
-				Report(level, message, null);
-			}
-			/// <summary>
-			/// Saves an error message to the ErrorFile.
-			/// Outputs a stack trace and shows a dialog box if the ErrorLevel 
-			/// is Bug or Fatal.
-			/// </summary>
-			/// <param name="message">A message to print out before the 
-			/// exception's message.</param>
-			/// <param name="e"></param>
-			/// <param name="level"></param>
-			public static void Report(ErrorLevel level, string message, Exception e)
-			{
-
-				switch (level)
-				{
-					case ErrorLevel.Bug:
-					case ErrorLevel.Fatal:
-						Report(level, message, e, true, true);
-						break;
-
-					case ErrorLevel.Comment:
-					case ErrorLevel.Warning:
-						Report(level, message, e, AutoStackTrace, false);
-						break;
-				}
-			}
-
-			/// <summary>
-			/// Saves an error message to the ErrorFile.
-			/// </summary>
-			/// <param name="message">A message to print out before the 
-			/// exception's message.</param>
-			/// <param name="e"></param>
-			/// <param name="level"></param>
-			/// <param name="printStackTrace">Bool value indicating whether or not 
-			/// a stack trace should be written out.  </param>
-			/// <param name="showDialog">Bool value indicating whether or not a 
-			/// message box should pop up with an OK button, informing the user about the 
-			/// error.  If false, the error is silently written to the ErrorFile.</param>
-			public static void Report(ErrorLevel level, string message, Exception e, bool printStackTrace, bool showDialog)
-			{
-				StringBuilder b = new StringBuilder();
-
-				b.Append(LevelText(level));
-				b.Append(": ");
-				b.AppendLine(message);
-
-				if (e != null)
-				{
-					b.Append(e.GetType().Name);
-					b.Append(": ");
-					b.AppendLine(e.Message);
-
-					if (printStackTrace)
-						b.AppendLine(e.StackTrace);
-				}
-
-				b.AppendLine();
-
-				string text = b.ToString();
-
-				// show the error dialog if AgateWinForms.dll is present.
-				//if (showDialog && Drivers.Registrar.WinForms != null)
-				//{
-				//	Drivers.Registrar.WinForms.ShowErrorDialog(message, e, level);
-				//}
-
-				using (StreamWriter filewriter = OpenErrorFile())
-				{
-					filewriter?.Write(text);
-				}
-
-				Log.WriteLine(text);
-			}
-
-			/// <summary>
-			/// Reports a cross platform error, according to the setting of AgateApp.CrossPlatformDebugLevel.
-			/// </summary>
-			/// <param name="message"></param>
-			public static void ReportCrossPlatformError(string message)
-			{
-				switch (CrossPlatformDebugLevel)
-				{
-					case CrossPlatformDebugLevel.Comment:
-						Report(ErrorLevel.Warning, message, null);
-						break;
-
-					case CrossPlatformDebugLevel.Exception:
-						throw new AgateCrossPlatformException(message);
-
-				}
-			}
-
-			private static StreamWriter OpenErrorFile()
-			{
-				try
-				{
-					if (State.App.ErrorReporting.WroteHeader == true)
-					{
-						Stream stream = UserFiles.OpenWrite(ErrorFile, FileOpenMode.Append);
-
-						return new StreamWriter(stream);
-					}
-					else
-					{
-						var stream = UserFiles.OpenWrite(ErrorFile);
-						StreamWriter writer = new StreamWriter(stream);
-
-						WriteHeader(writer);
-
-						State.App.ErrorReporting.WroteHeader = true;
-
-						return writer;
-					}
-				}
-				catch (Exception e)
-				{
-					string message = "Could not open file " + ErrorFile + ".\r\n" +
-						"Error message: " + e.Message + "\r\n" +
-						"Errors cannot be saved to a text file.";
-
-					Log.WriteLine(message);
-
-					return null;
-				}
-			}
-
-			private static void WriteHeader(StreamWriter writer)
-			{
-				writer.WriteLine("Error Log started " + DateTime.Now.ToString());
-				writer.WriteLine("");
-			}
-			private static string LevelText(ErrorLevel level)
-			{
-				switch (level)
-				{
-					case ErrorLevel.Comment: return "COMMENT";
-					case ErrorLevel.Warning: return "WARNING";
-					case ErrorLevel.Fatal: return "ERROR";
-					case ErrorLevel.Bug: return "BUG";
-				}
-
-				return "ERROR";
-			}
-
-
-		}
-
-		#endregion
-
 		internal static event EventHandler AfterKeepAlive
 		{
 			add { State.App.AfterKeepAlive += value; }
@@ -256,55 +51,9 @@ namespace AgateLib
 		internal static AgateLibState State { get; private set; } = new AgateLibState();
 
 		/// <summary>
-		/// Initializes AgateApp class with a platform factory.
-		/// Can be called multiple times without adverse effects.
+		/// Gets the object which handlers error reporting configuration.
 		/// </summary>
-		public static void Initialize(IAgateFactory factory)
-		{
-			Require.ArgumentNotNull(factory, nameof(factory));
-
-			if (State?.App.Inititalized ?? false)
-				return;
-
-			State = new AgateLibState();
-			State.Factory = factory;
-			State.App.Platform = factory.PlatformFactory.Info;
-			State.App.Time = factory.PlatformFactory.CreateStopwatch();
-
-			Assets = factory.PlatformFactory.ApplicationFolderFiles;
-			UserFiles = factory.PlatformFactory.OpenUserAppStorage("");
-
-			Display.Initialize(factory.DisplayFactory.DisplayCore);
-			Audio.Initialize(factory.AudioFactory.AudioCore);
-			Input.Initialize(factory.InputFactory.InputCore);
-
-			AgateConsole.Initialize();
-
-			State.App.Inititalized = true;
-		}
-
-		public static void Dispose()
-		{
-			Settings?.Save();
-
-			Display.Dispose();
-			Audio.Dispose();
-			Input.Dispose();
-
-			State = null;
-		}
-
-		/// <summary>
-		/// Adds an action to a queue that is executed when AgateApp.KeepAlive is called.
-		/// </summary>
-		/// <param name="action"></param>
-		public static void QueueWorkItem(Action action)
-		{
-			lock (State.App.WorkItems)
-			{
-				State.App.WorkItems.Add(action);
-			}
-		}
+		public static ErrorReporter ErrorReporting => State.App.ErrorReporting;
 
 		/// <summary>
 		/// Gets an object which describes details about the current platform.
@@ -393,7 +142,64 @@ namespace AgateLib
 		/// <summary>
 		/// Returns the amount of time that elapsed between the last two calls to KeepAlive.
 		/// </summary>
+		[Obsolete("Use ApplicationClock.DeltaTime instead.")]
 		public static TimeSpan DeltaTime => State.App.AppTime.DeltaTime;
+
+		/// <summary>
+		/// Returns time since Agatelib was initialized.
+		/// </summary>
+		/// <returns></returns>
+		public static AppClock ApplicationClock => State.App.ApplicationClock;
+		/// <summary>
+		/// Initializes AgateApp class with a platform factory.
+		/// Can be called multiple times without adverse effects.
+		/// </summary>
+		public static void Initialize(IAgateFactory factory)
+		{
+			Require.ArgumentNotNull(factory, nameof(factory));
+
+			if (State?.App.Inititalized ?? false)
+				return;
+
+			State = new AgateLibState();
+			State.Factory = factory;
+			State.App.Platform = factory.PlatformFactory.Info;
+			State.App.Time = factory.PlatformFactory.CreateStopwatch();
+
+			Assets = factory.PlatformFactory.ApplicationFolderFiles;
+			UserFiles = factory.PlatformFactory.OpenUserAppStorage("");
+
+			Display.Initialize(factory.DisplayFactory.DisplayCore);
+			Audio.Initialize(factory.AudioFactory.AudioCore);
+			Input.Initialize(factory.InputFactory.InputCore);
+
+			AgateConsole.Initialize();
+
+			State.App.Inititalized = true;
+		}
+
+		public static void Dispose()
+		{
+			Settings?.Save();
+
+			Display.Dispose();
+			Audio.Dispose();
+			Input.Dispose();
+
+			State = null;
+		}
+
+		/// <summary>
+		/// Adds an action to a queue that is executed when AgateApp.KeepAlive is called.
+		/// </summary>
+		/// <param name="action"></param>
+		public static void QueueWorkItem(Action action)
+		{
+			lock (State.App.WorkItems)
+			{
+				State.App.WorkItems.Add(action);
+			}
+		}
 
 		public static void SetAssetPath(string path)
 		{
@@ -440,15 +246,6 @@ namespace AgateLib
 			}
 
 			State.App.AppTime.Advance();
-		}
-
-		/// <summary>
-		/// Returns time since Agatelib was initialized.
-		/// </summary>
-		/// <returns></returns>
-		internal static TimeSpan AppClockTime()
-		{
-			return TimeSpan.FromMilliseconds(State.App.Time.TotalMilliseconds);
 		}
 
 		/// <summary>

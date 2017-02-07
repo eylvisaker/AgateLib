@@ -33,7 +33,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 		private IReadOnlyList<ConsoleMessage> Messages => console.Messages;
 
-		private long CurrentTime => AgateApp.State.App.MasterTime.ElapsedMilliseconds;
+		private long CurrentTime => (long)AgateApp.State.App.ApplicationClock.CurrentTime.TotalMilliseconds;
 
 		public IConsoleTheme Theme
 		{
