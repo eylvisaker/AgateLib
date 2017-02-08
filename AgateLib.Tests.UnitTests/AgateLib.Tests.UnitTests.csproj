@@ -137,7 +137,7 @@
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
     <Compile Include="Platform\IntegrationTest\IntegrationTestPlatformTests.cs" />
-    <Compile Include="Platform\TimingTests.cs" />
+    <Compile Include="Platform\ClockTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Platform\PlatformTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderErrorTests.cs" />

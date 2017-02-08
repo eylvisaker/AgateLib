@@ -7,6 +7,10 @@ using AgateLib.Configuration;
 
 namespace AgateLib.Platform
 {
+	/// <summary>
+	/// Class which represents a master clock. This clock can be advanced at specified intervals
+	/// and will track the amount of time passed for each interval.
+	/// </summary>
 	public class MasterClock : IStopClock
 	{
 		private readonly IClock root;
@@ -21,6 +25,10 @@ namespace AgateLib.Platform
 		private int frames;
 		private double fps;
 
+		/// <summary>
+		/// Constructs a MasterClock object.
+		/// </summary>
+		/// <param name="rootClock">The IClock object which provides a continuously running clock to draw from.</param>
 		public MasterClock(IClock rootClock)
 		{
 			this.root = rootClock;
@@ -34,10 +42,19 @@ namespace AgateLib.Platform
 		/// </summary>
 		public double FpsUpdateFrequency { get; set; } = 5;
 
-		public TimeSpan DeltaTime { get; private set; }
+		/// <summary>
+		/// The amount of time elapsed between the last two calls to Advance().
+		/// </summary>
+		public TimeSpan Elapsed { get; private set; }
 
+		/// <summary>
+		/// The current time shown on the clock face.
+		/// </summary>
 		public TimeSpan CurrentTime => TimeSpan.FromMilliseconds(currentTimeMs);
 
+		/// <summary>
+		/// The number of frames per second. 
+		/// </summary>
 		public double FramesPerSecond => fps;
 
 		/// <summary>
@@ -57,7 +74,7 @@ namespace AgateLib.Platform
 
 				currentTimeMs += timePassedMs;
 
-				if ((now - fpsStart) > 1000 / FpsUpdateFrequency)
+				if (now - fpsStart > 1000 / FpsUpdateFrequency)
 				{
 					double time = (now - fpsStart) * 0.001;
 
@@ -84,7 +101,7 @@ namespace AgateLib.Platform
 				ranOnce = true;
 			}
 
-			DeltaTime = TimeSpan.FromMilliseconds(timePassedMs);
+			Elapsed = TimeSpan.FromMilliseconds(timePassedMs);
 		}
 	}
 }

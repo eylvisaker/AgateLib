@@ -222,6 +222,7 @@
     <Compile Include="IO\Enums.cs" />
     <Compile Include="FileProviderExtensions.cs" />
     <Compile Include="Platform\GameClock.cs" />
+    <Compile Include="Platform\IStopClock.cs" />
     <Compile Include="Platform\MasterClock.cs" />
     <Compile Include="UserInterface\Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="Diagnostics\JoinArgsAttribute.cs" />
