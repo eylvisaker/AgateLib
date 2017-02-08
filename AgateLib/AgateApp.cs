@@ -142,14 +142,22 @@ namespace AgateLib
 		/// <summary>
 		/// Returns the amount of time that elapsed between the last two calls to KeepAlive.
 		/// </summary>
-		[Obsolete("Use ApplicationClock.DeltaTime instead.")]
+		[Obsolete("Use ApplicationClock.Elapsed instead.", true)]
 		public static TimeSpan DeltaTime => State.App.AppTime.DeltaTime;
 
 		/// <summary>
-		/// Returns time since Agatelib was initialized.
+		/// Returns a MasterClock object which only advances during calls to KeepAlive, and shows
+		/// the amount of time that passed between the last two calls to KeepAlive.
 		/// </summary>
 		/// <returns></returns>
-		public static AppClock ApplicationClock => State.App.ApplicationClock;
+		public static MasterClock ApplicationClock => State.App.ApplicationClock;
+
+		/// <summary>
+		/// Returns a GameClock object. This is similar to the ApplicationClock except it can be sped up
+		/// and slowed down.
+		/// </summary>
+		public static GameClock GameClock => State.App.GameClock;
+
 		/// <summary>
 		/// Initializes AgateApp class with a platform factory.
 		/// Can be called multiple times without adverse effects.
@@ -245,7 +253,7 @@ namespace AgateLib
 				State.App.AfterKeepAlive?.Invoke(null, EventArgs.Empty);
 			}
 
-			State.App.AppTime.Advance();
+			State.App.ApplicationClock.Advance();
 		}
 
 		/// <summary>

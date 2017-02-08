@@ -43,7 +43,7 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 		{
 			Display.Clear(Color.DarkRed);
 
-			sp.RotationAngleDegrees += 180 * AgateApp.DeltaTime.TotalSeconds;
+			sp.RotationAngleDegrees += 180 * AgateApp.GameClock.Elapsed.TotalSeconds;
 			sp.Draw(location);
 		}
 

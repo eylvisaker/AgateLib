@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Configuration
+namespace AgateLib.Platform
 {
-	public class AppClock : IClock
+	public class StopwatchClock : IClock
 	{
 		private Stopwatch watch = Stopwatch.StartNew();
 

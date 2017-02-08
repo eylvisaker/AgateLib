@@ -97,7 +97,7 @@ namespace AgateLib.Tests.DisplayTests
 					Display.EndFrame();
 					AgateApp.KeepAlive();
 
-					time += AgateApp.DeltaTime.TotalSeconds;
+					time += AgateApp.GameClock.Elapsed.TotalSeconds;
 				}
 			}
 		}

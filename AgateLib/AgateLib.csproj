@@ -188,12 +188,13 @@
     <Compile Include="Algorithms\PathFinding\AStar.cs" />
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
-    <Compile Include="Configuration\AppClock.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\AgateAppVocabulary.cs" />
+    <Compile Include="Platform\StopwatchClock.cs" />
     <Compile Include="ErrorReporter.cs" />
     <Compile Include="Mathematics\Algorithms\Inverting.cs" />
     <Compile Include="Algorithms\ThreeD\MapConversion.cs" />
     <Compile Include="Configuration\AgatePlatform.cs" />
-    <Compile Include="Configuration\IClock.cs" />
+    <Compile Include="Platform\IClock.cs" />
     <Compile Include="Configuration\TimeTracker.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleVocabulary.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleRenderer.cs" />

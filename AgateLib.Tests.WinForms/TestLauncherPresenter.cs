@@ -83,7 +83,8 @@ namespace AgateLib.Tests
 		{
 			using (new AgateWinForms(CommandLineArguments)
 				.AssetPath("Assets")
-				.Initialize())
+				.Initialize()
+				.InstallConsoleCommands())
 			{
 				test.Run(CommandLineArguments);
 			}

@@ -61,7 +61,7 @@ namespace AgateLib.Tests.Shaders.LightingTest
 			while (AgateApp.IsAlive)
 			{
 				//if (frm.chkMoveLight.Checked)
-				time += AgateApp.DeltaTime.TotalSeconds;
+				time += AgateApp.GameClock.Elapsed.TotalSeconds;
 
 				ballPt = new Point((int)(120 + 110 * Math.Cos(time)),
 								   (int)(120 + 110 * Math.Sin(time)));

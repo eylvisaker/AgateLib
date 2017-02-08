@@ -64,6 +64,7 @@ namespace AgateLib.Configuration
 			if (consoleInstalled == false)
 			{
 				AgateConsole.CommandLibraries.Add(new LibraryVocabulary(new AgateConsoleVocabulary()));
+				AgateConsole.CommandLibraries.Add(new LibraryVocabulary(new AgateAppVocabulary()));
 
 				consoleInstalled = true;
 			}	

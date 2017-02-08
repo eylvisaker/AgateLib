@@ -85,7 +85,7 @@ namespace Examples.UserInterface.Menus
 				while (AgateApp.IsAlive)
 				{
 					// Update the UI outside a BeginFrame..EndFrame section.
-					facet.InterfaceRoot.OnUpdate(AgateApp.DeltaTime, true);
+					facet.InterfaceRoot.OnUpdate(AgateApp.ApplicationClock.Elapsed, true);
 
 					Display.BeginFrame();
 					Display.Clear(Color.Gray);

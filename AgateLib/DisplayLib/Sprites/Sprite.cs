@@ -553,7 +553,7 @@ namespace AgateLib.DisplayLib.Sprites
 		/// </summary>
 		public void Update()
 		{
-			Update(AgateApp.DeltaTime.TotalMilliseconds);
+			Update(AgateApp.GameClock.Elapsed.TotalMilliseconds);
 		}
 
 		/// <summary>

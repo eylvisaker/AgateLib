@@ -81,7 +81,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			if (theme == null)
 				theme = ConsoleThemes.Default;
 
-			UpdateViewShift(AgateApp.DeltaTime.TotalSeconds);
+			UpdateViewShift(AgateApp.ApplicationClock.Elapsed.TotalSeconds);
 
 			ResizeRenderTarget();
 

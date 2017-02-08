@@ -31,7 +31,8 @@ namespace AgateLib.Configuration.State
 
 		public AppState()
 		{
-			AppTime = new TimeTracker(ApplicationClock);
+			ApplicationClock = new MasterClock(new StopwatchClock());
+			GameClock = new GameClock(ApplicationClock);
 		}
 
 		public ErrorReporter ErrorReporting { get; private set; } = new ErrorReporter();
@@ -42,7 +43,8 @@ namespace AgateLib.Configuration.State
 		public IPlatformInfo Platform { get; set; }
 		public PersistantSettings Settings { get; } = new PersistantSettings();
 
-		public AppClock ApplicationClock { get; private set; } = new AppClock();
+		public MasterClock ApplicationClock { get; } 
+		public GameClock GameClock { get; }
 
 		public CrossPlatformDebugLevel CrossPlatformDebugLevel { get; set; } = CrossPlatformDebugLevel.Comment;
 		public IStopwatch Time { get; set; }
@@ -53,6 +55,7 @@ namespace AgateLib.Configuration.State
 
 		public List<Action> WorkItems { get; set; } = new List<Action>();
 
+		[Obsolete("Use ApplicationCLock or GameClock instead.", true)]
 		public TimeTracker AppTime { get; }
 	}
 }

@@ -42,7 +42,7 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 
 				while (AgateApp.IsAlive)
 				{
-					Update(AgateApp.DeltaTime.TotalMilliseconds);
+					Update(AgateApp.GameClock.Elapsed.TotalMilliseconds);
 					Draw();
 				}
 			}
