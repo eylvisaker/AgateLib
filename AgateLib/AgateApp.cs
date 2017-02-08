@@ -148,13 +148,14 @@ namespace AgateLib
 		/// <summary>
 		/// Returns a MasterClock object which only advances during calls to KeepAlive, and shows
 		/// the amount of time that passed between the last two calls to KeepAlive.
+		/// This should be used for advancing user interface and other out-of-game behavior.
 		/// </summary>
 		/// <returns></returns>
 		public static MasterClock ApplicationClock => State.App.ApplicationClock;
 
 		/// <summary>
 		/// Returns a GameClock object. This is similar to the ApplicationClock except it can be sped up
-		/// and slowed down.
+		/// and slowed down. This should be used to advance the in-game action.
 		/// </summary>
 		public static GameClock GameClock => State.App.GameClock;
 
