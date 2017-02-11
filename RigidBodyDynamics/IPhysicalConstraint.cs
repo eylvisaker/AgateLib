@@ -6,17 +6,17 @@ namespace RigidBodyDynamics
 	public interface IPhysicalConstraint
 	{
 		/// <summary>
-		/// Compute the derivative of your constraint with respect to each coordinate of the physical object.
+		/// Compute the derivative of your constraint with respect to each coordinate of the particle object.
 		/// </summary>
-		/// <param name="physicalObject"></param>
+		/// <param name="physicalParticleObject"></param>
 		/// <returns></returns>
-		ConstraintDerivative Derivative(Physical physicalObject);
+		ConstraintDerivative Derivative(PhysicalParticle physicalParticleObject);
 
 		/// <summary>
 		/// Returns true if the constraint applies to the specified object.
 		/// </summary>
-		/// <param name="physicalObject"></param>
+		/// <param name="physicalParticleObject"></param>
 		/// <returns></returns>
-		bool AppliesTo(Physical physicalObject);
+		bool AppliesTo(PhysicalParticle physicalParticleObject);
 	}
 }

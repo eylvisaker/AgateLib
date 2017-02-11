@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RigidBodyDynamics.Demo", "RigidBodyDynamics.Demo\RigidBodyDynamics.Demo.csproj", "{A2C2506B-3D32-4489-A430-1EA3DC157304}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Physics", "RigidBodyDynamics\AgateLib.Physics.csproj", "{8A3E736E-8615-4849-8293-C1B67741C18E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Physics.UnitTests", "AgateLib.Physics.UnitTests\AgateLib.Physics.UnitTests.csproj", "{44A5A16E-B77E-447E-9F2C-C7F06000C08F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,22 @@ Global
 		{A2C2506B-3D32-4489-A430-1EA3DC157304}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2C2506B-3D32-4489-A430-1EA3DC157304}.Release|x86.ActiveCfg = Release|Any CPU
 		{A2C2506B-3D32-4489-A430-1EA3DC157304}.Release|x86.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|x86.Build.0 = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|x86.Build.0 = Release|Any CPU
+		{44A5A16E-B77E-447E-9F2C-C7F06000C08F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A5A16E-B77E-447E-9F2C-C7F06000C08F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44A5A16E-B77E-447E-9F2C-C7F06000C08F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44A5A16E-B77E-447E-9F2C-C7F06000C08F}.Debug|x86.Build.0 = Debug|Any CPU
+		{44A5A16E-B77E-447E-9F2C-C7F06000C08F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A5A16E-B77E-447E-9F2C-C7F06000C08F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44A5A16E-B77E-447E-9F2C-C7F06000C08F}.Release|x86.ActiveCfg = Release|Any CPU
+		{44A5A16E-B77E-447E-9F2C-C7F06000C08F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

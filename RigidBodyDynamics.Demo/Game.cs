@@ -11,12 +11,13 @@ namespace RigidBodyDynamics
 
 		private Surface boxImage;
 
-		private List<Physical> boxes = new List<Physical>();
-		private Physical sphere = new Physical();
+		private List<PhysicalParticle> boxes = new List<PhysicalParticle>();
+		private PhysicalParticle sphere = new PhysicalParticle();
 
 		private List<IPhysicalConstraint> constraints = new List<IPhysicalConstraint>();
 
-		private KinematicsSolver solver = new KinematicsSolver();
+		private KinematicsSystem system = new KinematicsSystem();
+		private KinematicsIntegrator solver;
 
 		public Game()
 		{
@@ -41,12 +42,13 @@ namespace RigidBodyDynamics
 				box.Force = new Vector2(0, 400 * box.Mass);
 			}
 
-			solver = new KinematicsSolver();
+			system = new KinematicsSystem();
+			solver = new KinematicsIntegrator(system, new ConstraintSolver(system));
 
-			solver.AddObjects(boxes.ToArray());
-			solver.AddObjects(sphere);
+			system.AddObjects(boxes.ToArray());
+			system.AddObjects(sphere);
 
-			solver.AddConstraints(constraints);
+			system.AddConstraints(constraints);
 
 			solver.Update(gameClockElapsed);
 		}
@@ -59,15 +61,15 @@ namespace RigidBodyDynamics
 			DrawSphere(sphere);
 		}
 
-		private void DrawBox(Physical box)
+		private void DrawBox(PhysicalParticle box)
 		{
 			boxImage.RotationAngle = box.Angle;
 			boxImage.Draw(box.Position);
 		}
 
-		private void DrawSphere(Physical physical)
+		private void DrawSphere(PhysicalParticle physicalParticle)
 		{
-			Display.FillEllipse(new RectangleF(physical.Position.X - 40, physical.Position.Y - 40, 80, 80), Color.Blue);
+			Display.FillEllipse(new RectangleF(physicalParticle.Position.X - 40, physicalParticle.Position.Y - 40, 80, 80), Color.Blue);
 		}
 
 
@@ -77,7 +79,7 @@ namespace RigidBodyDynamics
 
 			for (int i = 0; i < BoxCount; i++)
 			{
-				boxes.Add(new Physical
+				boxes.Add(new PhysicalParticle
 				{
 					Position = new Vector2(
 						Area.Width * 0.5 + (BoxCount / 2 - i) * boxSize,
@@ -95,7 +97,7 @@ namespace RigidBodyDynamics
 				}
 			}
 
-			sphere = new Physical
+			sphere = new PhysicalParticle
 			{
 				Position = new Vector2(Area.Width * 0.5, Area.Height * 0.5)
 			};

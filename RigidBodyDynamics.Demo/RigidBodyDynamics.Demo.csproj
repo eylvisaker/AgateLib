@@ -67,13 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstraintDerivative.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Jacobian.cs" />
-    <Compile Include="KinematicsSolver.cs" />
-    <Compile Include="Physical.cs" />
-    <Compile Include="PhysicalConstraint.cs" />
-    <Compile Include="PointTouchConstraint.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -100,6 +94,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RigidBodyDynamics\AgateLib.Physics.csproj">
+      <Project>{8a3e736e-8615-4849-8293-c1b67741c18e}</Project>
+      <Name>AgateLib.Physics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AgateLib.SDL.2.0.145.17039\build\AgateLib.SDL.targets" Condition="Exists('..\packages\AgateLib.SDL.2.0.145.17039\build\AgateLib.SDL.targets')" />

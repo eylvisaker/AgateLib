@@ -5,12 +5,12 @@ namespace RigidBodyDynamics
 {
 	public class PointTouchConstraint : IPhysicalConstraint
 	{
-		private Physical physical1;
-		private Physical physical2;
+		private PhysicalParticle physical1;
+		private PhysicalParticle physical2;
 		private Vector2 point1;
 		private Vector2 point2;
 
-		public PointTouchConstraint(Physical physical1, Vector2 point1, Physical physical2, Vector2 point2)
+		public PointTouchConstraint(PhysicalParticle physical1, Vector2 point1, PhysicalParticle physical2, Vector2 point2)
 		{
 			this.physical1 = physical1;
 			this.physical2 = physical2;
@@ -18,7 +18,7 @@ namespace RigidBodyDynamics
 			this.point2 = point2;
 		}
 
-		public bool AppliesTo(Physical obj)
+		public bool AppliesTo(PhysicalParticle obj)
 		{
 			if (physical1 == obj)
 				return true;
@@ -41,7 +41,7 @@ namespace RigidBodyDynamics
 			return (abs1 - abs2).MagnitudeSquared;
 		}
 
-		public ConstraintDerivative Derivative(Physical obj)
+		public ConstraintDerivative Derivative(PhysicalParticle obj)
 		{
 			int sign = (obj == physical1) ? 1 : -1;
 
@@ -54,7 +54,7 @@ namespace RigidBodyDynamics
 				-2 * abs1.X * (float)Math.Sin(obj.Angle) + 2 * abs2.Y * (float)Math.Cos(obj.Angle));
 		}
 
-		private Vector2 ComputeAbsPoint(Physical obj, Vector2 pt)
+		private Vector2 ComputeAbsPoint(PhysicalParticle obj, Vector2 pt)
 		{
 			return obj.Position +
 						   new Vector2(Math.Cos(obj.Angle) * pt.X, Math.Sign(obj.Angle) * pt.Y);

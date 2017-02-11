@@ -2,7 +2,7 @@
 
 namespace RigidBodyDynamics
 {
-	public class Physical
+	public class PhysicalParticle
 	{
 		public Polygon Polygon { get; set; }
 
@@ -10,13 +10,13 @@ namespace RigidBodyDynamics
 		public Vector2 Velocity { get; set; }
 		public Vector2 Force { get; set; }
 
-		public double Angle { get; set; }
-		public double AngularVelocity { get; set; }
-		public double Torque { get; set; }
+		public float Angle { get; set; }
+		public float AngularVelocity { get; set; }
+		public float Torque { get; set; }
 
-		public double Mass { get; set; }
+		public float Mass { get; set; }
 
-		public double IntertialMoment { get; set; }
+		public float IntertialMoment { get; set; }
 
 	}
 }
