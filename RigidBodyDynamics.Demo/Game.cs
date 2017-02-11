@@ -14,7 +14,7 @@ namespace RigidBodyDynamics
 		private List<Physical> boxes = new List<Physical>();
 		private Physical sphere = new Physical();
 
-		private List<PhysicalConstraint> constraints = new List<PhysicalConstraint>();
+		private List<IPhysicalConstraint> constraints = new List<IPhysicalConstraint>();
 
 		private KinematicsSolver solver = new KinematicsSolver();
 

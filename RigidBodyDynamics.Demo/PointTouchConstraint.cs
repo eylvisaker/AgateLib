@@ -3,7 +3,7 @@ using AgateLib.Geometry;
 
 namespace RigidBodyDynamics
 {
-	public class PointTouchConstraint : PhysicalConstraint
+	public class PointTouchConstraint : IPhysicalConstraint
 	{
 		private Physical physical1;
 		private Physical physical2;
@@ -28,6 +28,11 @@ namespace RigidBodyDynamics
 			return false;
 		}
 
+		/// <summary>
+		/// Returns the current value of the constraint equation. This can be used to measure the amount of error in the
+		/// algorithm.
+		/// </summary>
+		/// <returns></returns>
 		public double Evaluate()
 		{
 			var abs1 = ComputeAbsPoint(physical1, point1);
@@ -36,10 +41,23 @@ namespace RigidBodyDynamics
 			return (abs1 - abs2).MagnitudeSquared;
 		}
 
+		public ConstraintDerivative Derivative(Physical obj)
+		{
+			int sign = (obj == physical1) ? 1 : -1;
+
+			var abs1 = ComputeAbsPoint(physical1, point1);
+			var abs2 = ComputeAbsPoint(physical2, point2);
+
+			return sign * new ConstraintDerivative(
+				2 * abs1.X,
+				2 * abs2.Y,
+				-2 * abs1.X * (float)Math.Sin(obj.Angle) + 2 * abs2.Y * (float)Math.Cos(obj.Angle));
+		}
+
 		private Vector2 ComputeAbsPoint(Physical obj, Vector2 pt)
 		{
 			return obj.Position +
-						   new Vector2(Math.Cos(obj.Angle * pt.X), Math.Sign(obj.Angle * pt.Y));
+						   new Vector2(Math.Cos(obj.Angle) * pt.X, Math.Sign(obj.Angle) * pt.Y);
 		}
 	}
 }

@@ -7,8 +7,8 @@
     <ProjectGuid>{A2C2506B-3D32-4489-A430-1EA3DC157304}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RigidBodyDynamics</RootNamespace>
-    <AssemblyName>RigidBodyDynamics</AssemblyName>
+    <RootNamespace>RigidBodyDynamics.Demo</RootNamespace>
+    <AssemblyName>RigidBodyDynamics.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -67,7 +67,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstraintDerivative.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Jacobian.cs" />
     <Compile Include="KinematicsSolver.cs" />
     <Compile Include="Physical.cs" />
     <Compile Include="PhysicalConstraint.cs" />
