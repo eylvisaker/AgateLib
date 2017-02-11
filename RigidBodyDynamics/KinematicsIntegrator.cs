@@ -2,17 +2,19 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Quality;
 
 namespace RigidBodyDynamics
 {
 	public class KinematicsIntegrator
 	{
-		private ConstraintSolver constraint;
+		private readonly ConstraintSolver constraint;
 
 		private float unusedTime;
 
 		private float minimumTimeStep = 0.001f;
 		private float maximumTimeStep = 0.01f;
+		private int maxStepsPerFrame = 1;
 
 		public KinematicsIntegrator(KinematicsSystem system, ConstraintSolver constraint)
 		{
@@ -32,13 +34,36 @@ namespace RigidBodyDynamics
 		public TimeSpan MinimumTimeStep
 		{
 			get { return TimeSpan.FromSeconds(minimumTimeStep); }
-			set { minimumTimeStep = (float)value.TotalSeconds; }
+			set
+			{
+				Require.ArgumentInRange(value.TotalSeconds > 0, nameof(MinimumTimeStep), "Minimum time step must be positive.");
+				minimumTimeStep = (float)value.TotalSeconds;
+			}
 		}
 
+		/// <summary>
+		/// Sets the maximum time step for the kinematics update. If the elapsed
+		/// time is greater than this, up to MaxStepsPerFrame steps in the physics
+		/// simulation are done.
+		/// </summary>
 		public TimeSpan MaximumTimeStep
 		{
 			get { return TimeSpan.FromDays(maximumTimeStep); }
-			set { maximumTimeStep = (float)value.TotalSeconds; }
+			set
+			{
+				Require.ArgumentInRange(value.TotalSeconds > 0, nameof(MinimumTimeStep), "Minimum time step must be positive.");
+				maximumTimeStep = (float)value.TotalSeconds;
+			}
+		}
+
+		public int MaxStepsPerFrame
+		{
+			get { return maxStepsPerFrame; }
+			set
+			{
+				Require.ArgumentInRange(value > 0, nameof(MinimumTimeStep), "Minimum time step must be positive.");
+				maximumTimeStep = value;
+			}
 		}
 
 		public void Update(TimeSpan elapsed)
@@ -52,8 +77,8 @@ namespace RigidBodyDynamics
 
 			if (unusedTime > maximumTimeStep)
 			{
-				if (unusedTime > maximumTimeStep * 5)
-					unusedTime = maximumTimeStep * 5;
+				if (unusedTime > maximumTimeStep * MaxStepsPerFrame)
+					unusedTime = maximumTimeStep * MaxStepsPerFrame;
 
 				int steps = (int)Math.Ceiling(unusedTime / maximumTimeStep);
 
@@ -73,7 +98,7 @@ namespace RigidBodyDynamics
 
 		private void UpdateStep(float dt)
 		{
-			constraint.Update(dt);
+			constraint.Update();
 
 			IntegrateKinematicVariables(dt);
 		}

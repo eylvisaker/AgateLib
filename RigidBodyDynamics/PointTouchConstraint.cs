@@ -3,31 +3,46 @@ using AgateLib.Geometry;
 
 namespace RigidBodyDynamics
 {
+	/// <summary>
+	/// Implements a constraint which forces the two points relative to each particle be kept at a single point.
+	/// </summary>
+	/// <remarks>
+	/// Math goes here!
+	/// </remarks>
 	public class PointTouchConstraint : IPhysicalConstraint
 	{
-		private PhysicalParticle physical1;
-		private PhysicalParticle physical2;
+		private PhysicalParticle particle1;
+		private PhysicalParticle particle2;
 		private Vector2 point1;
 		private Vector2 point2;
 
-		public PointTouchConstraint(PhysicalParticle physical1, Vector2 point1, PhysicalParticle physical2, Vector2 point2)
+		public PointTouchConstraint(PhysicalParticle particle1, Vector2 point1, PhysicalParticle particle2, Vector2 point2)
 		{
-			this.physical1 = physical1;
-			this.physical2 = physical2;
+			this.particle1 = particle1;
+			this.particle2 = particle2;
 			this.point1 = point1;
 			this.point2 = point2;
 		}
 
-		public bool AppliesTo(PhysicalParticle obj)
+		private Vector2 Displacement
 		{
-			if (physical1 == obj)
-				return true;
-			if (physical2 == obj)
-				return true;
-
-			return false;
+			get
+			{
+				var abs1 = PointPosition(particle1, point1);
+				var abs2 = PointPosition(particle2, point2);
+				return abs1 - abs2;
+			}
 		}
 
+		private Vector2 DisplacementVelocity
+		{
+			get
+			{
+				var abs1 = PointVelocity(particle1, point1);
+				var abs2 = PointVelocity(particle2, point2);
+				return abs1 - abs2;
+			}
+		}
 		/// <summary>
 		/// Returns the current value of the constraint equation. This can be used to measure the amount of error in the
 		/// algorithm.
@@ -37,32 +52,112 @@ namespace RigidBodyDynamics
 		{
 			get
 			{
-				var abs1 = ComputeAbsPoint(physical1, point1);
-				var abs2 = ComputeAbsPoint(physical2, point2);
+				var abs1 = PointPosition(particle1, point1);
+				var abs2 = PointPosition(particle2, point2);
 
-				return (abs1 - abs2).MagnitudeSquared;
+				return 0.5 * (abs1 - abs2).MagnitudeSquared;
 			}
 		}
 
-		public ConstraintDerivative Derivative(PhysicalParticle obj)
+		public bool AppliesTo(PhysicalParticle obj)
 		{
-			int sign = (obj == physical1) ? 1 : -1;
+			if (particle1 == obj)
+				return true;
+			if (particle2 == obj)
+				return true;
 
-			var abs1 = ComputeAbsPoint(physical1, point1);
-			var abs2 = ComputeAbsPoint(physical2, point2);
-			var Bx = abs1.X - abs2.X;
-			var By = abs1.Y - abs2.Y;
-
-			return sign * new ConstraintDerivative(
-				2 * Bx,
-				2 * By,
-				-2 * Bx * (float)Math.Sin(obj.Angle) + 2 * By * (float)Math.Cos(obj.Angle));
+			return false;
 		}
 
-		private Vector2 ComputeAbsPoint(PhysicalParticle obj, Vector2 pt)
+		public ConstraintDerivative Derivative(PhysicalParticle particle)
 		{
-			return obj.Position +
-						   new Vector2(Math.Cos(obj.Angle) * pt.X, Math.Sign(obj.Angle) * pt.Y);
+			int sign = particle == particle1 ? 1 : -1;
+			var point = particle == particle1 ? point1 : point2;
+
+			var B = Displacement;
+			var dA_by_dAngle = PointDerivativeAngle(particle, point);
+
+			return sign * new ConstraintDerivative(
+				       B.X,
+				       B.Y,
+				       B.X * dA_by_dAngle.X + B.Y * dA_by_dAngle.Y);
+		}
+
+		public ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle)
+		{
+			int sign = particle == particle1 ? 1 : -1;
+			var point = particle == particle1 ? point1 : point2;
+
+			var B = Displacement;
+			var dB = DisplacementVelocity;
+			var A = PointRelativePosition(particle, point);
+			var dA = PointDerivativeAngle(particle, point);
+
+			return sign * new ConstraintDerivative(
+			       DisplacementVelocity.X,
+				   DisplacementVelocity.Y,
+				   -B.X * A.X * particle.AngularVelocity 
+				   +dB.X * dA.X
+				   -B.Y * A.Y * particle.AngularVelocity
+				   +dB.Y * dA.Y);
+		}
+
+		private static float AngleMixedPartialDerivative(Vector2 B, Vector2 dB, PhysicalParticle particle, Vector2 point)
+		{
+			return B.X * point.X * particle.AngularVelocity * (float)Math.Cos(particle.Angle)
+				   + dB.X * point.X * (float)Math.Sin(particle.Angle)
+				   + B.Y * point.Y * particle.AngularVelocity * (float)Math.Sin(particle.Angle)
+				   - dB.Y * point.Y * (float)Math.Cos(particle.Angle);
+		}
+
+		/// <summary>
+		/// Calculates the position of the particle's point taking into account rotation angle.
+		/// </summary>
+		/// <param name="particle"></param>
+		/// <param name="point"></param>
+		/// <remarks>This value is \f$\vec{R}\f$ in the math.</remarks>
+		/// <returns></returns>
+		private Vector2 PointRelativePosition(PhysicalParticle particle, Vector2 point)
+		{
+			return new Vector2(point.X * Math.Cos(particle.Angle) - point.Y * Math.Sin(particle.Angle),
+							   point.X * Math.Sin(particle.Angle) + point.Y * Math.Cos(particle.Angle));
+		}
+
+		/// <summary>
+		/// Calculates the position of the particle's point in global coordinates.
+		/// </summary>
+		/// <param name="particle"></param>
+		/// <param name="point"></param>
+		/// <remarks>This value is \f$\vec{R}\f$ in the math.</remarks>
+		/// <returns></returns>
+		private Vector2 PointPosition(PhysicalParticle particle, Vector2 point)
+		{
+			return particle.Position + PointRelativePosition(particle, point);
+		}
+
+		/// <summary>
+		/// Calculates the velocity of the particle's point, taking into account angular motion.
+		/// </summary>
+		/// <param name="particle"></param>
+		/// <param name="point"></param>
+		/// <remarks>This value is \f$\dot{\vec{R}}\f$ in the math.</remarks>
+		/// <returns></returns>
+		private Vector2 PointVelocity(PhysicalParticle particle, Vector2 point)
+		{
+			return particle.Velocity + particle.AngularVelocity * PointDerivativeAngle(particle, point);
+		}
+
+		/// <summary>
+		/// Calculates the derivative of the particle's point with respect to its angle coordinate.
+		/// </summary>
+		/// <param name="particle"></param>
+		/// <param name="point"></param>
+		/// <returns></returns>
+		private Vector2 PointDerivativeAngle(PhysicalParticle particle, Vector2 point)
+		{
+			return new Vector2(
+				-point.X * Math.Sin(particle.Angle) - point.Y * Math.Cos(particle.Angle),
+				point.X * Math.Cos(particle.Angle) - point.Y * Math.Sin(particle.Angle));
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace RigidBodyDynamics
 
 		private Size Area => Display.RenderTarget.Size;
 
-		public int BoxCount { get; set; } = 4;
+		public int BoxCount { get; set; } = 8;
 
 		public void Update(TimeSpan gameClockElapsed)
 		{
@@ -85,7 +85,7 @@ namespace RigidBodyDynamics
 						Area.Width * 0.5 + (BoxCount / 2 - i) * boxSize,
 						Area.Height * 0.1
 					),
-					Velocity = new Vector2(0, (BoxCount / 2 - i) * 50)
+					Velocity = new Vector2(0, (BoxCount / 2 - i) * 250)
 				});
 
 				if (i > 0)

@@ -22,7 +22,7 @@ namespace RigidBodyDynamics
 		/// </summary>
 		private const int GeneralizedCoordinatesPerObject = 3;
 
-		private SimpleJacobianDifferentiator jacobianDifferentiator = new SimpleJacobianDifferentiator();
+		private Matrix<float> jacobian;
 		private Matrix<float> lagrangeParameters;
 		private Matrix<float> massInverseMatrix;
 		private Matrix<float> velocity;
@@ -58,21 +58,20 @@ namespace RigidBodyDynamics
 		/// <summary>
 		/// Updates the dynamics.
 		/// </summary>
-		/// <param name="dt">The amount of time in seconds that has passed.</param>
-		public void Update(float dt)
+		public void Update()
 		{
 			InitializeStep();
 
 			ComputeJacobian();
 
-			ComputeConstraintForces(dt);
+			ComputeConstraintForces();
 
 			ApplyConstraintForces();
 		}
 
 		private void ApplyConstraintForces()
 		{
-			constraintForces = jacobianDifferentiator.Current.Transpose() * lagrangeParameters;
+			constraintForces = jacobian.Transpose() * lagrangeParameters;
 
 			for (int i = 0; i < Particles.Count; i++)
 			{
@@ -92,8 +91,6 @@ namespace RigidBodyDynamics
 
 		private void ComputeJacobian()
 		{
-			var jacobian = this.jacobianDifferentiator.Current;
-
 			Parallel.For(0, Constraints.Count, i =>
 			{
 				var constraint = Constraints[i];
@@ -114,10 +111,36 @@ namespace RigidBodyDynamics
 			});
 		}
 
-		private void ComputeConstraintForces(float dt)
+
+		private Matrix<float> ComputeJacobianDerivative()
 		{
-			var jacobian = jacobianDifferentiator.Current;
-			var derivative = jacobianDifferentiator.ComputeDerivative(dt);
+			var jacobDerivative = Matrix<float>.Build.Dense(JacobianRows, JacobianColumns);
+
+			Parallel.For(0, Constraints.Count, i =>
+			{
+				var constraint = Constraints[i];
+
+				for (int j = 0; j < Particles.Count; j++)
+				{
+					if (!constraint.AppliesTo(Particles[j]))
+						continue;
+
+					ConstraintDerivative derivative = constraint.MixedPartialDerivative(Particles[j]);
+
+					int basis = j * GeneralizedCoordinatesPerObject;
+
+					jacobDerivative[i, basis + 0] = derivative.RespectToX;
+					jacobDerivative[i, basis + 1] = derivative.RespectToY;
+					jacobDerivative[i, basis + 2] = derivative.RespectToAngle;
+				}
+			});
+
+			return jacobDerivative;
+		}
+
+		private void ComputeConstraintForces()
+		{
+			var derivative = ComputeJacobianDerivative();
 
 			// Here's the equation:
 			//  J * M^(-1) * J^T * lambda = -dJ/dt * v - J * M^(-1) * F_{ext}
@@ -149,14 +172,36 @@ namespace RigidBodyDynamics
 
 		private void InitializeStep()
 		{
-			jacobianDifferentiator.Rows = JacobianRows;
-			jacobianDifferentiator.Columns = JacobianColumns;
-
-			jacobianDifferentiator.Advance();
+			InitializeJacobian();
 
 			InitializeMassMatrix();
 			InitializeVelocityVector();
 			InitializeForceVector();
+		}
+
+		/// <summary>
+		/// Called at the beginning of Derivative only. Initializes the 
+		/// Jacobian matrix to be the right size and zeroed out.
+		/// </summary>
+		/// <returns></returns>
+		public void InitializeJacobian()
+		{
+			if (jacobian == null ||
+				jacobian.RowCount != JacobianRows ||
+				jacobian.ColumnCount != JacobianColumns)
+			{
+				jacobian = Matrix<float>.Build.Dense(JacobianRows, JacobianColumns);
+			}
+			else
+			{
+				for (int i = 0; i < jacobian.RowCount; i++)
+				{
+					for (int j = 0; j < jacobian.ColumnCount; j++)
+					{
+						jacobian[i, j] = 0;
+					}
+				}
+			}
 		}
 
 		private void InitializeVelocityVector()
