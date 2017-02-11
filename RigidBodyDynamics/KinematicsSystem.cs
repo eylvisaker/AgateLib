@@ -10,7 +10,16 @@ namespace RigidBodyDynamics
 
 		public void AddObjects(params PhysicalParticle[] items)
 		{
-			Particles.AddRange(items);
+			foreach (var item in items)
+			{
+				if (item.Mass == 0)
+					item.Mass = 1;
+
+				if (item.InertialMoment == 0)
+					item.InertialMoment = 1;
+
+				Particles.Add(item);
+			}
 		}
 
 		public void AddConstraints(List<IPhysicalConstraint> constraints)

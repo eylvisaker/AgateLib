@@ -14,7 +14,7 @@ namespace AgateLib.Physics.UnitTests
 		[TestMethod]
 		public void HistorySizeTwo()
 		{
-			ValueHistory<int> history = new ValueHistory<int> {Size = 2};
+			ValueHistory<int> history = new ValueHistory<int> { Size = 2 };
 
 			history.Current = 1;
 			Assert.AreEqual(1, history.Current);

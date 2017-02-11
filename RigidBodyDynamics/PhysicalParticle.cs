@@ -16,7 +16,7 @@ namespace RigidBodyDynamics
 
 		public float Mass { get; set; }
 
-		public float IntertialMoment { get; set; }
+		public float InertialMoment { get; set; }
 
 	}
 }

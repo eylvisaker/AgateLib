@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.Particles;
+using AgateLib.Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace RigidBodyDynamics
@@ -22,10 +23,11 @@ namespace RigidBodyDynamics
 		private const int GeneralizedCoordinatesPerObject = 3;
 
 		private SimpleJacobianDifferentiator jacobianDifferentiator = new SimpleJacobianDifferentiator();
-		private Matrix<float> lagrangeParameter;
+		private Matrix<float> lagrangeParameters;
 		private Matrix<float> massInverseMatrix;
 		private Matrix<float> velocity;
-		private Matrix<float> forces;
+		private Matrix<float> externalForces;
+		private Matrix<float> constraintForces;
 
 		public ConstraintSolver(KinematicsSystem system)
 		{
@@ -64,6 +66,85 @@ namespace RigidBodyDynamics
 			ComputeJacobian();
 
 			ComputeConstraintForces(dt);
+
+			ApplyConstraintForces();
+		}
+
+		private void ApplyConstraintForces()
+		{
+			constraintForces = jacobianDifferentiator.Current.Transpose() * lagrangeParameters;
+
+			for (int i = 0; i < Particles.Count; i++)
+			{
+				var part = Particles[i];
+				int basis = i * 3;
+
+				var constraint = new Vector2(constraintForces[basis + 0, 0],
+				                             constraintForces[basis + 1, 0]);
+
+				var newForce = part.Force + constraint;
+				var newTorque = part.Torque + constraintForces[basis + 2, 0];
+
+				part.Force = newForce;
+				part.Torque += newTorque;
+			}
+		}
+
+		private void ComputeJacobian()
+		{
+			var jacobian = this.jacobianDifferentiator.Current;
+
+			Parallel.For(0, Constraints.Count, i =>
+			{
+				var constraint = Constraints[i];
+
+				for (int j = 0; j < Particles.Count; j++)
+				{
+					if (!constraint.AppliesTo(Particles[j]))
+						continue;
+
+					ConstraintDerivative derivative = constraint.Derivative(Particles[j]);
+
+					int basis = j * GeneralizedCoordinatesPerObject;
+
+					jacobian[i, basis + 0] = derivative.RespectToX;
+					jacobian[i, basis + 1] = derivative.RespectToY;
+					jacobian[i, basis + 2] = derivative.RespectToAngle;
+				}
+			});
+		}
+
+		private void ComputeConstraintForces(float dt)
+		{
+			var jacobian = jacobianDifferentiator.Current;
+			var derivative = jacobianDifferentiator.ComputeDerivative(dt);
+
+			// Here's the equation:
+			//  J * M^(-1) * J^T * lambda = -dJ/dt * v - J * M^(-1) * F_{ext}
+			// Lambda (the Lagrange parameter) is the set of unknowns. 
+			// This is just a straightfoward system of linear equations of the form
+			//  A * x = B
+			// Solve for x by doing:
+			//      x = A^-1 * B
+			// where A = J * M^(-1) * J^T 
+			//       x = lambda
+			//       B = -dJ/dt * v - J * M^(-1) * F_{ext}
+
+			Matrix<float> A = jacobian * massInverseMatrix * jacobian.Transpose();
+			Matrix<float> B = -derivative * velocity - jacobian * massInverseMatrix * externalForces;
+
+			if (MatrixIsZero(A))
+			{
+				lagrangeParameters = Matrix<float>.Build.Dense(Constraints.Count, 1);
+				return;
+			}
+
+			Matrix<float> aInv = A.Inverse();
+
+			lagrangeParameters = aInv * B;
+
+			Debug.Assert(lagrangeParameters.RowCount == Constraints.Count);
+			Debug.Assert(lagrangeParameters.ColumnCount == 1);
 		}
 
 		private void InitializeStep()
@@ -72,8 +153,6 @@ namespace RigidBodyDynamics
 			jacobianDifferentiator.Columns = JacobianColumns;
 
 			jacobianDifferentiator.Advance();
-
-			InitializeVector(ref lagrangeParameter, false);
 
 			InitializeMassMatrix();
 			InitializeVelocityVector();
@@ -88,52 +167,22 @@ namespace RigidBodyDynamics
 			{
 				var particle = Particles[i];
 
-				VectorSumValueForParticle(velocity, i, particle.Position.X, particle.Position.Y, particle.Angle);
+				VectorSumValueForParticle(velocity, i, particle.Velocity.X, particle.Velocity.Y, particle.AngularVelocity);
 			}
 		}
 
 		private void InitializeForceVector()
 		{
-			InitializeVector(ref forces, true);
+			InitializeVector(ref externalForces, true);
 
 			for (int i = 0; i < Particles.Count; i++)
 			{
 				var particle = Particles[i];
 
-				VectorSumValueForParticle(velocity, i, particle.Force.X, particle.Force.Y, particle.Torque);
+				VectorSumValueForParticle(externalForces, i, particle.Force.X, particle.Force.Y, particle.Torque);
 			}
 		}
 
-		private void VectorSumValueForParticle(Matrix<float> matrix, int particleIndex, float X, float Y, float Angle)
-		{
-			int basis = particleIndex * 3;
-
-			matrix[particleIndex + 0, 0] = X;
-			matrix[particleIndex + 1, 0] = Y;
-			matrix[particleIndex + 2, 0] = Angle;
-		}
-
-		private void ComputeConstraintForces(float dt)
-		{
-			var jacobian = jacobianDifferentiator.Current;
-			var derivative = jacobianDifferentiator.ComputeDerivative(dt);
-			
-			// Here's the equation:
-			//  J * M^(-1) * J^T * lambda = -dJ/dT * \dot{q} - J * M^(-1) * F_{ext}
-			// Lambda (the Lagrange parameter) is the set of unknowns. 
-			// This is just a straightfoward system of linear equations of the form
-			//  A * x = B
-			// Solve for x by doing:
-			//      x = A^-1 * B
-
-			Matrix<float> A = jacobian * massInverseMatrix * jacobian.Transpose();
-			Matrix<float> B = derivative * velocity - jacobian * massInverseMatrix * forces;
-
-			lagrangeParameter = A.Inverse() * B;
-
-			Debug.Assert(lagrangeParameter.RowCount == Constraints.Count);
-			Debug.Assert(lagrangeParameter.ColumnCount == 1);
-		}
 
 		private void InitializeVector(ref Matrix<float> vector, bool clear)
 		{
@@ -153,36 +202,36 @@ namespace RigidBodyDynamics
 
 			for (int i = 0; i < Particles.Count; i++)
 			{
-				int basis = i * 3;
+				int basis = i * GeneralizedCoordinatesPerObject;
 
 				// first two generalized coordinates are X and Y, third is angle.
-				massInverseMatrix[basis + 0, basis + 0] = (float)Particles[i].Mass;
-				massInverseMatrix[basis + 1, basis + 1] = (float)Particles[i].Mass;
-				massInverseMatrix[basis + 2, basis + 2] = (float)Particles[i].IntertialMoment;
+				massInverseMatrix[basis + 0, basis + 0] = 1 / (float)Particles[i].Mass;
+				massInverseMatrix[basis + 1, basis + 1] = 1 / (float)Particles[i].Mass;
+				massInverseMatrix[basis + 2, basis + 2] = 1 / (float)Particles[i].InertialMoment;
 			}
+
 		}
 
-
-		private void ComputeJacobian()
+		private void VectorSumValueForParticle(Matrix<float> matrix, int particleIndex, float X, float Y, float Angle)
 		{
-			var jacobian = this.jacobianDifferentiator.Current;
+			int basis = particleIndex * GeneralizedCoordinatesPerObject;
 
-			Parallel.For(0, Constraints.Count, i =>
-			{
-				var constraint = Constraints[i];
-
-				for (int j = 0; j < Particles.Count; j++)
-				{
-					if (!constraint.AppliesTo(Particles[j]))
-						continue;
-
-					ConstraintDerivative derivative = constraint.Derivative(Particles[j]);
-
-					jacobian[i, j * 3] = derivative.RespectToX;
-					jacobian[i, j * 3 + 1] = derivative.RespectToY;
-					jacobian[i, j * 3 + 2] = derivative.RespectToAngle;
-				}
-			});
+			matrix[basis + 0, 0] = X;
+			matrix[basis + 1, 0] = Y;
+			matrix[basis + 2, 0] = Angle;
 		}
+
+		private bool MatrixIsZero(Matrix<float> matrix)
+		{
+			for (int i = 0; i < matrix.RowCount; i++)
+			{
+				for (int j = 0; j < matrix.ColumnCount; j++)
+					if (Math.Abs(matrix[i, j]) > 0.00000001f)
+						return false;
+			}
+
+			return true;
+		}
+
 	}
 }

@@ -8,6 +8,7 @@ namespace RigidBodyDynamics
 		private const int historySize = 2;
 		private ValueHistory<Matrix<float>> history;
 		private Matrix<float> derivative;
+		private bool badDerivative = true;
 
 		public int Rows { get; set; }
 
@@ -31,6 +32,12 @@ namespace RigidBodyDynamics
 		public Matrix<float> ComputeDerivative(float dt)
 		{
 			Initialize(ref derivative);
+
+			if (badDerivative)
+			{
+				badDerivative = false;
+				return derivative;
+			}
 
 			var last = history[1];
 
@@ -73,6 +80,8 @@ namespace RigidBodyDynamics
 				jacobian.ColumnCount != Columns)
 			{
 				jacobian = Matrix<float>.Build.Dense(Rows, Columns);
+
+				badDerivative = true;
 			}
 			else
 			{

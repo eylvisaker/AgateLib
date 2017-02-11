@@ -32,21 +32,21 @@ namespace RigidBodyDynamics
 
 		private Size Area => Display.RenderTarget.Size;
 
-		public int BoxCount { get; set; } = 8;
+		public int BoxCount { get; set; } = 4;
 
 		public void Update(TimeSpan gameClockElapsed)
 		{
 			foreach (var box in boxes)
 			{
 				// Gravity force
-				box.Force = new Vector2(0, 400 * box.Mass);
+				box.Force = new Vector2(0, 100 * box.Mass);
 			}
 
 			system = new KinematicsSystem();
 			solver = new KinematicsIntegrator(system, new ConstraintSolver(system));
 
 			system.AddObjects(boxes.ToArray());
-			system.AddObjects(sphere);
+			//system.AddObjects(sphere);
 
 			system.AddConstraints(constraints);
 
@@ -85,7 +85,7 @@ namespace RigidBodyDynamics
 						Area.Width * 0.5 + (BoxCount / 2 - i) * boxSize,
 						Area.Height * 0.1
 					),
-					Velocity = new Vector2(0, (BoxCount / 2 - i) * 10)
+					Velocity = new Vector2(0, (BoxCount / 2 - i) * 50)
 				});
 
 				if (i > 0)

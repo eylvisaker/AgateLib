@@ -33,12 +33,15 @@ namespace RigidBodyDynamics
 		/// algorithm.
 		/// </summary>
 		/// <returns></returns>
-		public double Evaluate()
+		public double Value
 		{
-			var abs1 = ComputeAbsPoint(physical1, point1);
-			var abs2 = ComputeAbsPoint(physical2, point2);
+			get
+			{
+				var abs1 = ComputeAbsPoint(physical1, point1);
+				var abs2 = ComputeAbsPoint(physical2, point2);
 
-			return (abs1 - abs2).MagnitudeSquared;
+				return (abs1 - abs2).MagnitudeSquared;
+			}
 		}
 
 		public ConstraintDerivative Derivative(PhysicalParticle obj)
@@ -47,11 +50,13 @@ namespace RigidBodyDynamics
 
 			var abs1 = ComputeAbsPoint(physical1, point1);
 			var abs2 = ComputeAbsPoint(physical2, point2);
+			var Bx = abs1.X - abs2.X;
+			var By = abs1.Y - abs2.Y;
 
 			return sign * new ConstraintDerivative(
-				2 * abs1.X,
-				2 * abs2.Y,
-				-2 * abs1.X * (float)Math.Sin(obj.Angle) + 2 * abs2.Y * (float)Math.Cos(obj.Angle));
+				2 * Bx,
+				2 * By,
+				-2 * Bx * (float)Math.Sin(obj.Angle) + 2 * By * (float)Math.Cos(obj.Angle));
 		}
 
 		private Vector2 ComputeAbsPoint(PhysicalParticle obj, Vector2 pt)
