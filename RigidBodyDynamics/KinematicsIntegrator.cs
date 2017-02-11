@@ -13,7 +13,7 @@ namespace RigidBodyDynamics
 		private float unusedTime;
 
 		private float minimumTimeStep = 0.001f;
-		private float maximumTimeStep = 0.01f;
+		private float maximumTimeStep = 0.005f;
 		private int maxStepsPerFrame = 1;
 
 		public KinematicsIntegrator(KinematicsSystem system, ConstraintSolver constraint)

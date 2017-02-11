@@ -75,12 +75,12 @@ namespace RigidBodyDynamics
 			var point = particle == particle1 ? point1 : point2;
 
 			var B = Displacement;
-			var dA_by_dAngle = PointDerivativeAngle(particle, point);
+			var dA = PointDerivativeAngle(particle, point);
 
 			return sign * new ConstraintDerivative(
 				       B.X,
 				       B.Y,
-				       B.X * dA_by_dAngle.X + B.Y * dA_by_dAngle.Y);
+				       B.X * dA.X + B.Y * dA.Y);
 		}
 
 		public ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle)
@@ -119,8 +119,8 @@ namespace RigidBodyDynamics
 		/// <returns></returns>
 		private Vector2 PointRelativePosition(PhysicalParticle particle, Vector2 point)
 		{
-			return new Vector2(point.X * Math.Cos(particle.Angle) - point.Y * Math.Sin(particle.Angle),
-							   point.X * Math.Sin(particle.Angle) + point.Y * Math.Cos(particle.Angle));
+			return new Vector2(point.X * Math.Cos(particle.Angle) + point.Y * Math.Sin(particle.Angle),
+							   -point.X * Math.Sin(particle.Angle) + point.Y * Math.Cos(particle.Angle));
 		}
 
 		/// <summary>
@@ -156,8 +156,8 @@ namespace RigidBodyDynamics
 		private Vector2 PointDerivativeAngle(PhysicalParticle particle, Vector2 point)
 		{
 			return new Vector2(
-				-point.X * Math.Sin(particle.Angle) - point.Y * Math.Cos(particle.Angle),
-				point.X * Math.Cos(particle.Angle) - point.Y * Math.Sin(particle.Angle));
+				-point.X * Math.Sin(particle.Angle) + point.Y * Math.Cos(particle.Angle),
+				-point.X * Math.Cos(particle.Angle) - point.Y * Math.Sin(particle.Angle));
 		}
 	}
 }
