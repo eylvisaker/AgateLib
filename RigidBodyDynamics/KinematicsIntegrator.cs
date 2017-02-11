@@ -12,7 +12,7 @@ namespace RigidBodyDynamics
 
 		private float unusedTime;
 
-		private float minimumTimeStep = 0.001f;
+		private float minimumTimeStep = 0.0001f;
 		private float maximumTimeStep = 0.005f;
 		private int maxStepsPerFrame = 1;
 
@@ -24,6 +24,11 @@ namespace RigidBodyDynamics
 		}
 
 		public KinematicsSystem System { get; }
+
+		/// <summary>
+		/// The number of simulation steps the integrator has run.
+		/// </summary>
+		public int StepCount { get; private set; }
 
 		/// <summary>
 		/// Sets the minimum amount of time before a time step is executed.
@@ -70,6 +75,15 @@ namespace RigidBodyDynamics
 		{
 			float dt = (float)elapsed.TotalSeconds;
 
+			Update(dt);
+		}
+
+		/// <summary>
+		/// Updates the dynamics.
+		/// </summary>
+		/// <param name="dt">The amount of time in seconds that passed.</param>
+		public void Update(float dt)
+		{
 			unusedTime += dt;
 
 			if (unusedTime < minimumTimeStep)
@@ -80,7 +94,7 @@ namespace RigidBodyDynamics
 				if (unusedTime > maximumTimeStep * MaxStepsPerFrame)
 					unusedTime = maximumTimeStep * MaxStepsPerFrame;
 
-				int steps = (int)Math.Ceiling(unusedTime / maximumTimeStep);
+				int steps = (int) Math.Ceiling(unusedTime / maximumTimeStep);
 
 				for (int i = 0; i < steps; i++)
 				{
@@ -93,14 +107,17 @@ namespace RigidBodyDynamics
 			}
 
 			unusedTime = 0;
-
 		}
 
 		private void UpdateStep(float dt)
 		{
-			constraint.Update();
+			constraint.ApplyConstraintForces();
 
 			IntegrateKinematicVariables(dt);
+
+			constraint.Update();
+
+			StepCount++;
 		}
 
 

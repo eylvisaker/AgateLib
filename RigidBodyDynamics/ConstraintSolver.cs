@@ -65,12 +65,13 @@ namespace RigidBodyDynamics
 			ComputeJacobian();
 
 			ComputeConstraintForces();
-
-			ApplyConstraintForces();
 		}
 
-		private void ApplyConstraintForces()
+		public void ApplyConstraintForces()
 		{
+			if (lagrangeParameters == null)
+				return;
+
 			constraintForces = jacobian.Transpose() * lagrangeParameters;
 
 			for (int i = 0; i < Particles.Count; i++)
@@ -79,7 +80,7 @@ namespace RigidBodyDynamics
 				int basis = i * 3;
 
 				var constraint = new Vector2(constraintForces[basis + 0, 0],
-				                             constraintForces[basis + 1, 0]);
+											 constraintForces[basis + 1, 0]);
 
 				var newForce = part.Force + constraint;
 				var newTorque = part.Torque + constraintForces[basis + 2, 0];
@@ -147,8 +148,6 @@ namespace RigidBodyDynamics
 			// Lambda (the Lagrange parameter) is the set of unknowns. 
 			// This is just a straightfoward system of linear equations of the form
 			//  A * x = B
-			// Solve for x by doing:
-			//      x = A^-1 * B
 			// where A = J * M^(-1) * J^T 
 			//       x = lambda
 			//       B = -dJ/dt * v - J * M^(-1) * F_{ext}
@@ -162,9 +161,11 @@ namespace RigidBodyDynamics
 				return;
 			}
 
-			Matrix<float> aInv = A.Inverse();
+			lagrangeParameters = A.Solve(B);
 
-			lagrangeParameters = aInv * B;
+			//Matrix<float> aInv = A.PseudoInverse();
+
+			//lagrangeParameters = aInv * B;
 
 			Debug.Assert(lagrangeParameters.RowCount == Constraints.Count);
 			Debug.Assert(lagrangeParameters.ColumnCount == 1);
@@ -271,8 +272,15 @@ namespace RigidBodyDynamics
 			for (int i = 0; i < matrix.RowCount; i++)
 			{
 				for (int j = 0; j < matrix.ColumnCount; j++)
-					if (Math.Abs(matrix[i, j]) > 0.00000001f)
-						return false;
+				{
+					if (Math.Abs(matrix[i, j]) > 1e-6f)
+					{
+						var determinant = matrix.Determinant();
+						var result = Math.Abs(determinant) <= 1e-8f;
+
+						return result;
+					}
+				}
 			}
 
 			return true;

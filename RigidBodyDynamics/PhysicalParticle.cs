@@ -18,5 +18,28 @@ namespace RigidBodyDynamics
 
 		public float InertialMoment { get; set; }
 
+		public PhysicalParticle Clone()
+		{
+			var result = new PhysicalParticle();
+			CopyTo(result);
+
+			return result;
+		}
+
+		public void CopyTo(PhysicalParticle target)
+		{
+			target.Polygon = Polygon;
+
+			target.Position = Position;
+			target.Velocity = Velocity;
+			target.Force = Force;
+
+			target.Angle = Angle;
+			target.AngularVelocity = AngularVelocity;
+			target.Torque = Torque;
+
+			target.Mass = Mass;
+			target.InertialMoment = InertialMoment;
+		}
 	}
 }

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.InputLib;
 
 namespace RigidBodyDynamics
 {
@@ -11,13 +14,17 @@ namespace RigidBodyDynamics
 
 		private Surface boxImage;
 
+		private List<List<PhysicalParticle>> history = new List<List<PhysicalParticle>>();
+		private int historyIndex = -1;
+
 		private List<PhysicalParticle> boxes = new List<PhysicalParticle>();
 		private PhysicalParticle sphere = new PhysicalParticle();
 
 		private List<IPhysicalConstraint> constraints = new List<IPhysicalConstraint>();
 
 		private KinematicsSystem system = new KinematicsSystem();
-		private KinematicsIntegrator solver;
+		private KinematicsIntegrator kinematics;
+		private int debugBoxIndex;
 
 		public Game()
 		{
@@ -28,6 +35,12 @@ namespace RigidBodyDynamics
 			pixels.FillRectangle(Color.FromArgb(220, Color.White), new Rectangle(1, 1, pixels.Width - 2, pixels.Height - 2));
 
 			boxImage = new Surface(pixels);
+
+			var handler = new SimpleInputHandler();
+
+			handler.KeyDown += Handler_KeyDown;
+
+			Input.Handlers.Add(handler);
 		}
 
 		private Size Area => Display.RenderTarget.Size;
@@ -36,21 +49,42 @@ namespace RigidBodyDynamics
 
 		public void Update(TimeSpan gameClockElapsed)
 		{
+		}
+
+		private void Advance()
+		{
+			StoreHistory();
+
+			ComputeExternalForces();
+
+			kinematics.Update(0.0001f);
+		}
+
+		private void ComputeExternalForces()
+		{
 			foreach (var box in boxes)
 			{
 				// Gravity force
 				box.Force = new Vector2(0, 100 * box.Mass);
 			}
+		}
 
-			system = new KinematicsSystem();
-			solver = new KinematicsIntegrator(system, new ConstraintSolver(system));
+		private void StoreHistory()
+		{
+			var historyItem = boxes.Select(x => x.Clone()).ToList();
 
-			system.AddObjects(boxes.ToArray());
-			//system.AddObjects(sphere);
+			historyIndex++;
 
-			system.AddConstraints(constraints);
+			if (historyIndex >= history.Count)
+			{
+				history.Add(historyItem);
 
-			solver.Update(gameClockElapsed);
+				historyIndex = history.Count;
+			}
+			else
+			{
+				history[historyIndex] = historyItem;
+			}
 		}
 
 		public void Draw()
@@ -59,6 +93,40 @@ namespace RigidBodyDynamics
 				DrawBox(box);
 
 			DrawSphere(sphere);
+
+			Font.AgateMono.Size = 16;
+			Font.AgateMono.Style = FontStyles.Bold;
+
+			Font.AgateMono.DrawText(0, 0, DebugInfo());
+		}
+
+		private string DebugInfo()
+		{
+			StringBuilder b = new StringBuilder();
+
+			b.AppendLine(historyIndex.ToString());
+			b.AppendLine($"\nBox {debugBoxIndex}");
+
+			PrintStateOfBox(b, boxes[debugBoxIndex]);
+
+			var secondBox = (debugBoxIndex + 1) % boxes.Count;
+			b.AppendLine($"\nBox {secondBox}");
+			PrintStateOfBox(b, boxes[secondBox]);
+
+			return b.ToString();
+		}
+
+		private static void PrintStateOfBox(StringBuilder b, PhysicalParticle box)
+		{
+			b.AppendLine($"  X: {box.Position.X}");
+			b.AppendLine($"  Y: {box.Position.Y}");
+			b.AppendLine($"  A: {box.Angle}");
+			b.AppendLine($"\nv_x: {box.Velocity.X}");
+			b.AppendLine($"v_y: {box.Velocity.Y}");
+			b.AppendLine($"  w: {box.AngularVelocity}");
+			b.AppendLine($"\nF_x: {box.Force.X}");
+			b.AppendLine($"F_y: {box.Force.Y}");
+			b.AppendLine($"  T: {box.Torque}");
 		}
 
 		private void DrawBox(PhysicalParticle box)
@@ -76,6 +144,8 @@ namespace RigidBodyDynamics
 		private void Initialize()
 		{
 			boxes.Clear();
+			constraints.Clear();
+			history.Clear();
 
 			for (int i = 0; i < BoxCount; i++)
 			{
@@ -101,7 +171,63 @@ namespace RigidBodyDynamics
 			{
 				Position = new Vector2(Area.Width * 0.5, Area.Height * 0.5)
 			};
+
+			system = new KinematicsSystem();
+			kinematics = new KinematicsIntegrator(system, new ConstraintSolver(system));
+
+			system.AddObjects(boxes.ToArray());
+			//system.AddObjects(sphere);
+
+			system.AddConstraints(constraints);
+
+			StoreHistory();
 		}
 
+		private void Handler_KeyDown(object sender, AgateInputEventArgs e)
+		{
+			if (e.KeyCode == KeyCode.Z)
+				Initialize();
+			if (e.KeyCode == KeyCode.Space)
+				Advance();
+
+			if (e.KeyCode == KeyCode.NumPadPlus || e.KeyCode == KeyCode.Plus)
+			{
+				debugBoxIndex++;
+				if (debugBoxIndex >= boxes.Count)
+					debugBoxIndex %= boxes.Count;
+			}
+			if (e.KeyCode == KeyCode.NumPadMinus || e.KeyCode == KeyCode.Minus)
+			{
+				debugBoxIndex--;
+				if (debugBoxIndex < 0)
+					debugBoxIndex += boxes.Count;
+			}
+			if (e.KeyCode == KeyCode.Left)
+			{
+				historyIndex--;
+				if (historyIndex < 0)
+					historyIndex = 0;
+
+				LoadHistory();
+			}
+			if (e.KeyCode == KeyCode.Right)
+			{
+				historyIndex++;
+				if (historyIndex >= history.Count)
+					historyIndex = history.Count - 1;
+
+				LoadHistory();
+			}
+		}
+
+		private void LoadHistory()
+		{
+			var historyItem = history[historyIndex];
+
+			for(int i = 0; i < boxes.Count; i++)
+			{
+				historyItem[i].CopyTo(boxes[i]);
+			}
+		}
 	}
 }
