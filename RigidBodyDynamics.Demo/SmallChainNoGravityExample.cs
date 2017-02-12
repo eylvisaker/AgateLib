@@ -8,7 +8,7 @@ namespace RigidBodyDynamics
 	public class SmallChainNoGravityExample : IKinematicsExample
 	{
 		private const int boxSize = 40;
-		private const int startingVelocity = 50;
+		private const int startingVelocity = 350;
 		
 		private KinematicsSystem system;
 

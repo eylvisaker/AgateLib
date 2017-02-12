@@ -23,12 +23,10 @@ namespace RigidBodyDynamics
 		/// </summary>
 		private const int GeneralizedCoordinatesPerParticle = 3;
 
-		private const float DefaultSpringConstant = 1f;
+		private const float DefaultSpringConstant = 200f;
 
 		private Matrix<float> jacobian;
 		private Matrix<float> massInverseMatrix;
-		private Matrix<float> position;
-		private Matrix<float> velocity;
 		private Matrix<float> externalForces;
 		private Matrix<float> totalConstraintImpulse;
 		private Matrix<float> constraintValues;
@@ -117,10 +115,15 @@ namespace RigidBodyDynamics
 		private void SolveConstraintEquations()
 		{
 			const float tolerance = 1e-6f;
-			const int maxIterations = 20;
+			const int maxIterations =50;
 
-			for (int niter = 0; niter < maxIterations; niter++)
+
+			Debug.WriteLine($"**************************** Starting iterations");
+
+			for (int nIter = 0; nIter < maxIterations; nIter++)
 			{
+				Debug.WriteLine($"\n**** Iteration {nIter}");
+
 				// Here's the equation:
 				//  J * M^(-1) * J^T * lambda = -J * v - Bias
 				// Lambda (the Lagrange parameter) is the set of unknowns. 
@@ -129,7 +132,7 @@ namespace RigidBodyDynamics
 				// where A = J * M^(-1) * J^T 
 				//       x = lambda
 				//       B = -J * v - Bias
-				Matrix<float> velocityStep = velocity.Clone();
+				var velocityStep = newVelocities.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
 				for (int j = 0; j < Constraints.Count; j++)
 				{
@@ -148,9 +151,9 @@ namespace RigidBodyDynamics
 					{
 						int basis = i * GeneralizedCoordinatesPerParticle;
 
-						newVelocity[basis + 0, 0] = newVelocities[particles[i]].X;
-						newVelocity[basis + 1, 0] = newVelocities[particles[i]].Y;
-						newVelocity[basis + 2, 0] = newVelocities[particles[i]].Z;
+						newVelocity[basis + 0, 0] = velocityStep[particles[i]].X;
+						newVelocity[basis + 1, 0] = velocityStep[particles[i]].Y;
+						newVelocity[basis + 2, 0] = velocityStep[particles[i]].Z;
 
 						massInverseMatrix[basis + 0, basis + 0] = 1 / particles[i].Mass;
 						massInverseMatrix[basis + 1, basis + 1] = 1 / particles[i].Mass;
@@ -175,7 +178,7 @@ namespace RigidBodyDynamics
 					//	return;
 					//}
 
-					if (A == 0)
+					if (A < tolerance)
 						break;
 
 					var lagrangeMultipliers = B / A;
@@ -196,12 +199,7 @@ namespace RigidBodyDynamics
 						newVelocities[particle] = nv;
 					}
 				}
-
-				velocity += massInverseMatrix * totalConstraintImpulse;
 			}
-
-			//Debug.Assert(lagrangeMultipliers.RowCount == Constraints.Count);
-			//Debug.Assert(lagrangeMultipliers.ColumnCount == 1);
 		}
 
 		private static void NormalizeLinearEquations(Matrix<float> A, float tolerance)
@@ -267,8 +265,6 @@ namespace RigidBodyDynamics
 
 		private void InitializeVelocityVector(float dt)
 		{
-			InitializeVector(ref velocity, true);
-
 			for (int i = 0; i < Particles.Count; i++)
 			{
 				var particle = Particles[i];
@@ -279,8 +275,6 @@ namespace RigidBodyDynamics
 				angularVelocity += dt * particle.Torque / particle.InertialMoment;
 
 				newVelocities[particle] = new Vector3(velocity.X, velocity.Y, angularVelocity);
-
-				CopyValuesForParticle(this.velocity, i, velocity.X, velocity.Y, angularVelocity);
 			}
 		}
 
