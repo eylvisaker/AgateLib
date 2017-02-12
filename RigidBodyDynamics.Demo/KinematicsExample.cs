@@ -10,6 +10,7 @@ namespace RigidBodyDynamics
 		KinematicsSystem Initialize(Size area);
 
 		void Draw();
+
 		void ComputeExternalForces();
 	}
 }

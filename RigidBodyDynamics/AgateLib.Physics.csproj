@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CirclePerimeterOffcenterConstraint.cs" />
     <Compile Include="CirclePerimeterConstraint.cs" />
     <Compile Include="ConstraintDerivative.cs" />
     <Compile Include="ConstraintSolver.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleJacobianDifferentiator.cs" />
     <Compile Include="ValueHistory.cs" />
+    <Compile Include="VectorExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AgateLib, Version=2.0.145.17039, Culture=neutral, processorArchitecture=MSIL">

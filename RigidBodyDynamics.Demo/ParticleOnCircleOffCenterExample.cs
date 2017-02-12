@@ -5,7 +5,7 @@ using AgateLib.Geometry;
 
 namespace RigidBodyDynamics
 {
-	public class ParticleOnCircleExample : IKinematicsExample
+	public class ParticleOnCircleOffCenterExample : IKinematicsExample
 	{
 		private const int boxSize = 40;
 
@@ -16,32 +16,32 @@ namespace RigidBodyDynamics
 		private Vector2 circlePosition;
 		private float circleRadius;
 
-		public ParticleOnCircleExample()
+		public ParticleOnCircleOffCenterExample()
 		{
 			InitializeImages();
 		}
 
 		private PhysicalParticle Box => system.Particles.First();
 
-		public string Name => "Particle corner on a circle";
+		public string Name => "Particle on a circle";
 
 		public KinematicsSystem Initialize(Size area)
 		{
 			circleRadius = area.Height * 0.375f;
-			circlePosition = new Vector2(area.Width * 0.5f, area.Height * 0.5f);
+			circlePosition = new Vector2(area.Width * .5f, area.Height * .5f);
 
-			var particlePosition = circlePosition + Vector2.FromPolarDegrees(circleRadius, -60);
+			var particlePosition = circlePosition + Vector2.FromPolarDegrees(circleRadius, -60)
+								   + new Vector2(boxSize * .5f, boxSize * .5f);
 
 			system = new KinematicsSystem();
 
 			system.AddParticles(new PhysicalParticle
 			{
 				Position = particlePosition,
-				Angle = 1.5f,
-				AngularVelocity = 20f,
 			});
 
-			system.AddConstraints(new CirclePerimeterConstraint(system.Particles[0], circlePosition, circleRadius));
+			system.AddConstraints(new CirclePerimeterOffcenterConstraint(
+				system.Particles[0], circlePosition, circleRadius, new Vector2(-boxSize * .5f, -boxSize * .5f)));
 
 			return system;
 		}

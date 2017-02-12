@@ -111,11 +111,10 @@ namespace RigidBodyDynamics
 
 		private void UpdateStep(float dt)
 		{
+			constraint.Update();
 			constraint.ApplyConstraintForces();
 
 			IntegrateKinematicVariables(dt);
-
-			constraint.Update();
 
 			StepCount++;
 		}

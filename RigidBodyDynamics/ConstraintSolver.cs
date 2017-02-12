@@ -20,7 +20,7 @@ namespace RigidBodyDynamics
 		/// <summary>
 		/// This is three because each particle has three coordinates: X, Y, and rotation angle.
 		/// </summary>
-		private const int GeneralizedCoordinatesPerObject = 3;
+		private const int GeneralizedCoordinatesPerParticle = 3;
 
 		private Matrix<float> jacobian;
 		private Matrix<float> lagrangeParameters;
@@ -37,7 +37,7 @@ namespace RigidBodyDynamics
 		/// <summary>
 		/// The number of generalized coordinates.
 		/// </summary>
-		private int GeneralizedCoordinates => Particles.Count * GeneralizedCoordinatesPerObject;
+		private int GeneralizedCoordinates => Particles.Count * GeneralizedCoordinatesPerParticle;
 
 		/// <summary>
 		/// The number of columns in the Jacobian matrix.
@@ -74,6 +74,9 @@ namespace RigidBodyDynamics
 
 			constraintForces = jacobian.Transpose() * lagrangeParameters;
 
+			var check = constraintForces.Transpose() * velocity;
+			Debug.WriteLine($"Constraint force dot product: {check[0,0]}");
+
 			for (int i = 0; i < Particles.Count; i++)
 			{
 				var part = Particles[i];
@@ -106,7 +109,7 @@ namespace RigidBodyDynamics
 
 					ConstraintDerivative derivative = constraint.Derivative(Particles[j]);
 
-					int basis = j * GeneralizedCoordinatesPerObject;
+					int basis = j * GeneralizedCoordinatesPerParticle;
 
 					jacobian[i, basis + 0] = derivative.RespectToX;
 					jacobian[i, basis + 1] = derivative.RespectToY;
@@ -131,7 +134,7 @@ namespace RigidBodyDynamics
 
 					ConstraintDerivative derivative = constraint.MixedPartialDerivative(Particles[j]);
 
-					int basis = j * GeneralizedCoordinatesPerObject;
+					int basis = j * GeneralizedCoordinatesPerParticle;
 
 					jacobDerivative[i, basis + 0] = derivative.RespectToX;
 					jacobDerivative[i, basis + 1] = derivative.RespectToY;
@@ -169,7 +172,7 @@ namespace RigidBodyDynamics
 			//Matrix<float> aInv = A.PseudoInverse();
 
 			//lagrangeParameters = aInv * B;
-
+			
 			Debug.Assert(lagrangeParameters.RowCount == Constraints.Count);
 			Debug.Assert(lagrangeParameters.ColumnCount == 1);
 		}
@@ -216,7 +219,7 @@ namespace RigidBodyDynamics
 			{
 				var particle = Particles[i];
 
-				VectorSumValueForParticle(velocity, i, particle.Velocity.X, particle.Velocity.Y, particle.AngularVelocity);
+				CopyValuesForParticle(velocity, i, particle.Velocity.X, particle.Velocity.Y, particle.AngularVelocity);
 			}
 		}
 
@@ -228,7 +231,7 @@ namespace RigidBodyDynamics
 			{
 				var particle = Particles[i];
 
-				VectorSumValueForParticle(externalForces, i, particle.Force.X, particle.Force.Y, particle.Torque);
+				CopyValuesForParticle(externalForces, i, particle.Force.X, particle.Force.Y, particle.Torque);
 			}
 		}
 
@@ -251,23 +254,23 @@ namespace RigidBodyDynamics
 
 			for (int i = 0; i < Particles.Count; i++)
 			{
-				int basis = i * GeneralizedCoordinatesPerObject;
+				int basis = i * GeneralizedCoordinatesPerParticle;
 
 				// first two generalized coordinates are X and Y, third is angle.
-				massInverseMatrix[basis + 0, basis + 0] = 1 / (float)Particles[i].Mass;
-				massInverseMatrix[basis + 1, basis + 1] = 1 / (float)Particles[i].Mass;
-				massInverseMatrix[basis + 2, basis + 2] = 1 / (float)Particles[i].InertialMoment;
+				massInverseMatrix[basis + 0, basis + 0] = 1 / Particles[i].Mass;
+				massInverseMatrix[basis + 1, basis + 1] = 1 / Particles[i].Mass;
+				massInverseMatrix[basis + 2, basis + 2] = 1 / Particles[i].InertialMoment;
 			}
 
 		}
 
-		private void VectorSumValueForParticle(Matrix<float> matrix, int particleIndex, float X, float Y, float Angle)
+		private void CopyValuesForParticle(Matrix<float> matrix, int particleIndex, float x, float y, float angle)
 		{
-			int basis = particleIndex * GeneralizedCoordinatesPerObject;
+			int basis = particleIndex * GeneralizedCoordinatesPerParticle;
 
-			matrix[basis + 0, 0] = X;
-			matrix[basis + 1, 0] = Y;
-			matrix[basis + 2, 0] = Angle;
+			matrix[basis + 0, 0] = x;
+			matrix[basis + 1, 0] = y;
+			matrix[basis + 2, 0] = angle;
 		}
 
 		private bool MatrixIsZero(Matrix<float> matrix)
