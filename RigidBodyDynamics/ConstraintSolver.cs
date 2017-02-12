@@ -22,14 +22,17 @@ namespace RigidBodyDynamics
 		/// </summary>
 		private const int GeneralizedCoordinatesPerParticle = 3;
 
+		private const float DefaultSpringConstant = 1000f;
+
 		private Matrix<float> jacobian;
-		private Matrix<float> lagrangeParameters;
+		private Matrix<float> lagrangeMultipliers;
 		private Matrix<float> massInverseMatrix;
 		private Matrix<float> velocity;
 		private Matrix<float> externalForces;
-		private Matrix<float> constraintForces;
+		private Matrix<float> totalConstraintForces;
 		private Matrix<float> constraintValues;
 		private Matrix<float> constraintDerivatives;
+		private List<Vector<float>> constraintForces;
 
 		public ConstraintSolver(KinematicsSystem system)
 		{
@@ -39,12 +42,12 @@ namespace RigidBodyDynamics
 		/// <summary>
 		/// The number of generalized coordinates.
 		/// </summary>
-		private int GeneralizedCoordinates => Particles.Count * GeneralizedCoordinatesPerParticle;
+		private int GeneralizedCoordinateCount => Particles.Count * GeneralizedCoordinatesPerParticle;
 
 		/// <summary>
 		/// The number of columns in the Jacobian matrix.
 		/// </summary>
-		private int JacobianColumns => GeneralizedCoordinates;
+		private int JacobianColumns => GeneralizedCoordinateCount;
 
 		/// <summary>
 		/// The number of rows in the Jacobian matrix. 
@@ -57,42 +60,65 @@ namespace RigidBodyDynamics
 
 		public KinematicsSystem System { get; set; }
 
-		public float SpringConstant { get; set; } = 1000f;
+		public float SpringConstant { get; set; } = DefaultSpringConstant;
 
-		public float DampeningConstant { get; set; } = 10f;
+		public float DampeningConstant { get; set; } = (float)Math.Sqrt(DefaultSpringConstant);
+
+		public Matrix<float> LagrangeMultipliers => lagrangeMultipliers;
+
+		public Matrix<float> Jacobian => jacobian;
+
+		public Matrix<float> JacobianDerivative { get; private set; }
+		public Matrix<float> CoefficientMatrix { get; private set; }
+		public Matrix<float> EquationConstants { get; private set; }
+
+		public Matrix<float> TotalConstraintForces => totalConstraintForces;
+
+		public Matrix<float> Velocity => velocity;
+
+		public List<Vector<float>> ConstraintForces => constraintForces;
 
 		/// <summary>
-		/// Updates the dynamics.
+		/// Computes the constraint forces from the current state of the system.
 		/// </summary>
-		public void Update()
+		public void ComputeConstraintForces()
 		{
 			InitializeStep();
 
 			ComputeJacobian();
 
-			ComputeConstraintForces();
+			SolveConstraintEquations();
 		}
 
 		public void ApplyConstraintForces()
 		{
-			if (lagrangeParameters == null)
+			if (totalConstraintForces == null)
 				return;
 
-			constraintForces = jacobian.Transpose() * lagrangeParameters;
-
-			var check = constraintForces.Transpose() * velocity;
-			Debug.WriteLine($"Constraint force dot product: {check[0,0]}");
+			var check = totalConstraintForces.Transpose() * velocity;
+			Debug.WriteLine($"Constraint force dot product: {check[0, 0]}");
 
 			for (int i = 0; i < Particles.Count; i++)
 			{
-				var part = Particles[i];
+				var particle = Particles[i];
 				int basis = i * 3;
 
-				var constraint = new Vector2(constraintForces[basis + 0, 0],
-											 constraintForces[basis + 1, 0]);
-				
-				part.ConstraintForce = constraint;
-				part.ConstraintTorque = constraintForces[basis + 2, 0];
+				var totalConstraintForce = new Vector2(totalConstraintForces[basis + 0, 0],
+													   totalConstraintForces[basis + 1, 0]);
+
+				particle.ConstraintForce = totalConstraintForce;
+				particle.ConstraintTorque = totalConstraintForces[basis + 2, 0];
+
+				for (int j = 0; j < Constraints.Count; j++)
+				{
+					var constraint = Constraints[j];
+					var constraintForce = constraintForces[j];
+
+					//float offCenterTorque = constraint.ComputeTorqueFor(particle,
+					//	new Vector2(constraintForce[basis + 0], constraintForce[basis + 1]));
+
+					//particle.ConstraintTorque += offCenterTorque;
+				}
 			}
 		}
 
@@ -145,7 +171,7 @@ namespace RigidBodyDynamics
 			return jacobDerivative;
 		}
 
-		private void ComputeConstraintForces()
+		private void SolveConstraintEquations()
 		{
 			const float tolerance = 1e-6f;
 
@@ -169,24 +195,39 @@ namespace RigidBodyDynamics
 
 			for (int i = 0; i < A.RowCount; i++)
 			{
-				if (A.Row(i).SumMagnitudes() < tolerance)
-					A[i, i] = 1;
+				if (A.Row(i).SumMagnitudes() > tolerance)
+					continue;
+				if (A.Column(i).SumMagnitudes() > tolerance)
+					continue;
+
+				A[i, i] = 1;
 			}
+
+			CoefficientMatrix = A;
+			EquationConstants = B;
+			JacobianDerivative = derivative;
 
 			if (MatrixIsZero(A))
 			{
-				lagrangeParameters = Matrix<float>.Build.Dense(Constraints.Count, 1);
+				lagrangeMultipliers = Matrix<float>.Build.Dense(Constraints.Count, 1);
 				return;
 			}
 
-			lagrangeParameters = A.Solve(B);
+			lagrangeMultipliers = A.Solve(B);
 
-			Matrix<float> aInv = A.Inverse();
+			//Matrix<float> aInv = A.Inverse();
 
-			lagrangeParameters = aInv * B;
+			//lagrangeMultipliers = aInv * B;
 
-			Debug.Assert(lagrangeParameters.RowCount == Constraints.Count);
-			Debug.Assert(lagrangeParameters.ColumnCount == 1);
+			totalConstraintForces = jacobian.Transpose() * lagrangeMultipliers;
+
+			for (int i = 0; i < Constraints.Count; i++)
+			{
+				constraintForces[i] = jacobian.Transpose().Column(i) * lagrangeMultipliers[i, 0];
+			}
+
+			Debug.Assert(lagrangeMultipliers.RowCount == Constraints.Count);
+			Debug.Assert(lagrangeMultipliers.ColumnCount == 1);
 		}
 
 		private void InitializeStep()
@@ -226,9 +267,13 @@ namespace RigidBodyDynamics
 		private void InitializeConstraintValues()
 		{
 			constraintValues = Matrix<float>.Build.Dense(Constraints.Count, 1);
+			constraintForces = new List<Vector<float>>();
 
 			for (int i = 0; i < Constraints.Count; i++)
+			{
 				constraintValues[i, 0] = Constraints[i].Value;
+				constraintForces.Add(Vector<float>.Build.Dense(GeneralizedCoordinateCount));
+			}
 		}
 
 		private void InitializeVelocityVector()
@@ -258,8 +303,8 @@ namespace RigidBodyDynamics
 
 		private void InitializeVector(ref Matrix<float> vector, bool clear)
 		{
-			if (vector == null || vector.RowCount != GeneralizedCoordinates)
-				vector = Matrix<float>.Build.Dense(GeneralizedCoordinates, 1);
+			if (vector == null || vector.RowCount != GeneralizedCoordinateCount)
+				vector = Matrix<float>.Build.Dense(GeneralizedCoordinateCount, 1);
 
 			if (clear)
 				vector.CoerceZero(float.MaxValue);

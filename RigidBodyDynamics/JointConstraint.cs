@@ -87,10 +87,8 @@ namespace RigidBodyDynamics
 			return sign * new ConstraintDerivative(
 			       DisplacementVelocity.X,
 				   DisplacementVelocity.Y,
-				   -B.X * A.X * particle.AngularVelocity 
-				   +dB.X * dA.X
-				   -B.Y * A.Y * particle.AngularVelocity
-				   +dB.Y * dA.Y);
+				   -particle.AngularVelocity * Vector2.DotProduct(B, A)
+				   + Vector2.DotProduct(dB, dA));
 		}
 
 		/// <summary>
@@ -141,6 +139,11 @@ namespace RigidBodyDynamics
 			return new Vector2(
 				-point.X * Math.Sin(particle.Angle) + point.Y * Math.Cos(particle.Angle),
 				-point.X * Math.Cos(particle.Angle) - point.Y * Math.Sin(particle.Angle));
+		}
+
+		public float ComputeTorqueFor(PhysicalParticle particle, Vector2 force)
+		{
+			return 0;
 		}
 	}
 }

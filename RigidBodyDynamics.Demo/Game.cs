@@ -23,7 +23,10 @@ namespace RigidBodyDynamics
 
 		private KinematicsSystem system = new KinematicsSystem();
 		private KinematicsIntegrator kinematics;
+		private ConstraintSolver constraintSolver;
+
 		private int debugParticleIndex;
+		private int debugInfoPage;
 
 		private bool running;
 
@@ -53,24 +56,21 @@ namespace RigidBodyDynamics
 
 		private void Advance(float dt = 0.005f)
 		{
-			StoreHistory();
-
 			CurrentExample.ComputeExternalForces();
 
 			kinematics.Integrate(dt);
+
+			historyIndex++;
+			StoreHistory();
 		}
 
 		private void StoreHistory()
 		{
 			var historyItem = particles.Select(x => x.Clone()).ToList();
 
-			historyIndex++;
-
-			if (historyIndex >= history.Count)
+			if (historyIndex == history.Count)
 			{
 				history.Add(historyItem);
-
-				historyIndex = history.Count - 1;
 			}
 			else
 			{
@@ -97,7 +97,20 @@ namespace RigidBodyDynamics
 
 			PrintStateOfBox(b, particles[debugParticleIndex]);
 
+			PrintEnergyState(b);
+
 			return b.ToString();
+		}
+
+		private void PrintEnergyState(StringBuilder b)
+		{
+			if (debugInfoPage == 0)
+			{
+				b.AppendLine($"\n  KE: {system.LinearKineticEnergy}");
+				b.AppendLine($" RKE: {system.AngularKineticEnergy}");
+				b.AppendLine($"  PE: {CurrentExample.PotentialEnergy}");
+				b.AppendLine($"   E: {CurrentExample.PotentialEnergy + system.LinearKineticEnergy + system.AngularKineticEnergy}");
+			}
 		}
 
 		private void PrintStateOfBox(StringBuilder b, PhysicalParticle box)
@@ -106,29 +119,38 @@ namespace RigidBodyDynamics
 
 			b.AppendLine($"   X: {box.Position.X}");
 			b.AppendLine($"   Y: {box.Position.Y}");
-			b.AppendLine($"   A: {box.Angle}");
+			b.AppendLine($"   A: {box.Angle}\n");
 
-			b.AppendLine($"\n v_x: {box.Velocity.X}");
-			b.AppendLine($" v_y: {box.Velocity.Y}");
-			b.AppendLine($"   w: {box.AngularVelocity}");
+			if (debugInfoPage == 0)
+			{
+				b.AppendLine($" v_x: {box.Velocity.X}");
+				b.AppendLine($" v_y: {box.Velocity.Y}");
+				b.AppendLine($"   w: {box.AngularVelocity}");
 
-			b.AppendLine($"\n F_x: {box.Force.X}");
-			b.AppendLine($" F_y: {box.Force.Y}");
-			b.AppendLine($"   T: {box.Torque}");
+				b.AppendLine($"\n F_x: {box.Force.X}");
+				b.AppendLine($" F_y: {box.Force.Y}");
+				b.AppendLine($"   T: {box.Torque}");
 
-			b.AppendLine($"\nFC_x: {box.ConstraintForce.X}");
-			b.AppendLine($"FC_y: {box.ConstraintForce.Y}");
-			b.AppendLine($"  TC: {box.ConstraintTorque}");
+				b.AppendLine($"\nFC_x: {box.ConstraintForce.X}");
+				b.AppendLine($"FC_y: {box.ConstraintForce.Y}");
+				b.AppendLine($"  TC: {box.ConstraintTorque}");
 
-			b.AppendLine($"\n  KE: {system.LinearKineticEnergy}");
-			b.AppendLine($" RKE: {system.AngularKineticEnergy}");
-			b.AppendLine($"  PE: {CurrentExample.PotentialEnergy}");
-			b.AppendLine($"   E: {CurrentExample.PotentialEnergy + system.LinearKineticEnergy + system.AngularKineticEnergy}");
+				var angle = RadsToDegress * Vector2.DotProduct(box.ConstraintForce, box.Velocity) /
+				            (box.ConstraintForce.Magnitude * box.Velocity.Magnitude);
 
-			var angle = RadsToDegress * Vector2.DotProduct(box.ConstraintForce, box.Velocity) /
-			            (box.ConstraintForce.Magnitude * box.Velocity.Magnitude);
+				b.AppendLine($"\n DOT: {angle}");
+			}
+			else if (debugInfoPage == 1)
+			{
+				b.AppendLine($"Constraint Forces:\n{constraintSolver.TotalConstraintForces?.Transpose().ToMatrixString()}");
+				b.AppendLine($"Lagrange Multipliers:\n{constraintSolver.LagrangeMultipliers?.Transpose()?.ToMatrixString()}");
+				b.AppendLine($"Jacobian:\n{constraintSolver.Jacobian?.ToMatrixString()}");
+				b.AppendLine($"Jacobian Derivative:\n{constraintSolver.JacobianDerivative?.ToMatrixString()}");
+				b.AppendLine($"Velocity:\n{constraintSolver.Velocity?.Transpose()?.ToMatrixString()}");
+				b.AppendLine($"Coefficient Matrix: (det {constraintSolver.CoefficientMatrix?.Determinant()})\n{constraintSolver.CoefficientMatrix?.ToMatrixString()}");
+				b.AppendLine($"Equation Constants:\n{constraintSolver.EquationConstants?.ToMatrixString()}");
 
-			b.AppendLine($"\n DOT: {angle}");
+			}
 		}
 
 		private void InitializeExample()
@@ -137,8 +159,9 @@ namespace RigidBodyDynamics
 			historyIndex = 0;
 
 			system = examples[exampleIndex].Initialize(Display.RenderTarget.Size);
-			
-			kinematics = new KinematicsIntegrator(system, new ConstraintSolver(system));
+
+			constraintSolver = new ConstraintSolver(system);
+			kinematics = new KinematicsIntegrator(system, constraintSolver);
 
 			StoreHistory();
 		}
@@ -189,7 +212,7 @@ namespace RigidBodyDynamics
 
 				LoadHistory();
 			}
-			if (e.KeyCode == KeyCode.Right)
+			if (e.KeyCode == KeyCode.PageDown)
 			{
 				exampleIndex++;
 				if (exampleIndex >= examples.Count)
@@ -197,13 +220,18 @@ namespace RigidBodyDynamics
 
 				InitializeExample();
 			}
-			if (e.KeyCode == KeyCode.Left)
+			if (e.KeyCode == KeyCode.PageUp)
 			{
 				exampleIndex--;
 				if (exampleIndex < 0)
 					exampleIndex = 0;
 
 				InitializeExample();
+			}
+
+			if (e.KeyCode >= KeyCode.D1 && e.KeyCode <= KeyCode.D2)
+			{
+				debugInfoPage = (int) (e.KeyCode - KeyCode.D1);
 			}
 		}
 
@@ -215,6 +243,8 @@ namespace RigidBodyDynamics
 			{
 				historyItem[i].CopyTo(particles[i]);
 			}
+
+			constraintSolver.ComputeConstraintForces();
 		}
 	}
 }

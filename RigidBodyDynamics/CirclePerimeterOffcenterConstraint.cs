@@ -56,7 +56,7 @@ namespace RigidBodyDynamics
 			return new ConstraintDerivative(
 				particle.Velocity.X,
 				particle.Velocity.Y,
-				Vector2.DotProduct(particle.Velocity, OffsetDerivative) + 
+				Vector2.DotProduct(particle.Velocity, OffsetDerivative) - 
 				Vector2.DotProduct(ConstrainedPointPosition, ConstrainedPointLocalPosition));
 		}
 	}

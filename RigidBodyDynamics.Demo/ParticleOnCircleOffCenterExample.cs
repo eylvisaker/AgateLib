@@ -41,6 +41,7 @@ namespace RigidBodyDynamics
 			system.AddParticles(new PhysicalParticle
 			{
 				Position = particlePosition,
+				InertialMoment = boxSize * boxSize / 12f,
 			});
 
 			system.AddConstraints(new CirclePerimeterOffcenterConstraint(

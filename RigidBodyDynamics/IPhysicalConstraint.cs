@@ -1,3 +1,6 @@
+using AgateLib.Geometry;
+using MathNet.Numerics.LinearAlgebra;
+
 namespace RigidBodyDynamics
 {
 	/// <summary>
@@ -31,6 +34,5 @@ namespace RigidBodyDynamics
 		/// <param name="particle"></param>
 		/// <returns></returns>
 		ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle);
-
 	}
 }

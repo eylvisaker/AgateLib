@@ -40,6 +40,7 @@ namespace RigidBodyDynamics
 			target.Angle = Angle;
 			target.AngularVelocity = AngularVelocity;
 			target.Torque = Torque;
+			target.ConstraintTorque = ConstraintTorque;
 
 			target.Mass = Mass;
 			target.InertialMoment = InertialMoment;
