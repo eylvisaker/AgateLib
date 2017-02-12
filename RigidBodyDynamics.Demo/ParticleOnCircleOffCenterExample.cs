@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
@@ -41,6 +42,7 @@ namespace RigidBodyDynamics
 			system.AddParticles(new PhysicalParticle
 			{
 				Position = particlePosition,
+				Angle = -(float)Math.PI / 4,
 				InertialMoment = boxSize * boxSize / 12f,
 			});
 

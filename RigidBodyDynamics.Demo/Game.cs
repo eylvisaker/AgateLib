@@ -35,21 +35,26 @@ namespace RigidBodyDynamics
 			InitializeInput();
 
 			examples.Add(new ParticleOnCircleOffCenterExample());
+			examples.Add(new SmallChainNoGravityExample());
 			examples.Add(new ParticleOnCircleExample());
 			examples.Add(new ChainOnCircleExample());
 			examples.Add(new BoxChainExample());
+			examples.Add(new ParticleOnCircleExample());
 
 			InitializeExample();
 		}
 
 		private IKinematicsExample CurrentExample => examples[exampleIndex];
-		
+
 		private Size Area => Display.RenderTarget.Size;
 
 		public int BoxCount { get; set; } = 8;
 
 		public void Update(TimeSpan gameClockElapsed)
 		{
+			if (system.Particles.Any(p => float.IsNaN(p.Position.X)))
+				running = false;
+
 			if (running)
 				Advance((float)gameClockElapsed.TotalSeconds);
 		}
@@ -136,7 +141,7 @@ namespace RigidBodyDynamics
 				b.AppendLine($"  TC: {box.ConstraintTorque}");
 
 				var angle = RadsToDegress * Vector2.DotProduct(box.ConstraintForce, box.Velocity) /
-				            (box.ConstraintForce.Magnitude * box.Velocity.Magnitude);
+							(box.ConstraintForce.Magnitude * box.Velocity.Magnitude);
 
 				b.AppendLine($"\n DOT: {angle}");
 			}
@@ -231,7 +236,7 @@ namespace RigidBodyDynamics
 
 			if (e.KeyCode >= KeyCode.D1 && e.KeyCode <= KeyCode.D2)
 			{
-				debugInfoPage = (int) (e.KeyCode - KeyCode.D1);
+				debugInfoPage = (int)(e.KeyCode - KeyCode.D1);
 			}
 		}
 
@@ -239,7 +244,7 @@ namespace RigidBodyDynamics
 		{
 			var historyItem = history[historyIndex];
 
-			for(int i = 0; i < particles.Count; i++)
+			for (int i = 0; i < particles.Count; i++)
 			{
 				historyItem[i].CopyTo(particles[i]);
 			}

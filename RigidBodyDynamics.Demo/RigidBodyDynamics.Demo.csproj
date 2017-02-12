@@ -72,10 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoxChainExample.cs" />
+    <Compile Include="ChainOnCircleExample.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="KinematicsExample.cs" />
     <Compile Include="ParticleOnCircleExample.cs" />
-    <Compile Include="ChainOnCircleExample.cs" />
+    <Compile Include="SmallChainNoGravityExample.cs" />
     <Compile Include="ParticleOnCircleOffCenterExample.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

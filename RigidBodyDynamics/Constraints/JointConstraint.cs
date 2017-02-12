@@ -67,11 +67,12 @@ namespace RigidBodyDynamics
 
 			var B = Displacement;
 			var dA = PointDerivativeAngle(particle, point);
+			var dot = B.DotProduct(dA);
 
 			return sign * new ConstraintDerivative(
 				       B.X,
 				       B.Y,
-				       B.X * dA.X + B.Y * dA.Y);
+				       dot);
 		}
 
 		public ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle)
@@ -84,11 +85,13 @@ namespace RigidBodyDynamics
 			var A = PointRelativePosition(particle, point);
 			var dA = PointDerivativeAngle(particle, point);
 
+			var BdotA = Vector2.DotProduct(B, A);
+			var dBdotdA = Vector2.DotProduct(dB, dA);
+
 			return sign * new ConstraintDerivative(
 			       DisplacementVelocity.X,
 				   DisplacementVelocity.Y,
-				   -particle.AngularVelocity * Vector2.DotProduct(B, A)
-				   + Vector2.DotProduct(dB, dA));
+				   -particle.AngularVelocity * BdotA + dBdotdA);
 		}
 
 		/// <summary>
@@ -100,9 +103,20 @@ namespace RigidBodyDynamics
 		/// <returns></returns>
 		private Vector2 PointRelativePosition(PhysicalParticle particle, Vector2 point)
 		{
-			return new Vector2(point.X * Math.Cos(particle.Angle) + point.Y * Math.Sin(particle.Angle),
-							   -point.X * Math.Sin(particle.Angle) + point.Y * Math.Cos(particle.Angle));
+			return point.Rotate(particle.Angle);
 		}
+
+		/// <summary>
+		/// Calculates the derivative of the particle's point with respect to its angle coordinate.
+		/// </summary>
+		/// <param name="particle"></param>
+		/// <param name="point"></param>
+		/// <returns></returns>
+		private Vector2 PointDerivativeAngle(PhysicalParticle particle, Vector2 point)
+		{
+			var result = point.RotationDerivative(particle.Angle);
+			return result;
+		} 
 
 		/// <summary>
 		/// Calculates the position of the particle's point in global coordinates.
@@ -126,24 +140,6 @@ namespace RigidBodyDynamics
 		private Vector2 PointVelocity(PhysicalParticle particle, Vector2 point)
 		{
 			return particle.Velocity + particle.AngularVelocity * PointDerivativeAngle(particle, point);
-		}
-
-		/// <summary>
-		/// Calculates the derivative of the particle's point with respect to its angle coordinate.
-		/// </summary>
-		/// <param name="particle"></param>
-		/// <param name="point"></param>
-		/// <returns></returns>
-		private Vector2 PointDerivativeAngle(PhysicalParticle particle, Vector2 point)
-		{
-			return new Vector2(
-				-point.X * Math.Sin(particle.Angle) + point.Y * Math.Cos(particle.Angle),
-				-point.X * Math.Cos(particle.Angle) - point.Y * Math.Sin(particle.Angle));
-		}
-
-		public float ComputeTorqueFor(PhysicalParticle particle, Vector2 force)
-		{
-			return 0;
 		}
 	}
 }
