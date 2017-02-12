@@ -3,7 +3,7 @@ using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace RigidBodyDynamics
+namespace RigidBodyDynamics.Demo
 {
 	public class BoxChainExample : IKinematicsExample
 	{
@@ -103,5 +103,16 @@ namespace RigidBodyDynamics
 			boxImage = new Surface(pixels);
 		}
 
+		public void AddParticle()
+		{
+			BoxCount++;
+		}
+
+		public void RemoveParticle()
+		{
+			BoxCount--;
+			if (BoxCount < 2)
+				BoxCount = 2;
+		}
 	}
 }

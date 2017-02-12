@@ -115,14 +115,19 @@ namespace RigidBodyDynamics
 		private void SolveConstraintEquations(float dt)
 		{
 			const float tolerance = 1e-6f;
-			const int maxIterations = 10;
+			const int maxIterations = 100;
+			const float errorMax = 1e-4f;
 
+			//Debug.WriteLine($"**************************** Starting iterations");
 
-			Debug.WriteLine($"**************************** Starting iterations");
+			float totalError = 0;
+			int nIter;
 
-			for (int nIter = 0; nIter < maxIterations; nIter++)
+			for (nIter = 0; nIter < maxIterations; nIter++)
 			{
-				Debug.WriteLine($"\n**** Iteration {nIter}");
+				//Debug.WriteLine($"\n**** Iteration {nIter}");
+				totalError = 0;
+
 
 				// Here's the equation:
 				//  J * M^(-1) * J^T * lambda = -J * v - Bias
@@ -133,8 +138,6 @@ namespace RigidBodyDynamics
 				//       x = lambda
 				//       B = -J * v - Bias
 				var velocityStep = newVelocities.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-				float totalError = 0;
 
 				for (int j = 0; j < Constraints.Count; j++)
 				{
@@ -181,13 +184,13 @@ namespace RigidBodyDynamics
 					//}
 
 					if (A < tolerance)
-						break;
+						continue;
 
 					var lagrangeMultipliers = B / A;
 
 					var impulse = jacobian.Transpose() * lagrangeMultipliers;
 
-					Debug.WriteLine($"  Constraint {j}");
+					//Debug.WriteLine($"  Constraint {j}");
 					for (int i = 0; i < particles.Count; i++)
 					{
 						int basis = i * GeneralizedCoordinatesPerParticle;
@@ -204,13 +207,15 @@ namespace RigidBodyDynamics
 
 						newVelocities[particle] = nv;
 
-						Debug.WriteLine($"    Particle {i}: dV: {error.Magnitude}");
+						//Debug.WriteLine($"    Particle {i}: dV: {error.Magnitude}");
 					}
-
 				}
 
-				Debug.WriteLine($"Total error: {totalError}");
+				if (totalError < errorMax)
+					break;
 			}
+
+			Debug.WriteLine($"Total error: {totalError} after {nIter + 1} iterations.");
 		}
 
 		private static void NormalizeLinearEquations(Matrix<float> A, float tolerance)

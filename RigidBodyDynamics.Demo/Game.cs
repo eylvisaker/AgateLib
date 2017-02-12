@@ -6,7 +6,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace RigidBodyDynamics
+namespace RigidBodyDynamics.Demo
 {
 	public class Game
 	{
@@ -183,15 +183,13 @@ namespace RigidBodyDynamics
 
 			if (e.KeyCode == KeyCode.NumPadPlus || e.KeyCode == KeyCode.Plus)
 			{
-				debugParticleIndex++;
-				if (debugParticleIndex >= particles.Count)
-					debugParticleIndex %= particles.Count;
+				CurrentExample.AddParticle();
+				InitializeExample();
 			}
 			if (e.KeyCode == KeyCode.NumPadMinus || e.KeyCode == KeyCode.Minus)
 			{
-				debugParticleIndex--;
-				if (debugParticleIndex < 0)
-					debugParticleIndex += particles.Count;
+				CurrentExample.RemoveParticle();
+				InitializeExample();
 			}
 			if (e.KeyCode == KeyCode.Down)
 			{

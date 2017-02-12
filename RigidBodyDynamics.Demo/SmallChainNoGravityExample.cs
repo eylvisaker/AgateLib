@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace RigidBodyDynamics
+namespace RigidBodyDynamics.Demo
 {
 	public class SmallChainNoGravityExample : IKinematicsExample
 	{
@@ -23,30 +24,17 @@ namespace RigidBodyDynamics
 
 		public float PotentialEnergy => 0;
 
+		public int BoxCount { get; set; } = 2;
+
 		public KinematicsSystem Initialize(Size area)
 		{
 			var particlePosition = new Vector2(area.Width * .5f, area.Height * .1f);
 
 			system = new KinematicsSystem();
 
-			system.AddParticles(
-				new PhysicalParticle
-				{
-					Position = particlePosition,
-					Velocity = new Vector2(0, startingVelocity),
-					InertialMoment = boxSize * boxSize / 12f,
-				},
-				new PhysicalParticle
-				{
-					Position = new Vector2(particlePosition.X + boxSize, particlePosition.Y),
-					InertialMoment = boxSize * boxSize / 12f,
-				}
-			);
-			
-			system.AddConstraints(new JointConstraint(
-				system.Particles.First(), new Vector2(boxSize * .5f, boxSize * .5f),
-				system.Particles.Last(), new Vector2(-boxSize * .5f, boxSize * .5f)));
+			GeometryBuilder.CreateChain(system, BoxCount, boxSize, particlePosition);
 
+			system.Particles.First().Velocity = new Vector2(-startingVelocity * 0.2, startingVelocity);
 			return system;
 		}
 
@@ -77,6 +65,16 @@ namespace RigidBodyDynamics
 			pixels.FillRectangle(Color.FromArgb(220, Color.White), new Rectangle(1, 1, pixels.Width - 2, pixels.Height - 2));
 
 			boxImage = new Surface(pixels);
+		}
+
+		public void AddParticle()
+		{
+			BoxCount++;
+		}
+
+		public void RemoveParticle()
+		{
+			BoxCount = Math.Max(2, BoxCount - 1);
 		}
 	}
 }

@@ -74,6 +74,7 @@
     <Compile Include="BoxChainExample.cs" />
     <Compile Include="ChainOnCircleExample.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GeometryBuilder.cs" />
     <Compile Include="KinematicsExample.cs" />
     <Compile Include="ParticleOnCircleExample.cs" />
     <Compile Include="SmallChainNoGravityExample.cs" />

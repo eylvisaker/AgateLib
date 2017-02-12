@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace RigidBodyDynamics
+namespace RigidBodyDynamics.Demo
 {
 	public class ChainOnCircleExample : IKinematicsExample
 	{
@@ -26,6 +27,8 @@ namespace RigidBodyDynamics
 
 		public float PotentialEnergy => system.Particles.Sum(p => p.Mass * p.Position.Y * -gravity);
 
+		public int BoxCount { get; set; } = 2;
+
 		public KinematicsSystem Initialize(Size area)
 		{
 			circleRadius = area.Height * 0.375f;
@@ -36,25 +39,10 @@ namespace RigidBodyDynamics
 
 			system = new KinematicsSystem();
 
-			system.AddParticles(
-				new PhysicalParticle
-				{
-					Position = particlePosition,
-					InertialMoment = boxSize * boxSize / 12f,
-				},
-				new PhysicalParticle
-				{
-					Position = new Vector2(particlePosition.X + boxSize, particlePosition.Y),
-					InertialMoment = boxSize * boxSize / 12f,
-				}
-			);
+			GeometryBuilder.CreateChain(system, BoxCount, boxSize, particlePosition);
 
 			system.AddConstraints(new CirclePerimeterOffcenterConstraint(
 				system.Particles.First(), circlePosition, circleRadius, new Vector2(-boxSize * .5f, -boxSize * .5f)));
-
-			system.AddConstraints(new JointConstraint(
-				system.Particles.First(), new Vector2(boxSize * .5f, boxSize * .5f),
-				system.Particles.Last(), new Vector2(-boxSize * .5f, boxSize * .5f)));
 
 			return system;
 		}
@@ -88,10 +76,21 @@ namespace RigidBodyDynamics
 		private void InitializeImages()
 		{
 			var pixels = new PixelBuffer(Display.DefaultSurfaceFormat, new Size(boxSize, boxSize));
+
 			pixels.FillRectangle(Color.FromArgb(220, Color.LightBlue), new Rectangle(Point.Empty, pixels.Size));
 			pixels.FillRectangle(Color.FromArgb(220, Color.White), new Rectangle(1, 1, pixels.Width - 2, pixels.Height - 2));
 
 			boxImage = new Surface(pixels);
+		}
+
+		public void AddParticle()
+		{
+			BoxCount++;
+		}
+
+		public void RemoveParticle()
+		{
+			BoxCount = Math.Max(2, BoxCount - 1);
 		}
 	}
 }

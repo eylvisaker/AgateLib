@@ -3,7 +3,7 @@ using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace RigidBodyDynamics
+namespace RigidBodyDynamics.Demo
 {
 	public class ParticleOnCircleExample : IKinematicsExample
 	{
@@ -78,6 +78,14 @@ namespace RigidBodyDynamics
 			pixels.FillRectangle(Color.FromArgb(220, Color.White), new Rectangle(1, 1, pixels.Width - 2, pixels.Height - 2));
 
 			boxImage = new Surface(pixels);
+		}
+
+		public void AddParticle()
+		{
+		}
+
+		public void RemoveParticle()
+		{
 		}
 	}
 }

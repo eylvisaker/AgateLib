@@ -24,6 +24,10 @@ namespace RigidBodyDynamics
 			this.point2 = point2;
 		}
 
+		/// <summary>
+		/// The distance between the two points that should be fixed.
+		/// When the constraint is satisfied, this should be zero.
+		/// </summary>
 		private Vector2 Displacement
 		{
 			get
@@ -34,6 +38,9 @@ namespace RigidBodyDynamics
 			}
 		}
 
+		/// <summary>
+		/// The rate of change of Displacement with respect to time.
+		/// </summary>
 		private Vector2 DisplacementVelocity
 		{
 			get

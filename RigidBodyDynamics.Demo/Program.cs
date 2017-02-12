@@ -9,7 +9,7 @@ using AgateLib.InputLib;
 using AgateLib.Platform;
 using AgateLib.Platform.WinForms;
 
-namespace RigidBodyDynamics
+namespace RigidBodyDynamics.Demo
 {
 	static class Program
 	{

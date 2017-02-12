@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AgateLib.Geometry;
 
-namespace RigidBodyDynamics
+namespace RigidBodyDynamics.Demo
 {
 	public interface IKinematicsExample
 	{
@@ -13,5 +13,8 @@ namespace RigidBodyDynamics
 		void Draw();
 
 		void ComputeExternalForces();
+
+		void AddParticle();
+		void RemoveParticle();
 	}
 }
