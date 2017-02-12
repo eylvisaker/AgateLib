@@ -23,7 +23,7 @@ namespace RigidBodyDynamics
 		/// </summary>
 		private const int GeneralizedCoordinatesPerParticle = 3;
 
-		private const float DefaultSpringConstant = 200f;
+		private const float DefaultSpringConstant = 50f;
 
 		private Matrix<float> jacobian;
 		private Matrix<float> massInverseMatrix;
@@ -71,7 +71,7 @@ namespace RigidBodyDynamics
 		{
 			InitializeStep(dt);
 
-			SolveConstraintEquations();
+			SolveConstraintEquations(dt);
 		}
 
 		public void ApplyConstraintForces()
@@ -112,10 +112,10 @@ namespace RigidBodyDynamics
 			return jacobian;
 		}
 
-		private void SolveConstraintEquations()
+		private void SolveConstraintEquations(float dt)
 		{
 			const float tolerance = 1e-6f;
-			const int maxIterations =50;
+			const int maxIterations = 10;
 
 
 			Debug.WriteLine($"**************************** Starting iterations");
@@ -133,6 +133,8 @@ namespace RigidBodyDynamics
 				//       x = lambda
 				//       B = -J * v - Bias
 				var velocityStep = newVelocities.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+				float totalError = 0;
 
 				for (int j = 0; j < Constraints.Count; j++)
 				{
@@ -166,7 +168,7 @@ namespace RigidBodyDynamics
 					// Add bias to help force constraint apply.
 					//var bias = Matrix<float>.Build.Dense(particles.Count * GeneralizedCoordinatesPerParticle, 1);
 
-					var bias = SpringConstant * constraint.Value;// + DampeningConstant * B1;
+					var bias = SpringConstant * constraint.Value + (DampeningConstant * B1) * dt;
 					var B = B1 - bias;
 					//B -= constraintValues[j, 0] + DampeningConstant * jacobian.Row(j).ToColumnMatrix();
 
@@ -185,6 +187,7 @@ namespace RigidBodyDynamics
 
 					var impulse = jacobian.Transpose() * lagrangeMultipliers;
 
+					Debug.WriteLine($"  Constraint {j}");
 					for (int i = 0; i < particles.Count; i++)
 					{
 						int basis = i * GeneralizedCoordinatesPerParticle;
@@ -196,9 +199,17 @@ namespace RigidBodyDynamics
 						nv.Y += impulse[basis + 1, 0] / particle.Mass;
 						nv.Z += impulse[basis + 2, 0] / particle.InertialMoment;
 
+						Vector3 error = nv - newVelocities[particle];
+						totalError += error.MagnitudeSquared;
+
 						newVelocities[particle] = nv;
+
+						Debug.WriteLine($"    Particle {i}: dV: {error.Magnitude}");
 					}
+
 				}
+
+				Debug.WriteLine($"Total error: {totalError}");
 			}
 		}
 

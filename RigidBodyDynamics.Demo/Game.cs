@@ -36,7 +36,6 @@ namespace RigidBodyDynamics
 
 			examples.Add(new ParticleOnCircleOffCenterExample());
 			examples.Add(new SmallChainNoGravityExample());
-			examples.Add(new ParticleOnCircleExample());
 			examples.Add(new ChainOnCircleExample());
 			examples.Add(new BoxChainExample());
 			examples.Add(new ParticleOnCircleExample());

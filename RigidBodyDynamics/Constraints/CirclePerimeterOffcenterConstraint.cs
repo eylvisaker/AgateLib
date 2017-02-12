@@ -47,7 +47,7 @@ namespace RigidBodyDynamics
 			return new ConstraintDerivative(
 				ConstrainedPointPosition.X,
 				ConstrainedPointPosition.Y,
-				Vector2.DotProduct(ConstrainedPointLocalPosition, OffsetDerivative));
+				Vector2.DotProduct(ConstrainedPointPosition, OffsetDerivative));
 		}
 
 
