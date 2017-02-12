@@ -4,11 +4,14 @@ namespace RigidBodyDynamics
 {
 	public class KinematicsSystem
 	{
-		public List<PhysicalParticle> Particles = new List<PhysicalParticle>();
-		public List<IPhysicalConstraint> Constraints = new List<IPhysicalConstraint>();
+		private List<PhysicalParticle> particles = new List<PhysicalParticle>();
+		private List<IPhysicalConstraint> constraints = new List<IPhysicalConstraint>();
 
+		public IReadOnlyList<PhysicalParticle> Particles => particles;
 
-		public void AddObjects(params PhysicalParticle[] items)
+		public IReadOnlyList<IPhysicalConstraint> Constraints => constraints;
+
+		public void AddParticles(params PhysicalParticle[] items)
 		{
 			foreach (var item in items)
 			{
@@ -18,13 +21,13 @@ namespace RigidBodyDynamics
 				if (item.InertialMoment == 0)
 					item.InertialMoment = 1;
 
-				Particles.Add(item);
+				particles.Add(item);
 			}
 		}
 
-		public void AddConstraints(List<IPhysicalConstraint> constraints)
+		public void AddConstraints(params IPhysicalConstraint[] constraints)
 		{
-			Constraints.AddRange(constraints);
+			this.constraints.AddRange(constraints);
 		}
 	}
 }

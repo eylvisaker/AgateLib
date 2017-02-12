@@ -10,68 +10,57 @@ namespace RigidBodyDynamics
 {
 	public class Game
 	{
-		const int boxSize = 40;
+		private const int boxSize = 40;
 
-		private Surface boxImage;
+		private List<IKinematicsExample> examples = new List<IKinematicsExample>();
+		private int exampleIndex;
 
 		private List<List<PhysicalParticle>> history = new List<List<PhysicalParticle>>();
 		private int historyIndex = -1;
 
-		private List<PhysicalParticle> boxes = new List<PhysicalParticle>();
-		private PhysicalParticle sphere = new PhysicalParticle();
-
-		private List<IPhysicalConstraint> constraints = new List<IPhysicalConstraint>();
+		private IReadOnlyList<PhysicalParticle> particles => system.Particles;
+		private IReadOnlyList<IPhysicalConstraint> constraints => system.Constraints;
 
 		private KinematicsSystem system = new KinematicsSystem();
 		private KinematicsIntegrator kinematics;
-		private int debugBoxIndex;
+		private int debugParticleIndex;
+
+		private bool running;
 
 		public Game()
 		{
-			Initialize();
+			InitializeInput();
 
-			var pixels = new PixelBuffer(Display.DefaultSurfaceFormat, new Size(boxSize, boxSize / 2));
-			pixels.FillRectangle(Color.FromArgb(220, Color.LightBlue), new Rectangle(Point.Empty, pixels.Size));
-			pixels.FillRectangle(Color.FromArgb(220, Color.White), new Rectangle(1, 1, pixels.Width - 2, pixels.Height - 2));
+			examples.Add(new ParticleOnCircleExample());
+			examples.Add(new BoxChainExample());
 
-			boxImage = new Surface(pixels);
-
-			var handler = new SimpleInputHandler();
-
-			handler.KeyDown += Handler_KeyDown;
-
-			Input.Handlers.Add(handler);
+			InitializeExample();
 		}
 
+		private IKinematicsExample CurrentExample => examples[exampleIndex];
+		
 		private Size Area => Display.RenderTarget.Size;
 
 		public int BoxCount { get; set; } = 8;
 
 		public void Update(TimeSpan gameClockElapsed)
 		{
+			if (running)
+				Advance((float)gameClockElapsed.TotalSeconds);
 		}
 
-		private void Advance()
+		private void Advance(float dt = 0.005f)
 		{
 			StoreHistory();
 
-			ComputeExternalForces();
+			CurrentExample.ComputeExternalForces();
 
-			kinematics.Update(0.0001f);
-		}
-
-		private void ComputeExternalForces()
-		{
-			foreach (var box in boxes)
-			{
-				// Gravity force
-				box.Force = new Vector2(0, 100 * box.Mass);
-			}
+			kinematics.Integrate(dt);
 		}
 
 		private void StoreHistory()
 		{
-			var historyItem = boxes.Select(x => x.Clone()).ToList();
+			var historyItem = particles.Select(x => x.Clone()).ToList();
 
 			historyIndex++;
 
@@ -79,7 +68,7 @@ namespace RigidBodyDynamics
 			{
 				history.Add(historyItem);
 
-				historyIndex = history.Count;
+				historyIndex = history.Count - 1;
 			}
 			else
 			{
@@ -89,10 +78,7 @@ namespace RigidBodyDynamics
 
 		public void Draw()
 		{
-			foreach (var box in boxes)
-				DrawBox(box);
-
-			DrawSphere(sphere);
+			CurrentExample.Draw();
 
 			Font.AgateMono.Size = 16;
 			Font.AgateMono.Style = FontStyles.Bold;
@@ -104,103 +90,71 @@ namespace RigidBodyDynamics
 		{
 			StringBuilder b = new StringBuilder();
 
-			b.AppendLine(historyIndex.ToString());
-			b.AppendLine($"\nBox {debugBoxIndex}");
+			b.AppendLine($"{examples[exampleIndex].Name}: {historyIndex}");
+			b.AppendLine($"Particle {debugParticleIndex}");
 
-			PrintStateOfBox(b, boxes[debugBoxIndex]);
-
-			var secondBox = (debugBoxIndex + 1) % boxes.Count;
-			b.AppendLine($"\nBox {secondBox}");
-			PrintStateOfBox(b, boxes[secondBox]);
+			PrintStateOfBox(b, particles[debugParticleIndex]);
 
 			return b.ToString();
 		}
 
 		private static void PrintStateOfBox(StringBuilder b, PhysicalParticle box)
 		{
-			b.AppendLine($"  X: {box.Position.X}");
-			b.AppendLine($"  Y: {box.Position.Y}");
-			b.AppendLine($"  A: {box.Angle}");
-			b.AppendLine($"\nv_x: {box.Velocity.X}");
-			b.AppendLine($"v_y: {box.Velocity.Y}");
-			b.AppendLine($"  w: {box.AngularVelocity}");
-			b.AppendLine($"\nF_x: {box.Force.X}");
-			b.AppendLine($"F_y: {box.Force.Y}");
-			b.AppendLine($"  T: {box.Torque}");
+			b.AppendLine($"   X: {box.Position.X}");
+			b.AppendLine($"   Y: {box.Position.Y}");
+			b.AppendLine($"   A: {box.Angle}");
+			b.AppendLine($"\n v_x: {box.Velocity.X}");
+			b.AppendLine($" v_y: {box.Velocity.Y}");
+			b.AppendLine($"   w: {box.AngularVelocity}");
+			b.AppendLine($"\n F_x: {box.Force.X}");
+			b.AppendLine($" F_y: {box.Force.Y}");
+			b.AppendLine($"   T: {box.Torque}");
+			b.AppendLine($"\nFC_x: {box.ConstraintForce.X}");
+			b.AppendLine($"FC_y: {box.ConstraintForce.Y}");
+			b.AppendLine($"  TC: {box.ConstraintTorque}");
 		}
 
-		private void DrawBox(PhysicalParticle box)
+		private void InitializeExample()
 		{
-			boxImage.RotationAngle = box.Angle;
-			boxImage.Draw(box.Position);
-		}
-
-		private void DrawSphere(PhysicalParticle physicalParticle)
-		{
-			Display.FillEllipse(new RectangleF(physicalParticle.Position.X - 40, physicalParticle.Position.Y - 40, 80, 80), Color.Blue);
-		}
-
-
-		private void Initialize()
-		{
-			boxes.Clear();
-			constraints.Clear();
 			history.Clear();
+			historyIndex = 0;
 
-			for (int i = 0; i < BoxCount; i++)
-			{
-				boxes.Add(new PhysicalParticle
-				{
-					Position = new Vector2(
-						Area.Width * 0.5 + (BoxCount / 2 - i) * boxSize,
-						Area.Height * 0.1
-					),
-					Velocity = new Vector2(0, (BoxCount / 2 - i) * 250)
-				});
-
-				if (i > 0)
-				{
-					var constraint = new PointTouchConstraint(boxes[i - 1], new Vector2(-boxSize * 0.5, 0),
-						boxes[i], new Vector2(boxSize * 0.5, 0));
-
-					constraints.Add(constraint);
-				}
-			}
-
-			sphere = new PhysicalParticle
-			{
-				Position = new Vector2(Area.Width * 0.5, Area.Height * 0.5)
-			};
-
-			system = new KinematicsSystem();
+			system = examples[exampleIndex].Initialize(Display.RenderTarget.Size);
+			
 			kinematics = new KinematicsIntegrator(system, new ConstraintSolver(system));
 
-			system.AddObjects(boxes.ToArray());
-			//system.AddObjects(sphere);
-
-			system.AddConstraints(constraints);
-
 			StoreHistory();
+		}
+
+		private void InitializeInput()
+		{
+			var handler = new SimpleInputHandler();
+
+			handler.KeyDown += Handler_KeyDown;
+
+			Input.Handlers.Add(handler);
 		}
 
 		private void Handler_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.Z)
-				Initialize();
-			if (e.KeyCode == KeyCode.Space)
+				InitializeExample();
+			if (e.KeyCode == KeyCode.Space && !running)
 				Advance();
+			if (e.KeyCode == KeyCode.Enter || e.KeyCode == KeyCode.Return)
+				running = !running;
 
 			if (e.KeyCode == KeyCode.NumPadPlus || e.KeyCode == KeyCode.Plus)
 			{
-				debugBoxIndex++;
-				if (debugBoxIndex >= boxes.Count)
-					debugBoxIndex %= boxes.Count;
+				debugParticleIndex++;
+				if (debugParticleIndex >= particles.Count)
+					debugParticleIndex %= particles.Count;
 			}
 			if (e.KeyCode == KeyCode.NumPadMinus || e.KeyCode == KeyCode.Minus)
 			{
-				debugBoxIndex--;
-				if (debugBoxIndex < 0)
-					debugBoxIndex += boxes.Count;
+				debugParticleIndex--;
+				if (debugParticleIndex < 0)
+					debugParticleIndex += particles.Count;
 			}
 			if (e.KeyCode == KeyCode.Left)
 			{
@@ -218,15 +172,31 @@ namespace RigidBodyDynamics
 
 				LoadHistory();
 			}
+			if (e.KeyCode == KeyCode.Up)
+			{
+				exampleIndex++;
+				if (exampleIndex >= examples.Count)
+					exampleIndex = examples.Count - 1;
+
+				InitializeExample();
+			}
+			if (e.KeyCode == KeyCode.Down)
+			{
+				exampleIndex--;
+				if (exampleIndex < 0)
+					exampleIndex = 0;
+
+				InitializeExample();
+			}
 		}
 
 		private void LoadHistory()
 		{
 			var historyItem = history[historyIndex];
 
-			for(int i = 0; i < boxes.Count; i++)
+			for(int i = 0; i < particles.Count; i++)
 			{
-				historyItem[i].CopyTo(boxes[i]);
+				historyItem[i].CopyTo(particles[i]);
 			}
 		}
 	}

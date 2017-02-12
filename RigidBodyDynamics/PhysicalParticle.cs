@@ -9,10 +9,12 @@ namespace RigidBodyDynamics
 		public Vector2 Position { get; set; }
 		public Vector2 Velocity { get; set; }
 		public Vector2 Force { get; set; }
+		public Vector2 ConstraintForce { get; set; }
 
 		public float Angle { get; set; }
 		public float AngularVelocity { get; set; }
 		public float Torque { get; set; }
+		public float ConstraintTorque { get; set; }
 
 		public float Mass { get; set; }
 
@@ -33,6 +35,7 @@ namespace RigidBodyDynamics
 			target.Position = Position;
 			target.Velocity = Velocity;
 			target.Force = Force;
+			target.ConstraintForce = ConstraintForce;
 
 			target.Angle = Angle;
 			target.AngularVelocity = AngularVelocity;

@@ -71,18 +71,18 @@ namespace RigidBodyDynamics
 			}
 		}
 
-		public void Update(TimeSpan elapsed)
+		public void Integrate(TimeSpan elapsed)
 		{
 			float dt = (float)elapsed.TotalSeconds;
 
-			Update(dt);
+			Integrate(dt);
 		}
 
 		/// <summary>
 		/// Updates the dynamics.
 		/// </summary>
 		/// <param name="dt">The amount of time in seconds that passed.</param>
-		public void Update(float dt)
+		public void Integrate(float dt)
 		{
 			unusedTime += dt;
 
@@ -125,10 +125,10 @@ namespace RigidBodyDynamics
 		{
 			foreach (var item in System.Particles)
 			{
-				item.AngularVelocity += dt * item.Torque / item.InertialMoment;
+				item.AngularVelocity += dt * (item.Torque + item.ConstraintTorque) / item.InertialMoment;
 				item.Angle += dt * item.AngularVelocity;
 
-				item.Velocity += dt * item.Force / item.Mass;
+				item.Velocity += dt * (item.Force + item.ConstraintForce) / item.Mass;
 				item.Position += dt * item.Velocity;
 			}
 		}

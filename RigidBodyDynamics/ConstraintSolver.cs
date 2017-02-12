@@ -49,9 +49,9 @@ namespace RigidBodyDynamics
 		/// </summary>
 		private int JacobianRows => Constraints.Count;
 
-		private List<PhysicalParticle> Particles => System.Particles;
+		private IReadOnlyList<PhysicalParticle> Particles => System.Particles;
 
-		private List<IPhysicalConstraint> Constraints => System.Constraints;
+		private IReadOnlyList<IPhysicalConstraint> Constraints => System.Constraints;
 
 		public KinematicsSystem System { get; set; }
 
@@ -82,11 +82,14 @@ namespace RigidBodyDynamics
 				var constraint = new Vector2(constraintForces[basis + 0, 0],
 											 constraintForces[basis + 1, 0]);
 
-				var newForce = part.Force + constraint;
-				var newTorque = part.Torque + constraintForces[basis + 2, 0];
+				part.ConstraintForce = constraint;
+				part.ConstraintTorque = constraintForces[basis + 2, 0];
 
-				part.Force = newForce;
-				part.Torque += newTorque;
+				//var newForce = part.Force + constraint;
+				//var newTorque = part.Torque + constraintForces[basis + 2, 0];
+
+				//part.Force = newForce;
+				//part.Torque += newTorque;
 			}
 		}
 

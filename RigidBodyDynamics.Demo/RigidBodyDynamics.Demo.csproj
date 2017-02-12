@@ -67,7 +67,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoxChainExample.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="KinematicsExample.cs" />
+    <Compile Include="ParticleOnCircleExample.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
