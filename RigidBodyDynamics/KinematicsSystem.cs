@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RigidBodyDynamics
 {
@@ -10,6 +11,11 @@ namespace RigidBodyDynamics
 		public IReadOnlyList<PhysicalParticle> Particles => particles;
 
 		public IReadOnlyList<IPhysicalConstraint> Constraints => constraints;
+
+		public float LinearKineticEnergy => particles.Sum(p => .5f * p.Mass * p.Velocity.MagnitudeSquared);
+
+		public float AngularKineticEnergy
+			=> particles.Sum(p => .5f * p.InertialMoment * p.AngularVelocity * p.AngularVelocity);
 
 		public void AddParticles(params PhysicalParticle[] items)
 		{

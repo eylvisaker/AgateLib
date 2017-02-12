@@ -57,9 +57,9 @@ namespace RigidBodyDynamics
 
 		public KinematicsSystem System { get; set; }
 
-		public float SpringConstant { get; set; } = 1f;
+		public float SpringConstant { get; set; } = 1000f;
 
-		public float DampeningConstant { get; set; } = 1f;
+		public float DampeningConstant { get; set; } = 10f;
 
 		/// <summary>
 		/// Updates the dynamics.
@@ -147,6 +147,8 @@ namespace RigidBodyDynamics
 
 		private void ComputeConstraintForces()
 		{
+			const float tolerance = 1e-6f;
+
 			var derivative = ComputeJacobianDerivative();
 
 			constraintDerivatives = jacobian * velocity;
@@ -165,6 +167,12 @@ namespace RigidBodyDynamics
 
 			B -= SpringConstant * constraintValues + DampeningConstant * constraintDerivatives;
 
+			for (int i = 0; i < A.RowCount; i++)
+			{
+				if (A.Row(i).SumMagnitudes() < tolerance)
+					A[i, i] = 1;
+			}
+
 			if (MatrixIsZero(A))
 			{
 				lagrangeParameters = Matrix<float>.Build.Dense(Constraints.Count, 1);
@@ -173,10 +181,10 @@ namespace RigidBodyDynamics
 
 			lagrangeParameters = A.Solve(B);
 
-			//Matrix<float> aInv = A.PseudoInverse();
+			Matrix<float> aInv = A.Inverse();
 
-			//lagrangeParameters = aInv * B;
-			
+			lagrangeParameters = aInv * B;
+
 			Debug.Assert(lagrangeParameters.RowCount == Constraints.Count);
 			Debug.Assert(lagrangeParameters.ColumnCount == 1);
 		}

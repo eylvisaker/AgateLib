@@ -8,6 +8,7 @@ namespace RigidBodyDynamics
 	public class ParticleOnCircleExample : IKinematicsExample
 	{
 		private const int boxSize = 40;
+		private const float gravity = 1000f;
 
 		private KinematicsSystem system;
 
@@ -23,7 +24,9 @@ namespace RigidBodyDynamics
 
 		private PhysicalParticle Box => system.Particles.First();
 
-		public string Name => "Particle corner on a circle";
+		public string Name => "Particle on a circle";
+
+		public float PotentialEnergy => system.Particles.Sum(p => p.Mass * p.Position.Y * -gravity);
 
 		public KinematicsSystem Initialize(Size area)
 		{
@@ -49,7 +52,7 @@ namespace RigidBodyDynamics
 		public void ComputeExternalForces()
 		{
 			// Gravity force
-			Box.Force = new Vector2(0, 1000 * Box.Mass);
+			Box.Force = new Vector2(0, gravity * Box.Mass);
 		}
 
 		public void Draw()

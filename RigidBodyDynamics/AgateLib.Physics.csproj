@@ -42,7 +42,7 @@
     <Compile Include="KinematicsSystem.cs" />
     <Compile Include="PhysicalParticle.cs" />
     <Compile Include="IPhysicalConstraint.cs" />
-    <Compile Include="PointTouchConstraint.cs" />
+    <Compile Include="JointConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleJacobianDifferentiator.cs" />
     <Compile Include="ValueHistory.cs" />

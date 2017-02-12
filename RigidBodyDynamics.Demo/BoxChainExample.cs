@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
@@ -7,6 +8,8 @@ namespace RigidBodyDynamics
 	public class BoxChainExample : IKinematicsExample
 	{
 		private const int boxSize = 40;
+		private const float gravity = 100f;
+
 		private KinematicsSystem system;
 
 		private Surface boxImage;
@@ -22,6 +25,8 @@ namespace RigidBodyDynamics
 		}
 
 		public string Name => "Box Chain";
+
+		public float PotentialEnergy => boxes.Sum(p => p.Mass * p.Position.Y * -gravity);
 
 		public int BoxCount { get; set; } = 8;
 
@@ -44,7 +49,7 @@ namespace RigidBodyDynamics
 
 				if (i > 0)
 				{
-					var constraint = new PointTouchConstraint(boxes[i - 1], new Vector2(-boxSize * 0.5, 0),
+					var constraint = new JointConstraint(boxes[i - 1], new Vector2(-boxSize * 0.5, 0),
 						boxes[i], new Vector2(boxSize * 0.5, 0));
 
 					system.AddConstraints(constraint);
@@ -66,7 +71,7 @@ namespace RigidBodyDynamics
 			foreach (var box in boxes)
 			{
 				// Gravity force
-				box.Force = new Vector2(0, 100 * box.Mass);
+				box.Force = new Vector2(0, gravity * box.Mass);
 			}
 		}
 

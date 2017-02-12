@@ -9,14 +9,14 @@ namespace RigidBodyDynamics
 	/// <remarks>
 	/// Math goes here!
 	/// </remarks>
-	public class PointTouchConstraint : IPhysicalConstraint
+	public class JointConstraint : IPhysicalConstraint
 	{
 		private PhysicalParticle particle1;
 		private PhysicalParticle particle2;
 		private Vector2 point1;
 		private Vector2 point2;
 
-		public PointTouchConstraint(PhysicalParticle particle1, Vector2 point1, PhysicalParticle particle2, Vector2 point2)
+		public JointConstraint(PhysicalParticle particle1, Vector2 point1, PhysicalParticle particle2, Vector2 point2)
 		{
 			this.particle1 = particle1;
 			this.particle2 = particle2;
@@ -48,16 +48,7 @@ namespace RigidBodyDynamics
 		/// algorithm.
 		/// </summary>
 		/// <returns></returns>
-		public float Value
-		{
-			get
-			{
-				var abs1 = PointPosition(particle1, point1);
-				var abs2 = PointPosition(particle2, point2);
-
-				return .5f * (abs1 - abs2).MagnitudeSquared;
-			}
-		}
+		public float Value => .5f * Displacement.MagnitudeSquared;
 
 		public bool AppliesTo(PhysicalParticle obj)
 		{
@@ -100,14 +91,6 @@ namespace RigidBodyDynamics
 				   +dB.X * dA.X
 				   -B.Y * A.Y * particle.AngularVelocity
 				   +dB.Y * dA.Y);
-		}
-
-		private static float AngleMixedPartialDerivative(Vector2 B, Vector2 dB, PhysicalParticle particle, Vector2 point)
-		{
-			return B.X * point.X * particle.AngularVelocity * (float)Math.Cos(particle.Angle)
-				   + dB.X * point.X * (float)Math.Sin(particle.Angle)
-				   + B.Y * point.Y * particle.AngularVelocity * (float)Math.Sin(particle.Angle)
-				   - dB.Y * point.Y * (float)Math.Cos(particle.Angle);
 		}
 
 		/// <summary>

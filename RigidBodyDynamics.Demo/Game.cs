@@ -33,6 +33,7 @@ namespace RigidBodyDynamics
 
 			examples.Add(new ParticleOnCircleOffCenterExample());
 			examples.Add(new ParticleOnCircleExample());
+			examples.Add(new ChainOnCircleExample());
 			examples.Add(new BoxChainExample());
 
 			InitializeExample();
@@ -99,7 +100,7 @@ namespace RigidBodyDynamics
 			return b.ToString();
 		}
 
-		private static void PrintStateOfBox(StringBuilder b, PhysicalParticle box)
+		private void PrintStateOfBox(StringBuilder b, PhysicalParticle box)
 		{
 			const float RadsToDegress = 180 / (float)Math.PI;
 
@@ -118,6 +119,11 @@ namespace RigidBodyDynamics
 			b.AppendLine($"\nFC_x: {box.ConstraintForce.X}");
 			b.AppendLine($"FC_y: {box.ConstraintForce.Y}");
 			b.AppendLine($"  TC: {box.ConstraintTorque}");
+
+			b.AppendLine($"\n  KE: {system.LinearKineticEnergy}");
+			b.AppendLine($" RKE: {system.AngularKineticEnergy}");
+			b.AppendLine($"  PE: {CurrentExample.PotentialEnergy}");
+			b.AppendLine($"   E: {CurrentExample.PotentialEnergy + system.LinearKineticEnergy + system.AngularKineticEnergy}");
 
 			var angle = RadsToDegress * Vector2.DotProduct(box.ConstraintForce, box.Velocity) /
 			            (box.ConstraintForce.Magnitude * box.Velocity.Magnitude);
@@ -167,7 +173,7 @@ namespace RigidBodyDynamics
 				if (debugParticleIndex < 0)
 					debugParticleIndex += particles.Count;
 			}
-			if (e.KeyCode == KeyCode.Left)
+			if (e.KeyCode == KeyCode.Down)
 			{
 				historyIndex--;
 				if (historyIndex < 0)
@@ -175,7 +181,7 @@ namespace RigidBodyDynamics
 
 				LoadHistory();
 			}
-			if (e.KeyCode == KeyCode.Right)
+			if (e.KeyCode == KeyCode.Up)
 			{
 				historyIndex++;
 				if (historyIndex >= history.Count)
@@ -183,7 +189,7 @@ namespace RigidBodyDynamics
 
 				LoadHistory();
 			}
-			if (e.KeyCode == KeyCode.Up)
+			if (e.KeyCode == KeyCode.Right)
 			{
 				exampleIndex++;
 				if (exampleIndex >= examples.Count)
@@ -191,7 +197,7 @@ namespace RigidBodyDynamics
 
 				InitializeExample();
 			}
-			if (e.KeyCode == KeyCode.Down)
+			if (e.KeyCode == KeyCode.Left)
 			{
 				exampleIndex--;
 				if (exampleIndex < 0)

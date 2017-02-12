@@ -31,7 +31,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 		[TestMethod]
 		public void PointTouchConstraintSatisfiedValue()
 		{
-			var pointTouchConstraint = new PointTouchConstraint(particle1, point1, particle2, point2);
+			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
 
 			Assert.AreEqual(0, pointTouchConstraint.Value, 0.000001);
 		}
@@ -39,7 +39,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 		[TestMethod]
 		public void PointTouchConstraintSatisfiedDerivative()
 		{
-			var pointTouchConstraint = new PointTouchConstraint(particle1, point1, particle2, point2);
+			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
 
 			var derivative = pointTouchConstraint.Derivative(particle1);
 
@@ -57,7 +57,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 		[TestMethod]
 		public void PointTouchConstraintSatisfiedMixedPartialDerivative()
 		{
-			var pointTouchConstraint = new PointTouchConstraint(particle1, point1, particle2, point2);
+			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
 
 			var derivative = pointTouchConstraint.MixedPartialDerivative(particle1);
 
@@ -77,7 +77,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 		{
 			particle2.Position = new Vector2(20, 0);
 
-			var pointTouchConstraint = new PointTouchConstraint(particle1, point1, particle2, point2);
+			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
 
 			Assert.AreEqual(32, pointTouchConstraint.Value, 0.000001);
 		}
@@ -87,7 +87,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 		{
 			particle2.Position = new Vector2(20, 0);
 
-			var pointTouchConstraint = new PointTouchConstraint(particle1, point1, particle2, point2);
+			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
 
 			var derivative = pointTouchConstraint.Derivative(particle1);
 
@@ -108,7 +108,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 		{
 			particle2.Position = new Vector2(20, 0);
 
-			var pointTouchConstraint = new PointTouchConstraint(particle1, point1, particle2, point2);
+			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
 
 			var derivative = pointTouchConstraint.MixedPartialDerivative(particle1);
 

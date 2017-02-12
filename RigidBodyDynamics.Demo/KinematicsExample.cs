@@ -6,6 +6,7 @@ namespace RigidBodyDynamics
 	public interface IKinematicsExample
 	{
 		string Name { get; }
+		float PotentialEnergy { get; }
 
 		KinematicsSystem Initialize(Size area);
 
