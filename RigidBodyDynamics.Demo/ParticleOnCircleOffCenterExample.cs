@@ -34,8 +34,10 @@ namespace RigidBodyDynamics
 			circleRadius = area.Height * 0.375f;
 			circlePosition = new Vector2(area.Width * .5f, area.Height * .5f);
 
-			var particlePosition = circlePosition + Vector2.FromPolarDegrees(circleRadius, -60)
-								   + new Vector2(boxSize * .5f, boxSize * .5f);
+			var particlePosition = circlePosition 
+								   + Vector2.FromPolarDegrees(circleRadius, -60)
+								   + new Vector2(boxSize * .5f, boxSize * .5f)
+								   + new Vector2(0, boxSize * .5f);
 
 			system = new KinematicsSystem();
 

@@ -8,7 +8,7 @@ namespace RigidBodyDynamics
 {
 	public class KinematicsIntegrator
 	{
-		private readonly ConstraintSolver constraint;
+		private readonly IConstraintSolver constraint;
 
 		private float unusedTime;
 
@@ -16,7 +16,7 @@ namespace RigidBodyDynamics
 		private float maximumTimeStep = 0.005f;
 		private int maxStepsPerFrame = 1;
 
-		public KinematicsIntegrator(KinematicsSystem system, ConstraintSolver constraint)
+		public KinematicsIntegrator(KinematicsSystem system, IConstraintSolver constraint)
 		{
 			System = system;
 
@@ -111,7 +111,7 @@ namespace RigidBodyDynamics
 
 		private void UpdateStep(float dt)
 		{
-			constraint.ComputeConstraintForces();
+			constraint.ComputeConstraintForces(dt);
 			constraint.ApplyConstraintForces();
 
 			IntegrateKinematicVariables(dt);

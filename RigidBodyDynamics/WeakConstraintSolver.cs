@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
-using AgateLib.DisplayLib.Particles;
 using AgateLib.Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace RigidBodyDynamics
 {
 	/// <summary>
-	/// 
+	/// Unstable.
 	/// </summary>
 	/// <remarks>
 	/// Algorithm from 
 	/// https://www.toptal.com/game/video-game-physics-part-iii-constrained-rigid-body-simulation
 	/// </remarks>
-	public class ConstraintSolver
+	public class WeakConstraintSolver : IConstraintSolver
 	{
 		/// <summary>
 		/// This is three because each particle has three coordinates: X, Y, and rotation angle.
@@ -34,7 +34,7 @@ namespace RigidBodyDynamics
 		private Matrix<float> constraintDerivatives;
 		private List<Vector<float>> constraintForces;
 
-		public ConstraintSolver(KinematicsSystem system)
+		public WeakConstraintSolver(KinematicsSystem system)
 		{
 			System = system;
 		}
@@ -81,7 +81,7 @@ namespace RigidBodyDynamics
 		/// <summary>
 		/// Computes the constraint forces from the current state of the system.
 		/// </summary>
-		public void ComputeConstraintForces()
+		public void ComputeConstraintForces(float dt)
 		{
 			InitializeStep();
 
@@ -357,5 +357,19 @@ namespace RigidBodyDynamics
 			return true;
 		}
 
+
+		public void DebugInfo(StringBuilder b, int debugPage, PhysicalParticle particle)
+		{
+			if (debugPage == 1)
+			{
+				b.AppendLine($"Constraint Forces:\n{TotalConstraintForces?.Transpose().ToMatrixString()}");
+				b.AppendLine($"Lagrange Multipliers:\n{LagrangeMultipliers?.Transpose()?.ToMatrixString()}");
+				b.AppendLine($"Jacobian:\n{Jacobian?.ToMatrixString()}");
+				b.AppendLine($"Jacobian Derivative:\n{JacobianDerivative?.ToMatrixString()}");
+				b.AppendLine($"Velocity:\n{Velocity?.Transpose()?.ToMatrixString()}");
+				b.AppendLine($"Coefficient Matrix: (det {CoefficientMatrix?.Determinant()})\n{CoefficientMatrix?.ToMatrixString()}");
+				b.AppendLine($"Equation Constants:\n{EquationConstants?.ToMatrixString()}");
+			}
+		}
 	}
 }

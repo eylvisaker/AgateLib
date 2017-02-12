@@ -23,7 +23,7 @@ namespace RigidBodyDynamics
 
 		private KinematicsSystem system = new KinematicsSystem();
 		private KinematicsIntegrator kinematics;
-		private ConstraintSolver constraintSolver;
+		private IConstraintSolver constraintSolver;
 
 		private int debugParticleIndex;
 		private int debugInfoPage;
@@ -147,14 +147,7 @@ namespace RigidBodyDynamics
 			}
 			else if (debugInfoPage == 1)
 			{
-				b.AppendLine($"Constraint Forces:\n{constraintSolver.TotalConstraintForces?.Transpose().ToMatrixString()}");
-				b.AppendLine($"Lagrange Multipliers:\n{constraintSolver.LagrangeMultipliers?.Transpose()?.ToMatrixString()}");
-				b.AppendLine($"Jacobian:\n{constraintSolver.Jacobian?.ToMatrixString()}");
-				b.AppendLine($"Jacobian Derivative:\n{constraintSolver.JacobianDerivative?.ToMatrixString()}");
-				b.AppendLine($"Velocity:\n{constraintSolver.Velocity?.Transpose()?.ToMatrixString()}");
-				b.AppendLine($"Coefficient Matrix: (det {constraintSolver.CoefficientMatrix?.Determinant()})\n{constraintSolver.CoefficientMatrix?.ToMatrixString()}");
-				b.AppendLine($"Equation Constants:\n{constraintSolver.EquationConstants?.ToMatrixString()}");
-
+				constraintSolver.DebugInfo(b, debugInfoPage, box);
 			}
 		}
 
@@ -165,7 +158,7 @@ namespace RigidBodyDynamics
 
 			system = examples[exampleIndex].Initialize(Display.RenderTarget.Size);
 
-			constraintSolver = new ConstraintSolver(system);
+			constraintSolver = new ImpulseConstraintSolver(system);
 			kinematics = new KinematicsIntegrator(system, constraintSolver);
 
 			StoreHistory();
@@ -249,7 +242,7 @@ namespace RigidBodyDynamics
 				historyItem[i].CopyTo(particles[i]);
 			}
 
-			constraintSolver.ComputeConstraintForces();
+			constraintSolver.ComputeConstraintForces(0.005f);
 		}
 	}
 }

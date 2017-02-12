@@ -37,7 +37,9 @@
     <Compile Include="Constraints\CirclePerimeterOffcenterConstraint.cs" />
     <Compile Include="Constraints\CirclePerimeterConstraint.cs" />
     <Compile Include="ConstraintDerivative.cs" />
-    <Compile Include="ConstraintSolver.cs" />
+    <Compile Include="ImpulseConstraintSolver.cs" />
+    <Compile Include="WeakConstraintSolver.cs" />
+    <Compile Include="IConstraintSolver.cs" />
     <Compile Include="KinematicsIntegrator.cs" />
     <Compile Include="KinematicsSystem.cs" />
     <Compile Include="PhysicalParticle.cs" />
