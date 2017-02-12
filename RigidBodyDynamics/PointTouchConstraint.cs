@@ -48,14 +48,14 @@ namespace RigidBodyDynamics
 		/// algorithm.
 		/// </summary>
 		/// <returns></returns>
-		public double Value
+		public float Value
 		{
 			get
 			{
 				var abs1 = PointPosition(particle1, point1);
 				var abs2 = PointPosition(particle2, point2);
 
-				return 0.5 * (abs1 - abs2).MagnitudeSquared;
+				return .5f * (abs1 - abs2).MagnitudeSquared;
 			}
 		}
 

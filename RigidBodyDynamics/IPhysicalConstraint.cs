@@ -6,6 +6,11 @@ namespace RigidBodyDynamics
 	public interface IPhysicalConstraint
 	{
 		/// <summary>
+		/// Returns the current value of the constraint equation.
+		/// </summary>
+		float Value { get; }
+
+		/// <summary>
 		/// Returns true if the constraint applies to the specified object.
 		/// </summary>
 		/// <param name="particle"></param>
@@ -26,5 +31,6 @@ namespace RigidBodyDynamics
 		/// <param name="particle"></param>
 		/// <returns></returns>
 		ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle);
+
 	}
 }

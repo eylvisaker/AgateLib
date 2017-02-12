@@ -35,6 +35,8 @@ namespace RigidBodyDynamics
 
 		private Vector2 OffsetDerivative => offset.Rotate(particle.Angle + (float)Math.PI * .5f);
 
+		public float Value => .5f * (ConstrainedPointPosition.MagnitudeSquared - circleRadius * circleRadius);
+
 		public bool AppliesTo(PhysicalParticle particle)
 		{
 			return ReferenceEquals(this.particle, particle);

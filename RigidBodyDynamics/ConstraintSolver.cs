@@ -28,6 +28,8 @@ namespace RigidBodyDynamics
 		private Matrix<float> velocity;
 		private Matrix<float> externalForces;
 		private Matrix<float> constraintForces;
+		private Matrix<float> constraintValues;
+		private Matrix<float> constraintDerivatives;
 
 		public ConstraintSolver(KinematicsSystem system)
 		{
@@ -54,6 +56,10 @@ namespace RigidBodyDynamics
 		private IReadOnlyList<IPhysicalConstraint> Constraints => System.Constraints;
 
 		public KinematicsSystem System { get; set; }
+
+		public float SpringConstant { get; set; } = 1f;
+
+		public float DampeningConstant { get; set; } = 1f;
 
 		/// <summary>
 		/// Updates the dynamics.
@@ -84,15 +90,9 @@ namespace RigidBodyDynamics
 
 				var constraint = new Vector2(constraintForces[basis + 0, 0],
 											 constraintForces[basis + 1, 0]);
-
+				
 				part.ConstraintForce = constraint;
 				part.ConstraintTorque = constraintForces[basis + 2, 0];
-
-				//var newForce = part.Force + constraint;
-				//var newTorque = part.Torque + constraintForces[basis + 2, 0];
-
-				//part.Force = newForce;
-				//part.Torque += newTorque;
 			}
 		}
 
@@ -149,6 +149,8 @@ namespace RigidBodyDynamics
 		{
 			var derivative = ComputeJacobianDerivative();
 
+			constraintDerivatives = jacobian * velocity;
+
 			// Here's the equation:
 			//  J * M^(-1) * J^T * lambda = -dJ/dt * v - J * M^(-1) * F_{ext}
 			// Lambda (the Lagrange parameter) is the set of unknowns. 
@@ -160,6 +162,8 @@ namespace RigidBodyDynamics
 
 			Matrix<float> A = jacobian * massInverseMatrix * jacobian.Transpose();
 			Matrix<float> B = -derivative * velocity - jacobian * massInverseMatrix * externalForces;
+
+			B -= SpringConstant * constraintValues + DampeningConstant * constraintDerivatives;
 
 			if (MatrixIsZero(A))
 			{
@@ -180,7 +184,7 @@ namespace RigidBodyDynamics
 		private void InitializeStep()
 		{
 			InitializeJacobian();
-
+			InitializeConstraintValues();
 			InitializeMassMatrix();
 			InitializeVelocityVector();
 			InitializeForceVector();
@@ -209,6 +213,14 @@ namespace RigidBodyDynamics
 					}
 				}
 			}
+		}
+
+		private void InitializeConstraintValues()
+		{
+			constraintValues = Matrix<float>.Build.Dense(Constraints.Count, 1);
+
+			for (int i = 0; i < Constraints.Count; i++)
+				constraintValues[i, 0] = Constraints[i].Value;
 		}
 
 		private void InitializeVelocityVector()

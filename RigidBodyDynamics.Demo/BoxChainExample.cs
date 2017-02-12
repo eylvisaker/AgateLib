@@ -27,6 +27,8 @@ namespace RigidBodyDynamics
 
 		public KinematicsSystem Initialize(Size area)
 		{
+			boxes.Clear();
+
 			system = new KinematicsSystem();
 
 			for (int i = 0; i < BoxCount; i++)

@@ -23,6 +23,8 @@ namespace RigidBodyDynamics
 			this.circleRadius = circleRadius;
 		}
 
+		public float Value => .5f * ((particle.Position - circlePosition).MagnitudeSquared - circleRadius * circleRadius);
+
 		public bool AppliesTo(PhysicalParticle particle)
 		{
 			return ReferenceEquals(this.particle, particle);
