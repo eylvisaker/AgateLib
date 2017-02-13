@@ -1,5 +1,6 @@
 ﻿using System;
 using AgateLib.DisplayLib;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.FontTests
 {
@@ -50,7 +51,7 @@ namespace AgateLib.Tests.FontTests
 			font.DrawText(0, 530, "Test of escape sequences: {{}Escaped{}}");
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 		}
 

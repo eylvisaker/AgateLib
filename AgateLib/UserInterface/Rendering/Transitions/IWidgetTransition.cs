@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Platform;
 using AgateLib.UserInterface.StyleModel;
 
 namespace AgateLib.UserInterface.Rendering.Transitions
@@ -31,7 +32,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 		bool Active { get; }
 
-		void Update(TimeSpan elapsed);
+		void Update(ClockTimeSpan elapsed);
 
 		bool NeedTransition { get; }
 

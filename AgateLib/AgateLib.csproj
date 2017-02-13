@@ -189,6 +189,7 @@
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateAppVocabulary.cs" />
+    <Compile Include="Platform\ClockTimeSpan.cs" />
     <Compile Include="Platform\StopwatchClock.cs" />
     <Compile Include="ErrorReporter.cs" />
     <Compile Include="Mathematics\Algorithms\Inverting.cs" />

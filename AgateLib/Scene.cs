@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Platform;
 
 namespace AgateLib
 {
@@ -40,7 +41,7 @@ namespace AgateLib
 		protected internal virtual void OnSceneEnd()
 		{ }
 
-		public abstract void Update(TimeSpan elapsed);
+		public abstract void Update(ClockTimeSpan elapsed);
 		public abstract void Draw();
 	}
 }

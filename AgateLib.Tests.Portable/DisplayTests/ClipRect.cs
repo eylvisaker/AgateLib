@@ -6,6 +6,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -27,7 +28,7 @@ namespace AgateLib.Tests.DisplayTests
 			surf = new Surface("Images/wallpaper.png");
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			time += elapsed.TotalSeconds;
 		}

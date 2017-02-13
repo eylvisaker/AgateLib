@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Platform;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
@@ -46,7 +47,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			CopyLayoutDataToAnimator();
 		}
 
-		public virtual void Update(TimeSpan elapsed)
+		public virtual void Update(ClockTimeSpan elapsed)
 		{
 			CopyLayoutDataToAnimator();
 

@@ -25,6 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering.Animators;
 using AgateLib.UserInterface.StyleModel;
@@ -61,7 +62,7 @@ namespace AgateLib.UserInterface.Rendering
 		public Gui MyGui { get { return mGui; } set { mGui = value; } }
 		public Gesture ActiveGesture { get; set; }
 
-		public void Update(TimeSpan elapsed)
+		public void Update(ClockTimeSpan elapsed)
 		{
 			UpdateAnimatorTree();
 

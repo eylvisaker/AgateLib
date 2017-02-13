@@ -5,6 +5,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -14,7 +15,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public string Category => "Display";
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 		}
 

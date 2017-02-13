@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
+using AgateLib.Platform;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering.Transitions
@@ -196,7 +197,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			mAcceleration *= mAccelerationMag;
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			double delta_t = elapsed.TotalSeconds;
 

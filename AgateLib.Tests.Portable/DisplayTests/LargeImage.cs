@@ -4,6 +4,7 @@ using System.Diagnostics;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -15,7 +16,7 @@ namespace AgateLib.Tests.DisplayTests
 		public string Name => "Large Image";
 		public string Category => "Display";
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
 				AgateApp.IsAlive = false;

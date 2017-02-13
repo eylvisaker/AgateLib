@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.UserInterface.Rendering.Transitions;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
@@ -180,7 +181,7 @@ namespace AgateLib.UserInterface.Rendering.Animators
 			Children = new List<IWidgetAnimator>();
 		}
 
-		public void Update(TimeSpan elapsed)
+		public void Update(ClockTimeSpan elapsed)
 		{
 			if (Transition == null || mTransitionType != mStyle.Transition.Type)
 			{

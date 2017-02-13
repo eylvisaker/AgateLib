@@ -7,6 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -31,7 +32,7 @@ namespace AgateLib.Tests.DisplayTests
 			sp.SetScale(2, 2);
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
 				SceneFinished = true;

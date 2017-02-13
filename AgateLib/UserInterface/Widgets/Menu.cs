@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -182,7 +183,7 @@ namespace AgateLib.UserInterface.Widgets
 			get { return Columns > 1 || WrapLeftRight; }
 		}
 
-		public override void Update(TimeSpan elapsed, ref bool processInput)
+		public override void Update(ClockTimeSpan elapsed, ref bool processInput)
 		{
 			base.Update(elapsed, ref processInput);
 
@@ -245,7 +246,7 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-		protected internal override void OnUpdate(TimeSpan elapsed)
+		protected internal override void OnUpdate(ClockTimeSpan elapsed)
 		{
 			if (mChildCountLastUpdate != Items.Count)
 			{

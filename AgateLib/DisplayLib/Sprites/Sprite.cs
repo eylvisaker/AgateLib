@@ -22,6 +22,7 @@ using System.IO;
 using System.Text;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib.Sprites
@@ -580,7 +581,7 @@ namespace AgateLib.DisplayLib.Sprites
 		/// Updates the animation of the sprite, using the given amount of time.
 		/// </summary>
 		/// <param name="elapsed">The amount of time to consider as passed.</param>
-		public void Update(TimeSpan elapsed)
+		public void Update(ClockTimeSpan elapsed)
 		{
 			Update(elapsed.TotalMilliseconds);
 		}

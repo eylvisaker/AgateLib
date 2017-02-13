@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.FontTests
 {
@@ -28,7 +29,7 @@ namespace AgateLib.Tests.FontTests
 			}
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 		}
 

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Platform;
 using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Widgets
@@ -29,7 +30,7 @@ namespace AgateLib.UserInterface.Widgets
 		Gui MyGui { get; set; }
 
 		void Draw();
-		void Update(TimeSpan elapsed);
+		void Update(ClockTimeSpan elapsed);
 
 		Gesture ActiveGesture { get; set; }
 		/// <summary>

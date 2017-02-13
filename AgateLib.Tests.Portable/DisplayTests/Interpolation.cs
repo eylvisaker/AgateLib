@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -50,7 +51,7 @@ namespace AgateLib.Tests.DisplayTests
 			surf2.Draw(420, 10);
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 		}
 	}
