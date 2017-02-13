@@ -119,6 +119,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		public abstract string Title { get; set; }
 
 		public abstract Size PhysicalSize { get; }
+		public abstract ScreenInfo Screen { get; }
 
 		/// <summary>
 		/// Event raised when the window is resized by the user.

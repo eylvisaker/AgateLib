@@ -85,7 +85,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			chooseResolution = windowParams.Resolution?.Clone();
 			chooseResize = windowParams.IsResizable;
 			hasFrame = windowParams.HasFrame;
+
+			Screen = windowParams.TargetScreen ?? display.Screens?.PrimaryScreen;
 		}
+
+		public override ScreenInfo Screen { get; }
 
 		protected override void Dispose(bool disposing)
 		{
