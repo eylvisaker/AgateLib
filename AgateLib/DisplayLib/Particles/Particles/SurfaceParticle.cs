@@ -16,11 +16,10 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
-using System;
-using AgateLib.Geometry;
-using AgateLib.DisplayLib;
 
-namespace AgateLib.DisplayLib.Particles
+using AgateLib.Geometry;
+
+namespace AgateLib.DisplayLib.Particles.Particles
 {
 	/// <summary>
 	/// A surface particle class.

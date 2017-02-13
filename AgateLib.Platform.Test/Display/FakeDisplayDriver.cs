@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Drivers;
 using AgateLib.Quality;
 
@@ -65,7 +66,7 @@ namespace AgateLib.Platform.Test.Display
 			throw new NotImplementedException();
 		}
 
-		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
+		public override IEnumerable<ShaderLanguage> SupportedShaderLanguages
 		{
 			get { throw new NotImplementedException(); }
 		}

@@ -16,21 +16,16 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using AgateLib.Diagnostics.ConsoleSupport;
-using AgateLib.DisplayLib;
-using AgateLib.DisplayLib.Shaders;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Quality;
 
-namespace AgateLib.Diagnostics
+namespace AgateLib.Diagnostics.ConsoleSupport
 {
 	class AgateConsoleCore : IAgateConsole
 	{

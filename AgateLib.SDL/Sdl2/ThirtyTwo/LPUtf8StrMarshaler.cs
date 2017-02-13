@@ -25,10 +25,10 @@
  */
 
 using System;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
 
-namespace SDL2.ThirtyTwo
+namespace AgateLib.AgateSDL.Sdl2.ThirtyTwo
 {
 	internal unsafe class LPUtf8StrMarshaler : ICustomMarshaler
 	{

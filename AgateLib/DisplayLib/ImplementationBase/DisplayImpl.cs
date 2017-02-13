@@ -67,7 +67,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 		#endregion
 
-		public abstract IEnumerable<DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages { get; }
+		public abstract IEnumerable<ShaderLanguage> SupportedShaderLanguages { get; }
 
 		private static AgateShader mShader;
 		

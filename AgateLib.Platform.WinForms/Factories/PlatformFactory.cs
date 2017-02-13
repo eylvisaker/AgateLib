@@ -19,17 +19,13 @@
 using AgateLib.Diagnostics;
 using AgateLib.Drivers;
 using AgateLib.IO;
-using AgateLib.Platform.Common.PlatformImplementation;
 using AgateLib.Platform.WinForms.IO;
 using AgateLib.Platform.WinForms.PlatformImplementation;
-using AgateLib.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WinForms.Factories
 {

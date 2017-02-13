@@ -17,10 +17,9 @@
 //		Contributor(s): Marcel Hauf.
 //
 
-using System;
 using AgateLib.Geometry;
 
-namespace AgateLib.DisplayLib.Particles
+namespace AgateLib.DisplayLib.Particles.Manipulators
 {
 	/// <summary>
 	/// A point gravity particle manipulator.

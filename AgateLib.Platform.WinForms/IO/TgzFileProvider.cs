@@ -24,6 +24,7 @@ using System.IO.Compression;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AgateLib.IO;
 
 namespace AgateLib.Platform.WinForms.IO
 {

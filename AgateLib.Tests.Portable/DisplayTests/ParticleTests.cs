@@ -1,11 +1,11 @@
 using System;
-using System.Linq;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Particles.Emitters;
+using AgateLib.DisplayLib.Particles.Manipulators;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.Geometry;
-using AgateLib.DisplayLib.Particles;
 
-namespace AgateLib.Tests.DisplayTests.ParticleTest
+namespace AgateLib.Tests.DisplayTests
 {
 	public class PixelParticleTest : IAgateTest
 	{

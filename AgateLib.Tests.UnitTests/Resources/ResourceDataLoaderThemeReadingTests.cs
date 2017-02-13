@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.IO;
 using AgateLib.Resources;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.DataModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using YamlDotNet.Serialization;
 
-namespace AgateLib.UnitTests.UserInterface.DataModel
+namespace AgateLib.UnitTests.Resources
 {
 	[TestClass]
 	public class ResourceDataLoaderThemeReadingTests : AgateUnitTest

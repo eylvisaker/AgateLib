@@ -27,6 +27,7 @@ using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
+using AgateLib.IO;
 
 namespace AgateLib.Platform.Test.Display
 {

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
@@ -111,14 +112,14 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Indicates which shader language is supported.
 		/// </summary>
-		public AgateLib.DisplayLib.Shaders.ShaderLanguage ShaderLanguage
+		public ShaderLanguage ShaderLanguage
 		{
 			get 
 			{ 
 				var shad = Display.Impl.SupportedShaderLanguages.ToList(); 
 			
 				if (shad.Count == 0)
-					return Shaders.ShaderLanguage.None;
+					return ShaderLanguage.None;
 				else
 					return shad[0];
 			}

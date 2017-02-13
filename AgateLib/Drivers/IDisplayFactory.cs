@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.DefaultAssets;
+using AgateLib.IO;
 
 namespace AgateLib.Drivers
 {

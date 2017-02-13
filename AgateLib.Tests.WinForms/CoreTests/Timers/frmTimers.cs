@@ -1,19 +1,12 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
-using AgateLib;
-using AgateLib.Utility;
+using System;
+using System.Windows.Forms;
 using AgateLib.Platform;
 
-namespace AgateLib.Tests.CoreTests
+namespace AgateLib.Tests.CoreTests.Timers
 {
 	public partial class frmTimerTester : Form
 	{

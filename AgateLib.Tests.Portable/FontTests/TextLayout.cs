@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.Tests.FontTests.TextLayout
+namespace AgateLib.Tests.FontTests
 {
 	class TextLayout : Scene, IAgateTest
 	{

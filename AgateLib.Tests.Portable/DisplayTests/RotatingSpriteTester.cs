@@ -1,16 +1,14 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
+
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using AgateLib;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
+using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
+namespace AgateLib.Tests.DisplayTests
 {
 	class RotatingSprite : Scene, IAgateTest
 	{

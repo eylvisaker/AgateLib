@@ -16,14 +16,11 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Diagnostics.ConsoleSupport;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
-namespace AgateLib.Diagnostics
+using System.Diagnostics;
+using AgateLib.Diagnostics;
+
+namespace AgateLib.Platform.WinForms.Diagnostics
 {
 	class AgateConsoleTraceListener : TraceListener
 	{

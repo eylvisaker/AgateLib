@@ -22,7 +22,6 @@ using System.IO;
 using System.Text;
 using AgateLib;
 using AgateLib.AudioLib.ImplementationBase;
-using SDL2;
 using AgateLib.AgateSDL.Sdl2;
 
 namespace AgateLib.AgateSDL.Audio

@@ -16,13 +16,12 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib
+namespace AgateLib.IO
 {
 	/// <summary>
 	/// Public interface that should be implemented 

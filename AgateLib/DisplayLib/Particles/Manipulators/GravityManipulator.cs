@@ -16,12 +16,10 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
-using System;
-using System.Collections.Generic;
 
 using AgateLib.Geometry;
 
-namespace AgateLib.DisplayLib.Particles
+namespace AgateLib.DisplayLib.Particles.Manipulators
 {
 	/// <summary>
 	/// A gravity particle manipulator.

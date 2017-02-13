@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AgateLib;
-using AgateLib.AudioLib;
+﻿using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace AgateLib.Tests.AudioTests
+namespace AgateLib.Tests.Audio
 {
 	class SoundbufferStopTester : IAgateTest
 	{

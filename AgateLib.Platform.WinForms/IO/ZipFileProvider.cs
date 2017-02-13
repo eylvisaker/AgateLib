@@ -23,6 +23,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.IO;
 
 namespace AgateLib.Platform.WinForms.IO
 {

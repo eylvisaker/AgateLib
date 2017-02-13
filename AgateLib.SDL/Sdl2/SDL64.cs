@@ -16,12 +16,13 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using SDL2.SixtyFour;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using AgateLib.AgateSDL.Sdl2.SixtyFour;
 
 namespace AgateLib.AgateSDL.Sdl2
 {

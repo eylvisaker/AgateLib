@@ -548,9 +548,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return size.Width / (double)size.Height;
 		}
 
-		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
+		public override IEnumerable<AgateLib.DisplayLib.Shaders.Implementation.ShaderLanguage> SupportedShaderLanguages
 		{
-			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
+			get { yield return AgateLib.DisplayLib.Shaders.Implementation.ShaderLanguage.Glsl; }
 		}
 
 		internal WinFormsEventThread EventThread { get; set; }

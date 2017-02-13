@@ -27,11 +27,13 @@
 #endregion
 
 #region Using Statements
+
 using System;
 using System.Runtime.InteropServices;
+
 #endregion
 
-namespace SDL2.ThirtyTwo
+namespace AgateLib.AgateSDL.Sdl2.ThirtyTwo
 {
 	/// <summary>
 	/// Entry point for all SDL-related (non-extension) types and methods

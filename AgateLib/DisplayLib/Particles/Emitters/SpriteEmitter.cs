@@ -16,15 +16,13 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
-using System;
-using System.Linq;
+
 using System.Collections.Generic;
-
-using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib.Particles.Particles;
 using AgateLib.DisplayLib.Sprites;
+using AgateLib.Geometry;
 
-namespace AgateLib.DisplayLib.Particles
+namespace AgateLib.DisplayLib.Particles.Emitters
 {
 	/// <summary>
 	/// Emitter class optimized for simulating sprite particles.

@@ -16,12 +16,10 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
-using System;
 
-using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.DisplayLib.Particles
+namespace AgateLib.DisplayLib.Particles.Particles
 {
 	/// <summary>
 	/// A particle class which represents a particle with one colored pixels.

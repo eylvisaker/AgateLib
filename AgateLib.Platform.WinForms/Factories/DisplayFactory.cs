@@ -29,6 +29,7 @@ using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
+using AgateLib.IO;
 using AgateLib.OpenGL;
 using AgateLib.Platform.WinForms.DisplayImplementation;
 using AgateLib.Platform.WinForms.Resources;

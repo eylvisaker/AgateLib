@@ -16,14 +16,11 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using System;
+
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.Resources.Managers.UserInterface
+namespace AgateLib.Resources.Managers
 {
 	public class PropertyMap<T> : IDictionary<string, PropertyMapValue<T>>
 	{

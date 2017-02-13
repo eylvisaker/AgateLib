@@ -16,14 +16,12 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
-using System;
-using System.Linq;
+
 using System.Collections.Generic;
-
+using AgateLib.DisplayLib.Particles.Particles;
 using AgateLib.Geometry;
-using AgateLib.DisplayLib;
 
-namespace AgateLib.DisplayLib.Particles
+namespace AgateLib.DisplayLib.Particles.Emitters
 {
 	/// <summary>
 	/// A surface emitter.
