@@ -198,7 +198,7 @@ namespace FontCreatorApp
 
 		private void renderTarget_MouseMove(object sender, MouseEventArgs e)
 		{
-			creator.ZoomLocation = e.Location.ToAgatePoint();
+			creator.ZoomLocation = e.Location.ToGeometry();
 			creator.Draw();
 		}
 

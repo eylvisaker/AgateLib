@@ -115,7 +115,6 @@
     <Compile Include="Factories\DisplayFactory.cs" />
     <Compile Include="Factories\FormsFactory.cs" />
     <Compile Include="Factories\PlatformFactory.cs" />
-    <Compile Include="GeometryExtensions.cs" />
     <Compile Include="GuiDebug\frmGuiDebug.cs">
       <SubType>Form</SubType>
     </Compile>

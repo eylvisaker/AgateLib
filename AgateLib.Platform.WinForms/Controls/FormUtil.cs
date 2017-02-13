@@ -62,7 +62,7 @@ namespace AgateLib.Platform.WinForms.Controls
 
 			// set properties
 			frm.Text = title;
-			frm.ClientSize = clientSize.ToDrawingSize();
+			frm.ClientSize = clientSize.ToDrawing();
 			frm.KeyPreview = true;
 			frm.Icon = FormUtil.AgateLibIcon;
 
