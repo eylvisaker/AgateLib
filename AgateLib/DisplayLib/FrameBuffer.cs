@@ -21,8 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.CoordinateSystems;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib

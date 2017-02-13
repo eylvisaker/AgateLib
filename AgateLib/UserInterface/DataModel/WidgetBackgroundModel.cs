@@ -16,7 +16,9 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
+
+using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.DataModel

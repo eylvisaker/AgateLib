@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using OpenTK.Graphics.OpenGL;
 
 namespace AgateLib.OpenGL.Legacy.FixedFunction
@@ -84,11 +84,11 @@ namespace AgateLib.OpenGL.Legacy.FixedFunction
 			get { return 1; }
 		}
 
-		public override void SetVariable(string name, AgateLib.Geometry.Color color)
+		public override void SetVariable(string name, AgateLib.DisplayLib.Color color)
 		{
 		}
 
-		public override void SetVariable(string name, AgateLib.Geometry.Matrix4x4 matrix)
+		public override void SetVariable(string name, AgateLib.Mathematics.Matrix4x4 matrix)
 		{
 		}
 

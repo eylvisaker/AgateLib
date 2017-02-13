@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 using AgateLib;
 using AgateLib.DisplayLib;
+using Color = AgateLib.DisplayLib.Color;
+using Rectangle = AgateLib.Mathematics.Geometry.Rectangle;
 
 namespace AgateLib.Tests.DisplayTests.SurfaceTester
 {
@@ -71,16 +73,16 @@ namespace AgateLib.Tests.DisplayTests.SurfaceTester
                 return;
 
             Display.BeginFrame();
-            Display.Clear(AgateLib.Geometry.Color.LightGray);
+            Display.Clear(Color.LightGray);
 
             // draw the grid
-            AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.Gray;
+            Color clr = Color.Gray;
 
             for (int x = 0; x < pctGraphics.Width; x += 30)
-                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, pctGraphics.Height), clr);
+                Display.DrawRect(new Rectangle(0, 0, x, pctGraphics.Height), clr);
 
             for (int y = 0; y < pctGraphics.Height; y += 30)
-                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, pctGraphics.Width, y), clr);
+                Display.DrawRect(new Rectangle(0, 0, pctGraphics.Width, y), clr);
 
             if (mSurface != null)
             {
@@ -104,8 +106,8 @@ namespace AgateLib.Tests.DisplayTests.SurfaceTester
 
             // box around sprite point to check alignment
             const int rectsize = 3;
-            Display.DrawRect(new AgateLib.Geometry.Rectangle((int)nudX.Value - rectsize, (int)nudY.Value - rectsize,
-                2 * rectsize, 2 * rectsize), AgateLib.Geometry.Color.Fuchsia);
+            Display.DrawRect(new Rectangle((int)nudX.Value - rectsize, (int)nudY.Value - rectsize,
+                2 * rectsize, 2 * rectsize), Color.Fuchsia);
 
             
             Display.EndFrame();
@@ -119,7 +121,7 @@ namespace AgateLib.Tests.DisplayTests.SurfaceTester
             mSurface.DisplayAlignment = (OriginAlignment)cboAlignment.SelectedItem;
             mSurface.RotationCenter = (OriginAlignment)cboRotation.SelectedItem;
             mSurface.SetScale((double)nudScaleWidth.Value / 100.0, (double)nudScaleHeight.Value / 100.0);
-            mSurface.Color = AgateLib.Geometry.Color.FromArgb(colorBox.BackColor.ToArgb());
+            mSurface.Color = Color.FromArgb(colorBox.BackColor.ToArgb());
             mSurface.Alpha = (double)nudAlpha.Value / 100.0;
         }
 

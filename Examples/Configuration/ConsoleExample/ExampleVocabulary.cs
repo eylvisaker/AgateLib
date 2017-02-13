@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Diagnostics;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace Examples.Configuration.ConsoleExample
 {

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.CoordinateSystems;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Platform.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

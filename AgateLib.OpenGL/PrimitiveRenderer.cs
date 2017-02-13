@@ -20,7 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.OpenGL
 {

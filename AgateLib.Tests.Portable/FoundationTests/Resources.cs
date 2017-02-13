@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using AgateLib;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.Resources;

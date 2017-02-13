@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms;
 using AgateLib.Resources;

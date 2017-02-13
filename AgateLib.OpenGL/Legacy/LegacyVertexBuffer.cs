@@ -24,8 +24,8 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
-using AgateLib.Geometry.VertexTypes;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.VertexTypes;
 using OpenTK.Graphics.OpenGL;
 
 namespace AgateLib.OpenGL.Legacy

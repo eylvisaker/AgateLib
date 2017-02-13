@@ -20,11 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Quality;
 using AgateLib.Utility;
 using AgateLib.IO;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {

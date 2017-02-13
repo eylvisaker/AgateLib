@@ -16,7 +16,7 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

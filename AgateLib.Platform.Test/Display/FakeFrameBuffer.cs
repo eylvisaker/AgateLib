@@ -22,7 +22,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.CoordinateSystems;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.Test.Display
 {
@@ -38,7 +39,7 @@ namespace AgateLib.Platform.Test.Display
 			throw new NotImplementedException();
 		}
 
-		public override Geometry.Size Size
+		public override Size Size
 		{
 			get { return Owner.Size; }
 		}

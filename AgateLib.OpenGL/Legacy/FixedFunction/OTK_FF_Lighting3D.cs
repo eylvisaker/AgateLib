@@ -21,9 +21,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
+using AgateLib.Mathematics;
 using OpenTK.Graphics.OpenGL;
 
 namespace AgateLib.OpenGL.Legacy.FixedFunction

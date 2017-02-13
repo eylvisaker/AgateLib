@@ -22,10 +22,10 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using OpenTK.Graphics.OpenGL;
 using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.CoordinateSystems;
 
 namespace AgateLib.OpenGL.GL3
 {
@@ -109,7 +109,7 @@ namespace AgateLib.OpenGL.GL3
 
 		public override SurfaceImpl RenderTarget => (SurfaceImpl)mTexture;
 
-		public override AgateLib.Geometry.Size Size => mSize;
+		public override AgateLib.Mathematics.Geometry.Size Size => mSize;
 
 		public override void BeginRender()
 		{

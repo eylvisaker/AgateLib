@@ -239,7 +239,7 @@
     <Compile Include="DisplayLib\ScreenConfiguration.cs" />
     <Compile Include="DisplayLib\ScreenInfo.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="InputLib\HandlerState.cs" />
     <Compile Include="InputLib\SimpleInputHandler.cs" />
     <Compile Include="IO\SubdirectoryProviderReadWrite.cs" />
@@ -259,25 +259,25 @@
     <Compile Include="Configuration\State\AppState.cs" />
     <Compile Include="DisplayLib\DefaultAssets\DefaultResources.cs" />
     <Compile Include="DisplayLib\Verify.cs" />
-    <Compile Include="Geometry\CoordinateSystems\FixedCoordinateSystem.cs" />
-    <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />
+    <Compile Include="Mathematics\CoordinateSystems\FixedCoordinateSystem.cs" />
+    <Compile Include="Mathematics\CoordinateSystems\NativeCoordinates.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SceneStack.cs" />
     <Compile Include="DisplayLib\FontSettings.cs" />
     <Compile Include="DisplayLib\_Enums.cs" />
     <Compile Include="Drivers\NullDrivers\NullInputFactory.cs" />
     <Compile Include="Drivers\NullDrivers\NullSoundFactory.cs" />
-    <Compile Include="Geometry\CoordinateSystems\SingleFixedDimension.cs" />
-    <Compile Include="Geometry\TypeConverters\PointConverterYaml.cs" />
-    <Compile Include="Geometry\TypeConverters\ColorConverterYaml.cs" />
-    <Compile Include="Geometry\TypeConverters\SizeConverterYaml.cs" />
+    <Compile Include="Mathematics\CoordinateSystems\SingleFixedDimension.cs" />
+    <Compile Include="Mathematics\TypeConverters\PointConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\ColorConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\SizeConverterYaml.cs" />
     <Compile Include="Configuration\State\AgateLibState.cs" />
     <Compile Include="IO\ReadFileProviderList.cs" />
     <Compile Include="Mathematics\MathHelper.cs" />
     <Compile Include="Algorithms\PathFinding\IAStarMap.cs" />
     <Compile Include="Mathematics\Algorithms\Pair.cs" />
-    <Compile Include="Geometry\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
-    <Compile Include="Geometry\ICoordinateSystem.cs" />
+    <Compile Include="Mathematics\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
+    <Compile Include="Mathematics\Geometry\ICoordinateSystem.cs" />
     <Compile Include="Platform\DiagnosticsStopwatch.cs" />
     <Compile Include="Quality\AssertFailedException.cs" />
     <Compile Include="Quality\Condition.cs" />
@@ -288,7 +288,7 @@
     <Compile Include="Resources\Managers\UserInterface\UserInterfaceResourceManager.cs" />
     <Compile Include="DisplayLib\Sprites\CollisionRegion.cs" />
     <Compile Include="DisplayLib\Sprites\ISpriteContainer.cs" />
-    <Compile Include="Geometry\Polygon.cs" />
+    <Compile Include="Mathematics\Geometry\Polygon.cs" />
     <Compile Include="DisplayLib\Sprites\SpriteContainer.cs" />
     <Compile Include="Quality\AssertX.cs" />
     <Compile Include="AudioLib\AudioCapsInfo.cs" />
@@ -330,7 +330,7 @@
     <Compile Include="Drivers\IPlatformFactory.cs" />
     <Compile Include="Extensions\Collections\Generic\ListSorting.cs" />
     <Compile Include="Extensions\Collections\NonGeneric\NonGenericListSorting.cs" />
-    <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
+    <Compile Include="Mathematics\Geometry\VertexTypes\PositionTextureColorNormal.cs" />
     <Compile Include="InputLib\AgateInputEventArgs.cs" />
     <Compile Include="InputLib\IInputHandler.cs" />
     <Compile Include="InputLib\InputHandlerList.cs" />
@@ -455,64 +455,64 @@
     <Compile Include="Drivers\NullDrivers\NullSoundImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Color.cs">
+    <Compile Include="DisplayLib\Color.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Gradient.cs">
+    <Compile Include="DisplayLib\Gradient.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Matrix4x4.cs">
+    <Compile Include="Mathematics\Matrix4x4.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Point.cs">
+    <Compile Include="Mathematics\Geometry\Point.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\PointF.cs">
+    <Compile Include="Mathematics\Geometry\PointF.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Rectangle.cs">
+    <Compile Include="Mathematics\Geometry\Rectangle.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\RectangleF.cs">
+    <Compile Include="Mathematics\Geometry\RectangleF.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Size.cs">
+    <Compile Include="Mathematics\Geometry\Size.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\SizeF.cs">
+    <Compile Include="Mathematics\Geometry\SizeF.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Vector2.cs">
+    <Compile Include="Mathematics\Vector2.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Vector3.cs">
+    <Compile Include="Mathematics\Vector3.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Vector4.cs">
+    <Compile Include="Mathematics\Vector4.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Builders\Cube.cs">
+    <Compile Include="Mathematics\Geometry\Builders\Cube.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\Builders\Terrain.cs">
+    <Compile Include="Mathematics\Geometry\Builders\Terrain.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\VertexTypes\PositionColor.cs">
+    <Compile Include="Mathematics\Geometry\VertexTypes\PositionColor.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\VertexTypes\PositionTextureColor.cs">
+    <Compile Include="Mathematics\Geometry\VertexTypes\PositionTextureColor.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\VertexTypes\PositionTextureNormal.cs">
+    <Compile Include="Mathematics\Geometry\VertexTypes\PositionTextureNormal.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\VertexTypes\PositionTextureNormalTangent.cs">
+    <Compile Include="Mathematics\Geometry\VertexTypes\PositionTextureNormalTangent.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\VertexTypes\PositionTextureNTB.cs">
+    <Compile Include="Mathematics\Geometry\VertexTypes\PositionTextureNTB.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Geometry\VertexTypes\VertexLayout.cs">
+    <Compile Include="Mathematics\Geometry\VertexTypes\VertexLayout.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AudioLib\ImplementationBase\AudioImpl.cs">

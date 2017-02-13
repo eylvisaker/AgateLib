@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using AgateLib.Configuration.State;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Quality;
 

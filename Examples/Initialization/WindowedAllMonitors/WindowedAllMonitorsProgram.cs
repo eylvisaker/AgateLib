@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Platform.WinForms;
 
 namespace Examples.Initialization.WindowedAllMonitors

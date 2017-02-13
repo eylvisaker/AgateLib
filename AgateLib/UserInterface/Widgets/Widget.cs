@@ -21,8 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.StyleModel;
@@ -197,7 +197,7 @@ namespace AgateLib.UserInterface.Widgets
 			return parent.Font;
 		}
 
-		private AgateLib.Geometry.Color FindParentFontColor()
+		private Color FindParentFontColor()
 		{
 			Widget parent = Parent;
 
@@ -213,7 +213,7 @@ namespace AgateLib.UserInterface.Widgets
 				return Color.Black;
 			}
 			else
-				return AgateLib.Geometry.Color.Magenta;
+				return Color.Magenta;
 		}
 
 		/// <summary>

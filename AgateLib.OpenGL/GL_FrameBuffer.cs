@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.OpenGL
 {

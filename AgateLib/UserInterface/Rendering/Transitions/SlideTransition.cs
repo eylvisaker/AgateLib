@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering.Transitions

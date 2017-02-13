@@ -24,7 +24,6 @@ using System.Threading.Tasks;
 using AgateLib.Diagnostics;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.IO;
 
 namespace AgateLib.Configuration

@@ -23,7 +23,7 @@ using AgateLib.Diagnostics;
 using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 using AgateLib.Utility;
 

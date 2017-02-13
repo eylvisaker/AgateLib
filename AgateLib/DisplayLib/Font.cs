@@ -16,13 +16,14 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
+
 using AgateLib.Quality;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {

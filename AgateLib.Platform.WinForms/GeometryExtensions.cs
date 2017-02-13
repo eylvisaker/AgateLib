@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.WinForms
 {
@@ -31,7 +32,7 @@ namespace AgateLib.Platform.WinForms
 		/// </summary>
 		/// <param name="point"></param>
 		/// <returns></returns>
-		public static System.Drawing.Point ToDrawingPoint(this AgateLib.Geometry.Point point)
+		public static System.Drawing.Point ToDrawingPoint(this Point point)
 		{
 			return new System.Drawing.Point(point.X, point.Y);
 		}
@@ -41,7 +42,7 @@ namespace AgateLib.Platform.WinForms
 		/// </summary>
 		/// <param name="size"></param>
 		/// <returns></returns>
-		public static System.Drawing.Size ToDrawingSize(this AgateLib.Geometry.Size size)
+		public static System.Drawing.Size ToDrawingSize(this Size size)
 		{
 			return new System.Drawing.Size(size.Width, size.Height);
 		}
@@ -51,9 +52,9 @@ namespace AgateLib.Platform.WinForms
 		/// </summary>
 		/// <param name="point"></param>
 		/// <returns></returns>
-		public static AgateLib.Geometry.Point ToAgatePoint(this System.Drawing.Point point)
+		public static Point ToAgatePoint(this System.Drawing.Point point)
 		{
-			return new AgateLib.Geometry.Point(point.X, point.Y);
+			return new Point(point.X, point.Y);
 		}
 
 	}

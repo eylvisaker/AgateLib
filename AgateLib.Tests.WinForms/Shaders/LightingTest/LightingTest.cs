@@ -5,7 +5,8 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.Shaders.LightingTest
 {

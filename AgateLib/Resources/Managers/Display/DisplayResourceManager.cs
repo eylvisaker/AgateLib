@@ -24,11 +24,11 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
-using AgateLib.Geometry;
 using AgateLib.IO;
 using AgateLib.Resources.DataModel;
 using AgateLib.Resources.Managers.UserInterface;
 using AgateLib.DisplayLib.Sprites;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Resources.Managers.Display
 {

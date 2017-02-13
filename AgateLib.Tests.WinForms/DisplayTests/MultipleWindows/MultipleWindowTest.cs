@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Platform;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Resources;

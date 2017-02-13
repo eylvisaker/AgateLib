@@ -17,7 +17,8 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.UserInterface.StyleModel
 {

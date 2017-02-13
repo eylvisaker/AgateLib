@@ -19,7 +19,8 @@
 
 using System.Collections.Generic;
 using AgateLib.DisplayLib.Particles.Particles;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.Particles.Emitters
 {

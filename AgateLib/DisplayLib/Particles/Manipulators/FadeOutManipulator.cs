@@ -20,7 +20,6 @@
 using System;
 using AgateLib.DisplayLib.Particles.Emitters;
 using AgateLib.DisplayLib.Particles.Particles;
-using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.Particles.Manipulators
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Diagnostics.ConsoleSupport;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib;
 using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics

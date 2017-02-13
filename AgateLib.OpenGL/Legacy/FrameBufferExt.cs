@@ -22,11 +22,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using OpenTK.Graphics.OpenGL;
 using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.CoordinateSystems;
 
 namespace AgateLib.OpenGL.Legacy
 {
@@ -185,10 +186,7 @@ namespace AgateLib.OpenGL.Legacy
 
 		}
 
-		public override AgateLib.Geometry.Size Size
-		{
-			get { return mSize; }
-		}
+		public override AgateLib.Mathematics.Geometry.Size Size => mSize;
 
 		public override void BeginRender()
 		{

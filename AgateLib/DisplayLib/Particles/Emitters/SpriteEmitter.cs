@@ -20,7 +20,7 @@
 using System.Collections.Generic;
 using AgateLib.DisplayLib.Particles.Particles;
 using AgateLib.DisplayLib.Sprites;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 
 namespace AgateLib.DisplayLib.Particles.Emitters
 {

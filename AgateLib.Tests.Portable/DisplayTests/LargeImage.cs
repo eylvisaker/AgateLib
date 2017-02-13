@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
 
 namespace AgateLib.Tests.DisplayTests

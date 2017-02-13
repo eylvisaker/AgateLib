@@ -17,8 +17,6 @@
 //		Contributor(s): Marcel Hauf.
 //
 
-using AgateLib.Geometry;
-
 namespace AgateLib.DisplayLib.Particles.Particles
 {
 	/// <summary>

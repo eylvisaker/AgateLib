@@ -1,6 +1,5 @@
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
-using AgateLib.Geometry;
 using AgateLib.Platform.WinForms.Fonts;
 
 namespace AgateLib.Tests.FontTests

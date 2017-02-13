@@ -20,8 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
 using OpenTK.Graphics.OpenGL;
+using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
 
 namespace AgateLib.OpenGL.Legacy
 {

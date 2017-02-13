@@ -25,7 +25,8 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Drivers;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.VertexTypes;
 using AgateLib.Utility;
 
 namespace AgateLib.DisplayLib.ImplementationBase
@@ -591,7 +592,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		protected internal abstract void SetRenderState(RenderStateBool renderStateBool, bool value);
 
 		protected internal virtual VertexBufferImpl CreateVertexBuffer(
-			Geometry.VertexTypes.VertexLayout layout, int vertexCount)
+			VertexLayout layout, int vertexCount)
 		{
 			throw new AgateException("Cannot create a vertex buffer with a driver that does not support 3D.");
 		}

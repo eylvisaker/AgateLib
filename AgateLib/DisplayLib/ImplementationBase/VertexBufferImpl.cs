@@ -20,8 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.Geometry.VertexTypes;
+using AgateLib.Mathematics.Geometry.VertexTypes;
 
 namespace AgateLib.DisplayLib.ImplementationBase
 {

@@ -5,8 +5,8 @@
 using System;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {

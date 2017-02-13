@@ -1,6 +1,5 @@
 ﻿using System;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.Platform.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

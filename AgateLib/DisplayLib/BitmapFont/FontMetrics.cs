@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using AgateLib.Geometry;
 using System.Runtime.Serialization;
 using AgateLib.Quality;
 

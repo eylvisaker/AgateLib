@@ -24,8 +24,8 @@ using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.Geometry.VertexTypes;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.VertexTypes;
 using OpenTK.Graphics.OpenGL;
 
 namespace AgateLib.OpenGL.GL3

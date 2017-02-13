@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.InputLib.GamepadModel;
+using AgateLib.Mathematics;
 using AgateLib.Platform.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -4,8 +4,8 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.ImplementationBase
 {

@@ -19,8 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.ImplementationBase
 {

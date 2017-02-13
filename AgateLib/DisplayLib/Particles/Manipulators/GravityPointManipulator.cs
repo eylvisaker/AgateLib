@@ -17,7 +17,7 @@
 //		Contributor(s): Marcel Hauf.
 //
 
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 
 namespace AgateLib.DisplayLib.Particles.Manipulators
 {

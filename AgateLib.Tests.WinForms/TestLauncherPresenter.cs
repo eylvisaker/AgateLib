@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AgateLib.Geometry;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.IO;
 using AgateLib.Settings;

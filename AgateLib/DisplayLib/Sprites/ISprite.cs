@@ -18,7 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.Sprites
 {

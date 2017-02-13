@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 
 namespace AgateLib.Tests.Audio
 {

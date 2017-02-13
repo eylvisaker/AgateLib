@@ -1,5 +1,6 @@
 using System;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.InputLib.GamepadModel
 {

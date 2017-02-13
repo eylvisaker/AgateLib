@@ -23,10 +23,10 @@ using System.Xml;
 
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.DisplayLib.Cache;
 using AgateLib.IO;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.BitmapFont
 {

@@ -26,8 +26,8 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
-using AgateLib.Geometry;
 using AgateLib.IO;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.Test.Display
 {
@@ -75,7 +75,7 @@ namespace AgateLib.Platform.Test.Display
 			throw new NotImplementedException();
 		}
 
-		public FrameBufferImpl CreateFrameBuffer(AgateLib.Geometry.Size size)
+		public FrameBufferImpl CreateFrameBuffer(Size size)
 		{
 			throw new NotImplementedException();
 		}

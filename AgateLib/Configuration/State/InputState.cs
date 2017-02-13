@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.InputLib.ImplementationBase;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Configuration.State
 {

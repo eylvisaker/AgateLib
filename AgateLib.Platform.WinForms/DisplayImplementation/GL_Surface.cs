@@ -32,7 +32,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Utility;
 using AgateLib.OpenGL;
 

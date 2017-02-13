@@ -1,6 +1,5 @@
 ﻿using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
 
 namespace AgateLib.Tests.Audio

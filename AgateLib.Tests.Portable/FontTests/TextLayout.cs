@@ -1,6 +1,5 @@
 ﻿using System;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 
 namespace AgateLib.Tests.FontTests
 {

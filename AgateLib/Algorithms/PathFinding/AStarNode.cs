@@ -16,7 +16,6 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
 
 namespace AgateLib.Algorithms.PathFinding
 {

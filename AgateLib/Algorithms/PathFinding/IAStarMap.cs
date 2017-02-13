@@ -17,7 +17,6 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System.Collections.Generic;
-using AgateLib.Geometry;
 
 namespace AgateLib.Algorithms.PathFinding
 {

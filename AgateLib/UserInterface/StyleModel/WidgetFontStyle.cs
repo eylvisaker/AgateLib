@@ -17,7 +17,6 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 
 namespace AgateLib.UserInterface.StyleModel
 {
@@ -25,7 +24,7 @@ namespace AgateLib.UserInterface.StyleModel
 	{
 		public string Family { get; set; }
 		public int Size { get; set; }
-		public Color Color { get; set; } = AgateLib.Geometry.Color.Black;
+		public Color Color { get; set; } = Color.Black;
 		public FontStyles Style { get; set; }
 	}
 }

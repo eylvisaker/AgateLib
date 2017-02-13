@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics.ConsoleSupport

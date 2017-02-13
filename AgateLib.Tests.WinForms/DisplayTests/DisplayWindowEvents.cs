@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {

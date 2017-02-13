@@ -15,6 +15,9 @@ using AgateLib.Platform.WinForms;
 using AgateLib.Utility;
 using AgateLib.Platform.WinForms.IO;
 using AgateLib.Resources;
+using Color = AgateLib.DisplayLib.Color;
+using Point = AgateLib.Mathematics.Geometry.Point;
+using Rectangle = AgateLib.Mathematics.Geometry.Rectangle;
 
 namespace AgateLib.Tests.DisplayTests.SpriteTester
 {
@@ -28,7 +31,7 @@ namespace AgateLib.Tests.DisplayTests.SpriteTester
 		Sprite mSprite;
 		DisplayWindow wind;
 
-		AgateLib.Geometry.Point mSpritePosition = new AgateLib.Geometry.Point(96, 96);
+		Point mSpritePosition = new Point(96, 96);
 
 		private void frmSpriteTester_Load(object sender, EventArgs e)
 		{
@@ -151,28 +154,28 @@ namespace AgateLib.Tests.DisplayTests.SpriteTester
 				return;
 
 			Display.BeginFrame();
-			Display.Clear(AgateLib.Geometry.Color.Green);
+			Display.Clear(Color.Green);
 
 
 			// draw the grid
-			AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.FromRgb(0, 164, 0);
+			Color clr = Color.FromRgb(0, 164, 0);
 
 			for (int x = 0; x < pctGraphics.Width; x += 16)
-				Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, Display.RenderTarget.Height), clr);
+				Display.DrawRect(new Rectangle(0, 0, x, Display.RenderTarget.Height), clr);
 
 			for (int y = 0; y < pctGraphics.Height; y += 16)
-				Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, Display.RenderTarget.Width, y), clr);
+				Display.DrawRect(new Rectangle(0, 0, Display.RenderTarget.Width, y), clr);
 
 
 			int crossSize = 5;
 
-			Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition, mSprite.DisplaySize), AgateLib.Geometry.Color.Red);
+			Display.DrawRect(new Rectangle(mSpritePosition, mSprite.DisplaySize), Color.Red);
 
 			// draw cross
-			Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2 + 1, 1),
-				AgateLib.Geometry.Color.White);
-			Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 1, crossSize * 2 + 1),
-				AgateLib.Geometry.Color.White);
+			Display.DrawRect(new Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2 + 1, 1),
+				Color.White);
+			Display.DrawRect(new Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 1, crossSize * 2 + 1),
+				Color.White);
 
 			mSprite.Update();
 			mSprite.Draw(mSpritePosition);

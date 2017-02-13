@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AgateLib.Diagnostics;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 
 namespace AgateLib.Tests.ConsoleTests
 {

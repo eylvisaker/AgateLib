@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.Geometry;
 using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateLib.InputLib

@@ -6,7 +6,8 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry.Builders;
 
 namespace AgateLib.Tests.Shaders
 {
@@ -34,7 +35,7 @@ namespace AgateLib.Tests.Shaders
 			IFont font = Font.AgateSans;
 			Surface texture = new Surface("bg-bricks.png");
 
-			AgateLib.Geometry.Builders.CubeBuilder cb = new AgateLib.Geometry.Builders.CubeBuilder();
+			CubeBuilder cb = new CubeBuilder();
 			cb.Location = new Vector3(0, 0, 0);
 			cb.Length = 1;
 			cb.CreateVertexBuffer();
@@ -43,7 +44,7 @@ namespace AgateLib.Tests.Shaders
 
 			int frameCount = 0;
 
-			AgateLib.Geometry.Builders.CubeBuilder lightMesh = new AgateLib.Geometry.Builders.CubeBuilder();
+			CubeBuilder lightMesh = new CubeBuilder();
 			lightMesh.Length = 0.02f;
 			lightMesh.CreateVertexBuffer();
 

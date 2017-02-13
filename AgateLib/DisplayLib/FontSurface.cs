@@ -23,7 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {

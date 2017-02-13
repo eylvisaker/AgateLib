@@ -23,9 +23,9 @@ using System.Text;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
-using AgateLib.Geometry;
 using System.Threading;
 using System.Diagnostics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.OpenGL
 {
@@ -88,7 +88,7 @@ namespace AgateLib.OpenGL
 
 		public bool IsDisposed => mIsDisposed;
 
-		public override AgateLib.Geometry.Size Size => mSize;
+		public override AgateLib.Mathematics.Geometry.Size Size => mSize;
 
 		public void SetSize(Size size)
 		{

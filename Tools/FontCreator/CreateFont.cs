@@ -9,6 +9,7 @@ using AgateLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Platform.WinForms;
 using System.Linq;
+using Color = AgateLib.DisplayLib.Color;
 
 namespace FontCreatorApp
 {
@@ -130,7 +131,7 @@ namespace FontCreatorApp
 			Parameters.Family = cboFamily.SelectedItem.ToString();
 
 			Parameters.CreateBorder = chkBorder.Checked;
-			Parameters.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, Parameters.BorderColor);
+			Parameters.BorderColor = Color.FromArgb((int)nudOpacity.Value, Parameters.BorderColor);
 
 			Parameters.MonospaceNumbers = chkMonospaceNumbers.Checked;
 
@@ -168,7 +169,7 @@ namespace FontCreatorApp
 				btnBorderColor.BackColor = colorDialog.Color;
 
 				Parameters.BorderColor = colorDialog.Color.ToGeometry();
-				Parameters.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, Parameters.BorderColor);
+				Parameters.BorderColor = Color.FromArgb((int)nudOpacity.Value, Parameters.BorderColor);
 
 				Parameters.CreateBorder = true;
 

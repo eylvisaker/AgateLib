@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using AgateLib;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 {

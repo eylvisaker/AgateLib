@@ -3,7 +3,8 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Particles.Emitters;
 using AgateLib.DisplayLib.Particles.Manipulators;
 using AgateLib.DisplayLib.Sprites;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {

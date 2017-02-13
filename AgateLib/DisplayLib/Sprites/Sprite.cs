@@ -20,7 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib.Sprites

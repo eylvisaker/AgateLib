@@ -26,7 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using AgateLib.Geometry.TypeConverters;
+using AgateLib.Mathematics.TypeConverters;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.Settings
