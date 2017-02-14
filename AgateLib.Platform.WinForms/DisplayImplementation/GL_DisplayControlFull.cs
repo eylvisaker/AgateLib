@@ -47,12 +47,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			Require.False<ArgumentException>(windowParams.RenderToControl, invalidMessage);
 			Require.True<ArgumentException>(windowParams.IsFullScreen, invalidMessage);
-			Require.True<InvalidOperationException>(windowParams.TargetScreen.DisplayWindow == null,
-				$"A full screen window already exists for {windowParams.TargetScreen.DeviceName}.");
 
 			CreateFullScreenDisplay((int)windowParams.TargetScreen.SystemIndex);
-
-			windowParams.TargetScreen.DisplayWindow = owner;
 
 			display.InitializeCurrentContext();
 

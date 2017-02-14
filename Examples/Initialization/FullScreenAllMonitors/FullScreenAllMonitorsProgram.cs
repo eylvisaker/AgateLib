@@ -62,16 +62,13 @@ namespace Examples.Initialization.FullScreenAllMonitors
 							point.Y += 10;
 						}
 
-						ScreenInfo screen = Display.Screens.AllScreens
-							.Single(s => s.DisplayWindow == window);
-
-						if (screen.IsPrimary)
+						if (window.Screen.IsPrimary)
 						{
 							font.DrawText(350, 75, "Welcome to\nAgateLib!");
 						}
 						else
 						{
-							font.DrawText(350, 75, screen.Bounds.ToString());
+							font.DrawText(350, 75, window.Screen.Bounds.ToString());
 						}
 
 						Display.EndFrame();

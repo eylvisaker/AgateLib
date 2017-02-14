@@ -249,12 +249,6 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void Dispose()
 		{
-			foreach (var screen in Display.Screens?.AllScreens ?? Enumerable.Empty<ScreenInfo>())
-			{
-				if (screen.DisplayWindow == this)
-					screen.DisplayWindow = null;
-			}
-
 			if (mImpl != null)
 			{
 				mImpl.Dispose();
