@@ -36,17 +36,28 @@ namespace AgateLib.OpenGL
 		{
 		}
 
+		public event EventHandler RenderComplete;
+
 		public override bool HasDepthBuffer => hasDepth;
 
 		public override bool HasStencilBuffer => hasStencil;
 
 		public GLDrawBuffer DrawBuffer => drawBuffer;
 
+		public override DisplayWindow AttachedWindow => MyAttachedWindow;
+
+		public DisplayWindow MyAttachedWindow { get; set; }
+
 		public abstract void MakeCurrent();
 
 		protected void InitializeDrawBuffer()
 		{
 			drawBuffer = ((IGL_Display)Display.Impl).CreateDrawBuffer();
+		}
+
+		protected void OnRenderComplete()
+		{
+			RenderComplete?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

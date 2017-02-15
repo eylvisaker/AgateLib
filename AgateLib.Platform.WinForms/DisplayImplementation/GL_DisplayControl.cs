@@ -29,6 +29,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.CoordinateSystems;
 using AgateLib.InputLib;
 using AgateLib.OpenGL;
+using AgateLib.OpenGL.GL3;
 using AgateLib.Platform.WinForms.Controls;
 using OpenTK.Graphics;
 using OpenTK.Platform;
@@ -63,8 +64,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private readonly SurfaceState rtSurfaceState = new SurfaceState();
 
-		protected AgateLib.OpenGL.GL3.FrameBuffer rtFrameBuffer;
-		protected GL_Surface rtSurface;
+		protected GL_FrameBuffer rtFrameBuffer;
 
 		/// <summary>
 		/// Thread sync flag 
@@ -109,7 +109,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 
 			SafeDispose(ref rtFrameBuffer);
-			SafeDispose(ref rtSurface);
 
 			SafeDispose(ref ctxFrameBuffer);
 
@@ -214,7 +213,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public override Point PixelToLogicalCoords(Point point)
 		{
 			var bufferPoint = chooseResolution.RenderMode
-				?.MousePoint(point, rtSurface.SurfaceSize, ctxFrameBuffer.Size) ?? point;
+				?.MousePoint(point, rtFrameBuffer?.Size ?? ctxFrameBuffer.Size, ctxFrameBuffer.Size) ?? point;
 
 			return base.PixelToLogicalCoords(bufferPoint);
 		}
@@ -233,6 +232,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			using (new ResourceDisposer(ctxFrameBuffer))
 			{
 				ctxFrameBuffer = new ContextFrameBuffer(owner, CreateGraphicsMode(), windowInfo, ContextSize, true, false, fbCoords);
+				ctxFrameBuffer.MakeCurrent();
 			}
 		}
 
@@ -370,11 +370,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void CreateTargetFrameBuffer(Size size)
 		{
-			using (new ResourceDisposer(rtSurface, rtFrameBuffer))
+			using (new ResourceDisposer(rtFrameBuffer))
 			{
-				rtSurface = new GL_Surface(size);
-
-				rtFrameBuffer = new AgateLib.OpenGL.GL3.FrameBuffer(rtSurface);
+				rtFrameBuffer = (GL_FrameBuffer)display.Factory.CreateFrameBuffer(size);
+				rtFrameBuffer = new OpenGL.GL3.FrameBuffer(
+					(IGL_Surface)new Surface(size).Impl) { ParentContext = ctxFrameBuffer };
 				rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
 				rtFrameBuffer.MyAttachedWindow = owner;
 			}
@@ -389,24 +389,25 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			// The window context needs to be set current before we do 
 			// any of the other things in this method.
+			rtFrameBuffer.RenderTarget.SaveTo(@"C:\users\erik\desktop\test.png", ImageFileFormat.Png);
 			ctxFrameBuffer.BeginRender();
 
 			ctxFrameBuffer.CoordinateSystem.RenderTargetSize = ctxFrameBuffer.Size;
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = ctxFrameBuffer.CoordinateSystem.Coordinates;
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
-			display.Clear(Color.Black);
+			display.Clear(Color.Magenta);
 
 			var destRect = chooseResolution.RenderMode.DestRect(
-				rtSurface.SurfaceSize, ctxFrameBuffer.Size);
+				rtFrameBuffer.Size, ctxFrameBuffer.Size);
 
-			rtSurfaceState.ScaleWidth = destRect.Width / (double)rtSurface.SurfaceWidth;
-			rtSurfaceState.ScaleHeight = destRect.Height / (double)rtSurface.SurfaceHeight;
+			rtSurfaceState.ScaleWidth = destRect.Width / (double) rtFrameBuffer.Width;
+			rtSurfaceState.ScaleHeight = destRect.Height / (double) rtFrameBuffer.Height;
 
 			rtSurfaceState.DrawInstances.Clear();
 			rtSurfaceState.DrawInstances.Add(
 				new SurfaceDrawInstance(destRect.Location));
-			rtSurface.Draw(rtSurfaceState);
+			rtFrameBuffer.RenderTarget.Draw(rtSurfaceState);
 
 			display.DrawBuffer.Flush();
 			ctxFrameBuffer.EndRender();

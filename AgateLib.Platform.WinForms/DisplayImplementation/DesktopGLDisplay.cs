@@ -35,6 +35,7 @@ using OpenTK.Graphics.OpenGL;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 using AgateLib.OpenGL;
 using AgateLib.Platform.WinForms.Controls;
+using AgateLib.Platform.WinForms.Factories;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
@@ -55,6 +56,16 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		PrimitiveRenderer mPrimitives;
 		private IScreenConfiguration screens;
+
+		bool mAlphaBlend;
+		private IDisplayFactory factory;
+
+		public DesktopGLDisplay(IDisplayFactory factory)
+		{
+			this.factory = factory;
+		}
+
+		public IDisplayFactory Factory => factory;
 
 		public override IScreenConfiguration Screens => screens;
 
@@ -559,8 +570,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		#endregion
 
 		#region --- Render States ---
-
-		bool mAlphaBlend;
 
 		protected internal override bool GetRenderState(RenderStateBool renderStateBool)
 		{

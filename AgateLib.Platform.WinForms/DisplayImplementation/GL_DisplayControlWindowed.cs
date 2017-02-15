@@ -59,7 +59,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					throw new ArgumentException("The specified render target has not been added to a Form yet.  " +
 						"Check to make sure that you are creating the DisplayWindow after all controls are added " +
 						"to the Form. Do not create a DisplayWindow in a constructor for a UserControl, for example.");
-				
+
 				InitializeContexts();
 
 				AttachKeyboardEvents();

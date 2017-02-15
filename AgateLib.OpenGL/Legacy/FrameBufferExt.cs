@@ -50,6 +50,8 @@ namespace AgateLib.OpenGL.Legacy
 			mSize = target.SurfaceSize;
 
 			InitializeFramebuffer();
+
+			InitializeDrawBuffer();
 		}
 
 		void InitializeFramebuffer()
@@ -108,8 +110,6 @@ namespace AgateLib.OpenGL.Legacy
 			}
 			sDepthSupported = false;
 			sStencilSupported = false;
-
-			InitializeDrawBuffer();
 		}
 
 		void InitializeFramebuffer(bool depth, bool stencil)
@@ -186,7 +186,7 @@ namespace AgateLib.OpenGL.Legacy
 
 		}
 
-		public override AgateLib.Mathematics.Geometry.Size Size => mSize;
+		public override Size Size => mSize;
 
 		public override void BeginRender()
 		{
@@ -195,7 +195,7 @@ namespace AgateLib.OpenGL.Legacy
 
 			if (first)
 			{
-				AgateLib.DisplayLib.Display.Clear(Color.FromArgb(0, 0, 0, 0));
+				Display.Clear(Color.FromArgb(0, 0, 0, 0));
 				first = false;
 			}
 		}
@@ -207,6 +207,8 @@ namespace AgateLib.OpenGL.Legacy
 
 			GL.BindTexture(TextureTarget.Texture2D, mTexture.GLTextureID);
 			GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+			
+			OnRenderComplete();
 		}
 
 		public override void MakeCurrent()
@@ -214,17 +216,8 @@ namespace AgateLib.OpenGL.Legacy
 			GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
 		}
 
-		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow
-		{
-			get { return null; }
-		}
-		public override bool HasDepthBuffer
-		{
-			get { return hasDepth; }
-		}
-		public override bool HasStencilBuffer
-		{
-			get { return hasStencil; }
-		}
+		public override bool HasDepthBuffer => hasDepth;
+
+		public override bool HasStencilBuffer => hasStencil;
 	}
 }

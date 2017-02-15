@@ -144,6 +144,8 @@ namespace AgateLib.OpenGL
 				CurrentContext.SwapInterval = 0;
 
 			CurrentContext.SwapBuffers();
+
+			OnRenderComplete();
 		}
 
 	}

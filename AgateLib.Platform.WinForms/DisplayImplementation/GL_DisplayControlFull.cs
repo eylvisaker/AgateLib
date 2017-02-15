@@ -65,7 +65,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			DetachEvents();
 
-			using (new ResourceDisposer(windowInfo, wfForm, rtSurface, rtFrameBuffer))
+			using (new ResourceDisposer(windowInfo, wfForm, rtFrameBuffer))
 			{
 				targetScreen = System.Windows.Forms.Screen.AllScreens[targetScreenIndex];
 

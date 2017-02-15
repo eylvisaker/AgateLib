@@ -86,6 +86,8 @@ namespace AgateLib.OpenGL.Legacy
 							 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D,
 							 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+			OnRenderComplete();
 		}
 
 		public override bool CanAccessRenderTarget

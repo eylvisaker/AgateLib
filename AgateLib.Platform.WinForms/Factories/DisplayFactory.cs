@@ -44,7 +44,7 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public DisplayFactory()
 		{
-			Core = new DesktopGLDisplay();
+			Core = new DesktopGLDisplay(this);
 			builtIn = new Resources.BuiltinResources();
 		}
 
