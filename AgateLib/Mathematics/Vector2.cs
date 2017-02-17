@@ -44,6 +44,7 @@ namespace AgateLib.Mathematics
 			mX = x;
 			mY = y;
 		}
+
 		/// <summary>
 		/// Constructs a Vector2 object.
 		/// </summary>
@@ -54,6 +55,7 @@ namespace AgateLib.Mathematics
 			mX = (float)x;
 			mY = (float)y;
 		}
+
 		/// <summary>
 		/// Constructs a Vector2 object from a Point.
 		/// </summary>
@@ -72,6 +74,7 @@ namespace AgateLib.Mathematics
 			get { return mX; }
 			set { mX = value; }
 		}
+
 		/// <summary>
 		/// Y coordinate.
 		/// </summary>
@@ -100,6 +103,7 @@ namespace AgateLib.Mathematics
 		{
 			return new PointF(v.X, v.Y);
 		}
+
 		/// <summary>
 		/// Converts to a Point object.
 		/// </summary>
@@ -130,6 +134,7 @@ namespace AgateLib.Mathematics
 		{
 			get { return X * X + Y * Y; }
 		}
+
 		/// <summary>
 		/// Returns the length of the vector.
 		/// </summary>
@@ -137,6 +142,7 @@ namespace AgateLib.Mathematics
 		{
 			get { return (float)Math.Sqrt(MagnitudeSquared); }
 		}
+
 		/// <summary>
 		/// Returns a vector pointing in the same direction as this one, with magnitude 1.
 		/// </summary>
@@ -147,6 +153,7 @@ namespace AgateLib.Mathematics
 
 			return result;
 		}
+
 		/// <summary>
 		/// Adds two vectors.
 		/// </summary>
@@ -176,6 +183,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector2(-a.X, -a.Y);
 		}
+
 		/// <summary>
 		/// Scales a vector by a scalar floating point value.
 		/// </summary>
@@ -206,6 +214,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector2(a.X * b, a.Y * b);
 		}
+
 		/// <summary>
 		/// Scales a vector by a scalar floating point value.
 		/// </summary>
@@ -216,6 +225,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector2(a.X * b, a.Y * b);
 		}
+
 		/// <summary>
 		/// Divides a vector's components by a floating point value.
 		/// </summary>
@@ -239,6 +249,81 @@ namespace AgateLib.Mathematics
 		}
 
 		/// <summary>
+		/// Performs equality comparison. This requires exact equality, so 
+		/// floating-point precision may be a problem. The Equals method is
+		/// better if this is a concern.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static bool operator ==(Vector2 a, Vector2 b)
+		{
+			return a.X == b.X && a.Y == b.Y;
+		}
+
+		/// <summary>
+		/// Performs inequality comparison. This requires exact equality, so 
+		/// floating-point precision may be a problem. The Equals method is
+		/// better if this is a concern.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static bool operator !=(Vector2 a, Vector2 b)
+		{
+			return a.X != b.X || a.Y != b.Y;
+		}
+
+		/// <summary>
+		/// Overrides the base class method. Use overload which accepts
+		/// tolerance instead.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public override bool Equals(object obj)
+		{
+			if (!(obj is Vector2))
+				return false;
+
+			return this == (Vector2) obj;
+		}
+
+		/// <summary>
+		/// Returns the hash code for the vector.
+		/// </summary>
+		/// <returns></returns>
+		public override int GetHashCode()
+		{
+			return X.GetHashCode() ^ Y.GetHashCode();
+		}
+
+		/// <summary>
+		/// Performs equality comparison to within a tolerance value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <param name="tolerance"></param>
+		/// <returns></returns>
+		public static bool Equals(Vector2 a, Vector2 b, double tolerance)
+		{
+			return Math.Abs(a.X - b.X) < tolerance &&
+			       Math.Abs(a.Y - b.Y) < tolerance;
+		}
+
+		/// <summary>
+		/// Performs equality comparison to within a tolerance value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <param name="tolerance"></param>
+		/// <returns></returns>
+		public bool Equals(Vector2 b, double tolerance)
+		{
+			return Math.Abs(X - b.X) < tolerance &&
+				   Math.Abs(Y - b.Y) < tolerance;
+		}
+
+		/// <summary>
 		/// Computes and returns the dot product with another vector.
 		/// </summary>
 		/// <param name="b"></param>
@@ -247,6 +332,7 @@ namespace AgateLib.Mathematics
 		{
 			return DotProduct(this, b);
 		}
+
 		/// <summary>
 		/// Computes and returns the dot product between two vectors.
 		/// </summary>
@@ -287,7 +373,7 @@ namespace AgateLib.Mathematics
 		public override string ToString()
 		{
 			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
-				"(X={0},Y={1})", X, Y);
+				"(X={0};Y={1})", X, Y);
 		}
 
 		/// <summary>
@@ -295,7 +381,8 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <remarks>Angles in the first
 		/// quadrant (between 0 and pi/2) will have positive x and y coordinates, 
-		/// which will be downright in the usual screen coordinates.
+		/// which will be downright in the usual screen coordinates. If you want it
+		/// to point in the upper right, using -angle instead.
 		/// </remarks>
 		/// <param name="radius"></param>
 		/// <param name="angle">The angle in radians</param>
@@ -308,6 +395,18 @@ namespace AgateLib.Mathematics
 
 			return result;
 		}
+
+		/// <summary>
+		/// Produces a Vector2 object from polar coordinates. 
+		/// </summary>
+		/// <remarks>Angles in the first
+		/// quadrant (between 0 and 90) will have positive x and y coordinates, 
+		/// which will be downright in the usual screen coordinates. If you want it
+		/// to point in the upper right, using -angle instead.
+		/// </remarks>
+		/// <param name="radius"></param>
+		/// <param name="angle">The angle in degrees</param>
+		/// <returns></returns>
 		public static Vector2 FromPolarDegrees(double radius, double angle)
 		{
 			return FromPolar(radius, angle * Math.PI / 180.0);
