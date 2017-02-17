@@ -30,11 +30,11 @@ namespace AgateLib.Tests.FontTests
 				var resources = new AgateResourceManager("UserInterface/FontAlignment.yaml");
 				resources.InitializeContainer(this);
 
-				var fonts = new List<IFont> {Font.AgateSans, Font.AgateSerif, Font.AgateMono,};
+				var fonts = new List<IFont> { Font.AgateSans, Font.AgateSerif, Font.AgateMono, };
 
 				Input.Unhandled.KeyDown += Keyboard_KeyDown;
 
-				int[] numbers = new int[] {0, 0, 1, 11, 22, 33, 44, 99, 100, 111, 222, 333, 444, 555, 666, 777, 888, 999};
+				int[] numbers = new int[] { 0, 0, 1, 11, 22, 33, 44, 99, 100, 111, 222, 333, 444, 555, 666, 777, 888, 999 };
 
 				while (AgateApp.IsAlive)
 				{
@@ -46,8 +46,8 @@ namespace AgateLib.Tests.FontTests
 					var firstLineFont = fonts.First();
 					var firstLineHeight = firstLineFont.FontHeight;
 
-					Display.FillRect(new Rectangle(0, firstLineHeight, 300, 600), Color.DarkSlateGray);
-					Display.FillRect(new Rectangle(300, firstLineHeight, 300, 600), Color.DarkBlue);
+					Display.Primitives.FillRect(Color.DarkSlateGray, new Rectangle(0, firstLineHeight, 300, 600));
+					Display.Primitives.FillRect(Color.DarkBlue, new Rectangle(300, firstLineHeight, 300, 600));
 
 					firstLineFont.DisplayAlignment = OriginAlignment.TopLeft;
 					firstLineFont.Color = Color.White;

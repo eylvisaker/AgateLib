@@ -77,7 +77,7 @@ namespace Examples.InputExamples.SimpleInputHandlerExample
 			font.DrawText(0, 720 - font.FontHeight,
 				$"Keys pressed: {keysPressed}");
 
-			Display.FillRect(new Rectangle(position, size), Color.LightGreen);
+			Display.Primitives.FillRect(Color.LightGreen, new Rectangle(position, size));
 
 			Display.EndFrame();
 		}

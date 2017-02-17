@@ -49,7 +49,7 @@ namespace AgateLib.Tests.DisplayTests
 
 					AgateBuiltInShaders.Basic2DShader.Activate();
 
-					Display.FillRect(-2, -2, 4, 4, Color.Red);
+					Display.Primitives.FillRect(Color.Red, new Rectangle(-2, -2, 4, 4));
 					surf.Draw();
 
 					Display.FlushDrawBuffer();

@@ -59,9 +59,8 @@ namespace AgateLib.UserInterface.Widgets
 				//var grad = new Gradient(Gradient.TopLeft);
 				//grad.TopRight = Gradient.Interpolate(width, 0);
 				//grad.BottomRight = grad.TopRight;
-				var grad = Gradient.TopLeft;
 
-				Display.FillRect(destRect, grad);
+				Display.Primitives.FillRect(Gradient.TopLeft, destRect);
 			}
 		}
 	}

@@ -161,21 +161,21 @@ namespace AgateLib.Tests.DisplayTests.SpriteTester
 			Color clr = Color.FromRgb(0, 164, 0);
 
 			for (int x = 0; x < pctGraphics.Width; x += 16)
-				Display.DrawRect(new Rectangle(0, 0, x, Display.RenderTarget.Height), clr);
+				Display.Primitives.DrawRect(clr,new Rectangle(0, 0, x, Display.RenderTarget.Height));
 
 			for (int y = 0; y < pctGraphics.Height; y += 16)
-				Display.DrawRect(new Rectangle(0, 0, Display.RenderTarget.Width, y), clr);
+				Display.Primitives.DrawRect(clr,new Rectangle(0, 0, Display.RenderTarget.Width, y));
 
 
 			int crossSize = 5;
 
-			Display.DrawRect(new Rectangle(mSpritePosition, mSprite.DisplaySize), Color.Red);
+			Display.Primitives.DrawRect(Color.Red,new Rectangle(mSpritePosition, mSprite.DisplaySize));
 
 			// draw cross
-			Display.DrawRect(new Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2 + 1, 1),
-				Color.White);
-			Display.DrawRect(new Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 1, crossSize * 2 + 1),
-				Color.White);
+			Display.Primitives.DrawRect(Color.White,
+				new Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2 + 1, 1));
+			Display.Primitives.DrawRect(Color.White,
+				new Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 1, crossSize * 2 + 1));
 
 			mSprite.Update();
 			mSprite.Draw(mSpritePosition);

@@ -175,9 +175,9 @@ namespace AgateLib.DisplayLib
 			State.DrawInstances[0] = new SurfaceDrawInstance(Location);
 
 			this.Surface.Draw(State);
-			
+
 			if (DebugRects)
-				Display.DrawRect(new Rectangle(Point.Round(Location), Surface.DisplaySize), Color.Blue);
+				Display.Primitives.DrawRect(Color.Blue, new Rectangle(Point.Round(Location), Surface.DisplaySize));
 		}
 	}
 
@@ -195,7 +195,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// A class which modifies the text color.
 		/// </summary>
-		class LayoutCacheAlterTextColor : LayoutCacheAlterFont 
+		class LayoutCacheAlterTextColor : LayoutCacheAlterFont
 		{
 			Color clr;
 

@@ -396,7 +396,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = ctxFrameBuffer.CoordinateSystem.Coordinates;
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
-			display.Clear(Color.Magenta);
+			display.Clear(Color.Black);
 
 			var destRect = chooseResolution.RenderMode.DestRect(
 				rtFrameBuffer.Size, ctxFrameBuffer.Size);

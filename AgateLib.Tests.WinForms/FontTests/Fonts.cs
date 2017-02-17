@@ -50,8 +50,9 @@ namespace AgateLib.Tests.FontTests
 					Size textSize = font.MeasureString(text);
 
 					// draw a box around where the text should be displayed.
-					Display.DrawRect(new Rectangle(textPoint.X - textSize.Width / 2, textPoint.Y - textSize.Height / 2,
-						textSize.Width, textSize.Height), Color.Gray);
+					Display.Primitives.DrawRect(Color.Gray,
+						new Rectangle(textPoint.X - textSize.Width / 2, textPoint.Y - textSize.Height / 2,
+						textSize.Width, textSize.Height));
 
 					font.DisplayAlignment = OriginAlignment.Center;
 					font.DrawText(textPoint, text);
@@ -64,7 +65,7 @@ namespace AgateLib.Tests.FontTests
 					textSize = font.MeasureString(text);
 
 					// draw a box with the same size the text should appear as
-					Display.DrawRect(new Rectangle(textPoint, textSize), Color.White);
+					Display.Primitives.DrawRect(Color.White, new Rectangle(textPoint, textSize));
 
 					font.DrawText(textPoint, text);
 					font.Size = 12;
@@ -82,15 +83,15 @@ namespace AgateLib.Tests.FontTests
 					textSize = font.MeasureString(text);
 
 					// draw the white background
-					Display.FillRect(new Rectangle(new Point(0, 0), textSize), Color.White);
+					Display.Primitives.FillRect(Color.White, new Rectangle(new Point(0, 0), textSize));
 
 					// draw the text on top of the background
 					font.Color = Color.Black;
 					font.DrawText(text); // supplying no position arguments defaults to (0, 0)
 
 					// draw something which moves to let us know the program is running
-					Display.FillRect(new Rectangle(
-						10, 200, 70 + (int) (50 * Math.Cos(frame / 10.0)), 50), Color.Red);
+					Display.Primitives.FillRect(Color.Red, new Rectangle(
+						10, 200, 70 + (int)(50 * Math.Cos(frame / 10.0)), 50));
 
 					// do some bitmap font stuff
 					bitmapFont.DrawText(10, 350, "THIS IS BITMAP FONT TEXT.");
@@ -102,12 +103,12 @@ namespace AgateLib.Tests.FontTests
 					bitmapFont.Size = 32;
 					bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
 
-					Display.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
+					Display.Primitives.FillRect(Color.Blue, new Rectangle(95, 425, 10, 10));
 					bitmapFont.DisplayAlignment = OriginAlignment.Center;
 					bitmapFont.DrawText(100, 430, "CHECK");
 					bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
 
-					Display.FillRect(new Rectangle(-10, -10, 20, 20), Color.Green);
+					Display.Primitives.FillRect(Color.Green, new Rectangle(-10, -10, 20, 20));
 
 					// and we're done.
 					Display.EndFrame();

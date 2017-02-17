@@ -79,7 +79,7 @@ namespace Examples.Initialization.WindowedAllMonitors
 						for (int i = 0; i < 36; i++)
 						{
 							Rectangle dest = new Rectangle(point, size);
-							Display.FillRect(dest, Color.FromHsv(i * 10, 1, 1));
+							Display.Primitives.FillRect(Color.FromHsv(i * 10, 1, 1), dest);
 
 							point.X += 10;
 							point.Y += 10;

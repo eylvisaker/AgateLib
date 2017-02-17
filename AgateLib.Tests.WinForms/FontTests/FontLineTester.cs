@@ -45,7 +45,7 @@ namespace AgateLib.Tests.FontTests
 
 					FontTests(fonts[currentFont], out drawRect);
 
-					Display.DrawRect(drawRect, Color.Red);
+					Display.Primitives.DrawRect(Color.Red, drawRect);
 					
 					Display.EndFrame();
 					AgateApp.KeepAlive();
