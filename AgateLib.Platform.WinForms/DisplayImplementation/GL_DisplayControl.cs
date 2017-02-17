@@ -389,7 +389,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			// The window context needs to be set current before we do 
 			// any of the other things in this method.
-			rtFrameBuffer.RenderTarget.SaveTo(@"C:\users\erik\desktop\test.png", ImageFileFormat.Png);
 			ctxFrameBuffer.BeginRender();
 
 			ctxFrameBuffer.CoordinateSystem.RenderTargetSize = ctxFrameBuffer.Size;
