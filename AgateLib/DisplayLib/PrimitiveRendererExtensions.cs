@@ -17,13 +17,14 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		///     Draws a line between the two points specified.
 		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
-		/// <param name="color"></param>
 		public static void DrawLine(this IPrimitiveRenderer primitives, Color color, Vector2 a, Vector2 b)
 		{
 			primitives.DrawLines(LineType.LineSegments, color,
-				new[] { (Vector2)a, (Vector2)b });
+				new[] { a, b });
 		}
 
 		/// <summary>
@@ -33,6 +34,17 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		/// <param name="rect"></param>
 		public static void DrawRect(this IPrimitiveRenderer primitives, Color color, Rectangle rect)
+		{
+			DrawRect(primitives, color, (RectangleF) rect);
+		}
+
+		/// <summary>
+		/// Draws the outline of a rectangle.
+		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
+		/// <param name="rect"></param>
+		public static void DrawRect(this IPrimitiveRenderer primitives, Color color, RectangleF rect)
 		{
 			primitives.DrawLines(LineType.Polygon, color,
 				new QuadrilateralBuilder().BuildRectangle(rect));
@@ -46,8 +58,19 @@ namespace AgateLib.DisplayLib
 		/// <param name="boundingRect">The rectangle the circle should be inscribed in.</param>
 		public static void DrawEllipse(this IPrimitiveRenderer primitives, Color color, Rectangle boundingRect)
 		{
-			primitives.DrawLines(LineType.Polygon, color, 
-				new EllipseBuilder().Build((RectangleF)boundingRect));
+			DrawEllipse(primitives, color, (RectangleF)boundingRect);
+		}
+
+		/// <summary>
+		/// Draws the outline of an ellipse, inscribed inside a rectangle.
+		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
+		/// <param name="boundingRect">The rectangle the circle should be inscribed in.</param>
+		public static void DrawEllipse(this IPrimitiveRenderer primitives, Color color, RectangleF boundingRect)
+		{
+			primitives.DrawLines(LineType.Polygon, color,
+				new EllipseBuilder().Build(boundingRect));
 		}
 
 		/// <summary>
@@ -57,6 +80,16 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		/// <param name="rect"></param>
 		public static void FillRect(this IPrimitiveRenderer primitives, Color color, Rectangle rect)
+		{
+			FillRect(primitives, color, (RectangleF) rect);
+		}
+		/// <summary>
+		/// Draws a filled rectangle.
+		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
+		/// <param name="rect"></param>
+		public static void FillRect(this IPrimitiveRenderer primitives, Color color, RectangleF rect)
 		{
 			primitives.FillPolygon(color, new QuadrilateralBuilder().BuildRectangle(rect));
 		}
@@ -69,7 +102,18 @@ namespace AgateLib.DisplayLib
 		/// <param name="boundingRect"></param>
 		public static void FillEllipse(this IPrimitiveRenderer primitives, Color color, Rectangle boundingRect)
 		{
-			primitives.FillPolygon(color, new EllipseBuilder().Build((RectangleF)boundingRect).ToArray());
+			FillEllipse(primitives, color, (RectangleF)boundingRect);
+		}
+
+		/// <summary>
+		/// Draws a filled ellipse, inscribed inside a rectangle.
+		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
+		/// <param name="boundingRect"></param>
+		public static void FillEllipse(this IPrimitiveRenderer primitives, Color color, RectangleF boundingRect)
+		{
+			primitives.FillPolygon(color, new EllipseBuilder().Build(boundingRect).ToArray());
 		}
 	}
 }
