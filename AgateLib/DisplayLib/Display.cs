@@ -449,7 +449,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
-		[Obsolete("Use methods on Display.Primitives instead.")]public static void DrawEllipse(Rectangle rect, Color color)
+		[Obsolete("Use methods on Display.Primitives instead.")]
+		public static void DrawEllipse(Rectangle rect, Color color)
 		{
 			var ellipsePoints = new EllipseBuilder().Build(
 				(RectangleF) rect);
@@ -585,8 +586,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillEllipse(Rectangle rect, Color color)
 		{
-			Primitives.FillPolygon(
-				new EllipseBuilder().Build((RectangleF)rect).ToArray(), color);
+			Primitives.FillPolygon(color, new EllipseBuilder().Build((RectangleF)rect).ToArray());
 		}
 
 		/// <summary>
@@ -597,8 +597,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillEllipse(RectangleF rect, Color color)
 		{
-			Primitives.FillPolygon(
-				new EllipseBuilder().Build(rect).ToArray(), color);
+			Primitives.FillPolygon(color, new EllipseBuilder().Build(rect).ToArray());
 		}
 
 		/// <summary>
@@ -609,7 +608,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillPolygon(PointF[] pts, Color color)
 		{
-			Primitives.FillPolygon(pts.Cast<Vector2>(), color);
+			Primitives.FillPolygon(color, pts.Cast<Vector2>());
 		}
 
 		/// <summary>
@@ -620,8 +619,8 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillRect(Rectangle rect, Color color)
 		{
-			Primitives.FillPolygon(new QuadrilateralBuilder()
-				.BuildRectangle(rect), color);
+			Primitives.FillPolygon(color, new QuadrilateralBuilder()
+				.BuildRectangle(rect));
 		}
 
 		/// <summary>
@@ -635,8 +634,8 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillRect(int x, int y, int width, int height, Color color)
 		{
-			Primitives.FillPolygon(new QuadrilateralBuilder()
-				.BuildRectangle(new Rectangle(x, y, width, height)), color);
+			Primitives.FillPolygon(color, new QuadrilateralBuilder()
+				.BuildRectangle(new Rectangle(x, y, width, height)));
 		}
 
 		/// <summary>
@@ -670,8 +669,8 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillRect(RectangleF rect, Color color)
 		{
-			Primitives.FillPolygon(new QuadrilateralBuilder()
-				.BuildRectangle(rect), color);
+			Primitives.FillPolygon(color, new QuadrilateralBuilder()
+				.BuildRectangle(rect));
 		}
 
 		/// <summary>

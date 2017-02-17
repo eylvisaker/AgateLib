@@ -138,14 +138,13 @@ namespace AgateLib.Platform.Test.Display
 		}
 
 		public override IPrimitiveRenderer Primitives => this;
+
 		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2> points)
 		{
-			throw new NotImplementedException();
 		}
 
-		public void FillPolygon(IEnumerable<Vector2> points, Color color)
+		public void FillPolygon(Color color, IEnumerable<Vector2> points)
 		{
-			throw new NotImplementedException();
 		}
 	}
 

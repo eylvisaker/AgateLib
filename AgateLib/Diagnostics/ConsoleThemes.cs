@@ -69,7 +69,7 @@ namespace AgateLib.Diagnostics
 				}
 			});
 
-			Default = Paper;
+			Default = Green;
 		}
 
 		public static IConsoleTheme Default

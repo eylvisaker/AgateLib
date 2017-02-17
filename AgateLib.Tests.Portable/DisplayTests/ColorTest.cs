@@ -25,7 +25,8 @@ namespace AgateLib.Tests.DisplayTests
 
 			for (int i = 0; i < 360; i++)
 			{
-				Display.FillRect(new Rectangle(i * 2, 0, 2, 75), Color.FromHsv(i, 1, 1));
+				Display.Primitives.FillRect(Color.FromHsv(i, 1, 1),
+					new Rectangle(i * 2, 0, 2, 75));
 			}
 		}
 

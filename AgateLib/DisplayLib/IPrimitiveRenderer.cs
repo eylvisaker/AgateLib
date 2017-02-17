@@ -24,8 +24,9 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Draws a filled convex polygon.
 		/// </summary>
-		/// <param name="points/param>
 		/// <param name="color"></param>
-		void FillPolygon(IEnumerable<Vector2> points, Color color);
+		/// <param name="points"></param>
+		/// <param name="points/param>
+		void FillPolygon(Color color, IEnumerable<Vector2> points);
 	}
 }
