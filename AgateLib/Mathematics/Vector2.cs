@@ -31,6 +31,20 @@ namespace AgateLib.Mathematics
 	[DataContract]
 	public struct Vector2
 	{
+		/// <summary>
+		/// Returns a unit vector that points in the +X direction.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <returns></returns>
+		public static readonly Vector2 Xhat = new Vector2(1, 0);
+
+		/// <summary>
+		/// Returns a vector that points in the Y direction.
+		/// </summary>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public static readonly Vector2 Yhat = new Vector2(0, 1);
+
 		[DataMember]
 		private float mX, mY;
 
@@ -117,6 +131,12 @@ namespace AgateLib.Mathematics
 		/// <summary>
 		/// Vector representing the origin.
 		/// </summary>
+		public static readonly Vector2 Zero = new Vector2();
+
+		/// <summary>
+		/// Vector representing the origin.
+		/// </summary>
+		[Obsolete("Use Vector2.Zero to be more explicit")]
 		public static readonly Vector2 Empty = new Vector2();
 
 		/// <summary>
