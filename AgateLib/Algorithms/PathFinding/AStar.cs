@@ -61,7 +61,7 @@ namespace AgateLib.Algorithms.PathFinding
 		/// Finds a path on the current thread and returns.
 		/// task.CompletedCallBack is ignored.
 		/// </summary>
-		/// <param name="task"></param>
+		/// <param name="state"></param>
 		public void FindPathSync(AStarState<T> state)
 		{
 			try

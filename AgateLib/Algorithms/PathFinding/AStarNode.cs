@@ -25,17 +25,38 @@ namespace AgateLib.Algorithms.PathFinding
 	/// <typeparam name="T"></typeparam>
 	public class AStarNode<T>
 	{
+		/// <summary>
+		/// Location of the node.
+		/// </summary>
 		public T Location;
+
+		/// <summary>
+		/// The parent node.
+		/// </summary>
 		public AStarNode<T> Parent;
 		
+		/// <summary>
+		/// The cost paid to reach this node.
+		/// </summary>
 		public int PaidCost;
+
+		/// <summary>
+		/// The cost estimated by the heuristic to reach the end.
+		/// </summary>
 		public int Heuristic;
 		
+		/// <summary>
+		/// The total cost that a path passing through this node would be.
+		/// </summary>
 		public int TotalCost 
 		{ 
 			get { return PaidCost + Heuristic; }
 		}
 
+		/// <summary>
+		/// Convert to a string for debug output.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			return string.Format("{0} : F={1} G={2} H={3}",

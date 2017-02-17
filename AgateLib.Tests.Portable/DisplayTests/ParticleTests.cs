@@ -81,11 +81,11 @@ namespace AgateLib.Tests.DisplayTests
 			se.EmitVelocity = new Vector2(0, -10);
 
 			//Manipulators
-			gm = new GravityManipulator(new Vector2(0f, -20f));
+			gm = new GravityManipulator(-20 * Vector2.Yhat);
 			gm.SubscribeToEmitter(sm);
 			gm.SubscribeToEmitter(se);
 
-			gm2 = new GravityManipulator(Vector2.Empty);
+			gm2 = new GravityManipulator(Vector2.Zero);
 			//gm2.SubscribeToEmitter(pe);
 			gm2.SubscribeToEmitter(sm);
 			gm2.SubscribeToEmitter(se);

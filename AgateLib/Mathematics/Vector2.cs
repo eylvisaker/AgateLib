@@ -142,6 +142,15 @@ namespace AgateLib.Mathematics
 		/// <summary>
 		/// Returns true if this vector has zero for all components.
 		/// </summary>
+		public bool IsZero
+		{
+			get { return X == 0 && Y == 0; }
+		}
+
+		/// <summary>
+		/// Returns true if this vector has zero for all components.
+		/// </summary>
+		[Obsolete("Use IsZero to be more explicit")]
 		public bool IsEmpty
 		{
 			get { return X == 0 && Y == 0; }
@@ -184,6 +193,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector2(a.X + b.X, a.Y + b.Y);
 		}
+
 		/// <summary>
 		/// Subtracts two vectors.
 		/// </summary>
@@ -194,6 +204,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector2(a.X - b.X, a.Y - b.Y);
 		}
+
 		/// <summary>
 		/// Unary - operator: multiples vector by -1.
 		/// </summary>
@@ -214,6 +225,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector2(a.X * b, a.Y * b);
 		}
+
 		/// <summary>
 		/// Scales a vector by a scalar floating point value.
 		/// </summary>
@@ -224,6 +236,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector2(a.X * b, a.Y * b);
 		}
+
 		/// <summary>
 		/// Scales a vector by a scalar floating point value.
 		/// </summary>
