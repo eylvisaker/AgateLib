@@ -189,6 +189,8 @@
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateAppVocabulary.cs" />
+    <Compile Include="Mathematics\Geometry\Builders\EllipseBuilder.cs" />
+    <Compile Include="Mathematics\Geometry\Builders\QuadrilateralBuilder.cs" />
     <Compile Include="Platform\ClockTimeSpan.cs" />
     <Compile Include="Platform\StopwatchClock.cs" />
     <Compile Include="ErrorReporter.cs" />
@@ -492,10 +494,10 @@
     <Compile Include="Mathematics\Vector4.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mathematics\Geometry\Builders\Cube.cs">
+    <Compile Include="Mathematics\Geometry\Builders\CubeBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mathematics\Geometry\Builders\Terrain.cs">
+    <Compile Include="Mathematics\Geometry\Builders\HeightMapTerrain.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mathematics\Geometry\VertexTypes\PositionColor.cs">
@@ -716,6 +718,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.nuspec" />
+    <Compile Include="DisplayLib\IPrimitiveRenderer.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

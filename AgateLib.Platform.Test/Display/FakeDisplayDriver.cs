@@ -26,12 +26,13 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Drivers;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
 namespace AgateLib.Platform.Test.Display
 {
-	public class FakeDisplayDriver : DisplayImpl
+	public class FakeDisplayDriver : DisplayImpl, IPrimitiveRenderer
 	{
 		private FakeScreenConfiguration screens;
 
@@ -106,38 +107,6 @@ namespace AgateLib.Platform.Test.Display
 		{
 		}
 
-		public override void FillPolygon(PointF[] pts, int startIndex, int length, Color color)
-		{
-		}
-
-		public override void DrawLine(Point a, Point b, Color color)
-		{
-		}
-
-		public override void DrawRect(Rectangle rect, Color color)
-		{
-		}
-
-		public override void DrawRect(RectangleF rect, Color color)
-		{
-		}
-
-		public override void FillRect(Rectangle rect, Color color)
-		{
-		}
-
-		public override void FillRect(Rectangle rect, Gradient color)
-		{
-		}
-
-		public override void FillRect(RectangleF rect, Color color)
-		{
-		}
-
-		public override void FillRect(RectangleF rect, Gradient color)
-		{
-		}
-
 		public override void FlushDrawBuffer()
 		{
 		}
@@ -166,6 +135,17 @@ namespace AgateLib.Platform.Test.Display
 		protected override DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
 		{
 			return null;
+		}
+
+		public override IPrimitiveRenderer Primitives => this;
+		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2> points)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void FillPolygon(IEnumerable<Vector2> points, Color color)
+		{
+			throw new NotImplementedException();
 		}
 	}
 

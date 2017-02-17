@@ -179,7 +179,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <returns></returns>
 		public static explicit operator Vector2(Point a)
 		{
-			return new Vector2((float)a.X, (float)a.Y);
+			return new Vector2(a.X, a.Y);
 		}
 
 		#endregion

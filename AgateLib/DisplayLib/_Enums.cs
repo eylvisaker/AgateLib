@@ -101,4 +101,28 @@ namespace AgateLib.DisplayLib
 		CenterScreen,
 	}
 
+	/// <summary>
+	/// Types of lines that Display.Primitives.DrawLines can render.
+	/// </summary>
+	public enum LineType
+	{
+		/// <summary>
+		/// Indicates that the points trace the perimeter of a polygon.
+		/// The first and last points will be connected.
+		/// </summary>
+		Polygon,
+
+		/// <summary>
+		/// Indicates that the points trace a path. Each point will be 
+		/// connected to the next, but the first and last points will not be
+		/// connected.
+		/// </summary>
+		Path,
+
+		/// <summary>
+		/// Indicates each pair of points in the list should be drawn independently.
+		/// No lines are connected unless the points are duplicated.
+		/// </summary>
+		LineSegments,
+	}
 }

@@ -21,105 +21,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using OpenTK.Graphics.OpenGL;
 using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
 
 namespace AgateLib.OpenGL.Legacy
 {
-	public class LegacyPrimitiveRenderer : PrimitiveRenderer
+	public class LegacyPrimitiveRenderer : PrimitiveRenderer, IPrimitiveRenderer
 	{
+		private IDrawBufferState drawBuffer;
+
+		public LegacyPrimitiveRenderer(IDrawBufferState drawBuffer)
+		{
+			this.drawBuffer = drawBuffer;
+		}
+
+		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2> points)
+		{
+			drawBuffer.FlushDrawBuffer();
+			SetGLColor(color);
+
+			GL.Disable(EnableCap.Texture2D);
+			GL.Begin(PrimitiveTypeOf(lineType));
+
+			foreach (var point in points)
+			{
+				GL.Vertex2(point.X, point.Y);
+			}
+
+			GL.End();
+			GL.Enable(EnableCap.Texture2D);
+		}
+
+		public void FillPolygon(IEnumerable<Vector2> points, Color color)
+		{
+			drawBuffer.FlushDrawBuffer();
+
+			SetGLColor(color);
+
+			GL.Disable(EnableCap.Texture2D);
+			GL.Begin(PrimitiveType.TriangleFan);
+
+			Vector2? first = null;
+
+			foreach (var point in points)
+			{
+				first = first ?? point;
+				GL.Vertex2(point.X, point.Y);
+			}
+
+			if (first.HasValue)
+			{
+				GL.Vertex2(first.Value.X, first.Value.Y);
+			}
+
+			GL.End();
+			GL.Enable(EnableCap.Texture2D);
+		}
+
 		public void SetGLColor(Color color)
 		{
 			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
 		}
-
-		public override void DrawLine(Point a, Point b, Color color)
-		{
-			SetGLColor(color);
-
-			GL.Disable(EnableCap.Texture2D);
-			GL.Begin(PrimitiveType.Lines);
-			GL.Vertex2(a.X, a.Y);
-			GL.Vertex2(b.X, b.Y);
-
-			GL.End();
-			GL.Enable(EnableCap.Texture2D);
-		}
-
-		public override void DrawRect(RectangleF rect, Color color)
-		{
-			SetGLColor(color);
-
-			GL.Disable(EnableCap.Texture2D);
-			GL.Begin(PrimitiveType.Lines);
-
-			GL.Vertex2(rect.Left, rect.Top);
-			GL.Vertex2(rect.Right, rect.Top);
-
-			GL.Vertex2(rect.Right, rect.Top);
-			GL.Vertex2(rect.Right, rect.Bottom);
-
-			GL.Vertex2(rect.Left, rect.Bottom);
-			GL.Vertex2(rect.Right, rect.Bottom);
-
-			GL.Vertex2(rect.Left, rect.Top);
-			GL.Vertex2(rect.Left, rect.Bottom);
-
-			GL.End();
-			GL.Enable(EnableCap.Texture2D);
-		}
-		public override void FillRect(RectangleF rect, Color color)
-		{
-			SetGLColor(color);
-
-			GL.Disable(EnableCap.Texture2D);
-
-			GL.Begin(PrimitiveType.Quads);
-			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
-			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
-			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
-			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-			GL.End();                                                         // Done Drawing The Quad
-
-			GL.Enable(EnableCap.Texture2D);
-		}
-		public override void FillRect(RectangleF rect, Gradient color)
-		{
-			GL.Disable(EnableCap.Texture2D);
-
-			GL.Begin(PrimitiveType.Quads);
-			SetGLColor(color.TopLeft);
-			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
-
-			SetGLColor(color.TopRight);
-			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
-
-			SetGLColor(color.BottomRight);
-			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
-
-			SetGLColor(color.BottomLeft);
-			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-			GL.End();                                                         // Done Drawing The Quad
-
-			GL.Enable(EnableCap.Texture2D);
-		}
-
-		public override void FillPolygon(PointF[] pts, int startIndex, int length, Color color)
-		{
-			GL.Disable(EnableCap.Texture2D);
-
-			SetGLColor(color);
-
-			GL.Begin(PrimitiveType.TriangleFan);
-			for (int i = 0; i < length; i++)
-			{
-				GL.Vertex3(pts[startIndex + i].X, pts[startIndex + i].Y, 0);
-			}
-			GL.End();
-
-			GL.Enable(EnableCap.Texture2D);
-		}
-
 	}
 }
