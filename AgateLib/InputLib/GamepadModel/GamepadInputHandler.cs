@@ -136,7 +136,7 @@ namespace AgateLib.InputLib.GamepadModel
 
 				case KeyMapType.LeftStick:
 
-					Vector2f stickValue = item.Gamepad.LeftStick;
+					Vector2 stickValue = item.Gamepad.LeftStick;
 
 					if (item.StickAxis == StickAxis.X)
 					{
