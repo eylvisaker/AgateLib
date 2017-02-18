@@ -32,7 +32,7 @@ namespace AgateLib.UnitTests.InputTests
 				handler.ProcessEvent(AgateInputEventArgs.KeyDown(KeyCode.Right, new KeyModifiers()));
 				handler.ProcessEvent(AgateInputEventArgs.KeyUp(KeyCode.Down, new KeyModifiers()));
 
-				Assert.AreEqual(new Vector2f(1, 0), gamepad.LeftStick);
+				Assert.AreEqual(new Vector2(1, 0), gamepad.LeftStick);
 			}
 		}
 	}
