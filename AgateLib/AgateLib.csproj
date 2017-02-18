@@ -287,7 +287,6 @@
     <Compile Include="Mathematics\TypeConverters\ColorConverterYaml.cs" />
     <Compile Include="Mathematics\TypeConverters\SizeConverterYaml.cs" />
     <Compile Include="Configuration\State\AgateLibState.cs" />
-    <Compile Include="IO\ReadFileProviderList.cs" />
     <Compile Include="Mathematics\MathHelper.cs" />
     <Compile Include="Algorithms\PathFinding\IAStarMap.cs" />
     <Compile Include="Mathematics\Algorithms\Pair.cs" />
