@@ -452,7 +452,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawEllipse(Rectangle rect, Color color)
 		{
-			var ellipsePoints = new EllipseBuilder().Build(
+			var ellipsePoints = new EllipseBuilder().BuildEllipse(
 				(RectangleF) rect);
 
 			Primitives.DrawLines(LineType.Polygon, color, ellipsePoints);
@@ -586,7 +586,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillEllipse(Rectangle rect, Color color)
 		{
-			Primitives.FillPolygon(color, new EllipseBuilder().Build((RectangleF)rect).ToArray());
+			Primitives.FillPolygon(color, new EllipseBuilder().BuildEllipse((RectangleF)rect).ToArray());
 		}
 
 		/// <summary>
@@ -597,7 +597,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillEllipse(RectangleF rect, Color color)
 		{
-			Primitives.FillPolygon(color, new EllipseBuilder().Build(rect).ToArray());
+			Primitives.FillPolygon(color, new EllipseBuilder().BuildEllipse(rect).ToArray());
 		}
 
 		/// <summary>

@@ -312,7 +312,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 			Debug.WriteLine("Minor: {0}", version.Minor);
 			Debug.WriteLine("Minor revision: {0}", version.MinorRevision);
 			Debug.WriteLine("Revision: {0}", version.Revision);
-			Debug.WriteLine("Build: {0}", version.Build);
+			Debug.WriteLine("BuildEllipse: {0}", version.Build);
 			Debug.WriteLine("Service Pack: {0}", System.Environment.OSVersion.ServicePack);
 			Debug.IndentLevel--;
 		}

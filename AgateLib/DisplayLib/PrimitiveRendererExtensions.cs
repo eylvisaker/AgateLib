@@ -107,7 +107,7 @@ namespace AgateLib.DisplayLib
 		public static void DrawEllipse(this IPrimitiveRenderer primitives, Color color, RectangleF boundingRect)
 		{
 			primitives.DrawLines(LineType.Polygon, color,
-				new EllipseBuilder().Build(boundingRect));
+				new EllipseBuilder().BuildEllipse(boundingRect));
 		}
 
 		/// <summary>
@@ -151,7 +151,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="boundingRect"></param>
 		public static void FillEllipse(this IPrimitiveRenderer primitives, Color color, RectangleF boundingRect)
 		{
-			primitives.FillPolygon(color, new EllipseBuilder().Build(boundingRect).ToArray());
+			primitives.FillPolygon(color, new EllipseBuilder().BuildEllipse(boundingRect).ToArray());
 		}
 	}
 }
