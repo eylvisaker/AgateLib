@@ -142,6 +142,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 		}
+
 		/// <summary>
 		/// Subtracts two vectors.
 		/// </summary>
@@ -152,6 +153,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
 		}
+
 		/// <summary>
 		/// Unary - operator: multiples vector by -1.
 		/// </summary>
@@ -161,6 +163,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector3(-a.X, -a.Y, -a.Z);
 		}
+
 		/// <summary>
 		/// Scales a vector by a scalar value.
 		/// </summary>
@@ -193,7 +196,34 @@ namespace AgateLib.Mathematics
 		{
 			return a * (1.0f / b);
 		}
-		
+
+		/// <summary>
+		/// Performs equality comparison to within a tolerance value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <param name="tolerance"></param>
+		/// <returns></returns>
+		public static bool Equals(Vector3 a, Vector3 b, double tolerance)
+		{
+			return Math.Abs(a.X - b.X) < tolerance &&
+				   Math.Abs(a.Y - b.Y) < tolerance && 
+				   Math.Abs(a.Z - b.Z) < tolerance;
+		}
+
+		/// <summary>
+		/// Performs equality comparison to within a tolerance value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <param name="tolerance"></param>
+		/// <returns></returns>
+		public bool Equals(Vector2 b, double tolerance)
+		{
+			return Math.Abs(X - b.X) < tolerance &&
+				   Math.Abs(Y - b.Y) < tolerance;
+		}
+
 		/// <summary>
 		/// Computes and returns the dot product with another vector.
 		/// </summary>

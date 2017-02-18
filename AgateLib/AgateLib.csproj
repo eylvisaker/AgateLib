@@ -193,6 +193,13 @@
     <Compile Include="DisplayLib\PrimitiveRendererExtensions.cs" />
     <Compile Include="Mathematics\Geometry\Builders\EllipseBuilder.cs" />
     <Compile Include="Mathematics\Geometry\Builders\QuadrilateralBuilder.cs" />
+    <Compile Include="Mathematics\TypeConverters\Vector4ConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\Vector3ConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\Vector2ConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\Vector4fConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\Vector3fConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\Vector2fConverterYaml.cs" />
+    <Compile Include="Mathematics\TypeConverters\VectorConverterGenericYaml.cs" />
     <Compile Include="Mathematics\Vector2.cs" />
     <Compile Include="Mathematics\Vector3.cs" />
     <Compile Include="Mathematics\Vector4.cs" />

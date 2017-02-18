@@ -233,6 +233,20 @@ namespace AgateLib.Mathematics
 		}
 
 		/// <summary>
+		/// Performs equality comparison to within a tolerance value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <param name="tolerance"></param>
+		/// <returns></returns>
+		public static bool Equals(Vector3f a, Vector3f b, double tolerance)
+		{
+			return Math.Abs(a.X - b.X) < tolerance &&
+				   Math.Abs(a.Y - b.Y) < tolerance &&
+				   Math.Abs(a.Z - b.Z) < tolerance;
+		}
+
+		/// <summary>
 		/// Computes and returns the dot product with another vector.
 		/// </summary>
 		/// <param name="b"></param>
