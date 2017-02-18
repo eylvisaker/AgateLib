@@ -31,11 +31,11 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// <summary>
 		/// Position of vertex.
 		/// </summary>
-		public Vector3 Position;
+		public Vector3f Position;
 		/// <summary>
 		/// Texture coordinates of vertex.
 		/// </summary>
-		public Vector2 TexCoord;
+		public Vector2f TexCoord;
 		/// <summary>
 		/// Color value of vertex.
 		/// </summary>
@@ -64,8 +64,8 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// <param name="tv"></param>
 		public PositionTextureColor(float x, float y, float z, int color, float tu, float tv)
 		{
-			Position = new Vector3(x, y, z);
-			TexCoord = new Vector2(tu, tv);
+			Position = new Vector3f(x, y, z);
+			TexCoord = new Vector2f(tu, tv);
 			this.Color = color;
 		}
 

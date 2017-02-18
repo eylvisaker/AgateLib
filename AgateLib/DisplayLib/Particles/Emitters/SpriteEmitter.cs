@@ -59,7 +59,7 @@ namespace AgateLib.DisplayLib.Particles.Emitters
 		/// EmitLife = 1f, maxParticle = 1000, emitSpriteKey = 0
 		/// </summary>
 		/// <param name="position"></param>
-		public SpriteEmitter(Vector2 position) : this(position, 1f, 1000, 0) { }
+		public SpriteEmitter(Vector2f position) : this(position, 1f, 1000, 0) { }
 
 		/// <summary>
 		/// Constructs a SpriteEmitter with default values:
@@ -67,7 +67,7 @@ namespace AgateLib.DisplayLib.Particles.Emitters
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="emitLife"></param>
-		public SpriteEmitter(Vector2 position, float emitLife) : this(position, emitLife, 1000, 0) { }
+		public SpriteEmitter(Vector2f position, float emitLife) : this(position, emitLife, 1000, 0) { }
 
 		/// <summary>
 		/// Constructs a SpriteEmitter with default values:
@@ -76,7 +76,7 @@ namespace AgateLib.DisplayLib.Particles.Emitters
 		/// <param name="position"></param>
 		/// <param name="emitLife"></param>
 		/// <param name="maxParticle"></param>
-		public SpriteEmitter(Vector2 position, float emitLife, int maxParticle) : this(position, emitLife, maxParticle, 0) { }
+		public SpriteEmitter(Vector2f position, float emitLife, int maxParticle) : this(position, emitLife, maxParticle, 0) { }
 
 		/// <summary>
 		/// Constructs a SpriteEmitter.
@@ -85,7 +85,7 @@ namespace AgateLib.DisplayLib.Particles.Emitters
 		/// <param name="emitLife"></param>
 		/// <param name="maxParticle"></param>
 		/// <param name="emitSpriteKey"></param>
-		public SpriteEmitter(Vector2 position, float emitLife, int maxParticle, int emitSpriteKey)
+		public SpriteEmitter(Vector2f position, float emitLife, int maxParticle, int emitSpriteKey)
 		{
 			base.Position = position;
 			base.EmitLife = emitLife;

@@ -26,38 +26,38 @@ namespace AgateLib.Mathematics
 	/// Structure which describes a vector in 3-space.
 	/// </summary>
 	[DataContract]
-	public struct Vector4
+	public struct Vector4f
 	{
 		/// <summary>
 		/// Vector representing the origin.
 		/// </summary>
-		public static readonly Vector4 Zero = new Vector4();
+		public static readonly Vector4f Zero = new Vector4f();
 
 		/// <summary>
 		/// Vector representing the origin.
 		/// </summary>
 		[Obsolete("Use Vector2.Zero to be more explicit", true)]
-		public static readonly Vector4 Empty = new Vector4();
+		public static readonly Vector4f Empty = new Vector4f();
 
 		/// <summary>
 		/// Returns a unit vector that points in the +X direction.
 		/// </summary>
-		public static readonly Vector4 UnitX = new Vector4(1, 0, 0, 0);
+		public static readonly Vector4f UnitX = new Vector4f(1, 0, 0, 0);
 
 		/// <summary>
 		/// Returns a unit vector that points in the +Y direction.
 		/// </summary>
-		public static readonly Vector4 UnitY = new Vector4(0, 1, 0, 0);
+		public static readonly Vector4f UnitY = new Vector4f(0, 1, 0, 0);
 
 		/// <summary>
 		/// Returns a unit vector that points in the +Z direction.
 		/// </summary>
-		public static readonly Vector4 UnitZ = new Vector4(0, 0, 1, 0);
+		public static readonly Vector4f UnitZ = new Vector4f(0, 0, 1, 0);
 
 		/// <summary>
 		/// Returns a unit vector that points in the +W direction.
 		/// </summary>
-		public static readonly Vector4 UnitW = new Vector4(0, 0, 0, 1);
+		public static readonly Vector4f UnitW = new Vector4f(0, 0, 0, 1);
 
 		/// <summary>
 		/// Constructs a Vector4 object.
@@ -66,7 +66,7 @@ namespace AgateLib.Mathematics
 		/// <param name="y"></param>
 		/// <param name="z"></param>
 		/// <param name="w"></param>
-		public Vector4(float x, float y, float z, float w)
+		public Vector4f(float x, float y, float z, float w)
 		{
 			X = x;
 			Y = y;
@@ -80,7 +80,7 @@ namespace AgateLib.Mathematics
 		/// <param name="y"></param>
 		/// <param name="z"></param>
 		/// <param name="w"></param>
-		public Vector4(double x, double y, double z, double w)
+		public Vector4f(double x, double y, double z, double w)
 		{
 			X = (float)x;
 			Y = (float)y;
@@ -142,47 +142,40 @@ namespace AgateLib.Mathematics
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Returns true if this vector's components are all zero.
 		/// </summary>
-		public bool IsEmpty
-		{
-			get { return X == 0 && Y == 0 && Z == 0 && W == 0; }
-		}
+		public bool IsZero => X == 0 && Y == 0 && Z == 0 && W == 0;
 
 		/// <summary>
 		/// Returns the square of the length of the vector.
 		/// </summary>
-		public float MagnitudeSquared
-		{
-			get { return X * X + Y * Y + Z * Z + W * W; }
-		}
+		public float MagnitudeSquared => X * X + Y * Y + Z * Z + W * W;
+
 		/// <summary>
 		/// Returns the length of the vector.
 		/// </summary>
-		public float Magnitude
-		{
-			get { return (float)Math.Sqrt(MagnitudeSquared); }
-		}
+		public float Magnitude => (float)Math.Sqrt(MagnitudeSquared);
+
 		/// <summary>
 		/// Returns a vector pointing in the same direction as this one, with magnitude 1.
 		/// </summary>
 		/// <returns></returns>
-		public Vector4 Normalize()
+		public Vector4f Normalize()
 		{
-			Vector4 result = this / Magnitude;
+			Vector4f result = this / Magnitude;
 
 			return result;
 		}
 
 		/// <summary>
-		/// Explicit conversion to a Vector4f object.
+		/// Explicit conversion to a Vector4 object.
 		/// </summary>
 		/// <param name="v"></param>
-		public static explicit operator Vector4f(Vector4 v)
+		public static explicit operator Vector4(Vector4f v)
 		{
-			return new Vector4f(v.X, v.Y, v.Z, v.W);
+			return new Vector4(v.X, v.Y, v.Z, v.W);
 		}
 
 		/// <summary>
@@ -191,46 +184,50 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector4 operator +(Vector4 a, Vector4 b)
+		public static Vector4f operator +(Vector4f a, Vector4f b)
 		{
-			return new Vector4(a.X + b.X, a.Y + b.Y, a.Z + b.Z, a.W + b.W);
+			return new Vector4f(a.X + b.X, a.Y + b.Y, a.Z + b.Z, a.W + b.W);
 		}
+
 		/// <summary>
 		/// Subtracts two vectors.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector4 operator -(Vector4 a, Vector4 b)
+		public static Vector4f operator -(Vector4f a, Vector4f b)
 		{
-			return new Vector4(a.X - b.X, a.Y - b.Y, a.Z - b.Z, a.W - b.W);
+			return new Vector4f(a.X - b.X, a.Y - b.Y, a.Z - b.Z, a.W - b.W);
 		}
+
 		/// <summary>
 		/// Unary - operator: multiples vector by -1.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static Vector4 operator -(Vector4 a)
+		public static Vector4f operator -(Vector4f a)
 		{
-			return new Vector4(-a.X, -a.Y, -a.Z, -a.W);
+			return new Vector4f(-a.X, -a.Y, -a.Z, -a.W);
 		}
+
 		/// <summary>
 		/// Scales a vector by a scalar floating point value.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector4 operator *(Vector4 a, float b)
+		public static Vector4f operator *(Vector4f a, float b)
 		{
-			return new Vector4(a.X * b, a.Y * b, a.Z * b, a.W * b);
+			return new Vector4f(a.X * b, a.Y * b, a.Z * b, a.W * b);
 		}
+
 		/// <summary>
 		/// Divides a vector's components by a floating point value.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector4 operator /(Vector4 a, float b)
+		public static Vector4f operator /(Vector4f a, float b)
 		{
 			return a * (1.0f / b);
 		}
@@ -240,17 +237,18 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public float DotProduct(Vector4 b)
+		public float DotProduct(Vector4f b)
 		{
 			return X * b.X + Y * b.Y + Z * b.Z + W * b.W;
 		}
+
 		/// <summary>
 		/// Computes and returns the dot product between two vectors.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static float DotProduct(Vector4 a, Vector4 b)
+		public static float DotProduct(Vector4f a, Vector4f b)
 		{
 			return a.DotProduct(b);
 		}

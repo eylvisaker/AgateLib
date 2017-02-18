@@ -352,7 +352,7 @@ namespace AgateLib.DisplayLib.Sprites
 		/// Draws the sprite at the specified position on screen.
 		/// </summary>
 		/// <param name="destPt"></param>
-		public void Draw(Vector2 destPt)
+		public void Draw(Vector2f destPt)
 		{
 			Draw((float)destPt.X, (float)destPt.Y);
 		}

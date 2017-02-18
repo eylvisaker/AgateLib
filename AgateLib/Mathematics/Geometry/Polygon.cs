@@ -27,9 +27,9 @@ namespace AgateLib.Mathematics.Geometry
 	public class Polygon
 	{
 		[DataMember]
-		List<Vector2> mPoints = new List<Vector2>();
+		List<Vector2f> mPoints = new List<Vector2f>();
 
-		public List<Vector2> Points
+		public List<Vector2f> Points
 		{
 			get { return mPoints; }
 		}
@@ -57,7 +57,7 @@ namespace AgateLib.Mathematics.Geometry
 
 		private void AddPoint(int x, int y)
 		{
-			mPoints.Add(new Vector2(x, y));
+			mPoints.Add(new Vector2f(x, y));
 		}
 
 		public Rectangle BoundingRect
@@ -89,11 +89,11 @@ namespace AgateLib.Mathematics.Geometry
 
 		public static bool PolysIntersect(Polygon polyA, Polygon polyB)
 		{
-			return PolysIntersect(polyA, Vector2.Empty, polyB, Vector2.Empty);
+			return PolysIntersect(polyA, Vector2f.Zero, polyB, Vector2f.Zero);
 		}
 		public static bool PolysIntersect(
-			Polygon polyA, Vector2 offsetA,
-			Polygon polyB, Vector2 offsetB)
+			Polygon polyA, Vector2f offsetA,
+			Polygon polyB, Vector2f offsetB)
 		{
 			// do the separating axis test for each edge in each square.
 			if (FindSeparatingAxis(
@@ -118,8 +118,8 @@ namespace AgateLib.Mathematics.Geometry
 		/// <param name="vb"></param>
 		/// <returns></returns>
 		private static bool FindSeparatingAxis(
-			List<Vector2> va, Vector2 offsetA,
-			List<Vector2> vb, Vector2 offsetB)
+			List<Vector2f> va, Vector2f offsetA,
+			List<Vector2f> vb, Vector2f offsetB)
 		{
 			for (int i = 0; i < va.Count; i++)
 			{
@@ -129,13 +129,13 @@ namespace AgateLib.Mathematics.Geometry
 				int nextnext = next + 1;
 				if (nextnext == va.Count) nextnext = 0;
 
-				Vector2 edge = va[next] - va[i];
+				Vector2f edge = va[next] - va[i];
 
 				bool separating = true;
 
 				// first check to see which side of the axis the points in 
 				// va are on, stored in the inSide variable.
-				Vector2 indiff = va[nextnext] - va[i];
+				Vector2f indiff = va[nextnext] - va[i];
 
 				var indot = indiff.DotProduct(edge);
 				int inSide = Math.Sign(indot);
@@ -143,7 +143,7 @@ namespace AgateLib.Mathematics.Geometry
 
 				for (int j = 0; j < vb.Count; j++)
 				{
-					Vector2 diff = vb[j] - va[i];
+					Vector2f diff = vb[j] - va[i];
 					diff += offsetB - offsetA;
 
 					var dot = diff.DotProduct(edge);

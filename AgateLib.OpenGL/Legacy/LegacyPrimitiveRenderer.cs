@@ -37,7 +37,7 @@ namespace AgateLib.OpenGL.Legacy
 			this.drawBuffer = drawBuffer;
 		}
 
-		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2> points)
+		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2f> points)
 		{
 			drawBuffer.FlushDrawBuffer();
 			SetGLColor(color);
@@ -54,7 +54,7 @@ namespace AgateLib.OpenGL.Legacy
 			GL.Enable(EnableCap.Texture2D);
 		}
 
-		public void FillPolygon(Color color, IEnumerable<Vector2> points)
+		public void FillPolygon(Color color, IEnumerable<Vector2f> points)
 		{
 			drawBuffer.FlushDrawBuffer();
 
@@ -63,7 +63,7 @@ namespace AgateLib.OpenGL.Legacy
 			GL.Disable(EnableCap.Texture2D);
 			GL.Begin(PrimitiveType.TriangleFan);
 
-			Vector2? first = null;
+			Vector2f? first = null;
 
 			foreach (var point in points)
 			{

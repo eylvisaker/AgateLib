@@ -29,45 +29,60 @@ namespace AgateLib.Mathematics
 	/// involving the Vector2 simple and expressive.
 	/// </summary>
 	[DataContract]
-	public struct Vector2
+	public struct Vector2f
 	{
+		/// <summary>
+		/// Returns a unit vector that points in the +X direction.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <returns></returns>
+		public static readonly Vector2f UnitX = new Vector2f(1, 0);
+
+		/// <summary>
+		/// Returns a unit vector that points in the +Y direction.
+		/// </summary>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public static readonly Vector2f UnitY = new Vector2f(0, 1);
+
 		/// <summary>
 		/// Vector representing the origin.
 		/// </summary>
-		public static readonly Vector2 Zero = new Vector2();
+		public static readonly Vector2f Zero = new Vector2f();
 
 		/// <summary>
 		/// Vector representing the origin.
 		/// </summary>
 		[Obsolete("Use Vector2.Zero to be more explicit", true)]
-		public static readonly Vector2 Empty = new Vector2();
-
-		/// <summary>
-		/// Returns a unit vector that points in the +X direction.
-		/// </summary>
-		public static readonly Vector2 UnitX = new Vector2(1, 0);
-
-		/// <summary>
-		/// Returns a unit vector that points in the +Y direction.
-		/// </summary>
-		public static readonly Vector2 UnitY = new Vector2(0, 1);
+		public static readonly Vector2f Empty = new Vector2f();
 
 		/// <summary>
 		/// Constructs a Vector2 object.
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
-		public Vector2(double x, double y)
+		public Vector2f(float x, float y)
 		{
 			X = x;
 			Y = y;
 		}
 
 		/// <summary>
+		/// Constructs a Vector2 object.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public Vector2f(double x, double y)
+		{
+			X = (float)x;
+			Y = (float)y;
+		}
+
+		/// <summary>
 		/// Constructs a Vector2 object from a Point.
 		/// </summary>
 		/// <param name="pt"></param>
-		public Vector2(Point pt)
+		public Vector2f(Point pt)
 		{
 			X = pt.X;
 			Y = pt.Y;
@@ -77,21 +92,21 @@ namespace AgateLib.Mathematics
 		/// X coordinate.
 		/// </summary>
 		[DataMember]
-		public double X;
+		public float X;
 
 		/// <summary>
 		/// Y coordinate.
 		/// </summary>
 		[DataMember]
-		public double Y;
+		public float Y;
 
 		/// <summary>
-		/// Explicit conversion to a Vector2f object.
+		/// Explicit conversion to a Vector2 object.
 		/// </summary>
 		/// <param name="v"></param>
-		public static explicit operator Vector2f(Vector2 v)
+		public static explicit operator Vector2(Vector2f v)
 		{
-			return new Vector2f(v.X, v.Y);
+			return new Vector2(v.X, v.Y);
 		}
 
 		/// <summary>
@@ -99,9 +114,9 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="v"></param>
 		/// <returns></returns>
-		public static explicit operator Vector3(Vector2 v)
+		public static explicit operator Vector3f(Vector2f v)
 		{
-			return new Vector3(v.X, v.Y, 0);
+			return new Vector3f(v.X, v.Y, 0);
 		}
 
 		/// <summary>
@@ -109,9 +124,9 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="v"></param>
 		/// <returns></returns>
-		public static explicit operator PointF(Vector2 v)
+		public static explicit operator PointF(Vector2f v)
 		{
-			return new PointF((float)v.X, (float)v.Y);
+			return new PointF(v.X, v.Y);
 		}
 
 		/// <summary>
@@ -119,7 +134,7 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="v"></param>
 		/// <returns></returns>
-		public static explicit operator Point(Vector2 v)
+		public static explicit operator Point(Vector2f v)
 		{
 			return new Point((int)v.X, (int)v.Y);
 		}
@@ -135,26 +150,35 @@ namespace AgateLib.Mathematics
 		/// <summary>
 		/// Returns true if this vector has zero for all components.
 		/// </summary>
-		[Obsolete("Use IsZero to be more explicit", true)]
-		public bool IsEmpty => IsZero;
+		[Obsolete("Use IsZero to be more explicit")]
+		public bool IsEmpty
+		{
+			get { return X == 0 && Y == 0; }
+		}
 
 		/// <summary>
 		/// Returns the square of the length of the vector.
 		/// </summary>
-		public double MagnitudeSquared => X * X + Y * Y;
+		public float MagnitudeSquared
+		{
+			get { return X * X + Y * Y; }
+		}
 
 		/// <summary>
 		/// Returns the length of the vector.
 		/// </summary>
-		public double Magnitude => Math.Sqrt(MagnitudeSquared);
+		public float Magnitude
+		{
+			get { return (float)Math.Sqrt(MagnitudeSquared); }
+		}
 
 		/// <summary>
 		/// Returns a vector pointing in the same direction as this one, with magnitude 1.
 		/// </summary>
 		/// <returns></returns>
-		public Vector2 Normalize()
+		public Vector2f Normalize()
 		{
-			Vector2 result = this / Magnitude;
+			Vector2f result = this / Magnitude;
 
 			return result;
 		}
@@ -165,9 +189,9 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector2 operator +(Vector2 a, Vector2 b)
+		public static Vector2f operator +(Vector2f a, Vector2f b)
 		{
-			return new Vector2(a.X + b.X, a.Y + b.Y);
+			return new Vector2f(a.X + b.X, a.Y + b.Y);
 		}
 
 		/// <summary>
@@ -176,9 +200,9 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector2 operator -(Vector2 a, Vector2 b)
+		public static Vector2f operator -(Vector2f a, Vector2f b)
 		{
-			return new Vector2(a.X - b.X, a.Y - b.Y);
+			return new Vector2f(a.X - b.X, a.Y - b.Y);
 		}
 
 		/// <summary>
@@ -186,66 +210,99 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static Vector2 operator -(Vector2 a)
+		public static Vector2f operator -(Vector2f a)
 		{
-			return new Vector2(-a.X, -a.Y);
+			return new Vector2f(-a.X, -a.Y);
 		}
 
 		/// <summary>
-		/// Scales a vector by a scalar value.
+		/// Scales a vector by a scalar floating point value.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector2 operator *(Vector2 a, double b)
+		public static Vector2f operator *(Vector2f a, float b)
 		{
-			return new Vector2(a.X * b, a.Y * b);
+			return new Vector2f(a.X * b, a.Y * b);
 		}
 
 		/// <summary>
-		/// Scales a vector by a scalar value.
+		/// Scales a vector by a scalar floating point value.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector2 operator *(double b, Vector2 a)
+		public static Vector2f operator *(float b, Vector2f a)
 		{
-			return new Vector2(a.X * b, a.Y * b);
+			return new Vector2f(a.X * b, a.Y * b);
 		}
 
 		/// <summary>
-		/// Divides a vector's components by a scalar value.
+		/// Scales a vector by a scalar floating point value.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector2 operator /(Vector2 a, double b)
+		public static Vector2f operator *(Vector2f a, double b)
 		{
-			return a * (double)(1.0f / b);
+			return new Vector2f(a.X * b, a.Y * b);
+		}
+
+		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector2f operator *(double b, Vector2f a)
+		{
+			return new Vector2f(a.X * b, a.Y * b);
+		}
+
+		/// <summary>
+		/// Divides a vector's components by a floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector2f operator /(Vector2f a, float b)
+		{
+			return a * (1.0f / b);
+		}
+
+		/// <summary>
+		/// Divides a vector's components by a floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector2f operator /(Vector2f a, double b)
+		{
+			return a * (float)(1.0f / b);
 		}
 
 		/// <summary>
 		/// Performs equality comparison. This requires exact equality, so 
-		/// doubleing-point precision may be a problem. The Equals method is
+		/// floating-point precision may be a problem. The Equals method is
 		/// better if this is a concern.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static bool operator ==(Vector2 a, Vector2 b)
+		public static bool operator ==(Vector2f a, Vector2f b)
 		{
 			return a.X == b.X && a.Y == b.Y;
 		}
 
 		/// <summary>
 		/// Performs inequality comparison. This requires exact equality, so 
-		/// doubleing-point precision may be a problem. The Equals method is
+		/// floating-point precision may be a problem. The Equals method is
 		/// better if this is a concern.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static bool operator !=(Vector2 a, Vector2 b)
+		public static bool operator !=(Vector2f a, Vector2f b)
 		{
 			return a.X != b.X || a.Y != b.Y;
 		}
@@ -258,10 +315,10 @@ namespace AgateLib.Mathematics
 		/// <returns></returns>
 		public override bool Equals(object obj)
 		{
-			if (!(obj is Vector2))
+			if (!(obj is Vector2f))
 				return false;
 
-			return this == (Vector2)obj;
+			return this == (Vector2f) obj;
 		}
 
 		/// <summary>
@@ -280,10 +337,10 @@ namespace AgateLib.Mathematics
 		/// <param name="b"></param>
 		/// <param name="tolerance"></param>
 		/// <returns></returns>
-		public static bool Equals(Vector2 a, Vector2 b, double tolerance)
+		public static bool Equals(Vector2f a, Vector2f b, double tolerance)
 		{
 			return Math.Abs(a.X - b.X) < tolerance &&
-				   Math.Abs(a.Y - b.Y) < tolerance;
+			       Math.Abs(a.Y - b.Y) < tolerance;
 		}
 
 		/// <summary>
@@ -293,7 +350,7 @@ namespace AgateLib.Mathematics
 		/// <param name="b"></param>
 		/// <param name="tolerance"></param>
 		/// <returns></returns>
-		public bool Equals(Vector2 b, double tolerance)
+		public bool Equals(Vector2f b, double tolerance)
 		{
 			return Math.Abs(X - b.X) < tolerance &&
 				   Math.Abs(Y - b.Y) < tolerance;
@@ -304,7 +361,7 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public double DotProduct(Vector2 b)
+		public float DotProduct(Vector2f b)
 		{
 			return DotProduct(this, b);
 		}
@@ -315,7 +372,7 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static double DotProduct(Vector2 a, Vector2 b)
+		public static float DotProduct(Vector2f a, Vector2f b)
 		{
 			return a.X * b.X + a.Y * b.Y;
 		}
@@ -326,9 +383,9 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static double AngleBetween(Vector2 a, Vector2 b)
+		public static float AngleBetween(Vector2f a, Vector2f b)
 		{
-			return Math.Acos(DotProduct(a, b) / (a.Magnitude * b.Magnitude));
+			return (float)Math.Acos(DotProduct(a, b) / (a.Magnitude * b.Magnitude));
 		}
 
 		/// <summary>
@@ -337,7 +394,7 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static double DistanceBetween(Vector2 a, Vector2 b)
+		public static float DistanceBetween(Vector2f a, Vector2f b)
 		{
 			return (a - b).Magnitude;
 		}
@@ -363,9 +420,9 @@ namespace AgateLib.Mathematics
 		/// <param name="radius"></param>
 		/// <param name="angle">The angle in radians</param>
 		/// <returns></returns>
-		public static Vector2 FromPolar(double radius, double angle)
+		public static Vector2f FromPolar(double radius, double angle)
 		{
-			Vector2 result = new Vector2(
+			Vector2f result = new Vector2f(
 				radius * Math.Cos(angle),
 				radius * Math.Sin(angle));
 
@@ -383,7 +440,7 @@ namespace AgateLib.Mathematics
 		/// <param name="radius"></param>
 		/// <param name="angle">The angle in degrees</param>
 		/// <returns></returns>
-		public static Vector2 FromPolarDegrees(double radius, double angle)
+		public static Vector2f FromPolarDegrees(double radius, double angle)
 		{
 			return FromPolar(radius, angle * Math.PI / 180.0);
 		}

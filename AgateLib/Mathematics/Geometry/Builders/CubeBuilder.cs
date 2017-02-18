@@ -138,42 +138,43 @@ namespace AgateLib.Mathematics.Geometry.Builders
 
 			for (int sign = -1; sign >= 1; sign += 2)
 			{
-				vertices[i++].Bitangent = new Vector3(0, sign, 0);
-				vertices[i++].Bitangent = new Vector3(0, sign, 0);
-				vertices[i++].Bitangent = new Vector3(0, sign, 0);
-				vertices[i++].Bitangent = new Vector3(0, sign, 0);
+				vertices[i++].Bitangent = new Vector3f(0, sign, 0);
+				vertices[i++].Bitangent = new Vector3f(0, sign, 0);
+				vertices[i++].Bitangent = new Vector3f(0, sign, 0);
+				vertices[i++].Bitangent = new Vector3f(0, sign, 0);
 
-				vertices[i++].Bitangent = new Vector3(sign, 0, 0);
-				vertices[i++].Bitangent = new Vector3(sign, 0, 0);
-				vertices[i++].Bitangent = new Vector3(sign, 0, 0);
-				vertices[i++].Bitangent = new Vector3(sign, 0, 0);
+				vertices[i++].Bitangent = new Vector3f(sign, 0, 0);
+				vertices[i++].Bitangent = new Vector3f(sign, 0, 0);
+				vertices[i++].Bitangent = new Vector3f(sign, 0, 0);
+				vertices[i++].Bitangent = new Vector3f(sign, 0, 0);
 
-				vertices[i++].Bitangent = new Vector3(0, 0, sign);
-				vertices[i++].Bitangent = new Vector3(0, 0, sign);
-				vertices[i++].Bitangent = new Vector3(0, 0, sign);
-				vertices[i++].Bitangent = new Vector3(0, 0, sign);
+				vertices[i++].Bitangent = new Vector3f(0, 0, sign);
+				vertices[i++].Bitangent = new Vector3f(0, 0, sign);
+				vertices[i++].Bitangent = new Vector3f(0, 0, sign);
+				vertices[i++].Bitangent = new Vector3f(0, 0, sign);
 			}
 		}
+
 		private void GenerateTangentData(PositionTextureNTB[] vertices)
 		{
 			int i = 0;
 
 			for (int sign = -1; sign <= 1; sign += 2)
 			{
-				vertices[i++].Tangent = new Vector3(sign, 0, 0);
-				vertices[i++].Tangent = new Vector3(sign, 0, 0);
-				vertices[i++].Tangent = new Vector3(sign, 0, 0);
-				vertices[i++].Tangent = new Vector3(sign, 0, 0);
+				vertices[i++].Tangent = new Vector3f(sign, 0, 0);
+				vertices[i++].Tangent = new Vector3f(sign, 0, 0);
+				vertices[i++].Tangent = new Vector3f(sign, 0, 0);
+				vertices[i++].Tangent = new Vector3f(sign, 0, 0);
 
-				vertices[i++].Tangent = new Vector3(0, 0, sign);
-				vertices[i++].Tangent = new Vector3(0, 0, sign);
-				vertices[i++].Tangent = new Vector3(0, 0, sign);
-				vertices[i++].Tangent = new Vector3(0, 0, sign);
+				vertices[i++].Tangent = new Vector3f(0, 0, sign);
+				vertices[i++].Tangent = new Vector3f(0, 0, sign);
+				vertices[i++].Tangent = new Vector3f(0, 0, sign);
+				vertices[i++].Tangent = new Vector3f(0, 0, sign);
 
-				vertices[i++].Tangent = new Vector3(0, sign, 0);
-				vertices[i++].Tangent = new Vector3(0, sign, 0);
-				vertices[i++].Tangent = new Vector3(0, sign, 0);
-				vertices[i++].Tangent = new Vector3(0, sign, 0);
+				vertices[i++].Tangent = new Vector3f(0, sign, 0);
+				vertices[i++].Tangent = new Vector3f(0, sign, 0);
+				vertices[i++].Tangent = new Vector3f(0, sign, 0);
+				vertices[i++].Tangent = new Vector3f(0, sign, 0);
 
 			}
 		}
@@ -184,20 +185,20 @@ namespace AgateLib.Mathematics.Geometry.Builders
 
 			for (int sign = -1; sign <= 1; sign += 2)
 			{
-				vertices[i++].Normal = new Vector3(0, 0, sign);
-				vertices[i++].Normal = new Vector3(0, 0, sign);
-				vertices[i++].Normal = new Vector3(0, 0, sign);
-				vertices[i++].Normal = new Vector3(0, 0, sign);
+				vertices[i++].Normal = new Vector3f(0, 0, sign);
+				vertices[i++].Normal = new Vector3f(0, 0, sign);
+				vertices[i++].Normal = new Vector3f(0, 0, sign);
+				vertices[i++].Normal = new Vector3f(0, 0, sign);
 
-				vertices[i++].Normal = new Vector3(0, sign, 0);
-				vertices[i++].Normal = new Vector3(0, sign, 0);
-				vertices[i++].Normal = new Vector3(0, sign, 0);
-				vertices[i++].Normal = new Vector3(0, sign, 0);
+				vertices[i++].Normal = new Vector3f(0, sign, 0);
+				vertices[i++].Normal = new Vector3f(0, sign, 0);
+				vertices[i++].Normal = new Vector3f(0, sign, 0);
+				vertices[i++].Normal = new Vector3f(0, sign, 0);
 
-				vertices[i++].Normal = new Vector3(sign, 0, 0);
-				vertices[i++].Normal = new Vector3(sign, 0, 0);
-				vertices[i++].Normal = new Vector3(sign, 0, 0);
-				vertices[i++].Normal = new Vector3(sign, 0, 0);
+				vertices[i++].Normal = new Vector3f(sign, 0, 0);
+				vertices[i++].Normal = new Vector3f(sign, 0, 0);
+				vertices[i++].Normal = new Vector3f(sign, 0, 0);
+				vertices[i++].Normal = new Vector3f(sign, 0, 0);
 			}
 		}
 		private void GenerateVertexData(PositionTextureNTB[] vertices)
@@ -207,34 +208,35 @@ namespace AgateLib.Mathematics.Geometry.Builders
 
 			for (int sign = -1; sign <= 1; sign += 2)
 			{
-				vertices[i++].Position = new Vector3(length, length, sign * length);
-				vertices[i++].Position = new Vector3(length, -length, sign * length);
-				vertices[i++].Position = new Vector3(-length, length, sign * length);
-				vertices[i++].Position = new Vector3(-length, -length, sign * length);
+				vertices[i++].Position = new Vector3f(length, length, sign * length);
+				vertices[i++].Position = new Vector3f(length, -length, sign * length);
+				vertices[i++].Position = new Vector3f(-length, length, sign * length);
+				vertices[i++].Position = new Vector3f(-length, -length, sign * length);
 
-				vertices[i++].Position = new Vector3(length, sign * length, length);
-				vertices[i++].Position = new Vector3(length, sign * length, -length);
-				vertices[i++].Position = new Vector3(-length, sign * length, length);
-				vertices[i++].Position = new Vector3(-length, sign * length, -length);
+				vertices[i++].Position = new Vector3f(length, sign * length, length);
+				vertices[i++].Position = new Vector3f(length, sign * length, -length);
+				vertices[i++].Position = new Vector3f(-length, sign * length, length);
+				vertices[i++].Position = new Vector3f(-length, sign * length, -length);
 
-				vertices[i++].Position = new Vector3(sign * length, length, length);
-				vertices[i++].Position = new Vector3(sign * length, length, -length);
-				vertices[i++].Position = new Vector3(sign * length, -length, length);
-				vertices[i++].Position = new Vector3(sign * length, -length, -length);
+				vertices[i++].Position = new Vector3f(sign * length, length, length);
+				vertices[i++].Position = new Vector3f(sign * length, length, -length);
+				vertices[i++].Position = new Vector3f(sign * length, -length, length);
+				vertices[i++].Position = new Vector3f(sign * length, -length, -length);
 			}
 
+			var location = (Vector3f) Location;
 			for (i = 0; i < vertices.Length; i++)
-				vertices[i].Position += Location;
+				vertices[i].Position += location;
 		}
 		private void GenerateTexCoordData(PositionTextureNTB[] vertices)
 		{
 			int i = 0;
 			for (int face = 0; face < 6; face++)
 			{
-				vertices[i++].Texture = new Vector2(0, 0);
-				vertices[i++].Texture = new Vector2(0, 1);
-				vertices[i++].Texture = new Vector2(1, 0);
-				vertices[i++].Texture = new Vector2(1, 1);
+				vertices[i++].Texture = new Vector2f(0, 0);
+				vertices[i++].Texture = new Vector2f(0, 1);
+				vertices[i++].Texture = new Vector2f(1, 0);
+				vertices[i++].Texture = new Vector2f(1, 1);
 			}
 		}
 	}

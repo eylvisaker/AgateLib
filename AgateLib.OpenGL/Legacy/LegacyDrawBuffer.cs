@@ -204,7 +204,7 @@ namespace AgateLib.OpenGL.Legacy
 				mVerts[mIndex + i].X = pts[i].X;
 				mVerts[mIndex + i].Y = pts[i].Y;
 
-				mVerts[mIndex + i].Normal = new Vector3(0, 0, -1);
+				mVerts[mIndex + i].Normal = new Vector3f(0, 0, -1);
 			}
 
 			mVerts[mIndex].U = texCoord.Left;

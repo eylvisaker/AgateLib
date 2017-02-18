@@ -31,11 +31,11 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// <summary>
 		/// Position
 		/// </summary>
-		public Vector3 Position;
+		public Vector3f Position;
 		/// <summary>
 		/// Texture coordinates
 		/// </summary>
-		public Vector2 Texture;
+		public Vector2f Texture;
 		/// <summary>
 		/// Color value.
 		/// </summary>
@@ -43,7 +43,7 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// <summary>
 		/// Normal value
 		/// </summary>
-		public Vector3 Normal;
+		public Vector3f Normal;
 
 		/// <summary>
 		/// Constructor
@@ -65,10 +65,10 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// </summary>
 		public PositionTextureColorNormal(float x, float y, float z, int color, float tu, float tv, float nx, float ny, float nz)
 		{
-			Position = new Vector3(x, y, z);
-			Texture = new Vector2(tu, tv);
+			Position = new Vector3f(x, y, z);
+			Texture = new Vector2f(tu, tv);
 			this.Color = color;
-			Normal = new Vector3(nx, ny, nz);
+			Normal = new Vector3f(nx, ny, nz);
 		}
 
 		/// <summary>

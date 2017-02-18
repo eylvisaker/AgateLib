@@ -233,8 +233,8 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 				int x = Font.MeasureString(currentLineText.Substring(0, Theme.EntryPrefix.Length + console.InsertionPoint)).Width;
 
 				Display.Primitives.DrawLine(Theme.EntryColor,
-					new Vector2(x, y - Font.FontHeight),
-					new Vector2(x, y));
+					new Vector2f(x, y - Font.FontHeight),
+					new Vector2f(x, y));
 			}
 
 			Font.DisplayAlignment = OriginAlignment.TopLeft;

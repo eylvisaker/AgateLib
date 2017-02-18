@@ -26,12 +26,12 @@ namespace AgateLib.DisplayLib.Particles.Manipulators
 	/// </summary>
 	public class GravityManipulator
 	{
-		private Vector2 mGravity = Vector2.Empty;
+		private Vector2f mGravity = Vector2f.Zero;
 		
 		/// <value>
 		/// Gets or sets the gravity strength and direction.
 		/// </value>
-		public Vector2 Gravity
+		public Vector2f Gravity
 		{
 			get { return mGravity; }
 			set { mGravity = value; }
@@ -41,7 +41,7 @@ namespace AgateLib.DisplayLib.Particles.Manipulators
 		/// Constructs a gravitiy manipulator.
 		/// </summary>
 		/// <param name="gravity">Gravity strength and direction.</param>
-		public GravityManipulator(Vector2 gravity)
+		public GravityManipulator(Vector2f gravity)
 		{
 			mGravity = gravity;
 		}

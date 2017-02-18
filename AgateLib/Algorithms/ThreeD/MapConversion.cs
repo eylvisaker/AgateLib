@@ -81,7 +81,7 @@ namespace AgateLib.Algorithms.ThreeD
 					int diffy = square[0, 0] + 2 * square[1, 0] + square[0, 2] +
 							   -square[0, 2] - 2 * square[1, 2] - square[2, 2];
 
-					Vector3 vec = new Vector3(diffx / (float)short.MaxValue, diffy / (float)short.MaxValue, 0);
+					Vector3f vec = new Vector3f(diffx / (float)short.MaxValue, diffy / (float)short.MaxValue, 0);
 					vec *= normalStr;
 					vec.Z = 1;
 

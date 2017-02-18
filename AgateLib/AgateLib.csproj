@@ -193,6 +193,9 @@
     <Compile Include="DisplayLib\PrimitiveRendererExtensions.cs" />
     <Compile Include="Mathematics\Geometry\Builders\EllipseBuilder.cs" />
     <Compile Include="Mathematics\Geometry\Builders\QuadrilateralBuilder.cs" />
+    <Compile Include="Mathematics\Vector2.cs" />
+    <Compile Include="Mathematics\Vector3.cs" />
+    <Compile Include="Mathematics\Vector4.cs" />
     <Compile Include="Platform\ClockTimeSpan.cs" />
     <Compile Include="Platform\StopwatchClock.cs" />
     <Compile Include="ErrorReporter.cs" />
@@ -487,13 +490,13 @@
     <Compile Include="Mathematics\Geometry\SizeF.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mathematics\Vector2.cs">
+    <Compile Include="Mathematics\Vector2f.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mathematics\Vector3.cs">
+    <Compile Include="Mathematics\Vector3f.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Mathematics\Vector4.cs">
+    <Compile Include="Mathematics\Vector4f.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mathematics\Geometry\Builders\CubeBuilder.cs">

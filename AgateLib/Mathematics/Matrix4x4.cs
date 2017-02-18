@@ -71,7 +71,7 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="vec">The translation vector</param>
 		/// <returns></returns>
-		public static Matrix4x4 Translation(Vector3 vec)
+		public static Matrix4x4 Translation(Vector3f vec)
 		{
 			return Translation(vec.X, vec.Y, vec.Z);
 		}
@@ -191,21 +191,21 @@ namespace AgateLib.Mathematics
 		/// <param name="target">The object being looked at (only the direction of target - eye is relevant)</param>
 		/// <param name="up">Which direction is up.</param>
 		/// <returns></returns>
-		public static Matrix4x4 ViewLookAt(Vector3 eye, Vector3 target, Vector3 up)
+		public static Matrix4x4 ViewLookAt(Vector3f eye, Vector3f target, Vector3f up)
 		{
 			// equation from
 			// http://pyopengl.sourceforge.net/documentation/manual/gluLookAt.3G.xml
 
-			Vector3 f = (target - eye);
+			Vector3f f = (target - eye);
 
 			f /= f.Magnitude;
 			up /= up.Magnitude;
 
-			Vector3 s = f.CrossProduct(up);
+			Vector3f s = f.CrossProduct(up);
 			s /= s.Magnitude;
 			s /= s.Magnitude;
 
-			Vector3 u = s.CrossProduct(f);
+			Vector3f u = s.CrossProduct(f);
 
 			Matrix4x4 result = new Matrix4x4(
 				s.X, s.Y, s.Z, -s.DotProduct(eye),
@@ -409,9 +409,9 @@ namespace AgateLib.Mathematics
 		/// <param name="left"></param>
 		/// <param name="right"></param>
 		/// <returns></returns>
-		public static Vector4 operator *(Matrix4x4 left, Vector4 right)
+		public static Vector4f operator *(Matrix4x4 left, Vector4f right)
 		{
-			Vector4 result = new Vector4();
+			Vector4f result = new Vector4f();
 
 			for (int row = 0; row < 4; row++)
 			{

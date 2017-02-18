@@ -28,33 +28,33 @@ namespace AgateLib.Mathematics
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	[DataContract]
-	public struct Vector3
+	public struct Vector3f
 	{
 		/// <summary>
 		/// Vector representing the origin.
 		/// </summary>
-		public static readonly Vector3 Zero = new Vector3();
+		public static readonly Vector3f Zero = new Vector3f();
 
 		/// <summary>
 		/// Vector representing the origin.
 		/// </summary>
 		[Obsolete("Use Vector2.Zero to be more explicit", true)]
-		public static readonly Vector3 Empty = new Vector3();
+		public static readonly Vector3f Empty = new Vector3f();
 
 		/// <summary>
 		/// Returns a unit vector that points in the +X direction.
 		/// </summary>
-		public static readonly Vector3 UnitX = new Vector3(1, 0, 0);
+		public static readonly Vector3f UnitX = new Vector3f(1, 0, 0);
 
 		/// <summary>
 		/// Returns a unit vector that points in the +Y direction.
 		/// </summary>
-		public static readonly Vector3 UnitY = new Vector3(0, 1, 0);
+		public static readonly Vector3f UnitY = new Vector3f(0, 1, 0);
 
 		/// <summary>
 		/// Returns a unit vector that points in the +Z direction.
 		/// </summary>
-		public static readonly Vector3 UnitZ = new Vector3(0, 0, 1);
+		public static readonly Vector3f UnitZ = new Vector3f(0, 0, 1);
 
 		/// <summary>
 		/// Constructs a Vector3 object.
@@ -62,30 +62,42 @@ namespace AgateLib.Mathematics
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
-		public Vector3(double x, double y, double z)
+		public Vector3f(float x, float y, float z)
 		{
 			X = x;
 			Y = y;
 			Z = z;
+		}
+		/// <summary>
+		/// Constructs a Vector3 object.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		public Vector3f(double x, double y, double z)
+		{
+			X = (float)x;
+			Y = (float)y;
+			Z = (float)z;
 		}
 
 		/// <summary>
 		/// X coordinate.
 		/// </summary>
 		[DataMember]
-		public double X;
+		public float X;
 
 		/// <summary>
 		/// Y coordinate.
 		/// </summary>
 		[DataMember]
-		public double Y;
+		public float Y;
 
 		/// <summary>
 		/// Z coordinate.
 		/// </summary>
 		[DataMember]
-		public double Z;
+		public float Z;
 
 		/// <summary>
 		/// Returns true if this vector's components are all zero.
@@ -95,41 +107,32 @@ namespace AgateLib.Mathematics
 			get { return X == 0 && Y == 0 && Z == 0; }
 		}
 
-		[Obsolete("Use IsZero instead.")]
+		[Obsolete("Use IsZero instead.", true)]
 		public bool IsEmpty => IsZero;
 
 		/// <summary>
 		/// Returns the square of the length of the vector.
 		/// </summary>
-		public double MagnitudeSquared
-		{
-			get { return X * X + Y * Y + Z * Z; }
-		}
+		public float MagnitudeSquared => X * X + Y * Y + Z * Z;
+
 		/// <summary>
 		/// Returns the length of the vector.
 		/// </summary>
-		public double Magnitude
-		{
-			get { return (double)Math.Sqrt(MagnitudeSquared); }
-		}
+		public float Magnitude => (float)Math.Sqrt(MagnitudeSquared);
+
 		/// <summary>
 		/// Returns a vector pointing in the same direction as this one, with magnitude 1.
 		/// </summary>
 		/// <returns></returns>
-		public Vector3 Normalize()
-		{
-			Vector3 result = this / Magnitude;
-
-			return result;
-		}
+		public Vector3f Normalize() => this / Magnitude;
 
 		/// <summary>
-		/// Explicit conversion to a Vector3f object.
+		/// Explicit conversion to a Vector3 object.
 		/// </summary>
 		/// <param name="v"></param>
-		public static explicit operator Vector3f(Vector3 v)
+		public static explicit operator Vector3(Vector3f v)
 		{
-			return new Vector3f(v.X, v.Y, v.Z);
+			return new Vector3(v.X, v.Y, v.Z);
 		}
 
 		/// <summary>
@@ -138,78 +141,114 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector3 operator +(Vector3 a, Vector3 b)
+		public static Vector3f operator +(Vector3f a, Vector3f b)
 		{
-			return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+			return new Vector3f(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 		}
+
 		/// <summary>
 		/// Subtracts two vectors.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector3 operator -(Vector3 a, Vector3 b)
+		public static Vector3f operator -(Vector3f a, Vector3f b)
 		{
-			return new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+			return new Vector3f(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
 		}
+
 		/// <summary>
 		/// Unary - operator: multiples vector by -1.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static Vector3 operator -(Vector3 a)
+		public static Vector3f operator -(Vector3f a)
 		{
-			return new Vector3(-a.X, -a.Y, -a.Z);
-		}
-		/// <summary>
-		/// Scales a vector by a scalar value.
-		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <returns></returns>
-		public static Vector3 operator *(Vector3 a, double b)
-		{
-			return new Vector3(a.X * b, a.Y * b, a.Z * b);
+			return new Vector3f(-a.X, -a.Y, -a.Z);
 		}
 
 		/// <summary>
-		/// Scales a vector by a scalar value.
+		/// Scales a vector by a scalar floating point value.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector3 operator *(double a, Vector3 b)
+		public static Vector3f operator *(Vector3f a, float b)
 		{
-			return new Vector3(a * b.X, a * b.Y, a * b.Z);
+			return new Vector3f(a.X * b, a.Y * b, a.Z * b);
 		}
-		
+
 		/// <summary>
-		/// Divides a vector's components by a scalar value.
+		/// Scales a vector by a scalar floating point value.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector3 operator /(Vector3 a, double b)
+		public static Vector3f operator *(float a, Vector3f b)
+		{
+			return new Vector3f(a * b.X, a * b.Y, a * b.Z);
+		}
+
+		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3f operator *(Vector3f a, double b)
+		{
+			return a * (float)b;
+		}
+
+		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3f operator *(double a, Vector3f b)
+		{
+			return b * (float)a;
+		}
+		/// <summary>
+		/// Divides a vector's components by a floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3f operator /(Vector3f a, float b)
 		{
 			return a * (1.0f / b);
 		}
-		
+
+		/// <summary>
+		/// Divides a vector's components by a floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3f operator /(Vector3f a, double b)
+		{
+			return a * (float)(1.0 / b);
+		}
+
 		/// <summary>
 		/// Computes and returns the dot product with another vector.
 		/// </summary>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public double DotProduct(Vector3 b)
+		public float DotProduct(Vector3f b)
 		{
 			return DotProduct(this, b);
 		}
+
 		/// <summary>
 		/// Computes and returns the dot product between two vectors.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static double DotProduct(Vector3 a, Vector3 b)
+		public static float DotProduct(Vector3f a, Vector3f b)
 		{
 			return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
 		}
@@ -219,19 +258,20 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public Vector3 CrossProduct(Vector3 b)
+		public Vector3f CrossProduct(Vector3f b)
 		{
 			return CrossProduct(this, b);
 		}
+
 		/// <summary>
 		/// Returns the cross product of two vectors.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Vector3 CrossProduct(Vector3 a, Vector3 b)
+		public static Vector3f CrossProduct(Vector3f a, Vector3f b)
 		{
-			return new Vector3(
+			return new Vector3f(
 				a.Y * b.Z - a.Z * b.Y,
 				a.Z * b.X - a.X * b.Z,
 				a.X * b.Y - a.Y * b.X);
@@ -243,9 +283,9 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static double AngleBetween(Vector3 a, Vector3 b)
+		public static float AngleBetween(Vector3f a, Vector3f b)
 		{
-			return (double)Math.Acos(DotProduct(a, b) / (a.Magnitude * b.Magnitude));
+			return (float)Math.Acos(DotProduct(a, b) / (a.Magnitude * b.Magnitude));
 		}
 
 		/// <summary>
@@ -254,7 +294,7 @@ namespace AgateLib.Mathematics
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static double DistanceBetween(Vector3 a, Vector3 b)
+		public static float DistanceBetween(Vector3f a, Vector3f b)
 		{
 			return (a - b).Magnitude;
 		}
@@ -276,9 +316,9 @@ namespace AgateLib.Mathematics
 		/// <param name="theta"></param>
 		/// <param name="phi"></param>
 		/// <returns></returns>
-		public static Vector3 FromPolar(int length, double theta, double phi)
+		public static Vector3f FromPolar(int length, float theta, float phi)
 		{
-			return length * new Vector3(
+			return length * new Vector3f(
 				Math.Sin(theta) * Math.Cos(phi),
 				Math.Sin(theta) * Math.Sin(phi),
 				Math.Cos(theta));

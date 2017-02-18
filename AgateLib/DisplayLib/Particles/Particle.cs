@@ -31,9 +31,9 @@ namespace AgateLib.DisplayLib.Particles
 		private float mLife = 10f;
 		private ParticleState mCondition = ParticleState.Paused;
 		
-		private Vector2 mAcceleration = Vector2.Empty;
-		private Vector2 mPosition = Vector2.Empty;
-		private Vector2 mVelocity = Vector2.Empty;
+		private Vector2f mAcceleration = Vector2f.Zero;
+		private Vector2f mPosition = Vector2f.Zero;
+		private Vector2f mVelocity = Vector2f.Zero;
 
 		/// <value>
 		/// Gets or sets the life.
@@ -70,7 +70,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// <value>
 		/// Gets or sets the acceleration.
 		/// </value>
-		public Vector2 Acceleration
+		public Vector2f Acceleration
 		{
 			get { return mAcceleration; }
 			set { mAcceleration = value; }
@@ -79,7 +79,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// <value>
 		/// Gets or sets the position.
 		/// </value>
-		public Vector2 Position
+		public Vector2f Position
 		{
 			get { return mPosition; }
 			set { mPosition = value; }
@@ -88,7 +88,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// <value>
 		/// Gets or sets the velocity.
 		/// </value>
-		public Vector2 Velocity
+		public Vector2f Velocity
 		{
 			get { return mVelocity; }
 			set { mVelocity = value; }

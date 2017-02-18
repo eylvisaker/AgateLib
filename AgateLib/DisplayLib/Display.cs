@@ -470,7 +470,7 @@ namespace AgateLib.DisplayLib
 		public static void DrawLine(int x1, int y1, int x2, int y2, Color color)
 		{
 			Primitives.DrawLines(LineType.LineSegments, color,
-				new [] { new Vector2(x1, y1), new Vector2(x2, y2) });
+				new [] { new Vector2f(x1, y1), new Vector2f(x2, y2) });
 		}
 
 		/// <summary>
@@ -483,7 +483,7 @@ namespace AgateLib.DisplayLib
 		public static void DrawLine(Point a, Point b, Color color)
 		{
 			Primitives.DrawLines(LineType.LineSegments, color,
-				new[] {(Vector2) a, (Vector2) b});
+				new[] {(Vector2f) a, (Vector2f) b});
 		}
 
 		/// <summary>
@@ -496,7 +496,7 @@ namespace AgateLib.DisplayLib
 		public static void DrawLines(Point[] pts, Color color)
 		{
 			Primitives.DrawLines(LineType.Path, color,
-				pts.Cast<Vector2>());
+				pts.Cast<Vector2f>());
 		}
 
 		/// <summary>
@@ -509,7 +509,7 @@ namespace AgateLib.DisplayLib
 		public static void DrawPolygon(Color color, Point[] points)
 		{
 			Primitives.DrawLines(LineType.Polygon, color, 
-				points.Cast<Vector2>());
+				points.Cast<Vector2f>());
 		}
 
 		/// <summary>
@@ -521,7 +521,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawLines(Color color, params Point[] points)
 		{
-			Primitives.DrawLines(LineType.Path, color, points.Cast<Vector2>());
+			Primitives.DrawLines(LineType.Path, color, points.Cast<Vector2f>());
 		}
 
 		/// <summary>
@@ -537,7 +537,7 @@ namespace AgateLib.DisplayLib
 			Require.True<ArgumentException>(points.Length % 2 == 0,
 				"pts argument is not an even number of points!");
 
-			Primitives.DrawLines(LineType.LineSegments, color, points.Cast<Vector2>());
+			Primitives.DrawLines(LineType.LineSegments, color, points.Cast<Vector2f>());
 		}
 
 		/// <summary>
@@ -608,7 +608,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillPolygon(PointF[] pts, Color color)
 		{
-			Primitives.FillPolygon(color, pts.Cast<Vector2>());
+			Primitives.FillPolygon(color, pts.Cast<Vector2f>());
 		}
 
 		/// <summary>

@@ -8,8 +8,8 @@ namespace AgateLib.InputLib.GamepadModel
 	{
 		private readonly IJoystick joystick;
 		private bool[] buttons = new bool[Enum.GetValues(typeof(GamepadButton)).Length];
-		private Vector2 leftStick;
-		private Vector2 rightStick;
+		private Vector2f leftStick;
+		private Vector2f rightStick;
 		private Point directionPad;
 
 		public Gamepad(IJoystick joystick)
@@ -23,7 +23,7 @@ namespace AgateLib.InputLib.GamepadModel
 		public event EventHandler RightStickChanged;
 		public event EventHandler DirectionPadChanged;
 
-		public Vector2 LeftStick
+		public Vector2f LeftStick
 		{
 			get { return leftStick; }
 			set
@@ -33,7 +33,7 @@ namespace AgateLib.InputLib.GamepadModel
 			}
 		}
 
-		public Vector2 RightStick
+		public Vector2f RightStick
 		{
 			get { return rightStick; }
 			set
@@ -144,9 +144,9 @@ namespace AgateLib.InputLib.GamepadModel
 			return result;
 		}
 
-		internal Vector2 ReadStickFromJoystick(int stickIndex)
+		internal Vector2f ReadStickFromJoystick(int stickIndex)
 		{
-			return new Vector2(
+			return new Vector2f(
 				joystick.AxisState(stickIndex * 2),
 				joystick.AxisState(stickIndex * 2 + 1));
 		}
@@ -193,8 +193,8 @@ namespace AgateLib.InputLib.GamepadModel
 		event EventHandler LeftStickChanged;
 		event EventHandler RightStickChanged;
 		event EventHandler DirectionPadChanged;
-		Vector2 LeftStick { get; set; }
-		Vector2 RightStick { get; set; }
+		Vector2f LeftStick { get; set; }
+		Vector2f RightStick { get; set; }
 		Point DirectionPad { get; set; }
 		bool A { get; set; }
 		bool B { get; set; }

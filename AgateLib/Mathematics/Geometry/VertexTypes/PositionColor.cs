@@ -31,7 +31,7 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// <summary>
 		/// Vertex position
 		/// </summary>
-		public Vector3 Position;
+		public Vector3f Position;
 		/// <summary>
 		/// Vertex color
 		/// </summary>
@@ -56,7 +56,7 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// <param name="color"></param>
 		public PositionColor(float x, float y, float z, int color)
 		{
-			Position = new Vector3(x, y, z);
+			Position = new Vector3f(x, y, z);
 			this.Color = color;
 		}
 

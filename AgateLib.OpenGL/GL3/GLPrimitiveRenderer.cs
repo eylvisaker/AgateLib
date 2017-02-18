@@ -96,7 +96,7 @@ namespace AgateLib.OpenGL.GL3
 		}
 
 
-		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2> points)
+		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2f> points)
 		{
 			drawBuffer.FlushDrawBuffer();
 
@@ -125,7 +125,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.DrawArrays(PrimitiveTypeOf(lineType), 0, 1);
 		}
 
-		public void FillPolygon(Color color, IEnumerable<Vector2> points)
+		public void FillPolygon(Color color, IEnumerable<Vector2f> points)
 		{
 			drawBuffer.FlushDrawBuffer();
 

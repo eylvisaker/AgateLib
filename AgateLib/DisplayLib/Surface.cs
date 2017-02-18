@@ -461,7 +461,7 @@ namespace AgateLib.DisplayLib
 		/// of this surface.
 		/// </summary>
 		/// <param name="destPt">Destination point to draw to.</param>
-		public void Draw(Vector2 destPt)
+		public void Draw(Vector2f destPt)
 		{
 			Draw(destPt.X, destPt.Y);
 		}

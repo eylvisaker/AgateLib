@@ -36,11 +36,11 @@ namespace AgateLib.Tests.Shaders.LightingTest
 			var lights = AgateBuiltInShaders.Lighting2D;
 
 			Light lt1 = new Light();
-			lt1.Position = new Vector3(0, 0, -1);
+			lt1.Position = new Vector3f(0, 0, -1);
 			lt1.DiffuseColor = Color.White;
 
 			Light lt2 = new Light();
-			lt2.Position = new Vector3(0, 0, -1);
+			lt2.Position = new Vector3f(0, 0, -1);
 			lt2.DiffuseColor = Color.Yellow;
 
 			lights.AddLight(lt1);
@@ -56,7 +56,7 @@ namespace AgateLib.Tests.Shaders.LightingTest
 
 			Input.Unhandled.MouseMove += (sender, e) =>
 				{
-					lt2.Position = new Vector3(e.MousePosition.X, e.MousePosition.Y, -1);
+					lt2.Position = new Vector3f(e.MousePosition.X, e.MousePosition.Y, -1);
 				};
 
 			while (AgateApp.IsAlive)
@@ -67,7 +67,7 @@ namespace AgateLib.Tests.Shaders.LightingTest
 				ballPt = new Point((int)(120 + 110 * Math.Cos(time)),
 								   (int)(120 + 110 * Math.Sin(time)));
 
-				lt1.Position = new Vector3(ballPt.X, ballPt.Y, -1);
+				lt1.Position = new Vector3f(ballPt.X, ballPt.Y, -1);
 
 
 				//image.RotationAngleDegrees = (double)frm.nudAngle.Value;

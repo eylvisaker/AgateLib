@@ -401,7 +401,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 
 
-		private void SetArray(float[] array, Vector3 vec)
+		private void SetArray(float[] array, Vector3f vec)
 		{
 			array[0] = vec.X;
 			array[1] = vec.Y;

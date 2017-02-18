@@ -26,14 +26,14 @@ namespace AgateLib.DisplayLib.Particles.Manipulators
 	/// </summary>
 	public class GravityPointManipulator
 	{
-		private Vector2 mPosition;
+		private Vector2f mPosition;
 		private float mForce;
 		private float mRange;
 		
 		/// <summary>
 		/// Gets or sets the position of the point gravity.
 		/// </summary>
-		public Vector2 Position {
+		public Vector2f Position {
 			get { return mPosition; }
 			set { mPosition = value; }
 		}
@@ -62,7 +62,7 @@ namespace AgateLib.DisplayLib.Particles.Manipulators
 		/// </summary>
 		/// <param name="position">The position of the point gravity.</param>
 		/// <param name="force">The gravity force.</param>
-		public GravityPointManipulator (Vector2 position, float force)
+		public GravityPointManipulator (Vector2f position, float force)
 		{
 			mPosition = position;
 			mForce = force;
@@ -75,7 +75,7 @@ namespace AgateLib.DisplayLib.Particles.Manipulators
 		/// <param name="position">The position of the point gravity.</param>
 		/// <param name="force">The gravity force.</param>
 		/// <param name="range">The range of the gravity impact.</param>
-		public GravityPointManipulator (Vector2 position, float force, float range)
+		public GravityPointManipulator (Vector2f position, float force, float range)
 		{
 			mPosition = position;
 			mForce = force;
@@ -84,7 +84,7 @@ namespace AgateLib.DisplayLib.Particles.Manipulators
 		
 		void HandleOnUpdate (UpdateArgs args)
 		{
-			Vector2 way;
+			Vector2f way;
 			if(Range < 0) // global effect on all registered particles
 			{
 				foreach(Particle particle in args.Emitter.Particles)
@@ -97,7 +97,7 @@ namespace AgateLib.DisplayLib.Particles.Manipulators
 			{
 				foreach(Particle particle in args.Emitter.Particles)
 				{
-					if(Vector2.DistanceBetween(particle.Position, Position) <= Range)
+					if(Vector2f.DistanceBetween(particle.Position, Position) <= Range)
 					{
 						way = particle.Position - Position;
 						particle.Velocity += way.Normalize() * Force;

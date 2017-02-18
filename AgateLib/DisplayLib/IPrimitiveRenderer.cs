@@ -19,14 +19,13 @@ namespace AgateLib.DisplayLib
 		/// <param name="color">The color of lines to draw.</param>
 		/// <param name="points">The points that are used to 
 		/// build the individual line segments.</param>
-		void DrawLines(LineType lineType, Color color, IEnumerable<Vector2> points);
-
+		void DrawLines(LineType lineType, Color color, IEnumerable<Vector2f> points);
+		
 		/// <summary>
 		/// Draws a filled convex polygon.
 		/// </summary>
 		/// <param name="color"></param>
 		/// <param name="points"></param>
-		/// <param name="points/param>
-		void FillPolygon(Color color, IEnumerable<Vector2> points);
+		void FillPolygon(Color color, IEnumerable<Vector2f> points);
 	}
 }

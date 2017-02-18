@@ -48,7 +48,7 @@ namespace AgateLib.DisplayLib.Sprites
 			get { return mPoly; }
 		}
 
-		public void SetTransform(Vector2 translation, bool fliphorizontal, bool flipvertical)
+		public void SetTransform(Vector2f translation, bool fliphorizontal, bool flipvertical)
 		{
 			for (int i = 0; i < mPoly.Points.Count; i++)
 			{

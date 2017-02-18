@@ -30,15 +30,15 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// <summary>
 		/// Position
 		/// </summary>
-		public Vector3 Position;
+		public Vector3f Position;
 		/// <summary>
 		/// Texture coordinates
 		/// </summary>
-		public Vector2 Texture;
+		public Vector2f Texture;
 		/// <summary>
 		/// Normal value
 		/// </summary>
-		public Vector3 Normal;
+		public Vector3f Normal;
 
 		/// <summary>
 		/// Vertex layout for PositionTextureNormal structure.

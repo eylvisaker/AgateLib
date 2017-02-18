@@ -112,7 +112,7 @@ namespace AgateLib.DisplayLib.Shaders
 		}
 
 		public bool Enabled { get; set; }
-		public Vector3 Position { get; set; }
+		public Vector3f Position { get; set; }
 		public Color DiffuseColor { get; set; }
 		public Color SpecularColor { get; set; }
 		public Color AmbientColor { get; set; }

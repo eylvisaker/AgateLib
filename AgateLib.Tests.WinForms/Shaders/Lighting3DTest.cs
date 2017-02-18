@@ -13,9 +13,9 @@ namespace AgateLib.Tests.Shaders
 {
 	class Lighting3DTest : IAgateTest
 	{
-		Vector3 eye = new Vector3(-3, 0, 4);
-		Vector3 up = new Vector3(0, 0, 1);
-		Vector3 lightPos = new Vector3(0, 1.5, 2.5);
+		Vector3f eye = new Vector3f(-3, 0, 4);
+		Vector3f up = new Vector3f(0, 0, 1);
+		Vector3f lightPos = new Vector3f(0, 1.5, 2.5);
 		double lookAngle = 0;
 		double angle = 0;
 		double lightAngle = 0;
@@ -24,7 +24,7 @@ namespace AgateLib.Tests.Shaders
 		bool advance = false;
 		bool done = false;
 
-		private Vector3 LookDir => new Vector3(Math.Cos(lookAngle), Math.Sin(lookAngle), 0);
+		private Vector3f LookDir => new Vector3f(Math.Cos(lookAngle), Math.Sin(lookAngle), 0);
 
 		public string Name => "Lighting 3D";
 
@@ -36,7 +36,7 @@ namespace AgateLib.Tests.Shaders
 			Surface texture = new Surface("bg-bricks.png");
 
 			CubeBuilder cb = new CubeBuilder();
-			cb.Location = new Vector3(0, 0, 0);
+			cb.Location = Vector3.Zero;
 			cb.Length = 1;
 			cb.CreateVertexBuffer();
 
@@ -72,8 +72,8 @@ namespace AgateLib.Tests.Shaders
 				else
 					shader.EnableLighting = false;
 
-				Vector3 dir = LookDir;
-				Vector3 target = eye + dir * 3;
+				Vector3f dir = LookDir;
+				Vector3f target = eye + dir * 3;
 				target.Z = 0;
 
 				shader.Projection = Matrix4x4.Projection(45, 640 / 480.0f, 0.1f, 200);

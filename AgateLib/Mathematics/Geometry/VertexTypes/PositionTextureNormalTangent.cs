@@ -30,19 +30,19 @@ namespace AgateLib.Mathematics.Geometry.VertexTypes
 		/// <summary>
 		/// 
 		/// </summary>
-		public Vector3 Position;
+		public Vector3f Position;
 		/// <summary>
 		/// 
 		/// </summary>
-		public Vector2 Texture;
+		public Vector2f Texture;
 		/// <summary>
 		/// 
 		/// </summary>
-		public Vector3 Normal;
+		public Vector3f Normal;
 		/// <summary>
 		/// 
 		/// </summary>
-		public Vector3 Tangent;
+		public Vector3f Tangent;
 
 		/// <summary>
 		/// 

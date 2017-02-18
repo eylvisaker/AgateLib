@@ -231,8 +231,8 @@ namespace AgateLib.UserInterface.Rendering.Animators
 			if (Gesture.IsValidForTarget == false)
 				return;
 
-			Vector2 delta = new Vector2(Gesture.CurrentPoint);
-			delta -= new Vector2(Gesture.StartPoint);
+			Vector2f delta = new Vector2f(Gesture.CurrentPoint);
+			delta -= new Vector2f(Gesture.StartPoint);
 
 			if (Gesture.Axis == AxisType.Horizontal)
 				delta.Y = 0;
