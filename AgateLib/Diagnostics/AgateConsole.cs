@@ -142,6 +142,10 @@ namespace AgateLib.Diagnostics
 			Instance?.WriteLine(text);
 		}
 
+		/// <summary>
+		/// Writes a mesasge to the output console window.
+		/// </summary>
+		/// <param name="message"></param>
 		public static void WriteMessage(ConsoleMessage message)
 		{
 			Instance?.WriteMessage(message);

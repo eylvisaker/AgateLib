@@ -72,6 +72,9 @@ namespace AgateLib.Diagnostics
 			Default = Green;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static IConsoleTheme Default
 		{
 			get { return defaultTheme; }
@@ -82,12 +85,24 @@ namespace AgateLib.Diagnostics
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static IConsoleTheme Paper { get; }
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static IConsoleTheme Classic { get; }
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static IConsoleTheme Green { get; }
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static IConsoleTheme WhiteOnBlack { get; }
 
 		private static IConsoleTheme Validate(ConsoleTheme consoleTheme)

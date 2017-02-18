@@ -25,15 +25,32 @@ using System.Threading.Tasks;
 
 namespace AgateLib.DisplayLib.DefaultAssets
 {
+	/// <summary>
+	/// Represents resources that are available on all platforms AgateLib supports.
+	/// </summary>
 	public class DefaultResources : IDisposable
 	{
 		internal DefaultResources()
 		{ }
 
+		/// <summary>
+		/// Sans serif font.
+		/// </summary>
 		public Font AgateSans { get; set; }
+
+		/// <summary>
+		/// Serif font.
+		/// </summary>
 		public Font AgateSerif { get; set; }
+
+		/// <summary>
+		/// Monospace font.
+		/// </summary>
 		public Font AgateMono { get; set; }
 
+		/// <summary>
+		/// Disposes of the resources.
+		/// </summary>
 		public void Dispose()
 		{
 			AgateSans?.Dispose();

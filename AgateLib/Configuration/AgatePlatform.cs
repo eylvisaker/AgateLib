@@ -28,10 +28,16 @@ using AgateLib.IO;
 
 namespace AgateLib.Configuration
 {
+	/// <summary>
+	/// Provides an interface for interacting with the AgateLib platform.
+	/// </summary>
 	public abstract class AgatePlatform : IDisposable
 	{
 		private bool consoleInstalled;
 
+		/// <summary>
+		/// Disposes of the platform and all resources allocated on startup.
+		/// </summary>
 		public void Dispose()
 		{
 			AgateApp.Dispose();

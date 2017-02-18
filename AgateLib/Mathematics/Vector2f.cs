@@ -34,14 +34,12 @@ namespace AgateLib.Mathematics
 		/// <summary>
 		/// Returns a unit vector that points in the +X direction.
 		/// </summary>
-		/// <param name="x"></param>
 		/// <returns></returns>
 		public static readonly Vector2f UnitX = new Vector2f(1, 0);
 
 		/// <summary>
 		/// Returns a unit vector that points in the +Y direction.
 		/// </summary>
-		/// <param name="y"></param>
 		/// <returns></returns>
 		public static readonly Vector2f UnitY = new Vector2f(0, 1);
 

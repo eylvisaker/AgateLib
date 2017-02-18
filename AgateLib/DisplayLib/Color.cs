@@ -1016,6 +1016,12 @@ namespace AgateLib.DisplayLib
 		const double Umax = 0.436;
 		const double Vmax = 0.615;
 
+		/// <summary>
+		/// Converts a color to YUV values.
+		/// </summary>
+		/// <param name="y"></param>
+		/// <param name="u"></param>
+		/// <param name="v"></param>
 		public void ToYuv(out double y, out double u, out double v)
 		{
 			y = (W_R * r + W_G * g + W_B * b) / 255.0;
@@ -1023,6 +1029,13 @@ namespace AgateLib.DisplayLib
 			v = Vmax * (r / 255.0 - y) / (1 - W_R);
 		}
 
+		/// <summary>
+		/// Creates a color from YUV values.
+		/// </summary>
+		/// <param name="y"></param>
+		/// <param name="u"></param>
+		/// <param name="v"></param>
+		/// <returns></returns>
 		public static Color FromYuv(double y, double u, double v)
 		{
 			return Color.FromRgb(

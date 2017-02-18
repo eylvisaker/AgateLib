@@ -229,6 +229,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		CanCreateBitmapFont,
 	}
+
+	/// <summary>
+	/// Caps values which should return floating point values.
+	/// </summary>
 	public enum DisplayDoubleCaps
 	{
 		/// <summary>

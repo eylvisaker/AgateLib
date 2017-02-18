@@ -51,6 +51,12 @@ namespace AgateLib.Algorithms.PathFinding
 		public AStar(IAStarMap<T> map, IEqualityComparer<T> comparer)
 			: this(map, comparer.Equals)
 		{ }
+
+		/// <summary>
+		/// Constructs an A* algorithm object.
+		/// </summary>
+		/// <param name="map"></param>
+		/// <param name="comparison"></param>
 		public AStar(IAStarMap<T> map, Func<T, T, bool> comparison)
 		{
 			mMap = map;

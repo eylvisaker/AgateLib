@@ -18,10 +18,24 @@
 //
 namespace AgateLib.DisplayLib.BitmapFont
 {
+	/// <summary>
+	/// Represents a kerning pair.
+	/// </summary>
 	public class KerningPairModel
 	{
+		/// <summary>
+		/// First character in the kerning pair.
+		/// </summary>
 		public int First { get; set; }
+
+		/// <summary>
+		/// Second character in the kerning pair.
+		/// </summary>
 		public int Second { get; set; }
+
+		/// <summary>
+		/// Amount of kerning to apply.
+		/// </summary>
 		public int Amount { get; set; }
 	}
 }
