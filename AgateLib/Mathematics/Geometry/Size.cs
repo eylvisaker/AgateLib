@@ -136,6 +136,7 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			return width.GetHashCode() + height.GetHashCode();
 		}
+
 		/// <summary>
 		/// Equality test.
 		/// </summary>
@@ -187,6 +188,7 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			return new SizeF(size.width, size.height);
 		}
+
 		/// <summary>
 		/// Parses a string into a size object.
 		/// </summary>

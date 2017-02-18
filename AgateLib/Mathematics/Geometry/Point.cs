@@ -177,6 +177,16 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="a"></param>
 		/// <returns></returns>
+		public static explicit operator Vector2(Point a)
+		{
+			return new Vector2(a.X, a.Y);
+		}
+
+		/// <summary>
+		/// Converts to a Vector2f object.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <returns></returns>
 		public static explicit operator Vector2f(Point a)
 		{
 			return new Vector2f(a.X, a.Y);
