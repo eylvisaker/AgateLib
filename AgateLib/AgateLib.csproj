@@ -727,6 +727,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Shaders\IShader2D.cs" />
+    <Compile Include="YamlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.nuspec" />

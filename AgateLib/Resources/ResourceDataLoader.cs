@@ -49,11 +49,8 @@ namespace AgateLib.Resources
 
 			deserializer = new DeserializerBuilder()
 				.WithNamingConvention(new HyphenatedNamingConvention())
-				.WithTypeConverter(new ColorConverterYaml())
+				.WithTypeConvertersForAgateLibMathematics()
 				.WithTypeConverter(new LayoutBoxConverterYaml())
-				.WithTypeConverter(new PointConverterYaml())
-				.WithTypeConverter(new SizeConverterYaml())
-				.WithTypeConverter(new RectangleConverterYaml())
 				.WithTypeConverter(new KerningPairModelYaml())
 				.Build();
 		}
