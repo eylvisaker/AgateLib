@@ -51,16 +51,16 @@
     <Compile Include="VectorExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AgateLib, Version=2.0.145.17039, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AgateLib.2.0.145.17039\lib\portable45-net45+win8+wp8+wpa81\AgateLib.dll</HintPath>
+    <Reference Include="AgateLib, Version=2.0.161.17052, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AgateLib.2.0.161.17052\lib\portable45-net45+win8+wp8+wpa81\AgateLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MathNet.Numerics, Version=3.17.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.17.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YamlDotNet.4.0.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\YamlDotNet.dll</HintPath>
+    <Reference Include="YamlDotNet, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.4.1.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\YamlDotNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

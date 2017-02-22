@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 
 namespace RigidBodyDynamics
 {
@@ -23,7 +23,7 @@ namespace RigidBodyDynamics
 			this.circleRadius = circleRadius;
 		}
 
-		public float Value => .5f * ((particle.Position - circlePosition).MagnitudeSquared - circleRadius * circleRadius);
+		public double Value => .5 * ((particle.Position - circlePosition).MagnitudeSquared - circleRadius * circleRadius);
 
 		public bool AppliesTo(PhysicalParticle particle)
 		{

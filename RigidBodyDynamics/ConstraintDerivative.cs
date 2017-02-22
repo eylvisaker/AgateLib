@@ -14,7 +14,7 @@ namespace RigidBodyDynamics
 		/// Position.Y variable. Evaluate the derivative numerically at the particle's current position.</param>
 		/// <param name="respectToAngle">The derivative of your constraint with respect to the particle's 
 		/// angle variable. Evaluate the derivative numerically at the particle's current position.</param>
-		public ConstraintDerivative(float respectToX, float respectToY, float respectToAngle)
+		public ConstraintDerivative(double respectToX, double respectToY, double respectToAngle)
 		{
 			RespectToX = respectToX;
 			RespectToY = respectToY;
@@ -25,19 +25,19 @@ namespace RigidBodyDynamics
 		/// The derivative of your constraint with respect to the particle's 
 		/// Position.X variable. Evaluate the derivative numerically at the particle's current position.
 		/// </summary>
-		public float RespectToX;
+		public double RespectToX;
 
 		/// <summary>
 		/// The derivative of your constraint with respect to the particle's 
 		/// Position.Y variable. Evaluate the derivative numerically at the particle's current position.
 		/// </summary>
-		public float RespectToY;
+		public double RespectToY;
 
 		/// <summary>
 		/// The derivative of your constraint with respect to the particle's 
 		/// angle variable. Evaluate the derivative numerically at the particle's current position.
 		/// </summary>
-		public float RespectToAngle;
+		public double RespectToAngle;
 
 		/// <summary>
 		/// Scales the values of the constraint.

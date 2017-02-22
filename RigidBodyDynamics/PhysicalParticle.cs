@@ -1,4 +1,5 @@
-﻿using AgateLib.Geometry;
+﻿using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace RigidBodyDynamics
 {
@@ -11,14 +12,14 @@ namespace RigidBodyDynamics
 		public Vector2 Force { get; set; }
 		public Vector2 ConstraintForce { get; set; }
 
-		public float Angle { get; set; }
-		public float AngularVelocity { get; set; }
-		public float Torque { get; set; }
-		public float ConstraintTorque { get; set; }
+		public double Angle { get; set; }
+		public double AngularVelocity { get; set; }
+		public double Torque { get; set; }
+		public double ConstraintTorque { get; set; }
 
-		public float Mass { get; set; }
+		public double Mass { get; set; }
 
-		public float InertialMoment { get; set; }
+		public double InertialMoment { get; set; }
 
 		public PhysicalParticle Clone()
 		{

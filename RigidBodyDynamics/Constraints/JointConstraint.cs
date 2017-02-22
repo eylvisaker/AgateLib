@@ -1,5 +1,5 @@
 using System;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 
 namespace RigidBodyDynamics
 {
@@ -55,7 +55,7 @@ namespace RigidBodyDynamics
 		/// algorithm.
 		/// </summary>
 		/// <returns></returns>
-		public float Value => .5f * Displacement.MagnitudeSquared;
+		public double Value => .5f * Displacement.MagnitudeSquared;
 
 		public bool AppliesTo(PhysicalParticle obj)
 		{

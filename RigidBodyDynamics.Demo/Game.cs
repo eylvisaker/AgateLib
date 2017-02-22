@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace RigidBodyDynamics.Demo
 {
@@ -49,9 +51,9 @@ namespace RigidBodyDynamics.Demo
 
 		public int BoxCount { get; set; } = 8;
 
-		public void Update(TimeSpan gameClockElapsed)
+		public void Update(ClockTimeSpan gameClockElapsed)
 		{
-			if (system.Particles.Any(p => float.IsNaN(p.Position.X)))
+			if (system.Particles.Any(p => double.IsNaN(p.Position.X)))
 				running = false;
 
 			if (running)

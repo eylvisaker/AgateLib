@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace RigidBodyDynamics.Demo
 {
@@ -22,7 +23,7 @@ namespace RigidBodyDynamics.Demo
 
 		public string Name => "Chain no gravity";
 
-		public float PotentialEnergy => 0;
+		public double PotentialEnergy => 0;
 
 		public int BoxCount { get; set; } = 2;
 
@@ -43,7 +44,7 @@ namespace RigidBodyDynamics.Demo
 			foreach (var box in system.Particles)
 			{
 				// Gravity force
-				box.Force = Vector2.Empty;
+				box.Force = Vector2.Zero;
 			}
 		}
 

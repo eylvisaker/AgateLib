@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace RigidBodyDynamics.Demo
 {
@@ -26,7 +27,7 @@ namespace RigidBodyDynamics.Demo
 
 		public string Name => "Particle on a circle";
 
-		public float PotentialEnergy => system.Particles.Sum(p => p.Mass * p.Position.Y * -gravity);
+		public double PotentialEnergy => system.Particles.Sum(p => p.Mass * p.Position.Y * -gravity);
 
 		public KinematicsSystem Initialize(Size area)
 		{
@@ -65,10 +66,10 @@ namespace RigidBodyDynamics.Demo
 
 			Display.DrawEllipse(
 				(Rectangle)RectangleF.FromLTRB(
-					circlePosition.X - circleRadius,
-					circlePosition.Y - circleRadius,
-					circlePosition.X + circleRadius,
-					circlePosition.Y + circleRadius), Color.Blue);
+					(float)circlePosition.X - circleRadius,
+					(float)circlePosition.Y - circleRadius,
+					(float)circlePosition.X + circleRadius,
+					(float)circlePosition.Y + circleRadius), Color.Blue);
 		}
 
 		private void InitializeImages()

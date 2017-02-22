@@ -1,4 +1,3 @@
-using AgateLib.Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace RigidBodyDynamics
@@ -11,7 +10,7 @@ namespace RigidBodyDynamics
 		/// <summary>
 		/// Returns the current value of the constraint equation.
 		/// </summary>
-		float Value { get; }
+		double Value { get; }
 
 		/// <summary>
 		/// Returns true if the constraint applies to the specified object.

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace RigidBodyDynamics
@@ -25,12 +25,12 @@ namespace RigidBodyDynamics
 
 		private const float DefaultSpringConstant = 50f;
 
-		private Matrix<float> jacobian;
-		private Matrix<float> massInverseMatrix;
-		private Matrix<float> externalForces;
-		private Matrix<float> totalConstraintImpulse;
-		private Matrix<float> constraintValues;
-		private List<Vector<float>> constraintForces;
+		private Matrix<double> jacobian;
+		private Matrix<double> massInverseMatrix;
+		private Matrix<double> externalForces;
+		private Matrix<double> totalConstraintImpulse;
+		private Matrix<double> constraintValues;
+		private List<Vector<double>> constraintForces;
 
 		private Dictionary<PhysicalParticle, Vector3> newVelocities = new Dictionary<PhysicalParticle, Vector3>();
 
@@ -91,9 +91,9 @@ namespace RigidBodyDynamics
 			}
 		}
 
-		private Matrix<float> ComputeJacobian(IPhysicalConstraint constraint, IReadOnlyList<PhysicalParticle> particles)
+		private Matrix<double> ComputeJacobian(IPhysicalConstraint constraint, IReadOnlyList<PhysicalParticle> particles)
 		{
-			Matrix<float> jacobian = Matrix<float>.Build.Dense(1, GeneralizedCoordinatesPerParticle * particles.Count);
+			Matrix<double> jacobian = Matrix<double>.Build.Dense(1, GeneralizedCoordinatesPerParticle * particles.Count);
 
 			for (int j = 0; j < particles.Count; j++)
 			{
@@ -114,13 +114,13 @@ namespace RigidBodyDynamics
 
 		private void SolveConstraintEquations(float dt)
 		{
-			const float tolerance = 1e-6f;
+			const double tolerance = 1e-6;
 			const int maxIterations = 100;
-			const float errorMax = 1e-4f;
+			const double errorMax = 1e-4;
 
 			//Debug.WriteLine($"**************************** Starting iterations");
 
-			float totalError = 0;
+			double totalError = 0;
 			int nIter;
 
 			for (nIter = 0; nIter < maxIterations; nIter++)
@@ -147,8 +147,8 @@ namespace RigidBodyDynamics
 
 					var jacobian = ComputeJacobian(constraint, particles);
 
-					var newVelocity = Matrix<float>.Build.Dense(particles.Count * GeneralizedCoordinatesPerParticle, 1);
-					var massInverseMatrix = Matrix<float>.Build.Dense(
+					var newVelocity = Matrix<double>.Build.Dense(particles.Count * GeneralizedCoordinatesPerParticle, 1);
+					var massInverseMatrix = Matrix<double>.Build.Dense(
 						particles.Count * GeneralizedCoordinatesPerParticle,
 						particles.Count * GeneralizedCoordinatesPerParticle);
 
@@ -165,11 +165,11 @@ namespace RigidBodyDynamics
 						massInverseMatrix[basis + 2, basis + 2] = 1 / particles[i].InertialMoment;
 					}
 
-					float A = (jacobian * massInverseMatrix * jacobian.Transpose())[0,0];
-					float B1 = (-jacobian * newVelocity)[0, 0];
+					double A = (jacobian * massInverseMatrix * jacobian.Transpose())[0,0];
+					double B1 = (-jacobian * newVelocity)[0, 0];
 
 					// Add bias to help force constraint apply.
-					//var bias = Matrix<float>.Build.Dense(particles.Count * GeneralizedCoordinatesPerParticle, 1);
+					//var bias = Matrix<double>.Build.Dense(particles.Count * GeneralizedCoordinatesPerParticle, 1);
 
 					var bias = SpringConstant * constraint.Value + (DampeningConstant * B1) * dt;
 					var B = B1 - bias;
@@ -179,7 +179,7 @@ namespace RigidBodyDynamics
 
 					//if (MatrixIsZero(A))
 					//{
-					//	lagrangeMultipliers = Matrix<float>.Build.Dense(Constraints.Count, 1);
+					//	lagrangeMultipliers = Matrix<double>.Build.Dense(Constraints.Count, 1);
 					//	return;
 					//}
 
@@ -218,7 +218,7 @@ namespace RigidBodyDynamics
 			Debug.WriteLine($"Total error: {totalError} after {nIter + 1} iterations.");
 		}
 
-		private static void NormalizeLinearEquations(Matrix<float> A, float tolerance)
+		private static void NormalizeLinearEquations(Matrix<double> A, float tolerance)
 		{
 			for (int i = 0; i < A.RowCount; i++)
 			{
@@ -251,7 +251,7 @@ namespace RigidBodyDynamics
 				jacobian.RowCount != JacobianRows ||
 				jacobian.ColumnCount != JacobianColumns)
 			{
-				jacobian = Matrix<float>.Build.Dense(JacobianRows, JacobianColumns);
+				jacobian = Matrix<double>.Build.Dense(JacobianRows, JacobianColumns);
 			}
 			else
 			{
@@ -267,16 +267,16 @@ namespace RigidBodyDynamics
 
 		private void InitializeConstraintValues()
 		{
-			constraintValues = Matrix<float>.Build.Dense(Constraints.Count, 1);
-			constraintForces = new List<Vector<float>>();
+			constraintValues = Matrix<double>.Build.Dense(Constraints.Count, 1);
+			constraintForces = new List<Vector<double>>();
 
 			for (int i = 0; i < Constraints.Count; i++)
 			{
 				constraintValues[i, 0] = Constraints[i].Value;
-				constraintForces.Add(Vector<float>.Build.Dense(GeneralizedCoordinateCount));
+				constraintForces.Add(Vector<double>.Build.Dense(GeneralizedCoordinateCount));
 			}
 
-			totalConstraintImpulse = Matrix<float>.Build.Dense(GeneralizedCoordinateCount, 1);
+			totalConstraintImpulse = Matrix<double>.Build.Dense(GeneralizedCoordinateCount, 1);
 		}
 
 		private void InitializeVelocityVector(float dt)
@@ -307,10 +307,10 @@ namespace RigidBodyDynamics
 		}
 
 
-		private void InitializeVector(ref Matrix<float> vector, bool clear)
+		private void InitializeVector(ref Matrix<double> vector, bool clear)
 		{
 			if (vector == null || vector.RowCount != GeneralizedCoordinateCount)
-				vector = Matrix<float>.Build.Dense(GeneralizedCoordinateCount, 1);
+				vector = Matrix<double>.Build.Dense(GeneralizedCoordinateCount, 1);
 
 			if (clear)
 				vector.CoerceZero(float.MaxValue);
@@ -320,7 +320,7 @@ namespace RigidBodyDynamics
 		{
 			if (massInverseMatrix == null || massInverseMatrix.ColumnCount != JacobianColumns)
 			{
-				massInverseMatrix = Matrix<float>.Build.Diagonal(JacobianColumns, JacobianColumns);
+				massInverseMatrix = Matrix<double>.Build.Diagonal(JacobianColumns, JacobianColumns);
 			}
 
 			for (int i = 0; i < Particles.Count; i++)
@@ -335,7 +335,7 @@ namespace RigidBodyDynamics
 
 		}
 
-		private void CopyValuesForParticle(Matrix<float> matrix, int particleIndex, float x, float y, float angle)
+		private void CopyValuesForParticle(Matrix<double> matrix, int particleIndex, double x, double y, double angle)
 		{
 			int basis = particleIndex * GeneralizedCoordinatesPerParticle;
 
@@ -344,7 +344,7 @@ namespace RigidBodyDynamics
 			matrix[basis + 2, 0] = angle;
 		}
 
-		private bool MatrixIsZero(Matrix<float> matrix)
+		private bool MatrixIsZero(Matrix<double> matrix)
 		{
 			for (int i = 0; i < matrix.RowCount; i++)
 			{

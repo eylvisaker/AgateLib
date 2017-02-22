@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace RigidBodyDynamics
@@ -24,15 +24,15 @@ namespace RigidBodyDynamics
 
 		private const float DefaultSpringConstant = 1000f;
 
-		private Matrix<float> jacobian;
-		private Matrix<float> lagrangeMultipliers;
-		private Matrix<float> massInverseMatrix;
-		private Matrix<float> velocity;
-		private Matrix<float> externalForces;
-		private Matrix<float> totalConstraintForces;
-		private Matrix<float> constraintValues;
-		private Matrix<float> constraintDerivatives;
-		private List<Vector<float>> constraintForces;
+		private Matrix<double> jacobian;
+		private Matrix<double> lagrangeMultipliers;
+		private Matrix<double> massInverseMatrix;
+		private Matrix<double> velocity;
+		private Matrix<double> externalForces;
+		private Matrix<double> totalConstraintForces;
+		private Matrix<double> constraintValues;
+		private Matrix<double> constraintDerivatives;
+		private List<Vector<double>> constraintForces;
 
 		public WeakConstraintSolver(KinematicsSystem system)
 		{
@@ -64,19 +64,19 @@ namespace RigidBodyDynamics
 
 		public float DampeningConstant { get; set; } = (float)Math.Sqrt(DefaultSpringConstant);
 
-		public Matrix<float> LagrangeMultipliers => lagrangeMultipliers;
+		public Matrix<double> LagrangeMultipliers => lagrangeMultipliers;
 
-		public Matrix<float> Jacobian => jacobian;
+		public Matrix<double> Jacobian => jacobian;
 
-		public Matrix<float> JacobianDerivative { get; private set; }
-		public Matrix<float> CoefficientMatrix { get; private set; }
-		public Matrix<float> EquationConstants { get; private set; }
+		public Matrix<double> JacobianDerivative { get; private set; }
+		public Matrix<double> CoefficientMatrix { get; private set; }
+		public Matrix<double> EquationConstants { get; private set; }
 
-		public Matrix<float> TotalConstraintForces => totalConstraintForces;
+		public Matrix<double> TotalConstraintForces => totalConstraintForces;
 
-		public Matrix<float> Velocity => velocity;
+		public Matrix<double> Velocity => velocity;
 
-		public List<Vector<float>> ConstraintForces => constraintForces;
+		public List<Vector<double>> ConstraintForces => constraintForces;
 
 		/// <summary>
 		/// Computes the constraint forces from the current state of the system.
@@ -145,9 +145,9 @@ namespace RigidBodyDynamics
 		}
 
 
-		private Matrix<float> ComputeJacobianDerivative()
+		private Matrix<double> ComputeJacobianDerivative()
 		{
-			var jacobDerivative = Matrix<float>.Build.Dense(JacobianRows, JacobianColumns);
+			var jacobDerivative = Matrix<double>.Build.Dense(JacobianRows, JacobianColumns);
 
 			Parallel.For(0, Constraints.Count, i =>
 			{
@@ -188,8 +188,8 @@ namespace RigidBodyDynamics
 			//       x = lambda
 			//       B = -dJ/dt * v - J * M^(-1) * F_{ext}
 
-			Matrix<float> A = jacobian * massInverseMatrix * jacobian.Transpose();
-			Matrix<float> B = -derivative * velocity - jacobian * massInverseMatrix * externalForces;
+			Matrix<double> A = jacobian * massInverseMatrix * jacobian.Transpose();
+			Matrix<double> B = -derivative * velocity - jacobian * massInverseMatrix * externalForces;
 
 			B -= SpringConstant * constraintValues + DampeningConstant * constraintDerivatives;
 
@@ -209,13 +209,13 @@ namespace RigidBodyDynamics
 
 			if (MatrixIsZero(A))
 			{
-				lagrangeMultipliers = Matrix<float>.Build.Dense(Constraints.Count, 1);
+				lagrangeMultipliers = Matrix<double>.Build.Dense(Constraints.Count, 1);
 				return;
 			}
 
 			lagrangeMultipliers = A.Solve(B);
 
-			//Matrix<float> aInv = A.Inverse();
+			//Matrix<double> aInv = A.Inverse();
 
 			//lagrangeMultipliers = aInv * B;
 
@@ -250,7 +250,7 @@ namespace RigidBodyDynamics
 				jacobian.RowCount != JacobianRows ||
 				jacobian.ColumnCount != JacobianColumns)
 			{
-				jacobian = Matrix<float>.Build.Dense(JacobianRows, JacobianColumns);
+				jacobian = Matrix<double>.Build.Dense(JacobianRows, JacobianColumns);
 			}
 			else
 			{
@@ -266,13 +266,13 @@ namespace RigidBodyDynamics
 
 		private void InitializeConstraintValues()
 		{
-			constraintValues = Matrix<float>.Build.Dense(Constraints.Count, 1);
-			constraintForces = new List<Vector<float>>();
+			constraintValues = Matrix<double>.Build.Dense(Constraints.Count, 1);
+			constraintForces = new List<Vector<double>>();
 
 			for (int i = 0; i < Constraints.Count; i++)
 			{
 				constraintValues[i, 0] = Constraints[i].Value;
-				constraintForces.Add(Vector<float>.Build.Dense(GeneralizedCoordinateCount));
+				constraintForces.Add(Vector<double>.Build.Dense(GeneralizedCoordinateCount));
 			}
 		}
 
@@ -301,10 +301,10 @@ namespace RigidBodyDynamics
 		}
 
 
-		private void InitializeVector(ref Matrix<float> vector, bool clear)
+		private void InitializeVector(ref Matrix<double> vector, bool clear)
 		{
 			if (vector == null || vector.RowCount != GeneralizedCoordinateCount)
-				vector = Matrix<float>.Build.Dense(GeneralizedCoordinateCount, 1);
+				vector = Matrix<double>.Build.Dense(GeneralizedCoordinateCount, 1);
 
 			if (clear)
 				vector.CoerceZero(float.MaxValue);
@@ -314,7 +314,7 @@ namespace RigidBodyDynamics
 		{
 			if (massInverseMatrix == null || massInverseMatrix.ColumnCount != JacobianColumns)
 			{
-				massInverseMatrix = Matrix<float>.Build.Diagonal(JacobianColumns, JacobianColumns);
+				massInverseMatrix = Matrix<double>.Build.Diagonal(JacobianColumns, JacobianColumns);
 			}
 
 			for (int i = 0; i < Particles.Count; i++)
@@ -329,7 +329,7 @@ namespace RigidBodyDynamics
 
 		}
 
-		private void CopyValuesForParticle(Matrix<float> matrix, int particleIndex, float x, float y, float angle)
+		private void CopyValuesForParticle(Matrix<double> matrix, int particleIndex, double x, double y, double angle)
 		{
 			int basis = particleIndex * GeneralizedCoordinatesPerParticle;
 
@@ -338,7 +338,7 @@ namespace RigidBodyDynamics
 			matrix[basis + 2, 0] = angle;
 		}
 
-		private bool MatrixIsZero(Matrix<float> matrix)
+		private bool MatrixIsZero(Matrix<double> matrix)
 		{
 			for (int i = 0; i < matrix.RowCount; i++)
 			{

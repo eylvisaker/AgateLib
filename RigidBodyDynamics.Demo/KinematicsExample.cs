@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace RigidBodyDynamics.Demo
 {
 	public interface IKinematicsExample
 	{
 		string Name { get; }
-		float PotentialEnergy { get; }
+		double PotentialEnergy { get; }
 
 		KinematicsSystem Initialize(Size area);
 

@@ -12,9 +12,9 @@ namespace RigidBodyDynamics
 
 		public IReadOnlyList<IPhysicalConstraint> Constraints => constraints;
 
-		public float LinearKineticEnergy => particles.Sum(p => .5f * p.Mass * p.Velocity.MagnitudeSquared);
+		public double LinearKineticEnergy => particles.Sum(p => .5f * p.Mass * p.Velocity.MagnitudeSquared);
 
-		public float AngularKineticEnergy
+		public double AngularKineticEnergy
 			=> particles.Sum(p => .5f * p.InertialMoment * p.AngularVelocity * p.AngularVelocity);
 
 		public void AddParticles(params PhysicalParticle[] items)

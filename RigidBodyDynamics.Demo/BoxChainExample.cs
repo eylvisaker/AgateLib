@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace RigidBodyDynamics.Demo
 {
@@ -26,7 +27,7 @@ namespace RigidBodyDynamics.Demo
 
 		public string Name => "Box Chain";
 
-		public float PotentialEnergy => boxes.Sum(p => p.Mass * p.Position.Y * -gravity);
+		public double PotentialEnergy => boxes.Sum(p => p.Mass * p.Position.Y * -gravity);
 
 		public int BoxCount { get; set; } = 8;
 
@@ -91,7 +92,8 @@ namespace RigidBodyDynamics.Demo
 
 		private void DrawSphere(PhysicalParticle physicalParticle)
 		{
-			Display.FillEllipse(new RectangleF(physicalParticle.Position.X - 40, physicalParticle.Position.Y - 40, 80, 80), Color.Blue);
+			Display.Primitives.FillEllipse(Color.Blue,
+				new RectangleF((float)physicalParticle.Position.X - 40, (float)physicalParticle.Position.Y - 40, 80, 80));
 		}
 
 		private void InitializeImages()
