@@ -417,6 +417,7 @@ namespace AgateLib.DisplayLib
 		{
 			Draw(Point.Empty);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -431,6 +432,7 @@ namespace AgateLib.DisplayLib
 
 			mImpl.Draw(State);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -445,6 +447,7 @@ namespace AgateLib.DisplayLib
 
 			mImpl.Draw(State);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -502,6 +505,7 @@ namespace AgateLib.DisplayLib
 		{
 			Draw(Rectangle.Empty, destPt, rotationCenter);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -514,6 +518,13 @@ namespace AgateLib.DisplayLib
 			Draw(new PointF(destX, destY), new PointF(rotationCenterX, rotationCenterY));
 		}
 
+		/// <summary>
+		/// Draws the surface at the specified point with the specified rotation center.
+		/// </summary>
+		/// <param name="srcRect"></param>
+		/// <param name="destPt"></param>
+		/// <param name="rotationCenter"></param>
+		[Obsolete("Use your own translation instead of supplying rotationCenter.")]
 		public void Draw(Rectangle srcRect, PointF destPt, PointF rotationCenter)
 		{
 			OriginAlignment oldrotation = State.RotationCenter;
