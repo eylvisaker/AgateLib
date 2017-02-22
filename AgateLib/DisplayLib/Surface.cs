@@ -455,6 +455,7 @@ namespace AgateLib.DisplayLib
 		{
 			Draw(destPt.X, destPt.Y);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -465,6 +466,18 @@ namespace AgateLib.DisplayLib
 		{
 			Draw(destPt.X, destPt.Y);
 		}
+
+		/// <summary>
+		/// Draws this surface to the screen at the specified point, 
+		/// using all the state information defined in the properties 
+		/// of this surface.
+		/// </summary>
+		/// <param name="destPt">Destination point to draw to.</param>
+		public void Draw(Vector2 destPt)
+		{
+			Draw((float)destPt.X, (float)destPt.Y);
+		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 

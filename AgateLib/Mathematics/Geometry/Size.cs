@@ -26,7 +26,7 @@ namespace AgateLib.Mathematics.Geometry
 	/// <summary>
 	/// A structure with two properties, a width and height.
 	/// </summary>
-    [DataContract]
+	[DataContract]
 	public struct Size
 	{
 		[DataMember]
@@ -36,19 +36,20 @@ namespace AgateLib.Mathematics.Geometry
 		/// Constructs a Size.
 		/// </summary>
 		/// <param name="pt"></param>
-        [DebuggerStepThrough]
-        public Size(Point pt)
+		[DebuggerStepThrough]
+		public Size(Point pt)
 		{
 			width = pt.X;
 			height = pt.Y;
 		}
+
 		/// <summary>
 		/// Constructs a Size.
 		/// </summary>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
-        [DebuggerStepThrough]
-        public Size(int width, int height)
+		[DebuggerStepThrough]
+		public Size(int width, int height)
 		{
 			this.width = width;
 			this.height = height;
@@ -57,40 +58,38 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Gets or sets the width.
 		/// </summary>
-        public int Width
+		public int Width
 		{
-            [DebuggerStepThrough]
-            get { return width; }
-            [DebuggerStepThrough]
-            set { width = value; }
+			[DebuggerStepThrough]
+			get { return width; }
+			[DebuggerStepThrough]
+			set { width = value; }
 		}
+
 		/// <summary>
 		/// Gets or sets the height.
 		/// </summary>
-        public int Height
+		public int Height
 		{
-            [DebuggerStepThrough]
-            get { return height; }
-            [DebuggerStepThrough]
-            set { height = value; }
+			[DebuggerStepThrough]
+			get { return height; }
+			[DebuggerStepThrough]
+			set { height = value; }
 		}
 
 		/// <summary>
 		/// Returns true if width and height are zero.
 		/// </summary>
-        public bool IsEmpty
+		public bool IsEmpty
 		{
-            [DebuggerStepThrough]
-            get { return width == 0 && height == 0; }
+			[DebuggerStepThrough]
+			get { return width == 0 && height == 0; }
 		}
 
 		/// <summary>
 		/// Gets the aspect ratio (width / height) of this Size object.
 		/// </summary>
-		public double AspectRatio
-		{
-			get { return width / (double)height; }
-		}
+		public double AspectRatio => width / (double)height;
 
 		#region --- Operator Overloads ---
 
@@ -134,7 +133,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <returns></returns>
 		public override int GetHashCode()
 		{
-			return width.GetHashCode() + height.GetHashCode();
+			return width.GetHashCode() ^ height.GetHashCode();
 		}
 
 		/// <summary>
@@ -194,22 +193,22 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public static Size FromString(string str)
+		public static Size FromString(string text)
 		{
-			if (str.StartsWith("{") && str.EndsWith("}"))
+			if (text.StartsWith("{") && text.EndsWith("}"))
 			{
-				str = str.Substring(1, str.Length - 2);
+				text = text.Substring(1, text.Length - 2);
 			}
 
-			string[] values = str.Split(',');
+			string[] values = text.Split(',');
 			Size result = new Size();
 
-			if (values.Length == 1 && str.Contains("x") && str.Contains("=") == false)
-				values = str.Split('x');
+			if (values.Length == 1 && text.Contains("x") && text.Contains("=") == false)
+				values = text.Split('x');
 			if (values.Length != 2)
 				throw new FormatException("Could not parse size data from text.");
 
-			if (str.Contains("="))
+			if (text.Contains("="))
 			{
 				// parse named arguments
 				for (int i = 0; i < values.Length; i++)
@@ -235,6 +234,7 @@ namespace AgateLib.Mathematics.Geometry
 				result.Width = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
 				result.Height = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
 			}
+
 			return result;
 		}
 
