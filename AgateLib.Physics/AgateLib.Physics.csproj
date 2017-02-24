@@ -51,10 +51,6 @@
     <Compile Include="VectorExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AgateLib, Version=2.0.161.17052, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AgateLib.2.0.161.17052\lib\portable45-net45+win8+wp8+wpa81\AgateLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MathNet.Numerics, Version=3.17.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.17.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
@@ -66,6 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgateLib\AgateLib.csproj">
+      <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
