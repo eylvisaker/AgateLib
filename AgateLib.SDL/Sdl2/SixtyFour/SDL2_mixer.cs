@@ -27,11 +27,13 @@
 #endregion
 
 #region Using Statements
+
 using System;
 using System.Runtime.InteropServices;
+
 #endregion
 
-namespace SDL2.SixtyFour
+namespace AgateLib.AgateSDL.Sdl2.SixtyFour
 {
 	public static class SDL_mixer
 	{

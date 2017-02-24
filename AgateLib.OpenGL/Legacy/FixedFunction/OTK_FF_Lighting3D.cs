@@ -21,9 +21,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
+using AgateLib.Mathematics;
 using OpenTK.Graphics.OpenGL;
 
 namespace AgateLib.OpenGL.Legacy.FixedFunction
@@ -150,7 +152,7 @@ namespace AgateLib.OpenGL.Legacy.FixedFunction
 			}
 		}
 
-		private void SetArray(float[] array, Vector3 vec)
+		private void SetArray(float[] array, Vector3f vec)
 		{
 			array[0] = vec.X;
 			array[1] = vec.Y;

@@ -20,7 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib.Shaders.Implementation;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {
@@ -111,14 +112,14 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Indicates which shader language is supported.
 		/// </summary>
-		public AgateLib.DisplayLib.Shaders.ShaderLanguage ShaderLanguage
+		public ShaderLanguage ShaderLanguage
 		{
 			get 
 			{ 
 				var shad = Display.Impl.SupportedShaderLanguages.ToList(); 
 			
 				if (shad.Count == 0)
-					return Shaders.ShaderLanguage.None;
+					return ShaderLanguage.None;
 				else
 					return shad[0];
 			}
@@ -228,6 +229,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		CanCreateBitmapFont,
 	}
+
+	/// <summary>
+	/// Caps values which should return floating point values.
+	/// </summary>
 	public enum DisplayDoubleCaps
 	{
 		/// <summary>

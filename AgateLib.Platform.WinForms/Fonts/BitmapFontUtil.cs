@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Resources;
 

@@ -19,11 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
-using AgateLib;
 using AgateLib.AudioLib.ImplementationBase;
-using SDL2;
 using AgateLib.AgateSDL.Sdl2;
 using AgateLib.AudioLib;
 

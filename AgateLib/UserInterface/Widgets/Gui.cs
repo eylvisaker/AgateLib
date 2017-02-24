@@ -20,8 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.Quality;
 using AgateLib.UserInterface.Widgets.Gestures;
 
@@ -300,7 +301,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		#endregion
 
-		public void OnUpdate(TimeSpan elapsed, bool processInput)
+		public void OnUpdate(ClockTimeSpan elapsed, bool processInput)
 		{
 			if (mGestureController != null)
 				mGestureController.OnTimePass();

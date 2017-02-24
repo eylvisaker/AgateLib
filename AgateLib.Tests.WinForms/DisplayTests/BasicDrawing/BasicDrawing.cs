@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests.BasicDrawing
 {
@@ -142,51 +142,4 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 		DrawEllipse,
 		DrawLine,
 	}
-
-	class Shape
-	{
-		public Shape()
-		{
-		}
-		public Shape(ShapeType shapeType, Color color, Rectangle rect)
-		{
-			FigureType = shapeType;
-			Color = color;
-			Rect = rect;
-		}
-
-		public ShapeType FigureType;
-		public Color Color;
-		public Rectangle Rect;
-
-		public void Draw()
-		{
-			switch (FigureType)
-			{
-				case ShapeType.DrawLine:
-					Display.DrawLine(Rect.Left, Rect.Top, Rect.Right, Rect.Bottom, Color);
-					break;
-
-				case ShapeType.DrawRect:
-					Display.DrawRect(Rect, Color);
-					break;
-
-				case ShapeType.DrawEllipse:
-					Display.DrawEllipse(Rect, Color);
-					break;
-
-				case ShapeType.FillRect:
-					Display.FillRect(Rect, Color);
-					break;
-
-				case ShapeType.FillEllipse:
-					Display.FillEllipse(Rect, Color);
-					break;
-
-				default:
-					throw new NotImplementedException();
-			}
-		}
-	}
-
 }

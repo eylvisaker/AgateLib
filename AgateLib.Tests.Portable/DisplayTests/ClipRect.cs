@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -27,7 +28,7 @@ namespace AgateLib.Tests.DisplayTests
 			surf = new Surface("Images/wallpaper.png");
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			time += elapsed.TotalSeconds;
 		}
@@ -50,7 +51,7 @@ namespace AgateLib.Tests.DisplayTests
 			for (int i = 10; i < 100; i += 10)
 			{
 				Display.SetClipRect(new Rectangle(320 + i, i, 310 - i * 2, 310 - i * 2));
-				Display.FillRect(0, 0, 640, 480, colors[index]);
+				Display.Primitives.FillRect(colors[index], new Rectangle(0, 0, 640, 480));
 				index++;
 				index %= colors.Length;
 			}

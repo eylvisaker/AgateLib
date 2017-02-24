@@ -5,7 +5,7 @@ using System.IO;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
 using AgateLib.Platform.WinForms;

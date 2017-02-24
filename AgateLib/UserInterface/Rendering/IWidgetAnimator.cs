@@ -21,7 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
@@ -41,7 +42,7 @@ namespace AgateLib.UserInterface.Rendering
 		Rectangle WidgetRect { get; }
 		IWidgetAnimator ParentCoordinateSystem { get; }
 
-		void Update(TimeSpan elapsed);
+		void Update(ClockTimeSpan elapsed);
 		Rectangle ClientToScreen(Rectangle rectangle, bool translateForScroll = true);
 		Point ClientToScreen(Point translated, bool translateForScroll = true);
 		Point ScreenToClient(Point translated);

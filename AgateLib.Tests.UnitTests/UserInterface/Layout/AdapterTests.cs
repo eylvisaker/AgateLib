@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
 using AgateLib.Resources.Managers;

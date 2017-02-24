@@ -10,11 +10,11 @@ namespace AgateLib.Platform
 		/// <summary>
 		/// The amount of time which passed since the last time the clock advanced.
 		/// </summary>
-		TimeSpan Elapsed { get; }
+		ClockTimeSpan Elapsed { get; }
 
 		/// <summary>
 		/// The current time shown on the clock face.
 		/// </summary>
-		TimeSpan CurrentTime { get; }
+		ClockTimeSpan CurrentTime { get; }
 	}
 }

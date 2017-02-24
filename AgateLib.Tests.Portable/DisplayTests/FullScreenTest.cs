@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -75,8 +75,8 @@ Press arrow keys to adjust resolution
 
 				font.DrawText(0, Display.CurrentWindow.Height - bottomSize.Height, bottomText);
 
-				Display.FillRect(new Rectangle(0, 0, Display.CurrentWindow.Width, topSize.Height),
-					Color.Maroon);
+				Display.Primitives.FillRect(Color.Maroon,
+					new Rectangle(0, 0, Display.CurrentWindow.Width, topSize.Height));
 
 				font.DrawText(mouseText);
 

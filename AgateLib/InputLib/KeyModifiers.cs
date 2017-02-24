@@ -28,10 +28,6 @@ namespace AgateLib.InputLib
 	/// </summary>
 	public struct KeyModifiers
 	{
-		private bool mAlt;
-		private bool mControl;
-		private bool mShift;
-
 		/// <summary>
 		/// Constructs a KeyModifiers structure with the given
 		/// state of the alt, control and shift keys.
@@ -41,33 +37,23 @@ namespace AgateLib.InputLib
 		/// <param name="shift"></param>
 		public KeyModifiers(bool alt, bool control, bool shift)
 		{
-			mAlt = alt;
-			mControl = control;
-			mShift = shift;
+			Alt = alt;
+			Control = control;
+			Shift = shift;
 		}
 		/// <summary>
 		/// Gets or sets the state of the Alt key.
 		/// </summary>
-		public bool Alt
-		{
-			get { return mAlt; }
-			set { mAlt = value; }
-		}
+		public bool Alt { get; set; }
+
 		/// <summary>
 		/// Gets or sets the state of the Control key.
 		/// </summary>
-		public bool Control
-		{
-			get { return mControl; }
-			set { mControl = value; }
-		}
+		public bool Control { get; set; }
+
 		/// <summary>
 		/// Gets or sets the state of the Shift key.
 		/// </summary>
-		public bool Shift
-		{
-			get { return mShift; }
-			set { mShift = value; }
-		}
+		public bool Shift { get; set; }
 	}
 }

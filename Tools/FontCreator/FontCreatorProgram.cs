@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using AgateLib;
+using AgateLib.Mathematics.TypeConverters;
 using AgateLib.Platform.WinForms.IO;
 using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
@@ -83,7 +84,7 @@ namespace FontCreatorApp
 		{
 			Deserializer deserializer = new DeserializerBuilder()
 				.WithNamingConvention(new HyphenatedNamingConvention())
-				.WithTypeConverter(new AgateLib.Geometry.TypeConverters.ColorConverterYaml())
+				.WithTypeConverter(new ColorConverterYaml())
 				.Build();
 
 			using (var stream = new StreamReader(file))

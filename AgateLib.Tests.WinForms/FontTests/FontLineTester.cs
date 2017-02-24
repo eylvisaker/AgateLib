@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.FontTests
 {
@@ -45,7 +45,7 @@ namespace AgateLib.Tests.FontTests
 
 					FontTests(fonts[currentFont], out drawRect);
 
-					Display.DrawRect(drawRect, Color.Red);
+					Display.Primitives.DrawRect(Color.Red, drawRect);
 					
 					Display.EndFrame();
 					AgateApp.KeepAlive();

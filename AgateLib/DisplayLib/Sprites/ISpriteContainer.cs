@@ -18,7 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 
 namespace AgateLib.DisplayLib.Sprites
 {
@@ -26,7 +26,7 @@ namespace AgateLib.DisplayLib.Sprites
 	{
 		Sprite CurrentSprite { get; }
 
-		void Draw(Vector2 screenPosition);
+		void Draw(Vector2f screenPosition);
 		void Update(double seconds);
 
 		IEnumerable<Sprite> AllSprites { get; }

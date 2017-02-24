@@ -31,7 +31,7 @@ namespace AgateLib.Platform.Test.UserInterface
 		public void Draw()
 		{
 		}
-		public void Update(TimeSpan elapsed)
+		public void Update(ClockTimeSpan elapsed)
 		{ }
 
 

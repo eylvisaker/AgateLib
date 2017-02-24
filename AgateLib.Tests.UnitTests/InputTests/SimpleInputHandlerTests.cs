@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.InputTests

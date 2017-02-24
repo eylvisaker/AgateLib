@@ -21,7 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Platform;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering.Transitions
@@ -32,15 +33,15 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 		public TransitionDirection TransitionType { get; private set; }
 
-		Vector2 mOutsidePosition;
-		Vector2 mTargetDestination;
+		Vector2f mOutsidePosition;
+		Vector2f mTargetDestination;
 		float mVelocityMag;
 		float mAccelerationMag;
 
-		Vector2 mDestination;
-		Vector2 mPosition;
-		Vector2 mVelocity;
-		Vector2 mAcceleration;
+		Vector2f mDestination;
+		Vector2f mPosition;
+		Vector2f mVelocity;
+		Vector2f mAcceleration;
 
 		double mTime;
 		double mFinalTime = 0.2;
@@ -52,9 +53,9 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			TransitionType = Style.Transition.Direction;
 			mFinalTime = Style.Transition.Time;
 
-			mTargetDestination = new Vector2(Widget.ClientRect.X, Widget.ClientRect.Y);
+			mTargetDestination = new Vector2f(Widget.ClientRect.X, Widget.ClientRect.Y);
 			mOutsidePosition = mTargetDestination;
-			mVelocity = Vector2.Empty;
+			mVelocity = Vector2f.Zero;
 
 			const int leeway = 40;
 
@@ -85,7 +86,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 		private void SetDynamicVariables()
 		{
-			mPosition = new Vector2(Animator.ClientRect.Location);
+			mPosition = new Vector2f(Animator.ClientRect.Location);
 
 			// we are using a parabola to slow down as the window reaches its destination.
 			// r controls the initial speed and amount of slowdown required. at the time
@@ -147,7 +148,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			Active = true;
 			movingOut = false;
 			mTime = 0;
-			mDestination = new Vector2(Widget.ClientRect.Location);
+			mDestination = new Vector2f(Widget.ClientRect.Location);
 
 			SetDynamicVariables();
 			RecalculateVectors();
@@ -158,7 +159,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			Active = true;
 			movingOut = true;
 			mTime = 0;
-			mVelocity = Vector2.Empty;
+			mVelocity = Vector2f.Zero;
 
 			mDestination = mOutsidePosition;
 
@@ -176,10 +177,10 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			Animator.Visible = true;
 
 			mTime = 0;
-			mVelocity = Vector2.Empty;
+			mVelocity = Vector2f.Zero;
 
 			mPosition = mOutsidePosition;
-			mDestination = new Vector2(Widget.ClientRect.X, Widget.ClientRect.Y);
+			mDestination = new Vector2f(Widget.ClientRect.X, Widget.ClientRect.Y);
 			
 			SetDynamicVariables();
 			RecalculateVectors();
@@ -196,7 +197,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			mAcceleration *= mAccelerationMag;
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			double delta_t = elapsed.TotalSeconds;
 
@@ -206,7 +207,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			mTime += delta_t;
 
 			float dtf = (float)delta_t;
-			Vector2 step = mVelocity * dtf + 0.5f * mAcceleration * dtf * dtf;
+			Vector2f step = mVelocity * dtf + 0.5f * mAcceleration * dtf * dtf;
 
 			mPosition += step;
 			mVelocity += mAcceleration * dtf;
@@ -226,7 +227,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			}
 		}
 
-		void SetPosition(Vector2 pos)
+		void SetPosition(Vector2f pos)
 		{
 			Animator.X = (int)(pos.X + 0.5);
 			Animator.Y = (int)(pos.Y + 0.5);

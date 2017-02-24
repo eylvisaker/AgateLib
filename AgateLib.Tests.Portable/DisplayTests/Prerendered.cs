@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -58,7 +58,7 @@ namespace AgateLib.Tests.DisplayTests
 			Display.BeginFrame();
 
 			Display.Clear(Color.Blue);
-			Display.FillRect(new Rectangle(2, 2, 20, 20), Color.Black);
+			Display.Primitives.FillRect(Color.Black, new Rectangle(2, 2, 20, 20));
 
 			font.Color = Color.Red;
 			font.DrawText(3, 3, "HELLO WORLD");

@@ -20,10 +20,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders.Implementation;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 using OpenTK.Graphics.OpenGL;
-using AgateLib.OpenGL.GL3.Shaders;
 
 namespace AgateLib.OpenGL.GL3.Shaders
 {
@@ -105,7 +106,7 @@ namespace AgateLib.OpenGL.GL3.Shaders
 		{
 			shader.SetUniform("texture", value );
 		}
-		public void SetVertexAttributes(AgateLib.Geometry.VertexTypes.VertexLayout layout)
+		public void SetVertexAttributes(AgateLib.Mathematics.Geometry.VertexTypes.VertexLayout layout)
 		{
 			for (int i = 0; i < layout.Count; i++)
 			{
@@ -123,36 +124,36 @@ namespace AgateLib.OpenGL.GL3.Shaders
 			}
 		}
 
-		private int CountOf(AgateLib.Geometry.VertexTypes.VertexElementDataType vertexElementDataType)
+		private int CountOf(AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType vertexElementDataType)
 		{
 			switch (vertexElementDataType)
 			{
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Float1:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Float1:
 					return 1;
 
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Float2:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Float2:
 					return 2;
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Float3:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Float3:
 					return 3;
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Float4:
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Int:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Float4:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Int:
 					return 4;
 
 				default:
 					throw new AgateLib.AgateException("Unrecognized data type.");
 			}
 		}
-		private VertexAttribPointerType AttribTypeOf(AgateLib.Geometry.VertexTypes.VertexElementDataType vertexElementDataType)
+		private VertexAttribPointerType AttribTypeOf(AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType vertexElementDataType)
 		{
 			switch (vertexElementDataType)
 			{
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Float1:
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Float2:
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Float3:
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Float4:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Float1:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Float2:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Float3:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Float4:
 					return VertexAttribPointerType.Float;
 
-				case AgateLib.Geometry.VertexTypes.VertexElementDataType.Int:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDataType.Int:
 					return VertexAttribPointerType.Byte;
 
 				default:
@@ -160,15 +161,15 @@ namespace AgateLib.OpenGL.GL3.Shaders
 			}
 		}
 
-		string VaryingName(AgateLib.Geometry.VertexTypes.VertexElementDesc vertexElementDesc)
+		string VaryingName(AgateLib.Mathematics.Geometry.VertexTypes.VertexElementDesc vertexElementDesc)
 		{
 			switch (vertexElementDesc.ElementType)
 			{
-				case AgateLib.Geometry.VertexTypes.VertexElement.Position:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElement.Position:
 					return "position";
-				case AgateLib.Geometry.VertexTypes.VertexElement.DiffuseColor:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElement.DiffuseColor:
 					return "color";
-				case AgateLib.Geometry.VertexTypes.VertexElement.Texture:
+				case AgateLib.Mathematics.Geometry.VertexTypes.VertexElement.Texture:
 					return "texCoord";
 				default:
 					return null;

@@ -16,11 +16,12 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
+
 using System;
+using AgateLib.DisplayLib.Particles.Emitters;
+using AgateLib.DisplayLib.Particles.Particles;
 
-using AgateLib.Geometry;
-
-namespace AgateLib.DisplayLib.Particles
+namespace AgateLib.DisplayLib.Particles.Manipulators
 {
 	/// <summary>
 	/// Fades out particles by changing the alpha channel.

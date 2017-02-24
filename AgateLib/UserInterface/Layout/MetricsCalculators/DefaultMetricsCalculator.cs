@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.StyleModel;
 
 namespace AgateLib.UserInterface.Layout.MetricsCalculators

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics.ConsoleSupport
@@ -195,10 +196,8 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 				if (messageTheme.BackColor.A > 0)
 				{
-					Display.FillRect(
-						new Rectangle(0, y,
-							Display.RenderTarget.Width, message.Layout.Height),
-						messageTheme.BackColor);
+					Display.Primitives.FillRect(messageTheme.BackColor,
+						new Rectangle(0, y, Display.RenderTarget.Width, message.Layout.Height));
 				}
 
 				message.Layout.Draw(new Point(0, y));
@@ -221,8 +220,8 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 			if (Theme.EntryBackgroundColor.A > 0)
 			{
-				Display.FillRect(0, size.Height - entryHeight, Display.RenderTarget.Width, entryHeight,
-					Theme.EntryBackgroundColor);
+				Display.Primitives.FillRect(Theme.EntryBackgroundColor,
+					new Rectangle(0, size.Height - entryHeight, Display.RenderTarget.Width, entryHeight));
 			}
 
 			Font.Color = Theme.EntryColor;
@@ -233,10 +232,9 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			{
 				int x = Font.MeasureString(currentLineText.Substring(0, Theme.EntryPrefix.Length + console.InsertionPoint)).Width;
 
-				Display.DrawLine(
-					new Point(x, y - Font.FontHeight),
-					new Point(x, y),
-					Theme.EntryColor);
+				Display.Primitives.DrawLine(Theme.EntryColor,
+					new Vector2f(x, y - Font.FontHeight),
+					new Vector2f(x, y));
 			}
 
 			Font.DisplayAlignment = OriginAlignment.TopLeft;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
+using AgateLib.Platform;
 using AgateLib.Platform.Test;
 using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
@@ -139,7 +140,7 @@ default:
 			resources = new AgateResourceManager(dataModel);
 			resources.InitializeContainer(container);
 
-			container.InterfaceRoot.OnUpdate(TimeSpan.Zero, false);
+			container.InterfaceRoot.OnUpdate(ClockTimeSpan.Zero, false);
 			container.InterfaceRoot.Draw();
 		}
 

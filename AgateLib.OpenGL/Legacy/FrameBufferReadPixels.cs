@@ -23,9 +23,9 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using OpenTK.Graphics.OpenGL;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.CoordinateSystems;
 
 namespace AgateLib.OpenGL.Legacy
 {
@@ -55,10 +55,7 @@ namespace AgateLib.OpenGL.Legacy
 			surface.Dispose();
 		}
 
-		public override AgateLib.Geometry.Size Size
-		{
-			get { return size; }
-		}
+		public override AgateLib.Mathematics.Geometry.Size Size => size;
 
 		public override void BeginRender()
 		{
@@ -89,6 +86,8 @@ namespace AgateLib.OpenGL.Legacy
 							 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D,
 							 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+			OnRenderComplete();
 		}
 
 		public override bool CanAccessRenderTarget

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 using AgateLib.Algorithms.PathFinding;
-using AgateLib.Geometry;
-
+using AgateLib.Mathematics.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.Algorithms.PathFinding
@@ -66,7 +65,7 @@ namespace AgateLib.UnitTests.Algorithms.PathFinding
 				return false;
 			}
 
-			public int GetStepCost(AgateLib.Geometry.Point target, AgateLib.Geometry.Point start)
+			public int GetStepCost(Point target, Point start)
 			{
 				return 1;
 			}
@@ -76,8 +75,8 @@ namespace AgateLib.UnitTests.Algorithms.PathFinding
 		public void AStarPathSync()
 		{
 			AStarState<Point> state = new AStarState<Point>();
-			state.Start = new AgateLib.Geometry.Point(4, 2);
-			state.EndPoints.Add(new AgateLib.Geometry.Point(5, 15));
+			state.Start = new Point(4, 2);
+			state.EndPoints.Add(new Point(5, 15));
 
 			var astar = new AStar<Point>(new FakeMap());
 
@@ -94,8 +93,8 @@ namespace AgateLib.UnitTests.Algorithms.PathFinding
 		public void AStarPath()
 		{
 			AStarState<Point> state = new AStarState<Point>();
-			state.Start = new AgateLib.Geometry.Point(4, 2);
-			state.EndPoints.Add(new AgateLib.Geometry.Point(5, 15));
+			state.Start = new Point(4, 2);
+			state.EndPoints.Add(new Point(5, 15));
 
 			var astar = new AStar<Point>(new FakeMap());
 

@@ -1,16 +1,15 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
+
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using AgateLib;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
-namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
+namespace AgateLib.Tests.DisplayTests
 {
 	class RotatingSprite : Scene, IAgateTest
 	{
@@ -33,7 +32,7 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 			sp.SetScale(2, 2);
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
 				SceneFinished = true;

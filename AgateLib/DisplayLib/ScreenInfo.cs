@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {
@@ -27,13 +27,7 @@ namespace AgateLib.DisplayLib
 		/// Gets a value indicating whether the screen is the primary.
 		/// </summary>
 		public bool IsPrimary { get; set; }
-
-		/// <summary>
-		/// Gets the full screen display window assigned to this screen.
-		/// </summary>
-		[Obsolete("Use DisplayWindow.Screen instead.")]
-		public DisplayWindow DisplayWindow { get; set; }
-
+		
 		/// <summary>
 		/// An IntPtr that can be used by the rendering system to track 
 		/// this monitor reference.

@@ -24,9 +24,11 @@ using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.Geometry.VertexTypes;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.VertexTypes;
 using OpenTK.Graphics.OpenGL;
+using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
 
 namespace AgateLib.OpenGL.GL3
 {
@@ -34,7 +36,7 @@ namespace AgateLib.OpenGL.GL3
 	/// Not OpenGL 3.1 compatible.
 	/// Need replacements for everything.
 	/// </summary>
-	public class GLPrimitiveRenderer : PrimitiveRenderer
+	public class GLPrimitiveRenderer : PrimitiveRenderer, IPrimitiveRenderer
 	{
 		PositionTextureColor[] mVerts = new PositionTextureColor[12];
 
@@ -42,20 +44,26 @@ namespace AgateLib.OpenGL.GL3
 		int mVaoID;
 
 		IGL_Display mDisplay;
+		private IDrawBufferState drawBuffer;
 
 		public GLPrimitiveRenderer()
 		{
 			mDisplay = (IGL_Display)Display.Impl;
 
 			GL.GenBuffers(1, out mBufferID);
-			GL.GenVertexArrays(1, out mVaoID); 
-			
+			GL.GenVertexArrays(1, out mVaoID);
+
 			Debug.Print("GL3 PrimitiveRenderer: Draw buffer ID: {0}", mBufferID);
+		}
+
+		public GLPrimitiveRenderer(IDrawBufferState drawBuffer)
+		{
+			this.drawBuffer = drawBuffer;
 		}
 
 		IGL_Surface WhiteSurface
 		{
-			get { return (IGL_Surface) mDisplay.WhiteSurface.Impl; }
+			get { return (IGL_Surface)mDisplay.WhiteSurface.Impl; }
 		}
 
 		private void BufferData()
@@ -87,19 +95,22 @@ namespace AgateLib.OpenGL.GL3
 			}
 		}
 
-		public override void DrawLine(Point a, Point b, Color color)
-		{
-			mVerts[0].Position.X = a.X;
-			mVerts[0].Position.Y = a.Y;
-			mVerts[0].TexCoord.X = 0;
-			mVerts[0].TexCoord.Y = 0;
-			mVerts[0].Color = color.ToArgb();
 
-			mVerts[1].Position.X = b.X;
-			mVerts[1].Position.Y = b.Y;
-			mVerts[1].TexCoord.X = 1;
-			mVerts[1].TexCoord.Y = 1;
-			mVerts[1].Color = color.ToArgb();
+		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2f> points)
+		{
+			drawBuffer.FlushDrawBuffer();
+
+			var _points = points.ToArray();
+
+			if (mVerts.Length < _points.Length)
+				mVerts = new PositionTextureColor[_points.Length];
+
+			for (int i = 0; i < _points.Length; i++)
+			{
+				mVerts[i].Position.X = _points[i].X;
+				mVerts[i].Position.Y = _points[i].Y;
+				mVerts[i].Color = color.ToArgb();
+			}
 
 			BufferData();
 
@@ -111,88 +122,28 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
 			shader.SetTexture(0);
 
-			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Lines, 0, 1);
+			GL.DrawArrays(PrimitiveTypeOf(lineType), 0, 1);
 		}
-		public override void DrawRect(RectangleF rect, Color color)
+
+		public void FillPolygon(Color color, IEnumerable<Vector2f> points)
 		{
-			mVerts[0].Position.X = rect.Left;
-			mVerts[0].Position.Y = rect.Top;
-			mVerts[0].TexCoord.X = 0;
-			mVerts[0].TexCoord.Y = 0;
+			drawBuffer.FlushDrawBuffer();
 
-			mVerts[1].Position.X = rect.Right;
-			mVerts[1].Position.Y = rect.Top;
-			mVerts[1].TexCoord.X = 1;
-			mVerts[1].TexCoord.Y = 0;
+			var pointArray = points.ToArray();
 
-			mVerts[2] = mVerts[1];
-			
-			mVerts[3].Position.X = rect.Right;
-			mVerts[3].Position.Y = rect.Bottom;
-			mVerts[3].TexCoord.X = 1;
-			mVerts[3].TexCoord.Y = 1;
-			
-			mVerts[4] = mVerts[3];
+			if (mVerts.Length < pointArray.Length + 1)
+				mVerts = new PositionTextureColor[pointArray.Length + 1];
 
-			mVerts[5].Position.X = rect.Left;
-			mVerts[5].Position.Y = rect.Bottom;
-			mVerts[5].TexCoord.X = 0;
-			mVerts[5].TexCoord.Y = 1;
-			
-			mVerts[6] = mVerts[3];
-
-			mVerts[7].Position.X = rect.Left;
-			mVerts[7].Position.Y = rect.Top;
-			mVerts[7].TexCoord.X = 0;
-			mVerts[7].TexCoord.Y = 0;
-			
-			int colorValue = color.ToArgb();
-			for (int i = 0; i < 7; i++)
+			for (int i = 0; i < pointArray.Length; i++)
 			{
-				mVerts[i].Color = colorValue;
-			}
-
-			BufferData();
-
-			IGL_Display display = (IGL_Display)Display.Impl;
-			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)display.Shader.Impl;
-
-			shader.SetVertexAttributes(PositionColor.VertexLayout);
-
-			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
-			shader.SetTexture(0);
-
-			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Lines, 0, 4);
-		}
-		public override void FillRect(RectangleF rect, Color color)
-		{
-			mDisplay.WhiteSurface.Color = color;
-			mDisplay.WhiteSurface.Draw((Rectangle)rect);
-			mDisplay.WhiteSurface.Color = Color.White;
-		}
-		public override void FillRect(RectangleF rect, Gradient color)
-		{
-			mDisplay.WhiteSurface.ColorGradient = color;
-			mDisplay.WhiteSurface.Draw((Rectangle)rect);
-			mDisplay.WhiteSurface.Color = Color.White;
-		}
-
-		public override void FillPolygon(PointF[] pts, int startIndex, int length, Color color)
-		{
-			if (mVerts.Length < pts.Length + 1)
-				mVerts = new PositionTextureColor[pts.Length+1];
-
-			for (int i = 0; i < pts.Length; i++)
-			{
-				mVerts[i].Position.X = pts[i].X;
-				mVerts[i].Position.Y = pts[i].Y;
+				mVerts[i].Position.X = pointArray[i].X;
+				mVerts[i].Position.Y = pointArray[i].Y;
 				mVerts[i].TexCoord.X = 0;
 				mVerts[i].TexCoord.Y = 0;
 				mVerts[i].Color = color.ToArgb();
 			}
 
-			mVerts[pts.Length] = mVerts[0];
+			mVerts[pointArray.Length] = mVerts[0];
 
 			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)mDisplay.Shader.Impl;
 
@@ -202,7 +153,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
 			shader.SetTexture(0);
 
-			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Lines, 0, 1);
+			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip, 0, 1);
 		}
 
 	}

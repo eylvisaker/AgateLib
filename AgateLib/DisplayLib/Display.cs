@@ -18,12 +18,15 @@
 //
 
 using System;
+using System.Linq;
 using AgateLib.Configuration.State;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.Builders;
 using AgateLib.Quality;
 using AgateLib.Utility;
 
@@ -223,13 +226,6 @@ namespace AgateLib.DisplayLib
 			get { return Impl.AlphaThreshold; }
 			set { Impl.AlphaThreshold = value; }
 		}
-
-		/// <summary>
-		///     Gets the amount of time in milliseconds that has passed between this frame
-		///     and the last one.
-		/// </summary>
-		[Obsolete("This value does not behave correctly when multiple render targets are used. Use AgateApp.DeltaTime.TotalMilliseconds instead.", true)]
-		public static double DeltaTime => Impl.DeltaTime;
 		
 		/// <summary>
 		///     Gets the object which handles packing of all surfaces.
@@ -247,6 +243,11 @@ namespace AgateLib.DisplayLib
 		{
 			get { return Impl.FramesPerSecond; }
 		}
+
+		/// <summary>
+		/// Gets an object which handles rendering primitive shapes.
+		/// </summary>
+		public static IPrimitiveRenderer Primitives => Impl.Primitives;
 
 		/// <summary>
 		///     Clears the buffer to black.
@@ -388,7 +389,7 @@ namespace AgateLib.DisplayLib
 				throw new AgateException("You have popped the cliprect too many times.");
 			SetClipRect(AgateApp.State.Display.ClipRects.Pop());
 		}
-		
+
 		/// <summary>
 		///     Takes all surfaces and packs them into a large surface.
 		///     This should minimize swapping of surfaces, and may result in a performance
@@ -448,9 +449,13 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawEllipse(Rectangle rect, Color color)
 		{
-			Impl.DrawEllipse(rect, color);
+			var ellipsePoints = new EllipseBuilder().BuildEllipse(
+				(RectangleF) rect);
+
+			Primitives.DrawLines(LineType.Polygon, color, ellipsePoints);
 		}
 
 		/// <summary>
@@ -461,9 +466,11 @@ namespace AgateLib.DisplayLib
 		/// <param name="x2"></param>
 		/// <param name="y2"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawLine(int x1, int y1, int x2, int y2, Color color)
 		{
-			Impl.DrawLine(new Point(x1, y1), new Point(x2, y2), color);
+			Primitives.DrawLines(LineType.LineSegments, color,
+				new [] { new Vector2f(x1, y1), new Vector2f(x2, y2) });
 		}
 
 		/// <summary>
@@ -472,45 +479,65 @@ namespace AgateLib.DisplayLib
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawLine(Point a, Point b, Color color)
 		{
-			Impl.DrawLine(a, b, color);
+			Primitives.DrawLines(LineType.LineSegments, color,
+				new[] {(Vector2f) a, (Vector2f) b});
 		}
 
 		/// <summary>
-		///     Draws a bunch of connected lines.  The last point and the
+		///     Draws a series of connected lines.  The last point and the
 		///     first point are not connected.
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawLines(Point[] pts, Color color)
 		{
-			Impl.DrawLines(pts, color);
+			Primitives.DrawLines(LineType.Path, color,
+				pts.Cast<Vector2f>());
 		}
 
 		/// <summary>
-		/// Draws a bunch of connected lines. The last point and the first
+		///     Draws a series of connected lines.  The last point and the
+		///     first point are connected.
+		/// </summary>
+		/// <param name="color"></param>
+		/// <param name="points">The points that make up the polygon</param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
+		public static void DrawPolygon(Color color, Point[] points)
+		{
+			Primitives.DrawLines(LineType.Polygon, color, 
+				points.Cast<Vector2f>());
+		}
+
+		/// <summary>
+		/// Draws a series of connected lines. The last point and the first
 		/// point are not connected.
 		/// </summary>
 		/// <param name="color"></param>
-		/// <param name="pts"></param>
-		public static void DrawLines(Color color, params Point[] pts)
+		/// <param name="points"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
+		public static void DrawLines(Color color, params Point[] points)
 		{
-			Impl.DrawLines(pts, color);
+			Primitives.DrawLines(LineType.Path, color, points.Cast<Vector2f>());
 		}
 
 		/// <summary>
-		///     Draws a bunch of line segments.  Each pair of points represents
+		///     Draws a series of line segments.  Each pair of points represents
 		///     a line segment which is drawn.  No connections between the line segments
 		///     are made, so there must be an even number of points.
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <param name="color"></param>
-		public static void DrawLineSegments(Point[] pts, Color color)
+		[Obsolete("Use methods on Display.Primitives instead.")]
+		public static void DrawLineSegments(Point[] points, Color color)
 		{
-			if (pts.Length % 2 == 1)
-				throw new ArgumentException("pts argument is not an even number of points!");
-			Impl.DrawLineSegments(pts, color);
+			Require.True<ArgumentException>(points.Length % 2 == 0,
+				"pts argument is not an even number of points!");
+
+			Primitives.DrawLines(LineType.LineSegments, color, points.Cast<Vector2f>());
 		}
 
 		/// <summary>
@@ -518,9 +545,11 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawRect(Rectangle rect, Color color)
 		{
-			Impl.DrawRect(rect, color);
+			Primitives.DrawLines(LineType.Polygon, color,
+				new QuadrilateralBuilder().BuildRectangle(rect));
 		}
 
 		/// <summary>
@@ -528,9 +557,11 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawRect(RectangleF rect, Color color)
 		{
-			Impl.DrawRect(rect, color);
+			Primitives.DrawLines(LineType.Polygon, color,
+				new QuadrilateralBuilder().BuildRectangle(rect));
 		}
 
 		/// <summary>
@@ -541,9 +572,10 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void DrawRect(int x, int y, int width, int height, Color color)
 		{
-			Impl.DrawRect(new Rectangle(x, y, width, height), color);
+			DrawRect(new Rectangle(x, y, width, height), color);
 		}
 
 		/// <summary>
@@ -551,9 +583,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillEllipse(Rectangle rect, Color color)
 		{
-			Impl.FillEllipse((RectangleF) rect, color);
+			Primitives.FillPolygon(color, new EllipseBuilder().BuildEllipse((RectangleF)rect).ToArray());
 		}
 
 		/// <summary>
@@ -561,9 +594,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillEllipse(RectangleF rect, Color color)
 		{
-			Impl.FillEllipse(rect, color);
+			Primitives.FillPolygon(color, new EllipseBuilder().BuildEllipse(rect).ToArray());
 		}
 
 		/// <summary>
@@ -571,9 +605,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillPolygon(PointF[] pts, Color color)
 		{
-			Impl.FillPolygon(pts, color);
+			Primitives.FillPolygon(color, pts.Cast<Vector2f>());
 		}
 
 		/// <summary>
@@ -581,9 +616,11 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillRect(Rectangle rect, Color color)
 		{
-			Impl.FillRect(rect, color);
+			Primitives.FillPolygon(color, new QuadrilateralBuilder()
+				.BuildRectangle(rect));
 		}
 
 		/// <summary>
@@ -594,9 +631,11 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillRect(int x, int y, int width, int height, Color color)
 		{
-			Impl.FillRect(new Rectangle(x, y, width, height), color);
+			Primitives.FillPolygon(color, new QuadrilateralBuilder()
+				.BuildRectangle(new Rectangle(x, y, width, height)));
 		}
 
 		/// <summary>
@@ -604,9 +643,9 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("If you want a Gradient, you must create a surface of it.", true)]
 		public static void FillRect(Rectangle rect, Gradient color)
 		{
-			Impl.FillRect(rect, color);
 		}
 
 		/// <summary>
@@ -617,9 +656,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <param name="color"></param>
+		[Obsolete("If you want a Gradient, you must create a surface of it.", true)]
 		public static void FillRect(int x, int y, int width, int height, Gradient color)
 		{
-			Impl.FillRect(new Rectangle(x, y, width, height), color);
 		}
 
 		/// <summary>
@@ -627,9 +666,11 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillRect(RectangleF rect, Color color)
 		{
-			Impl.FillRect(rect, color);
+			Primitives.FillPolygon(color, new QuadrilateralBuilder()
+				.BuildRectangle(rect));
 		}
 
 		/// <summary>
@@ -637,9 +678,9 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
+		[Obsolete("If you want a Gradient, you must create a surface of it.", true)]
 		public static void FillRect(RectangleF rect, Gradient color)
 		{
-			Impl.FillRect(rect, color);
 		}
 
 		#endregion
@@ -689,5 +730,6 @@ namespace AgateLib.DisplayLib
 
 			RenderTarget = AgateApp.State.Display.RenderTargetStack.Pop();
 		}
+
 	}
 }

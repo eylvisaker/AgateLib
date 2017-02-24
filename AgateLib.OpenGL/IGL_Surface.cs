@@ -17,12 +17,13 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.OpenGL
 {
 	public interface IGL_Surface : IDisposable
 	{
-		AgateLib.Geometry.Size SurfaceSize { get; }
+		Size SurfaceSize { get; }
 
 		bool FlipVertical { get; set; }
 

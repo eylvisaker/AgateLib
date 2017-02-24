@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib.BitmapFont;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.Resources;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Diagnostics;
+using AgateLib.Diagnostics.ConsoleSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.Diagnostics

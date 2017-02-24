@@ -27,11 +27,13 @@
 #endregion
 
 #region Using Statements
+
 using System;
 using System.Runtime.InteropServices;
+
 #endregion
 
-namespace SDL2.ThirtyTwo
+namespace AgateLib.AgateSDL.Sdl2.ThirtyTwo
 {
 	public static class SDL_ttf
 	{

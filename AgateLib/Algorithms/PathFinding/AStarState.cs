@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
 using System.Threading.Tasks;
 
 namespace AgateLib.Algorithms.PathFinding
@@ -34,33 +33,70 @@ namespace AgateLib.Algorithms.PathFinding
 		List<T> mEndPoints = new List<T>();
 		List<T> mPath = new List<T>();
 
+		internal List<AStarNode<T>> openNodes = new List<AStarNode<T>>();
+		internal List<AStarNode<T>> closedNodes = new List<AStarNode<T>>();
+
+
+		/// <summary>
+		/// The starting point.
+		/// </summary>
 		public T Start { get; set; }
 
+		/// <summary>
+		/// The list of acceptable end points.
+		/// </summary>
 		public List<T> EndPoints
 		{
 			get { return mEndPoints; }
 		}
 
+		/// <summary>
+		/// The resulting path.
+		/// </summary>
 		public List<T> Path
 		{
 			get { return mPath; }
 		}
 
-		public List<AStarNode<T>> openNodes = new List<AStarNode<T>>();
-		public List<AStarNode<T>> closedNodes = new List<AStarNode<T>>();
-
+		/// <summary>
+		/// Delegate to invoke when the path finding is complete.
+		/// </summary>
+		[Obsolete("This should move to an async/await model.")]
 		internal void OnCompleted()
 		{
 			Completed?.Invoke(this, EventArgs.Empty);
 		}
+
+		/// <summary>
+		/// Event invoked when the path finding is complete.
+		/// </summary>
+		[Obsolete("This should move to an async/await model.")]
 		public event EventHandler Completed;
 		
+		/// <summary>
+		/// True if currently searching for the path.
+		/// </summary>
 		public bool SearchingPath { get; set; }
+
+		/// <summary>
+		/// True if the algorithm finished.
+		/// </summary>
 		public bool Complete { get; set; }
+
+		/// <summary>
+		/// Trus if a path was found.
+		/// </summary>
 		public bool FoundPath { get; set; }
 
+		/// <summary>
+		/// A user-defined tag object.
+		/// </summary>
+		[Obsolete("This should be replaced with closures in an async/await model.")]
 		public object Tag { get; set; }
 
+		/// <summary>
+		/// Set to true to force the path finding to abort.
+		/// </summary>
 		public bool AbortOperation { get; set; }
 	}
 }

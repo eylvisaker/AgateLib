@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using AgateLib.Configuration.State;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Quality;
 
@@ -143,6 +142,10 @@ namespace AgateLib.Diagnostics
 			Instance?.WriteLine(text);
 		}
 
+		/// <summary>
+		/// Writes a mesasge to the output console window.
+		/// </summary>
+		/// <param name="message"></param>
 		public static void WriteMessage(ConsoleMessage message)
 		{
 			Instance?.WriteMessage(message);

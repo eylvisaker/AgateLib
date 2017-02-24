@@ -23,7 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.Test.Display
 {

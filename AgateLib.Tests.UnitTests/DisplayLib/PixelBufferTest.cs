@@ -2,8 +2,8 @@
 using System.Runtime.InteropServices;
 
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib.ImplementationBase;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 using AgateLib.UnitTests;
 

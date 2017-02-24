@@ -21,7 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.UserInterface.Rendering.Transitions;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
@@ -179,7 +181,7 @@ namespace AgateLib.UserInterface.Rendering.Animators
 			Children = new List<IWidgetAnimator>();
 		}
 
-		public void Update(TimeSpan elapsed)
+		public void Update(ClockTimeSpan elapsed)
 		{
 			if (Transition == null || mTransitionType != mStyle.Transition.Type)
 			{
@@ -229,8 +231,8 @@ namespace AgateLib.UserInterface.Rendering.Animators
 			if (Gesture.IsValidForTarget == false)
 				return;
 
-			Vector2 delta = new Vector2(Gesture.CurrentPoint);
-			delta -= new Vector2(Gesture.StartPoint);
+			Vector2f delta = new Vector2f(Gesture.CurrentPoint);
+			delta -= new Vector2f(Gesture.StartPoint);
 
 			if (Gesture.Axis == AxisType.Horizontal)
 				delta.Y = 0;

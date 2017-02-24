@@ -21,7 +21,6 @@ using System.Linq;
 using System.Reflection;
 using AgateLib.Drivers;
 using AgateLib.IO;
-using AgateLib.Platform.Common.PlatformImplementation;
 
 namespace AgateLib.Platform.Test
 {

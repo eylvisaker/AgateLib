@@ -17,7 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.Sprites
 {

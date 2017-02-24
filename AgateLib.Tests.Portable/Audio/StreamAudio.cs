@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using AgateLib;
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 
-namespace AgateLib.Tests.AudioTests
+namespace AgateLib.Tests.Audio
 {
 	class StreamAudio : IAgateTest
 	{

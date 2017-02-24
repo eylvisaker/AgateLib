@@ -20,7 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib.Sprites
@@ -350,7 +352,7 @@ namespace AgateLib.DisplayLib.Sprites
 		/// Draws the sprite at the specified position on screen.
 		/// </summary>
 		/// <param name="destPt"></param>
-		public void Draw(Vector2 destPt)
+		public void Draw(Vector2f destPt)
 		{
 			Draw((float)destPt.X, (float)destPt.Y);
 		}
@@ -579,7 +581,7 @@ namespace AgateLib.DisplayLib.Sprites
 		/// Updates the animation of the sprite, using the given amount of time.
 		/// </summary>
 		/// <param name="elapsed">The amount of time to consider as passed.</param>
-		public void Update(TimeSpan elapsed)
+		public void Update(ClockTimeSpan elapsed)
 		{
 			Update(elapsed.TotalMilliseconds);
 		}

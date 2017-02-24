@@ -20,11 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Quality;
 using AgateLib.Utility;
 using AgateLib.IO;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {
@@ -416,6 +417,7 @@ namespace AgateLib.DisplayLib
 		{
 			Draw(Point.Empty);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -430,6 +432,7 @@ namespace AgateLib.DisplayLib
 
 			mImpl.Draw(State);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -444,6 +447,7 @@ namespace AgateLib.DisplayLib
 
 			mImpl.Draw(State);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -454,6 +458,18 @@ namespace AgateLib.DisplayLib
 		{
 			Draw(destPt.X, destPt.Y);
 		}
+
+		/// <summary>
+		/// Draws this surface to the screen at the specified point, 
+		/// using all the state information defined in the properties 
+		/// of this surface.
+		/// </summary>
+		/// <param name="destPt">Destination point to draw to.</param>
+		public void Draw(Vector2f destPt)
+		{
+			Draw(destPt.X, destPt.Y);
+		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -462,8 +478,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="destPt">Destination point to draw to.</param>
 		public void Draw(Vector2 destPt)
 		{
-			Draw(destPt.X, destPt.Y);
+			Draw((float)destPt.X, (float)destPt.Y);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -488,6 +505,7 @@ namespace AgateLib.DisplayLib
 		{
 			Draw(Rectangle.Empty, destPt, rotationCenter);
 		}
+
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
 		/// using all the state information defined in the properties 
@@ -500,6 +518,13 @@ namespace AgateLib.DisplayLib
 			Draw(new PointF(destX, destY), new PointF(rotationCenterX, rotationCenterY));
 		}
 
+		/// <summary>
+		/// Draws the surface at the specified point with the specified rotation center.
+		/// </summary>
+		/// <param name="srcRect"></param>
+		/// <param name="destPt"></param>
+		/// <param name="rotationCenter"></param>
+		[Obsolete("Use your own translation instead of supplying rotationCenter.")]
 		public void Draw(Rectangle srcRect, PointF destPt, PointF rotationCenter)
 		{
 			OriginAlignment oldrotation = State.RotationCenter;

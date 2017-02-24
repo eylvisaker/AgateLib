@@ -16,13 +16,14 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
+
 using AgateLib.Quality;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {
@@ -113,95 +114,170 @@ namespace AgateLib.DisplayLib
 
 		internal IFontCore Core => core;
 
+		/// <summary>
+		/// Gets the collection of FontSurface objects that make up the font.
+		/// </summary>
 		public IReadOnlyDictionary<FontSettings, FontSurface> FontSurfaces
 			=> core.FontItems;
 
+		/// <summary>
+		/// Gets the name of the font.
+		/// </summary>
 		public string Name => core.Name;
 
+		/// <summary>
+		/// Gets or sets the alpha blending value.
+		/// </summary>
 		public double Alpha
 		{
 			get { return state.Alpha; }
 			set { state.Alpha = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the drawing color.
+		/// </summary>
 		public Color Color
 		{
 			get { return state.Color; }
 			set { state.Color = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the display alignment.
+		/// </summary>
 		public OriginAlignment DisplayAlignment
 		{
 			get{return state.DisplayAlignment;}
 			set{state.DisplayAlignment = value;}
 		}
 
+		/// <summary>
+		/// Gets the height of a single line of text using this font in its current state.
+		/// </summary>
 		public int FontHeight => core.FontHeight(state);
 
+		/// <summary>
+		/// Gets or sets the size of the font.
+		/// </summary>
 		public int Size
 		{
 			get { return state.Size; }
 			set { state.Size = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the style of the font.
+		/// </summary>
 		public FontStyles Style
 		{
 			get { return state.Style; }
 			set { state.Style = value; }
 		}
-
+		
+		/// <summary>
+		/// Gets or sets how text should be laid out around images.
+		/// </summary>
 		public TextImageLayout TextImageLayout
 		{
 			get { return state.TextImageLayout; }
 			set { state.TextImageLayout = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the interpolation hint of the text.
+		/// </summary>
 		public InterpolationMode InterpolationHint
 		{
 			get { return state.InterpolationHint; }
 			set { state.InterpolationHint = value; }
 		}
 
+		/// <summary>
+		/// Disposes of the Font object.
+		/// </summary>
 		public void Dispose()
 		{
 			core.Dispose();
 		}
 
+		/// <summary>
+		/// Draws text at the point (0, 0).
+		/// </summary>
+		/// <param name="text"></param>
 		public void DrawText(string text)
 		{
 			core.DrawText(state, text);
 		}
 
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="dest"></param>
+		/// <param name="text"></param>
 		public void DrawText(PointF dest, string text)
 		{
 			core.DrawText(state, dest, text);
 		}
 
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="dest"></param>
+		/// <param name="text"></param>
 		public void DrawText(Point dest, string text)
 		{
 			core.DrawText(state, dest, text);
 		}
 
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
 		public void DrawText(double x, double y, string text)
 		{
 			core.DrawText(state, x, y, text);
 		}
 
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
 		public void DrawText(int x, int y, string text)
 		{
 			core.DrawText(state, x, y, text);
 		}
 
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
+		/// <param name="Parameters"></param>
 		public void DrawText(int x, int y, string text, params object[] Parameters)
 		{
 			core.DrawText(state, x, y, text, Parameters);
 		}
 
+		/// <summary>
+		/// Returns the size the text would take given the current settings.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
 		public Size MeasureString(string text)
 		{
 			return core.MeasureString(state, text);
 		}
 		
+		/// <summary>
+		/// Converts to a string for debug output.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			return $"{core.Name} {Size} Style:{Style}";
@@ -255,24 +331,101 @@ namespace AgateLib.DisplayLib
 		}
 	}
 
+	/// <summary>
+	/// Interface for a Font object.
+	/// </summary>
 	public interface IFont : IDisposable
 	{
+		/// <summary>
+		/// Gets or sets the rendering color.
+		/// </summary>
 		Color Color { get; set; }
+
+		/// <summary>
+		/// Gets or sets the display alignment.
+		/// </summary>
 		OriginAlignment DisplayAlignment { get; set; }
+
+		/// <summary>
+		/// Gets the height of a single line of text.
+		/// </summary>
 		int FontHeight { get; }
+
+		/// <summary>
+		/// Gets or sets the style of the font.
+		/// </summary>
 		FontStyles Style { get; set; }
+
+		/// <summary>
+		/// Gets or sets the size of the font.
+		/// </summary>
 		int Size { get; set; }
+
+		/// <summary>
+		/// Gets or sets how text is laid out around images.
+		/// </summary>
 		TextImageLayout TextImageLayout { get; set; }
+
+		/// <summary>
+		/// Gets or sets alpha blending value.
+		/// </summary>
 		double Alpha { get; set; }
+
+		/// <summary>
+		/// Gets the name of the font.
+		/// </summary>
 		string Name { get; }
 
+		/// <summary>
+		/// Draws text at (0, 0).
+		/// </summary>
+		/// <param name="text"></param>
 		void DrawText(string text);
+
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="dest"></param>
+		/// <param name="text"></param>
 		void DrawText(Point dest, string text);
+
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
 		void DrawText(int x, int y, string text);
-		void DrawText(int x, int y, string text, params object[] Parameters);
+
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
+		/// <param name="parameters"></param>
+		void DrawText(int x, int y, string text, params object[] parameters);
+
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
 		void DrawText(double x, double y, string text);
+
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="dest"></param>
+		/// <param name="text"></param>
 		void DrawText(PointF dest, string text);
 
+		/// <summary>
+		/// Returns the size of the text when rendered given the current size/style settings.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
 		Size MeasureString(string text);
 	}
 }

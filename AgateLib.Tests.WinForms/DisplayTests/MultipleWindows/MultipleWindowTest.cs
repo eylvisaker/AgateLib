@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Platform;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Resources;
@@ -72,7 +72,7 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 
 				Display.BeginFrame();
 				Display.Clear(Color.Red);
-				Display.FillRect(new Rectangle(20, 20, 40, 30), Color.Blue);
+				Display.Primitives.FillRect(Color.Blue, new Rectangle(20, 20, 40, 30));
 				image1.Draw(120 + (int)(30 * Math.Sin(time)), 20);
 
 				Display.EndFrame();
@@ -82,7 +82,7 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 
 				Display.BeginFrame();
 				Display.Clear(Color.Green);
-				Display.FillRect(new Rectangle(20, 20, 40, 30), Color.Yellow);
+				Display.Primitives.FillRect(Color.Yellow, new Rectangle(20, 20, 40, 30));
 				image2.Draw(120 + (int)(30 * Math.Cos(time)), 20);
 
 				Display.EndFrame();
@@ -173,7 +173,7 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 			Color clr = Color.FromArgb(255 /*rand.Next(200, 256)*/, rand.Next(0, 256),
 					rand.Next(0, 256), rand.Next(0, 256));
 
-			Display.FillRect(rect, clr);
+			Display.Primitives.FillRect(clr, rect);
 
 			Display.EndFrame();
 

@@ -16,9 +16,10 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
-using System;
 
-namespace AgateLib.DisplayLib.Particles
+using AgateLib.DisplayLib.Particles.Emitters;
+
+namespace AgateLib.DisplayLib.Particles.Particles
 {
 	/// <summary>
 	/// A particle implementation for <see cref="AgateLib.Sprites.Sprite"/>s.

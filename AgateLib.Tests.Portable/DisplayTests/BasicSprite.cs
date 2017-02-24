@@ -5,7 +5,8 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -33,7 +34,7 @@ namespace AgateLib.Tests.DisplayTests
 			p.Dispose();
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			p.Update(elapsed);
 		}

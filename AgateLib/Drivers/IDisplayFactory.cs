@@ -19,7 +19,6 @@
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,6 +26,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.DefaultAssets;
+using AgateLib.IO;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Drivers
 {

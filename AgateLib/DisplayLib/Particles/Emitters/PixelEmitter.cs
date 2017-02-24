@@ -16,14 +16,13 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
-using System;
-using System.Linq;
+
 using System.Collections.Generic;
+using AgateLib.DisplayLib.Particles.Particles;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
-using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-
-namespace AgateLib.DisplayLib.Particles
+namespace AgateLib.DisplayLib.Particles.Emitters
 {
 	/// <summary>
 	/// A pixel particle emitter.
@@ -60,7 +59,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// </summary>
 		/// <param name="color">Emit color.</param>
 		/// <param name="position">Position of the emitter.</param>
-		public PixelEmitter(Vector2 position, Color color)
+		public PixelEmitter(Vector2f position, Color color)
 		{
 			Position = position;
 			mEmitColor = color;
@@ -86,7 +85,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// <param name="position"></param>
 		/// <param name="color"></param>
 		/// <param name="emitLife"></param>
-		public PixelEmitter(Vector2 position, Color color, float emitLife)
+		public PixelEmitter(Vector2f position, Color color, float emitLife)
 			: this(position, color)
 		{
 			base.EmitLife = emitLife;
@@ -98,7 +97,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// <param name="position">Position of the emitter.</param>
 		/// <param name="color">Emit color.</param>
 		/// <param name="maxParticles">Maximum amount of particles.</param>
-		public PixelEmitter(Vector2 position, Color color, int maxParticles)
+		public PixelEmitter(Vector2f position, Color color, int maxParticles)
 			: this(position, color)
 		{
 			Particles = new List<Particle>(maxParticles);
@@ -111,7 +110,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// <param name="color"></param>
 		/// <param name="maxParticles"></param>
 		/// <param name="emitLife"></param>
-		public PixelEmitter(Vector2 position, Color color, int maxParticles, float emitLife)
+		public PixelEmitter(Vector2f position, Color color, int maxParticles, float emitLife)
 			: this(position, color, maxParticles)
 		{
 			base.EmitLife = emitLife;

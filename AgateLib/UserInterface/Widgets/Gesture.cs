@@ -16,12 +16,14 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -62,11 +64,11 @@ namespace AgateLib.UserInterface.Widgets
 			IsValidForTarget = false;
 		}
 
-		public Vector2 Velocity
+		public Vector2f Velocity
 		{
 			get
 			{
-				Vector2 delta = AmountDragged;
+				Vector2f delta = AmountDragged;
 
 				delta /= CurrentTime - StartTime;
 				delta *= 1000;
@@ -77,7 +79,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public GestureEffect Effect { get; set; }
 
-		public Vector2 AmountDragged { get { return new Vector2(CurrentPoint.X, CurrentPoint.Y) - new Vector2(StartPoint.X, StartPoint.Y); } }
+		public Vector2f AmountDragged { get { return new Vector2f(CurrentPoint.X, CurrentPoint.Y) - new Vector2f(StartPoint.X, StartPoint.Y); } }
 	}
 
 

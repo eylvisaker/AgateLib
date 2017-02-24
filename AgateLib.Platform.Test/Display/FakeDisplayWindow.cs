@@ -19,7 +19,7 @@
 
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.Test.Display
 {
@@ -42,6 +42,8 @@ namespace AgateLib.Platform.Test.Display
 			Owner = owner;
 			Resolution = windowParams.Resolution?.Clone() ?? new Resolution(10, 10);
 			this.windowParams = windowParams;
+
+			Screen = windowParams.TargetScreen;
 		}
 
 		protected override void Dispose(bool disposing)
@@ -64,5 +66,7 @@ namespace AgateLib.Platform.Test.Display
 		public override Size PhysicalSize => Resolution?.Size ?? Size.Empty;
 
 		public override string Title { get; set; }
+
+		public override ScreenInfo Screen { get; }
 	}
 }

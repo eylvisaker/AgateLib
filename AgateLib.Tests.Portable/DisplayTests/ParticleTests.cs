@@ -1,11 +1,12 @@
 using System;
-using System.Linq;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Particles.Emitters;
+using AgateLib.DisplayLib.Particles.Manipulators;
 using AgateLib.DisplayLib.Sprites;
-using AgateLib.Geometry;
-using AgateLib.DisplayLib.Particles;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
-namespace AgateLib.Tests.DisplayTests.ParticleTest
+namespace AgateLib.Tests.DisplayTests
 {
 	public class PixelParticleTest : IAgateTest
 	{
@@ -51,19 +52,19 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 		private void Initialize()
 		{
 			//PixelParticle
-			pe = new PixelEmitter(new Vector2(400f, 550f), Color.Blue, 2000);
+			pe = new PixelEmitter(new Vector2f(400f, 550f), Color.Blue, 2000);
 			pe.EmitLife = 15f;
 			pe.EmitFrequency = 0.01f;
 			pe.PixelSize = new Size(3, 3);
 
 			//SurfaceParticle
-			sm = new SurfaceEmitter(new Vector2(150f, 550f), 4.2f, 50, 0);
+			sm = new SurfaceEmitter(new Vector2f(150f, 550f), 4.2f, 50, 0);
 			Surface surf = new Surface(@"Images/smoke2.png");
 			sm.AddSurface(surf);
 			sm.EmitFrequency = 0.1f;
 			sm.EmitAlpha = 1d;
-			sm.EmitAcceleration = new Vector2(0, -20);
-			sm.EmitVelocity = new Vector2(0, -10);
+			sm.EmitAcceleration = new Vector2f(0, -20);
+			sm.EmitVelocity = new Vector2f(0, -10);
 
 			//SpriteParticle
 			Surface surf2 = new Surface(@"Images/smoke.png");
@@ -72,19 +73,19 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 			sprite.AddFrame(surf2);
 			sprite.TimePerFrame = 3d;
 			sprite.AnimationType = SpriteAnimType.Looping;
-			se = new SpriteEmitter(new Vector2(600f, 550f), 4.2f, 100, 0);
+			se = new SpriteEmitter(new Vector2f(600f, 550f), 4.2f, 100, 0);
 			se.AddSprite(sprite);
 			se.EmitFrequency = 0.05f;
 			se.EmitAlpha = 1d;
-			se.EmitAcceleration = new Vector2(0, -20);
-			se.EmitVelocity = new Vector2(0, -10);
+			se.EmitAcceleration = new Vector2f(0, -20);
+			se.EmitVelocity = new Vector2f(0, -10);
 
 			//Manipulators
-			gm = new GravityManipulator(new Vector2(0f, -20f));
+			gm = new GravityManipulator(-20 * Vector2f.UnitY);
 			gm.SubscribeToEmitter(sm);
 			gm.SubscribeToEmitter(se);
 
-			gm2 = new GravityManipulator(Vector2.Empty);
+			gm2 = new GravityManipulator(Vector2f.Zero);
 			//gm2.SubscribeToEmitter(pe);
 			gm2.SubscribeToEmitter(sm);
 			gm2.SubscribeToEmitter(se);
@@ -96,19 +97,19 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 			fom2.SubscribeToEmitter(sm);
 			fom2.SubscribeToEmitter(se);
 
-			gpm = new GravityPointManipulator(new Vector2(400f, 350f), -1f);
+			gpm = new GravityPointManipulator(new Vector2f(400f, 350f), -1f);
 			gpm.SubscribeToEmitter(pe);
 		}
 
 		public void Update(double deltaT)
 		{
-			gm2.Gravity = new Vector2((float)ran.Next(-300, 300), 0f);
+			gm2.Gravity = new Vector2f((float)ran.Next(-300, 300), 0f);
 
 			fom.AlphaAmount = (float)ran.NextDouble() * 1.3f;
 			fom.LifeBarrier = (float)ran.NextDouble() * 5f;
 
 			pe.Update(deltaT);
-			pe.EmitVelocity = new Vector2((float)ran.Next(-10, 10), 0f);
+			pe.EmitVelocity = new Vector2f((float)ran.Next(-10, 10), 0f);
 
 			sm.Update(deltaT);
 

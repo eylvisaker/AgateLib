@@ -21,8 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
-using AgateLib.Geometry.VertexTypes;
+using AgateLib.Mathematics.Geometry.VertexTypes;
 
 namespace AgateLib.DisplayLib
 {

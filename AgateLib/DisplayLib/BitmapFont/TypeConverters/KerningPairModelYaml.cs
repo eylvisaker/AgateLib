@@ -28,15 +28,29 @@ using YamlDotNet.Serialization;
 
 namespace AgateLib.DisplayLib.BitmapFont.TypeConverters
 {
+	/// <summary>
+	/// Converts a KerningPairModel object to YAML.
+	/// </summary>
 	public class KerningPairModelYaml : IYamlTypeConverter
 	{
 		private static readonly char[] delimiter = new[] { ' ' };
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
 		public bool Accepts(Type type)
 		{
 			return type == typeof(KerningPairModel);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="parser"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
 		public object ReadYaml(IParser parser, Type type)
 		{
 			var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
@@ -62,6 +76,12 @@ namespace AgateLib.DisplayLib.BitmapFont.TypeConverters
 			return result;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="emitter"></param>
+		/// <param name="value"></param>
+		/// <param name="type"></param>
 		public void WriteYaml(IEmitter emitter, object value, Type type)
 		{
 			KerningPairModel kp = (KerningPairModel)value;

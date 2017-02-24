@@ -28,19 +28,21 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Drivers;
-using AgateLib.Geometry;
-using AgateLib.Geometry.VertexTypes;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.VertexTypes;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 using AgateLib.OpenGL;
 using AgateLib.Platform.WinForms.Controls;
+using AgateLib.Platform.WinForms.Factories;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	/// <summary>
 	/// OpenGL 3.1 compatible.  
 	/// </summary>
-	public sealed class DesktopGLDisplay : DisplayImpl, AgateLib.OpenGL.IGL_Display
+	public sealed class DesktopGLDisplay : DisplayImpl, IGL_Display, IDrawBufferState
 	{
 		GL_FrameBuffer mRenderTarget;
 		private GLSettings settings;
@@ -52,8 +54,18 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private decimal mGLVersion;
 		List<int> mTexturesToDelete = new List<int>();
 
-		PrimitiveRenderer mPrimitives;
+		IPrimitiveRenderer mPrimitives;
 		private IScreenConfiguration screens;
+
+		bool mAlphaBlend;
+		private IDisplayFactory factory;
+
+		public DesktopGLDisplay(IDisplayFactory factory)
+		{
+			this.factory = factory;
+		}
+
+		public IDisplayFactory Factory => factory;
 
 		public override IScreenConfiguration Screens => screens;
 
@@ -68,6 +80,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public bool GL3 { get; private set; }
 		public bool SupportsFramebufferExt { get; internal set; }
 		public bool SupportsFramebufferArb { get; private set; }
+
+		public override IPrimitiveRenderer Primitives => mPrimitives;
+
 
 		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
@@ -185,55 +200,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			GL.Disable(EnableCap.ScissorTest);
 		}
 
-		#region --- Drawing Primitives ---
-
-		public override void DrawLine(Point a, Point b, Color color)
-		{
-			DrawBuffer.Flush();
-			mPrimitives.DrawLine(a, b, color);
-		}
-
-		public override void DrawRect(Rectangle rect, Color color)
-		{
-			DrawRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
-		}
-
-		public override void DrawRect(RectangleF rect, Color color)
-		{
-			DrawBuffer.Flush();
-			mPrimitives.DrawRect(rect, color);
-		}
-
-		public override void FillRect(Rectangle rect, Color color)
-		{
-			FillRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
-		}
-
-		public override void FillRect(RectangleF rect, Color color)
-		{
-			DrawBuffer.Flush();
-			mPrimitives.FillRect(rect, color);
-		}
-
-		public override void FillRect(Rectangle rect, Gradient color)
-		{
-			FillRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
-		}
-
-		public override void FillRect(RectangleF rect, Gradient color)
-		{
-			DrawBuffer.Flush();
-			mPrimitives.FillRect(rect, color);
-		}
-
-		public override void FillPolygon(PointF[] pts, int startIndex, int length, Color color)
-		{
-			DrawBuffer.Flush();
-			mPrimitives.FillPolygon(pts, startIndex, length, color);
-		}
-
-		#endregion
-
 		#region --- Initialization ---
 
 		public override void Initialize()
@@ -328,9 +294,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 
 			if (GL3)
-				mPrimitives = new AgateLib.OpenGL.GL3.GLPrimitiveRenderer();
+				mPrimitives = new AgateLib.OpenGL.GL3.GLPrimitiveRenderer(this);
 			else
-				mPrimitives = new AgateLib.OpenGL.Legacy.LegacyPrimitiveRenderer();
+				mPrimitives = new AgateLib.OpenGL.Legacy.LegacyPrimitiveRenderer(this);
 
 			if (SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
 			{
@@ -435,7 +401,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 
 
-		private void SetArray(float[] array, Vector3 vec)
+		private void SetArray(float[] array, Vector3f vec)
 		{
 			array[0] = vec.X;
 			array[1] = vec.Y;
@@ -548,9 +514,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return size.Width / (double)size.Height;
 		}
 
-		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
+		public override IEnumerable<AgateLib.DisplayLib.Shaders.Implementation.ShaderLanguage> SupportedShaderLanguages
 		{
-			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
+			get { yield return AgateLib.DisplayLib.Shaders.Implementation.ShaderLanguage.Glsl; }
 		}
 
 		internal WinFormsEventThread EventThread { get; set; }
@@ -558,8 +524,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		#endregion
 
 		#region --- Render States ---
-
-		bool mAlphaBlend;
 
 		protected internal override bool GetRenderState(RenderStateBool renderStateBool)
 		{

@@ -135,6 +135,12 @@
     <Compile Include="InputTests\SimpleInputHandlerTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
+    <Compile Include="MathematicsTests\GeometryBuilderTests\EllipseBuilderTests.cs" />
+    <Compile Include="MathematicsTests\Vector3fTests.cs" />
+    <Compile Include="MathematicsTests\Vector2fTests.cs" />
+    <Compile Include="MathematicsTests\Vector3Tests.cs" />
+    <Compile Include="MathematicsTests\Vector2Tests.cs" />
+    <Compile Include="MathematicsTests\VectorTypeConverterTests.cs" />
     <Compile Include="Platform\IntegrationTest\IntegrationTestPlatformTests.cs" />
     <Compile Include="Platform\ClockTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

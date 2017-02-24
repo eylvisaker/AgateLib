@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.Resources;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
@@ -36,7 +37,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 		public string Category => "User Interface";
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			facet.InterfaceRoot.OnUpdate(elapsed, true);
 		}

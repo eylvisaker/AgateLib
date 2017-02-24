@@ -21,8 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.Quality;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.StyleModel;
@@ -197,7 +198,7 @@ namespace AgateLib.UserInterface.Widgets
 			return parent.Font;
 		}
 
-		private AgateLib.Geometry.Color FindParentFontColor()
+		private Color FindParentFontColor()
 		{
 			Widget parent = Parent;
 
@@ -213,7 +214,7 @@ namespace AgateLib.UserInterface.Widgets
 				return Color.Black;
 			}
 			else
-				return AgateLib.Geometry.Color.Magenta;
+				return Color.Magenta;
 		}
 
 		/// <summary>
@@ -273,7 +274,7 @@ namespace AgateLib.UserInterface.Widgets
 			return translated;
 		}
 
-		public virtual void Update(TimeSpan elapsed, ref bool processInput)
+		public virtual void Update(ClockTimeSpan elapsed, ref bool processInput)
 		{
 
 		}
@@ -452,7 +453,7 @@ namespace AgateLib.UserInterface.Widgets
 		public bool HasFocus { get { return MyGui.FocusWidget == this; } }
 
 
-		protected internal virtual void OnUpdate(TimeSpan elapsed)
+		protected internal virtual void OnUpdate(ClockTimeSpan elapsed)
 		{
 		}
 

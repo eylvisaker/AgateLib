@@ -34,7 +34,7 @@ namespace AgateLib.Platform
 		/// <summary>
 		/// The amount of time that passed on this clock since the last time the parent clock advanced.
 		/// </summary>
-		public TimeSpan Elapsed => TimeSpan.FromSeconds(
+		public ClockTimeSpan Elapsed => ClockTimeSpan.FromSeconds(
 			parent.Elapsed.TotalSeconds * ClockSpeed);
 
 		/// <summary>
@@ -58,13 +58,13 @@ namespace AgateLib.Platform
 		/// <summary>
 		/// The current time shown on the clock face.
 		/// </summary>
-		public TimeSpan CurrentTime
+		public ClockTimeSpan CurrentTime
 		{
 			get
 			{
 				double delta = parent.CurrentTime.TotalSeconds - lastClockSpeedChangeTimeSeconds;
 
-				return TimeSpan.FromSeconds(ClockSpeed * delta + timeOriginSeconds);
+				return ClockTimeSpan.FromSeconds(ClockSpeed * delta + timeOriginSeconds);
 			}
 		}
 	}

@@ -17,8 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 
-using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib.DisplayLib;
+using Color = AgateLib.DisplayLib.Color;
 
 namespace FontCreatorApp
 {
@@ -57,9 +58,9 @@ namespace FontCreatorApp
 			Display.RenderTarget = wind.FrameBuffer;
 			Display.BeginFrame();
 
-			Display.Clear(AgateLib.Geometry.Color.DarkRed);
+			Display.Clear(Color.DarkRed);
 
-			AgateFont.Color = AgateLib.Geometry.Color.White;
+			AgateFont.Color = Color.White;
 			AgateFont.DrawText(text);
 
 			Display.EndFrame();

@@ -24,12 +24,15 @@ using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Drivers;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
 namespace AgateLib.Platform.Test.Display
 {
-	public class FakeDisplayDriver : DisplayImpl
+	public class FakeDisplayDriver : DisplayImpl, IPrimitiveRenderer
 	{
 		private FakeScreenConfiguration screens;
 
@@ -60,12 +63,12 @@ namespace AgateLib.Platform.Test.Display
 			throw new NotImplementedException();
 		}
 
-		public override AgateLib.Geometry.Size CapsSize(AgateLib.DisplayLib.DisplaySizeCaps displaySizeCaps)
+		public override Size CapsSize(AgateLib.DisplayLib.DisplaySizeCaps displaySizeCaps)
 		{
 			throw new NotImplementedException();
 		}
 
-		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
+		public override IEnumerable<ShaderLanguage> SupportedShaderLanguages
 		{
 			get { throw new NotImplementedException(); }
 		}
@@ -92,47 +95,15 @@ namespace AgateLib.Platform.Test.Display
 		{
 		}
 
-		public override void SetClipRect(AgateLib.Geometry.Rectangle newClipRect)
+		public override void SetClipRect(Rectangle newClipRect)
 		{
 		}
 
-		public override void Clear(AgateLib.Geometry.Color color)
+		public override void Clear(Color color)
 		{
 		}
 
-		public override void Clear(AgateLib.Geometry.Color color, AgateLib.Geometry.Rectangle destRect)
-		{
-		}
-
-		public override void FillPolygon(AgateLib.Geometry.PointF[] pts, int startIndex, int length, AgateLib.Geometry.Color color)
-		{
-		}
-
-		public override void DrawLine(AgateLib.Geometry.Point a, AgateLib.Geometry.Point b, AgateLib.Geometry.Color color)
-		{
-		}
-
-		public override void DrawRect(AgateLib.Geometry.Rectangle rect, AgateLib.Geometry.Color color)
-		{
-		}
-
-		public override void DrawRect(AgateLib.Geometry.RectangleF rect, AgateLib.Geometry.Color color)
-		{
-		}
-
-		public override void FillRect(AgateLib.Geometry.Rectangle rect, AgateLib.Geometry.Color color)
-		{
-		}
-
-		public override void FillRect(AgateLib.Geometry.Rectangle rect, AgateLib.Geometry.Gradient color)
-		{
-		}
-
-		public override void FillRect(AgateLib.Geometry.RectangleF rect, AgateLib.Geometry.Color color)
-		{
-		}
-
-		public override void FillRect(AgateLib.Geometry.RectangleF rect, AgateLib.Geometry.Gradient color)
+		public override void Clear(Color color, Rectangle destRect)
 		{
 		}
 
@@ -164,6 +135,16 @@ namespace AgateLib.Platform.Test.Display
 		protected override DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
 		{
 			return null;
+		}
+
+		public override IPrimitiveRenderer Primitives => this;
+
+		public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2f> points)
+		{
+		}
+
+		public void FillPolygon(Color color, IEnumerable<Vector2f> points)
+		{
 		}
 	}
 

@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.BitmapFont
 {
@@ -268,10 +267,24 @@ namespace AgateLib.DisplayLib.BitmapFont
 		public int NumberWidthAdjust { get; set; }
 	}
 
+	/// <summary>
+	/// Enum values for indicating which rendering engine should be used to render text for a bitmap font.
+	/// </summary>
 	public enum TextRenderEngine
 	{
+		/// <summary>
+		/// Use the TextRenderer class.
+		/// </summary>
 		TextRenderer,
+
+		/// <summary>
+		/// Use raw GDI methods.
+		/// </summary>
 		Gdi,
+
+		/// <summary>
+		/// Use System.Drawing.Graphics.
+		/// </summary>
 		Graphics,
 	}
 }

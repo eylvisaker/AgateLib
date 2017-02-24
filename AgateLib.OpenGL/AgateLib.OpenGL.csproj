@@ -111,6 +111,7 @@
     <Compile Include="GLDrawBuffer.cs" />
     <Compile Include="GL_FrameBuffer.cs" />
     <Compile Include="GL_IndexBuffer.cs" />
+    <Compile Include="IDrawBufferState.cs" />
     <Compile Include="IGL_Display.cs" />
     <Compile Include="IGL_Surface.cs" />
     <Compile Include="Legacy\FixedFunction\FixedFunctionShaderFactory.cs" />

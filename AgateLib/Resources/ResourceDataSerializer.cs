@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry.TypeConverters;
+using AgateLib.Mathematics.TypeConverters;
 using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface.DataModel.TypeConverters;
 using YamlDotNet.Serialization;

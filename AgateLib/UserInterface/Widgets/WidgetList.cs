@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 
 using AgateLib.Extensions.Collections.Generic;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
 {

@@ -20,7 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.Sprites
 {
@@ -47,7 +48,7 @@ namespace AgateLib.DisplayLib.Sprites
 			get { return mPoly; }
 		}
 
-		public void SetTransform(Vector2 translation, bool fliphorizontal, bool flipvertical)
+		public void SetTransform(Vector2f translation, bool fliphorizontal, bool flipvertical)
 		{
 			for (int i = 0; i < mPoly.Points.Count; i++)
 			{

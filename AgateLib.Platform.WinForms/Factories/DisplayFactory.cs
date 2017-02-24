@@ -28,7 +28,8 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
-using AgateLib.Geometry;
+using AgateLib.IO;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.OpenGL;
 using AgateLib.Platform.WinForms.DisplayImplementation;
 using AgateLib.Platform.WinForms.Resources;
@@ -43,7 +44,7 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public DisplayFactory()
 		{
-			Core = new DesktopGLDisplay();
+			Core = new DesktopGLDisplay(this);
 			builtIn = new Resources.BuiltinResources();
 		}
 

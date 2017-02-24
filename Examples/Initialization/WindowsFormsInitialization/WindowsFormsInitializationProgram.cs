@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Platform.WinForms;
 
 namespace Examples.Initialization.WindowsFormsInitialization

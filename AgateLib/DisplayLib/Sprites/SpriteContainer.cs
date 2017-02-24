@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
 
 namespace AgateLib.DisplayLib.Sprites
 {
@@ -104,7 +104,7 @@ namespace AgateLib.DisplayLib.Sprites
 
 			mSprites[mCurrent].Draw((int)screenX, (int)screenY);
 		}
-		public void Draw(Vector2 screenPosition)
+		public void Draw(Vector2f screenPosition)
 		{
 			Draw(screenPosition.X, screenPosition.Y);
 		}

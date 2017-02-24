@@ -24,8 +24,9 @@ using System.Text;
 
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.Geometry.VertexTypes;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.VertexTypes;
 
 using OpenTK.Graphics.OpenGL;
 
@@ -203,7 +204,7 @@ namespace AgateLib.OpenGL.Legacy
 				mVerts[mIndex + i].X = pts[i].X;
 				mVerts[mIndex + i].Y = pts[i].Y;
 
-				mVerts[mIndex + i].Normal = new Vector3(0, 0, -1);
+				mVerts[mIndex + i].Normal = new Vector3f(0, 0, -1);
 			}
 
 			mVerts[mIndex].U = texCoord.Left;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib.BitmapFont

@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.InputLib;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {
@@ -70,6 +70,12 @@ namespace AgateLib.DisplayLib
 		/// on the desktop.
 		/// </summary>
 		Size PhysicalSize { get; }
+
+		/// <summary>
+		/// Gets the screen this display window was originally created on. This property is not updated
+		/// if the window is moved to another monitor.
+		/// </summary>
+		ScreenInfo Screen { get; }
 
 		/// <summary>
 		/// Event raised when the window is resized by the user.
@@ -243,12 +249,6 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void Dispose()
 		{
-			foreach (var screen in Display.Screens?.AllScreens ?? Enumerable.Empty<ScreenInfo>())
-			{
-				if (screen.DisplayWindow == this)
-					screen.DisplayWindow = null;
-			}
-
 			if (mImpl != null)
 			{
 				mImpl.Dispose();
@@ -347,6 +347,7 @@ namespace AgateLib.DisplayLib
 			set { mImpl.Resolution = value; }
 		}
 
+		public ScreenInfo Screen => Impl.Screen;
 		/// <summary>
 		/// Gets the "physical" size of the DisplayWindow - the size in pixels it is
 		/// on the desktop.

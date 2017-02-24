@@ -22,10 +22,10 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using OpenTK.Graphics.OpenGL;
 using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.CoordinateSystems;
 
 namespace AgateLib.OpenGL.GL3
 {
@@ -69,7 +69,6 @@ namespace AgateLib.OpenGL.GL3
 				FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer,
 				mDepthBuffer);
 
-
 			FramebufferErrorCode code =
 				GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
 
@@ -95,12 +94,6 @@ namespace AgateLib.OpenGL.GL3
 			// TODO: Should we delete the surface also?
 		}
 
-		public event EventHandler RenderComplete;
-
-		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => MyAttachedWindow;
-
-		public DisplayLib.DisplayWindow MyAttachedWindow { get; set; }
-
 		public override bool CanAccessRenderTarget => true;
 
 		public override bool HasDepthBuffer => hasDepth;
@@ -109,10 +102,21 @@ namespace AgateLib.OpenGL.GL3
 
 		public override SurfaceImpl RenderTarget => (SurfaceImpl)mTexture;
 
-		public override AgateLib.Geometry.Size Size => mSize;
+		public override Size Size => mSize;
+
+		/// <summary>
+		/// ParentContext property is set when this is used as a backing render target
+		/// for a control context. This is needed because on Intel drivers, FrameBuffers
+		/// are not shared between contexts and the glBindFrameBuffer call requires that
+		/// context which was active when the FBO was created be the current context.
+		/// Without that it fails. Note that this does not happen with AMD hardware.
+		/// </summary>
+		public ContextFrameBuffer ParentContext { get; set; }
 
 		public override void BeginRender()
 		{
+			ParentContext?.MakeCurrent();
+
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 			GL.Viewport(0, 0, Width, Height);
@@ -125,7 +129,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindTexture(TextureTarget.Texture2D, mTexture.GLTextureID);
 			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-			RenderComplete?.Invoke(this, EventArgs.Empty);
+			OnRenderComplete();
 		}
 
 		public override void MakeCurrent()

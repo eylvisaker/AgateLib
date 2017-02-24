@@ -248,7 +248,7 @@ namespace AgateLib.OpenGL.GL3.Shaders
 			}
 		}
 
-		public void SetUniform(string name, AgateLib.Geometry.Matrix4x4 matrix)
+		public void SetUniform(string name, AgateLib.Mathematics.Matrix4x4 matrix)
 		{
 			int loc = GetUniformLocation(name);
 

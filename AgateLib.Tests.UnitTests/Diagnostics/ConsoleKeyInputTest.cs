@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AgateLib.Diagnostics;
+using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.InputLib;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

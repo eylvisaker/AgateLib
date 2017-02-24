@@ -21,7 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Shaders.Implementation;
-using AgateLib.Geometry;
+using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.Shaders
 {
@@ -111,7 +112,7 @@ namespace AgateLib.DisplayLib.Shaders
 		}
 
 		public bool Enabled { get; set; }
-		public Vector3 Position { get; set; }
+		public Vector3f Position { get; set; }
 		public Color DiffuseColor { get; set; }
 		public Color SpecularColor { get; set; }
 		public Color AmbientColor { get; set; }

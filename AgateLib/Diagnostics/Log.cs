@@ -24,8 +24,15 @@ using System.Text;
 
 namespace AgateLib.Diagnostics
 {
+	/// <summary>
+	/// Simple class for logging.
+	/// </summary>
 	public static class Log
 	{
+		/// <summary>
+		/// Writes a line to the log.
+		/// </summary>
+		/// <param name="message"></param>
 		public static void WriteLine(string message)
 		{
 			if (AgateConsole.IsInitialized)
@@ -36,10 +43,16 @@ namespace AgateLib.Diagnostics
 			Debug.WriteLine(message);
 		}
 
+		/// <summary>
+		/// Adds one to the indent level for log messages.
+		/// </summary>
 		public static void Indent()
 		{
 		}
 
+		/// <summary>
+		/// Subtracts one from the indent level for log messages.
+		/// </summary>
 		public static void Unindent()
 		{
 		}

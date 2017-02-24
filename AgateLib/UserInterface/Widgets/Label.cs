@@ -21,7 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -148,7 +149,7 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-		public override void Update(TimeSpan elapsed, ref bool processInput)
+		public override void Update(ClockTimeSpan elapsed, ref bool processInput)
 		{
 			if (SlowRead)
 			{

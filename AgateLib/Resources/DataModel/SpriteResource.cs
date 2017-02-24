@@ -17,7 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System.Collections.Generic;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Resources.DataModel
 {

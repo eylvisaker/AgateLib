@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using AgateLib;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Platform.WinForms;
 
 namespace Examples.Configuration.ConsoleExample
@@ -59,15 +59,15 @@ namespace Examples.Configuration.ConsoleExample
 
 						Rectangle dest = new Rectangle(point, size);
 
-						Display.FillRect(dest, clr);
+						Display.Primitives.FillRect(clr, dest);
 					}
 
 					var target = new Point(
 						0,
 						Display.RenderTarget.Height - font.FontHeight);
 
-					Display.FillRect(new Rectangle(target, Display.RenderTarget.Size),
-						Color.FromArgb(128, 128, 128, 128));
+					Display.Primitives.FillRect(Color.FromArgb(128, 128, 128, 128),
+						new Rectangle(target, Display.RenderTarget.Size));
 
 					font.DrawText(target,
 						"Press ~ to open the console. Type help to see a list of commands.");

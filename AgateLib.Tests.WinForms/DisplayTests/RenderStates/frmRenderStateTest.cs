@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib.DisplayLib;
+using Color = AgateLib.DisplayLib.Color;
 
 namespace AgateLib.Tests.DisplayTests.RenderStates
 {
@@ -26,7 +27,7 @@ namespace AgateLib.Tests.DisplayTests.RenderStates
 		internal void UpdateFrame()
 		{
 			Display.BeginFrame();
-			Display.Clear(AgateLib.Geometry.Color.Green);
+			Display.Clear(Color.Green);
 			Display.EndFrame();
 		}
 	}

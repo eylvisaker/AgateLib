@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Utility;
 
 namespace AgateLib.Configuration.State

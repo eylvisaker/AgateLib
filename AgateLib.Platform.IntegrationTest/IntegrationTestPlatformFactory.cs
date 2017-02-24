@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Drivers;
 using AgateLib.IO;
-using AgateLib.Platform.Common.PlatformImplementation;
 using AgateLib.Platform.Test;
 
 namespace AgateLib.Platform.IntegrationTest

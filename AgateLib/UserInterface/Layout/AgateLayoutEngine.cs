@@ -23,7 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Layout.LayoutAssemblers;

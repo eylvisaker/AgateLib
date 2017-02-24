@@ -187,6 +187,11 @@ namespace AgateLib
 			State.App.Inititalized = true;
 		}
 
+		/// <summary>
+		/// Disposes of the AgateLib resources related to the application.
+		/// After calling this, the display/audio/input subsystems will no longer
+		/// operate.
+		/// </summary>
 		public static void Dispose()
 		{
 			Settings?.Save();

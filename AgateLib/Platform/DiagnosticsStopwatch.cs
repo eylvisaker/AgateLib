@@ -16,15 +16,11 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Platform;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Watch = System.Diagnostics.Stopwatch;
 
-namespace AgateLib.Platform.Common.PlatformImplementation
+namespace AgateLib.Platform
 {
 	/// <summary>
 	/// Class which represents a StopWatch.

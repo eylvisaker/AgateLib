@@ -24,8 +24,8 @@ using System.Runtime.InteropServices;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
-using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.CoordinateSystems;
 using AgateLib.Quality;
 using OpenTK.Graphics;
 using FrameBuffer = AgateLib.OpenGL.GL3.FrameBuffer;
@@ -47,12 +47,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			Require.False<ArgumentException>(windowParams.RenderToControl, invalidMessage);
 			Require.True<ArgumentException>(windowParams.IsFullScreen, invalidMessage);
-			Require.True<InvalidOperationException>(windowParams.TargetScreen.DisplayWindow == null,
-				$"A full screen window already exists for {windowParams.TargetScreen.DeviceName}.");
 
 			CreateFullScreenDisplay((int)windowParams.TargetScreen.SystemIndex);
-
-			windowParams.TargetScreen.DisplayWindow = owner;
 
 			display.InitializeCurrentContext();
 
@@ -69,7 +65,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			DetachEvents();
 
-			using (new ResourceDisposer(windowInfo, wfForm, rtSurface, rtFrameBuffer))
+			using (new ResourceDisposer(windowInfo, wfForm, rtFrameBuffer))
 			{
 				targetScreen = System.Windows.Forms.Screen.AllScreens[targetScreenIndex];
 

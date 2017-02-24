@@ -1,4 +1,4 @@
-using AgateLib.Geometry;
+using AgateLib.DisplayLib;
 
 namespace AgateLib.Diagnostics
 {

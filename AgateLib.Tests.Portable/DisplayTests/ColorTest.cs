@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -14,7 +15,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public string Category => "Display";
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 		}
 
@@ -24,7 +25,8 @@ namespace AgateLib.Tests.DisplayTests
 
 			for (int i = 0; i < 360; i++)
 			{
-				Display.FillRect(new Rectangle(i * 2, 0, 2, 75), Color.FromHsv(i, 1, 1));
+				Display.Primitives.FillRect(Color.FromHsv(i, 1, 1),
+					new Rectangle(i * 2, 0, 2, 75));
 			}
 		}
 

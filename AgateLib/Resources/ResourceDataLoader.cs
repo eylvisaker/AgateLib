@@ -24,8 +24,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.BitmapFont.TypeConverters;
-using AgateLib.Geometry.TypeConverters;
 using AgateLib.IO;
+using AgateLib.Mathematics.TypeConverters;
 using AgateLib.Quality;
 using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface.DataModel;
@@ -49,11 +49,8 @@ namespace AgateLib.Resources
 
 			deserializer = new DeserializerBuilder()
 				.WithNamingConvention(new HyphenatedNamingConvention())
-				.WithTypeConverter(new ColorConverterYaml())
+				.WithTypeConvertersForAgateLibMathematics()
 				.WithTypeConverter(new LayoutBoxConverterYaml())
-				.WithTypeConverter(new PointConverterYaml())
-				.WithTypeConverter(new SizeConverterYaml())
-				.WithTypeConverter(new RectangleConverterYaml())
 				.WithTypeConverter(new KerningPairModelYaml())
 				.Build();
 		}

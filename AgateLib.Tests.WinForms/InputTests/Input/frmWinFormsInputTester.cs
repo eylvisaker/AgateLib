@@ -1,19 +1,15 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
+
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
-using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 
-namespace AgateLib.Tests.InputTests.InputTester
+namespace AgateLib.Tests.InputTests.Input
 {
 	public partial class frmInputTester : Form
 	{
@@ -23,19 +19,19 @@ namespace AgateLib.Tests.InputTests.InputTester
 		{
 			InitializeComponent();
 
-			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-			Input.Unhandled.KeyUp += Keyboard_KeyUp;
+			InputLib.Input.Unhandled.KeyDown += Keyboard_KeyDown;
+			InputLib.Input.Unhandled.KeyUp += Keyboard_KeyUp;
 
-			Input.Unhandled.MouseWheel += Mouse_MouseWheel;
-			Input.Unhandled.MouseMove += Mouse_MouseMove;
-			Input.Unhandled.MouseDown += Mouse_MouseDown;
-			Input.Unhandled.MouseUp += Mouse_MouseUp;
-			Input.Unhandled.MouseDoubleClick += Mouse_MouseDoubleClickEvent;
+			InputLib.Input.Unhandled.MouseWheel += Mouse_MouseWheel;
+			InputLib.Input.Unhandled.MouseMove += Mouse_MouseMove;
+			InputLib.Input.Unhandled.MouseDown += Mouse_MouseDown;
+			InputLib.Input.Unhandled.MouseUp += Mouse_MouseUp;
+			InputLib.Input.Unhandled.MouseDoubleClick += Mouse_MouseDoubleClickEvent;
 
-			Input.Unhandled.JoystickAxisChanged += Joystick_AxisChanged;
-			Input.Unhandled.JoystickButtonPressed += Joystick_ButtonPressed;
-			Input.Unhandled.JoystickButtonReleased += Joystick_ButtonReleased;
-			Input.Unhandled.JoystickHatChanged += Joystick_HatChanged;
+			InputLib.Input.Unhandled.JoystickAxisChanged += Joystick_AxisChanged;
+			InputLib.Input.Unhandled.JoystickButtonPressed += Joystick_ButtonPressed;
+			InputLib.Input.Unhandled.JoystickButtonReleased += Joystick_ButtonReleased;
+			InputLib.Input.Unhandled.JoystickHatChanged += Joystick_HatChanged;
 
 			DisplayWindow.CreateFromControl(agateRenderTarget1);
 
@@ -55,7 +51,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 			if (Visible == false)
 				return;
 
-			for (int i = 0; i < Input.Joysticks.Count; i++ )
+			for (int i = 0; i < InputLib.Input.Joysticks.Count; i++ )
 			{
 				FillJoystickInfo(i, joystickLabels[i]);
 			}
@@ -68,7 +64,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 
 		private void FillJoystickInfo(int index, Label label)
 		{
-			IJoystick j = Input.Joysticks[index];
+			IJoystick j = InputLib.Input.Joysticks[index];
 
 			StringBuilder b = new StringBuilder();
 			b.Append("Joystick ");
@@ -161,7 +157,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 		private void UpdatePressedKeys()
 		{
 			lblPressedKeys.Text = "Pressed Keys:\n" +
-			                      string.Join(",", Input.Unhandled.Keys.PressedKeys);
+			                      string.Join(",", InputLib.Input.Unhandled.Keys.PressedKeys);
 		}
 
 
@@ -198,7 +194,7 @@ namespace AgateLib.Tests.InputTests.InputTester
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			Input.Unhandled.Keys.ReleaseAll();
+			InputLib.Input.Unhandled.Keys.ReleaseAll();
 		}
 	}
 }

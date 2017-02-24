@@ -22,8 +22,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Mathematics.CoordinateSystems;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.Test.Display
 {

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Platform;
 
-namespace AgateLib.Tests.FontTests.TextLayout
+namespace AgateLib.Tests.FontTests
 {
 	class TextLayout : Scene, IAgateTest
 	{
@@ -54,7 +51,7 @@ namespace AgateLib.Tests.FontTests.TextLayout
 			font.DrawText(0, 530, "Test of escape sequences: {{}Escaped{}}");
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 		}
 

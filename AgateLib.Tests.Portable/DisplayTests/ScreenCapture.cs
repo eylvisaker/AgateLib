@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -44,7 +44,7 @@ namespace AgateLib.Tests.DisplayTests
 					Display.Clear(Color.White);
 
 					someSurface.Draw();
-					Display.FillRect(10, 10, 10, 10, Color.Gray);
+					Display.Primitives.FillRect(Color.Gray, new Rectangle(10, 10, 10, 10));
 
 					Display.EndFrame();
 

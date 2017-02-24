@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -46,6 +46,7 @@ Press arrow keys to adjust resolution
 		private Point mousePosition;
 		private DisplayWindow mouseWindow;
 		private IResolution currentResolution;
+		private DisplayWindowCollection windows;
 
 		public string Name => "Full Screen All Monitors";
 
@@ -53,7 +54,7 @@ Press arrow keys to adjust resolution
 
 		public void Run(string[] args)
 		{
-			using (var windows = new DisplayWindowBuilder()
+			using (windows = new DisplayWindowBuilder()
 					.BackbufferSize(800, 600)
 					.QuitOnClose()
 					.BuildForAllScreens())
@@ -68,36 +69,38 @@ Press arrow keys to adjust resolution
 				Size bottomSize = font.MeasureString(bottomText);
 				Size topSize = font.MeasureString(topText + "z\nz");
 
+				var primaryWindow = windows.Single(x => x.Screen.IsPrimary);
+
 				// Run the program while the window is open.
 				while (AgateApp.IsAlive)
 				{
 					var mouseText = topText +
 					                $"Resolution: {currentResolution}\nMouse: {mousePosition}";
 
-					Display.RenderTarget = Display.Screens.PrimaryScreen.DisplayWindow.FrameBuffer;
+					Display.RenderTarget = primaryWindow.FrameBuffer;
 					Display.BeginFrame();
 					Display.Clear(Color.DarkGreen);
 
 					font.DrawText(0, Display.CurrentWindow.Height - bottomSize.Height, bottomText);
 
-					Display.FillRect(new Rectangle(0, 0, Display.CurrentWindow.Width, topSize.Height),
-						Color.Maroon);
+					Display.Primitives.FillRect(Color.Maroon,
+						new Rectangle(0, 0, Display.CurrentWindow.Width, topSize.Height));
 
 					font.DrawText(mouseText);
 
-					DrawMousePointer(Display.Screens.PrimaryScreen.DisplayWindow, mousePointerSurface);
+					DrawMousePointer(primaryWindow, mousePointerSurface);
 
 					Display.EndFrame();
 
-					foreach (var screen in Display.Screens.AllScreens.Where(screen => !screen.IsPrimary))
+					foreach (var window in windows.Where(w => !w.Screen.IsPrimary))
 					{
-						Display.RenderTarget = screen.DisplayWindow.FrameBuffer;
+						Display.RenderTarget = window.FrameBuffer;
 						Display.BeginFrame();
 						Display.Clear(Color.Gray);
 
-						font.DrawText(0, 0, $"Screen {screen.Bounds}");
+						font.DrawText(0, 0, $"Screen {window.Screen.Bounds}");
 
-						DrawMousePointer(screen.DisplayWindow, mousePointerSurface);
+						DrawMousePointer(window, mousePointerSurface);
 
 						Display.EndFrame();
 					}
@@ -189,16 +192,16 @@ Press arrow keys to adjust resolution
 		{
 			currentResolution = resolution;
 
-			foreach (var screen in Display.Screens.AllScreens)
+			foreach (var window in windows)
 			{
-				screen.DisplayWindow?.Dispose();
+				var screen = window.Screen;
 
 				var createWindowParams = CreateWindowParams.FullScreen(
 					Name, resolution, null);
 
 				createWindowParams.TargetScreen = screen;
 
-				new DisplayWindow(createWindowParams);
+				windows.Add(new DisplayWindow(createWindowParams));
 			}
 		}
 
@@ -211,7 +214,7 @@ Press arrow keys to adjust resolution
 		{
 			currentResolution = resolution;
 
-			foreach (var window in Display.Screens.AllScreens.Select(x => x.DisplayWindow))
+			foreach (var window in windows)
 			{
 				window.Resolution = resolution;
 			}

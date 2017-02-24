@@ -16,15 +16,13 @@
 //		
 //		Contributor(s): Marcel Hauf.
 //
-using System;
-using System.Linq;
+
 using System.Collections.Generic;
-
-using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.DisplayLib.Particles.Particles;
 using AgateLib.DisplayLib.Sprites;
+using AgateLib.Mathematics;
 
-namespace AgateLib.DisplayLib.Particles
+namespace AgateLib.DisplayLib.Particles.Emitters
 {
 	/// <summary>
 	/// Emitter class optimized for simulating sprite particles.
@@ -61,7 +59,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// EmitLife = 1f, maxParticle = 1000, emitSpriteKey = 0
 		/// </summary>
 		/// <param name="position"></param>
-		public SpriteEmitter(Vector2 position) : this(position, 1f, 1000, 0) { }
+		public SpriteEmitter(Vector2f position) : this(position, 1f, 1000, 0) { }
 
 		/// <summary>
 		/// Constructs a SpriteEmitter with default values:
@@ -69,7 +67,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="emitLife"></param>
-		public SpriteEmitter(Vector2 position, float emitLife) : this(position, emitLife, 1000, 0) { }
+		public SpriteEmitter(Vector2f position, float emitLife) : this(position, emitLife, 1000, 0) { }
 
 		/// <summary>
 		/// Constructs a SpriteEmitter with default values:
@@ -78,7 +76,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// <param name="position"></param>
 		/// <param name="emitLife"></param>
 		/// <param name="maxParticle"></param>
-		public SpriteEmitter(Vector2 position, float emitLife, int maxParticle) : this(position, emitLife, maxParticle, 0) { }
+		public SpriteEmitter(Vector2f position, float emitLife, int maxParticle) : this(position, emitLife, maxParticle, 0) { }
 
 		/// <summary>
 		/// Constructs a SpriteEmitter.
@@ -87,7 +85,7 @@ namespace AgateLib.DisplayLib.Particles
 		/// <param name="emitLife"></param>
 		/// <param name="maxParticle"></param>
 		/// <param name="emitSpriteKey"></param>
-		public SpriteEmitter(Vector2 position, float emitLife, int maxParticle, int emitSpriteKey)
+		public SpriteEmitter(Vector2f position, float emitLife, int maxParticle, int emitSpriteKey)
 		{
 			base.Position = position;
 			base.EmitLife = emitLife;

@@ -20,7 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform;
 using AgateLib.Quality;
 
 namespace AgateLib.UserInterface.Widgets
@@ -72,7 +73,7 @@ namespace AgateLib.UserInterface.Widgets
 			Children.Add(item);
 		}
 
-		public override void Update(TimeSpan elapsed, ref bool processInput)
+		public override void Update(ClockTimeSpan elapsed, ref bool processInput)
 		{
 			foreach (var child in Children)
 			{

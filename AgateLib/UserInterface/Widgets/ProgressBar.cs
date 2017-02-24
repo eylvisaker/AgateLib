@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -33,7 +33,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public ProgressBar()
 		{
-			Gradient = new AgateLib.Geometry.Gradient(Color.White);
+			Gradient = new Gradient(Color.White);
 		}
 		internal override Size ComputeSize(int? maxWidth, int? maxHeight)
 		{
@@ -56,11 +56,11 @@ namespace AgateLib.UserInterface.Widgets
 
 				destRect.Width = width;
 
-				var grad = new Gradient(Gradient.TopLeft);
-				grad.TopRight = Gradient.Interpolate(width, 0);
-				grad.BottomRight = grad.TopRight;
+				//var grad = new Gradient(Gradient.TopLeft);
+				//grad.TopRight = Gradient.Interpolate(width, 0);
+				//grad.BottomRight = grad.TopRight;
 
-				Display.FillRect(destRect, grad);
+				Display.Primitives.FillRect(Gradient.TopLeft, destRect);
 			}
 		}
 	}

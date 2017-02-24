@@ -18,7 +18,6 @@
 //
 using System.Collections.Generic;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.DataModel

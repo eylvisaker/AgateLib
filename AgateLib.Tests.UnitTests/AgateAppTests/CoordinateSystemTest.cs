@@ -1,6 +1,5 @@
-﻿using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
-
+﻿using AgateLib.Mathematics.CoordinateSystems;
+using AgateLib.Mathematics.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.AgateAppTests

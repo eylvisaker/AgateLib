@@ -1,4 +1,4 @@
-﻿using AgateLib.Geometry;
+﻿using AgateLib.DisplayLib;
 using AgateLib.Quality;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -45,12 +45,12 @@ namespace AgateLib.Platform
 		/// <summary>
 		/// The amount of time elapsed between the last two calls to Advance().
 		/// </summary>
-		public TimeSpan Elapsed { get; private set; }
+		public ClockTimeSpan Elapsed { get; private set; }
 
 		/// <summary>
 		/// The current time shown on the clock face.
 		/// </summary>
-		public TimeSpan CurrentTime => TimeSpan.FromMilliseconds(currentTimeMs);
+		public ClockTimeSpan CurrentTime => ClockTimeSpan.FromMilliseconds(currentTimeMs);
 
 		/// <summary>
 		/// The number of frames per second. 
@@ -101,7 +101,7 @@ namespace AgateLib.Platform
 				ranOnce = true;
 			}
 
-			Elapsed = TimeSpan.FromMilliseconds(timePassedMs);
+			Elapsed = ClockTimeSpan.FromMilliseconds(timePassedMs);
 		}
 	}
 }

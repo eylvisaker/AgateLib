@@ -20,8 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SDL2.ThirtyTwo;
 using System.Runtime.InteropServices;
+using AgateLib.AgateSDL.Sdl2.ThirtyTwo;
 
 namespace AgateLib.AgateSDL.Sdl2
 {

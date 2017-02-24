@@ -16,17 +16,12 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Resources;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.Resources.Managers.UserInterface
+namespace AgateLib.Resources.Managers
 {
 	/// <summary>
 	/// Inspects an object's type and builds a map of property setters for that object 

@@ -144,6 +144,7 @@
       <DependentUpon>PlatformDetection.cs</DependentUpon>
     </Compile>
     <Compile Include="CoreTests\PlatformDetection\PlatformDetector.cs" />
+    <Compile Include="DisplayTests\BasicDrawing\Shape.cs" />
     <Compile Include="DisplayTests\Capabilities\Capabilities.cs" />
     <Compile Include="DisplayTests\Capabilities\frmCapabilities.cs">
       <SubType>Form</SubType>

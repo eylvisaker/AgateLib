@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -86,7 +86,7 @@ namespace AgateLib.Tests.DisplayTests
 			Display.BeginFrame();
 			Display.Clear();
 			mySurface.Draw(new Rectangle(Point.Empty, frame.Size));
-			Display.FillRect(new Rectangle(0, 0, 8, 32), clr);
+			Display.Primitives.FillRect(clr, new Rectangle(0, 0, 8, 32));
 
 			var pt = new Point(31, 16);
 			string text = tests.Count.ToString();

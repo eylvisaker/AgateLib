@@ -23,7 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.Test.Display
 {
@@ -91,7 +91,7 @@ namespace AgateLib.Platform.Test.Display
 		public Size MeasureString(string text)
 		{
 			if (text.Length == 0)
-				return AgateLib.Geometry.Size.Empty;
+				return Mathematics.Geometry.Size.Empty;
 
 			int lineLength = 0;
 			int longestLine = 0;

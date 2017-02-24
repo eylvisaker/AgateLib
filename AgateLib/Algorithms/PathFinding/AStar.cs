@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using AgateLib.Geometry;
 using System.Threading.Tasks;
 
 namespace AgateLib.Algorithms.PathFinding
@@ -52,6 +51,12 @@ namespace AgateLib.Algorithms.PathFinding
 		public AStar(IAStarMap<T> map, IEqualityComparer<T> comparer)
 			: this(map, comparer.Equals)
 		{ }
+
+		/// <summary>
+		/// Constructs an A* algorithm object.
+		/// </summary>
+		/// <param name="map"></param>
+		/// <param name="comparison"></param>
 		public AStar(IAStarMap<T> map, Func<T, T, bool> comparison)
 		{
 			mMap = map;
@@ -62,7 +67,7 @@ namespace AgateLib.Algorithms.PathFinding
 		/// Finds a path on the current thread and returns.
 		/// task.CompletedCallBack is ignored.
 		/// </summary>
-		/// <param name="task"></param>
+		/// <param name="state"></param>
 		public void FindPathSync(AStarState<T> state)
 		{
 			try

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using AgateLib;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
+using AgateLib.Platform;
 using AgateLib.Resources;
 
 namespace AgateLib.Tests.FoundationTests
@@ -29,7 +29,7 @@ namespace AgateLib.Tests.FoundationTests
 			sprite.StartAnimation();
 		}
 
-		public override void Update(TimeSpan elapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			sprite.Update();
 		}

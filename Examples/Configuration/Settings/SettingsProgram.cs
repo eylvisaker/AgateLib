@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Platform.WinForms;
 
 namespace Examples.Configuration.Settings
@@ -55,7 +55,7 @@ namespace Examples.Configuration.Settings
 					Size size = new Size(480, 90);
 
 					Rectangle dest = new Rectangle(point, size);
-					Display.FillRect(dest, Color.FromHsv(setting.Hue, setting.Saturation, setting.Value));
+					Display.Primitives.FillRect(Color.FromHsv(setting.Hue, setting.Saturation, setting.Value), dest);
 
 					Display.EndFrame();
 

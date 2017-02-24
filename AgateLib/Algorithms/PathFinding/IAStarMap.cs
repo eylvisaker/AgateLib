@@ -17,7 +17,6 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System.Collections.Generic;
-using AgateLib.Geometry;
 
 namespace AgateLib.Algorithms.PathFinding
 {
@@ -42,7 +41,21 @@ namespace AgateLib.Algorithms.PathFinding
 		/// <param name="destination"></param>
 		/// <returns></returns>
 		int CalculateHeuristic(T location, List<T> destination);
+
+		/// <summary>
+		/// Return the available movements from the current location.
+		/// </summary>
+		/// <param name="task"></param>
+		/// <param name="location"></param>
+		/// <returns></returns>
 		IEnumerable<T> GetAvailableSteps(AStarState<T> task, T location);
+
+		/// <summary>
+		/// Gets the cost value for moving from start to target.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="start"></param>
+		/// <returns></returns>
 		int GetStepCost(T target, T start);
 	}
 }
