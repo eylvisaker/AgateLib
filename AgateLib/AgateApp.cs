@@ -204,6 +204,14 @@ namespace AgateLib
 		}
 
 		/// <summary>
+		/// Signals the application should quit by setting the IsAlive flag to false.
+		/// </summary>
+		public static void Quit()
+		{
+			IsAlive = false;
+		}
+
+		/// <summary>
 		/// Adds an action to a queue that is executed when AgateApp.KeepAlive is called.
 		/// </summary>
 		/// <param name="action"></param>
@@ -286,6 +294,5 @@ namespace AgateLib
 				workItem();
 			}
 		}
-
 	}
 }

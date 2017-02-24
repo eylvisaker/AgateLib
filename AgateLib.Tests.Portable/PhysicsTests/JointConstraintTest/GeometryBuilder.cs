@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
+using AgateLib.Physics;
+using AgateLib.Physics.Constraints;
 
 namespace RigidBodyDynamics.Demo
 {

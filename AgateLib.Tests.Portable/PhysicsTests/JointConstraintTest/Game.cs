@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Physics;
 using AgateLib.Platform;
+using AgateLib.Tests;
 
 namespace RigidBodyDynamics.Demo
 {
-	public class Game
+	public class PhysicsDemo : Scene, IAgateTest
 	{
 		private const int boxSize = 40;
 
@@ -32,7 +35,27 @@ namespace RigidBodyDynamics.Demo
 
 		private bool running;
 
-		public Game()
+		public string Name => "Physics Demo";
+		public string Category => "Physics";
+
+		public void Run(string[] args)
+		{
+			using (new DisplayWindowBuilder(args)
+				.BackbufferSize(1024, 768)
+				.QuitOnClose()
+				.Build())
+			{
+				SceneStack.Start(this);
+			}
+		}
+
+		private IKinematicsExample CurrentExample => examples[exampleIndex];
+
+		private Size Area => Display.RenderTarget.Size;
+
+		public int BoxCount { get; set; } = 8;
+
+		protected override void OnSceneStart()
 		{
 			InitializeInput();
 
@@ -45,19 +68,13 @@ namespace RigidBodyDynamics.Demo
 			InitializeExample();
 		}
 
-		private IKinematicsExample CurrentExample => examples[exampleIndex];
-
-		private Size Area => Display.RenderTarget.Size;
-
-		public int BoxCount { get; set; } = 8;
-
-		public void Update(ClockTimeSpan gameClockElapsed)
+		public override void Update(ClockTimeSpan elapsed)
 		{
 			if (system.Particles.Any(p => double.IsNaN(p.Position.X)))
 				running = false;
 
 			if (running)
-				Advance((float)gameClockElapsed.TotalSeconds);
+				Advance((float)elapsed.TotalSeconds);
 		}
 
 		private void Advance(float dt = 0.005f)
@@ -84,8 +101,10 @@ namespace RigidBodyDynamics.Demo
 			}
 		}
 
-		public void Draw()
+		public override void Draw()
 		{
+			Display.Clear(Color.Gray);
+
 			CurrentExample.Draw();
 
 			Font.AgateMono.Size = 16;
@@ -176,6 +195,9 @@ namespace RigidBodyDynamics.Demo
 
 		private void Handler_KeyDown(object sender, AgateInputEventArgs e)
 		{
+			if (e.KeyCode == KeyCode.Escape)
+				AgateApp.Quit();
+
 			if (e.KeyCode == KeyCode.Z)
 				InitializeExample();
 			if (e.KeyCode == KeyCode.Space && !running)
@@ -243,5 +265,6 @@ namespace RigidBodyDynamics.Demo
 
 			constraintSolver.ComputeConstraintForces(0.005f);
 		}
+
 	}
 }
