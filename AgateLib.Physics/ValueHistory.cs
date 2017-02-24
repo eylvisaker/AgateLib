@@ -1,6 +1,6 @@
 using AgateLib.Quality;
 
-namespace RigidBodyDynamics
+namespace AgateLib.Physics
 {
 	public class ValueHistory<T>
 	{

@@ -1,7 +1,7 @@
 ﻿using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 
-namespace RigidBodyDynamics
+namespace AgateLib.Physics
 {
 	public class PhysicalParticle
 	{

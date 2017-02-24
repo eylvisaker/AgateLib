@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace RigidBodyDynamics
+namespace AgateLib.Physics
 {
 	/// <summary>
 	/// Impulse based constraint solver.

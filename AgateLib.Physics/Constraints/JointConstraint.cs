@@ -1,7 +1,7 @@
 using System;
 using AgateLib.Mathematics;
 
-namespace RigidBodyDynamics
+namespace AgateLib.Physics.Constraints
 {
 	/// <summary>
 	/// Implements a constraint which forces the two points relative to each particle be kept at a single point.

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
 
-namespace RigidBodyDynamics
+namespace AgateLib.Physics
 {
 	public static class VectorExtensions
 	{

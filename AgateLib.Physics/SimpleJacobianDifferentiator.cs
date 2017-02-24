@@ -1,7 +1,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace RigidBodyDynamics
+namespace AgateLib.Physics
 {
 	public class SimpleJacobianDifferentiator
 	{

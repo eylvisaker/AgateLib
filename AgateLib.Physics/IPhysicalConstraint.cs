@@ -1,6 +1,6 @@
 using MathNet.Numerics.LinearAlgebra;
 
-namespace RigidBodyDynamics
+namespace AgateLib.Physics
 {
 	/// <summary>
 	/// A constraint equation for the kinematics solver to incorporate in the computation of forces.

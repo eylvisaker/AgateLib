@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace RigidBodyDynamics
+namespace AgateLib.Physics
 {
 	public interface IConstraintSolver
 	{

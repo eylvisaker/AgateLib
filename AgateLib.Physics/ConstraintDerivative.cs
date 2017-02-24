@@ -1,4 +1,4 @@
-namespace RigidBodyDynamics
+namespace AgateLib.Physics
 {
 	/// <summary>
 	/// Compute the derivative of your constraint, with respect to each of the particle's values.

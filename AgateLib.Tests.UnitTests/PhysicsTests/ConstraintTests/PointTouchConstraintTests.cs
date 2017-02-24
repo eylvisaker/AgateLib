@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
+using AgateLib.Physics.Constraints;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RigidBodyDynamics;
 
 namespace AgateLib.Physics.UnitTests.ConstraintTests
 {
