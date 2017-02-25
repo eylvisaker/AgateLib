@@ -125,7 +125,10 @@ namespace AgateLib
 			for (int i = Scenes.Count - 1; i >= 0; i--)
 			{
 				if (Scenes[i].UpdateBelow == false)
+				{
 					bottomIndex = i;
+					break;
+				}
 			}
 
 			for (int i = bottomIndex; i < Scenes.Count; i++)
