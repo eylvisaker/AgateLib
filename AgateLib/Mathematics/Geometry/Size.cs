@@ -114,6 +114,24 @@ namespace AgateLib.Mathematics.Geometry
 			return !a.Equals(b);
 		}
 
+		/// <summary>
+		/// Converts a Size to a Vector2.
+		/// </summary>
+		/// <param name="size"></param>
+		public static explicit operator Vector2(Size size)
+		{
+			return new Vector2(size.Width, size.Height);
+		}
+
+		/// <summary>
+		/// Converts a Size to a Vector2f.
+		/// </summary>
+		/// <param name="size"></param>
+		public static explicit operator Vector2f(Size size)
+		{
+			return new Vector2f(size.Width, size.Height);
+		}
+
 		#endregion
 
 		#region --- Object Overrides ---

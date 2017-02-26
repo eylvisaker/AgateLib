@@ -84,6 +84,7 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			get { return width == 0 && height == 0; }
 		}
+
 		/// <summary>
 		/// Empty SizeF structure.
 		/// </summary>
@@ -98,6 +99,7 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			return new Size((int)size.width, (int)size.height);
 		}
+
 		#region --- Operator Overloads ---
 
 		/// <summary>
@@ -120,6 +122,25 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			return !a.Equals(b);
 		}
+
+		/// <summary>
+		/// Converts a Size to a Vector2.
+		/// </summary>
+		/// <param name="size"></param>
+		public static explicit operator Vector2(SizeF size)
+		{
+			return new Vector2(size.Width, size.Height);
+		}
+
+		/// <summary>
+		/// Converts a Size to a Vector2f.
+		/// </summary>
+		/// <param name="size"></param>
+		public static explicit operator Vector2f(SizeF size)
+		{
+			return new Vector2f(size.Width, size.Height);
+		}
+
 
 		#endregion
 
