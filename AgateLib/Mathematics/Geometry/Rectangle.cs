@@ -18,6 +18,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -431,6 +432,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// Empty rectangle
 		/// </summary>
 		public static readonly Rectangle Empty = new Rectangle(0, 0, 0, 0);
+
 		/// <summary>
 		/// Static method returning the intersection of two rectangles.
 		/// </summary>
@@ -491,8 +493,17 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Creates a new rectangle which contains all the area of the two passed in rectangles.
 		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
+		/// <param name="rects">The collection of rectangles to union together.</param>
+		/// <returns></returns>
+		public static Rectangle Union(IEnumerable<Rectangle> rects)
+		{
+			return Union(rects.ToArray());
+		}
+
+		/// <summary>
+		/// Creates a new rectangle which contains all the area of the two passed in rectangles.
+		/// </summary>
+		/// <param name="rects">The collection of rectangles to union together.</param>
 		/// <returns></returns>
 		public static Rectangle Union(params Rectangle[] rects)
 		{

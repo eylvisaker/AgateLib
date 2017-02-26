@@ -48,7 +48,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets or sets the size of the client area in pixels.
 		/// </summary>
-		Size Size { get; set; }
+		Size Size { get; }
 
 		/// <summary>
 		/// Gets or sets the title of the window.
@@ -280,38 +280,28 @@ namespace AgateLib.DisplayLib
 		public Size Size
 		{
 			get { return mImpl.Size; }
-			set { mImpl.Size = value; }
 		}
+
 		/// <summary>
-		/// Gets or sets the width of the client area in pixels.
+		/// Gets the width of the client area in pixels.
 		/// </summary>
 		public int Width
 		{
 			get { return Size.Width; }
-			set
-			{
-				Size = new Size(value, Size.Height);
-			}
 		}
+
 		/// <summary>
-		/// Gets or sets the height of the client area in pixels.
+		/// Gets the height of the client area in pixels.
 		/// </summary>
 		public int Height
 		{
 			get { return Size.Height; }
-			set
-			{
-				Size = new Size(Size.Width, value);
-			}
 		}
 
 		/// <summary>
 		/// Returns the DisplayWindowImpl object.
 		/// </summary>
-		public DisplayWindowImpl Impl
-		{
-			get { return mImpl; }
-		}
+		public DisplayWindowImpl Impl => mImpl;
 
 		/// <summary>
 		/// Gets or sets the title of the window.
@@ -325,10 +315,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Returns true if this window is displayed fullscreen.
 		/// </summary>
-		public bool IsFullScreen
-		{
-			get { return mImpl.IsFullScreen; }
-		}
+		public bool IsFullScreen => mImpl.IsFullScreen;
 
 		/// <summary>
 		/// Creates an orthogonal projection matrix that maps drawing units onto pixels.
@@ -347,7 +334,11 @@ namespace AgateLib.DisplayLib
 			set { mImpl.Resolution = value; }
 		}
 
+		/// <summary>
+		/// Gets the screen this DisplayWindow was created on.
+		/// </summary>
 		public ScreenInfo Screen => Impl.Screen;
+
 		/// <summary>
 		/// Gets the "physical" size of the DisplayWindow - the size in pixels it is
 		/// on the desktop.

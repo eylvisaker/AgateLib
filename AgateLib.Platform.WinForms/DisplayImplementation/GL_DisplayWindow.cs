@@ -440,7 +440,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			OnInputEvent(owner, AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMousebutton()));
+			OnInputEvent(owner, AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMouseButton()));
 		}
 
 		private void mRenderTarget_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -450,7 +450,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			OnInputEvent(owner, AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMousebutton()));
+			OnInputEvent(owner, AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMouseButton()));
 		}
 
 		private void mRenderTarget_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)

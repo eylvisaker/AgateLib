@@ -18,12 +18,6 @@ namespace AgateLib.Tests.DisplayTests
 			new Resolution(1280, 720, RenderMode.RetainAspectRatio),
 			new Resolution(1920, 1080, RenderMode.RetainAspectRatio),
 			new Resolution(3840, 2160, RenderMode.RetainAspectRatio),
-			new Resolution(640, 480, RenderMode.Stretch),
-			new Resolution(800, 600, RenderMode.Stretch),
-			new Resolution(1024, 768, RenderMode.Stretch),
-			new Resolution(1280, 720, RenderMode.Stretch),
-			new Resolution(1920, 1080, RenderMode.Stretch),
-			new Resolution(3840, 2160, RenderMode.Stretch),
 		};
 
 		private string topText = @"Press Esc or Enter to exit.
@@ -35,13 +29,7 @@ Press arrow keys to adjust resolution
     F3 - {resolutions[2 % resolutions.Count]}
     F4 - {resolutions[3 % resolutions.Count]}
     F5 - {resolutions[4 % resolutions.Count]}
-    F6 - {resolutions[5 % resolutions.Count]}
-    F7 - {resolutions[6 % resolutions.Count]}
-    F8 - {resolutions[7 % resolutions.Count]}
-    F9 - {resolutions[8 % resolutions.Count]}
-    F10 - {resolutions[9 % resolutions.Count]}
-    F11 - {resolutions[10 % resolutions.Count]}
-    F12 - {resolutions[11 % resolutions.Count]}";
+    F6 - {resolutions[5 % resolutions.Count]}";
 
 		private Point mousePosition;
 		private DisplayWindow mouseWindow;
@@ -55,7 +43,7 @@ Press arrow keys to adjust resolution
 		public void Run(string[] args)
 		{
 			using (window = new DisplayWindowBuilder()
-					.BackbufferSize(1280, 720)
+					.BackbufferSize(800, 600)
 					.QuitOnClose()
 					.BuildForAllScreens())
 			{
@@ -123,12 +111,6 @@ Press arrow keys to adjust resolution
 				case KeyCode.F4:
 				case KeyCode.F5:
 				case KeyCode.F6:
-				case KeyCode.F7:
-				case KeyCode.F8:
-				case KeyCode.F9:
-				case KeyCode.F10:
-				case KeyCode.F11:
-				case KeyCode.F12:
 					var index = e.KeyCode - KeyCode.F1;
 
 					if (e.KeyModifiers.Shift)

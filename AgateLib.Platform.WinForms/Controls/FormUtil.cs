@@ -229,7 +229,7 @@ namespace AgateLib.Platform.WinForms.Controls
 			};
 		}
 
-		public static MouseButton AgateMousebutton(this MouseEventArgs e)
+		public static MouseButton AgateMouseButton(this MouseEventArgs e)
 		{
 			var result = InputLib.MouseButton.None;
 			var buttons = e.Button;

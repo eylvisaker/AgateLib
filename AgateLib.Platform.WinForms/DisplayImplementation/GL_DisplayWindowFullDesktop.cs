@@ -10,6 +10,7 @@ using AgateLib.Mathematics;
 using AgateLib.Mathematics.CoordinateSystems;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.OpenGL;
+using AgateLib.Platform.WinForms.Controls;
 using AgateLib.Quality;
 using OpenTK.Platform;
 
@@ -30,18 +31,19 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			public Rectangle SourceRect { get; set; }
 		}
 
-		private OpenTkAdapter openTk = new OpenTkAdapter();
+		private readonly DesktopGLDisplay display;
+		private readonly DisplayWindow owner;
+		private readonly OpenTkAdapter openTk = new OpenTkAdapter();
 
-		List<ScreenData> screenFrameBuffers
-			= new List<ScreenData>();
+		private readonly List<ScreenData> screenFrameBuffers = new List<ScreenData>();
+		private readonly SurfaceState rtSurfaceState = new SurfaceState();
 
 		private IResolution resolution;
 		private GL_FrameBuffer backBuffer;
-		private readonly SurfaceState rtSurfaceState = new SurfaceState();
-		private DesktopGLDisplay display;
-		private DisplayWindow owner;
+		private Surface backBufferSurface;
+
 		private bool isClosed;
-		private Mathematics.Geometry.Point lastMousePoint;
+		private Point lastMousePoint;
 
 		public GL_DisplayWindowFullDesktop(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 		{
@@ -86,16 +88,19 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				screenFrameBuffers.Add(data);
 			}
 
-			Resolution = windowParams.Resolution;
-
 			foreach (var screenData in screenFrameBuffers)
 			{
 				AttachEvents(screenData);
 			}
+
+
+			Resolution = windowParams.Resolution;
 		}
 
 		protected override void Dispose(bool disposing)
 		{
+			isClosed = true;
+
 			foreach (var screenData in screenFrameBuffers)
 			{
 				// This odd hack seems to be required if we have full screen
@@ -109,7 +114,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					System.Windows.Forms.Application.DoEvents();
 				}));
 			}
-
 
 			foreach (var screenData in screenFrameBuffers)
 			{
@@ -133,7 +137,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			{
 				resolution = value.Clone(
 					new Size((int)(display.Screens.DesktopBounds.Size.AspectRatio * value.Height),
-					         value.Height));
+							 value.Height));
 
 				RecreateTargetFrameBuffer();
 			}
@@ -149,20 +153,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void RecreateTargetFrameBuffer()
 		{
+			bool setRenderTarget = Display.RenderTarget == owner.FrameBuffer;
+
 			Vector2 sizeRatio = new Vector2(
 				resolution.Width / (double)display.Screens.DesktopBounds.Width,
 				resolution.Height / (double)display.Screens.DesktopBounds.Height);
-			
+
 			var context = screenFrameBuffers.First().Context;
 			context.MakeCurrent();
-
-			backBuffer = new OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(Resolution.Size).Impl)
-			{
-				ParentContext = context
-			};
-
-			backBuffer.RenderComplete += BackBuffer_RenderComplete;
-			backBuffer.MyAttachedWindow = owner;
 
 			foreach (var data in screenFrameBuffers)
 			{
@@ -174,6 +172,23 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					(int)(screen.Bounds.Width * sizeRatio.X),
 					(int)(screen.Bounds.Height * sizeRatio.Y));
 			}
+
+			var backBufferBounds = Rectangle.Union(screenFrameBuffers.Select(x => x.SourceRect));
+
+			backBuffer?.Dispose();
+			backBufferSurface?.Dispose();
+
+			backBufferSurface = new Surface(backBufferBounds.Size);
+			backBuffer = new OpenGL.GL3.FrameBuffer((IGL_Surface)backBufferSurface.Impl)
+			{
+				ParentContext = context
+			};
+
+			backBuffer.RenderComplete += BackBuffer_RenderComplete;
+			backBuffer.MyAttachedWindow = owner;
+
+			if (setRenderTarget)
+				Display.RenderTarget = owner.FrameBuffer;
 		}
 
 		private void BackBuffer_RenderComplete(object sender, EventArgs e)
@@ -185,8 +200,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			foreach (var screenData in screenFrameBuffers)
 			{
-				var screen = screenData.Screen;
-
 				var screenContext = screenData.Context;
 
 				// The window context needs to be set current before we do 
@@ -199,8 +212,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				display.Clear(Color.Black);
 
-				var destRect = Resolution.RenderMode.DestRect(
-					screenData.SourceRect.Size, screenContext.Size);
+				var destRect = new Rectangle(Point.Empty, screenContext.Size);
 				var sourceRect = screenData.SourceRect;
 
 				rtSurfaceState.ScaleWidth = destRect.Width / (double)sourceRect.Width;
@@ -215,25 +227,57 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				screenContext.EndRender();
 			}
 		}
+
 		private void AttachEvents(ScreenData screenData)
 		{
 			var form = screenData.Form;
 
 			form.FormClosing += Form_FormClosing;
-			form.MouseMove += (sender, e) => Form_MouseMove(screenData, e);
+			form.FormClosed += (sender, e) => Dispose();
 
+			form.MouseMove += (sender, e) => Form_MouseMove(screenData, e);
+			form.MouseDown += (sender, e) => Form_MouseDown(screenData, e);
+			form.MouseUp += (sender, e) => Form_MouseUp(screenData, e);
+			form.MouseWheel += (sender, e) => Form_MouseWheel(screenData, e);
+			form.DoubleClick += Form_DoubleClick;
+		}
+
+		private void Form_DoubleClick(object sender, EventArgs eventArgs)
+		{
+			OnInputEvent(owner, AgateInputEventArgs.MouseDoubleClick(lastMousePoint, MouseButton.Primary));
+		}
+
+		private void Form_MouseWheel(ScreenData screenData, MouseEventArgs e)
+		{
+			lastMousePoint = PixelToLogicalCoords(screenData, new Point(e.X, e.Y));
+
+			OnInputEvent(owner, AgateInputEventArgs.MouseWheel(lastMousePoint, -(e.Delta * 100) / 120));
+		}
+
+		private void Form_MouseDown(ScreenData screenData, MouseEventArgs e)
+		{
+			lastMousePoint = PixelToLogicalCoords(screenData, new Point(e.X, e.Y));
+
+			OnInputEvent(owner, AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMouseButton()));
+		}
+
+		private void Form_MouseUp(ScreenData screenData, MouseEventArgs e)
+		{
+			lastMousePoint = PixelToLogicalCoords(screenData, new Point(e.X, e.Y));
+
+			OnInputEvent(owner, AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMouseButton()));
 		}
 
 		private void Form_MouseMove(ScreenData screenData, MouseEventArgs e)
 		{
-			lastMousePoint = PixelToLogicalCoords(screenData, new Mathematics.Geometry.Point(e.X, e.Y));
+			lastMousePoint = PixelToLogicalCoords(screenData, new Point(e.X, e.Y));
 
 			OnInputEvent(owner, AgateInputEventArgs.MouseMove(lastMousePoint));
 		}
 
-		private Mathematics.Geometry.Point PixelToLogicalCoords(ScreenData screenData, Mathematics.Geometry.Point point)
+		private Point PixelToLogicalCoords(ScreenData screenData, Point point)
 		{
-			var desktopPoint = (Vector2)screenData.Screen.Bounds.Location + (Vector2) point;
+			var desktopPoint = (Vector2)screenData.Screen.Bounds.Location + (Vector2)point;
 
 			Vector2 desktopRelativePoint = new Vector2(
 				desktopPoint.X / display.Screens.DesktopBounds.Width,
