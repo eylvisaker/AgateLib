@@ -76,6 +76,8 @@ namespace AgateLib.DisplayLib
 		/// Constructs a DisplayWindow object with a single canvas that spans
 		/// all physical monitors.
 		/// </summary>
+		/// <remarks>The aspect ratio of the back buffer is modified to match
+		/// the aspect ratio of the desktop.</remarks>
 		/// <returns></returns>
 		public DisplayWindow BuildForAllScreens()
 		{

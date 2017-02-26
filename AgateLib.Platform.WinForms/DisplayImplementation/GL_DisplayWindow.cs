@@ -105,6 +105,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				wfForm.Invoke(new Action(() =>
 				{
 					wfForm.Size = new System.Drawing.Size(100, 100);
+					wfForm.TopLevel = false;
 					System.Windows.Forms.Application.DoEvents();
 				}));
 

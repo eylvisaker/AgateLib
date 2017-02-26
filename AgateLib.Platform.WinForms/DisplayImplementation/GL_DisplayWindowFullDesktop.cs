@@ -105,11 +105,15 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				screenData.Form.Invoke(new Action(() =>
 				{
 					screenData.Form.Size = new System.Drawing.Size(100, 100);
+					screenData.Form.TopLevel = false;
 					System.Windows.Forms.Application.DoEvents();
 				}));
+			}
 
+
+			foreach (var screenData in screenFrameBuffers)
+			{
 				screenData.Context.MakeCurrent();
-
 				screenData.Context.Dispose();
 
 				screenData.Form.Invoke(new Action(() => screenData.Form.Dispose()));
@@ -127,7 +131,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			get { return resolution; }
 			set
 			{
-				resolution = value;
+				resolution = value.Clone(
+					new Size((int)(display.Screens.DesktopBounds.Size.AspectRatio * value.Height),
+					         value.Height));
 
 				RecreateTargetFrameBuffer();
 			}
@@ -144,17 +150,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private void RecreateTargetFrameBuffer()
 		{
 			Vector2 sizeRatio = new Vector2(
-				resolution.Width / (double)display.Screens.PrimaryScreen.Bounds.Width,
-				resolution.Height / (double)display.Screens.PrimaryScreen.Bounds.Height);
-
-			var backBufferSize = new Size(
-				(int)(display.Screens.DesktopBounds.Width * sizeRatio.X),
-				(int)(display.Screens.DesktopBounds.Height * sizeRatio.Y));
-
+				resolution.Width / (double)display.Screens.DesktopBounds.Width,
+				resolution.Height / (double)display.Screens.DesktopBounds.Height);
+			
 			var context = screenFrameBuffers.First().Context;
 			context.MakeCurrent();
 
-			backBuffer = new OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(backBufferSize).Impl)
+			backBuffer = new OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(Resolution.Size).Impl)
 			{
 				ParentContext = context
 			};
