@@ -20,10 +20,8 @@ namespace Examples.Scenes.EventDrivenSceneExample
 		[STAThread]
 		static void Main(string[] args)
 		{
-			// .InstallConsoleCommands() and .DefaultConsoleTheme() must come AFTER .Initialize() here.
 			using (new AgateWinForms(args)
-				.Initialize()
-				.InstallConsoleCommands())
+				.Initialize())
 			using (new DisplayWindowBuilder(args)
 				.Title("Event Driven Scene Example")
 				.BackbufferSize(1280, 720)
@@ -31,6 +29,9 @@ namespace Examples.Scenes.EventDrivenSceneExample
 				.QuitOnClose()
 				.Build())
 			{
+				// Create a Scene object for the title screen. When the enter key or 
+				// the start button on the first gamepad is pressed, that will
+				// begin a new scene.
 				GamepadInputHandler titleInputHandler = NewInputHandler();
 
 				Scene titleScene = new Scene(titleInputHandler);
@@ -67,6 +68,8 @@ namespace Examples.Scenes.EventDrivenSceneExample
 
 		private static void CreateGameScene(ISceneStack stack)
 		{
+			// Here we build a simple scene for a "game" where the
+			// player can move a big white circle around the screen.
 			var gameInputHandler = NewInputHandler();
 			Scene gameScene = new Scene(gameInputHandler);
 
