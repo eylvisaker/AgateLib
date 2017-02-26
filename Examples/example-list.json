@@ -38,6 +38,15 @@
       "images": []
     }
   },
+  "Scenes": {
+    "EventDrivenSceneExample": {
+      "name": "Event Driven Scenes",
+      "path": "Scenes/EventDrivenSceneExample",
+      "desc": "instructions.md",
+      "code": [ "EventDrivenSceneProgram.cs" ],
+      "images": [] 
+    }
+  },
   "Configuration": {
     "Settings": {
       "name": "Settings",

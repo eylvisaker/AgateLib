@@ -153,5 +153,32 @@ namespace AgateLib.DisplayLib
 		{
 			primitives.FillPolygon(color, new EllipseBuilder().BuildEllipse(boundingRect).ToArray());
 		}
+
+		/// <summary>
+		/// Draws a filled ellipse.
+		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
+		/// <param name="center"></param>
+		/// <param name="majorAxisRadius"></param>
+		/// <param name="minorAxisRadius"></param>
+		/// <param name="rotationAngle"></param>
+		public static void FillEllipse(this IPrimitiveRenderer primitives, Color color, Vector2 center, 
+			double majorAxisRadius, double minorAxisRadius, double rotationAngle)
+		{
+			primitives.FillPolygon(color, new EllipseBuilder().BuildEllipse(center, majorAxisRadius, minorAxisRadius, rotationAngle).ToArray());
+		}
+
+		/// <summary>
+		/// Draws a filled circle.
+		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
+		/// <param name="center"></param>
+		/// <param name="radius"></param>
+		public static void FillCircle(this IPrimitiveRenderer primitives, Color color, Vector2 center, double radius)
+		{
+			primitives.FillPolygon(color, new EllipseBuilder().BuildCircle(center, radius).ToArray());
+		}
 	}
 }

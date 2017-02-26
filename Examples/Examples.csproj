@@ -100,7 +100,6 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Configuration\ConsoleExample\ExampleVocabulary.cs" />
-    <Compile Include="Configuration\ConsoleExample\ConsoleExampleProgram.cs" />
     <Compile Include="Configuration\Settings\SettingsProgram.cs" />
     <Compile Include="Initialization\FullScreenAllMonitors\FullScreenAllMonitorsProgram.cs" />
     <Compile Include="Initialization\WindowedAllMonitors\WindowedAllMonitorsProgram.cs" />
@@ -127,6 +126,7 @@
     <Compile Include="Initialization\WindowsFormsInitialization\WindowsFormsInitializationProgram.cs" />
     <Compile Include="ExampleLauncherProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\EventDrivenSceneExample\EventDrivenSceneProgram.cs" />
     <Compile Include="UserInterface\Menus\BasicUIMenuProgram.cs" />
     <EmbeddedResource Include="Initialization\WindowsFormsInitialization\AgateFormMixtureForm.resx">
       <DependentUpon>AgateFormMixtureForm.cs</DependentUpon>
@@ -151,7 +151,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest" />
-    <None Include="Configuration\ConsoleExample\instructions.md" />
+    <None Include="Scenes\EventDrivenSceneExample\instructions.md" />
     <None Include="Configuration\Settings\instructions.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -204,7 +204,9 @@
       <Name>AgateLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scenes\SceneInheritanceExample\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
