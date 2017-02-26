@@ -136,6 +136,8 @@
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
     <Compile Include="MathematicsTests\GeometryBuilderTests\EllipseBuilderTests.cs" />
+    <Compile Include="MathematicsTests\RectangleFTests.cs" />
+    <Compile Include="MathematicsTests\RectangleTests.cs" />
     <Compile Include="MathematicsTests\SizeFTests.cs" />
     <Compile Include="MathematicsTests\SizeTests.cs" />
     <Compile Include="MathematicsTests\Vector3fTests.cs" />

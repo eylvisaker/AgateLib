@@ -273,6 +273,62 @@ namespace AgateLib.Mathematics.Geometry
 
 		#endregion
 
+		/// <summary>
+		/// Returns a rectangle contracted by the specified amount.  The center of the rectangle remains in the same place,
+		/// so this adds amount to X and Y, and subtracts amount*2 from Width and Height.
+		/// </summary>
+		/// <param name="amount"></param>
+		public RectangleF Contract(int amount)
+		{
+			return Expand(-amount);
+		}
+
+		/// <summary>
+		/// Returns a rectangle contracted by the specified amount.  The center of the rectangle remains in the same place,
+		/// so this adds amount to X and Y, and subtracts amount*2 from Width and Height.
+		/// </summary>
+		/// <param name="amount"></param>
+		public RectangleF Contract(SizeF amount)
+		{
+			return Expand(new SizeF(-amount.Width, -amount.Height));
+		}
+
+		/// <summary>
+		///  Returns a rectangle contracted or expanded by the specified amount.  
+		///  The center of the rectangle remains in the same place,
+		/// so this subtracts amount to X and Y, and adds amount*2 from Width and Height.
+		/// </summary>
+		/// <param name="amount">The amount to expand the rectangle by. If this value is negative,
+		/// the rectangle is contracted.</param>
+		public RectangleF Expand(int amount)
+		{
+			var result = this;
+
+			result.X -= amount;
+			result.Y -= amount;
+			result.Width += amount * 2;
+			result.Height += amount * 2;
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns a rectangle contracted or expanded by the specified amount.  
+		/// This subtracts amount.Width from X and adds amount.Width * 2 to the rectangle width.
+		/// </summary>
+		/// <param name="amount">The amount to expand the rectangle by. If this value is negative,
+		/// the rectangle is contracted.</param>
+		public RectangleF Expand(SizeF amount)
+		{
+			var result = this;
+
+			result.X -= amount.Width;
+			result.Y -= amount.Height;
+			result.Width += amount.Width * 2;
+			result.Height += amount.Height * 2;
+
+			return result;
+		}
 
 		/// <summary>
 		/// Returns true if this intersects another RectangleF.
