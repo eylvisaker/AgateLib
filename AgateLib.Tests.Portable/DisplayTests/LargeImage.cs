@@ -51,7 +51,7 @@ namespace AgateLib.Tests.DisplayTests
 				.QuitOnClose()
 				.Build())
 			{
-				SceneStack.Start(this);
+				new SceneStack().Start(this);
 			}
 		}
 	}

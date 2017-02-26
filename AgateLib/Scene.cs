@@ -26,7 +26,7 @@ using AgateLib.Platform;
 
 namespace AgateLib
 {
-	public abstract class Scene
+	public abstract class Scene : IScene
 	{
 		/// <summary>
 		/// Set to true to terminate this scene.
@@ -34,6 +34,7 @@ namespace AgateLib
 		public bool SceneFinished { get; set; }
 
 		public bool UpdateBelow { get; set; }
+
 		public bool DrawBelow { get; set; }
 
 		protected internal virtual void OnSceneStart()
@@ -43,5 +44,9 @@ namespace AgateLib
 
 		public abstract void Update(ClockTimeSpan elapsed);
 		public abstract void Draw();
+	}
+
+	public interface IScene
+	{
 	}
 }

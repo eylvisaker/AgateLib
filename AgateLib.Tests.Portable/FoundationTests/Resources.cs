@@ -52,7 +52,7 @@ namespace AgateLib.Tests.FoundationTests
 				.QuitOnClose()
 				.Build())
 			{
-				SceneStack.Start(this);
+				new SceneStack().Start(this);
 			}
 		}
 	}

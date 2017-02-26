@@ -70,7 +70,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 				.QuitOnClose()
 				.Build())
 			{
-				SceneStack.Start(this);
+				new SceneStack().Start(this);
 			}
 		}
 	}

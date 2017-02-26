@@ -69,7 +69,7 @@ namespace AgateLib.Tests.FontTests
 				.QuitOnClose()
 				.Build())
 			{
-				SceneStack.Start(this);
+				new SceneStack().Start(this);
 			}
 		}
 	}

@@ -38,6 +38,7 @@ namespace AgateLib.DisplayLib.Shaders
 		{
 
 		}
+
 		/// <summary>
 		/// Returns the implementation.
 		/// </summary>

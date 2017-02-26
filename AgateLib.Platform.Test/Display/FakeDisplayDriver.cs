@@ -22,12 +22,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
-using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders.Implementation;
-using AgateLib.Drivers;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Platform.Test.Display.Shaders;
 using AgateLib.Quality;
 
 namespace AgateLib.Platform.Test.Display
@@ -132,9 +131,22 @@ namespace AgateLib.Platform.Test.Display
 		{
 		}
 
-		protected override DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
+		protected override AgateShaderImpl CreateBuiltInShader(BuiltInShader builtInShaderType)
 		{
-			return null;
+			switch (builtInShaderType)
+			{
+				case BuiltInShader.Basic2DShader:
+					return new FakeBasic2DImpl();
+
+				case BuiltInShader.Lighting2D:
+					return new FakeLighting2DImpl();
+
+				case BuiltInShader.Lighting3D:
+					return new FakeLighting3DImpl();
+
+				default:
+					return null;
+			}
 		}
 
 		public override IPrimitiveRenderer Primitives => this;
@@ -147,5 +159,4 @@ namespace AgateLib.Platform.Test.Display
 		{
 		}
 	}
-
 }

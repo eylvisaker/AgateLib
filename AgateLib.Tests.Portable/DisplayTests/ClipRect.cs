@@ -70,7 +70,7 @@ namespace AgateLib.Tests.DisplayTests
 						AgateApp.IsAlive = false;
 				};
 
-				SceneStack.Start(this);
+				new SceneStack().Start(this);
 			}
 		}
 	}

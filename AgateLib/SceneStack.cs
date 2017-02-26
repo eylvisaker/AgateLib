@@ -26,63 +26,66 @@ using AgateLib.Quality;
 
 namespace AgateLib
 {
-	public static class SceneStack
+	/// <summary>
+	/// Provides a stack-based state machine for a game.
+	/// </summary>
+	public class SceneStack
 	{
-		private static List<Scene> Scenes => AgateApp.State.Scenes;
+		private List<Scene> scenes = new List<Scene>();
 
-		public static Scene CurrentScene => Scenes[Scenes.Count - 1];
+		public Scene CurrentScene => scenes[scenes.Count - 1];
 
-		public static IEnumerable<Scene> UpdateScenes
+		public IEnumerable<Scene> UpdateScenes
 		{
 			get { return ScenesAbove(x => x.UpdateBelow == false); }
 		}
 
-		public static IEnumerable<Scene> DrawScenes
+		public IEnumerable<Scene> DrawScenes
 		{
 			get { return ScenesAbove(x => x.DrawBelow == false); }
 		}
 
-		public static int Count => Scenes.Count;
+		public int Count => scenes.Count;
 
-		public static void Add(Scene scene)
+		public void Add(Scene scene)
 		{
-			if (Scenes.Contains(scene))
+			if (scenes.Contains(scene))
 				throw new InvalidOperationException();
 
-			Scenes.Add(scene);
+			scenes.Add(scene);
 
 			scene.OnSceneStart();
 		}
 
-		public static void Remove(Scene scene)
+		public void Remove(Scene scene)
 		{
-			if (Scenes.Contains(scene) == false)
+			if (scenes.Contains(scene) == false)
 				throw new InvalidOperationException();
 
 			scene.OnSceneEnd();
 
-			Scenes.Remove(scene);
-		}
-		
-		public static bool Contains(Scene scene)
-		{
-			return Scenes.Contains(scene);
+			scenes.Remove(scene);
 		}
 
-		public static void CheckForFinishedScenes()
+		public bool Contains(Scene scene)
 		{
-			while (Scenes.Count > 0 && CurrentScene.SceneFinished)
+			return scenes.Contains(scene);
+		}
+
+		public void CheckForFinishedScenes()
+		{
+			while (scenes.Count > 0 && CurrentScene.SceneFinished)
 			{
-				Scenes.Remove(CurrentScene);
+				scenes.Remove(CurrentScene);
 			}
 		}
 
-		public static void Clear()
+		public void Clear()
 		{
-			Scenes.Clear();
+			scenes.Clear();
 		}
 
-		public static void Start(Scene sceneToStartWith)
+		public void Start(Scene sceneToStartWith)
 		{
 			Require.ArgumentNotNull(sceneToStartWith, nameof(sceneToStartWith));
 
@@ -95,7 +98,7 @@ namespace AgateLib
 			}
 		}
 
-		private static void RunSingleFrame()
+		private void RunSingleFrame()
 		{
 			foreach (var sc in UpdateScenes)
 				sc.Update(AgateApp.GameClock.Elapsed);
@@ -115,24 +118,24 @@ namespace AgateLib
 			AgateApp.KeepAlive();
 		}
 
-		private static IEnumerable<Scene> ScenesAbove(Func<Scene, bool> pred)
+		private IEnumerable<Scene> ScenesAbove(Func<Scene, bool> pred)
 		{
-			if (Scenes.Count == 0)
+			if (scenes.Count == 0)
 				yield break;
 
 			int bottomIndex = 0;
 
-			for (int i = Scenes.Count - 1; i >= 0; i--)
+			for (int i = scenes.Count - 1; i >= 0; i--)
 			{
-				if (Scenes[i].UpdateBelow == false)
+				if (scenes[i].UpdateBelow == false)
 				{
 					bottomIndex = i;
 					break;
 				}
 			}
 
-			for (int i = bottomIndex; i < Scenes.Count; i++)
-				yield return Scenes[i];
+			for (int i = bottomIndex; i < scenes.Count; i++)
+				yield return scenes[i];
 		}
 	}
 }

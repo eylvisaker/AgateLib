@@ -96,7 +96,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\FakeAudioCore.cs" />
+    <Compile Include="Display\Shaders\FakeBasic2DImpl.cs" />
     <Compile Include="Display\FakeScreenConfiguration.cs" />
+    <Compile Include="Display\Shaders\FakeLighting2DImpl.cs" />
+    <Compile Include="Display\Shaders\FakeLighting3DImpl.cs" />
     <Compile Include="FakeAgateFactory.cs" />
     <Compile Include="Audio\FakeAudioFactory.cs" />
     <Compile Include="Display\FakeDisplayDriver.cs" />
