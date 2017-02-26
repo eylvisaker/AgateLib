@@ -370,6 +370,10 @@ namespace AgateLib.Mathematics.Geometry
 			return !a.Equals(b);
 		}
 
+		#endregion
+
+		#region --- Type Conversions ---
+
 		/// <summary>
 		/// Explicitly converts a Rectangle to a RectangleF structure.
 		/// </summary>
@@ -378,6 +382,20 @@ namespace AgateLib.Mathematics.Geometry
 		public static explicit operator RectangleF(Rectangle a)
 		{
 			return new RectangleF(a.X, a.Y, a.Width, a.Height);
+		}
+
+		public Polygon ToPolygon()
+		{
+			Polygon result = new Polygon();
+
+			WriteToPolygon(result);
+
+			return result;
+		}
+
+		public void WriteToPolygon(Polygon result)
+		{
+			result.Points.Count = 4;
 		}
 
 		#endregion

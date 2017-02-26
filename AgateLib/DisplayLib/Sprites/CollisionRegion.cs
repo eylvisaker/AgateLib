@@ -36,6 +36,7 @@ namespace AgateLib.DisplayLib.Sprites
 
 			mTransformedPoly = mPoly.Clone();
 		}
+
 		public CollisionRegion(Rectangle rect)
 		{
 			mPoly = Polygon.FromRect(rect);
@@ -85,12 +86,7 @@ namespace AgateLib.DisplayLib.Sprites
 		/// <returns></returns>
 		public static bool DoRegionsIntersect(CollisionRegion regionA, CollisionRegion regionB)
 		{
-			return Polygon.PolysIntersect(regionA.mTransformedPoly, regionB.mTransformedPoly);
-		}
-
-		public bool IsAlignedRect
-		{
-			get { return mPoly.IsAlignedRect; }
+			return new CollisionDetector().DoPolygonsIntersect(regionA.mTransformedPoly, regionB.mTransformedPoly);
 		}
 	}
 }
