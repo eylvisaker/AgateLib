@@ -51,5 +51,36 @@ namespace AgateLib.UnitTests.MathematicsTests
 			Assert.IsTrue(d.Equals(Vector2.UnitX, .000001));
 		}
 
+		[TestMethod]
+		public void V2_BulkAdd()
+		{
+			var array = new [] {new Vector2(1, 2), new Vector2(2, 3), new Vector2(3, 4),};
+			var offset = new Vector2(10, 12);
+
+			var result = (array + offset).ToList();
+
+			Assert.AreEqual(new Vector2(11, 14), result[0]);
+			Assert.AreEqual(new Vector2(12, 15), result[1]);
+			Assert.AreEqual(new Vector2(13, 16), result[2]);
+		}
+
+		[TestMethod]
+		public void V2_BulkSubtract()
+		{
+			var array = new[] { new Vector2(1, 2), new Vector2(2, 3), new Vector2(3, 4), };
+			var offset = new Vector2(10, 12);
+
+			var result = (array - offset).ToList();
+
+			Assert.AreEqual(new Vector2(-9, -10), result[0]);
+			Assert.AreEqual(new Vector2(-8, -9), result[1]);
+			Assert.AreEqual(new Vector2(-7, -8), result[2]);
+
+			result = (offset - array).ToList();
+
+			Assert.AreEqual(new Vector2(9, 10), result[0]);
+			Assert.AreEqual(new Vector2(8, 9), result[1]);
+			Assert.AreEqual(new Vector2(7, 8), result[2]);
+		}
 	}
 }

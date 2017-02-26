@@ -59,5 +59,37 @@ namespace AgateLib.UnitTests.MathematicsTests
 
 			Assert.AreEqual(Math.PI * 0.5, Vector2f.AngleBetween(a, b), 0.00001);
 		}
+
+		[TestMethod]
+		public void V2f_BulkAdd()
+		{
+			var array = new[] { new Vector2f(1, 2), new Vector2f(2, 3), new Vector2f(3, 4), };
+			var offset = new Vector2f(10, 12);
+
+			var result = (array + offset).ToList();
+
+			Assert.AreEqual(new Vector2f(11, 14), result[0]);
+			Assert.AreEqual(new Vector2f(12, 15), result[1]);
+			Assert.AreEqual(new Vector2f(13, 16), result[2]);
+		}
+
+		[TestMethod]
+		public void V2f_BulkSubtract()
+		{
+			var array = new[] { new Vector2f(1, 2), new Vector2f(2, 3), new Vector2f(3, 4), };
+			var offset = new Vector2f(10, 12);
+
+			var result = (array - offset).ToList();
+
+			Assert.AreEqual(new Vector2f(-9, -10), result[0]);
+			Assert.AreEqual(new Vector2f(-8, -9), result[1]);
+			Assert.AreEqual(new Vector2f(-7, -8), result[2]);
+
+			result = (offset - array).ToList();
+
+			Assert.AreEqual(new Vector2f(9, 10), result[0]);
+			Assert.AreEqual(new Vector2f(8, 9), result[1]);
+			Assert.AreEqual(new Vector2f(7, 8), result[2]);
+		}
 	}
 }

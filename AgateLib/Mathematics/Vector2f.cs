@@ -18,6 +18,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AgateLib.Mathematics.Geometry;
 
@@ -193,6 +194,30 @@ namespace AgateLib.Mathematics
 		}
 
 		/// <summary>
+		/// Adds a vector to every vector in an enumerable.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static IEnumerable<Vector2f> operator +(Vector2f a, IEnumerable<Vector2f> b)
+		{
+			foreach (var item in b)
+				yield return a + item;
+		}
+
+
+		/// <summary>
+		/// Adds a vector to every vector in an enumerable.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static IEnumerable<Vector2f> operator +(IEnumerable<Vector2f> a, Vector2f b)
+		{
+			return b + a;
+		}
+
+		/// <summary>
 		/// Subtracts two vectors.
 		/// </summary>
 		/// <param name="a"></param>
@@ -201,6 +226,30 @@ namespace AgateLib.Mathematics
 		public static Vector2f operator -(Vector2f a, Vector2f b)
 		{
 			return new Vector2f(a.X - b.X, a.Y - b.Y);
+		}
+
+		/// <summary>
+		/// Adds a vector to every vector in an enumerable.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static IEnumerable<Vector2f> operator -(Vector2f a, IEnumerable<Vector2f> b)
+		{
+			foreach (var item in b)
+				yield return a - item;
+		}
+
+		/// <summary>
+		/// Adds a vector to every vector in an enumerable.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static IEnumerable<Vector2f> operator -(IEnumerable<Vector2f> a, Vector2f b)
+		{
+			foreach (var item in a)
+				yield return item - b;
 		}
 
 		/// <summary>

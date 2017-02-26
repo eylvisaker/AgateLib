@@ -18,6 +18,8 @@
 //
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AgateLib.Mathematics.Geometry;
 
@@ -113,7 +115,7 @@ namespace AgateLib.Mathematics
 		{
 			return new PointF((float)v.X, (float)v.Y);
 		}
-
+		
 		/// <summary>
 		/// Converts to a Point object.
 		/// </summary>
@@ -127,10 +129,7 @@ namespace AgateLib.Mathematics
 		/// <summary>
 		/// Returns true if this vector has zero for all components.
 		/// </summary>
-		public bool IsZero
-		{
-			get { return X == 0 && Y == 0; }
-		}
+		public bool IsZero => X == 0 && Y == 0;
 
 		/// <summary>
 		/// Returns true if this vector has zero for all components.
@@ -171,6 +170,30 @@ namespace AgateLib.Mathematics
 		}
 
 		/// <summary>
+		/// Adds a vector to every vector in an enumerable.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static IEnumerable<Vector2> operator +(Vector2 a, IEnumerable<Vector2> b)
+		{
+			foreach (var item in b)
+				yield return a + item;
+		}
+
+
+		/// <summary>
+		/// Adds a vector to every vector in an enumerable.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static IEnumerable<Vector2> operator +(IEnumerable<Vector2> a, Vector2 b)
+		{
+			return b + a;
+		}
+
+		/// <summary>
 		/// Subtracts two vectors.
 		/// </summary>
 		/// <param name="a"></param>
@@ -179,6 +202,30 @@ namespace AgateLib.Mathematics
 		public static Vector2 operator -(Vector2 a, Vector2 b)
 		{
 			return new Vector2(a.X - b.X, a.Y - b.Y);
+		}
+
+		/// <summary>
+		/// Adds a vector to every vector in an enumerable.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static IEnumerable<Vector2> operator -(Vector2 a, IEnumerable<Vector2> b)
+		{
+			foreach (var item in b)
+				yield return a - item;
+		}
+
+		/// <summary>
+		/// Adds a vector to every vector in an enumerable.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static IEnumerable<Vector2> operator -(IEnumerable<Vector2> a, Vector2 b)
+		{
+			foreach (var item in a)
+				yield return item - b;
 		}
 
 		/// <summary>
@@ -212,7 +259,7 @@ namespace AgateLib.Mathematics
 		{
 			return new Vector2(a.X * b, a.Y * b);
 		}
-
+		
 		/// <summary>
 		/// Divides a vector's components by a scalar value.
 		/// </summary>
@@ -221,7 +268,7 @@ namespace AgateLib.Mathematics
 		/// <returns></returns>
 		public static Vector2 operator /(Vector2 a, double b)
 		{
-			return a * (double)(1.0f / b);
+			return a * (1.0f / b);
 		}
 
 		/// <summary>
