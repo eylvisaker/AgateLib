@@ -32,13 +32,13 @@ namespace AgateLib.Tests.DisplayTests
 			sp.SetScale(2, 2);
 		}
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
-				SceneFinished = true;
+				IsFinished = true;
 		}
 
-		public override void Draw()
+		protected override void OnRedraw()
 		{
 			Display.Clear(Color.DarkRed);
 

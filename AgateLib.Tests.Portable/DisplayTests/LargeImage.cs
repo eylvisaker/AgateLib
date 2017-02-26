@@ -16,13 +16,13 @@ namespace AgateLib.Tests.DisplayTests
 		public string Name => "Large Image";
 		public string Category => "Display";
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
 				AgateApp.IsAlive = false;
 		}
 
-		public override void Draw()
+		protected override void OnRedraw()
 		{
 			Display.Clear(Color.White);
 

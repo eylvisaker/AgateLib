@@ -28,12 +28,12 @@ namespace AgateLib.Tests.DisplayTests
 			surf = new Surface("Images/wallpaper.png");
 		}
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
-			time += elapsed.TotalSeconds;
+			time += args.Elapsed.TotalSeconds;
 		}
 
-		public override void Draw()
+		protected override void OnRedraw()
 		{
 			Display.Clear(Color.DarkSlateGray);
 

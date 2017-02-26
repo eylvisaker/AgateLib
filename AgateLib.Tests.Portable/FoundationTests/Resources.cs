@@ -29,12 +29,12 @@ namespace AgateLib.Tests.FoundationTests
 			sprite.StartAnimation();
 		}
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
 			sprite.Update();
 		}
 
-		public override void Draw()
+		protected override void OnRedraw()
 		{
 			Display.Clear(Color.Red);
 

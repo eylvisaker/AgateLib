@@ -36,7 +36,5 @@ namespace AgateLib.Configuration.State
 		public InputState Input { get; private set; } = new InputState();
 
 		public bool Debug { get; internal set; }
-
-		internal List<Scene> Scenes { get; private set; } = new List<Scene>();
 	}
 }

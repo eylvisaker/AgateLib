@@ -36,7 +36,7 @@ namespace AgateLib.Tests.DisplayTests
 			surf2.SetScale(5.0, 5.0);
 		}
 
-		public override void Draw()
+		protected override void OnRedraw()
 		{
 			Display.Clear(Color.Blue);
 
@@ -51,7 +51,7 @@ namespace AgateLib.Tests.DisplayTests
 			surf2.Draw(420, 10);
 		}
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
 		}
 	}

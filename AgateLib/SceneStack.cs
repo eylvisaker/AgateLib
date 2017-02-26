@@ -22,70 +22,100 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
+using AgateLib.Platform;
 using AgateLib.Quality;
 
 namespace AgateLib
 {
 	/// <summary>
-	/// Provides a stack-based state machine for a game.
+	/// Provides a stack-based state machine for a game. IScene objects can be 
+	/// added to the scene stack, and each object can signal when it is finished.
 	/// </summary>
-	public class SceneStack
+	public class SceneStack : ISceneStack
 	{
-		private List<Scene> scenes = new List<Scene>();
+		private readonly List<IScene> scenes = new List<IScene>();
+		private readonly UpdateEventArgs updateArgs = new UpdateEventArgs(ClockTimeSpan.Zero);
 
-		public Scene CurrentScene => scenes[scenes.Count - 1];
+		/// <summary>
+		/// Gets the top scene on the stack.
+		/// </summary>
+		public IScene TopScene => scenes.Count > 0 ? scenes[scenes.Count - 1] : null;
 
-		public IEnumerable<Scene> UpdateScenes
+		/// <summary>
+		/// Gets the collection of scenes that will be updated each frame.
+		/// </summary>
+		public IEnumerable<IScene> UpdateScenes
 		{
 			get { return ScenesAbove(x => x.UpdateBelow == false); }
 		}
 
-		public IEnumerable<Scene> DrawScenes
+		/// <summary>
+		/// Gets the collection of scenes that will be drawn each frame.
+		/// </summary>
+		public IEnumerable<IScene> RedrawScenes
 		{
 			get { return ScenesAbove(x => x.DrawBelow == false); }
 		}
 
+		/// <summary>
+		/// Gets the number of scenes in the stack.
+		/// </summary>
 		public int Count => scenes.Count;
 
-		public void Add(Scene scene)
+		/// <summary>
+		/// Adds a scene to the stack.
+		/// </summary>
+		/// <param name="scene"></param>
+		public void Add(IScene scene)
 		{
-			if (scenes.Contains(scene))
-				throw new InvalidOperationException();
+			Require.False<InvalidOperationException>(scenes.Contains(scene),
+				"Scene cannot be added to the same SceneStack twice.");
+			Require.True<InvalidOperationException>(scene.SceneStack == null,
+				"Scene already has belongs to a SceneStack!");
 
 			scenes.Add(scene);
+			scene.SceneStack = this;
 
-			scene.OnSceneStart();
+			scene.SceneStart();
 		}
 
-		public void Remove(Scene scene)
+		/// <summary>
+		/// Removes a scene from the stack.
+		/// </summary>
+		/// <param name="scene"></param>
+		public void Remove(IScene scene)
 		{
-			if (scenes.Contains(scene) == false)
-				throw new InvalidOperationException();
+			Require.True<InvalidOperationException>(scenes.Contains(scene),
+				"Cannot remove a scene if it does not belong to the stack.");
 
-			scene.OnSceneEnd();
+			scene.SceneEnd();
 
 			scenes.Remove(scene);
 		}
 
-		public bool Contains(Scene scene)
+		/// <summary>
+		/// Returns true if scene is a member of this stack.
+		/// </summary>
+		/// <param name="scene"></param>
+		/// <returns></returns>
+		public bool Contains(IScene scene)
 		{
 			return scenes.Contains(scene);
 		}
 
-		public void CheckForFinishedScenes()
-		{
-			while (scenes.Count > 0 && CurrentScene.SceneFinished)
-			{
-				scenes.Remove(CurrentScene);
-			}
-		}
-
+		/// <summary>
+		/// Clears the scene stack.
+		/// </summary>
 		public void Clear()
 		{
 			scenes.Clear();
 		}
 
-		public void Start(Scene sceneToStartWith)
+		/// <summary>
+		/// Begins running the scene stack with the first scene.
+		/// </summary>
+		/// <param name="sceneToStartWith"></param>
+		public void Start(IScene sceneToStartWith)
 		{
 			Require.ArgumentNotNull(sceneToStartWith, nameof(sceneToStartWith));
 
@@ -100,25 +130,28 @@ namespace AgateLib
 
 		private void RunSingleFrame()
 		{
+			updateArgs.Elapsed = AgateApp.GameClock.Elapsed;
+
 			foreach (var sc in UpdateScenes)
-				sc.Update(AgateApp.GameClock.Elapsed);
+				sc.Update(updateArgs);
+
+			CheckForFinishedScenes();
 
 			if (!AgateApp.IsAlive)
 				return;
 
-			CheckForFinishedScenes();
 			Display.BeginFrame();
 
-			foreach (var sc in DrawScenes)
+			foreach (var sc in RedrawScenes)
 			{
-				sc.Draw();
+				sc.Redraw();
 			}
 
 			Display.EndFrame();
 			AgateApp.KeepAlive();
 		}
 
-		private IEnumerable<Scene> ScenesAbove(Func<Scene, bool> pred)
+		private IEnumerable<IScene> ScenesAbove(Func<IScene, bool> pred)
 		{
 			if (scenes.Count == 0)
 				yield break;
@@ -127,7 +160,7 @@ namespace AgateLib
 
 			for (int i = scenes.Count - 1; i >= 0; i--)
 			{
-				if (scenes[i].UpdateBelow == false)
+				if (pred(scenes[i]))
 				{
 					bottomIndex = i;
 					break;
@@ -137,5 +170,45 @@ namespace AgateLib
 			for (int i = bottomIndex; i < scenes.Count; i++)
 				yield return scenes[i];
 		}
+
+		private void CheckForFinishedScenes()
+		{
+			bool activate = false;
+
+			while (scenes.Count > 0 && TopScene.IsFinished)
+			{
+				Remove(TopScene);
+				activate = true;
+			}
+
+			if (activate)
+			{
+				TopScene?.SceneActivated();
+			}
+		}
+
+	}
+
+	/// <summary>
+	/// The SceneStack interface.
+	/// </summary>
+	public interface ISceneStack
+	{
+		/// <summary>
+		/// Gets the top scene on the stack.
+		/// </summary>
+		IScene TopScene { get; }
+
+		/// <summary>
+		/// Adds a scene to the scene stack.
+		/// </summary>
+		/// <param name="scene"></param>
+		void Add(IScene scene);
+
+		/// <summary>
+		/// Removes a scene from the scene stack.
+		/// </summary>
+		/// <param name="scene"></param>
+		void Remove(IScene scene);
 	}
 }

@@ -24,7 +24,7 @@ namespace AgateLib.Tests.FontTests
 			image.SetScale(0.5, 0.5);
 		}
 
-		public override void Draw()
+		protected override void OnRedraw()
 		{
 			Display.Clear(Color.White);
 
@@ -51,7 +51,7 @@ namespace AgateLib.Tests.FontTests
 			font.DrawText(0, 530, "Test of escape sequences: {{}Escaped{}}");
 		}
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
 		}
 

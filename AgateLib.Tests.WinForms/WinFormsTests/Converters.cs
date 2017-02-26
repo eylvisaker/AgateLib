@@ -16,16 +16,16 @@ namespace AgateLib.Tests.WinFormsTests
 
 		public string Category => "WinForms";
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
 		}
 
-		public override void Draw()
+		protected override void OnRedraw()
 		{
-			SceneFinished = true;
+			IsFinished = true;
 		}
 
-		protected override internal void OnSceneStart()
+		protected override void OnSceneStart()
 		{
 			Surface surf = new Surface("Images/attacke.png");
 

@@ -34,12 +34,12 @@ namespace AgateLib.Tests.DisplayTests
 			p.Dispose();
 		}
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
-			p.Update(elapsed);
+			p.Update(args.Elapsed);
 		}
 	
-		public override void Draw()
+		protected override void OnRedraw()
 		{
 			Display.Clear(Color.Blue);
 

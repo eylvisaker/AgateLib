@@ -37,12 +37,12 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 		public string Category => "User Interface";
 
-		public override void Update(ClockTimeSpan elapsed)
+		protected override void OnUpdate(UpdateEventArgs args)
 		{
-			facet.InterfaceRoot.OnUpdate(elapsed, true);
+			facet.InterfaceRoot.OnUpdate(args.Elapsed, true);
 		}
 
-		public override void Draw()
+		protected override void OnRedraw()
 		{
 			Display.Clear(Color.Purple);
 			facet.InterfaceRoot.Draw();
