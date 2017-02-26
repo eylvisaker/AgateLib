@@ -353,9 +353,9 @@ namespace AgateLib.DisplayLib.BitmapFont
 
 			PointF dest = state.Location;
 
-			if (state.DisplayAlignment != OriginAlignment.TopLeft)
+			if (state.TextAlignment != OriginAlignment.TopLeft)
 			{
-				Point value = Origin.Calc(state.DisplayAlignment,
+				Point value = Origin.Calc(state.TextAlignment,
 					MeasureString(state, state.Text));
 
 				dest.X -= value.X;

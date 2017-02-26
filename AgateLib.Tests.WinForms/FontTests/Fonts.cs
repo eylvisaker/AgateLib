@@ -104,9 +104,9 @@ namespace AgateLib.Tests.FontTests
 					bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
 
 					Display.Primitives.FillRect(Color.Blue, new Rectangle(95, 425, 10, 10));
-					bitmapFont.DisplayAlignment = OriginAlignment.Center;
+					bitmapFont.TextAlignment = OriginAlignment.Center;
 					bitmapFont.DrawText(100, 430, "CHECK");
-					bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
+					bitmapFont.TextAlignment = OriginAlignment.TopLeft;
 
 					Display.Primitives.FillRect(Color.Green, new Rectangle(-10, -10, 20, 20));
 

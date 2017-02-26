@@ -79,7 +79,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Sets how to interpret the point given to DrawText methods.
 		/// </summary>
-		public OriginAlignment DisplayAlignment
+		public OriginAlignment TextAlignment
 		{
 			get { return mAlignment; }
 			set

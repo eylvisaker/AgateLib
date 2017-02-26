@@ -364,7 +364,7 @@ namespace AgateLib.DisplayLib
 			LayoutCacheSurface t = new LayoutCacheSurface { Location = dest, Surface = surface, LineIndex = lineIndex };
 			t.State = surface.State.Clone();
 
-			var update = Origin.Calc(state.DisplayAlignment, surface.SurfaceSize);
+			var update = Origin.Calc(state.TextAlignment, surface.SurfaceSize);
 
 			lineHeight = Math.Max(lineHeight, surface.DisplayHeight);
 			dest.X += surface.DisplayWidth;
@@ -413,7 +413,7 @@ namespace AgateLib.DisplayLib
 			}
 
 			var size = MeasureString(t.State, text);
-			var update = Origin.Calc(state.DisplayAlignment, size);
+			var update = Origin.Calc(state.TextAlignment, size);
 
 			int newSpaceAbove = size.Height - FontHeight(state);
 			t.Y -= newSpaceAbove;

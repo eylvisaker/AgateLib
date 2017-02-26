@@ -144,12 +144,22 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// Gets or sets the text alignment when drawn.
+		/// </summary>
+		public OriginAlignment TextAlignment
+		{
+			get { return state.TextAlignment; }
+			set { state.TextAlignment = value; }
+		}
+
+		/// <summary>
 		/// Gets or sets the display alignment.
 		/// </summary>
+		[Obsolete("Use TextAlignment instead.", true)]
 		public OriginAlignment DisplayAlignment
 		{
-			get{return state.DisplayAlignment;}
-			set{state.DisplayAlignment = value;}
+			get { return TextAlignment; }
+			set { TextAlignment = value; }
 		}
 
 		/// <summary>
@@ -174,7 +184,7 @@ namespace AgateLib.DisplayLib
 			get { return state.Style; }
 			set { state.Style = value; }
 		}
-		
+
 		/// <summary>
 		/// Gets or sets how text should be laid out around images.
 		/// </summary>
@@ -273,7 +283,7 @@ namespace AgateLib.DisplayLib
 		{
 			return core.MeasureString(state, text);
 		}
-		
+
 		/// <summary>
 		/// Converts to a string for debug output.
 		/// </summary>

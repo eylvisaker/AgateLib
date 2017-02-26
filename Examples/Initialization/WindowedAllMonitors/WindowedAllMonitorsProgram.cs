@@ -59,7 +59,7 @@ namespace Examples.Initialization.WindowedAllMonitors
 				{
 					Size = 14,
 					Style = FontStyles.Bold,
-					DisplayAlignment = OriginAlignment.Center
+					TextAlignment = OriginAlignment.Center
 				};
 
 				// Run the game loop

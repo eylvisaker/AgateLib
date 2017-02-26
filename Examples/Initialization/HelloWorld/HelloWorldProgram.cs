@@ -43,7 +43,7 @@ namespace Examples.Initialization.HelloWorld
 				{
 					Size = 18,
 					Style = FontStyles.Bold,
-					DisplayAlignment = OriginAlignment.Center
+					TextAlignment = OriginAlignment.Center
 				};
 
 				// Run the game loop. Always check AgateApp.IsAlive before continuing the game loop.
