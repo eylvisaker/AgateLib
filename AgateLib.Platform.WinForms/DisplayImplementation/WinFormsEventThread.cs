@@ -21,7 +21,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private Form hiddenForm;
 		private DisplayWindow hiddenDisplayWindow;
-		private GL_DisplayControl hiddenDisplayWindowImpl;
+		private GL_DisplayWindow hiddenDisplayWindowImpl;
 		private AutoResetEvent hiddenWindowCreatedWaitHandle = new AutoResetEvent(false);
 
 		public WinFormsEventThread()
@@ -34,7 +34,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				hiddenWindowCreatedWaitHandle.WaitOne();
 
 				hiddenDisplayWindow = DisplayWindow.CreateFromControl(hiddenForm);
-				hiddenDisplayWindowImpl = (GL_DisplayControl)hiddenDisplayWindow.Impl;
+				hiddenDisplayWindowImpl = (GL_DisplayWindow)hiddenDisplayWindow.Impl;
 			}
 			//catch (Exception ex)
 			//{

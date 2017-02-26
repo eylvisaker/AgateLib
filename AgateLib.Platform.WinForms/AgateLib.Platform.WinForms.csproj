@@ -98,6 +98,7 @@
     <Compile Include="DisplayImplementation\ContextInfo.cs" />
     <Compile Include="DisplayImplementation\GLSettings.cs" />
     <Compile Include="DisplayImplementation\KeyMessageFilter.cs" />
+    <Compile Include="DisplayImplementation\OpenTkAdapter.cs" />
     <Compile Include="DisplayImplementation\WinFormsApplicationContext.cs" />
     <Compile Include="DisplayImplementation\WinFormsEventThread.cs" />
     <Compile Include="DisplayImplementation\frmFullScreen.cs">
@@ -107,13 +108,14 @@
       <DependentUpon>frmFullScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="DisplayImplementation\DesktopGLDisplay.cs" />
-    <Compile Include="DisplayImplementation\GL_DisplayControlWindowed.cs" />
-    <Compile Include="DisplayImplementation\GL_DisplayControl.cs" />
-    <Compile Include="DisplayImplementation\GL_DisplayControlFull.cs" />
+    <Compile Include="DisplayImplementation\GL_DisplayWindowWindowed.cs" />
+    <Compile Include="DisplayImplementation\GL_DisplayWindow.cs" />
+    <Compile Include="DisplayImplementation\GL_DisplayWindowFullScreen.cs" />
     <Compile Include="DisplayImplementation\GL_Surface.cs" />
     <Compile Include="DisplayImplementation\WinFormsScreenConfiguration.cs" />
     <Compile Include="Factories\DisplayFactory.cs" />
     <Compile Include="Factories\FormsFactory.cs" />
+    <Compile Include="DisplayImplementation\GL_DisplayWindowFullDesktop.cs" />
     <Compile Include="Factories\PlatformFactory.cs" />
     <Compile Include="GuiDebug\frmGuiDebug.cs">
       <SubType>Form</SubType>

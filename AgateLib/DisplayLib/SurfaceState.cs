@@ -261,6 +261,7 @@ namespace AgateLib.DisplayLib
 		{
 			DestLocation = (PointF)location;
 		}
+
 		/// <summary>
 		/// Constructs a SurfaceDrawInstance object.
 		/// </summary>

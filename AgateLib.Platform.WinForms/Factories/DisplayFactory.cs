@@ -67,7 +67,11 @@ namespace AgateLib.Platform.WinForms.Factories
 					$"{errorPrefix}{nameof(windowParams.IsFullScreen)} is true " +
 					$"but {nameof(windowParams.RenderToControl)} is not null.");
 
-				return new GL_DisplayControlFull(Core, owner,
+				if (windowParams.CompleteDesktop)
+				{
+					return new GL_DisplayWindowFullDesktop(Core, owner, windowParams);
+				}
+				return new GL_DisplayWindowFullScreen(Core, owner,
 					windowParams);
 			}
 			
@@ -76,7 +80,7 @@ namespace AgateLib.Platform.WinForms.Factories
 				$"{errorPrefix}{nameof(windowParams.RenderToControl)} should be " +
 				$"true if and only if {nameof(windowParams.RenderTarget)} is not null.");
 
-			return new GL_DisplayControlWindowed(Core, owner, 
+			return new GL_DisplayWindowWindowed(Core, owner, 
 					windowParams);
 		}
 

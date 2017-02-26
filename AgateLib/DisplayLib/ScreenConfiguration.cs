@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
 {
@@ -20,5 +21,10 @@ namespace AgateLib.DisplayLib
 		/// Returns the primary screen, as designated by the user's desktop preferences.
 		/// </summary>
 		ScreenInfo PrimaryScreen { get; }
+
+		/// <summary>
+		/// Returns the bounds of the entire desktop.
+		/// </summary>
+		Rectangle DesktopBounds { get; }
 	}
 }

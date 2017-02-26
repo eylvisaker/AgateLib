@@ -8,7 +8,7 @@ using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class FullscreenAllMonitorsTest : IAgateTest
+	class FullscreenSeparateWindowsTest : IAgateTest
 	{
 		private static readonly List<IResolution> resolutions = new List<IResolution>
 		{
@@ -48,7 +48,7 @@ Press arrow keys to adjust resolution
 		private IResolution currentResolution;
 		private DisplayWindowCollection windows;
 
-		public string Name => "Full Screen All Monitors";
+		public string Name => "Full Screen Separate Windows";
 
 		public string Category => "Display";
 
@@ -57,7 +57,7 @@ Press arrow keys to adjust resolution
 			using (windows = new DisplayWindowBuilder()
 					.BackbufferSize(800, 600)
 					.QuitOnClose()
-					.BuildForAllScreens())
+					.BuildSeparateWindowsForAllScreens())
 			{ 
 				Surface mousePointerSurface = new Surface("Images/pointer.png");
 

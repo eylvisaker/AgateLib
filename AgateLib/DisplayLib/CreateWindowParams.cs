@@ -207,5 +207,11 @@ namespace AgateLib.DisplayLib
 		///     Control to be rendered to.  This is ignored if RenderToControl is false.
 		/// </summary>
 		public object RenderTarget { get; set; }
+
+		/// <summary>
+		/// If CompleteDesktop == true and IsFullScreen == true, this instruct the platform
+		/// to build a DisplayWindow with a canvas that covers all monitors.
+		/// </summary>
+		public bool CompleteDesktop { get; set; }
 	}
 }

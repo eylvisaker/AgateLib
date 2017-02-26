@@ -431,7 +431,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			if (Display.CurrentWindow != null)
 			{
 				DisplayWindowImpl impl = Display.CurrentWindow.Impl;
-				((GL_DisplayControl)impl).HideCursor();
+				((GL_DisplayWindow)impl).HideCursor();
 			}
 		}
 
@@ -443,7 +443,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			{
 				DisplayWindowImpl impl = Display.CurrentWindow.Impl;
 
-				((GL_DisplayControl)impl).ShowCursor();
+				((GL_DisplayWindow)impl).ShowCursor();
 			}
 		}
 

@@ -26,6 +26,7 @@ using OpenTK.Platform;
 using System.Threading;
 using System.Diagnostics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Quality;
 
 namespace AgateLib.OpenGL
 {
@@ -45,6 +46,7 @@ namespace AgateLib.OpenGL
 						 ICoordinateSystem coords)
 			: base(coords)
 		{
+			Require.ArgumentNotNull(window, "WindowInfo must not be null.");
 			mGraphicsMode = graphicsMode;
 			mAttachedWindow = attachedWindow;
 

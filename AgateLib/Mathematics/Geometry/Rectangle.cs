@@ -19,7 +19,9 @@
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
+using AgateLib.Quality;
 
 namespace AgateLib.Mathematics.Geometry
 {
@@ -484,7 +486,23 @@ namespace AgateLib.Mathematics.Geometry
 			if (b.Bottom > result.Bottom) result.Height = b.Bottom - result.Top;
 
 			return result;
+		}
 
+		/// <summary>
+		/// Creates a new rectangle which contains all the area of the two passed in rectangles.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Rectangle Union(params Rectangle[] rects)
+		{
+			Require.True<ArgumentException>(rects.Length > 0, "At least one rectangle must be passed to Rectangle.Union");
+
+			return FromLTRB(
+				rects.Min(r => r.Left),
+				rects.Min(r => r.Top),
+				rects.Max(r => r.Right),
+				rects.Max(r => r.Bottom));
 		}
 
 		/// <summary>

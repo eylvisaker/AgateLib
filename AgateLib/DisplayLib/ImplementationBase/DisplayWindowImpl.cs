@@ -179,6 +179,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 			return result;
 		}
+
 		/// <summary>
 		/// Converts a logical coordinate to actual pixel coordinates.
 		/// </summary>

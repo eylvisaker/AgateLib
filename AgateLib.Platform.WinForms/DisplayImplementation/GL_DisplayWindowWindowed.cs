@@ -33,13 +33,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	/// <summary>
 	/// No OpenGL code here.
 	/// </summary>
-	public sealed class GL_DisplayControlWindowed : GL_DisplayControl
+	public sealed class GL_DisplayWindowWindowed : GL_DisplayWindow
 	{
-		public GL_DisplayControlWindowed(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
+		public GL_DisplayWindowWindowed(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 			: base(display, owner, windowParams)
 		{
 			const string invalidMessage =
-				"GL_DisplayControlWindowed is the wrong type for this CreateWindowParams object. Use GL_DisplayControlFull instead.";
+				"GL_DisplayWindowWindowed is the wrong type for this CreateWindowParams object. Use GL_DisplayWindowFullScreen instead.";
 
 			Require.False<ArgumentException>(windowParams.IsFullScreen, invalidMessage);
 			

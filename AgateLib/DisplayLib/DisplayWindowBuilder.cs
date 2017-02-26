@@ -73,11 +73,35 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// Constructs a DisplayWindow object with a single canvas that spans
+		/// all physical monitors.
+		/// </summary>
+		/// <returns></returns>
+		public DisplayWindow BuildForAllScreens()
+		{
+			ParseCommandLineArgs();
+
+			createParams.CompleteDesktop = true;
+
+			var result = new DisplayWindow(createParams);
+
+			if (Display.RenderTarget == null)
+				Display.RenderTarget = result.FrameBuffer;
+
+			if (quitOnClose)
+				result.Closed += DisplayWindow_Closed;
+
+			ApplyProperties(result);
+
+			return result;
+		}
+
+		/// <summary>
 		/// Constructs a DisplayWindow object for each physical monitor
 		/// attached to the system.
 		/// </summary>
 		/// <returns></returns>
-		public DisplayWindowCollection BuildForAllScreens()
+		public DisplayWindowCollection BuildSeparateWindowsForAllScreens()
 		{
 			ParseCommandLineArgs();
 

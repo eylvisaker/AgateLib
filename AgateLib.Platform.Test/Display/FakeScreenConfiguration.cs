@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.Test.Display
 {
@@ -13,5 +15,7 @@ namespace AgateLib.Platform.Test.Display
 		IReadOnlyList<ScreenInfo> IScreenConfiguration.AllScreens => Screens;
 
 		ScreenInfo IScreenConfiguration.PrimaryScreen => PrimaryScreen;
+
+		public Rectangle DesktopBounds => Rectangle.Union(Screens.Select(x => x.Bounds).ToArray());
 	}
 }

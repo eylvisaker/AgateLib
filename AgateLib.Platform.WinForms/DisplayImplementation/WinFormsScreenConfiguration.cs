@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AgateLib.DisplayLib;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	public class WinFormsScreenConfiguration : IScreenConfiguration
 	{
-		private List<ScreenInfo> screens = new List<ScreenInfo>();
+		private readonly List<ScreenInfo> screens = new List<ScreenInfo>();
+		private readonly Rectangle desktopBounds;
 
 		public WinFormsScreenConfiguration()
 		{
@@ -19,8 +21,16 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 
 			screens.Sort((a, b) => -a.IsPrimary.CompareTo(b.IsPrimary));
+
+			desktopBounds = Rectangle.Union(screens.Select(s => s.Bounds).ToArray());
 		}
 
+		public IReadOnlyList<ScreenInfo> AllScreens => screens;
+
+		public ScreenInfo PrimaryScreen { get; private set; }
+
+		public Rectangle DesktopBounds => desktopBounds;
+		
 		private ScreenInfo CreateScreenInfo(System.Windows.Forms.Screen wfScreen, IntPtr index)
 		{
 			ScreenInfo result = new ScreenInfo
@@ -37,8 +47,5 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return result;
 		}
 
-		public IReadOnlyList<ScreenInfo> AllScreens => screens;
-
-		public ScreenInfo PrimaryScreen { get; private set; }
 	}
 }

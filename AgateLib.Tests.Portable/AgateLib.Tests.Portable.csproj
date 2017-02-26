@@ -92,7 +92,8 @@
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\ColorTest.cs" />
     <Compile Include="DisplayTests\CoordinateSystem.cs" />
-    <Compile Include="DisplayTests\FullScreenAllMonitorsTest.cs" />
+    <Compile Include="DisplayTests\FullscreenSingleCanvas.cs" />
+    <Compile Include="DisplayTests\FullscreenSeparateWindowsTest.cs" />
     <Compile Include="DisplayTests\FullScreenTest.cs" />
     <Compile Include="DisplayTests\Interpolation.cs" />
     <Compile Include="DisplayTests\LargeImage.cs" />

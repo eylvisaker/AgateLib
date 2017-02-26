@@ -23,7 +23,7 @@ namespace Examples.Initialization.FullScreenAllMonitors
 				.Title("Full Screen All Monitors")
 				.BackbufferSize(500, 400)
 				.QuitOnClose()
-				.BuildForAllScreens())
+				.BuildSeparateWindowsForAllScreens())
 			{
 				// Register a key press handler. This will terminate the application if the escape key is pressed.
 				Input.Unhandled.KeyDown += (sender, e) =>
