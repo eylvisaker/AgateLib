@@ -32,6 +32,8 @@ namespace AgateLib.Mathematics.Geometry
 	/// </summary>
 	public class Polygon : IVector2List, IReadOnlyPolygon
 	{
+		private static IPolygonConvexDecompositionAlgorithm _convexDecompositionAlgorithm = new MinimumConvexDecompositionAlgorithm();
+
 		private Vector2List points = new Vector2List();
 
 		private bool isConvex;
@@ -41,7 +43,8 @@ namespace AgateLib.Mathematics.Geometry
 		/// Constructs an empty polygon object.
 		/// </summary>
 		public Polygon()
-		{ }
+		{
+		}
 
 		/// <summary>
 		/// Constructs a polygon from the given points.
@@ -80,6 +83,8 @@ namespace AgateLib.Mathematics.Geometry
 
 		IReadOnlyList<Vector2> IReadOnlyPolygon.Points => Points;
 
+		bool ICollection<Vector2>.IsReadOnly => false;
+
 		/// <summary>
 		/// Gets the axis-aligned bounding rect.
 		/// </summary>
@@ -98,10 +103,10 @@ namespace AgateLib.Mathematics.Geometry
 
 				foreach (var pt in points)
 				{
-					if (pt.X < left) left = (int)pt.X;
-					if (pt.X > right) right = (int)pt.X;
-					if (pt.Y < top) top = (int)pt.Y;
-					if (pt.Y > bottom) bottom = (int)pt.Y;
+					if (pt.X < left) left = (int) pt.X;
+					if (pt.X > right) right = (int) pt.X;
+					if (pt.Y < top) top = (int) pt.Y;
+					if (pt.Y > bottom) bottom = (int) pt.Y;
 				}
 
 				return Rectangle.FromLTRB(left, top, right, bottom);
@@ -160,10 +165,7 @@ namespace AgateLib.Mathematics.Geometry
 		public Vector2 this[int index]
 		{
 			get { return points[index]; }
-			set
-			{
-				points[index] = value;
-			}
+			set { points[index] = value; }
 		}
 
 		/// <summary>
@@ -289,7 +291,7 @@ namespace AgateLib.Mathematics.Geometry
 			for (int i = 0, j = nvert - 1; i < nvert; j = i++)
 			{
 				if (points[i].Y >= point.Y != points[j].Y >= point.Y &&
-					point.X <= (points[j].X - points[i].X) * (point.Y - points[i].Y) / (points[j].Y - points[i].Y) + points[i].X
+				    point.X <= (points[j].X - points[i].X) * (point.Y - points[i].Y) / (points[j].Y - points[i].Y) + points[i].X
 				)
 				{
 					contains = !contains;
@@ -402,17 +404,6 @@ namespace AgateLib.Mathematics.Geometry
 			ComputeConvexDecomposition();
 		}
 
-		private void ComputeConvexDecomposition()
-		{
-			if (IsConvex)
-			{
-				convexDecomposition.Clear();
-				convexDecomposition.Add(this);
-
-				return;
-			}
-		}
-
 		private void ComputeConvexity()
 		{
 			const double TOLERANCE = 1e-10;
@@ -445,7 +436,18 @@ namespace AgateLib.Mathematics.Geometry
 			IsConvex = true;
 		}
 
-		bool ICollection<Vector2>.IsReadOnly => false;
+		private void ComputeConvexDecomposition()
+		{
+			if (IsConvex)
+			{
+				convexDecomposition.Clear();
+				convexDecomposition.Add(this);
+
+				return;
+			}
+
+			convexDecomposition = _convexDecompositionAlgorithm.Decompose(this).ToList();
+		}
 	}
 
 	/// <summary>

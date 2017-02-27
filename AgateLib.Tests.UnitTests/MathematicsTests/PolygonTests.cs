@@ -97,29 +97,5 @@ namespace AgateLib.UnitTests.MathematicsTests
 			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(10, 15), 1e-8)));
 			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(5, 15), 1e-8)));
 		}
-
-		//[TestMethod]
-		//public void Poly_ConvexDecomposition()
-		//{
-		//	var a = new Polygon
-		//	{
-		//		{0, 0},
-		//		{5, 0},
-		//		{5, 4},
-		//		{4, 4},
-		//		{4, 1},
-		//		{1, 1},
-		//		{1, 4},
-		//		{0, 4},
-		//	};
-
-		//	var convexPolys = a.ConvexDecomposition;
-
-		//	Assert.AreEqual(3, convexPolys.Count());
-
-		//	var collider = new CollisionDetector();
-
-		//	Assert.IsFalse(collider.DoPolygonsIntersect(convexPolys.First(), convexPolys.Skip(1).First()));
-		//}
 	}
 }
