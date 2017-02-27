@@ -7,7 +7,8 @@ namespace AgateLib.Mathematics.Geometry
 	{
 		public IReadOnlyList<Polygon> Decompose(Polygon polygon)
 		{
-			throw new NotImplementedException();
+			// TODO: Implement this algorithm.
+			return new List<Polygon> { polygon };
 		}
 	}
 }
