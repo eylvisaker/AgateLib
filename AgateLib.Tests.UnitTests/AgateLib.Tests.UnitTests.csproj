@@ -148,6 +148,7 @@
     <Compile Include="MathematicsTests\Vector3Tests.cs" />
     <Compile Include="MathematicsTests\Vector2Tests.cs" />
     <Compile Include="MathematicsTests\VectorTypeConverterTests.cs" />
+    <Compile Include="PhysicsTests\ConstraintTests\PointTouchConstraintTests.cs" />
     <Compile Include="Platform\IntegrationTest\IntegrationTestPlatformTests.cs" />
     <Compile Include="Platform\ClockTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,6 +180,10 @@
     <Compile Include="Utility\RefTester.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AgateLib.Physics\AgateLib.Physics.csproj">
+      <Project>{8a3e736e-8615-4849-8293-c1b67741c18e}</Project>
+      <Name>AgateLib.Physics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AgateLib.Platform.IntegrationTest\AgateLib.Platform.IntegrationTest.csproj">
       <Project>{a2bd2d8f-4afe-4548-80d9-bf73bfcafcf8}</Project>
       <Name>AgateLib.Platform.IntegrationTest</Name>

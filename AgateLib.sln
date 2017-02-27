@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontCreator", "Tools\FontCr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotebookLib", "Tools\NotebookLib\NotebookLib\NotebookLib.csproj", "{91F57346-B574-4D52-9EB0-AA191B552C94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Physics", "AgateLib.Physics\AgateLib.Physics.csproj", "{8A3E736E-8615-4849-8293-C1B67741C18E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -348,6 +350,30 @@ Global
 		{91F57346-B574-4D52-9EB0-AA191B552C94}.Release|x64.Build.0 = Release|x64
 		{91F57346-B574-4D52-9EB0-AA191B552C94}.Release|x86.ActiveCfg = Release|x86
 		{91F57346-B574-4D52-9EB0-AA191B552C94}.Release|x86.Build.0 = Release|x86
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|x64.Build.0 = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Debug|x86.Build.0 = Debug|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Public|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Public|Any CPU.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Public|ARM.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Public|ARM.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Public|x64.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Public|x64.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Public|x86.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Public|x86.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|ARM.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|x64.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|x64.Build.0 = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A3E736E-8615-4849-8293-C1B67741C18E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,7 +13,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
@@ -75,6 +75,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\AgateLib.Physics\AgateLib.Physics.csproj">
+      <Project>{8a3e736e-8615-4849-8293-c1b67741c18e}</Project>
+      <Name>AgateLib.Physics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AgateLib.Platform.Test\AgateLib.Platform.Test.csproj">
       <Project>{8092e103-5700-4d09-b315-192f0e792c45}</Project>
       <Name>AgateLib.Platform.Test</Name>
@@ -110,6 +114,14 @@
     <Compile Include="FontTests\TextLayout.cs" />
     <Compile Include="FoundationTests\Resources.cs" />
     <Compile Include="IAgateTest.cs" />
+    <Compile Include="PhysicsTests\JointConstraintTest\BoxChainExample.cs" />
+    <Compile Include="PhysicsTests\JointConstraintTest\ChainOnCircleExample.cs" />
+    <Compile Include="PhysicsTests\JointConstraintTest\PhysicsDemo.cs" />
+    <Compile Include="PhysicsTests\JointConstraintTest\GeometryBuilder.cs" />
+    <Compile Include="PhysicsTests\JointConstraintTest\KinematicsExample.cs" />
+    <Compile Include="PhysicsTests\JointConstraintTest\ParticleOnCircleExample.cs" />
+    <Compile Include="PhysicsTests\JointConstraintTest\ParticleOnCircleOffCenterExample.cs" />
+    <Compile Include="PhysicsTests\JointConstraintTest\SmallChainNoGravityExample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestInfo.cs" />
     <Compile Include="TestCollection.cs" />
