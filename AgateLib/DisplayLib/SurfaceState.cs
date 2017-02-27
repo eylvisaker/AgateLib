@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Cache;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
@@ -248,7 +249,7 @@ namespace AgateLib.DisplayLib
 		/// Constructs a SurfaceDrawInstance object.
 		/// </summary>
 		/// <param name="location"></param>
-		public SurfaceDrawInstance(PointF location) : this()
+		public SurfaceDrawInstance(Vector2f location) : this()
 		{
 			DestLocation = location;
 		}
@@ -276,7 +277,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// The destination location for drawing.
 		/// </summary>
-		public PointF DestLocation { get; set; }
+		public Vector2f DestLocation { get; set; }
 		/// <summary>
 		/// If SourceRect is empty (all values are zero), then it is ignored.
 		/// </summary>

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Cache;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
@@ -34,7 +35,7 @@ namespace AgateLib.DisplayLib
 		private Color mColor = Color.White;
 		private double mScaleWidth = 1.0;
 		private double mScaleHeight = 1.0;
-		private PointF mLocation;
+		private Vector2f mLocation;
 		private string mText = string.Empty;
 		private FontStateCache mCache;
 		private string mTransformedText;
@@ -65,7 +66,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets or sets the location where text is drawn.
 		/// </summary>
-		public PointF Location
+		public Vector2f Location
 		{
 			get { return mLocation; }
 			set

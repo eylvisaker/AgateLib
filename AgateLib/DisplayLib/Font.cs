@@ -17,12 +17,12 @@
 //     Contributor(s): Erik Ylvisaker
 //
 
-using AgateLib.Quality;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
@@ -225,17 +225,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="dest"></param>
 		/// <param name="text"></param>
-		public void DrawText(PointF dest, string text)
-		{
-			core.DrawText(state, dest, text);
-		}
-
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="dest"></param>
-		/// <param name="text"></param>
-		public void DrawText(Point dest, string text)
+		public void DrawText(Vector2 dest, string text)
 		{
 			core.DrawText(state, dest, text);
 		}
@@ -246,34 +236,12 @@ namespace AgateLib.DisplayLib
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="text"></param>
-		public void DrawText(double x, double y, string text)
+		/// <param name="parameters"></param>
+		public void DrawText(Vector2 dest, string text, params object[] parameters)
 		{
-			core.DrawText(state, x, y, text);
+			core.DrawText(state, dest, text, parameters);
 		}
-
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="text"></param>
-		public void DrawText(int x, int y, string text)
-		{
-			core.DrawText(state, x, y, text);
-		}
-
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="text"></param>
-		/// <param name="Parameters"></param>
-		public void DrawText(int x, int y, string text, params object[] Parameters)
-		{
-			core.DrawText(state, x, y, text, Parameters);
-		}
-
+		
 		/// <summary>
 		/// Returns the size the text would take given the current settings.
 		/// </summary>
@@ -296,48 +264,6 @@ namespace AgateLib.DisplayLib
 		internal void AddFontSurface(FontSettings settings, FontSurface fontSurface)
 		{
 			core.AddFontSurface(settings, fontSurface);
-		}
-	}
-
-	/// <summary>
-	/// Constructs a font from a set of font surfaces.
-	/// </summary>
-	public class FontBuilder
-	{
-		private Font font;
-
-		public FontBuilder(string name)
-		{
-			font = new Font(name);
-		}
-
-		/// <summary>
-		/// Adds a font surface to the font.
-		/// </summary>
-		/// <param name="settings"></param>
-		/// <param name="surface"></param>
-		/// <returns></returns>
-		public FontBuilder AddFontSurface(FontSettings settings, FontSurface surface)
-		{
-			Condition.Requires<InvalidOperationException>(font != null,
-				"FontBuilder objects cannot be reused.");
-
-			font.AddFontSurface(settings, surface);
-
-			return this;
-		}
-
-		/// <summary>
-		/// Builds the resulting Font object.
-		/// </summary>
-		/// <returns></returns>
-		public Font Build()
-		{
-			var result = font;
-
-			font = null;
-
-			return result;
 		}
 	}
 
@@ -391,45 +317,21 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		void DrawText(string text);
-
+		
 		/// <summary>
 		/// Draws text at the specified point.
 		/// </summary>
 		/// <param name="dest"></param>
 		/// <param name="text"></param>
-		void DrawText(Point dest, string text);
+		void DrawText(Vector2 dest, string text);
 
 		/// <summary>
 		/// Draws text at the specified point.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="text"></param>
-		void DrawText(int x, int y, string text);
-
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
+		/// <param name="dest"></param>
 		/// <param name="text"></param>
 		/// <param name="parameters"></param>
-		void DrawText(int x, int y, string text, params object[] parameters);
-
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="text"></param>
-		void DrawText(double x, double y, string text);
-
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="dest"></param>
-		/// <param name="text"></param>
-		void DrawText(PointF dest, string text);
+		void DrawText(Vector2 dest, string text, params object[] parameters);
 
 		/// <summary>
 		/// Returns the size of the text when rendered given the current size/style settings.

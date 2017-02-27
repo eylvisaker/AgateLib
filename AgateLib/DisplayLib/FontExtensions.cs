@@ -22,14 +22,52 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
+using AgateLib.Mathematics;
 
 namespace AgateLib.DisplayLib
 {
 	/// <summary>
-	/// Extensions for IFont objects.
+	/// Extensions for the IFont interface.
 	/// </summary>
 	public static class FontExtensions
 	{
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="font"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
+		public static void DrawText(this IFont font, double x, double y, string text)
+		{
+			font.DrawText(new Vector2(x, y), text);
+		}
+
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="font"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
+		public static void DrawText(this IFont font, int x, int y, string text)
+		{
+			font.DrawText(new Vector2(x, y), text);
+		}
+
+		/// <summary>
+		/// Draws text at the specified point.
+		/// </summary>
+		/// <param name="font"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="text"></param>
+		/// <param name="parameters"></param>
+		public static void DrawText(this IFont font, int x, int y, string text, params object[] parameters)
+		{
+			font.DrawText(new Vector2(x, y), text);
+		}
+	
 		/// <summary>
 		/// Performs text layout, with an optional maximum width value that will automatically
 		/// wrap text at break points.

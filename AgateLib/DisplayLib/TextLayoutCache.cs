@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib
@@ -43,14 +44,12 @@ namespace AgateLib.DisplayLib
 		/// Translates all the objects in the TextLayout by the
 		/// specified point.
 		/// </summary>
-		/// <param name="dist"></param>
-		public void Translate(Point dist)
+		/// <param name="distance"></param>
+		public void Translate(Vector2f distance)
 		{
 			foreach (LayoutCacheItem item in this)
 			{
-				item.Location = new PointF(
-					item.Location.X + dist.X,
-					item.Location.Y + dist.Y);
+				item.Location += distance;
 			}
 		}
 	}
@@ -67,7 +66,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Location of the object.
 		/// </summary>
-		public abstract PointF Location { get; set; }
+		public abstract Vector2f Location { get; set; }
 
 		/// <summary>
 		/// Gets or sets the X position of the LayoutItem.
@@ -75,7 +74,7 @@ namespace AgateLib.DisplayLib
 		public float X
 		{
 			get { return Location.X; }
-			set { Location = new PointF(value, Location.Y); }
+			set { Location = new Vector2f(value, Location.Y); }
 		}
 		/// <summary>
 		/// Gets or sets the Y position of the LayoutItem.
@@ -83,7 +82,7 @@ namespace AgateLib.DisplayLib
 		public float Y
 		{
 			get { return Location.Y; }
-			set { Location = new PointF(Location.X, value); }
+			set { Location = new Vector2f(Location.X, value); }
 		}
 
 		/// <summary>
@@ -116,7 +115,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets or sets the location of the text.
 		/// </summary>
-		public override PointF Location
+		public override Vector2f Location
 		{
 			get { return State.Location; }
 			set { State.Location = value; }
@@ -155,7 +154,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// The location to draw the surface.
 		/// </summary>
-		public override PointF Location { get; set; }
+		public override Vector2f Location { get; set; }
 
 		/// <summary>
 		/// Indicates whether or not to draw a rectangle around the surface.

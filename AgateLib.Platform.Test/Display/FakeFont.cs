@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Platform.Test.Display
@@ -63,29 +64,14 @@ namespace AgateLib.Platform.Test.Display
 			LogDrawText(Point.Empty, text);
 		}
 
-		public void DrawText(PointF dest, string text)
+		public void DrawText(Vector2 dest, string text)
 		{
 			LogDrawText(dest, text);
 		}
 
-		public void DrawText(Point dest, string text)
+		public void DrawText(Vector2 dest, string text, params object[] args)
 		{
-			LogDrawText(dest, text);
-		}
-
-		public void DrawText(double x, double y, string text)
-		{
-			LogDrawText(new PointF((float)x, (float)y), text);
-		}
-
-		public void DrawText(int x, int y, string text)
-		{
-			LogDrawText(new PointF((float)x, (float)y), text);
-		}
-
-		public void DrawText(int x, int y, string text, params object[] parameters)
-		{
-			LogDrawText(new PointF((float)x, (float)y), text, parameters);
+			LogDrawText(dest, string.Format(text, args));
 		}
 
 		public Size MeasureString(string text)
@@ -112,14 +98,7 @@ namespace AgateLib.Platform.Test.Display
 			return new Size(FontHeight / 2 * longestLine, FontHeight * lineCount);
 		}
 
-		private void LogDrawText(Point dest, string text, params object[] parameters)
-		{
-			Log.WriteLine($"{Name} draw to ({dest}): {Color.ToArgbString()}");
-			Log.WriteLine(text);
-			LogParameters(parameters);
-		}
-
-		private void LogDrawText(PointF dest, string text, params object[] Parameters)
+		private void LogDrawText(Vector2 dest, string text, params object[] Parameters)
 		{
 			Log.WriteLine($"{Name} draw to ({dest}): {Color.ToArgbString()}");
 			Log.WriteLine(text);

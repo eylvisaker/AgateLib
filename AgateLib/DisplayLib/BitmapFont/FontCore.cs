@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
@@ -148,25 +149,15 @@ namespace AgateLib.DisplayLib.BitmapFont
 		{
 			FontSurface(state).DrawText(state, text);
 		}
-		public void DrawText(FontState state, Point dest, string text)
+
+		public void DrawText(FontState state, Vector2 dest, string text)
 		{
 			FontSurface(state).DrawText(state, dest, text);
 		}
-		public void DrawText(FontState state, int x, int y, string text)
+
+		public void DrawText(FontState state, Vector2 dest, string text, params object[] parameters)
 		{
-			FontSurface(state).DrawText(state, x, y, text);
-		}
-		public void DrawText(FontState state, int x, int y, string text, params object[] parameters)
-		{
-			FontSurface(state).DrawText(state, x, y, text, parameters);
-		}
-		public void DrawText(FontState state, double x, double y, string text)
-		{
-			FontSurface(state).DrawText(state, x, y, text);
-		}
-		public void DrawText(FontState state, PointF dest, string text)
-		{
-			FontSurface(state).DrawText(state, dest, text);
+			FontSurface(state).DrawText(state, dest, text, parameters);
 		}
 
 		public Size MeasureString(FontState state, string text)
@@ -184,11 +175,8 @@ namespace AgateLib.DisplayLib.BitmapFont
 		int FontHeight(FontState state);
 
 		void DrawText(FontState state, string text);
-		void DrawText(FontState state, Point dest, string text);
-		void DrawText(FontState state, int x, int y, string text);
-		void DrawText(FontState state, int x, int y, string text, params object[] parameters);
-		void DrawText(FontState state, double x, double y, string text);
-		void DrawText(FontState state, PointF dest, string text);
+		void DrawText(FontState state, Vector2 dest, string text);
+		void DrawText(FontState state, Vector2 dest, string text, params object[] parameters);
 
 		Size MeasureString(FontState state, string text);
 

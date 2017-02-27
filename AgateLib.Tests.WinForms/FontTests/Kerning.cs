@@ -6,6 +6,7 @@ using AgateLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
+using AgateLib.Mathematics;
 using AgateLib.Platform.WinForms.Resources;
 
 namespace AgateLib.Tests.FontTests
@@ -51,7 +52,7 @@ namespace AgateLib.Tests.FontTests
 						thisFont.DrawText(state, "No kerning used. (space to toggle)");
 
 					state.Color = Color.White;
-					thisFont.DrawText(state, 0, thisFont.FontHeight(state), text);
+					thisFont.DrawText(state, new Vector2(0, thisFont.FontHeight(state)), text);
 
 					Display.EndFrame();
 					AgateApp.KeepAlive();

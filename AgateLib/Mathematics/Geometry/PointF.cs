@@ -114,6 +114,9 @@ namespace AgateLib.Mathematics.Geometry
 			return !a.Equals(b);
 		}
 
+		#endregion
+		#region --- Type Converters ---
+
 		/// <summary>
 		/// Explicitly converts a point to a pointf structure.
 		/// </summary>
@@ -129,7 +132,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static explicit operator Vector2(PointF a)
+		public static implicit operator Vector2(PointF a)
 		{
 			return new Vector2(a.x, a.y);
 		}
@@ -138,7 +141,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static explicit operator Vector2f(PointF a)
+		public static implicit operator Vector2f(PointF a)
 		{
 			return new Vector2f(a.x, a.y);
 		}

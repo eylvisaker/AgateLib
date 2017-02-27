@@ -162,6 +162,9 @@ namespace AgateLib.Mathematics.Geometry
 			return !a.Equals(b);
 		}
 
+		#endregion
+		#region --- Type Converters ---
+
 		/// <summary>
 		/// Explicitly converts a point to a pointf structure.
 		/// </summary>
@@ -177,7 +180,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static explicit operator Vector2(Point a)
+		public static implicit operator Vector2(Point a)
 		{
 			return new Vector2(a.X, a.Y);
 		}
@@ -187,7 +190,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static explicit operator Vector2f(Point a)
+		public static implicit operator Vector2f(Point a)
 		{
 			return new Vector2f(a.X, a.Y);
 		}
@@ -263,16 +266,17 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="pt"></param>
 		/// <returns></returns>
-		public static Point Ceiling(PointF pt)
+		public static Point Ceiling(Vector2f pt)
 		{
 			return new Point((int)Math.Ceiling(pt.X), (int)Math.Ceiling(pt.Y));
 		}
+
 		/// <summary>
 		/// Rounds the PointF object to the nearest integer.
 		/// </summary>
 		/// <param name="pt"></param>
 		/// <returns></returns>
-		public static Point Round(PointF pt)
+		public static Point Round(Vector2f pt)
 		{
 			return new Point((int)Math.Round(pt.X), (int)Math.Round(pt.Y));
 		}

@@ -26,6 +26,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Resources;
 using AgateLib.DisplayLib.Cache;
 using AgateLib.IO;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.DisplayLib.BitmapFont
@@ -351,7 +352,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 			GetRects(cache.SrcRects, cache.DestRects, out cache.DisplayTextLength,
 				state.Text, state.ScaleHeight, state.ScaleWidth);
 
-			PointF dest = state.Location;
+			Vector2f dest = state.Location;
 
 			if (state.TextAlignment != OriginAlignment.TopLeft)
 			{

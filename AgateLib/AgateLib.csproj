@@ -190,6 +190,7 @@
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateAppVocabulary.cs" />
+    <Compile Include="DisplayLib\FontBuilder.cs" />
     <Compile Include="DisplayLib\PrimitiveRendererExtensions.cs" />
     <Compile Include="Mathematics\CollisionDetector.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\IPolygonConvexDecompositionAlgorithm.cs" />
@@ -437,9 +438,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ScreenMode.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayLib\StringTransformer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Surface.cs">

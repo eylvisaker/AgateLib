@@ -23,7 +23,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib
 {
@@ -39,7 +41,6 @@ namespace AgateLib.DisplayLib
 		static Regex indexMatch = new Regex(@"[0-9]+:?");
 
 		private FontSurfaceImpl mImpl;
-		private StringTransformer mTransformer = StringTransformer.None;
 
 		/// <summary>
 		/// Initializer passing in a FontSurfaceImpl object.
@@ -47,8 +48,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="implToUse"></param>
 		public FontSurface(FontSurfaceImpl implToUse)
 		{
-			if (implToUse == null)
-				throw new ArgumentNullException("implToUse");
+			Require.ArgumentNotNull(implToUse, nameof(implToUse));
 
 			mImpl = implToUse;
 			Display.DisposeDisplay += Dispose;
@@ -57,18 +57,12 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Returns the implementation object.
 		/// </summary>
-		public FontSurfaceImpl Impl
-		{
-			get { return mImpl; }
-		}
+		public FontSurfaceImpl Impl => mImpl;
 
 		/// <summary>
 		/// Gets the name of the font.
 		/// </summary>
-		public string FontName
-		{
-			get { return mImpl.FontName; }
-		}
+		public string FontName => mImpl.FontName;
 
 		/// <summary>
 		/// Initializes a FontSurface object with a given implementation object.
@@ -108,7 +102,6 @@ namespace AgateLib.DisplayLib
 			mImpl = null;
 		}
 
-
 		/// <summary>
 		/// Measures the display size of the specified string.
 		/// </summary>
@@ -127,56 +120,41 @@ namespace AgateLib.DisplayLib
 		{
 			return mImpl.FontHeight(state);
 		}
-
-		/// <summary>
-		/// Draws the specified string at the specified location.
-		/// </summary>
-		/// <param name="state">The FontState object to use.</param>
-		/// <param name="destX"></param>
-		/// <param name="destY"></param>
-		/// <param name="text"></param>
-		public void DrawText(FontState state, double destX, double destY, string text)
-		{
-			if (string.IsNullOrEmpty(text))
-				return;
-
-			state.Location = new PointF((float)destX, (float)destY);
-			state.Text = mTransformer.Transform(text);
-
-			DrawText(state);
-		}
+		
 		/// <summary>
 		/// Draws the specified string at the specified location.
 		/// </summary>
 		/// <param name="state">The FontState object to use.</param>
 		/// <param name="destPt"></param>
 		/// <param name="text"></param>
-		public void DrawText(FontState state, Point destPt, string text)
-		{
-			if (string.IsNullOrEmpty(text))
-				return;
-
-			state.Location = new PointF(destPt.X, destPt.Y);
-			state.Text = mTransformer.Transform(text);
-
-			DrawText(state);
-		}
-		/// <summary>
-		/// Draws the specified string at the specified location.
-		/// </summary>
-		/// <param name="state">The FontState object to use.</param>
-		/// <param name="destPt"></param>
-		/// <param name="text"></param>
-		public void DrawText(FontState state, PointF destPt, string text)
+		public void DrawText(FontState state, Vector2f destPt, string text)
 		{
 			if (string.IsNullOrEmpty(text))
 				return;
 
 			state.Location = destPt;
-			state.Text = mTransformer.Transform(text);
+			state.Text = text;
 
 			DrawText(state);
 		}
+
+		/// <summary>
+		/// Draws the specified string at the specified location.
+		/// </summary>
+		/// <param name="state">The FontState object to use.</param>
+		/// <param name="destPt"></param>
+		/// <param name="text"></param>
+		public void DrawText(FontState state, Vector2 destPt, string text)
+		{
+			if (string.IsNullOrEmpty(text))
+				return;
+
+			state.Location = (Vector2f)destPt;
+			state.Text = text;
+
+			DrawText(state);
+		}
+
 		/// <summary>
 		/// Draws the specified string at the origin.
 		/// </summary>
@@ -188,10 +166,11 @@ namespace AgateLib.DisplayLib
 				return;
 
 			state.Location = PointF.Empty;
-			state.Text = mTransformer.Transform(text);
+			state.Text = text;
 
 			DrawText(state);
 		}
+
 		/// <summary>
 		/// Draws text using the specified FontState object.
 		/// </summary>
@@ -200,6 +179,7 @@ namespace AgateLib.DisplayLib
 		{
 			mImpl.DrawText(state);
 		}
+
 		/// <summary>
 		/// Draws formatted text.
 		/// </summary>
@@ -209,14 +189,14 @@ namespace AgateLib.DisplayLib
 		/// <param name="formatString">The formatting string.</param>
 		/// <param name="args">Arguments that are used to fill {x} members of the formatString.  Surface objects
 		/// are laid out according to the TextImageLayout member.</param>
-		public void DrawText(FontState state, int destX, int destY, string formatString, params object[] args)
+		public void DrawText(FontState state, Vector2 dest, string formatString, params object[] args)
 		{
 			if (string.IsNullOrEmpty(formatString))
 				return;
 
 			TextLayoutCache layout = CreateLayout(state, formatString, args);
 
-			layout.Translate(new Point(destX, destY));
+			layout.Translate((Vector2f)dest);
 			layout.DrawAll();
 		}
 
