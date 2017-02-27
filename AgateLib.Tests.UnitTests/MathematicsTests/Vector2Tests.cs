@@ -29,6 +29,17 @@ namespace AgateLib.UnitTests.MathematicsTests
 		}
 
 		[TestMethod]
+		public void V2_Rotate()
+		{
+			Vector2 a = new Vector2(3, 4);
+			Vector2 b = a.RotateDegrees(90);
+			var expected = new Vector2(4, -3);
+
+			Assert.IsTrue(b.Equals(expected, 1e-8),
+				$"Expected {expected} but got {b}");
+		}
+
+		[TestMethod]
 		public void V2_Equals()
 		{
 			Vector2 a = Vector2.UnitX;

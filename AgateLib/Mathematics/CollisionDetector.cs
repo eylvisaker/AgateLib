@@ -18,7 +18,7 @@ namespace AgateLib.Mathematics
 		/// <param name="polyA"></param>
 		/// <param name="polyB"></param>
 		/// <returns></returns>
-		public bool DoPolygonsIntersect(Polygon polyA, Polygon polyB)
+		public bool DoPolygonsIntersect(IReadOnlyPolygon polyA, IReadOnlyPolygon polyB)
 		{
 			return DoPolygonsIntersect(polyA, Vector2.Zero, polyB, Vector2.Zero);
 		}
@@ -32,15 +32,15 @@ namespace AgateLib.Mathematics
 		/// <param name="offsetB"></param>
 		/// <returns></returns>
 		public bool DoPolygonsIntersect(
-			Polygon polyA, Vector2 offsetA,
-			Polygon polyB, Vector2 offsetB)
+			IReadOnlyPolygon polyA, Vector2 offsetA,
+			IReadOnlyPolygon polyB, Vector2 offsetB)
 		{
 			if (polyA.IsConcave || polyB.IsConcave)
 			{
-				throw new NotImplementedException();
+				//throw new NotImplementedException();
 			}
 
-			// do the separating axis test for each edge in each square.
+			// do the separating axis test for each edge in each polygon.
 			if (FindSeparatingAxis(
 				polyA.Points, offsetA,
 				polyB.Points, offsetB))
@@ -61,10 +61,12 @@ namespace AgateLib.Mathematics
 		/// </summary>
 		/// <param name="va"></param>
 		/// <param name="vb"></param>
+		/// <param name="offsetA"></param>
+		/// <param name="offsetB"></param>
 		/// <returns></returns>
 		private static bool FindSeparatingAxis(
-			IList<Vector2> va, Vector2 offsetA,
-			IList<Vector2> vb, Vector2 offsetB)
+			IReadOnlyList<Vector2> va, Vector2 offsetA,
+			IReadOnlyList<Vector2> vb, Vector2 offsetB)
 		{
 			for (int i = 0; i < va.Count; i++)
 			{

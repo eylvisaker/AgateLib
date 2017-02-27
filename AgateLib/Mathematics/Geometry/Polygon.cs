@@ -18,6 +18,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -29,24 +30,13 @@ namespace AgateLib.Mathematics.Geometry
 	/// <summary>
 	/// Class which represents a two-dimensional polygon in a plane.
 	/// </summary>
-	public class Polygon
+	public class Polygon : IVector2List, IReadOnlyPolygon
 	{
-		public static Polygon FromRect(Rectangle rect)
-		{
-			Polygon retval = new Polygon(new[]
-			{
-				new Vector2(rect.Left, rect.Top),
-				new Vector2(rect.Right, rect.Top),
-				new Vector2(rect.Right, rect.Bottom),
-				new Vector2(rect.Left, rect.Bottom)
-			});
-
-			return retval;
-		}
-
 		private Vector2List points = new Vector2List();
+
 		private bool isConvex;
-		
+		private List<Polygon> convexDecomposition = new List<Polygon>();
+
 		/// <summary>
 		/// Constructs an empty polygon object.
 		/// </summary>
@@ -76,7 +66,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Gets or sets the list of points for the polygon.
 		/// </summary>
-		/// <param name="points"></param>
+		[YamlIgnore]
 		public Vector2List Points
 		{
 			get { return points; }
@@ -87,6 +77,8 @@ namespace AgateLib.Mathematics.Geometry
 				points.Dirty = true;
 			}
 		}
+
+		IReadOnlyList<Vector2> IReadOnlyPolygon.Points => Points;
 
 		/// <summary>
 		/// Gets the axis-aligned bounding rect.
@@ -133,6 +125,21 @@ namespace AgateLib.Mathematics.Geometry
 		}
 
 		/// <summary>
+		/// Returns a convex decomposition of this polygon.
+		/// If this polygon is convex, this just returns itself.
+		/// </summary>
+		public IEnumerable<IReadOnlyPolygon> ConvexDecomposition
+		{
+			get
+			{
+				if (Points.Dirty)
+					ComputeProperties();
+
+				return convexDecomposition;
+			}
+		}
+
+		/// <summary>
 		/// Gets whether this polygon is concave.
 		/// </summary>
 		[YamlIgnore]
@@ -160,6 +167,72 @@ namespace AgateLib.Mathematics.Geometry
 		}
 
 		/// <summary>
+		/// Returns a debug string describing this polygon.
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return $"N = {Count}, Axis-Aligned Bounds = {BoundingRect}";
+		}
+
+		/// <summary>
+		/// Copies the points to an array.
+		/// </summary>
+		/// <param name="array"></param>
+		/// <param name="arrayIndex"></param>
+		public void CopyTo(Vector2[] array, int arrayIndex)
+		{
+			points.CopyTo(array, arrayIndex);
+		}
+
+		/// <summary>
+		/// Returns the index of a point.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public int IndexOf(Vector2 item)
+		{
+			return points.IndexOf(item);
+		}
+
+		/// <summary>
+		/// Inserts a point into the polygon.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="item"></param>
+		public void Insert(int index, Vector2 item)
+		{
+			points.Insert(index, item);
+		}
+
+		/// <summary>
+		/// Removes a point from the polygon.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public bool Remove(Vector2 item)
+		{
+			return points.Remove(item);
+		}
+
+		/// <summary>
+		/// Removes a point at a specified index.
+		/// </summary>
+		/// <param name="index"></param>
+		public void RemoveAt(int index)
+		{
+			points.RemoveAt(index);
+		}
+
+		/// <summary>
+		/// Clears the polygon of points.
+		/// </summary>
+		public void Clear()
+		{
+			points.Clear();
+		}
+
+		/// <summary>
 		/// Adds a point to the polygon.
 		/// </summary>
 		/// <param name="point"></param>
@@ -183,6 +256,17 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <returns></returns>
 		public Polygon Clone() => new Polygon(points);
+
+
+		/// <summary>
+		/// Returns a translated polygon by adding the passed vector to each point in this polygon.
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public Polygon Translate(Vector2 amount)
+		{
+			return new Polygon(points.Select(x => amount + x));
+		}
 
 		/// <summary>
 		/// Gets whether a point exists within the closed area of this polygon.
@@ -213,6 +297,60 @@ namespace AgateLib.Mathematics.Geometry
 			}
 
 			return contains;
+		}
+
+		/// <summary>
+		/// Enumerates the points.
+		/// </summary>
+		/// <returns></returns>
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		/// <summary>
+		/// Enumerates the points.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerator<Vector2> GetEnumerator()
+		{
+			return points.GetEnumerator();
+		}
+
+		/// <summary>
+		/// Returns a new polygon which is this one rotated counter-clockwise by an angle in degrees.
+		/// </summary>
+		/// <param name="angleInDegrees">The angle in degrees to rotate the polygon by. Pass negative values
+		/// to rotate clockwise.</param>
+		/// <param name="rotationCenter">The center of rotation. If null is passed, the origin is used
+		/// as the center of rotation</param>
+		/// <returns></returns>
+		public Polygon RotateDegrees(double angleInDegrees, Vector2? rotationCenter = null)
+		{
+			return Rotate(Math.PI / 180.0 * angleInDegrees, rotationCenter);
+		}
+
+		/// <summary>
+		/// Returns a new polygon which is identical to this one rotated counter-clockwise by an angle.
+		/// </summary>
+		/// <param name="angle">The angle in degrees to rotate the polygon by. Pass negative values
+		/// to rotate clockwise.</param>
+		/// <param name="rotationCenter">The center of rotation. If null is passed, the origin is used
+		/// as the center of rotation</param>
+		/// <returns></returns>
+		public Polygon Rotate(double angle, Vector2? rotationCenter = null)
+		{
+			var result = Clone();
+			var center = rotationCenter ?? Vector2.Zero;
+
+			for (int i = 0; i < result.Count; i++)
+			{
+				Vector2 delta = result[i] - center;
+				Vector2 newPoint = delta.Rotate(angle);
+				result[i] = newPoint + center;
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -255,9 +393,24 @@ namespace AgateLib.Mathematics.Geometry
 
 		private void ComputeProperties()
 		{
-			ComputeConvexity();
+			if (!Points.Dirty)
+				return;
 
 			Points.Dirty = false;
+
+			ComputeConvexity();
+			ComputeConvexDecomposition();
+		}
+
+		private void ComputeConvexDecomposition()
+		{
+			if (IsConvex)
+			{
+				convexDecomposition.Clear();
+				convexDecomposition.Add(this);
+
+				return;
+			}
 		}
 
 		private void ComputeConvexity()
@@ -291,5 +444,28 @@ namespace AgateLib.Mathematics.Geometry
 
 			IsConvex = true;
 		}
+
+		bool ICollection<Vector2>.IsReadOnly => false;
+	}
+
+	/// <summary>
+	/// Read-only interface to a polygon.
+	/// </summary>
+	public interface IReadOnlyPolygon
+	{
+		/// <summary>
+		/// Gets the points that make up the polygon.
+		/// </summary>
+		IReadOnlyList<Vector2> Points { get; }
+
+		/// <summary>
+		/// Gets whether the polygon is convex.
+		/// </summary>
+		bool IsConvex { get; }
+
+		/// <summary>
+		/// Gets whether the polygon is concave.
+		/// </summary>
+		bool IsConcave { get; }
 	}
 }

@@ -13,22 +13,28 @@ namespace AgateLib.UnitTests.MathematicsTests
 	[TestClass]
 	public class PolygonTests
 	{
-		private Polygon Diamond { get; } = new Polygon(new[]
+		private Polygon Diamond { get; } = new Polygon
 			{
-				new Vector2(1, 0),
-				new Vector2(0, 1),
-				new Vector2(-1, 0),
-				new Vector2(0, -1),
-			});
+				{ 1, 0 },
+				{ 0, 1 },
+				{ -1, 0 },
+				{ 0, -1 },
+			};
 
-		private Polygon OddConcave { get; } = new Polygon(new[]
+		private Polygon OddConcave { get; } = new Polygon
 			{
 				Vector2.Zero,
-				new Vector2(1, 0),
-				new Vector2(1.5, 0.5),
-				new Vector2(2, 0),
-				new Vector2(2, 2),
-			});
+				{ 1, 0 },
+				{ 1.5, 0.5 },
+				{ 2, 0 },
+				{ 2, 2 },
+			};
+
+		[TestMethod]
+		public void Poly_BoundingRect()
+		{
+			Assert.AreEqual(Rectangle.FromLTRB(-1, -1, 1, 1), Diamond.BoundingRect);
+		}
 
 		[TestMethod]
 		public void Poly_IsConvex()
@@ -48,7 +54,7 @@ namespace AgateLib.UnitTests.MathematicsTests
 		{
 			Assert.IsTrue(Diamond.Contains(new Vector2(0, 0)));
 
-			Assert.IsTrue(Translate(Diamond, new Vector2(100, 15)).Contains(new Vector2(100, 15)));
+			Assert.IsTrue(Diamond.Translate(new Vector2(100, 15)).Contains(new Vector2(100, 15)));
 		}
 
 		[TestMethod]
@@ -78,9 +84,42 @@ namespace AgateLib.UnitTests.MathematicsTests
 			}
 		}
 
-		private Polygon Translate(Polygon polygon, Vector2 amount)
+		[TestMethod]
+		public void Poly_Rotate()
 		{
-			return new Polygon(polygon.Points.Select(x => amount + x));
+			var a = Rectangle.FromLTRB(0, 0, 10, 5).ToPolygon();
+			var b = a.RotateDegrees(90, new Vector2(10, 5));
+
+			Assert.AreEqual(4, b.Count);
+
+			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(5, 5), 1e-8)));
+			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(10, 5), 1e-8)));
+			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(10, 15), 1e-8)));
+			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(5, 15), 1e-8)));
 		}
+
+		//[TestMethod]
+		//public void Poly_ConvexDecomposition()
+		//{
+		//	var a = new Polygon
+		//	{
+		//		{0, 0},
+		//		{5, 0},
+		//		{5, 4},
+		//		{4, 4},
+		//		{4, 1},
+		//		{1, 1},
+		//		{1, 4},
+		//		{0, 4},
+		//	};
+
+		//	var convexPolys = a.ConvexDecomposition;
+
+		//	Assert.AreEqual(3, convexPolys.Count());
+
+		//	var collider = new CollisionDetector();
+
+		//	Assert.IsFalse(collider.DoPolygonsIntersect(convexPolys.First(), convexPolys.Skip(1).First()));
+		//}
 	}
 }

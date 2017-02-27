@@ -39,7 +39,7 @@ namespace AgateLib.DisplayLib.Sprites
 
 		public CollisionRegion(Rectangle rect)
 		{
-			mPoly = Polygon.FromRect(rect);
+			mPoly = rect.ToPolygon();
 
 			mTransformedPoly = mPoly.Clone();
 		}

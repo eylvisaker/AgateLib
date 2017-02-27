@@ -135,6 +135,7 @@
     <Compile Include="InputTests\SimpleInputHandlerTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
+    <Compile Include="MathematicsTests\CollisionDetectorTests.cs" />
     <Compile Include="MathematicsTests\GeometryBuilderTests\EllipseBuilderTests.cs" />
     <Compile Include="MathematicsTests\PolygonTests.cs" />
     <Compile Include="MathematicsTests\RectangleFTests.cs" />

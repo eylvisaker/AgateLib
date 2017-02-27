@@ -42,6 +42,9 @@ namespace AgateLib.Mathematics.Geometry
 				list = new List<Vector2>(value);
 				list.AddRange(oldList.Take(value));
 
+				while (list.Count < value)
+					list.Add(Vector2.Zero);
+
 				Dirty = true;
 			}
 		}
@@ -65,6 +68,12 @@ namespace AgateLib.Mathematics.Geometry
 				Dirty = true;
 			}
 		}
+
+		public override string ToString()
+		{
+			return $"Count = {Count}";
+		}
+
 		/// <summary>
 		/// Enumerates the Vector2 values.
 		/// </summary>
@@ -174,14 +183,12 @@ namespace AgateLib.Mathematics.Geometry
 			Dirty = true;
 			list.RemoveAt(index);
 		}
-
 	}
-
 
 	/// <summary>
 	/// Interface for a list of Vector2 values.
 	/// </summary>
-	public interface IVector2List : IList<Vector2>
+	public interface IVector2List : IList<Vector2>, IReadOnlyList<Vector2>
 	{
 		/// <summary>
 		/// Adds a point to the list.

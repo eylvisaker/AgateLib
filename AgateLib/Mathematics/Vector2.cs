@@ -434,5 +434,27 @@ namespace AgateLib.Mathematics
 		{
 			return FromPolar(radius, angle * Math.PI / 180.0);
 		}
+
+		/// <summary>
+		/// Rotates the vector in the counterclockwise direction about the origin.
+		/// </summary>
+		/// <param name="angle">The angle in radians</param>
+		/// <returns></returns>
+		public Vector2 Rotate(double angle)
+		{
+			return new Vector2(
+				X * Math.Cos(angle) + Y * Math.Sin(angle),
+				-X * Math.Sin(angle) + Y * Math.Cos(angle));
+		}
+		
+		/// <summary>
+		/// Rotates the vector in the counterclockwise direction about the origin.
+		/// </summary>
+		/// <param name="angleInDegrees">The angle in degrees</param>
+		/// <returns></returns>
+		public Vector2 RotateDegrees(double angleInDegrees)
+		{
+			return Rotate(Math.PI / 180 * angleInDegrees);
+		}
 	}
 }

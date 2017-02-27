@@ -111,6 +111,27 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// Draws a filled polygon.
+		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
+		/// <param name="polygon"></param>
+		public static void FillPolygon(this IPrimitiveRenderer primitives, Color color, Polygon polygon)
+		{
+			if (polygon.IsConvex)
+			{
+				primitives.FillPolygon(color, polygon.Points.Cast<Vector2f>());
+			}
+			else
+			{
+				foreach (var convexPoly in polygon.ConvexDecomposition)
+				{
+					primitives.FillPolygon(color, convexPoly.Points.Cast<Vector2f>());
+				}
+			}
+		}
+
+		/// <summary>
 		/// Draws a filled rectangle.
 		/// </summary>
 		/// <param name="primitives"></param>
