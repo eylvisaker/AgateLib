@@ -17,12 +17,38 @@ namespace AgateLib.UnitTests.Platform
 			public TimeSpan CurrentTime { get; set; }
 		}
 
+		private FakeStopwatch watch = new FakeStopwatch();
+		private MasterClock masterClock;
+		private GameClock gameClock;
+
+		[TestInitialize]
+		public void Initialize()
+		{
+			masterClock = new MasterClock(watch)
+			{
+				MaxElapsed = ClockTimeSpan.FromSeconds(60)
+			};
+
+			gameClock = new GameClock(masterClock);
+		}
+
+		[TestMethod]
+		public void MasterClockMaxElapsed()
+		{
+			masterClock.MaxElapsed = ClockTimeSpan.FromSeconds(0.1);
+
+			watch.CurrentTime = TimeSpan.FromSeconds(1);
+			masterClock.Advance();
+
+			watch.CurrentTime = TimeSpan.FromSeconds(2);
+			masterClock.Advance();
+
+			Assert.AreEqual(0.1, masterClock.Elapsed.TotalSeconds);
+		}
+
 		[TestMethod]
 		public void MasterClockTotalTimeTest()
 		{
-			var watch = new FakeStopwatch();
-			var masterClock = new MasterClock(watch);
-
 			watch.CurrentTime = TimeSpan.FromSeconds(1);
 			masterClock.Advance();
 
@@ -40,10 +66,6 @@ namespace AgateLib.UnitTests.Platform
 		[TestMethod]
 		public void GameClockTotalTimeTest()
 		{
-			var watch = new FakeStopwatch();
-			var masterClock = new MasterClock(watch);
-			var gameClock = new GameClock(masterClock);
-
 			watch.CurrentTime = TimeSpan.FromSeconds(1);
 			masterClock.Advance();
 
@@ -61,10 +83,6 @@ namespace AgateLib.UnitTests.Platform
 		[TestMethod]
 		public void AdvanceTest()
 		{
-			var watch = new FakeStopwatch();
-			var masterClock = new MasterClock(watch);
-			var gameClock = new GameClock(masterClock);
-
 			watch.CurrentTime = TimeSpan.FromSeconds(1);
 			masterClock.Advance();
 
@@ -82,10 +100,6 @@ namespace AgateLib.UnitTests.Platform
 		[TestMethod]
 		public void SlowGameClockTest()
 		{
-			var watch = new FakeStopwatch();
-			var masterClock = new MasterClock(watch);
-			var gameClock = new GameClock(masterClock);
-
 			gameClock.ClockSpeed = 0.5;
 
 			watch.CurrentTime = TimeSpan.FromSeconds(1);
@@ -105,10 +119,6 @@ namespace AgateLib.UnitTests.Platform
 		[TestMethod]
 		public void SlowGameClockTotalTimeTest()
 		{
-			var watch = new FakeStopwatch();
-			var masterClock = new MasterClock(watch);
-			var gameClock = new GameClock(masterClock);
-
 			watch.CurrentTime = TimeSpan.FromSeconds(1);
 			masterClock.Advance();
 
@@ -129,10 +139,6 @@ namespace AgateLib.UnitTests.Platform
 		[TestMethod]
 		public void GameClockSpeedChangedTwiceTotalTimeTest()
 		{
-			var watch = new FakeStopwatch();
-			var masterClock = new MasterClock(watch);
-			var gameClock = new GameClock(masterClock);
-
 			watch.CurrentTime = TimeSpan.FromSeconds(1);
 			masterClock.Advance();
 

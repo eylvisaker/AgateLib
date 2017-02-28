@@ -53,6 +53,12 @@ namespace AgateLib.Platform
 		public ClockTimeSpan CurrentTime => ClockTimeSpan.FromMilliseconds(currentTimeMs);
 
 		/// <summary>
+		/// Gets or sets the maximum time span returned by Elapsed. This allows the application
+		/// to slow down when the system is too slow rather than having really choppy updates.
+		/// </summary>
+		public ClockTimeSpan MaxElapsed { get; set; } = ClockTimeSpan.FromMilliseconds(100);
+
+		/// <summary>
 		/// The number of frames per second. 
 		/// </summary>
 		public double FramesPerSecond => fps;
@@ -101,7 +107,10 @@ namespace AgateLib.Platform
 				ranOnce = true;
 			}
 
-			Elapsed = ClockTimeSpan.FromMilliseconds(timePassedMs);
+			if (timePassedMs > MaxElapsed.TotalMilliseconds)
+				Elapsed = MaxElapsed;
+			else
+				Elapsed = ClockTimeSpan.FromMilliseconds(timePassedMs);
 		}
 	}
 }
