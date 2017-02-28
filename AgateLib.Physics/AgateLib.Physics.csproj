@@ -8,8 +8,8 @@
     <ProjectGuid>{8A3E736E-8615-4849-8293-C1B67741C18E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RigidBodyDynamics</RootNamespace>
-    <AssemblyName>RigidBodyDynamics</AssemblyName>
+    <RootNamespace>AgateLib.Physics</RootNamespace>
+    <AssemblyName>AgateLib.Physics</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AgateLib.Physics.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
