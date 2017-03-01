@@ -23,7 +23,7 @@ namespace AgateLib.Physics
 		/// </summary>
 		private const int GeneralizedCoordinatesPerParticle = 3;
 
-		private const float DefaultSpringConstant = 50f;
+		private const double DefaultSpringConstant = 50;
 
 		private Matrix<double> jacobian;
 		private Matrix<double> massInverseMatrix;
@@ -34,6 +34,10 @@ namespace AgateLib.Physics
 
 		private Dictionary<PhysicalParticle, Vector3> newVelocities = new Dictionary<PhysicalParticle, Vector3>();
 
+		/// <summary>
+		/// Constructs a impulse based constraint colver.
+		/// </summary>
+		/// <param name="system"></param>
 		public ImpulseConstraintSolver(KinematicsSystem system)
 		{
 			System = system;
@@ -58,16 +62,19 @@ namespace AgateLib.Physics
 
 		private IReadOnlyList<IPhysicalConstraint> Constraints => System.Constraints;
 
+		/// <summary>
+		/// The system containing all the particles that can interact.
+		/// </summary>
 		public KinematicsSystem System { get; set; }
 
-		public float SpringConstant { get; set; } = DefaultSpringConstant;
+		public double SpringConstant { get; set; } = DefaultSpringConstant;
 
-		public float DampeningConstant { get; set; } = (float)Math.Sqrt(DefaultSpringConstant);
+		public double DampeningConstant { get; set; } = (float)Math.Sqrt(DefaultSpringConstant);
 
 		/// <summary>
 		/// Computes the constraint forces from the current state of the system.
 		/// </summary>
-		public void ComputeConstraintForces(float dt)
+		public void ComputeConstraintForces(double dt)
 		{
 			InitializeStep(dt);
 
@@ -112,7 +119,7 @@ namespace AgateLib.Physics
 			return jacobian;
 		}
 
-		private void SolveConstraintEquations(float dt)
+		private void SolveConstraintEquations(double dt)
 		{
 			const double tolerance = 1e-6;
 			const int maxIterations = 100;
@@ -231,7 +238,7 @@ namespace AgateLib.Physics
 			}
 		}
 
-		private void InitializeStep(float dt)
+		private void InitializeStep(double dt)
 		{
 			InitializeJacobian();
 			InitializeConstraintValues();
@@ -279,7 +286,7 @@ namespace AgateLib.Physics
 			totalConstraintImpulse = Matrix<double>.Build.Dense(GeneralizedCoordinateCount, 1);
 		}
 
-		private void InitializeVelocityVector(float dt)
+		private void InitializeVelocityVector(double dt)
 		{
 			for (int i = 0; i < Particles.Count; i++)
 			{

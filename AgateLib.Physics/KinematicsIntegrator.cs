@@ -10,10 +10,10 @@ namespace AgateLib.Physics
 	{
 		private readonly IConstraintSolver constraint;
 
-		private float unusedTime;
+		private double unusedTime;
 
-		private float minimumTimeStep = 0.0001f;
-		private float maximumTimeStep = 0.005f;
+		private double minimumTimeStep = 0.0001;
+		private double maximumTimeStep = 0.005;
 		private int maxStepsPerFrame = 1;
 
 		public KinematicsIntegrator(KinematicsSystem system, IConstraintSolver constraint)
@@ -82,7 +82,7 @@ namespace AgateLib.Physics
 		/// Updates the dynamics.
 		/// </summary>
 		/// <param name="dt">The amount of time in seconds that passed.</param>
-		public void Integrate(float dt)
+		public void Integrate(double dt)
 		{
 			unusedTime += dt;
 
@@ -109,7 +109,7 @@ namespace AgateLib.Physics
 			unusedTime = 0;
 		}
 
-		private void UpdateStep(float dt)
+		private void UpdateStep(double dt)
 		{
 			constraint.ComputeConstraintForces(dt);
 			constraint.ApplyConstraintForces();
@@ -120,7 +120,7 @@ namespace AgateLib.Physics
 		}
 
 
-		private void IntegrateKinematicVariables(float dt)
+		private void IntegrateKinematicVariables(double dt)
 		{
 			foreach (var item in System.Particles)
 			{

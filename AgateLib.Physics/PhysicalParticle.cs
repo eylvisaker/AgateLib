@@ -46,5 +46,23 @@ namespace AgateLib.Physics
 			target.Mass = Mass;
 			target.InertialMoment = InertialMoment;
 		}
+
+		/// <summary>
+		/// Integrates the dynamics for this particle.
+		/// </summary>
+		/// <param name="dt"></param>
+		public virtual void Integrate(double dt)
+		{
+			var oldVelocity = Velocity;
+			var oldAngularVelocity = AngularVelocity;
+
+			AngularVelocity += dt * Torque / InertialMoment;
+			Velocity += dt * Force / Mass;
+
+			// Cheap way to improve the integrator: use the average of the 
+			// start & final velocities for the position integration.
+			Angle += dt * 0.5 * (AngularVelocity + oldAngularVelocity);
+			Position += dt * 0.5 * (Velocity + oldVelocity);
+		}
 	}
 }

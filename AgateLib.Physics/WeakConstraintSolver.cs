@@ -81,7 +81,7 @@ namespace AgateLib.Physics
 		/// <summary>
 		/// Computes the constraint forces from the current state of the system.
 		/// </summary>
-		public void ComputeConstraintForces(float dt)
+		public void ComputeConstraintForces(double dt)
 		{
 			InitializeStep();
 
