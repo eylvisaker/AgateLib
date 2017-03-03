@@ -91,7 +91,7 @@ namespace Examples.Scenes.EventDrivenSceneExample
 
 			gameScene.Update += (sender, e) =>
 			{
-				position += velocity * e.Elapsed.TotalSeconds;
+				position += velocity * e.TotalSeconds;
 			};
 
 			var font = new Font(Font.AgateSerif)

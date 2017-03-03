@@ -73,7 +73,7 @@ namespace AgateLib
 		/// <summary>
 		/// Event raised when the scene should be updated.
 		/// </summary>
-		public event EventHandler<UpdateEventArgs> Update;
+		public event SceneUpdateEventHandler Update;
 		
 		/// <summary>
 		/// Event raised when the scene should be redrawn.
@@ -135,11 +135,11 @@ namespace AgateLib
 		/// <summary>
 		/// Called to update the logic.
 		/// </summary>
-		/// <param name="args">An UpdateEventArgs object which indicates
+		/// <param name="gameClockElapsed">An UpdateEventArgs object which indicates
 		/// how much time has passed since the last time OnUpdate was called.</param>
-		protected virtual void OnUpdate(UpdateEventArgs args)
+		protected virtual void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
-			Update?.Invoke(this, args);
+			Update?.Invoke(this, gameClockElapsed);
 		}
 
 		/// <summary>
@@ -178,9 +178,9 @@ namespace AgateLib
 			OnSceneActivated();
 		}
 
-		void IScene.Update(UpdateEventArgs args)
+		void IScene.Update(ClockTimeSpan gameClockElapsed)
 		{
-			OnUpdate(args);
+			OnUpdate(gameClockElapsed);
 		}
 
 		void IScene.Redraw()
@@ -243,7 +243,7 @@ namespace AgateLib
 		/// Called each frame to update the game logic.
 		/// </summary>
 		/// <param name="gameClockElapsed"></param>
-		void Update(UpdateEventArgs gameClockElapsed);
+		void Update(ClockTimeSpan gameClockElapsed);
 
 		/// <summary>
 		/// Called each frame to draw. This method is called between a 
@@ -251,4 +251,6 @@ namespace AgateLib
 		/// </summary>
 		void Redraw();
 	}
+
+	public delegate void SceneUpdateEventHandler(object sender, ClockTimeSpan elapsed);
 }

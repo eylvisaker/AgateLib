@@ -16,7 +16,7 @@ namespace AgateLib.Tests.WinFormsTests
 
 		public string Category => "WinForms";
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan args)
 		{
 		}
 

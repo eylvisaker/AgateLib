@@ -34,9 +34,9 @@ namespace AgateLib.Tests.DisplayTests
 			p.Dispose();
 		}
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
-			p.Update(args.Elapsed);
+			p.Update(gameClockElapsed);
 		}
 	
 		protected override void OnRedraw()

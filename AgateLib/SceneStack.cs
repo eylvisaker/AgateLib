@@ -34,7 +34,6 @@ namespace AgateLib
 	public class SceneStack : ISceneStack
 	{
 		private readonly List<IScene> scenes = new List<IScene>();
-		private readonly UpdateEventArgs updateArgs = new UpdateEventArgs(ClockTimeSpan.Zero);
 
 		/// <summary>
 		/// Gets the top scene on the stack.
@@ -130,10 +129,8 @@ namespace AgateLib
 
 		private void RunSingleFrame()
 		{
-			updateArgs.Elapsed = AgateApp.GameClock.Elapsed;
-
 			foreach (var sc in UpdateScenes)
-				sc.Update(updateArgs);
+				sc.Update(AgateApp.GameClock.Elapsed);
 
 			CheckForFinishedScenes();
 

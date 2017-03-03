@@ -51,7 +51,7 @@ namespace AgateLib.Tests.DisplayTests
 			surf2.Draw(420, 10);
 		}
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 		}
 	}

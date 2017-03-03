@@ -29,7 +29,7 @@ namespace AgateLib.Tests.FoundationTests
 			sprite.StartAnimation();
 		}
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 			sprite.Update();
 		}

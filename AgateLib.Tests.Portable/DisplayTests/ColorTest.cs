@@ -15,7 +15,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public string Category => "Display";
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 		}
 

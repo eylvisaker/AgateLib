@@ -66,12 +66,12 @@ namespace RigidBodyDynamics.Demo
 			boxImage.RotationAngle = box.Angle;
 			boxImage.Draw(box.Position);
 
-			Display.DrawEllipse(
+			Display.Primitives.DrawEllipse(Color.Blue,
 				(Rectangle)RectangleF.FromLTRB(
 					(float)circlePosition.X - circleRadius,
 					(float)circlePosition.Y - circleRadius,
 					(float)circlePosition.X + circleRadius,
-					(float)circlePosition.Y + circleRadius), Color.Blue);
+					(float)circlePosition.Y + circleRadius));
 		}
 
 		private void InitializeImages()

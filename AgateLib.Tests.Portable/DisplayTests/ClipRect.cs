@@ -28,9 +28,9 @@ namespace AgateLib.Tests.DisplayTests
 			surf = new Surface("Images/wallpaper.png");
 		}
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
-			time += args.Elapsed.TotalSeconds;
+			time += gameClockElapsed.TotalSeconds;
 		}
 
 		protected override void OnRedraw()

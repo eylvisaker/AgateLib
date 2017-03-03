@@ -16,7 +16,7 @@ namespace AgateLib.Tests.DisplayTests
 		public string Name => "Large Image";
 		public string Category => "Display";
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
 				AgateApp.IsAlive = false;

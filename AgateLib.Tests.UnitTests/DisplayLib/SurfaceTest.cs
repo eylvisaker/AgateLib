@@ -81,7 +81,7 @@ namespace AgateLib.UnitTests.DisplayLib
 			Assert.AreEqual(2, surfaceImpl.LastDraw.ScaleHeight);
 		}
 
-
+		[Obsolete]
 		[TestMethod]
 		public void DrawWithRotationCenter()
 		{

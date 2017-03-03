@@ -51,7 +51,7 @@ namespace AgateLib.Tests.FontTests
 			font.DrawText(0, 530, "Test of escape sequences: {{}Escaped{}}");
 		}
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 		}
 

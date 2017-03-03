@@ -32,7 +32,7 @@ namespace AgateLib.Tests.DisplayTests
 			sp.SetScale(2, 2);
 		}
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 			if (Input.Unhandled.Keys[KeyCode.Escape])
 				IsFinished = true;

@@ -68,13 +68,13 @@ namespace RigidBodyDynamics.Demo
 			InitializeExample();
 		}
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 			if (system.Particles.Any(p => double.IsNaN(p.Position.X)))
 				running = false;
 
 			if (running)
-				Advance((float)args.Elapsed.TotalSeconds);
+				Advance(gameClockElapsed.TotalSeconds);
 		}
 
 		protected override void OnRedraw()
@@ -90,7 +90,7 @@ namespace RigidBodyDynamics.Demo
 		}
 
 
-		private void Advance(float dt = 0.005f)
+		private void Advance(double dt = 0.005)
 		{
 			CurrentExample.ComputeExternalForces();
 

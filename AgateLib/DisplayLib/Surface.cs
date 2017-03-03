@@ -501,6 +501,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="destPt">Destination point to draw to.</param>
 		/// <param name="rotationCenter">Center of rotation to use, relative
 		/// to the top-left of the surface.</param>
+		[Obsolete("Perform your own rotated translation instead of calling this method.")]
 		public void Draw(PointF destPt, PointF rotationCenter)
 		{
 			Draw(Rectangle.Empty, destPt, rotationCenter);
@@ -513,6 +514,7 @@ namespace AgateLib.DisplayLib
 		/// Ignores the value of RotationCenter and uses the specified
 		/// point to rotate around instead.
 		/// </summary>
+		[Obsolete("Perform your own rotated translation instead of calling this method.")]
 		public void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
 		{
 			Draw(new PointF(destX, destY), new PointF(rotationCenterX, rotationCenterY));

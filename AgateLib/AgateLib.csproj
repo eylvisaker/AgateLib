@@ -246,7 +246,6 @@
     <Compile Include="Platform\GameClock.cs" />
     <Compile Include="Platform\IStopClock.cs" />
     <Compile Include="Platform\MasterClock.cs" />
-    <Compile Include="UpdateEventArgs.cs" />
     <Compile Include="UserInterface\Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="Diagnostics\JoinArgsAttribute.cs" />
     <Compile Include="Diagnostics\LibraryVocabulary.cs" />

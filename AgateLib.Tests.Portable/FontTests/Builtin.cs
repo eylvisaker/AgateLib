@@ -29,7 +29,7 @@ namespace AgateLib.Tests.FontTests
 			}
 		}
 
-		protected override void OnUpdate(UpdateEventArgs args)
+		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 		}
 
