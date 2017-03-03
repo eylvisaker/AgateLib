@@ -41,6 +41,11 @@ namespace AgateLib
 		public IScene TopScene => scenes.Count > 0 ? scenes[scenes.Count - 1] : null;
 
 		/// <summary>
+		/// Gets or sets the clear color. If this value is null then the display is not automatically cleared.
+		/// </summary>
+		public Color? ClearColor { get; set; } = Color.DimGray;
+
+		/// <summary>
 		/// Gets the collection of scenes that will be updated each frame.
 		/// </summary>
 		public IEnumerable<IScene> UpdateScenes
@@ -138,6 +143,12 @@ namespace AgateLib
 				return;
 
 			Display.BeginFrame();
+
+			if (ClearColor != null)
+			{
+				var clearColor = (Color) ClearColor;
+				Display.Clear(clearColor);
+			}
 
 			foreach (var sc in RedrawScenes)
 			{
