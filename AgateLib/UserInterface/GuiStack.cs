@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface
 {
+	[Obsolete("Use SceneStack instead.")]
 	public static class GuiStack
 	{
 		static List<Gui> mStack = new List<Gui>();

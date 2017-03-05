@@ -1,26 +1,67 @@
-﻿using AgateLib.Mathematics;
+﻿using System;
+using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.Physics
 {
 	public class PhysicalParticle
 	{
-		public Polygon Polygon { get; set; }
+		/// <summary>
+		/// Bounding polygon for this particle. This is not used by the kinematics integrator
+		/// but it might be used by constraints that affect this particle.
+		/// </summary>
+		public Polygon Polygon;
 
-		public Vector2 Position { get; set; }
-		public Vector2 Velocity { get; set; }
-		public Vector2 Force { get; set; }
-		public Vector2 ConstraintForce { get; set; }
+		/// <summary>
+		/// Particle position.
+		/// </summary>
+		public Vector2 Position;
 
-		public double Angle { get; set; }
-		public double AngularVelocity { get; set; }
-		public double Torque { get; set; }
-		public double ConstraintTorque { get; set; }
+		/// <summary>
+		/// Particle velocity.
+		/// </summary>
+		public Vector2 Velocity;
 
-		public double Mass { get; set; }
+		/// <summary>
+		/// Particle force.
+		/// </summary>
+		public Vector2 Force;
 
-		public double InertialMoment { get; set; }
+		[Obsolete]
+		public Vector2 ConstraintForce;
 
+		/// <summary>
+		/// Particle rotation angle.
+		/// </summary>
+		public double Angle;
+
+		/// <summary>
+		/// Particle angular velocity.
+		/// </summary>
+		public double AngularVelocity;
+
+		/// <summary>
+		/// Particle torque.
+		/// </summary>
+		public double Torque;
+
+		[Obsolete]
+		public double ConstraintTorque;
+
+		/// <summary>
+		/// Particle mass. Must not be zero.
+		/// </summary>
+		public double Mass = 1;
+
+		/// <summary>
+		/// Particle intertial moment. Must not be zero.
+		/// </summary>
+		public double InertialMoment = 1;
+
+		/// <summary>
+		/// Clones this PhysicalParticle object.
+		/// </summary>
+		/// <returns></returns>
 		public PhysicalParticle Clone()
 		{
 			var result = new PhysicalParticle();
@@ -29,6 +70,10 @@ namespace AgateLib.Physics
 			return result;
 		}
 
+		/// <summary>
+		/// Copies data to another PhysicalParticle object.
+		/// </summary>
+		/// <param name="target"></param>
 		public void CopyTo(PhysicalParticle target)
 		{
 			target.Polygon = Polygon;
