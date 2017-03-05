@@ -71,14 +71,14 @@ namespace AgateLib.Platform.Test.Display
 		{
 			PixelBuffer result = new PixelBuffer(format, rect.Size);
 
-			result.CopyFrom(data, rect, Point.Empty, false, false);
+			result.CopyFrom(data, rect, Point.Zero, false, false);
 
 			return result;
 		}
 
 		public override void WritePixels(PixelBuffer buffer)
 		{
-			data.CopyFrom(buffer, new Rectangle(Point.Empty, buffer.Size), Point.Empty, true);
+			data.CopyFrom(buffer, new Rectangle(Point.Zero, buffer.Size), Point.Zero, true);
 		}
 
 		public override Size SurfaceSize => size;

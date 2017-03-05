@@ -225,21 +225,10 @@ namespace AgateLib.InputLib.GamepadModel
 				OnButtonReleased(index);
 		}
 
-		internal void ReadFromJoystick()
-		{
-			if (joystick == null)
-				return;
-
-			LeftStick = ReadStickFromJoystick(0);
-			RightStick = ReadStickFromJoystick(2);
-
-			DirectionPad = ReadDirectionPadFromJoystick();
-		}
-
 		internal Point ReadDirectionPadFromJoystick()
 		{
 			if (joystick.HatCount == 0)
-				return Point.Empty;
+				return Point.Zero;
 
 			var state = joystick.HatState(0);
 

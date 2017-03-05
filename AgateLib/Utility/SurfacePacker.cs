@@ -167,7 +167,7 @@ namespace AgateLib.Utility
 			/// <returns></returns>
 			public bool FindEmptySpace(Size size, out Rectangle rect)
 			{
-				Point pt = Point.Empty;
+				Point pt = Point.Zero;
 				int nextScanLine = mContainerSize.Height;
 
 				while (pt.Y < mContainerSize.Height)
@@ -266,7 +266,7 @@ namespace AgateLib.Utility
 			/// <param name="tag"></param>
 			public void QueueObject(Size size, T tag)
 			{
-				mQueue.Add(new RectHolder<T>(new Rectangle(Point.Empty, size), tag));
+				mQueue.Add(new RectHolder<T>(new Rectangle(Point.Zero, size), tag));
 			}
 			/// <summary>
 			/// Clears the queue.

@@ -19,6 +19,10 @@ namespace AgateLib.Platform.Test.Input
 			id = NextId++;
 			Name = "Joystick " + id;
 			Guid = Guid.NewGuid();
+
+			AxisCount = 6;
+			ButtonCount = 10;
+			HatCount = 1;
 		}
 
 		public int AxisCount

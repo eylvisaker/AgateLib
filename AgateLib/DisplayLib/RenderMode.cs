@@ -65,7 +65,7 @@ namespace AgateLib.DisplayLib
 
 			public Rectangle DestRect(Size backBufferSize, Size renderTargetSize)
 			{
-				return new Rectangle(Point.Empty, renderTargetSize);
+				return new Rectangle(Point.Zero, renderTargetSize);
 			}
 
 			public Point MousePoint(Point windowPoint, Size backBufferSize, Size renderTargetSize)

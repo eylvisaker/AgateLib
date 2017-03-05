@@ -350,7 +350,7 @@ namespace AgateLib.InputLib
 		/// <param name="joystick"></param>
 		/// <param name="axisIndex"></param>
 		/// <returns></returns>
-		public static AgateInputEventArgs JoystickAxisChanged(Joystick joystick, int axisIndex)
+		public static AgateInputEventArgs JoystickAxisChanged(IJoystick joystick, int axisIndex)
 		{
 			return new AgateInputEventArgs
 			{
@@ -366,7 +366,7 @@ namespace AgateLib.InputLib
 		/// <param name="joystick"></param>
 		/// <param name="buttonIndex"></param>
 		/// <returns></returns>
-		public static AgateInputEventArgs JoystickButtonPressed(Joystick joystick, int buttonIndex)
+		public static AgateInputEventArgs JoystickButtonPressed(IJoystick joystick, int buttonIndex)
 		{
 			return new AgateInputEventArgs
 			{
@@ -382,7 +382,7 @@ namespace AgateLib.InputLib
 		/// <param name="joystick"></param>
 		/// <param name="buttonIndex"></param>
 		/// <returns></returns>
-		public static AgateInputEventArgs JoystickButtonReleased(Joystick joystick, int buttonIndex)
+		public static AgateInputEventArgs JoystickButtonReleased(IJoystick joystick, int buttonIndex)
 		{
 			return new AgateInputEventArgs
 			{
@@ -396,15 +396,15 @@ namespace AgateLib.InputLib
 		/// Creates an event args for a change in a joystick POV hat state.
 		/// </summary>
 		/// <param name="joystick"></param>
-		/// <param name="buttonIndex"></param>
+		/// <param name="hatIndex"></param>
 		/// <returns></returns>
-		public static AgateInputEventArgs JoystickHatStateChanged(Joystick joystick, int buttonIndex)
+		public static AgateInputEventArgs JoystickHatStateChanged(IJoystick joystick, int hatIndex)
 		{
 			return new AgateInputEventArgs
 			{
 				InputEventType = InputEventType.JoystickHatChanged,
 				JoystickIndex = Input.IndexOfJoystick(joystick),
-				JoystickButtonIndex = buttonIndex,
+				JoystickHatIndex = hatIndex,
 			};
 		}
 
@@ -466,6 +466,11 @@ namespace AgateLib.InputLib
 		/// Gets the joystick button for joystick button events.
 		/// </summary>
 		public int JoystickButtonIndex { get; set; }
+
+		/// <summary>
+		/// Gets the joystick hat index for POV hat events.
+		/// </summary>
+		public int JoystickHatIndex { get; set; }
 
 		/// <summary>
 		/// Gets the DisplayWindow this event occurred in. This property is null for 

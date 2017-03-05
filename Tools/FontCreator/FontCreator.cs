@@ -193,7 +193,7 @@ namespace FontCreatorApp
 
 			DrawBackground();
 
-			Point dest = Point.Empty;
+			Point dest = Point.Zero;
 
 			var topLeftWindow = new PointF(
 				ZoomLocation.X * (float)zoomScale - zoomWind.Width / 2,
@@ -234,7 +234,7 @@ namespace FontCreatorApp
 				return;
 
 			font.Color = DisplayColor;
-			font.DrawText(Point.Empty, SampleText);
+			font.DrawText(Point.Zero, SampleText);
 		}
 
 		public bool SaveFont(string resourceFile, string fontName, string imageFileRoot)

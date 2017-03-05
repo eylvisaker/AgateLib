@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.InputLib;
+using AgateLib.InputLib.GamepadModel;
 using AgateLib.InputLib.ImplementationBase;
 using AgateLib.Mathematics.Geometry;
 
@@ -33,7 +34,7 @@ namespace AgateLib.Configuration.State
 
 		internal List<AgateInputEventArgs> EventQueue = new List<AgateInputEventArgs>();
 		internal InputHandlerList Handlers = new InputHandlerList();
-		internal List<Joystick> Joysticks = new List<Joystick>();
+		internal List<IJoystick> Joysticks = new List<IJoystick>();
 
 		internal bool LegacyIsMouseHidden;
 		internal Point LegacyMousePosition;
@@ -45,5 +46,7 @@ namespace AgateLib.Configuration.State
 		internal HashSet<KeyCode> KeysPressed = new HashSet<KeyCode>();
 
 		internal Dictionary<IInputHandler, HandlerState> HandlerStates = new Dictionary<IInputHandler, HandlerState>();
+
+		internal KeyboardGamepadMap DefaultKeyboardGamepadMap;
 	}
 }

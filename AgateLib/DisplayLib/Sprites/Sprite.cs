@@ -134,7 +134,7 @@ namespace AgateLib.DisplayLib.Sprites
 		public Sprite(Surface surface, bool ownSurface, Size size)
 			: this(size)
 		{
-			AddNewFrames(surface, ownSurface, Point.Empty, Point.Empty, size, false);
+			AddNewFrames(surface, ownSurface, Point.Zero, Point.Zero, size, false);
 		}
 		
 		/// <summary>
@@ -145,7 +145,7 @@ namespace AgateLib.DisplayLib.Sprites
 		{
 			SpriteFrame frame = new SpriteFrame(surface);
 			frame.SourceRect = new Rectangle(0, 0, surface.SurfaceWidth, surface.SurfaceHeight);
-			frame.Anchor = Point.Empty;
+			frame.Anchor = Point.Zero;
 			frame.SpriteSize = SpriteSize;
 
 			mFrames.Add(frame);

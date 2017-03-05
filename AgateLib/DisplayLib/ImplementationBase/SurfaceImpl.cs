@@ -113,7 +113,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <returns></returns>
 		public virtual PixelBuffer ReadPixels(PixelFormat format)
 		{
-			return ReadPixels(format, new Rectangle(Point.Empty, SurfaceSize));
+			return ReadPixels(format, new Rectangle(Point.Zero, SurfaceSize));
 		}
 		/// <summary>
 		/// Creates a PixelBuffer object with a copy of the pixel data in the 
@@ -138,7 +138,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 			// poor man's method
 			PixelBuffer pixels = ReadPixels(PixelFormat.RGBA8888);
 
-			pixels.CopyFrom(buffer, new Rectangle(Point.Empty, buffer.Size), startPoint, false);
+			pixels.CopyFrom(buffer, new Rectangle(Point.Zero, buffer.Size), startPoint, false);
 
 			WritePixels(pixels);
 		}

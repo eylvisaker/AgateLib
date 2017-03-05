@@ -415,7 +415,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void Draw()
 		{
-			Draw(Point.Empty);
+			Draw(Point.Zero);
 		}
 
 		/// <summary>

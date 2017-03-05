@@ -64,14 +64,14 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 				return;
 			}
 
-			Display.SetClipRect(new Rectangle(Point.Empty, Display.RenderTarget.Size));
+			Display.SetClipRect(new Rectangle(Point.Zero, Display.RenderTarget.Size));
 
 			Display.Shader = AgateBuiltInShaders.Basic2DShader;
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.RenderTarget.Width,
 				Display.RenderTarget.Height);
 
 			renderTarget.RenderTarget.Alpha = Alpha;
-			renderTarget.RenderTarget.Draw(Point.Empty);
+			renderTarget.RenderTarget.Draw(Point.Zero);
 		}
 
 		public void Update()

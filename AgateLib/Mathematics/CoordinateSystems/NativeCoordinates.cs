@@ -32,7 +32,7 @@ namespace AgateLib.Mathematics.CoordinateSystems
 
 		void DetermineCoordinateSystem()
 		{
-			Rectangle result = new Rectangle(Point.Empty, mRenderTargetSize);
+			Rectangle result = new Rectangle(Point.Zero, mRenderTargetSize);
 
 			if (MaxSize != null)
 			{

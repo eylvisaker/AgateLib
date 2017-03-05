@@ -225,7 +225,7 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			Rectangle translated = ClientRect;
 
-			translated.Location = ClientToScreen(Point.Empty);
+			translated.Location = ClientToScreen(Point.Zero);
 
 			return translated;
 		}
@@ -283,7 +283,7 @@ namespace AgateLib.UserInterface.Widgets
 			if (Visible == false)
 				return;
 
-			DrawImpl(ClientToScreen(new Rectangle(Point.Empty, ClientRect.Size)));
+			DrawImpl(ClientToScreen(new Rectangle(Point.Zero, ClientRect.Size)));
 		}
 		public virtual void DrawImpl(Rectangle screenRect)
 		{ }
@@ -481,7 +481,7 @@ namespace AgateLib.UserInterface.Widgets
 			//Condition.Requires<ArgumentException>(Descendants.Contains(widget));
 
 			var w = widget;
-			Point pt = Point.Empty;
+			Point pt = Point.Zero;
 
 			while (w != null && w != this)
 			{

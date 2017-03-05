@@ -61,7 +61,7 @@ namespace AgateLib.Platform.Test.Display
 
 		public void DrawText(string text)
 		{
-			LogDrawText(Point.Empty, text);
+			LogDrawText(Point.Zero, text);
 		}
 
 		public void DrawText(Vector2 dest, string text)

@@ -85,7 +85,7 @@ namespace AgateLib.Tests.DisplayTests
 			Display.RenderTarget = frame;
 			Display.BeginFrame();
 			Display.Clear();
-			mySurface.Draw(new Rectangle(Point.Empty, frame.Size));
+			mySurface.Draw(new Rectangle(Point.Zero, frame.Size));
 			Display.Primitives.FillRect(clr, new Rectangle(0, 0, 8, 32));
 
 			var pt = new Point(31, 16);

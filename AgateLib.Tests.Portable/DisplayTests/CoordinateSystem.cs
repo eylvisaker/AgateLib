@@ -54,7 +54,7 @@ namespace AgateLib.Tests.DisplayTests
 
 					Display.FlushDrawBuffer();
 					AgateBuiltInShaders.Basic2DShader.CoordinateSystem =
-						new Rectangle(Point.Empty, Display.CurrentWindow.Size);
+						new Rectangle(Point.Zero, Display.CurrentWindow.Size);
 					AgateBuiltInShaders.Basic2DShader.Activate();
 
 					Font.AgateSans.DrawText("Press space to cycle through coordinate systems.");

@@ -42,11 +42,11 @@ namespace AgateLib.UnitTests.DisplayLib
 
 		private void VerifyCopyResult(PixelBuffer result)
 		{
-			VerifyCopyResult(result, src, Point.Empty);
+			VerifyCopyResult(result, src, Point.Zero);
 		}
 		private void VerifyCopyResult(PixelBuffer result, PixelBuffer srcBuffer)
 		{
-			VerifyCopyResult(result, srcBuffer, Point.Empty);
+			VerifyCopyResult(result, srcBuffer, Point.Zero);
 		}
 		private void VerifyCopyResult(PixelBuffer result, PixelBuffer srcBuffer, Point destPt)
 		{
@@ -84,8 +84,8 @@ namespace AgateLib.UnitTests.DisplayLib
 		{
 			var result = new PixelBuffer(PixelFormat.ABGR8888, new Size(40, 50));
 
-			AssertX.Throws<ArgumentNullException>(() => result.CopyFrom(null, new Rectangle(), Point.Empty, true));
-			AssertX.Throws<ArgumentOutOfRangeException>(() => result.CopyFrom(src, new Rectangle(-4, -4, 4, 4), Point.Empty, true));
+			AssertX.Throws<ArgumentNullException>(() => result.CopyFrom(null, new Rectangle(), Point.Zero, true));
+			AssertX.Throws<ArgumentOutOfRangeException>(() => result.CopyFrom(src, new Rectangle(-4, -4, 4, 4), Point.Zero, true));
 			AssertX.Throws<ArgumentOutOfRangeException>(() => result.CopyFrom(src, new Rectangle(0, 0, 4, 4), new Point(-4, -4), true));
 			AssertX.Throws<ArgumentException>(() => result.CopyFrom(src, new Rectangle(0, 0, 30, 20), new Point(39, 49), false));
 			AssertX.Throws<ArgumentException>(() => result.CopyFrom(src, new Rectangle(0, 0, 30, 20), new Point(0, 49), false));
@@ -96,7 +96,7 @@ namespace AgateLib.UnitTests.DisplayLib
 		{
 			var result = new PixelBuffer(PixelFormat.ARGB8888, new Size(30, 20));
 
-			result.CopyFrom(src, new Rectangle(Point.Empty, src.Size), Point.Empty, false);
+			result.CopyFrom(src, new Rectangle(Point.Zero, src.Size), Point.Zero, false);
 
 			VerifyCopyResult(result);
 		}
@@ -109,7 +109,7 @@ namespace AgateLib.UnitTests.DisplayLib
 
 			src.SetPixel(0, 0, Color.FromArgb(0, 255, 255, 255));
 
-			result.CopyFrom(src, new Rectangle(Point.Empty, src.Size), Point.Empty, false, true);
+			result.CopyFrom(src, new Rectangle(Point.Zero, src.Size), Point.Zero, false, true);
 
 			VerifyCopyResult(result);
 		}
@@ -120,7 +120,7 @@ namespace AgateLib.UnitTests.DisplayLib
 		{
 			var result = new PixelBuffer(PixelFormat.ARGB8888, src.Size);
 
-			result.CopyFrom(src, new Rectangle(Point.Empty, src.Size), Point.Empty, false);
+			result.CopyFrom(src, new Rectangle(Point.Zero, src.Size), Point.Zero, false);
 
 			VerifyCopyResult(result);
 
@@ -136,7 +136,7 @@ namespace AgateLib.UnitTests.DisplayLib
 		{
 			var result = new PixelBuffer(PixelFormat.ABGR8888, src.Size);
 
-			result.CopyFrom(src, new Rectangle(Point.Empty, src.Size), Point.Empty, false);
+			result.CopyFrom(src, new Rectangle(Point.Zero, src.Size), Point.Zero, false);
 
 			VerifyCopyResult(result);
 
@@ -169,11 +169,11 @@ namespace AgateLib.UnitTests.DisplayLib
 		public void ConvertFormatAndChangeSize()
 		{
 			var result = src.ConvertTo(PixelFormat.RGBA8888, new Size(50, 50));
-			result = new PixelBuffer(result, new Rectangle(Point.Empty, src.Size));
+			result = new PixelBuffer(result, new Rectangle(Point.Zero, src.Size));
 			Assert.IsTrue(PixelBuffer.PixelsEqual(result, src));
 
 			result = src.ConvertTo(src.PixelFormat, new Size(50, 50));
-			result = new PixelBuffer(result, new Rectangle(Point.Empty, src.Size));
+			result = new PixelBuffer(result, new Rectangle(Point.Zero, src.Size));
 			Assert.IsTrue(PixelBuffer.PixelsEqual(result, src));
 		}
 

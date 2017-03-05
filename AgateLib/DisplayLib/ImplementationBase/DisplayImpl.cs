@@ -321,7 +321,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 				PixelBuffer pixels = surf.ReadPixels();
 
-				buffer.CopyFrom(pixels, new Rectangle(Point.Empty, surf.SurfaceSize),
+				buffer.CopyFrom(pixels, new Rectangle(Point.Zero, surf.SurfaceSize),
 					dest.Location, false);
 			}
 

@@ -685,7 +685,7 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size textureSize)
 		{
-			return ConvertTo(pixelFormat, textureSize, Point.Empty);
+			return ConvertTo(pixelFormat, textureSize, Point.Zero);
 		}
 
 		/// <summary>
@@ -987,7 +987,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public void Clear(Color color)
 		{
-			FillRectangle(color, new Rectangle(Point.Empty, Size));
+			FillRectangle(color, new Rectangle(Point.Zero, Size));
 		}
 
 		/// <summary>

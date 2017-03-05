@@ -115,6 +115,7 @@
     <Compile Include="Algorithms\EMathTest.cs" />
     <Compile Include="AgateAppTests\ArgumentProcessing.cs" />
     <Compile Include="AgateAppTests\CoordinateSystemTest.cs" />
+    <Compile Include="CollectionUnitTest.cs" />
     <Compile Include="Configuration\InitializationTests.cs" />
     <Compile Include="Diagnostics\ConsoleKeyInputTest.cs" />
     <Compile Include="AgateUninitializedUnitTest.cs" />

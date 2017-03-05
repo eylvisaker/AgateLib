@@ -42,11 +42,11 @@ namespace AgateLib.UnitTests.UserInterface.Layout
 		public void LayoutLabelScreenPosition()
 		{
 			const int windowSize = 15000;
-			var initializer = new TestFacetInitializer() { WindowPosition = Point.Empty };
+			var initializer = new TestFacetInitializer() { WindowPosition = Point.Zero };
 
 			initializer.InitializeWindow(windowSize, windowSize);
 
-			var screenPt = initializer.Facet.label_1.ClientToScreen(Point.Empty);
+			var screenPt = initializer.Facet.label_1.ClientToScreen(Point.Zero);
 
 			Assert.AreEqual(63, screenPt.X);
 			Assert.AreEqual(63, screenPt.Y);

@@ -50,7 +50,7 @@ namespace AgateLib.UnitTests.DisplayLib
 		[TestMethod]
 		public void XCoordinateSystem()
 		{
-			Assert.AreEqual(new Point(50, 50), wind.PixelToLogicalCoords(Point.Empty));
+			Assert.AreEqual(new Point(50, 50), wind.PixelToLogicalCoords(Point.Zero));
 			Assert.AreEqual(new Point(1050, 1050), wind.PixelToLogicalCoords(new Point(500, 500)));
 		}
 	}

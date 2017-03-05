@@ -335,7 +335,7 @@ namespace AgateLib.DisplayLib
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = RenderTarget.CoordinateSystem.Coordinates;
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
-			AgateApp.State.Display.CurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);
+			AgateApp.State.Display.CurrentClipRect = new Rectangle(Point.Zero, RenderTarget.Size);
 
 			RenderState.AlphaBlend = true;
 		}

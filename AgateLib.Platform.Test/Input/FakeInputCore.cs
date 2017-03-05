@@ -50,7 +50,7 @@ namespace AgateLib.Platform.Test.Input
 			}
 		}
 
-		public IReadOnlyList<FakeJoystickImpl> Joystics => joysticks;
+		public IReadOnlyList<FakeJoystickImpl> Joysticks => joysticks;
 
 		public IEnumerable<IJoystickImpl> CreateJoysticks()
 		{

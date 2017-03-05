@@ -57,7 +57,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 			facet.menu_1.SelectedItemChanged += (sender, args) =>
 			{
-				var pt = facet.label_1.ClientToScreen(Point.Empty);
+				var pt = facet.label_1.ClientToScreen(Point.Zero);
 
 				facet.label_1.Text = $"Client Rect: {pt.X},{pt.Y},{facet.label_1.Width},{facet.label_1.Height}";
 			};

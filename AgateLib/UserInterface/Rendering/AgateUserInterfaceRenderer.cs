@@ -231,7 +231,7 @@ namespace AgateLib.UserInterface.Rendering
 			DrawBorder(anim);
 
 			SetFontProperties(style);
-			anim.Widget.DrawImpl(anim.ClientToScreen(new Rectangle(Point.Empty, anim.ClientRect.Size)));
+			anim.Widget.DrawImpl(anim.ClientToScreen(new Rectangle(Point.Zero, anim.ClientRect.Size)));
 		}
 
 		private OriginAlignment ConvertTextAlign(TextAlign textAlign)

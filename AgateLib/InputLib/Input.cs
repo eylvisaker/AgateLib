@@ -130,7 +130,7 @@ namespace AgateLib.InputLib
 		/// </summary>
 		/// <param name="joystick"></param>
 		/// <returns></returns>
-		public static int IndexOfJoystick(Joystick joystick)
+		public static int IndexOfJoystick(IJoystick joystick)
 		{
 			return AgateApp.State?.Input?.Joysticks.IndexOf(joystick) ?? -1;
 		}

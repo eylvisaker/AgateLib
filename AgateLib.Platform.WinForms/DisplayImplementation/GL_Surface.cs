@@ -86,7 +86,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			mDisplay = Display.Impl as DesktopGLDisplay;
 
-			mSourceRect = new Rectangle(Point.Empty, size);
+			mSourceRect = new Rectangle(Point.Zero, size);
 
 			mTextureSize = GetOGLSize(size);
 
@@ -304,7 +304,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override PixelBuffer ReadPixels(PixelFormat format)
 		{
-			return ReadPixels(format, new Rectangle(Point.Empty, SurfaceSize));
+			return ReadPixels(format, new Rectangle(Point.Zero, SurfaceSize));
 		}
 		public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
 		{

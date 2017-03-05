@@ -10,7 +10,12 @@ namespace AgateLib.InputLib.GamepadModel
 	public class KeyboardGamepadMap : IDictionary<KeyCode, KeyMapItem>
 	{
 		private const string SettingsKey = "AgateLib.DefaultKeyGamepadMap";
-		private static KeyboardGamepadMap defaultValue;
+
+		private static KeyboardGamepadMap defaultValue
+		{
+			get { return AgateApp.State.Input.DefaultKeyboardGamepadMap; }
+			set { AgateApp.State.Input.DefaultKeyboardGamepadMap = value; }
+		}
 
 		public static KeyboardGamepadMap Default
 		{

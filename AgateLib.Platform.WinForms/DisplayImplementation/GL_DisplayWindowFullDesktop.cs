@@ -212,7 +212,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				display.Clear(Color.Black);
 
-				var destRect = new Rectangle(Point.Empty, screenContext.Size);
+				var destRect = new Rectangle(Point.Zero, screenContext.Size);
 				var sourceRect = screenData.SourceRect;
 
 				rtSurfaceState.ScaleWidth = destRect.Width / (double)sourceRect.Width;

@@ -291,7 +291,7 @@ namespace AgateLib.DisplayLib
 		public Rectangle GetSourceRect(Size surfaceSize)
 		{
 			if (SourceRect == Rectangle.Empty)
-				return new Rectangle(Point.Empty, surfaceSize);
+				return new Rectangle(Point.Zero, surfaceSize);
 			else
 				return SourceRect;
 		}
