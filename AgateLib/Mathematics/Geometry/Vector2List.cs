@@ -16,7 +16,6 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		public Vector2List()
 		{
-			
 		}
 
 		/// <summary>

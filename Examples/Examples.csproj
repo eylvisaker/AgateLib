@@ -103,6 +103,7 @@
     <Compile Include="Configuration\Settings\SettingsProgram.cs" />
     <Compile Include="Initialization\FullScreenAllMonitors\FullScreenAllMonitorsProgram.cs" />
     <Compile Include="Initialization\WindowedAllMonitors\WindowedAllMonitorsProgram.cs" />
+    <Compile Include="InputExamples\GamepadInputHandlerExample\GamepadInputHandlerProgram.cs" />
     <Compile Include="InputExamples\SimpleInputHandlerExample\SimpleInputHandlerProgram.cs" />
     <Compile Include="Launcher\ExampleCategory.cs" />
     <Compile Include="Launcher\ExampleEventArgs.cs" />
@@ -151,6 +152,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest" />
+    <None Include="InputExamples\GamepadInputHandlerExample\instructions.md" />
     <None Include="Scenes\EventDrivenSceneExample\instructions.md" />
     <None Include="Configuration\Settings\instructions.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

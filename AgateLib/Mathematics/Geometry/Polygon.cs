@@ -53,6 +53,7 @@ namespace AgateLib.Mathematics.Geometry
 		public Polygon(IEnumerable<Vector2> points)
 		{
 			this.points = points.ToVector2List();
+			this.points.Dirty = true;
 
 			ComputeProperties();
 		}
@@ -64,6 +65,9 @@ namespace AgateLib.Mathematics.Geometry
 		public Polygon(IVector2List points)
 		{
 			this.points = points.ToVector2List();
+			this.points.Dirty = true;
+
+			ComputeProperties();
 		}
 
 		/// <summary>

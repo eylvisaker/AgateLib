@@ -248,7 +248,13 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Empty point.
 		/// </summary>
+		[Obsolete("Use Point.Zero instead.")]
 		public static readonly Point Empty = new Point(0, 0);
+
+		/// <summary>
+		/// Point with X and Y equal to zero.
+		/// </summary>
+		public static readonly Point Zero = new Point(0, 0);
 
 		/// <summary>
 		/// Adds the specified size object to the specified point object

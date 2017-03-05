@@ -27,6 +27,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using AgateLib.Mathematics.TypeConverters;
+using AgateLib.Quality;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.Settings
@@ -102,6 +103,25 @@ namespace AgateLib.Settings
 			}
 
 			return (T)settings[key].Data;
+		}
+
+		/// <summary>
+		/// Stores a settings object into the settings repository.
+		/// </summary>
+		/// <typeparam name="T">The object type.</typeparam>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		public void Set<T>(string key, T value)
+		{
+			if (value == null)
+			{
+				settings.Remove(key);
+				return;
+			}
+
+			var settingsData = new SettingsData<T>(typeConverters) { Data = value };
+
+			settings[key] = settingsData;
 		}
 
 		private void LoadSettings<T>(string key, Action<SettingsData<T>, Exception> onFailure)

@@ -31,13 +31,15 @@ namespace AgateLib.InputLib.GamepadModel
 		LeftStick,
 		RightStick,
 		Button,
-		DPad,
+		DirectionPad,
+		LeftTrigger,
+		RightTrigger
 	}
 
 	/// <summary>
 	/// Axes for the gamepad sticks.
 	/// </summary>
-	public enum StickAxis
+	public enum Axis
 	{
 		X,
 		Y,

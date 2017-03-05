@@ -120,13 +120,13 @@ namespace AgateLib.DisplayLib
 		{
 			if (polygon.IsConvex)
 			{
-				primitives.FillPolygon(color, polygon.Points.Cast<Vector2f>());
+				primitives.FillPolygon(color, polygon.Points);
 			}
 			else
 			{
 				foreach (var convexPoly in polygon.ConvexDecomposition)
 				{
-					primitives.FillPolygon(color, convexPoly.Points.Cast<Vector2f>());
+					primitives.FillPolygon(color, convexPoly.Points);
 				}
 			}
 		}

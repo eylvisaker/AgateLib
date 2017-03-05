@@ -23,10 +23,10 @@ namespace AgateLib.UnitTests.InputTests
 				GamepadInputHandler handler = new GamepadInputHandler();
 				var gamepad = handler.Gamepads.First();
 
-				handler.KeyMap.Add(KeyCode.Up, KeyMapItem.ToLeftStick(gamepad, StickAxis.Y, -1));
-				handler.KeyMap.Add(KeyCode.Down, KeyMapItem.ToLeftStick(gamepad, StickAxis.Y, 1));
-				handler.KeyMap.Add(KeyCode.Left, KeyMapItem.ToLeftStick(gamepad, StickAxis.X, -1));
-				handler.KeyMap.Add(KeyCode.Right, KeyMapItem.ToLeftStick(gamepad, StickAxis.X, 1));
+				handler.KeyMap[KeyCode.Up] = KeyMapItem.ToLeftStick(gamepad, Axis.Y, -1);
+				handler.KeyMap[KeyCode.Down] = KeyMapItem.ToLeftStick(gamepad, Axis.Y, 1);
+				handler.KeyMap[KeyCode.Left] = KeyMapItem.ToLeftStick(gamepad, Axis.X, -1);
+				handler.KeyMap[KeyCode.Right] = KeyMapItem.ToLeftStick(gamepad, Axis.X, 1);
 
 				handler.ProcessEvent(AgateInputEventArgs.KeyDown(KeyCode.Down, new KeyModifiers()));
 				handler.ProcessEvent(AgateInputEventArgs.KeyDown(KeyCode.Right, new KeyModifiers()));

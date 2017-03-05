@@ -4,26 +4,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.InputLib.GamepadModel
 {
+	/// <summary>
+	/// Class which represents an InputHandler object which 
+	/// </summary>
 	public class GamepadInputHandler : IInputHandler, IDisposable
 	{
 		private readonly List<Gamepad> gamepads = new List<Gamepad>();
 		private readonly Dictionary<IJoystick, Gamepad> joypadMapping = new Dictionary<IJoystick, Gamepad>();
 		private readonly HashSet<KeyCode> keysPressed = new HashSet<KeyCode>();
 
+		/// <summary>
+		/// Constructs a GamepadInputHandler with a single gamepad and the default keymap.
+		/// </summary>
 		public GamepadInputHandler()
 		{
 			GamepadCount = 1;
+
+			KeyMap = KeyboardGamepadMap.Default;
 		}
 
+		/// <summary>
+		/// Disposes of the GamepadInputHandler.
+		/// </summary>
 		public void Dispose()
 		{
 			Input.Handlers.Remove(this);
 		}
 
-		public KeyboardGamepadMap KeyMap { get; } = new KeyboardGamepadMap();
+		public KeyboardGamepadMap KeyMap { get; }
 
 		/// <summary>
 		/// If set to true (the default), unbound keyboard and mouse events can 
@@ -31,6 +43,9 @@ namespace AgateLib.InputLib.GamepadModel
 		/// </summary>
 		public bool ForwardUnhandledEvents { get; set; } = true;
 
+		/// <summary>
+		/// Gets or sets the count of gamepads.
+		/// </summary>
 		public int GamepadCount
 		{
 			get { return gamepads.Count; }
@@ -50,7 +65,7 @@ namespace AgateLib.InputLib.GamepadModel
 						var joystick = unusedJoysticks.First();
 						unusedJoysticks.RemoveAt(0);
 
-						var gamepad = new Gamepad(joystick);
+						var gamepad = new Gamepad(gamepads.Count, joystick);
 
 						gamepads.Add(gamepad);
 
@@ -58,14 +73,21 @@ namespace AgateLib.InputLib.GamepadModel
 					}
 					else
 					{
-						gamepads.Add(new Gamepad(null));
+						gamepads.Add(new Gamepad(gamepads.Count, null));
 					}
 				}
 			}
 		}
 
+		/// <summary>
+		/// Gets the list of gamepads.
+		/// </summary>
 		public IReadOnlyList<IGamepad> Gamepads => gamepads;
 
+		/// <summary>
+		/// Processes an input event.
+		/// </summary>
+		/// <param name="args"></param>
 		public void ProcessEvent(AgateInputEventArgs args)
 		{
 			switch (args.InputEventType)
@@ -112,7 +134,6 @@ namespace AgateLib.InputLib.GamepadModel
 			keysPressed.Remove(args.KeyCode);
 
 			args.Handled = MapKey(args.KeyCode, false);
-
 		}
 
 		/// <summary>
@@ -126,45 +147,33 @@ namespace AgateLib.InputLib.GamepadModel
 			if (!KeyMap.ContainsKey(key))
 				return false;
 
-			var item = KeyMap[key];
+			var keyMapItem = KeyMap[key];
+			var gamepad = gamepads[keyMapItem.GamepadIndex];
 
-			switch (item.KeyMapType)
+			switch (keyMapItem.KeyMapType)
 			{
 				case KeyMapType.Button:
-					item.Gamepad.SetButton(item.Button, value);
+					gamepad.SetButton(keyMapItem.Button, value);
 					break;
 
 				case KeyMapType.LeftStick:
+					gamepad.LeftStick = ComputeNewStickValue(gamepad.LeftStick, value, keyMapItem);
+					break;
 
-					Vector2 stickValue = item.Gamepad.LeftStick;
+				case KeyMapType.RightStick:
+					gamepad.RightStick = ComputeNewStickValue(gamepad.RightStick, value, keyMapItem);
+					break;
 
-					if (item.StickAxis == StickAxis.X)
-					{
-						stickValue.X = value ? item.StickValue : 0;
+				case KeyMapType.DirectionPad:
+					gamepad.DirectionPad = ComputeNewDirectionPadValue(gamepad.DirectionPad, value, keyMapItem);
+					break;
 
-						if (!value)
-						{
-							var otherDirectionMapping = FindPressedKeyMap(item.Gamepad, KeyMapType.LeftStick, item.StickAxis);
+				case KeyMapType.LeftTrigger:
+					gamepad.LeftTrigger = value ? keyMapItem.Value : 0;
+					break;
 
-							if (otherDirectionMapping != null)
-								stickValue.X = otherDirectionMapping.StickValue;
-						}
-					}
-					else
-					{
-						stickValue.Y = value ? item.StickValue : 0;
-
-						if (!value)
-						{
-							var otherDirectionMapping = FindPressedKeyMap(item.Gamepad, KeyMapType.LeftStick, item.StickAxis);
-
-							if (otherDirectionMapping != null)
-								stickValue.Y = otherDirectionMapping.StickValue;
-						}
-					}
-
-					item.Gamepad.LeftStick = stickValue;
-
+				case KeyMapType.RightTrigger:
+					gamepad.RightTrigger = value ? keyMapItem.Value : 0;
 					break;
 
 				default:
@@ -174,7 +183,66 @@ namespace AgateLib.InputLib.GamepadModel
 			return true;
 		}
 
-		private KeyMapItem FindPressedKeyMap(IGamepad pad, KeyMapType keyMapType, StickAxis axis)
+		private Point ComputeNewDirectionPadValue(Point dpad, bool value, KeyMapItem keyMapItem)
+		{
+			if (keyMapItem.Axis == Axis.X)
+			{
+				dpad.X = value ? Math.Sign(keyMapItem.Value) : 0;
+
+				if (!value)
+				{
+					var otherDirectionMapping = FindPressedKeyMap(keyMapItem.GamepadIndex, keyMapItem.KeyMapType, keyMapItem.Axis);
+
+					if (otherDirectionMapping != null)
+						dpad.X = Math.Sign(otherDirectionMapping.Value);
+				}
+			}
+			else
+			{
+				dpad.Y = value ? Math.Sign(keyMapItem.Value) : 0;
+
+				if (!value)
+				{
+					var otherDirectionMapping = FindPressedKeyMap(keyMapItem.GamepadIndex, keyMapItem.KeyMapType, keyMapItem.Axis);
+
+					if (otherDirectionMapping != null)
+						dpad.Y = Math.Sign(otherDirectionMapping.Value);
+				}
+			}
+
+			return dpad;
+		}
+
+		private Vector2 ComputeNewStickValue(Vector2 stickValue, bool value, KeyMapItem keyMapItem)
+		{
+			if (keyMapItem.Axis == Axis.X)
+			{
+				stickValue.X = value ? keyMapItem.Value : 0;
+
+				if (!value)
+				{
+					var otherDirectionMapping = FindPressedKeyMap(keyMapItem.GamepadIndex, keyMapItem.KeyMapType, keyMapItem.Axis);
+
+					if (otherDirectionMapping != null)
+						stickValue.X = otherDirectionMapping.Value;
+				}
+			}
+			else
+			{
+				stickValue.Y = value ? keyMapItem.Value : 0;
+
+				if (!value)
+				{
+					var otherDirectionMapping = FindPressedKeyMap(keyMapItem.GamepadIndex, keyMapItem.KeyMapType, keyMapItem.Axis);
+
+					if (otherDirectionMapping != null)
+						stickValue.Y = otherDirectionMapping.Value;
+				}
+			}
+			return stickValue;
+		}
+
+		private KeyMapItem FindPressedKeyMap(int gamepadIndex, KeyMapType keyMapType, Axis axis)
 		{
 			foreach (var key in keysPressed)
 			{
@@ -183,13 +251,13 @@ namespace AgateLib.InputLib.GamepadModel
 
 				var item = KeyMap[key];
 
-				if (item.Gamepad != pad)
+				if (gamepadIndex != item.GamepadIndex)
 					continue;
 
 				if (item.KeyMapType != keyMapType)
 					continue;
 
-				if (item.StickAxis != axis)
+				if (item.Axis != axis)
 					continue;
 
 				return item;
@@ -208,6 +276,13 @@ namespace AgateLib.InputLib.GamepadModel
 					gamepad.LeftStick = gamepad.ReadStickFromJoystick(0);
 				else if (axisIndex < 4)
 					gamepad.RightStick = gamepad.ReadStickFromJoystick(1);
+
+				// For triggers, we transform the value because the axis value reported by the joystick is
+				// in the range -1 to 1, but we want 0 to 1 for triggers.
+				else if (axisIndex == 4)
+					gamepad.LeftTrigger = (1 + joystick.AxisState(axisIndex)) * 0.5;
+				else if (axisIndex == 5)
+					gamepad.RightTrigger = (1 + joystick.AxisState(axisIndex)) * 0.5;
 			}
 		}
 

@@ -115,10 +115,10 @@ namespace Examples.Scenes.EventDrivenSceneExample
 		{
 			var result = new GamepadInputHandler();
 
-			result.KeyMap.Add(KeyCode.Left, KeyMapItem.ToLeftStick(result.Gamepads.First(), StickAxis.X, -1));
-			result.KeyMap.Add(KeyCode.Right, KeyMapItem.ToLeftStick(result.Gamepads.First(), StickAxis.X, 1));
-			result.KeyMap.Add(KeyCode.Up, KeyMapItem.ToLeftStick(result.Gamepads.First(), StickAxis.Y, -1));
-			result.KeyMap.Add(KeyCode.Down, KeyMapItem.ToLeftStick(result.Gamepads.First(), StickAxis.Y, 1));
+			result.KeyMap.Add(KeyCode.Left, KeyMapItem.ToLeftStick(result.Gamepads.First(), Axis.X, -1));
+			result.KeyMap.Add(KeyCode.Right, KeyMapItem.ToLeftStick(result.Gamepads.First(), Axis.X, 1));
+			result.KeyMap.Add(KeyCode.Up, KeyMapItem.ToLeftStick(result.Gamepads.First(), Axis.Y, -1));
+			result.KeyMap.Add(KeyCode.Down, KeyMapItem.ToLeftStick(result.Gamepads.First(), Axis.Y, 1));
 
 			result.KeyMap.Add(KeyCode.Enter, KeyMapItem.ToButton(result.Gamepads.First(), GamepadButton.Start));
 			result.KeyMap.Add(KeyCode.Escape, KeyMapItem.ToButton(result.Gamepads.First(), GamepadButton.Back));

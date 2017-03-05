@@ -36,6 +36,13 @@
       "desc": "instructions.md",
       "code": [ "SimpleInputHandlerProgram.cs" ],
       "images": []
+    },
+    "GamepadInputHandler": {
+      "name": "Gamepad Input Handler",
+      "path": "InputExamples/GamepadInputHandlerExample",
+      "desc": "instructions.md",
+      "code": [ "GamepadInputHandlerProgram.cs" ],
+      "images": []
     }
   },
   "Scenes": {

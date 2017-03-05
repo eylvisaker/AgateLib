@@ -236,7 +236,7 @@
     <Compile Include="DisplayLib\BitmapFont\FontCore.cs" />
     <Compile Include="InputLib\GamepadModel\Gamepad.cs" />
     <Compile Include="InputLib\GamepadModel\GamepadButtonEventArgs.cs" />
-    <Compile Include="InputLib\GamepadModel\GamepadEnums.cs" />
+    <Compile Include="InputLib\GamepadModel\_Enums.cs" />
     <Compile Include="InputLib\GamepadModel\GamepadInputHandler.cs" />
     <Compile Include="InputLib\GamepadModel\KeyboardGamepadMap.cs" />
     <Compile Include="InputLib\GamepadModel\KeyMapItem.cs" />

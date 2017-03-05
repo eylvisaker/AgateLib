@@ -10,7 +10,6 @@ namespace AgateLib.Settings
 	{
 		private Serializer serializer;
 		private Deserializer deserializer;
-		private T data;
 
 		public SettingsData(List<IYamlTypeConverter> typeConverters)
 		{
@@ -33,23 +32,23 @@ namespace AgateLib.Settings
 
 		public string Filename { get; set; }
 
-		public T Data => data;
+		public T Data { get; set; }
 
-		object ISettingsData.Data => data;
+		object ISettingsData.Data => Data;
 
 		public void Load(TextReader reader)
 		{
-			data = deserializer.Deserialize<T>(reader);
+			Data = deserializer.Deserialize<T>(reader);
 		}
 
 		public void Save(TextWriter stream)
 		{
-			serializer.Serialize(stream, data);
+			serializer.Serialize(stream, Data);
 		}
 
 		public void Initialize(T newData)
 		{
-			data = newData;
+			Data = newData;
 		}
 	}
 }
