@@ -1,16 +1,10 @@
 ﻿This example shows how to handle user input using the 
-`SimpleInputHandler` object.
+`GamepadInputHandler` object.
 
-There are three modes of user input:
+This input handler will map keyboard events to inputs onto
+a gamepad model that resembles the button structure for XInput
+controllers.
 
-* Keyboard
-* Mouse
-* Joystick
-
-The `SimpleInputHandler` exposes events for each type of
-these raw event types, as well as a structure to track
-the state of keyboard keys.
-
-`Input.Handlers` is a stack of objects implementing 
-`IInputHandler`. Events are passed to them from 
-last to first until one of them handles the event.
+The code in this example shows how one can inspect the
+gamepad state. The `IGamepad` object also has events that can
+be subscribed to when the user pressed buttons or moves the stick.
