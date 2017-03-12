@@ -32,9 +32,9 @@ namespace AgateLib.AgateSDL
 			}
 		}
 
-		public MusicImpl CreateMusic(string filename)
+		public MusicImpl CreateMusic(string filename, IReadFileProvider fileProvider)
 		{
-			return new SDL_Music(mAudioImpl, filename);
+			return new SDL_Music(mAudioImpl, filename, fileProvider);
 		}
 		public MusicImpl CreateMusic(System.IO.Stream musicStream)
 		{

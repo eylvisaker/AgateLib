@@ -43,7 +43,7 @@ namespace AgateLib.Drivers.NullDrivers
 		{
 			return new NullSoundBufferImpl();
 		}
-		public MusicImpl CreateMusic(string filename)
+		public MusicImpl CreateMusic(string filename, IReadFileProvider fileProvider)
 		{
 			return new NullMusicImpl();
 		}

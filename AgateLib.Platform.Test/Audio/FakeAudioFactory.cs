@@ -44,7 +44,7 @@ namespace AgateLib.Platform.Test.Audio
 			throw new NotImplementedException();
 		}
 
-		public MusicImpl CreateMusic(string filename)
+		public MusicImpl CreateMusic(string filename, IReadFileProvider fileProvider)
 		{
 			throw new NotImplementedException();
 		}

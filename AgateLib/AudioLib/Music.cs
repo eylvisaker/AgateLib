@@ -43,9 +43,10 @@ namespace AgateLib.AudioLib
 		/// Constructs a Music object from a file.
 		/// </summary>
 		/// <param name="filename">The name of the file to load.</param>
-		public Music(string filename)
+		/// <param name="fileProvider"></param>
+		public Music(string filename, IReadFileProvider fileProvider = null)
 		{
-			impl = AgateApp.State.Factory.AudioFactory.CreateMusic(filename);
+			impl = AgateApp.State.Factory.AudioFactory.CreateMusic(filename, fileProvider ?? AgateApp.Assets);
 			mFilename = filename;
 		}
 

@@ -50,8 +50,9 @@ namespace AgateLib.Drivers
 		/// Creates a MusicImpl object.
 		/// </summary>
 		/// <param name="filename"></param>
+		/// <param name="fileProvider"></param>
 		/// <returns></returns>
-		MusicImpl CreateMusic(string filename);
+		MusicImpl CreateMusic(string filename, IReadFileProvider fileProvider);
 
 		/// <summary>
 		/// Creates a MusicImpl object.
