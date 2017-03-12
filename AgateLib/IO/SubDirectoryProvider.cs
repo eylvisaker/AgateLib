@@ -25,14 +25,29 @@ using AgateLib.Quality;
 
 namespace AgateLib.IO
 {
+	/// <summary>
+	/// Extension methods which provoide subdirectory providers for IReadFileProvider and IReadWriteFileProvider objects.
+	/// </summary>
 	public static class SubdirectoryProvider
 	{
-		public static IReadWriteFileProvider ReadWrite(IReadWriteFileProvider fileProvider, string subpath)
+		/// <summary>
+		/// Returns an IReadWriteFileProvider object which works from a subdirectory of this IReadWriteFileProvider object.
+		/// </summary>
+		/// <param name="fileProvider"></param>
+		/// <param name="subpath"></param>
+		/// <returns></returns>
+		public static IReadWriteFileProvider Subdirectory(this IReadWriteFileProvider fileProvider, string subpath)
 		{
 			return new SubdirectoryProviderReadWrite(fileProvider, subpath);
 		}
 
-		public static IReadFileProvider ReadOnly(IReadFileProvider fileProvider, string subpath)
+		/// <summary>
+		/// Returns an IReadFileProvider object which works from a subdirectory of this IReadFileProvider object.
+		/// </summary>
+		/// <param name="fileProvider"></param>
+		/// <param name="subpath"></param>
+		/// <returns></returns>
+		public static IReadFileProvider Subdirectory(this IReadFileProvider fileProvider, string subpath)
 		{
 			return new SubdirectoryProviderReadOnly(fileProvider, subpath);
 		}

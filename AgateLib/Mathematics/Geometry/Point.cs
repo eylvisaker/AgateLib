@@ -45,6 +45,7 @@ namespace AgateLib.Mathematics.Geometry
 			this.x = x;
 			this.y = y;
 		}
+
 		/// <summary>
 		/// Constructs a point.
 		/// </summary>
@@ -55,6 +56,7 @@ namespace AgateLib.Mathematics.Geometry
 			this.x = pt.x;
 			this.y = pt.y;
 		}
+
 		/// <summary>
 		/// Constructs a point.
 		/// </summary>
@@ -288,7 +290,5 @@ namespace AgateLib.Mathematics.Geometry
 		}
 
 		#endregion
-
-
 	}
 }

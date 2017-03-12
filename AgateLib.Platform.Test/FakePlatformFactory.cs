@@ -51,7 +51,7 @@ namespace AgateLib.Platform.Test
 			if (string.IsNullOrEmpty(subpath))
 				return UserAppDataFiles;
 
-			return SubdirectoryProvider.ReadOnly(ApplicationFolderFiles, subpath);
+			return ApplicationFolderFiles.Subdirectory(subpath);
 		}
 
 		public IReadWriteFileProvider OpenUserAppStorage(string subpath)
@@ -59,7 +59,7 @@ namespace AgateLib.Platform.Test
 			if (string.IsNullOrEmpty(subpath))
 				return UserAppDataFiles;
 
-			return SubdirectoryProvider.ReadWrite(UserAppDataFiles, subpath);
+			return UserAppDataFiles.Subdirectory(subpath);
 		}
 	}
 }
