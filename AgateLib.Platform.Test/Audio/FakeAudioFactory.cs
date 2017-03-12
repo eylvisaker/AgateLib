@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Drivers;
 using AgateLib.AudioLib.ImplementationBase;
+using AgateLib.IO;
 
 namespace AgateLib.Platform.Test.Audio
 {
@@ -38,7 +39,7 @@ namespace AgateLib.Platform.Test.Audio
 
 
 
-		public SoundBufferImpl CreateSoundBuffer(string filename)
+		public SoundBufferImpl CreateSoundBuffer(string filename, IReadFileProvider fileProvider)
 		{
 			throw new NotImplementedException();
 		}

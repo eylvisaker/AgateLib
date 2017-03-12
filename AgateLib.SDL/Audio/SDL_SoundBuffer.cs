@@ -24,6 +24,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.AudioLib.ImplementationBase;
 using AgateLib.AgateSDL.Sdl2;
+using AgateLib.IO;
 
 namespace AgateLib.AgateSDL.Audio
 {
@@ -46,11 +47,11 @@ namespace AgateLib.AgateSDL.Audio
 			//(AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
 
 		}
-		public SDL_SoundBuffer(string filename)
+		public SDL_SoundBuffer(string filename, IReadFileProvider fileProvider)
 		{
 			sdl = SdlFactory.CreateSDL();
 
-			this.filename = AgateApp.Assets.ResolveFile(filename);
+			this.filename = fileProvider.ResolveFile(filename);
 			LoadFromFile(this.filename);
 		}
 

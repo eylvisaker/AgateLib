@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.AgateSDL.Input;
 using AgateLib.InputLib.ImplementationBase;
+using AgateLib.IO;
 
 namespace AgateLib.AgateSDL
 {
@@ -40,9 +41,9 @@ namespace AgateLib.AgateSDL
 			return new SDL_Music(mAudioImpl, musicStream);
 		}
 
-		public SoundBufferImpl CreateSoundBuffer(string filename)
+		public SoundBufferImpl CreateSoundBuffer(string filename, IReadFileProvider fileProvider)
 		{
-			return new SDL_SoundBuffer(filename);
+			return new SDL_SoundBuffer(filename, fileProvider);
 		}
 		public SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
 		{

@@ -1,5 +1,6 @@
 ﻿using AgateLib.AudioLib;
 using AgateLib.AudioLib.ImplementationBase;
+using AgateLib.IO;
 //     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
@@ -34,7 +35,7 @@ namespace AgateLib.Drivers.NullDrivers
 
 		public AudioImpl AudioCore { get; private set; }
 
-		public SoundBufferImpl CreateSoundBuffer(string filename)
+		public SoundBufferImpl CreateSoundBuffer(string filename, IReadFileProvider fileProvider)
 		{
 			return new NullSoundBufferImpl();
 		}

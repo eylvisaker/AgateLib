@@ -1,5 +1,6 @@
 ﻿using AgateLib.AudioLib;
 using AgateLib.AudioLib.ImplementationBase;
+using AgateLib.IO;
 //     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
@@ -27,6 +28,9 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Drivers
 {
+	/// <summary>
+	/// Interface for audio factory.
+	/// </summary>
 	public interface IAudioFactory
 	{
 		/// <summary>
@@ -38,8 +42,9 @@ namespace AgateLib.Drivers
 		/// Creates a SoundBufferImpl object.
 		/// </summary>
 		/// <param name="filename"></param>
+		/// <param name="fileProvider"></param>
 		/// <returns></returns>
-		SoundBufferImpl CreateSoundBuffer(string filename);
+		SoundBufferImpl CreateSoundBuffer(string filename, IReadFileProvider fileProvider);
 
 		/// <summary>
 		/// Creates a MusicImpl object.

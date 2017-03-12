@@ -23,6 +23,7 @@ using System.Text;
 
 namespace AgateLib.AudioLib
 {
+	using AgateLib.IO;
 	using Drivers;
 	using ImplementationBase;
 	using Utility;
@@ -63,9 +64,9 @@ namespace AgateLib.AudioLib
 		/// specified file.
 		/// </summary>
 		/// <param name="filename"></param>
-		public SoundBuffer(string filename)
+		public SoundBuffer(string filename, IReadFileProvider fileProvider = null)
 		{
-			mImpl = AgateApp.State.Factory.AudioFactory.CreateSoundBuffer(filename);
+			mImpl = AgateApp.State.Factory.AudioFactory.CreateSoundBuffer(filename, fileProvider ?? AgateApp.Assets);
 
 			mFilename = filename;
 		}
