@@ -42,5 +42,27 @@ namespace AgateLib
 
 			return task.GetAwaiter().GetResult();
 		}
+
+		/// <summary>
+		/// Returns an IReadWriteFileProvider object which works from a subdirectory of this IReadWriteFileProvider object.
+		/// </summary>
+		/// <param name="fileProvider"></param>
+		/// <param name="subpath"></param>
+		/// <returns></returns>
+		public static IReadWriteFileProvider Subdirectory(this IReadWriteFileProvider fileProvider, string subpath)
+		{
+			return new SubdirectoryProviderReadWrite(fileProvider, subpath);
+		}
+
+		/// <summary>
+		/// Returns an IReadFileProvider object which works from a subdirectory of this IReadFileProvider object.
+		/// </summary>
+		/// <param name="fileProvider"></param>
+		/// <param name="subpath"></param>
+		/// <returns></returns>
+		public static IReadFileProvider Subdirectory(this IReadFileProvider fileProvider, string subpath)
+		{
+			return new SubdirectoryProviderReadOnly(fileProvider, subpath);
+		}
 	}
 }

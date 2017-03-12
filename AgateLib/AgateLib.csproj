@@ -361,7 +361,6 @@
     <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
     <Compile Include="InputLib\HatState.cs" />
     <Compile Include="IO\IReadWriteFileProvider.cs" />
-    <Compile Include="IO\SubdirectoryProvider.cs" />
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformEnums.cs" />
