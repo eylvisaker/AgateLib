@@ -17,6 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 
+using System;
 using System.Runtime.Serialization;
 
 namespace AgateLib.Mathematics.Geometry
@@ -84,10 +85,14 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Returns true if X and Y are zero.
 		/// </summary>
-		public bool IsEmpty
+		public bool IsZero
 		{
 			get { return x == 0 && y == 0; }
 		}
+
+		[Obsolete("Use IsZero instead.")]
+		public bool IsEmpty => IsZero;
+
 
 		#endregion
 
@@ -165,7 +170,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <returns></returns>
 		public override int GetHashCode()
 		{
-			return x.GetHashCode() + y.GetHashCode();
+			return x.GetHashCode() ^ y.GetHashCode();
 		}
 		/// <summary>
 		/// Equality test.

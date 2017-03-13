@@ -17,6 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 
+using System;
 using System.Runtime.Serialization;
 
 namespace AgateLib.Mathematics.Geometry
@@ -79,15 +80,24 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// True if width and height are zero.
 		/// </summary>
-		
-		public bool IsEmpty
+
+		public bool IsZero
 		{
 			get { return width == 0 && height == 0; }
 		}
 
+		[Obsolete("Use IsZero instead.")]
+		public bool IsEmpty => IsZero;
+
 		/// <summary>
 		/// Empty SizeF structure.
 		/// </summary>
+		public static readonly SizeF Zero = new SizeF(0, 0);
+
+		/// <summary>
+		/// Empty SizeF structure.
+		/// </summary>
+		[Obsolete("Use Zero instead.")]
 		public static readonly SizeF Empty = new SizeF(0, 0);
 
 		/// <summary>
@@ -161,7 +171,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <returns></returns>
 		public override int GetHashCode()
 		{
-			return width.GetHashCode() + height.GetHashCode();
+			return width.GetHashCode() ^ height.GetHashCode();
 		}
 		/// <summary>
 		/// Equality test.

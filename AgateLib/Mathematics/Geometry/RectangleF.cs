@@ -50,9 +50,9 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="pt"></param>
 		/// <param name="sz"></param>
-		public RectangleF(PointF pt, SizeF sz)
+		public RectangleF(Vector2 pt, SizeF sz)
 		{
-			this.pt = pt;
+			this.pt = (PointF)pt;
 			this.sz = sz;
 		}
 
@@ -84,6 +84,7 @@ namespace AgateLib.Mathematics.Geometry
 			get { return pt.Y; }
 			set { pt.Y = value; }
 		}
+
 		/// <summary>
 		/// Width
 		/// </summary>
@@ -92,6 +93,7 @@ namespace AgateLib.Mathematics.Geometry
 			get { return sz.Width; }
 			set { sz.Width = value; }
 		}
+
 		/// <summary>
 		/// Height
 		/// </summary>
@@ -100,58 +102,58 @@ namespace AgateLib.Mathematics.Geometry
 			get { return sz.Height; }
 			set { sz.Height = value; }
 		}
+
 		/// <summary>
 		/// Gets bottom.
 		/// </summary>
-		
 		public float Bottom
 		{
 			get { return pt.Y + sz.Height; }
 		}
+
 		/// <summary>
 		/// Gets left.
 		/// </summary>
-		
 		public float Left
 		{
 			get { return pt.X; }
 		}
+
 		/// <summary>
 		/// Gets top.
 		/// </summary>
-		
 		public float Top
 		{
 			get { return pt.Y; }
 		}
+
 		/// <summary>
 		/// Gets right.
 		/// </summary>
-		
 		public float Right
 		{
 			get { return pt.X + sz.Width; }
 		}
+
 		/// <summary>
-		/// Gets or sets top-left PointF.
+		/// Gets or sets top-left point.
 		/// </summary>
-		
 		public PointF Location
 		{
 			get { return pt; }
 			set { pt = value; }
 		}
+
 		/// <summary>
-		/// Gets or sets SizeF.
+		/// Gets or sets size.
 		/// </summary>
-		
 		public SizeF Size
 		{
 			get { return sz; }
 			set { sz = value; }
 		}
 		/// <summary>
-		/// Returns true if the RectangleF contains the specified PointF.
+		/// Returns true if the RectangleF contains a point.
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -161,11 +163,11 @@ namespace AgateLib.Mathematics.Geometry
 			return Contains(new PointF(x, y));
 		}
 		/// <summary>
-		/// Returns true if the RectangleF contains the specified PointF.
+		/// Returns true if the RectangleF contains a point.
 		/// </summary>
 		/// <param name="pt"></param>
 		/// <returns></returns>
-		public bool Contains(PointF pt)
+		public bool Contains(Vector2 pt)
 		{
 			if (pt.X < Left)
 				return false;
@@ -178,6 +180,7 @@ namespace AgateLib.Mathematics.Geometry
 
 			return true;
 		}
+
 		/// <summary>
 		/// Returns true if the RectangleF entirely contains the specified RectangleF.
 		/// </summary>
@@ -234,7 +237,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <returns></returns>
 		public override int GetHashCode()
 		{
-			return pt.GetHashCode() + sz.GetHashCode();
+			return pt.GetHashCode() ^ sz.GetHashCode();
 		}
 
 		/// <summary>
@@ -278,7 +281,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// so this adds amount to X and Y, and subtracts amount*2 from Width and Height.
 		/// </summary>
 		/// <param name="amount"></param>
-		public RectangleF Contract(int amount)
+		public RectangleF Contract(float amount)
 		{
 			return Expand(-amount);
 		}
@@ -300,7 +303,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="amount">The amount to expand the rectangle by. If this value is negative,
 		/// the rectangle is contracted.</param>
-		public RectangleF Expand(int amount)
+		public RectangleF Expand(float amount)
 		{
 			var result = this;
 
@@ -350,7 +353,7 @@ namespace AgateLib.Mathematics.Geometry
 		
 		public bool IsEmpty
 		{
-			get { return pt.IsEmpty && sz.IsEmpty; }
+			get { return pt.IsEmpty && sz.IsZero; }
 		}
 
 
@@ -358,13 +361,14 @@ namespace AgateLib.Mathematics.Geometry
 		/// Empty RectangleF
 		/// </summary>
 		public static readonly RectangleF Empty = new RectangleF(0, 0, 0, 0);
+
 		/// <summary>
 		/// Static method returning the intersection of two RectangleFs.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static RectangleF Intersect(RectangleF a, RectangleF b)
+		public static RectangleF Intersection(RectangleF a, RectangleF b)
 		{
 			if (a.IntersectsWith(b))
 			{
@@ -376,6 +380,12 @@ namespace AgateLib.Mathematics.Geometry
 			}
 			else
 				return Empty;
+		}
+
+		[Obsolete("Use RectangleF.Intersection instead.", true)]
+		public static RectangleF Intersect(RectangleF a, RectangleF b)
+		{
+			return Intersection(a, b);
 		}
 	}
 }
