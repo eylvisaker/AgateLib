@@ -384,6 +384,10 @@ namespace AgateLib.Mathematics.Geometry
 			return new RectangleF(a.X, a.Y, a.Width, a.Height);
 		}
 
+		/// <summary>
+		/// Converts the rectangle to a polygon object.
+		/// </summary>
+		/// <returns></returns>
 		public Polygon ToPolygon()
 		{
 			Polygon result = new Polygon();
@@ -393,6 +397,10 @@ namespace AgateLib.Mathematics.Geometry
 			return result;
 		}
 
+		/// <summary>
+		/// Writes the rectangle vertices to the polygon.
+		/// </summary>
+		/// <param name="result"></param>
 		public void WriteToPolygon(Polygon result)
 		{
 			result.Points.Count = 4;

@@ -228,6 +228,33 @@ namespace AgateLib.Mathematics.Geometry
 			return new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height);
 		}
 
+		/// <summary>
+		/// Converts the rectangle to a polygon object.
+		/// </summary>
+		/// <returns></returns>
+		public Polygon ToPolygon()
+		{
+			Polygon result = new Polygon();
+
+			WriteToPolygon(result);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Writes the rectangle vertices to the polygon.
+		/// </summary>
+		/// <param name="result"></param>
+		public void WriteToPolygon(Polygon result)
+		{
+			result.Points.Count = 4;
+
+			result[0] = new Vector2(Left, Top);
+			result[1] = new Vector2(Right, Top);
+			result[2] = new Vector2(Right, Bottom);
+			result[3] = new Vector2(Left, Bottom);
+		}
+
 		#endregion
 		#region --- Object Overrides ---
 

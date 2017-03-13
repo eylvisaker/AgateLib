@@ -52,5 +52,18 @@ namespace AgateLib.UnitTests.MathematicsTests
 
 			Assert.AreEqual(RectangleF.FromLTRB(5, 7, 11, 14), RectangleF.Intersection(a, b));
 		}
+
+		[TestMethod]
+		public void RectF_ToPolygon()
+		{
+			var rect = new RectangleF(1, 2, 3, 4);
+			var poly = rect.ToPolygon();
+
+			Assert.AreEqual(4, poly.Count);
+			Assert.IsTrue(poly.Points.Contains(new Vector2(1, 2)));
+			Assert.IsTrue(poly.Points.Contains(new Vector2(4, 2)));
+			Assert.IsTrue(poly.Points.Contains(new Vector2(4, 6)));
+			Assert.IsTrue(poly.Points.Contains(new Vector2(1, 6)));
+		}
 	}
 }
