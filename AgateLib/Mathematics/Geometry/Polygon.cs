@@ -161,6 +161,30 @@ namespace AgateLib.Mathematics.Geometry
 		public int Count => points.Count;
 
 		/// <summary>
+		/// Computes the area of the polygon.
+		/// </summary>
+		[YamlIgnore]
+		public double Area
+		{
+			get
+			{
+				double result = 0;
+				Vector2 prev = points[points.Count - 1];
+
+				// Algorithm from http://mathopenref.com/coordpolygonarea2.html
+				foreach (var point in points)
+				{
+					result += (point.X + prev.X) * (point.Y - prev.Y);
+					prev = point;
+				}
+
+				// Absolute value function allows this algorithm to work regardless
+				// of the winding of the polygon.
+				return Math.Abs(result * 0.5);
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets a specific point in this polygon/
 		/// </summary>
 		/// <param name="index"></param>

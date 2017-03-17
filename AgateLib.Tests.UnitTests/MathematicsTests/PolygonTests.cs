@@ -21,6 +21,16 @@ namespace AgateLib.UnitTests.MathematicsTests
 				{ 0, -1 },
 			};
 
+		private Polygon TetrisL { get; } = new Polygon
+			{
+				Vector2.Zero,
+				{ 2, 0 },
+				{ 2, 1 },
+				{ 1, 1 },
+				{ 1, 3 },
+				{ 0, 3 },
+			};
+
 		private Polygon OddConcave { get; } = new Polygon
 			{
 				Vector2.Zero,
@@ -29,6 +39,13 @@ namespace AgateLib.UnitTests.MathematicsTests
 				{ 2, 0 },
 				{ 2, 2 },
 			};
+
+		[TestMethod]
+		public void Poly_Area()
+		{
+			Assert.AreEqual(2, Diamond.Area, 0.000001);
+			Assert.AreEqual(4, TetrisL.Area, 0.000001);
+		}
 
 		[TestMethod]
 		public void Poly_BoundingRect()
