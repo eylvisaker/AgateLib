@@ -148,6 +148,11 @@ namespace AgateLib.Mathematics
 		public double Magnitude => Math.Sqrt(MagnitudeSquared);
 
 		/// <summary>
+		/// Returns the angle made between this point and the origin.
+		/// </summary>
+		public double Angle => Math.Atan2(Y, X);
+
+		/// <summary>
 		/// Returns a vector pointing in the same direction as this one, with magnitude 1.
 		/// </summary>
 		/// <returns></returns>

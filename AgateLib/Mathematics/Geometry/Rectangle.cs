@@ -345,7 +345,10 @@ namespace AgateLib.Mathematics.Geometry
 			get { return pt.IsEmpty && sz.IsEmpty; }
 		}
 
-
+		/// <summary>
+		/// Gets the center point of the rectangle.
+		/// </summary>
+		public Vector2 CenterPoint => new Vector2(Location.X + Size.Width * 0.5, Location.Y + Size.Height * 0.5);
 
 		#region --- Operator Overloads ---
 

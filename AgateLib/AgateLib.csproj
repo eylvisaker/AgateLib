@@ -200,8 +200,10 @@
     <Compile Include="Mathematics\Geometry\Algorithms\PolygonExtensions.cs" />
     <Compile Include="Mathematics\Geometry\Builders\EllipseBuilder.cs" />
     <Compile Include="Mathematics\Geometry\Builders\QuadrilateralBuilder.cs" />
+    <Compile Include="Mathematics\Geometry\Builders\StarBuilder.cs" />
     <Compile Include="Mathematics\Geometry\EnumerableExtensions.cs" />
     <Compile Include="Mathematics\Geometry\Vector2List.cs" />
+    <Compile Include="Mathematics\LinqExtensions.cs" />
     <Compile Include="Mathematics\TypeConverters\Vector4ConverterYaml.cs" />
     <Compile Include="Mathematics\TypeConverters\Vector3ConverterYaml.cs" />
     <Compile Include="Mathematics\TypeConverters\Vector2ConverterYaml.cs" />

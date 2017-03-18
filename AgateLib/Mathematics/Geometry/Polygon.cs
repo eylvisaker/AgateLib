@@ -63,6 +63,18 @@ namespace AgateLib.Mathematics.Geometry
 		/// Constructs a polygon from the given points.
 		/// </summary>
 		/// <param name="points"></param>
+		public Polygon(params Vector2[] points)
+		{
+			this.points = points.ToVector2List();
+			this.points.Dirty = true;
+
+			ComputeProperties();
+		}
+
+		/// <summary>
+		/// Constructs a polygon from the given points.
+		/// </summary>
+		/// <param name="points"></param>
 		public Polygon(IVector2List points)
 		{
 			this.points = points.ToVector2List();
@@ -138,6 +150,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// Returns a convex decomposition of this polygon.
 		/// If this polygon is convex, this just returns itself.
 		/// </summary>
+		[YamlIgnore]
 		public IEnumerable<IReadOnlyPolygon> ConvexDecomposition
 		{
 			get
@@ -196,7 +209,7 @@ namespace AgateLib.Mathematics.Geometry
 			get { return points[index]; }
 			set { points[index] = value; }
 		}
-
+		
 		/// <summary>
 		/// Returns a debug string describing this polygon.
 		/// </summary>

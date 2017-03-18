@@ -16,8 +16,8 @@ namespace AgateLib.Mathematics.Geometry.Builders
 		/// <summary>
 		/// Scale factor that determines the number of points in the ellipse. This value is multiplied
 		/// by the ellipse's circumference to get the number of points. The default should work fine
-		/// for coordinate systems where 1, 2, 3 map to adjacent pixels, however if you are using a
-		/// different coordinate system you may need to increase this value.
+		/// for coordinate systems where integers map directly to pixels, however if you are using a
+		/// different coordinate system you may need to adjust this value.
 		/// </summary>
 		public double PointCountFactor { get; set; } = 1;
 
@@ -31,7 +31,7 @@ namespace AgateLib.Mathematics.Geometry.Builders
 		/// is zero, the major axis is aligned with the X axis and the minor axis
 		/// is aligned with the Y axis.</param>
 		/// <returns></returns>
-		public IEnumerable<Vector2> BuildEllipse(Vector2 center, double majorAxisRadius, double minorAxisRadius, double rotationAngle)
+		public Polygon BuildEllipse(Vector2 center, double majorAxisRadius, double minorAxisRadius, double rotationAngle)
 		{
 			double h = Math.Pow(majorAxisRadius - minorAxisRadius, 2) / Math.Pow(majorAxisRadius + minorAxisRadius, 2);
 
@@ -56,14 +56,20 @@ namespace AgateLib.Mathematics.Geometry.Builders
 					center.Y + minorAxisRadius * Math.Sin(angle)));
 			}
 
-			return result;
+			return new Polygon(result);
 		}
 
 		/// <summary>
 		/// Builds a point list for an ellipse.
 		/// </summary>
 		/// <param name="rect">The rectangle in which the ellipse should be inscribed.</param>
-		public IEnumerable<Vector2> BuildEllipse(RectangleF rect)
+		public Polygon BuildEllipse(Rectangle rect) => BuildEllipse((RectangleF)rect);
+
+		/// <summary>
+		/// Builds a point list for an ellipse.
+		/// </summary>
+		/// <param name="rect">The rectangle in which the ellipse should be inscribed.</param>
+		public Polygon BuildEllipse(RectangleF rect)
 		{
 			Vector2 center = new Vector2(rect.Left + rect.Width / 2,
 				rect.Top + rect.Height / 2);
@@ -80,6 +86,6 @@ namespace AgateLib.Mathematics.Geometry.Builders
 		/// <param name="center"></param>
 		/// <param name="radius"></param>
 		/// <returns></returns>
-		public IEnumerable<Vector2> BuildCircle(Vector2 center, double radius) => BuildEllipse(center, radius, radius, 0);
+		public Polygon BuildCircle(Vector2 center, double radius) => BuildEllipse(center, radius, radius, 0);
 	}
 }
