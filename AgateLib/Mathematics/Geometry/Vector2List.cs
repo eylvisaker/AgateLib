@@ -113,6 +113,16 @@ namespace AgateLib.Mathematics.Geometry
 		}
 
 		/// <summary>
+		/// Adds a set of points to the end of the list.
+		/// </summary>
+		/// <param name="items"></param>
+		public void AddRange(IEnumerable<Vector2> items)
+		{
+			list.AddRange(items);
+			Dirty = true;
+		}
+
+		/// <summary>
 		/// Clears the list.
 		/// </summary>
 		public void Clear()
@@ -171,6 +181,20 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			Dirty = true;
 			list.Insert(index, item);
+		}
+
+		/// <summary>
+		/// Inserts a set of vectors into the list.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="items"></param>
+		public void InsertRange(int index, IEnumerable<Vector2> items)
+		{
+			foreach(var item in items)
+			{
+				Insert(index, item);
+				index++;
+			}
 		}
 
 		/// <summary>

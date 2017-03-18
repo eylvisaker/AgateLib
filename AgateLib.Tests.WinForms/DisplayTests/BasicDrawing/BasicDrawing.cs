@@ -15,6 +15,8 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 		Random random = new Random();
 		DrawingTester frm;
 
+		private Color ShapeColor => Color.FromArgb(frm.SelectedColor.ToArgb());
+
 		public string Name => "Basic Drawing";
 
 		public string Category => "Display";
@@ -30,18 +32,21 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 
 			frm = new DrawingTester();
 
-			frm.btnClear.Click += new EventHandler(btnClear_Click);
-			frm.btnDrawLine.Click += new EventHandler(btnDrawLine_Click);
-			frm.btnDrawRect.Click += new EventHandler(btnDrawRect_Click);
-			frm.btnFillRect.Click += new EventHandler(btnFillRect_Click);
-			frm.btnDrawCircle.Click += new EventHandler(btnDrawCircle_Click);
-			frm.btnFillCircle.Click += new EventHandler(btnFillCircle_Click);
+			frm.btnClear.Click += btnClear_Click;
+			frm.btnDrawLine.Click += btnDrawLine_Click;
+			frm.btnDrawRect.Click += btnDrawRect_Click;
+			frm.btnDrawCircle.Click += btnDrawCircle_Click;
+			frm.btnDrawPolygon.Click += btnDrawPolygon_Click;
+			frm.btnFillRect.Click += btnFillRect_Click;
+			frm.btnFillCircle.Click += btnFillCircle_Click;
+			frm.btnFillPolygon.Click += btnFillPolygon_Click;
 			frm.Show();
 
 			// This creates the window that we will be drawing in.
 			// 640x480 are the dimensions of the screen area that we will write to
 			using (var window = new DisplayWindowBuilder(args)
 				.RenderToControl(frm.panel1)
+				.AutoResizeBackBuffer()
 				.Build())
 			{
 				while (window.IsClosed == false)
@@ -74,33 +79,51 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 			}
 		}
 
-		void btnFillCircle_Click(object sender, EventArgs e)
+		private void btnDrawPolygon_Click(object sender, EventArgs e)
 		{
-			shapes.Add(new Shape(ShapeType.FillEllipse, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
+			shapes.Add(new Shape(ShapeType.DrawPolygon, ShapeColor, RandomRect()));
+			NextColor();
 		}
 
 		void btnDrawCircle_Click(object sender, EventArgs e)
 		{
-			shapes.Add(new Shape(ShapeType.DrawEllipse, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
-		}
-
-		Rectangle RandomRect()
-		{
-			return new Rectangle(
-				random.Next(0, frm.panel1.Width * 2 / 3),
-				random.Next(0, frm.panel1.Height * 2 / 3),
-				random.Next(10, frm.panel1.Width / 2),
-				random.Next(10, frm.panel1.Height / 2)
-				);
-		}
-		void btnFillRect_Click(object sender, EventArgs e)
-		{
-			shapes.Add(new Shape(ShapeType.FillRect, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
+			shapes.Add(new Shape(ShapeType.DrawEllipse, ShapeColor, RandomRect()));
+			NextColor();
 		}
 
 		void btnDrawRect_Click(object sender, EventArgs e)
 		{
-			shapes.Add(new Shape(ShapeType.DrawRect, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
+			shapes.Add(new Shape(ShapeType.DrawRect, ShapeColor, RandomRect()));
+			NextColor();
+		}
+
+		void btnFillRect_Click(object sender, EventArgs e)
+		{
+			shapes.Add(new Shape(ShapeType.FillRect, ShapeColor, RandomRect()));
+			NextColor();
+		}
+
+		void btnFillCircle_Click(object sender, EventArgs e)
+		{
+			shapes.Add(new Shape(ShapeType.FillEllipse, ShapeColor, RandomRect()));
+			NextColor();
+		}
+
+		private void btnFillPolygon_Click(object sender, EventArgs e)
+		{
+			shapes.Add(new Shape(ShapeType.FillPolygon, ShapeColor, RandomRect()));
+			NextColor();
+		}
+
+		private void NextColor()
+		{
+			var rnd = new Random();
+
+			frm.SelectedColor = System.Drawing.Color.FromArgb(
+				frm.SelectedColor.A,
+				rnd.Next(256),
+				rnd.Next(256),
+				rnd.Next(256));
 		}
 
 		void btnDrawLine_Click(object sender, EventArgs e)
@@ -131,7 +154,16 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 		void btnClear_Click(object sender, EventArgs e)
 		{
 			shapes.Clear();
+		}
 
+		Rectangle RandomRect()
+		{
+			return new Rectangle(
+				random.Next(0, frm.panel1.Width * 2 / 3),
+				random.Next(0, frm.panel1.Height * 2 / 3),
+				random.Next(10, frm.panel1.Width / 2),
+				random.Next(10, frm.panel1.Height / 2)
+				);
 		}
 	}
 	enum ShapeType
@@ -141,5 +173,7 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 		DrawRect,
 		DrawEllipse,
 		DrawLine,
+		DrawPolygon,
+		FillPolygon,
 	}
 }

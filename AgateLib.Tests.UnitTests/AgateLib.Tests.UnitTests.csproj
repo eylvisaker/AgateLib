@@ -135,6 +135,7 @@
     <Compile Include="InputTests\SimpleInputHandlerTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
+    <Compile Include="MathematicsTests\AlgorithmTests\LineAlgorithmTests.cs" />
     <Compile Include="MathematicsTests\AlgorithmTests\PolygonDecompositionTests.cs" />
     <Compile Include="MathematicsTests\CollisionDetectorTests.cs" />
     <Compile Include="MathematicsTests\GeometryBuilderTests\EllipseBuilderTests.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="MathematicsTests\RectangleTests.cs" />
     <Compile Include="MathematicsTests\SizeFTests.cs" />
     <Compile Include="MathematicsTests\SizeTests.cs" />
+    <Compile Include="MathematicsTests\Vector2ListTests.cs" />
     <Compile Include="MathematicsTests\Vector3fTests.cs" />
     <Compile Include="MathematicsTests\Vector2fTests.cs" />
     <Compile Include="MathematicsTests\Vector3Tests.cs" />

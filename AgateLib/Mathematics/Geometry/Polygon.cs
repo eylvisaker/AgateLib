@@ -24,6 +24,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using AgateLib.Quality;
 using YamlDotNet.Serialization;
+using AgateLib.Mathematics.Geometry.Algorithms;
 
 namespace AgateLib.Mathematics.Geometry
 {
@@ -32,7 +33,7 @@ namespace AgateLib.Mathematics.Geometry
 	/// </summary>
 	public class Polygon : IVector2List, IReadOnlyPolygon
 	{
-		private static IPolygonConvexDecompositionAlgorithm _convexDecompositionAlgorithm = new MinimumConvexDecompositionAlgorithm();
+		private static IPolygonConvexDecompositionAlgorithm _convexDecompositionAlgorithm = new BayazitDecomposition();
 
 		private Vector2List points = new Vector2List();
 
@@ -474,7 +475,8 @@ namespace AgateLib.Mathematics.Geometry
 				return;
 			}
 
-			convexDecomposition = _convexDecompositionAlgorithm.Decompose(this).ToList();
+			convexDecomposition = _convexDecompositionAlgorithm.BuildConvexDecomposition(this).ToList();
+			
 		}
 	}
 

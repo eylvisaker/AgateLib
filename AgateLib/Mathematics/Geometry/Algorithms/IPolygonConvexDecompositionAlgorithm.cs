@@ -4,6 +4,6 @@ namespace AgateLib.Mathematics.Geometry
 {
 	public interface IPolygonConvexDecompositionAlgorithm
 	{
-		IReadOnlyList<Polygon> Decompose(Polygon polygon);
+		IReadOnlyList<Polygon> BuildConvexDecomposition(Polygon polygon);
 	}
 }

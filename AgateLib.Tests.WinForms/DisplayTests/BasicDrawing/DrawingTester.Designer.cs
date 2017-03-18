@@ -42,33 +42,35 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 			this.nudAlpha = new System.Windows.Forms.NumericUpDown();
 			this.btnDrawCircle = new System.Windows.Forms.Button();
 			this.btnFillCircle = new System.Windows.Forms.Button();
+			this.btnDrawPolygon = new System.Windows.Forms.Button();
+			this.btnFillPolygon = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.nudAlpha)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// panel1
 			// 
-			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.panel1.Location = new System.Drawing.Point(93, 12);
+			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel1.Location = new System.Drawing.Point(106, 12);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(226, 238);
+			this.panel1.Size = new System.Drawing.Size(237, 289);
 			this.panel1.TabIndex = 0;
 			// 
 			// btnDrawLine
 			// 
 			this.btnDrawLine.Location = new System.Drawing.Point(12, 67);
 			this.btnDrawLine.Name = "btnDrawLine";
-			this.btnDrawLine.Size = new System.Drawing.Size(75, 23);
+			this.btnDrawLine.Size = new System.Drawing.Size(88, 23);
 			this.btnDrawLine.TabIndex = 0;
 			this.btnDrawLine.Text = "Draw Line";
 			this.btnDrawLine.UseVisualStyleBackColor = true;
 			// 
 			// btnFillRect
 			// 
-			this.btnFillRect.Location = new System.Drawing.Point(12, 153);
+			this.btnFillRect.Location = new System.Drawing.Point(12, 182);
 			this.btnFillRect.Name = "btnFillRect";
-			this.btnFillRect.Size = new System.Drawing.Size(75, 23);
+			this.btnFillRect.Size = new System.Drawing.Size(88, 23);
 			this.btnFillRect.TabIndex = 1;
 			this.btnFillRect.Text = "Fill Rect";
 			this.btnFillRect.UseVisualStyleBackColor = true;
@@ -77,7 +79,7 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 			// 
 			this.btnDrawRect.Location = new System.Drawing.Point(12, 96);
 			this.btnDrawRect.Name = "btnDrawRect";
-			this.btnDrawRect.Size = new System.Drawing.Size(75, 23);
+			this.btnDrawRect.Size = new System.Drawing.Size(88, 23);
 			this.btnDrawRect.TabIndex = 2;
 			this.btnDrawRect.Text = "Draw Rect";
 			this.btnDrawRect.UseVisualStyleBackColor = true;
@@ -97,9 +99,9 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 			// btnClear
 			// 
 			this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnClear.Location = new System.Drawing.Point(12, 227);
+			this.btnClear.Location = new System.Drawing.Point(12, 278);
 			this.btnClear.Name = "btnClear";
-			this.btnClear.Size = new System.Drawing.Size(75, 23);
+			this.btnClear.Size = new System.Drawing.Size(88, 23);
 			this.btnClear.TabIndex = 4;
 			this.btnClear.Text = "Clear";
 			this.btnClear.UseVisualStyleBackColor = true;
@@ -131,35 +133,54 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 			this.nudAlpha.Size = new System.Drawing.Size(41, 20);
 			this.nudAlpha.TabIndex = 6;
 			this.nudAlpha.Value = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            0});
+            65536});
 			// 
 			// btnDrawCircle
 			// 
 			this.btnDrawCircle.Location = new System.Drawing.Point(12, 124);
 			this.btnDrawCircle.Name = "btnDrawCircle";
-			this.btnDrawCircle.Size = new System.Drawing.Size(75, 23);
+			this.btnDrawCircle.Size = new System.Drawing.Size(88, 23);
 			this.btnDrawCircle.TabIndex = 7;
 			this.btnDrawCircle.Text = "Draw Circle";
 			this.btnDrawCircle.UseVisualStyleBackColor = true;
 			// 
 			// btnFillCircle
 			// 
-			this.btnFillCircle.Location = new System.Drawing.Point(12, 182);
+			this.btnFillCircle.Location = new System.Drawing.Point(12, 211);
 			this.btnFillCircle.Name = "btnFillCircle";
-			this.btnFillCircle.Size = new System.Drawing.Size(75, 23);
+			this.btnFillCircle.Size = new System.Drawing.Size(88, 23);
 			this.btnFillCircle.TabIndex = 8;
 			this.btnFillCircle.Text = "Fill Circle";
 			this.btnFillCircle.UseVisualStyleBackColor = true;
-			this.btnFillCircle.Click += new System.EventHandler(this.btnFillCircle_Click);
+			// 
+			// btnDrawPolygon
+			// 
+			this.btnDrawPolygon.Location = new System.Drawing.Point(12, 153);
+			this.btnDrawPolygon.Name = "btnDrawPolygon";
+			this.btnDrawPolygon.Size = new System.Drawing.Size(88, 23);
+			this.btnDrawPolygon.TabIndex = 9;
+			this.btnDrawPolygon.Text = "Draw Polygon";
+			this.btnDrawPolygon.UseVisualStyleBackColor = true;
+			// 
+			// btnFillPolygon
+			// 
+			this.btnFillPolygon.Location = new System.Drawing.Point(12, 240);
+			this.btnFillPolygon.Name = "btnFillPolygon";
+			this.btnFillPolygon.Size = new System.Drawing.Size(88, 23);
+			this.btnFillPolygon.TabIndex = 10;
+			this.btnFillPolygon.Text = "Fill Polygon";
+			this.btnFillPolygon.UseVisualStyleBackColor = true;
 			// 
 			// DrawingTester
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(331, 262);
+			this.ClientSize = new System.Drawing.Size(355, 313);
+			this.Controls.Add(this.btnFillPolygon);
+			this.Controls.Add(this.btnDrawPolygon);
 			this.Controls.Add(this.btnFillCircle);
 			this.Controls.Add(this.btnDrawCircle);
 			this.Controls.Add(this.nudAlpha);
@@ -192,6 +213,7 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 		private System.Windows.Forms.NumericUpDown nudAlpha;
 		public System.Windows.Forms.Button btnDrawCircle;
 		public System.Windows.Forms.Button btnFillCircle;
-
+		public System.Windows.Forms.Button btnDrawPolygon;
+		public System.Windows.Forms.Button btnFillPolygon;
 	}
 }

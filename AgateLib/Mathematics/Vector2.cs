@@ -115,7 +115,7 @@ namespace AgateLib.Mathematics
 		{
 			return new PointF((float)v.X, (float)v.Y);
 		}
-		
+
 		/// <summary>
 		/// Converts to a Point object.
 		/// </summary>
@@ -390,13 +390,24 @@ namespace AgateLib.Mathematics
 		}
 
 		/// <summary>
+		/// Computes and returns the square of the sitance between two points.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static double DistanceSquared(Vector2 a, Vector2 b)
+		{
+			return (a - b).MagnitudeSquared;
+		}
+
+		/// <summary>
 		/// Returns a string representation of the Vector2 object.
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString()
 		{
 			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
-				"(X={0};Y={1})", X, Y);
+				"({0},{1})", X, Y);
 		}
 
 		/// <summary>

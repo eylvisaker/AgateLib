@@ -111,6 +111,17 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// Draws an unfilled polygon.
+		/// </summary>
+		/// <param name="primitives"></param>
+		/// <param name="color"></param>
+		/// <param name="polygon"></param>
+		public static void DrawPolygon(this IPrimitiveRenderer primitives, Color color, Polygon polygon)
+		{
+			primitives.DrawLines(LineType.Polygon, color, polygon.Points);
+		}
+
+		/// <summary>
 		/// Draws a filled polygon.
 		/// </summary>
 		/// <param name="primitives"></param>
@@ -184,7 +195,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="majorAxisRadius"></param>
 		/// <param name="minorAxisRadius"></param>
 		/// <param name="rotationAngle"></param>
-		public static void FillEllipse(this IPrimitiveRenderer primitives, Color color, Vector2 center, 
+		public static void FillEllipse(this IPrimitiveRenderer primitives, Color color, Vector2 center,
 			double majorAxisRadius, double minorAxisRadius, double rotationAngle)
 		{
 			primitives.FillPolygon(color, new EllipseBuilder().BuildEllipse(center, majorAxisRadius, minorAxisRadius, rotationAngle).ToArray());

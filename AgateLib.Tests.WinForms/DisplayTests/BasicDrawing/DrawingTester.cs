@@ -17,6 +17,18 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 			InitializeComponent();
 		}
 
+		public Color SelectedColor
+		{
+			get => Color.FromArgb((int)(nudAlpha.Value * 255.0m), btnColor.BackColor);
+			set
+			{
+				var backColor = Color.FromArgb(value.R, value.G, value.B);
+				nudAlpha.Value = (decimal)(value.A / 255.0);
+
+				btnColor.BackColor = backColor;
+			}
+		}
+
 		private void btnColor_Click(object sender, EventArgs e)
 		{
 			colorDialog1.Color = btnColor.BackColor;
@@ -24,19 +36,5 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 			if (colorDialog1.ShowDialog() == DialogResult.OK)
 				btnColor.BackColor = colorDialog1.Color;
 		}
-
-		public Color SelectedColor
-		{
-			get
-			{
-				return Color.FromArgb((int)(nudAlpha.Value * 255.0m), btnColor.BackColor);
-			}
-		}
-
-		private void btnFillCircle_Click(object sender, EventArgs e)
-		{
-
-		}
-
 	}
 }
