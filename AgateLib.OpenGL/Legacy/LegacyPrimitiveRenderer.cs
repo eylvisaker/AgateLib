@@ -54,7 +54,7 @@ namespace AgateLib.OpenGL.Legacy
 			GL.Enable(EnableCap.Texture2D);
 		}
 
-		public void FillPolygon(Color color, IEnumerable<Vector2f> points)
+		public void FillConvexPolygon(Color color, IEnumerable<Vector2f> points)
 		{
 			drawBuffer.FlushDrawBuffer();
 

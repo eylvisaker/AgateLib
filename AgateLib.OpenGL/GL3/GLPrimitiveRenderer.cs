@@ -125,7 +125,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.DrawArrays(PrimitiveTypeOf(lineType), 0, 1);
 		}
 
-		public void FillPolygon(Color color, IEnumerable<Vector2f> points)
+		public void FillConvexPolygon(Color color, IEnumerable<Vector2f> points)
 		{
 			drawBuffer.FlushDrawBuffer();
 

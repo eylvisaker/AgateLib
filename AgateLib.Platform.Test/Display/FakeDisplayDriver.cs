@@ -155,7 +155,7 @@ namespace AgateLib.Platform.Test.Display
 		{
 		}
 
-		public void FillPolygon(Color color, IEnumerable<Vector2f> points)
+		public void FillConvexPolygon(Color color, IEnumerable<Vector2f> points)
 		{
 		}
 	}

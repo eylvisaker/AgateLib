@@ -35,7 +35,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="points"></param>
 		public static void FillPolygon(this IPrimitiveRenderer primitives, Color color, IEnumerable<Vector2> points)
 		{
-			primitives.FillPolygon(color, points.Select(x => (Vector2f)x));
+			primitives.FillConvexPolygon(color, points.Select(x => (Vector2f)x));
 		}
 
 		/// <summary>

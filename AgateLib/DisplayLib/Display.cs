@@ -608,7 +608,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use methods on Display.Primitives instead.")]
 		public static void FillPolygon(PointF[] pts, Color color)
 		{
-			Primitives.FillPolygon(color, pts.Cast<Vector2f>());
+			Primitives.FillConvexPolygon(color, pts.Cast<Vector2f>());
 		}
 
 		/// <summary>
