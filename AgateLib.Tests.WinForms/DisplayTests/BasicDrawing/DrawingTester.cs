@@ -19,7 +19,7 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 
 		public Color SelectedColor
 		{
-			get => Color.FromArgb((int)(nudAlpha.Value * 255.0m), btnColor.BackColor);
+			get { return Color.FromArgb((int) (nudAlpha.Value * 255.0m), btnColor.BackColor); }
 			set
 			{
 				var backColor = Color.FromArgb(value.R, value.G, value.B);
