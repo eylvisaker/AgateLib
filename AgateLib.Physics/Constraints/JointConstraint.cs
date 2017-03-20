@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AgateLib.Mathematics;
 
 namespace AgateLib.Physics.Constraints
@@ -23,6 +24,8 @@ namespace AgateLib.Physics.Constraints
 			this.point1 = point1;
 			this.point2 = point2;
 		}
+
+		public ConstraintType ConstraintType => ConstraintType.Equality;
 
 		/// <summary>
 		/// The distance between the two points that should be fixed.
@@ -55,7 +58,8 @@ namespace AgateLib.Physics.Constraints
 		/// algorithm.
 		/// </summary>
 		/// <returns></returns>
-		public double Value => .5f * Displacement.MagnitudeSquared;
+		public double Value(IReadOnlyList<PhysicalParticle> particles) => 
+			.5 * Displacement.MagnitudeSquared;
 
 		public bool AppliesTo(PhysicalParticle obj)
 		{
@@ -77,9 +81,9 @@ namespace AgateLib.Physics.Constraints
 			var dot = B.DotProduct(dA);
 
 			return sign * new ConstraintDerivative(
-				       B.X,
-				       B.Y,
-				       dot);
+					   B.X,
+					   B.Y,
+					   dot);
 		}
 
 		/// <summary>
@@ -104,7 +108,7 @@ namespace AgateLib.Physics.Constraints
 		{
 			var result = point.RotationDerivative(particle.Angle);
 			return result;
-		} 
+		}
 
 		/// <summary>
 		/// Calculates the position of the particle's point in global coordinates.
@@ -128,6 +132,11 @@ namespace AgateLib.Physics.Constraints
 		private Vector2 PointVelocity(PhysicalParticle particle, Vector2 point)
 		{
 			return particle.Velocity + particle.AngularVelocity * PointDerivativeAngle(particle, point);
+		}
+
+		public IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system)
+		{
+			yield return new List<PhysicalParticle> { particle1, particle2 };
 		}
 	}
 }

@@ -16,14 +16,22 @@ namespace AgateLib.Physics.Constraints
 		private float circleRadius;
 		private PhysicalParticle particle;
 
-		public CirclePerimeterConstraint(PhysicalParticle particle,Vector2 circlePosition, float circleRadius)
+		public CirclePerimeterConstraint(PhysicalParticle particle, Vector2 circlePosition, float circleRadius)
 		{
 			this.particle = particle;
 			this.circlePosition = circlePosition;
 			this.circleRadius = circleRadius;
 		}
 
-		public double Value => .5 * ((particle.Position - circlePosition).MagnitudeSquared - circleRadius * circleRadius);
+		public ConstraintType ConstraintType => ConstraintType.Equality;
+
+		public double Value(IReadOnlyList<PhysicalParticle> particles) => 
+			.5 * ((particle.Position - circlePosition).MagnitudeSquared - circleRadius * circleRadius);
+
+		public IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system)
+		{
+			yield return new List<PhysicalParticle> { particle };
+		}
 
 		public bool AppliesTo(PhysicalParticle particle)
 		{

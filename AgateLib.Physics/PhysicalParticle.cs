@@ -59,8 +59,7 @@ namespace AgateLib.Physics
 			set
 			{
 				untransformed = value;
-
-				UpdatePolygonTransformation();
+				transformed = null;
 			}
 		}
 

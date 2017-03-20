@@ -38,6 +38,7 @@
     <Compile Include="Constraints\CirclePerimeterOffcenterConstraint.cs" />
     <Compile Include="Constraints\CirclePerimeterConstraint.cs" />
     <Compile Include="ConstraintDerivative.cs" />
+    <Compile Include="Constraints\RectangleBoundaryConstraint.cs" />
     <Compile Include="Forces\PlanetSurfaceGravity.cs" />
     <Compile Include="IForce.cs" />
     <Compile Include="ImpulseConstraintSolver.cs" />

@@ -17,7 +17,7 @@ namespace AgateLib.Physics.Forces
 		/// <summary>
 		/// The amount of acceleration due to gravity.
 		/// </summary>
-		public double GravityValue { get; set; } = 5000;
+		public double GravityValue { get; set; } = 1000;
 
 		/// <summary>
 		/// Defaults to the +Y direction, which is down in AgateLib's usual coordinate system.

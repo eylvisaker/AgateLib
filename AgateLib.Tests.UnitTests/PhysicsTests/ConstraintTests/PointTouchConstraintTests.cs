@@ -33,7 +33,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 		{
 			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
 
-			Assert.AreEqual(0, pointTouchConstraint.Value, 0.000001);
+			Assert.AreEqual(0, pointTouchConstraint.Value(new [] { particle1, particle2 }), 0.000001);
 		}
 		
 		[TestMethod]
@@ -61,7 +61,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 
 			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
 
-			Assert.AreEqual(32, pointTouchConstraint.Value, 0.000001);
+			Assert.AreEqual(32, pointTouchConstraint.Value(new[] { particle1, particle2 }), 0.000001);
 		}
 
 		[TestMethod]

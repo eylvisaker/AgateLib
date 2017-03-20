@@ -124,84 +124,78 @@ namespace AgateLib.Physics
 
 
 				// Here's the equation:
-				//  J * M^(-1) * J^T * lambda = -J * v - Bias
+				//    J * M^(-1) * J^T * lambda = -J * v - Bias
 				// Lambda (the Lagrange parameter) is the set of unknowns. 
 				// This is just a straightfoward system of linear equations of the form
-				//  A * x = B
+				//    A * x = B
 				// where A = J * M^(-1) * J^T 
 				//       x = lambda
 				//       B = -J * v - Bias
 				var velocityStep = newVelocities.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-				for (int j = 0; j < Constraints.Count; j++)
+				foreach (var constraint in Constraints)
 				{
-					var constraint = Constraints[j];
-
-					List<PhysicalParticle> particles = Particles.Where(p => constraint.AppliesTo(p)).ToList();
-
-					var jacobian = ComputeJacobian(constraint, particles);
-
-					var newVelocity = Matrix<double>.Build.Dense(particles.Count * GeneralizedCoordinatesPerParticle, 1);
-					var massInverseMatrix = Matrix<double>.Build.Dense(
-						particles.Count * GeneralizedCoordinatesPerParticle,
-						particles.Count * GeneralizedCoordinatesPerParticle);
-
-					for (int i = 0; i < particles.Count; i++)
+					foreach (var particleGroup in constraint.ApplyTo(System))
 					{
-						int basis = i * GeneralizedCoordinatesPerParticle;
+						var jacobian = ComputeJacobian(constraint, particleGroup);
+						var constraintValue = constraint.Value(particleGroup);
 
-						newVelocity[basis + 0, 0] = velocityStep[particles[i]].X;
-						newVelocity[basis + 1, 0] = velocityStep[particles[i]].Y;
-						newVelocity[basis + 2, 0] = velocityStep[particles[i]].Z;
+						var newVelocity = Matrix<double>.Build.Dense(particleGroup.Count * GeneralizedCoordinatesPerParticle, 1);
+						var massInverseMatrix = Matrix<double>.Build.Dense(
+							particleGroup.Count * GeneralizedCoordinatesPerParticle,
+							particleGroup.Count * GeneralizedCoordinatesPerParticle);
 
-						massInverseMatrix[basis + 0, basis + 0] = 1 / particles[i].Mass;
-						massInverseMatrix[basis + 1, basis + 1] = 1 / particles[i].Mass;
-						massInverseMatrix[basis + 2, basis + 2] = 1 / particles[i].InertialMoment;
-					}
+						for (int i = 0; i < particleGroup.Count; i++)
+						{
+							int basis = i * GeneralizedCoordinatesPerParticle;
 
-					double A = (jacobian * massInverseMatrix * jacobian.Transpose())[0,0];
-					double B1 = (-jacobian * newVelocity)[0, 0];
+							newVelocity[basis + 0, 0] = velocityStep[particleGroup[i]].X;
+							newVelocity[basis + 1, 0] = velocityStep[particleGroup[i]].Y;
+							newVelocity[basis + 2, 0] = velocityStep[particleGroup[i]].Z;
 
-					// Add bias to help force constraint apply.
-					//var bias = Matrix<double>.Build.Dense(particles.Count * GeneralizedCoordinatesPerParticle, 1);
+							massInverseMatrix[basis + 0, basis + 0] = 1 / particleGroup[i].Mass;
+							massInverseMatrix[basis + 1, basis + 1] = 1 / particleGroup[i].Mass;
+							massInverseMatrix[basis + 2, basis + 2] = 1 / particleGroup[i].InertialMoment;
+						}
 
-					var bias = SpringConstant * constraint.Value + (DampeningConstant * B1) * dt;
-					var B = B1 - bias;
-					//B -= constraintValues[j, 0] + DampeningConstant * jacobian.Row(j).ToColumnMatrix();
+						double A = (jacobian * massInverseMatrix * jacobian.Transpose())[0, 0];
+						double B1 = (-jacobian * newVelocity)[0, 0];
 
-					//NormalizeLinearEquations(A, tolerance);
+						// Add bias to help force constraint apply.
+						//var bias = Matrix<double>.Build.Dense(particles.Count * GeneralizedCoordinatesPerParticle, 1);
 
-					//if (MatrixIsZero(A))
-					//{
-					//	lagrangeMultipliers = Matrix<double>.Build.Dense(Constraints.Count, 1);
-					//	return;
-					//}
+						var bias = SpringConstant * constraintValue + (DampeningConstant * B1) * dt;
+						var B = B1 - bias;
+						
+						if (A < tolerance)
+							continue;
 
-					if (A < tolerance)
-						continue;
+						var lagrangeMultiplier = B / A;
 
-					var lagrangeMultipliers = B / A;
+						var impulse = jacobian.Transpose() * lagrangeMultiplier;
 
-					var impulse = jacobian.Transpose() * lagrangeMultipliers;
+						if (lagrangeMultiplier < 0 && constraint.ConstraintType == ConstraintType.Inequality)
+							continue;
 
-					//Debug.WriteLine($"  Constraint {j}");
-					for (int i = 0; i < particles.Count; i++)
-					{
-						int basis = i * GeneralizedCoordinatesPerParticle;
-						var particle = particles[i];
+						//Debug.WriteLine($"  Constraint {j}");
+						for (int i = 0; i < particleGroup.Count; i++)
+						{
+							int basis = i * GeneralizedCoordinatesPerParticle;
+							var particle = particleGroup[i];
 
-						Vector3 nv = newVelocities[particle];
+							Vector3 nv = newVelocities[particle];
 
-						nv.X += impulse[basis + 0, 0] / particle.Mass;
-						nv.Y += impulse[basis + 1, 0] / particle.Mass;
-						nv.Z += impulse[basis + 2, 0] / particle.InertialMoment;
+							nv.X += impulse[basis + 0, 0] / particle.Mass;
+							nv.Y += impulse[basis + 1, 0] / particle.Mass;
+							nv.Z += impulse[basis + 2, 0] / particle.InertialMoment;
 
-						Vector3 error = nv - newVelocities[particle];
-						totalError += error.MagnitudeSquared;
+							Vector3 error = nv - newVelocities[particle];
+							totalError += error.MagnitudeSquared;
 
-						newVelocities[particle] = nv;
+							newVelocities[particle] = nv;
 
-						//Debug.WriteLine($"    Particle {i}: dV: {error.Magnitude}");
+							//Debug.WriteLine($"    Particle {i}: dV: {error.Magnitude}");
+						}
 					}
 				}
 

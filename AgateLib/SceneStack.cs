@@ -89,6 +89,7 @@ namespace AgateLib
 			scenes.Add(scene);
 			scene.SceneStack = this;
 
+			scene.DisplayContext = contexts.FirstOrDefault();
 			scene.SceneStart();
 		}
 
@@ -156,13 +157,12 @@ namespace AgateLib
 
 			foreach (var context in contexts)
 			{
-
 				Display.RenderTarget = context.RenderTarget;
-					Display.BeginFrame();
+				Display.BeginFrame();
 
 				if (ClearColor != null)
 				{
-					var clearColor = (Color) ClearColor;
+					var clearColor = (Color)ClearColor;
 					Display.Clear(clearColor);
 				}
 

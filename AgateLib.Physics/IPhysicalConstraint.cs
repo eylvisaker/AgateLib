@@ -1,4 +1,4 @@
-using MathNet.Numerics.LinearAlgebra;
+using System.Collections.Generic;
 
 namespace AgateLib.Physics
 {
@@ -8,9 +8,14 @@ namespace AgateLib.Physics
 	public interface IPhysicalConstraint
 	{
 		/// <summary>
+		/// Return true to have the constraint applied on ly if its value is positive.
+		/// </summary>
+		ConstraintType ConstraintType { get; }
+
+		/// <summary>
 		/// Returns the current value of the constraint equation.
 		/// </summary>
-		double Value { get; }
+		double Value(IReadOnlyList<PhysicalParticle> particles);
 
 		/// <summary>
 		/// Returns true if the constraint applies to the specified object.
@@ -25,5 +30,13 @@ namespace AgateLib.Physics
 		/// <param name="particle"></param>
 		/// <returns></returns>
 		ConstraintDerivative Derivative(PhysicalParticle particle);
+
+		IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system);
+	}
+
+	public enum ConstraintType
+	{
+		Equality,
+		Inequality,
 	}
 }

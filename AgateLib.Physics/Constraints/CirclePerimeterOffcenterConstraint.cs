@@ -25,6 +25,8 @@ namespace AgateLib.Physics.Constraints
 			this.offset = offset;
 		}
 
+		public ConstraintType ConstraintType => ConstraintType.Equality;
+
 		private Vector2 ConstrainedPointLocalPosition => offset.Rotate(particle.Angle);
 
 		/// <summary>
@@ -35,7 +37,7 @@ namespace AgateLib.Physics.Constraints
 
 		private Vector2 OffsetDerivative => offset.Rotate(particle.Angle + (float)Math.PI * .5f);
 
-		public double Value => .5f * (ConstrainedPointPosition.MagnitudeSquared - circleRadius * circleRadius);
+		public double Value(IReadOnlyList<PhysicalParticle> particles) => .5f * (ConstrainedPointPosition.MagnitudeSquared - circleRadius * circleRadius);
 
 		public bool AppliesTo(PhysicalParticle particle)
 		{
@@ -48,6 +50,11 @@ namespace AgateLib.Physics.Constraints
 				ConstrainedPointPosition.X,
 				ConstrainedPointPosition.Y,
 				Vector2.DotProduct(ConstrainedPointPosition, OffsetDerivative));
+		}
+
+		public IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system)
+		{
+			yield return new List<PhysicalParticle> { particle };
 		}
 	}
 }

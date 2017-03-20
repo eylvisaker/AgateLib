@@ -10,6 +10,7 @@ using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.Geometry.Builders;
 using AgateLib.Physics;
+using AgateLib.Physics.Constraints;
 using AgateLib.Physics.Forces;
 using AgateLib.Platform;
 
@@ -39,6 +40,8 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 
 		protected override void OnSceneStart()
 		{
+			AgateApp.GameClock.ClockSpeed = 0.1;
+
 			InstallInputHandler();
 			colors = new[]
 			{
@@ -66,8 +69,12 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 
 			system.AddForceField(new PlanetSurfaceGravity());
 
-			integrator = new KinematicsIntegrator(system, new ImpulseConstraintSolver(system));
+			system.AddConstraints(new RectangleBoundaryConstraint(new Rectangle(Point.Zero, DisplayContext.Size)));
 
+			integrator = new KinematicsIntegrator(system, new ImpulseConstraintSolver(system))
+			{
+				MaxStepsPerFrame = 1
+			};
 		}
 
 		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
