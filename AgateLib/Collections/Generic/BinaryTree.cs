@@ -291,11 +291,17 @@ namespace AgateLib.Collections.Generic
 			return node;
 		}
 
+		#region --- Balancing Algorithm ---
+
 		/// <summary>
 		/// Balances the binary tree.
 		/// </summary>
-		/// <remarks>Implements the algorithm in 
+		/// <remarks>Implements the algorithm in the paper
+		/// Stout, Q.F. and Warren, B.L. Tree Rebalancing in Optimal Time and Space by 
+		/// <em>Commun. ACM</em> 29, 9 (Sept. 1986) 902-908
 		/// http://web.eecs.umich.edu/~qstout/pap/CACM86.pdf
+		/// This algorithm is O(N) in time and O(1) in space to rebalance the binary tree.
+		/// And it was really easy to implement! The pseudocode in the paper was very clear.
 		/// </remarks>
 		public void Balance()
 		{
@@ -362,6 +368,8 @@ namespace AgateLib.Collections.Generic
 			}
 		}
 
+		#endregion
+
 		/// <summary>
 		/// Finds an item in the tree and returns the node it sits on.
 		/// </summary>
@@ -387,29 +395,7 @@ namespace AgateLib.Collections.Generic
 
 			return node;
 		}
-
-		/// <summary>
-		/// Returns the next value in sequence after the given node.
-		/// </summary>
-		/// <param name="node"></param>
-		/// <returns></returns>
-		[Obsolete("Use node.Next() instead.")]
-		public BinaryTreeNode<T> Next(BinaryTreeNode<T> node)
-		{
-			return node.Next();
-		}
-
-		/// <summary>
-		/// Returns the previous value in sequence before the given node.
-		/// </summary>
-		/// <param name="node"></param>
-		/// <returns></returns>
-		[Obsolete("Use node.Previous() instead.")]
-		public BinaryTreeNode<T> Previous(BinaryTreeNode<T> node)
-		{
-			return node.Previous();
-		}
-
+		
 		/// <summary>
 		/// Removes a node from the tree.
 		/// </summary>
