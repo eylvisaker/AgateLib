@@ -25,13 +25,5 @@ namespace AgateLib.Physics
 		/// <param name="particle"></param>
 		/// <returns></returns>
 		ConstraintDerivative Derivative(PhysicalParticle particle);
-
-		/// <summary>
-		/// Compute the second mixed partial derivative of your constraint with respect to
-		/// time and each coordinate.
-		/// </summary>
-		/// <param name="particle"></param>
-		/// <returns></returns>
-		ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle);
 	}
 }

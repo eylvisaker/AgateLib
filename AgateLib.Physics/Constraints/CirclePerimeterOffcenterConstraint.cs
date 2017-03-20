@@ -49,15 +49,5 @@ namespace AgateLib.Physics.Constraints
 				ConstrainedPointPosition.Y,
 				Vector2.DotProduct(ConstrainedPointPosition, OffsetDerivative));
 		}
-
-
-		public ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle)
-		{
-			return new ConstraintDerivative(
-				particle.Velocity.X,
-				particle.Velocity.Y,
-				Vector2.DotProduct(particle.Velocity, OffsetDerivative) - 
-				Vector2.DotProduct(ConstrainedPointPosition, ConstrainedPointLocalPosition));
-		}
 	}
 }

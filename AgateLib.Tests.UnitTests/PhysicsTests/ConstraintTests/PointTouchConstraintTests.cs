@@ -53,25 +53,7 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 			Assert.AreEqual(0, derivative.RespectToY, 0.000001);
 			Assert.AreEqual(0, derivative.RespectToAngle, 0.000001);
 		}
-
-		[TestMethod]
-		public void PointTouchConstraintSatisfiedMixedPartialDerivative()
-		{
-			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
-
-			var derivative = pointTouchConstraint.MixedPartialDerivative(particle1);
-
-			Assert.AreEqual(12, derivative.RespectToX, 0.000001);
-			Assert.AreEqual(21, derivative.RespectToY, 0.000001);
-			Assert.AreEqual(-162, derivative.RespectToAngle, 0.000001);
-
-			derivative = pointTouchConstraint.MixedPartialDerivative(particle2);
-
-			Assert.AreEqual(-12, derivative.RespectToX, 0.000001);
-			Assert.AreEqual(-21, derivative.RespectToY, 0.000001);
-			Assert.AreEqual(-162, derivative.RespectToAngle, 0.000001);
-		}
-
+		
 		[TestMethod]
 		public void PointTouchConstraintUnsatisfiedValue()
 		{
@@ -101,27 +83,5 @@ namespace AgateLib.Physics.UnitTests.ConstraintTests
 			Assert.AreEqual(-8, derivative.RespectToY, 0.000001);
 			Assert.AreEqual(-80, derivative.RespectToAngle, 0.000001);
 		}
-
-
-		[TestMethod]
-		public void PointTouchConstraintUnsatisfiedMixedPartialDerivative()
-		{
-			particle2.Position = new Vector2(20, 0);
-
-			var pointTouchConstraint = new JointConstraint(particle1, point1, particle2, point2);
-
-			var derivative = pointTouchConstraint.MixedPartialDerivative(particle1);
-
-			Assert.AreEqual(12, derivative.RespectToX, 0.000001);
-			Assert.AreEqual(21, derivative.RespectToY, 0.000001);
-			Assert.AreEqual(-162, derivative.RespectToAngle, 0.000001);
-
-			derivative = pointTouchConstraint.MixedPartialDerivative(particle2);
-
-			Assert.AreEqual(-12, derivative.RespectToX, 0.000001);
-			Assert.AreEqual(-21, derivative.RespectToY, 0.000001);
-			Assert.AreEqual(-162, derivative.RespectToAngle, 0.000001);
-		}
-
 	}
 }

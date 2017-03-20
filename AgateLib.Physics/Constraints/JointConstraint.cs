@@ -82,25 +82,6 @@ namespace AgateLib.Physics.Constraints
 				       dot);
 		}
 
-		public ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle)
-		{
-			int sign = particle == particle1 ? 1 : -1;
-			var point = particle == particle1 ? point1 : point2;
-
-			var B = Displacement;
-			var dB = DisplacementVelocity;
-			var A = PointRelativePosition(particle, point);
-			var dA = PointDerivativeAngle(particle, point);
-
-			var BdotA = Vector2.DotProduct(B, A);
-			var dBdotdA = Vector2.DotProduct(dB, dA);
-
-			return sign * new ConstraintDerivative(
-			       DisplacementVelocity.X,
-				   DisplacementVelocity.Y,
-				   -particle.AngularVelocity * BdotA + dBdotdA);
-		}
-
 		/// <summary>
 		/// Calculates the position of the particle's point taking into account rotation angle.
 		/// </summary>

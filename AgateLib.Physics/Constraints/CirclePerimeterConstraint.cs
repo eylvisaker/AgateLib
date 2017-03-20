@@ -37,14 +37,5 @@ namespace AgateLib.Physics.Constraints
 				particle.Position.Y - circlePosition.Y,
 				0);
 		}
-
-
-		public ConstraintDerivative MixedPartialDerivative(PhysicalParticle particle)
-		{
-			return new ConstraintDerivative(
-				particle.Velocity.X,
-				particle.Velocity.Y,
-				0);
-		}
 	}
 }
