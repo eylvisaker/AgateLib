@@ -179,5 +179,11 @@ namespace AgateLib.Tests
 		{
 			FillList();
 		}
+
+		private void frmLauncher_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+				Close();
+		}
 	}
 }

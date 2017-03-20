@@ -20,6 +20,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 		private KinematicsSystem system;
 		private KinematicsIntegrator integrator;
 		private Color[] colors;
+		private double waitTime;
 
 		public string Name => "Rigid Collision Constraint";
 
@@ -28,7 +29,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 		public void Run(string[] args)
 		{
 			using (new DisplayWindowBuilder(args)
-				.BackbufferSize(1024, 768)
+				.BackbufferSize(800, 600)
 				.QuitOnClose()
 				.Build())
 			{
@@ -56,7 +57,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 					Polygon = new StarBuilder().BuildStar(5, 50, 20),
 					Position = new Vector2(100, 100),
 					AngularVelocity = 0.1,
-				}, 
+				},
 				new PhysicalParticle
 				{
 					Polygon = new Rectangle(-20, -20, 40, 40).ToPolygon(),
@@ -72,6 +73,8 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 		protected override void OnUpdate(ClockTimeSpan gameClockElapsed)
 		{
 			base.OnUpdate(gameClockElapsed);
+
+			waitTime -= gameClockElapsed.TotalSeconds;
 
 			integrator.Integrate(gameClockElapsed.TotalSeconds);
 		}
@@ -89,6 +92,8 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 
 				index++;
 			}
+
+			Font.AgateSans.DrawText("Press space to add particles.");
 		}
 
 		private void InstallInputHandler()
@@ -98,12 +103,22 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			handler.KeyDown += (sender, e) =>
 			{
 				if (e.KeyCode == KeyCode.Escape)
-					AgateApp.IsAlive = false;
+				{
+					if (system.Particles.Count > 0)
+					{
+						system.ClearParticles();
+					}
+					else
+					{
+						AgateApp.IsAlive = false;
+					}
+				}
 
-				if (e.KeyCode == KeyCode.Space)
+				if (e.KeyCode == KeyCode.Space && waitTime <= 0)
 				{
 					AddRandomParticle();
 					handler.Keys.Release(KeyCode.Space);
+					waitTime = 0.4;
 				}
 			};
 
@@ -114,15 +129,15 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 		{
 			var random = new Random();
 
-			var size = random.Next(20, 100);
-			var innerSize = random.NextDouble() * 0.7 * size;
+			var size = random.Next(15, 80);
+			var innerSize = random.NextDouble() * 0.7 * size + 1;
 
 			var particle = new PhysicalParticle
 			{
 				Polygon = new StarBuilder().BuildStar(random.Next(3, 8), size, innerSize),
-				Position = new Vector2(DisplayContext.Size.Width / 2, 0),
+				Position = new Vector2(DisplayContext.Size.Width / 2, 100),
 				Velocity = new Vector2(random.Next(-1000, 1000), random.Next(-1000, 1000)),
-				AngularVelocity = random.NextDouble(),
+				AngularVelocity = random.NextDouble() * 4,
 			};
 
 			system.AddParticles(particle);

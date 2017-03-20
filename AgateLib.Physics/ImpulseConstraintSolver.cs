@@ -25,7 +25,6 @@ namespace AgateLib.Physics
 
 		private const double DefaultSpringConstant = 50;
 
-		private Matrix<double> massInverseMatrix;
 		private Matrix<double> externalForces;
 
 		private Dictionary<PhysicalParticle, Vector3> newVelocities = new Dictionary<PhysicalParticle, Vector3>();
@@ -215,9 +214,7 @@ namespace AgateLib.Physics
 		
 		private void InitializeStep(double dt)
 		{
-			InitializeMassMatrix();
 			InitializeVelocityVector(dt);
-			InitializeForceVector();
 		}
 		
 		private void InitializeVelocityVector(double dt)
@@ -234,76 +231,7 @@ namespace AgateLib.Physics
 				newVelocities[particle] = new Vector3(velocity.X, velocity.Y, angularVelocity);
 			}
 		}
-
-		private void InitializeForceVector()
-		{
-			InitializeVector(ref externalForces, true);
-
-			for (int i = 0; i < Particles.Count; i++)
-			{
-				var particle = Particles[i];
-
-				CopyValuesForParticle(externalForces, i, particle.Force.X, particle.Force.Y, particle.Torque);
-			}
-		}
-
-
-		private void InitializeVector(ref Matrix<double> vector, bool clear)
-		{
-			if (vector == null || vector.RowCount != GeneralizedCoordinateCount)
-				vector = Matrix<double>.Build.Dense(GeneralizedCoordinateCount, 1);
-
-			if (clear)
-				vector.CoerceZero(float.MaxValue);
-		}
-
-		private void InitializeMassMatrix()
-		{
-			if (massInverseMatrix == null || massInverseMatrix.ColumnCount != JacobianColumns)
-			{
-				massInverseMatrix = Matrix<double>.Build.Diagonal(JacobianColumns, JacobianColumns);
-			}
-
-			for (int i = 0; i < Particles.Count; i++)
-			{
-				int basis = i * GeneralizedCoordinatesPerParticle;
-
-				// first two generalized coordinates are X and Y, third is angle.
-				massInverseMatrix[basis + 0, basis + 0] = 1 / Particles[i].Mass;
-				massInverseMatrix[basis + 1, basis + 1] = 1 / Particles[i].Mass;
-				massInverseMatrix[basis + 2, basis + 2] = 1 / Particles[i].InertialMoment;
-			}
-
-		}
-
-		private void CopyValuesForParticle(Matrix<double> matrix, int particleIndex, double x, double y, double angle)
-		{
-			int basis = particleIndex * GeneralizedCoordinatesPerParticle;
-
-			matrix[basis + 0, 0] = x;
-			matrix[basis + 1, 0] = y;
-			matrix[basis + 2, 0] = angle;
-		}
-
-		private bool MatrixIsZero(Matrix<double> matrix)
-		{
-			for (int i = 0; i < matrix.RowCount; i++)
-			{
-				for (int j = 0; j < matrix.ColumnCount; j++)
-				{
-					if (Math.Abs(matrix[i, j]) > 1e-6f)
-					{
-						var determinant = matrix.Determinant();
-						var result = Math.Abs(determinant) <= 1e-8f;
-
-						return result;
-					}
-				}
-			}
-
-			return true;
-		}
-
+		
 		public void DebugInfo(StringBuilder b, int debugPage, PhysicalParticle particle)
 		{
 

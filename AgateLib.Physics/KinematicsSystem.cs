@@ -39,5 +39,13 @@ namespace AgateLib.Physics
 		{
 			forces.Add(force);
 		}
+
+		/// <summary>
+		/// Removes all the particles from the system.
+		/// </summary>
+		public void ClearParticles()
+		{
+			particles.Clear();
+		}
 	}
 }
