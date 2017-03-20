@@ -252,6 +252,18 @@ namespace AgateLib.Mathematics.Geometry
 		}
 
 		/// <summary>
+		/// Copies the verticies of this polygon to the target.
+		/// </summary>
+		/// <param name="target"></param>
+		public void CopyTo(Polygon target)
+		{
+			target.Points.Count = Count;
+
+			for (int i = 0; i < Count; i++)
+				target[i] = this[i];
+		}
+
+		/// <summary>
 		/// Returns the index of a point.
 		/// </summary>
 		/// <param name="item"></param>
@@ -335,6 +347,16 @@ namespace AgateLib.Mathematics.Geometry
 		}
 
 		/// <summary>
+		/// Translates the points in this polygon by adding the passed vector to each point in this polygon.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void TranslateSelf(Vector2 amount)
+		{
+			for (int i = 0; i < Count; i++)
+				this[i] += amount;
+		}
+
+		/// <summary>
 		/// Gets whether a point exists within the closed area of this polygon.
 		/// </summary>
 		/// <param name="point"></param>
@@ -405,6 +427,23 @@ namespace AgateLib.Mathematics.Geometry
 		/// as the center of rotation</param>
 		/// <returns></returns>
 		public Polygon Rotate(double angle, Vector2? rotationCenter = null)
+		{
+			var result = Clone();
+
+			result.RotateSelf(angle, rotationCenter);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns a new polygon which is identical to this one rotated counter-clockwise by an angle.
+		/// </summary>
+		/// <param name="angle">The angle in degrees to rotate the polygon by. Pass negative values
+		/// to rotate clockwise.</param>
+		/// <param name="rotationCenter">The center of rotation. If null is passed, the origin is used
+		/// as the center of rotation</param>
+		/// <returns></returns>
+		public Polygon RotateSelf(double angle, Vector2? rotationCenter = null)
 		{
 			var result = Clone();
 			var center = rotationCenter ?? Vector2.Zero;

@@ -1,16 +1,17 @@
 ﻿using System;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Quality;
 
 namespace AgateLib.Physics
 {
 	public class PhysicalParticle
 	{
-		/// <summary>
-		/// Bounding polygon for this particle. This is not used by the kinematics integrator
-		/// but it might be used by constraints that affect this particle.
-		/// </summary>
-		public Polygon Polygon;
+		private Polygon untransformed;
+		private Polygon transformed;
+
+		private double mass = 1;
+		private double inertialMoment = 1;
 
 		/// <summary>
 		/// Particle position.
@@ -49,14 +50,59 @@ namespace AgateLib.Physics
 		public double ConstraintTorque;
 
 		/// <summary>
-		/// Particle mass. Must not be zero.
+		/// The untransformed bounding polygon for this particle. This can be used by a rigid body constraint
+		/// to handle collisions.
 		/// </summary>
-		public double Mass = 1;
+		public Polygon Polygon
+		{
+			get { return untransformed; }
+			set
+			{
+				untransformed = value;
+
+				UpdatePolygonTransformation();
+			}
+		}
 
 		/// <summary>
-		/// Particle intertial moment. Must not be zero.
+		/// The transformed polygon representing this object's physical location in space.
 		/// </summary>
-		public double InertialMoment = 1;
+		public Polygon TransformedPolygon
+		{
+			get
+			{
+				if (transformed == null)
+					UpdatePolygonTransformation();
+
+				return transformed;
+			}
+		}
+
+		/// <summary>
+		/// Particle mass. Must not be positive.
+		/// </summary>
+		public double Mass
+		{
+			get { return mass; }
+			set
+			{
+				Require.ArgumentInRange(mass > 0, nameof(mass), "Mass must be positive.");
+				mass = value;
+			}
+		}
+
+		/// <summary>
+		/// Particle intertial moment. Must not be positive.
+		/// </summary>
+		public double InertialMoment
+		{
+			get { return inertialMoment; }
+			set
+			{
+				Require.ArgumentInRange(inertialMoment > 0, nameof(inertialMoment), "Inertial moment must be positive.");
+				inertialMoment = value;
+			}
+		}
 
 		/// <summary>
 		/// Clones this PhysicalParticle object.
@@ -93,7 +139,7 @@ namespace AgateLib.Physics
 		}
 
 		/// <summary>
-		/// Integrates the dynamics for this particle.
+		/// Integrates the equations of motion for this particle alone. 
 		/// </summary>
 		/// <param name="dt"></param>
 		public virtual void Integrate(double dt)
@@ -108,6 +154,22 @@ namespace AgateLib.Physics
 			// start & final velocities for the position integration.
 			Angle += dt * 0.5 * (AngularVelocity + oldAngularVelocity);
 			Position += dt * 0.5 * (Velocity + oldVelocity);
+
+			UpdatePolygonTransformation();
+		}
+
+		internal void UpdatePolygonTransformation()
+		{
+			if (untransformed == null)
+				return;
+
+			if (transformed == null)
+				transformed = new Polygon();
+
+			untransformed.CopyTo(transformed);
+
+			transformed.RotateSelf(Angle);
+			transformed.TranslateSelf(Position);
 		}
 	}
 }

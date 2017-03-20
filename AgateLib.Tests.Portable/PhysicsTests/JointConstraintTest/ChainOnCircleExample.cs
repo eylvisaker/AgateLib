@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using AgateLib.DisplayLib;
 using AgateLib.Mathematics;
@@ -7,7 +6,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
 using AgateLib.Physics.Constraints;
 
-namespace RigidBodyDynamics.Demo
+namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
 	public class ChainOnCircleExample : IKinematicsExample
 	{

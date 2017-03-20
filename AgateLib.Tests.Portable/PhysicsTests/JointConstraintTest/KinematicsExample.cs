@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using AgateLib.Mathematics.Geometry;
+﻿using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
 
-namespace RigidBodyDynamics.Demo
+namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
 	public interface IKinematicsExample
 	{

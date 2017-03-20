@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
 using AgateLib.Platform;
-using AgateLib.Tests;
 
-namespace RigidBodyDynamics.Demo
+namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
-	public class PhysicsDemo : Scene, IAgateTest
+	public class JointConstraintTester : Scene, IAgateTest
 	{
 		private const int boxSize = 40;
 

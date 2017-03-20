@@ -25,12 +25,8 @@ namespace AgateLib.Physics
 
 		private const double DefaultSpringConstant = 50;
 
-		private Matrix<double> jacobian;
 		private Matrix<double> massInverseMatrix;
 		private Matrix<double> externalForces;
-		private Matrix<double> totalConstraintImpulse;
-		private Matrix<double> constraintValues;
-		private List<Vector<double>> constraintForces;
 
 		private Dictionary<PhysicalParticle, Vector3> newVelocities = new Dictionary<PhysicalParticle, Vector3>();
 
@@ -52,11 +48,6 @@ namespace AgateLib.Physics
 		/// The number of columns in the Jacobian matrix.
 		/// </summary>
 		private int JacobianColumns => GeneralizedCoordinateCount;
-
-		/// <summary>
-		/// The number of rows in the Jacobian matrix. 
-		/// </summary>
-		private int JacobianRows => Constraints.Count;
 
 		private IReadOnlyList<PhysicalParticle> Particles => System.Particles;
 
@@ -83,9 +74,6 @@ namespace AgateLib.Physics
 
 		public void ApplyConstraintForces()
 		{
-			if (totalConstraintImpulse == null)
-				return;
-
 			for (int i = 0; i < Particles.Count; i++)
 			{
 				var particle = Particles[i];
@@ -224,68 +212,14 @@ namespace AgateLib.Physics
 
 			Debug.WriteLine($"Total error: {totalError} after {nIter + 1} iterations.");
 		}
-
-		private static void NormalizeLinearEquations(Matrix<double> A, float tolerance)
-		{
-			for (int i = 0; i < A.RowCount; i++)
-			{
-				if (A.Row(i).SumMagnitudes() > tolerance)
-					continue;
-				if (A.Column(i).SumMagnitudes() > tolerance)
-					continue;
-
-				A[i, i] = 1;
-			}
-		}
-
+		
 		private void InitializeStep(double dt)
 		{
-			InitializeJacobian();
-			InitializeConstraintValues();
 			InitializeMassMatrix();
 			InitializeVelocityVector(dt);
 			InitializeForceVector();
 		}
-
-		/// <summary>
-		/// Called at the beginning of Derivative only. Initializes the 
-		/// Jacobian matrix to be the right size and zeroed out.
-		/// </summary>
-		/// <returns></returns>
-		public void InitializeJacobian()
-		{
-			if (jacobian == null ||
-				jacobian.RowCount != JacobianRows ||
-				jacobian.ColumnCount != JacobianColumns)
-			{
-				jacobian = Matrix<double>.Build.Dense(JacobianRows, JacobianColumns);
-			}
-			else
-			{
-				for (int i = 0; i < jacobian.RowCount; i++)
-				{
-					for (int j = 0; j < jacobian.ColumnCount; j++)
-					{
-						jacobian[i, j] = 0;
-					}
-				}
-			}
-		}
-
-		private void InitializeConstraintValues()
-		{
-			constraintValues = Matrix<double>.Build.Dense(Constraints.Count, 1);
-			constraintForces = new List<Vector<double>>();
-
-			for (int i = 0; i < Constraints.Count; i++)
-			{
-				constraintValues[i, 0] = Constraints[i].Value;
-				constraintForces.Add(Vector<double>.Build.Dense(GeneralizedCoordinateCount));
-			}
-
-			totalConstraintImpulse = Matrix<double>.Build.Dense(GeneralizedCoordinateCount, 1);
-		}
-
+		
 		private void InitializeVelocityVector(double dt)
 		{
 			for (int i = 0; i < Particles.Count; i++)

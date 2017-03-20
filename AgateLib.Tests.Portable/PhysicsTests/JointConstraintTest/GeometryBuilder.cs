@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Mathematics;
+﻿using AgateLib.Mathematics;
 using AgateLib.Physics;
 using AgateLib.Physics.Constraints;
 
-namespace RigidBodyDynamics.Demo
+namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
 	static class GeometryBuilder
 	{

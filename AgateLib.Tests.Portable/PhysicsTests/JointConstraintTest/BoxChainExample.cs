@@ -6,7 +6,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
 using AgateLib.Physics.Constraints;
 
-namespace RigidBodyDynamics.Demo
+namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
 	public class BoxChainExample : IKinematicsExample
 	{

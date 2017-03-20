@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Mathematics;
 using AgateLib.Quality;
 
 namespace AgateLib.Physics
@@ -23,6 +24,14 @@ namespace AgateLib.Physics
 			this.constraint = constraint;
 		}
 
+		/// <summary>
+		/// Event raised after all non-friction forces have been computed.
+		/// </summary>
+		public event EventHandler ForcesComputed;
+
+		/// <summary>
+		/// The system of particles, forces and constraints to use.
+		/// </summary>
 		public KinematicsSystem System { get; }
 
 		/// <summary>
@@ -111,12 +120,24 @@ namespace AgateLib.Physics
 
 		private void UpdateStep(double dt)
 		{
+			ComputeForces();
+
 			constraint.ComputeConstraintForces(dt);
 			constraint.ApplyConstraintForces();
 
 			IntegrateKinematicVariables(dt);
 
 			StepCount++;
+		}
+
+		private void ComputeForces()
+		{
+			Parallel.ForEach(System.Particles, particle => particle.Force = Vector2.Zero);
+
+			foreach (var force in System.Forces)
+			{
+				force.AccumulateForce(System.Particles);
+			}
 		}
 
 
@@ -129,6 +150,8 @@ namespace AgateLib.Physics
 
 				//item.Velocity += dt * (item.Force + item.ConstraintForce) / item.Mass;
 				item.Position += dt * item.Velocity;
+
+				item.UpdatePolygonTransformation();
 			}
 		}
 	}
