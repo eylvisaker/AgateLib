@@ -374,15 +374,12 @@ namespace AgateLib.Mathematics.Geometry
 
 			return true;
 		}
+
 		/// <summary>
-		/// True if this is (0,0,0,0).
+		/// Returns true if all members of the rectangle are zero.
 		/// </summary>
 		
-		public bool IsEmpty
-		{
-			get { return pt.IsEmpty && sz.IsZero; }
-		}
-
+		public bool IsEmpty => pt.IsZero && sz.IsZero;
 
 		/// <summary>
 		/// Empty RectangleF

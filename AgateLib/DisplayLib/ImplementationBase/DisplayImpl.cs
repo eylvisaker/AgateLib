@@ -37,8 +37,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	public abstract class DisplayImpl : IDisplayCore
 	{
 		private double mAlphaThreshold = 5.0 / 255.0;
-		Point[] mEllipsePoints;
-		PointF[] mEllipsePointfs;
 
 		private FrameBuffer mRenderTarget;
 
