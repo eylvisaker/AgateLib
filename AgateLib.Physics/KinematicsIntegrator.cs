@@ -15,7 +15,7 @@ namespace AgateLib.Physics
 
 		private double minimumTimeStep = 0.0001;
 		private double maximumTimeStep = 0.005;
-		private int maxStepsPerFrame = 1;
+		private int maxStepsPerFrame = 50;
 
 		public KinematicsIntegrator(KinematicsSystem system, IConstraintSolver constraint)
 		{
@@ -45,13 +45,13 @@ namespace AgateLib.Physics
 		/// smaller than MinimumTimeStep, that time will be accumulated and the
 		/// dynamics update will be delayed until the minimum time has passed.
 		/// </summary>
-		public TimeSpan MinimumTimeStep
+		public double MinimumTimeStep
 		{
-			get { return TimeSpan.FromSeconds(minimumTimeStep); }
+			get { return minimumTimeStep; }
 			set
 			{
-				Require.ArgumentInRange(value.TotalSeconds > 0, nameof(MinimumTimeStep), "Minimum time step must be positive.");
-				minimumTimeStep = (float)value.TotalSeconds;
+				Require.ArgumentInRange(value > 0, nameof(MinimumTimeStep), "Minimum time step must be positive.");
+				minimumTimeStep = value;
 			}
 		}
 
@@ -60,23 +60,26 @@ namespace AgateLib.Physics
 		/// time is greater than this, up to MaxStepsPerFrame steps in the physics
 		/// simulation are done.
 		/// </summary>
-		public TimeSpan MaximumTimeStep
+		public double MaximumTimeStep
 		{
-			get { return TimeSpan.FromDays(maximumTimeStep); }
+			get { return maximumTimeStep; }
 			set
 			{
-				Require.ArgumentInRange(value.TotalSeconds > 0, nameof(MinimumTimeStep), "Minimum time step must be positive.");
-				maximumTimeStep = (float)value.TotalSeconds;
+				Require.ArgumentInRange(value > 0, nameof(MaximumTimeStep), "Maximum time step must be positive.");
+				maximumTimeStep = value;
 			}
 		}
 
+		/// <summary>
+		/// Maximum number of physics steps per update.
+		/// </summary>
 		public int MaxStepsPerFrame
 		{
 			get { return maxStepsPerFrame; }
 			set
 			{
-				Require.ArgumentInRange(value > 0, nameof(MinimumTimeStep), "Minimum time step must be positive.");
-				maximumTimeStep = value;
+				Require.ArgumentInRange(value > 0, nameof(MaxStepsPerFrame), "Max steps per frame must be positive.");
+				maxStepsPerFrame = value;
 			}
 		}
 
