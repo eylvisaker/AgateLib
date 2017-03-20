@@ -34,9 +34,11 @@ namespace AgateLib.Mathematics.Geometry
 	public class Polygon : IVector2List, IReadOnlyPolygon
 	{
 		private static IPolygonConvexDecompositionAlgorithm _convexDecompositionAlgorithm = new BayazitDecomposition();
+		private static IPolygonSimpleDetectionAlgorithm _simplePolygonDetectionAlgorithm = new PolygonSweepLineAlgorithm();
 
 		private Vector2List points = new Vector2List();
 
+		private bool isSimple;
 		private bool isConvex;
 		private List<Polygon> convexDecomposition = new List<Polygon>();
 
@@ -157,7 +159,7 @@ namespace AgateLib.Mathematics.Geometry
 			{
 				if (Points.Dirty)
 					ComputeProperties();
-
+				
 				return convexDecomposition;
 			}
 		}
@@ -197,6 +199,26 @@ namespace AgateLib.Mathematics.Geometry
 				return Math.Abs(result * 0.5);
 			}
 		}
+
+		/// <summary>
+		/// Returns true if this polygon is simple, meaning that none of its line segments intersect each other.
+		/// </summary>
+		public bool IsSimple
+		{
+			get
+			{
+				if (points.Dirty)
+					ComputeProperties();
+
+				return isSimple;
+			}
+		}
+
+		/// <summary>
+		/// Returns true if this polygon is complex, meaning that at least one of its line segments intersect each other.
+		/// Complex polygons introduce ambiguities, so many algorithms don't work with them.
+		/// </summary>
+		public bool IsComplex => !IsSimple;
 
 		/// <summary>
 		/// Gets or sets a specific point in this polygon/
@@ -443,13 +465,17 @@ namespace AgateLib.Mathematics.Geometry
 			Points.Dirty = false;
 
 			ComputeConvexity();
+			ComputeComplexity();
 			ComputeConvexDecomposition();
 		}
 
-		private void ComputeConvexity()
+		private void ComputeComplexity()
 		{
-			const double TOLERANCE = 1e-10;
+			isSimple = _simplePolygonDetectionAlgorithm.IsSimple(this);
+		}
 
+		private void ComputeConvexity(double tolerance = 1e-10)
+		{
 			// algorithm taken from here:
 			// http://www.sunshine2k.de/coding/java/Polygon/Convex/polygon.htm
 			double sign = 0;
@@ -463,7 +489,7 @@ namespace AgateLib.Mathematics.Geometry
 
 				var newSign = u.X * v.Y - u.Y * v.X + v.X * p.Y - p.X * v.Y;
 
-				if (Math.Abs(newSign) < TOLERANCE)
+				if (Math.Abs(newSign) < tolerance)
 					continue;
 
 				if (sign == 0)
@@ -489,7 +515,6 @@ namespace AgateLib.Mathematics.Geometry
 			}
 
 			convexDecomposition = _convexDecompositionAlgorithm.BuildConvexDecomposition(this).ToList();
-			
 		}
 	}
 

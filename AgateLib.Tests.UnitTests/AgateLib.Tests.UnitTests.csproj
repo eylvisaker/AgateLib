@@ -114,6 +114,7 @@
     <Compile Include="Algorithms\EMathTest.cs" />
     <Compile Include="AgateAppTests\ArgumentProcessing.cs" />
     <Compile Include="AgateAppTests\CoordinateSystemTest.cs" />
+    <Compile Include="Collections\BinaryTreeTests.cs" />
     <Compile Include="CollectionUnitTest.cs" />
     <Compile Include="Configuration\InitializationTests.cs" />
     <Compile Include="Diagnostics\ConsoleKeyInputTest.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="DisplayLib\LayoutTextTests.cs" />
     <Compile Include="DisplayLib\PixelBufferTest.cs" />
     <Compile Include="DisplayLib\SurfaceTest.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Geometry\ColorTests.cs" />
     <Compile Include="Geometry\RectangleTest.cs" />
     <Compile Include="Geometry\TypeConverters\GeometryConverterTests.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="InputTests\SimpleInputHandlerTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
+    <Compile Include="MathematicsTests\AlgorithmTests\ComplexPolygonDetectionTests.cs" />
     <Compile Include="MathematicsTests\AlgorithmTests\LineAlgorithmTests.cs" />
     <Compile Include="MathematicsTests\AlgorithmTests\PolygonDecompositionTests.cs" />
     <Compile Include="MathematicsTests\CollisionDetectorTests.cs" />
