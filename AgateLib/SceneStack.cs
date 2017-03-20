@@ -34,6 +34,15 @@ namespace AgateLib
 	public class SceneStack : ISceneStack
 	{
 		private readonly List<IScene> scenes = new List<IScene>();
+		private readonly List<IDisplayContext> contexts = new List<IDisplayContext>();
+
+		public SceneStack()
+		{
+			if (Display.CurrentWindow != null)
+			{
+				contexts.Add(Display.CurrentWindow);
+			}
+		}
 
 		/// <summary>
 		/// Gets the top scene on the stack.
@@ -123,6 +132,9 @@ namespace AgateLib
 		{
 			Require.ArgumentNotNull(sceneToStartWith, nameof(sceneToStartWith));
 
+			if (contexts.Count == 0 && Display.CurrentWindow != null)
+				contexts.Add(Display.CurrentWindow);
+
 			if (sceneToStartWith != null)
 				Add(sceneToStartWith);
 
@@ -142,20 +154,27 @@ namespace AgateLib
 			if (!AgateApp.IsAlive)
 				return;
 
-			Display.BeginFrame();
-
-			if (ClearColor != null)
+			foreach (var context in contexts)
 			{
-				var clearColor = (Color) ClearColor;
-				Display.Clear(clearColor);
+
+				Display.RenderTarget = context.RenderTarget;
+					Display.BeginFrame();
+
+				if (ClearColor != null)
+				{
+					var clearColor = (Color) ClearColor;
+					Display.Clear(clearColor);
+				}
+
+				foreach (var sc in RedrawScenes)
+				{
+					sc.DisplayContext = context;
+					sc.Redraw();
+				}
+
+				Display.EndFrame();
 			}
 
-			foreach (var sc in RedrawScenes)
-			{
-				sc.Redraw();
-			}
-
-			Display.EndFrame();
 			AgateApp.KeepAlive();
 		}
 

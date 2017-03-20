@@ -34,7 +34,7 @@ namespace Examples.Scenes.EventDrivenSceneExample
 				// begin a new scene.
 				GamepadInputHandler titleInputHandler = NewInputHandler();
 
-				Scene titleScene = new Scene(titleInputHandler);
+				Scene titleScene = new Scene { InputHandler = titleInputHandler };
 
 				titleInputHandler.Gamepads.First().ButtonPressed += (sender, e) =>
 				{
@@ -71,7 +71,7 @@ namespace Examples.Scenes.EventDrivenSceneExample
 			// Here we build a simple scene for a "game" where the
 			// player can move a big white circle around the screen.
 			var gameInputHandler = NewInputHandler();
-			Scene gameScene = new Scene(gameInputHandler);
+			Scene gameScene = new Scene { InputHandler = gameInputHandler };
 
 			Vector2 position = 0.5 * (Vector2)Display.CurrentWindow.Size;
 			Vector2 velocity = Vector2.Zero;

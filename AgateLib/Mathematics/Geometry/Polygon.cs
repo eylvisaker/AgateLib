@@ -443,19 +443,16 @@ namespace AgateLib.Mathematics.Geometry
 		/// <param name="rotationCenter">The center of rotation. If null is passed, the origin is used
 		/// as the center of rotation</param>
 		/// <returns></returns>
-		public Polygon RotateSelf(double angle, Vector2? rotationCenter = null)
+		public void RotateSelf(double angle, Vector2? rotationCenter = null)
 		{
-			var result = Clone();
 			var center = rotationCenter ?? Vector2.Zero;
 
-			for (int i = 0; i < result.Count; i++)
+			for (int i = 0; i < Count; i++)
 			{
-				Vector2 delta = result[i] - center;
+				Vector2 delta = this[i] - center;
 				Vector2 newPoint = delta.Rotate(angle);
-				result[i] = newPoint + center;
+				this[i] = newPoint + center;
 			}
-
-			return result;
 		}
 
 		/// <summary>

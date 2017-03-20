@@ -17,8 +17,7 @@ namespace AgateLib.UnitTests.MathematicsTests.GeometryBuilderTests
 		{
 			var radii = new[] { 8, 4 };
 
-			var star = new StarBuilder().BuildStar(
-				Vector2.Zero, 5, radii[0], radii[1], 0);
+			var star = new StarBuilder().BuildStar(5, radii[0], radii[1], Vector2.Zero, 0);
 
 			Assert.AreEqual(10, star.Points.Count);
 
@@ -45,8 +44,7 @@ namespace AgateLib.UnitTests.MathematicsTests.GeometryBuilderTests
 		{
 			var center = new Vector2(10, 12);
 
-			var star = new StarBuilder().BuildStar(
-				center, 5, 8, 4, 1);
+			var star = new StarBuilder().BuildStar(5, 8, 4, center, 1);
 
 			Assert.AreEqual(10, star.Points.Count);
 
@@ -60,8 +58,7 @@ namespace AgateLib.UnitTests.MathematicsTests.GeometryBuilderTests
 		{
 			var radii = new[] { 8, 4 };
 
-			var star = new StarBuilder().BuildStar(
-				Vector2.Zero, 6, radii[0], radii[1], 0);
+			var star = new StarBuilder().BuildStar(6, radii[0], radii[1]);
 
 			Assert.AreEqual(12, star.Points.Count);
 
@@ -88,8 +85,7 @@ namespace AgateLib.UnitTests.MathematicsTests.GeometryBuilderTests
 		{
 			var center = new Vector2(10, 12);
 
-			var star = new StarBuilder().BuildStar(
-				center, 6, 8, 4, 1);
+			var star = new StarBuilder().BuildStar(6, 8, 4, center, 1);
 
 			Assert.AreEqual(12, star.Points.Count);
 

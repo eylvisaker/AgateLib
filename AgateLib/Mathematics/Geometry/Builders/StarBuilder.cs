@@ -18,9 +18,10 @@ namespace AgateLib.Mathematics.Geometry.Builders
 		/// <param name="pointCount">Number of points in the star.</param>
 		/// <param name="size">The size of the star.</param>
 		/// <param name="innerSize">The inner size of the star. It is recommended that this be between 0.2 and 0.7 times the value of size.</param>
+		/// <param name="location"></param>
 		/// <param name="angle">The rotation angle for the star.</param>
 		/// <returns></returns>
-		public Polygon BuildStar(Vector2 location, int pointCount, double size, double innerSize, double angle)
+		public Polygon BuildStar(int pointCount, double size, double innerSize, Vector2 location = new Vector2(), double angle = 0)
 		{
 			var outerpoints = RegularShape(angle, pointCount, size);
 			var innerPoints = RegularShape(Math.PI / pointCount + angle, pointCount, innerSize);

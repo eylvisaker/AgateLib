@@ -15,6 +15,8 @@ namespace AgateLib.Collections.Generic
 	/// <typeparam name="T"></typeparam>
 	public class BinaryTree<T> : IBinaryTree<T>
 	{
+		private int count;
+
 		class AscendingEnumerable<T> : IEnumerable<BinaryTreeNode<T>>
 		{
 			private BinaryTreeNode<T> root;
@@ -176,7 +178,15 @@ namespace AgateLib.Collections.Generic
 		/// <summary>
 		/// Returns the count of objects in the tree.
 		/// </summary>
-		public int Count { get; private set; }
+		public int Count
+		{
+			get { return count; }
+			private set
+			{
+				Require.ArgumentInRange(value >= 0, nameof(Count), "Count must not be negative.");
+				count = value;
+			}
+		}
 
 		/// <summary>
 		/// Returns true if the tree is balanced.
@@ -247,7 +257,10 @@ namespace AgateLib.Collections.Generic
 			if (root == null)
 			{
 				root = nodeToInsert;
-				Count = 1;
+				root.Parent = null;
+
+				Count = root.Count;
+
 				return root;
 			}
 
@@ -267,7 +280,7 @@ namespace AgateLib.Collections.Generic
 
 				node.Left = item;
 				node.Left.Parent = node;
-				Count++;
+				Count += item.Count;
 
 				return node.Left;
 			}
@@ -278,7 +291,7 @@ namespace AgateLib.Collections.Generic
 
 				node.Right = item;
 				node.Right.Parent = node;
-				Count++;
+				Count += item.Count;
 
 				return node.Right;
 			}
@@ -341,16 +354,17 @@ namespace AgateLib.Collections.Generic
 
 		private static void VineToTree(IBinaryTreeNodeStructure<T> start, int size)
 		{
-			int leafCount = size + 1 - (int)Math.Pow(2, Math.Floor(Math.Log(size + 1, 2)));
+			var currentSize = size;
+			int leafCount = currentSize + 1 - (int)Math.Pow(2, Math.Floor(Math.Log(currentSize + 1, 2)));
 
 			VineToTree_Compression(start, leafCount);
-			size -= leafCount;
+			currentSize -= leafCount;
 
-			while (size > 1)
+			while (currentSize > 1)
 			{
-				VineToTree_Compression(start, size / 2);
+				VineToTree_Compression(start, currentSize / 2);
 
-				size /= 2;
+				currentSize /= 2;
 			}
 		}
 
@@ -395,7 +409,7 @@ namespace AgateLib.Collections.Generic
 
 			return node;
 		}
-		
+
 		/// <summary>
 		/// Removes a node from the tree.
 		/// </summary>

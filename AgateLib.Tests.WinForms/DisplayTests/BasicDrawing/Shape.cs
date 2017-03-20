@@ -41,7 +41,7 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 					var innerSize = size * (0.2 + rnd.NextDouble() * 0.5);
 					var angle = rnd.NextDouble() * 2 * Math.PI;
 
-					Points = new StarBuilder().BuildStar(bounds.CenterPoint, pointCount, size, innerSize, angle);
+					Points = new StarBuilder().BuildStar(pointCount, size, innerSize, bounds.CenterPoint, angle);
 					break;
 			}
 		}

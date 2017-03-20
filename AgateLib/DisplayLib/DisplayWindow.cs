@@ -31,7 +31,7 @@ namespace AgateLib.DisplayLib
 	/// Interface for a display window. A display window is an area on the screen where the images
 	/// drawn by the game will appear for the user.
 	/// </summary>
-	public interface IDisplayWindow : IDisposable
+	public interface IDisplayWindow : IDisposable, IDisplayContext
 	{
 		/// <summary>
 		/// Gets the FrameBuffer object which represents the memory to draw to.
@@ -224,6 +224,10 @@ namespace AgateLib.DisplayLib
 		}
 
 		#endregion
+
+		FrameBuffer IDisplayContext.RenderTarget => FrameBuffer;
+
+		IPrimitiveRenderer IDisplayContext.Primitives => Display.Primitives;
 
 		/// <summary>
 		/// Gets the FrameBuffer object which represents the memory to draw to.

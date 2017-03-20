@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Particles;
 using AgateLib.InputLib;
 using AgateLib.Platform;
@@ -33,25 +34,15 @@ namespace AgateLib
 	/// </summary>
 	public class Scene : IScene
 	{
-		private readonly IInputHandler inputHandler;
+		private IInputHandler inputHandler;
+		private bool isRunning;
 
 		/// <summary>
 		/// Constructs a Scene object.
 		/// </summary>
 		public Scene()
 		{
-			
-		}
 
-		/// <summary>
-		/// Constructs a Scene object, and automatically manages the lifetime of
-		/// the passed input handler. The input handler will be installed when
-		/// the scene is started and removed when it ends.
-		/// </summary>
-		/// <param name="inputHandler"></param>
-		public Scene(IInputHandler inputHandler)
-		{
-			this.inputHandler = inputHandler;
 		}
 
 		/// <summary>
@@ -69,12 +60,12 @@ namespace AgateLib
 		/// removed from the scene stack.
 		/// </summary>
 		public event EventHandler SceneActivated;
-		
+
 		/// <summary>
 		/// Event raised when the scene should be updated.
 		/// </summary>
 		public event SceneUpdateEventHandler Update;
-		
+
 		/// <summary>
 		/// Event raised when the scene should be redrawn.
 		/// </summary>
@@ -89,6 +80,36 @@ namespace AgateLib
 		/// The stack which owns this scene. 
 		/// </summary>
 		public ISceneStack SceneStack { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the input handler that is managed for this scene.
+		/// The Scene will automatically manage the lifetime of this input handler object.
+		/// </summary>
+		public IInputHandler InputHandler
+		{
+			get { return inputHandler; }
+			set
+			{
+				if (inputHandler != null)
+					Input.Handlers.Remove(inputHandler);
+
+				inputHandler = value;
+
+				if (isRunning)
+					Input.Handlers.Add(inputHandler);
+			}
+		}
+
+		/// <summary>
+		/// Gets the display context.
+		/// </summary>
+		public IDisplayContext DisplayContext { get; internal set; }
+
+		IDisplayContext IScene.DisplayContext
+		{
+			get { return DisplayContext; } 
+			set { DisplayContext = value; }
+		}
 
 		/// <summary>
 		/// Set to true to terminate this scene.
@@ -150,11 +171,11 @@ namespace AgateLib
 			Redraw?.Invoke(this, EventArgs.Empty);
 		}
 
-		[Obsolete("Override OnRedraw instead.", true)]
-		public virtual void Draw() { }
 
 		void IScene.SceneStart()
 		{
+			isRunning = true;
+
 			if (inputHandler != null)
 			{
 				Input.Handlers.Add(inputHandler);
@@ -165,12 +186,10 @@ namespace AgateLib
 
 		void IScene.SceneEnd()
 		{
-			OnSceneEnd();
+			isRunning = false;
+			Input.Handlers.Remove(inputHandler);
 
-			if (inputHandler != null)
-			{
-				Input.Handlers.Remove(inputHandler);
-			}
+			OnSceneEnd();
 		}
 
 		void IScene.SceneActivated()
@@ -190,7 +209,7 @@ namespace AgateLib
 
 		ISceneStack IScene.SceneStack
 		{
-			get { return SceneStack; } 
+			get { return SceneStack; }
 			set { SceneStack = value; }
 		}
 	}
@@ -204,6 +223,11 @@ namespace AgateLib
 		/// The scene stack this scene is a part of.
 		/// </summary>
 		ISceneStack SceneStack { get; set; }
+
+		/// <summary>
+		/// Sets the display context for the scene.
+		/// </summary>
+		IDisplayContext DisplayContext { get; set; }
 
 		/// <summary>
 		/// Return true to indicate scenes below this one should receive

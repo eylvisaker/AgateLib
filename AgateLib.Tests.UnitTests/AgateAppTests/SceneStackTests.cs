@@ -40,8 +40,8 @@ namespace AgateLib.UnitTests.AgateAppTests
 		public void SceneStack_UpdateDrawBelow()
 		{
 			var scene1 = new Scene();
-			var scene2 = new Scene {DrawBelow = false, UpdateBelow = false};
-			var scene3 = new Scene {DrawBelow = true, UpdateBelow = true};
+			var scene2 = new Scene { DrawBelow = false, UpdateBelow = false };
+			var scene3 = new Scene { DrawBelow = true, UpdateBelow = true };
 
 			scene1.Update += (sender, e) => Assert.Fail("Scene1 should not be updated.");
 			scene1.Redraw += (sender, e) => Assert.Fail("Scene1 should not be drawn.");
@@ -78,7 +78,7 @@ namespace AgateLib.UnitTests.AgateAppTests
 			bool caughtKeyDown = false;
 
 			var inputHandler = new SimpleInputHandler();
-			var scene = new Scene(inputHandler);
+			var scene = new Scene { InputHandler = inputHandler };
 
 			inputHandler.KeyDown += (sender, e) => caughtKeyDown = true;
 

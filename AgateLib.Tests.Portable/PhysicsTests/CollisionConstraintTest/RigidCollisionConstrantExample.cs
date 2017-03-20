@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
+using AgateLib.InputLib;
+using AgateLib.InputLib.GamepadModel;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.Geometry.Builders;
@@ -36,6 +38,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 
 		protected override void OnSceneStart()
 		{
+			InstallInputHandler();
 			colors = new[]
 			{
 				Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Purple, Color.Violet, Color.Indigo,
@@ -50,7 +53,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			system.AddParticles(
 				new PhysicalParticle
 				{
-					Polygon = new StarBuilder().BuildStar(Vector2.Zero, 5, 50, 20, 0),
+					Polygon = new StarBuilder().BuildStar(5, 50, 20),
 					Position = new Vector2(100, 100),
 					AngularVelocity = 0.1,
 				}, 
@@ -86,6 +89,43 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 
 				index++;
 			}
+		}
+
+		private void InstallInputHandler()
+		{
+			var handler = new SimpleInputHandler();
+
+			handler.KeyDown += (sender, e) =>
+			{
+				if (e.KeyCode == KeyCode.Escape)
+					AgateApp.IsAlive = false;
+
+				if (e.KeyCode == KeyCode.Space)
+				{
+					AddRandomParticle();
+					handler.Keys.Release(KeyCode.Space);
+				}
+			};
+
+			InputHandler = handler;
+		}
+
+		private void AddRandomParticle()
+		{
+			var random = new Random();
+
+			var size = random.Next(20, 100);
+			var innerSize = random.NextDouble() * 0.7 * size;
+
+			var particle = new PhysicalParticle
+			{
+				Polygon = new StarBuilder().BuildStar(random.Next(3, 8), size, innerSize),
+				Position = new Vector2(DisplayContext.Size.Width / 2, 0),
+				Velocity = new Vector2(random.Next(-1000, 1000), random.Next(-1000, 1000)),
+				AngularVelocity = random.NextDouble(),
+			};
+
+			system.AddParticles(particle);
 		}
 	}
 }

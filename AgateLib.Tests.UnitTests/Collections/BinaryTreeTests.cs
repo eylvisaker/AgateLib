@@ -52,6 +52,27 @@ namespace AgateLib.UnitTests.Collections
 		}
 
 		[TestMethod]
+		public void BinaryTree_RemoveRoot()
+		{
+			var tree = new BinaryTree<int>();
+
+			tree.Add(new[] { 1, 2, 3, 4 });
+
+			Assert.AreEqual(4, tree.Count);
+
+			tree.Remove(1);
+
+			Assert.AreEqual(3, tree.Count);
+			CollectionAssert.AreEquivalent(new[] { 2, 3, 4 }, tree.Items.Select(x => x.Value).ToList());
+			CollectionAssert.AreEquivalent(new[] { 2, 3, 4 }, tree.ItemsAscending.Select(x => x.Value).ToList());
+			CollectionAssert.AreEquivalent(new[] { 2, 3, 4 }, tree.ItemsDescending.Select(x => x.Value).ToList());
+			Assert.IsNull(tree.Find(1));
+			Assert.IsNull(tree.Find(-1));
+			Assert.IsNull(tree.Find(0));
+			Assert.IsNotNull(tree.Find(3));
+		}
+
+		[TestMethod]
 		public void BinaryTree_ThrowIfExists()
 		{
 			var items = CreateItems(25);
