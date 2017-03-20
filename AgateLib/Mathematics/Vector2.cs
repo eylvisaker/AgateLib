@@ -459,7 +459,7 @@ namespace AgateLib.Mathematics
 		public Vector2 Rotate(double angle)
 		{
 			return new Vector2(
-				X * Math.Cos(angle) + Y * Math.Sin(angle),
+				 X * Math.Cos(angle) + Y * Math.Sin(angle),
 				-X * Math.Sin(angle) + Y * Math.Cos(angle));
 		}
 		
@@ -471,6 +471,18 @@ namespace AgateLib.Mathematics
 		public Vector2 RotateDegrees(double angleInDegrees)
 		{
 			return Rotate(Math.PI / 180 * angleInDegrees);
+		}
+
+		/// <summary>
+		/// Returns the projection of this vector in the direction of another vector.
+		/// </summary>
+		/// <param name="direction"></param>
+		/// <returns></returns>
+		public Vector2 ProjectionOn(Vector2 direction)
+		{
+			var normalDirection = direction.Normalize();
+
+			return DotProduct(normalDirection) * normalDirection;
 		}
 	}
 }

@@ -65,7 +65,7 @@ namespace AgateLib.UnitTests.MathematicsTests
 		[TestMethod]
 		public void V2_BulkAdd()
 		{
-			var array = new [] {new Vector2(1, 2), new Vector2(2, 3), new Vector2(3, 4),};
+			var array = new[] { new Vector2(1, 2), new Vector2(2, 3), new Vector2(3, 4), };
 			var offset = new Vector2(10, 12);
 
 			var result = (array + offset).ToList();
@@ -92,6 +92,35 @@ namespace AgateLib.UnitTests.MathematicsTests
 			Assert.AreEqual(new Vector2(9, 10), result[0]);
 			Assert.AreEqual(new Vector2(8, 9), result[1]);
 			Assert.AreEqual(new Vector2(7, 8), result[2]);
+		}
+
+		[TestMethod]
+		public void V2_ProjectionContract()
+		{
+			ProjectionTest(new Vector2(1, 0), new Vector2(1, 1), new Vector2(0.5, 0.5));
+
+			for (int i = 0; i < 360; i++)
+			{
+				const double radius = 2;
+
+				Vector2 v = Vector2.FromPolarDegrees(radius, i);
+				Vector2 direction = new Vector2(1, 1);
+				Vector2 expected = radius * Math.Cos((i - 45) * Math.PI / 180) * direction.Normalize();
+
+				ProjectionTest(v, direction, expected);
+			}
+		}
+
+		private static void ProjectionTest(Vector2 v, Vector2 direction, Vector2 expected)
+		{
+			Vector2 result = v.ProjectionOn(direction);
+
+			var perp = v - result;
+
+			Assert.AreEqual(0, direction.DotProduct(perp), 1e-8);
+
+			Assert.IsTrue(result.Equals(expected, 1e-8),
+				$"Projection of {v} on {direction} should yield {expected} but got {result} instead.");
 		}
 	}
 }
