@@ -63,21 +63,21 @@ namespace AgateLib.UnitTests.MathematicsTests
 		[TestMethod]
 		public void Poly_PointOnEdgeIsInside()
 		{
-			Assert.IsTrue(Diamond.Contains(new Vector2(0.5, 0.5)));
+			Assert.IsTrue(Diamond.AreaContains(new Vector2(0.5, 0.5)));
 		}
 
 		[TestMethod]
 		public void Poly_DiamondContainsPoint()
 		{
-			Assert.IsTrue(Diamond.Contains(new Vector2(0, 0)));
+			Assert.IsTrue(Diamond.AreaContains(new Vector2(0, 0)));
 
-			Assert.IsTrue(Diamond.Translate(new Vector2(100, 15)).Contains(new Vector2(100, 15)));
+			Assert.IsTrue(Diamond.Translate(new Vector2(100, 15)).AreaContains(new Vector2(100, 15)));
 		}
 
 		[TestMethod]
 		public void Poly_OddConcaveContainsPoint()
 		{
-			Assert.IsFalse(OddConcave.Contains(new Vector2(1.5, 0)));
+			Assert.IsFalse(OddConcave.AreaContains(new Vector2(1.5, 0)));
 		}
 
 		[TestMethod]

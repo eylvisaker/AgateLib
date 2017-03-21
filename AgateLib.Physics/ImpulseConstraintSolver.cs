@@ -42,12 +42,7 @@ namespace AgateLib.Physics
 		/// The number of generalized coordinates.
 		/// </summary>
 		private int GeneralizedCoordinateCount => Particles.Count * GeneralizedCoordinatesPerParticle;
-
-		/// <summary>
-		/// The number of columns in the Jacobian matrix.
-		/// </summary>
-		private int JacobianColumns => GeneralizedCoordinateCount;
-
+		
 		private IReadOnlyList<PhysicalParticle> Particles => System.Particles;
 
 		private IReadOnlyList<IPhysicalConstraint> Constraints => System.Constraints;
@@ -174,7 +169,7 @@ namespace AgateLib.Physics
 
 						var impulse = jacobian.Transpose() * lagrangeMultiplier;
 
-						if (lagrangeMultiplier < 0 && constraint.ConstraintType == ConstraintType.Inequality)
+						if (lagrangeMultiplier > 0 && constraint.ConstraintType == ConstraintType.Inequality)
 							continue;
 
 						//Debug.WriteLine($"  Constraint {j}");

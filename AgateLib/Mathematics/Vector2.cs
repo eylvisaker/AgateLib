@@ -484,5 +484,15 @@ namespace AgateLib.Mathematics
 
 			return DotProduct(normalDirection) * normalDirection;
 		}
+
+		/// <summary>
+		/// Returns the cross product of two 2D vectors as a scalar value.
+		/// </summary>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public double CrossProduct(Vector2 b)
+		{
+			return X * b.Y - Y * b.X;
+		}
 	}
 }

@@ -33,7 +33,8 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="b1"></param>
 		/// <param name="b2"></param>
 		/// <returns></returns>
-		public static LineSegmentIntersection LineSegmentIntersection(Vector2 R1a, Vector2 R1b, Vector2 R2a, Vector2 R2b, double tolerance = 1e-8)
+		public static LineSegmentIntersection LineSegmentIntersection(Vector2 R1a, Vector2 R1b, Vector2 R2a, Vector2 R2b,
+			double tolerance = 1e-8)
 		{
 			var line1 = R1b - R1a;
 			var line2 = R2b - R2a;
@@ -68,6 +69,25 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 			var diff = (b.Y - a.Y) * (c.X - b.X) - (c.Y - b.Y) * (b.X - a.X);
 
 			return Math.Abs(diff) < tolerance;
+		}
+
+		/// <summary>
+		/// Returns a value indicating which side of the line AB the
+		/// point pt is on, and how far away from the line it is. 
+		/// If you stand at A and look at B, negative values will be
+		/// to the left and positive values will be to the right.
+		/// </summary>
+		/// <param name="A"></param>
+		/// <param name="B"></param>
+		/// <param name="pt"></param>
+		/// <returns></returns>
+		public static double SideOf(Vector2 A, Vector2 B, Vector2 pt)
+		{
+			var diff = (B - A).Normalize();
+			var projection = pt.ProjectionOn(diff);
+			var ortho = pt - projection;
+
+			return ortho.CrossProduct(diff);
 		}
 	}
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Mathematics;
+﻿using AgateLib.Mathematics;
+using AgateLib.Physics;
 using AgateLib.Physics.Constraints;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.Physics.UnitTests.ConstraintTests
+namespace AgateLib.UnitTests.PhysicsTests.ConstraintTests
 {
 	[TestClass]
 	public class PointTouchConstraintTests

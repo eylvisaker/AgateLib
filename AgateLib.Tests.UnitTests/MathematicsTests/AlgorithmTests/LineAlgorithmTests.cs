@@ -50,5 +50,16 @@ namespace AgateLib.UnitTests.MathematicsTests.AlgorithmTests
 
 			Assert.IsNull(result);
 		}
+
+		[TestMethod]
+		public void Line_Side()
+		{
+			Assert.AreEqual(1, 
+				LineAlgorithms.SideOf(Vector2.Zero, Vector2.UnitY, Vector2.UnitX));
+
+			Assert.AreEqual(-Math.Sqrt(0.5),
+				LineAlgorithms.SideOf(Vector2.Zero, Vector2.UnitX + Vector2.UnitY,
+					Vector2.UnitY), 1e-8);
+		}
 	}
 }

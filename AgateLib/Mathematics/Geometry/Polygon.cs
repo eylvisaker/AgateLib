@@ -252,6 +252,16 @@ namespace AgateLib.Mathematics.Geometry
 		}
 
 		/// <summary>
+		/// Returns true if the item is one of the polygon's vertices.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public bool Contains(Vector2 item)
+		{
+			return points.Contains(item);
+		}
+
+		/// <summary>
 		/// Copies the verticies of this polygon to the target.
 		/// </summary>
 		/// <param name="target"></param>
@@ -361,7 +371,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="point"></param>
 		/// <returns></returns>
-		public bool Contains(Vector2 point)
+		public bool AreaContains(Vector2 point)
 		{
 			// This is a ray tracing algorithm. It computes whether a point is within a polygon by
 			// counting the number of times a ray passing through the test point crosses an 

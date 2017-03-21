@@ -128,9 +128,9 @@
     <Compile Include="DisplayLib\PixelBufferTest.cs" />
     <Compile Include="DisplayLib\SurfaceTest.cs" />
     <Compile Include="Collections\ListExtensions.cs" />
-    <Compile Include="Geometry\ColorTests.cs" />
-    <Compile Include="Geometry\RectangleTest.cs" />
-    <Compile Include="Geometry\TypeConverters\GeometryConverterTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\ColorTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\RectangleTest.cs" />
+    <Compile Include="MathematicsTests\Geometry\TypeConverters\GeometryConverterTests.cs" />
     <Compile Include="InputTests\GamepadInputHandlerTests.cs" />
     <Compile Include="InputTests\JoystickInputTests.cs" />
     <Compile Include="InputTests\SimpleInputHandlerTests.cs" />

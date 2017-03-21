@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.DisplayLib;
+﻿using AgateLib.DisplayLib;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.TypeConverters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace AgateLib.UnitTests.Geometry.TypeConverters
+namespace AgateLib.UnitTests.MathematicsTests.Geometry.TypeConverters
 {
 	[TestClass]
 	public class GeometryConverterTests

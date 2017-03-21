@@ -57,14 +57,11 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			system.AddParticles(
 				new PhysicalParticle
 				{
-					Polygon = new StarBuilder().BuildStar(5, 50, 20),
-					Position = new Vector2(100, 100),
+					Polygon = new StarBuilder().BuildStar(3, 50, 10),
+					Position = new Vector2(100, 400),
+					Velocity = new Vector2(0, 100),
 					AngularVelocity = 0.1,
-				},
-				new PhysicalParticle
-				{
-					Polygon = new Rectangle(-20, -20, 40, 40).ToPolygon(),
-					Position = new Vector2(115, 300),
+					Angle = 0.1,
 				});
 
 			system.AddForceField(new PlanetSurfaceGravity());
