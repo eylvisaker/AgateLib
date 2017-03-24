@@ -60,12 +60,12 @@ namespace AgateLib.Physics.Constraints
 			double dy = 0;
 			double dphi = 0;
 
-			foreach (var point in particle.Polygon)
-			{
-				var rotatedPoint = point.Rotate(particle.Angle);
-				var angle = rotatedPoint.Angle;
+			int pointCount = 0;
 
-				var testPoint = rotatedPoint + particle.Position;
+			foreach (var point in particle.TransformedPolygon)
+			{
+				var magnitude = (point - particle.Position).Magnitude;
+				var angle = (point - particle.Position).Angle;
 
 				//if (rotatedPoint.X < Bounds.Left)
 				//{
@@ -83,10 +83,12 @@ namespace AgateLib.Physics.Constraints
 				//	dy -= 1;
 				//	dphi += Math.Cos(particle.Angle + angle);
 				//}
-				if (testPoint.Y > Bounds.Bottom)
+				if (point.Y > Bounds.Bottom)
 				{
+					pointCount++;
+
 					dy += 1;
-					dphi -= point.Magnitude * Math.Cos(particle.Angle + angle);
+					dphi -= magnitude * Math.Cos(angle);
 				}
 			}
 

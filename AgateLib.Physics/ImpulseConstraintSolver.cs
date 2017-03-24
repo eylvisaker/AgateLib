@@ -23,7 +23,7 @@ namespace AgateLib.Physics
 		/// </summary>
 		private const int GeneralizedCoordinatesPerParticle = 3;
 
-		private const double DefaultSpringConstant = 50;
+		private const double DefaultSpringConstant = 500;
 
 		private Matrix<double> externalForces;
 
@@ -135,7 +135,8 @@ namespace AgateLib.Physics
 						var jacobian = ComputeJacobian(constraint, particleGroup);
 						var constraintValue = constraint.Value(particleGroup);
 
-						var newVelocity = Matrix<double>.Build.Dense(particleGroup.Count * GeneralizedCoordinatesPerParticle, 1);
+						var newVelocity = Matrix<double>.Build.Dense(
+							particleGroup.Count * GeneralizedCoordinatesPerParticle, 1);
 						var massInverseMatrix = Matrix<double>.Build.Dense(
 							particleGroup.Count * GeneralizedCoordinatesPerParticle,
 							particleGroup.Count * GeneralizedCoordinatesPerParticle);

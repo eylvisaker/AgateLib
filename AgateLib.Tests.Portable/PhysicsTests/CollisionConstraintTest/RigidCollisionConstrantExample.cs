@@ -140,7 +140,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			{
 				Polygon = new StarBuilder().BuildStar(random.Next(3, 8), size, innerSize),
 				Position = new Vector2(DisplayContext.Size.Width / 2, 100),
-				Velocity = new Vector2(random.Next(-1000, 1000), random.Next(-1000, 1000)),
+				Velocity = new Vector2(random.Next(-100, 100), random.Next(-1000, 1000)),
 				AngularVelocity = random.NextDouble() * 4,
 			};
 
