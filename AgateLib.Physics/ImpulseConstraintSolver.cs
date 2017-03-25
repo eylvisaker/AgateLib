@@ -23,7 +23,7 @@ namespace AgateLib.Physics
 		/// </summary>
 		private const int GeneralizedCoordinatesPerParticle = 3;
 
-		private const double DefaultSpringConstant = 500;
+		private const double DefaultSpringConstant = 50;
 
 		private Matrix<double> externalForces;
 

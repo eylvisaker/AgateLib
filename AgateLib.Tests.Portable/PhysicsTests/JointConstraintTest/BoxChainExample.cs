@@ -5,6 +5,7 @@ using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
 using AgateLib.Physics.Constraints;
+using AgateLib.Physics.Forces;
 
 namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
@@ -43,11 +44,12 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			{
 				boxes.Add(new PhysicalParticle
 				{
+					Polygon = new Rectangle(-boxSize / 2, -boxSize / 2, boxSize, boxSize).ToPolygon(),
 					Position = new Vector2(
 						area.Width * 0.5 + (BoxCount / 2 - i) * boxSize,
-						area.Height * 0.1
+						area.Height * 0.3
 					),
-					Velocity = new Vector2(0, (BoxCount / 2 - i) * 250)
+					Velocity = new Vector2(0, (BoxCount / 2 - i) * 100)
 				});
 
 				if (i > 0)
@@ -61,10 +63,18 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 
 			sphere = new PhysicalParticle
 			{
-				Position = new Vector2(area.Width * 0.5, area.Height * 0.5)
+				Position = new Vector2(area.Width * 0.5, area.Height * 0.25)
 			};
 
+			var constraintBox = boxes[boxes.Count / 2];
+
+			system.AddConstraints(
+				new CirclePerimeterOffcenterConstraint(constraintBox,
+					sphere.Position, 40, constraintBox.Polygon[0]));
+
 			system.AddParticles(boxes.ToArray());
+
+			system.AddForceField(new ConstantGravityField());
 
 			return system;
 		}
@@ -88,14 +98,14 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 
 		private void DrawBox(PhysicalParticle box)
 		{
+			boxImage.DisplayAlignment = OriginAlignment.Center;
 			boxImage.RotationAngle = box.Angle;
 			boxImage.Draw(box.Position);
 		}
 
 		private void DrawSphere(PhysicalParticle physicalParticle)
 		{
-			Display.Primitives.FillEllipse(Color.Blue,
-				new RectangleF((float)physicalParticle.Position.X - 40, (float)physicalParticle.Position.Y - 40, 80, 80));
+			Display.Primitives.FillCircle(Color.Blue, physicalParticle.Position, 40);
 		}
 
 		private void InitializeImages()

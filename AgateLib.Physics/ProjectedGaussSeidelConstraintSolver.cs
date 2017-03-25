@@ -23,7 +23,7 @@ namespace AgateLib.Physics
 		/// </summary>
 		private const int GeneralizedCoordinatesPerParticle = 3;
 
-		private const double DefaultSpringConstant = 200;
+		private const double DefaultSpringConstant = 25;
 
 		private Matrix<double> jacobian;
 		private Matrix<double> lagrangeMultipliers;
@@ -222,7 +222,7 @@ namespace AgateLib.Physics
 
 				for (int i = 0; i < singularIndex; i++)
 				{
-					var element = B[pivot[i], 0] / A[pivot[i], pivot[i]];
+					var element = B[pivot[i], 0];
 
 					for (int j = 0; j < i; j++)
 					{
@@ -233,7 +233,9 @@ namespace AgateLib.Physics
 					{
 						element -= A[pivot[i], j] * result[pivot[j], 0];
 					}
-					
+
+					element /= A[pivot[i], pivot[i]];
+
 					var oldElement = result[pivot[i], 0];
 					error += Math.Abs(element - oldElement);
 
