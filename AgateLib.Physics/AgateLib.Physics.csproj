@@ -35,11 +35,12 @@
     <DocumentationFile>bin\Release\AgateLib.Physics.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AppliedConstraint.cs" />
     <Compile Include="Constraints\CirclePerimeterOffcenterConstraint.cs" />
     <Compile Include="Constraints\CirclePerimeterConstraint.cs" />
     <Compile Include="ConstraintDerivative.cs" />
     <Compile Include="Constraints\RectangleBoundaryConstraint.cs" />
-    <Compile Include="Forces\PlanetSurfaceGravity.cs" />
+    <Compile Include="Forces\ConstantGravityField.cs" />
     <Compile Include="IForce.cs" />
     <Compile Include="ImpulseConstraintSolver.cs" />
     <Compile Include="IConstraintSolver.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="PhysicalParticle.cs" />
     <Compile Include="IPhysicalConstraint.cs" />
     <Compile Include="Constraints\JointConstraint.cs" />
+    <Compile Include="ProjectedGaussSeidelConstraintSolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VectorExtensions.cs" />
   </ItemGroup>

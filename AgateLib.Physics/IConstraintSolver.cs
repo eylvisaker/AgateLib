@@ -12,5 +12,7 @@ namespace AgateLib.Physics
 		void ApplyConstraintForces();
 
 		void DebugInfo(StringBuilder b, int debugPage, PhysicalParticle particle);
+
+		void IntegrateKinematicVariables(double dt);
 	}
 }

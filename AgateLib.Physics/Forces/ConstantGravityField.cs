@@ -10,7 +10,7 @@ namespace AgateLib.Physics.Forces
 	/// <summary>
 	/// Implements a "planet surface" gravity force, that is, a constant force field that points in a single direction.
 	/// </summary>
-	public class PlanetSurfaceGravity : IForce
+	public class ConstantGravityField : IForce
 	{
 		private Vector2 direction = Vector2.UnitY;
 

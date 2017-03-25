@@ -64,7 +64,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 					Angle = 0.1,
 				});
 
-			system.AddForceField(new PlanetSurfaceGravity());
+			system.AddForceField(new ConstantGravityField());
 
 			system.AddConstraints(new RectangleBoundaryConstraint(new Rectangle(Point.Zero, DisplayContext.Size)));
 

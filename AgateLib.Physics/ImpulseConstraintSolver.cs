@@ -27,6 +27,10 @@ namespace AgateLib.Physics
 
 		private Matrix<double> externalForces;
 
+		private Matrix<double> savedJacobian;
+		private double savedLagrangeMultiplier;
+		private Matrix<double> constraintForces;
+
 		private Dictionary<PhysicalParticle, Vector3> newVelocities = new Dictionary<PhysicalParticle, Vector3>();
 
 		/// <summary>
@@ -42,7 +46,7 @@ namespace AgateLib.Physics
 		/// The number of generalized coordinates.
 		/// </summary>
 		private int GeneralizedCoordinateCount => Particles.Count * GeneralizedCoordinatesPerParticle;
-		
+
 		private IReadOnlyList<PhysicalParticle> Particles => System.Particles;
 
 		private IReadOnlyList<IPhysicalConstraint> Constraints => System.Constraints;
@@ -56,11 +60,15 @@ namespace AgateLib.Physics
 
 		public double DampeningConstant { get; set; } = (float)Math.Sqrt(DefaultSpringConstant);
 
+		private double dt;
+
 		/// <summary>
 		/// Computes the constraint forces from the current state of the system.
 		/// </summary>
 		public void ComputeConstraintForces(double dt)
 		{
+			this.dt = dt;
+
 			InitializeStep(dt);
 
 			SolveConstraintEquations(dt);
@@ -74,6 +82,9 @@ namespace AgateLib.Physics
 
 				var newV = new Vector2(newVelocities[particle].X,
 									   newVelocities[particle].Y);
+
+				particle.ConstraintForce = (newV - particle.Velocity) / dt;
+				particle.ConstraintTorque = (newVelocities[particle].Z - particle.AngularVelocity) / dt;
 
 				particle.Velocity = newV;
 				particle.AngularVelocity = newVelocities[particle].Z;
@@ -135,6 +146,8 @@ namespace AgateLib.Physics
 						var jacobian = ComputeJacobian(constraint, particleGroup);
 						var constraintValue = constraint.Value(particleGroup);
 
+						savedJacobian = jacobian;
+
 						var newVelocity = Matrix<double>.Build.Dense(
 							particleGroup.Count * GeneralizedCoordinatesPerParticle, 1);
 						var massInverseMatrix = Matrix<double>.Build.Dense(
@@ -162,11 +175,12 @@ namespace AgateLib.Physics
 
 						var bias = SpringConstant * constraintValue + (DampeningConstant * B1) * dt;
 						var B = B1 - bias;
-						
+
 						if (A < tolerance)
 							continue;
 
 						var lagrangeMultiplier = B / A;
+						savedLagrangeMultiplier = lagrangeMultiplier;
 
 						var impulse = jacobian.Transpose() * lagrangeMultiplier;
 
@@ -201,12 +215,12 @@ namespace AgateLib.Physics
 
 			Debug.WriteLine($"Total error: {totalError} after {nIter + 1} iterations.");
 		}
-		
+
 		private void InitializeStep(double dt)
 		{
 			InitializeVelocityVector(dt);
 		}
-		
+
 		private void InitializeVelocityVector(double dt)
 		{
 			for (int i = 0; i < Particles.Count; i++)
@@ -221,10 +235,32 @@ namespace AgateLib.Physics
 				newVelocities[particle] = new Vector3(velocity.X, velocity.Y, angularVelocity);
 			}
 		}
-		
+
 		public void DebugInfo(StringBuilder b, int debugPage, PhysicalParticle particle)
 		{
+			if (debugPage == 1)
+			{
+				//b.AppendLine($"Constraint Forces:\n{TotalConstraintForces?.Transpose().ToMatrixString()}");
+				b.AppendLine($"Lagrange Multipliers:\n{savedLagrangeMultiplier}");
+				b.AppendLine($"Jacobian:\n{savedJacobian?.ToMatrixString()}");
+				//b.AppendLine($"Velocity:\n{Velocity?.Transpose()?.ToMatrixString()}");
+				//b.AppendLine($"Coefficient Matrix: (det {CoefficientMatrix?.Determinant()})\n{CoefficientMatrix?.ToMatrixString()}");
+				//b.AppendLine($"Equation Constants:\n{EquationConstants?.ToMatrixString()}");
+			}
+		}
 
+		public void IntegrateKinematicVariables(double dt)
+		{
+			foreach (var item in System.Particles)
+			{
+				//item.AngularVelocity += dt * (item.Torque + item.ConstraintTorque) / item.InertialMoment;
+				item.Angle += dt * item.AngularVelocity;
+
+				//item.Velocity += dt * (item.Force + item.ConstraintForce) / item.Mass;
+				item.Position += dt * item.Velocity;
+
+				item.UpdatePolygonTransformation();
+			}
 		}
 	}
 }

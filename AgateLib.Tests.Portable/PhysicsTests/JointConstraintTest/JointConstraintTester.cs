@@ -15,6 +15,12 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 	{
 		private const int boxSize = 40;
 
+		private List<Func<KinematicsSystem, IConstraintSolver>> solvers = new List<Func<KinematicsSystem, IConstraintSolver>>
+		{
+			system => new ProjectedGaussSeidelConstraintSolver(system),
+			system => new ImpulseConstraintSolver(system)
+		};
+
 		private List<IKinematicsExample> examples = new List<IKinematicsExample>();
 		private int exampleIndex;
 
@@ -32,6 +38,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 		private int debugInfoPage;
 
 		private bool running;
+		private int solverIndex;
 
 		public string Name => "Physics Demo";
 		public string Category => "Physics";
@@ -177,7 +184,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 
 			system = examples[exampleIndex].Initialize(Display.RenderTarget.Size);
 
-			constraintSolver = new ImpulseConstraintSolver(system);
+			constraintSolver = solvers[solverIndex](system);
 			kinematics = new KinematicsIntegrator(system, constraintSolver);
 
 			StoreHistory();
@@ -250,6 +257,13 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			if (e.KeyCode >= KeyCode.D1 && e.KeyCode <= KeyCode.D2)
 			{
 				debugInfoPage = (int)(e.KeyCode - KeyCode.D1);
+			}
+
+			if (e.KeyCode >= KeyCode.F1 && e.KeyCode <= KeyCode.F12)
+			{
+				solverIndex = (int) (e.KeyCode - KeyCode.F1) % solvers.Count;
+
+				InitializeExample();
 			}
 		}
 

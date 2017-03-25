@@ -4,6 +4,7 @@ using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
 using AgateLib.Physics.Constraints;
+using AgateLib.Physics.Forces;
 
 namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
@@ -47,6 +48,8 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			});
 
 			system.AddConstraints(new CirclePerimeterConstraint(system.Particles[0], circlePosition, circleRadius));
+
+			system.AddForceField(new ConstantGravityField());
 
 			return system;
 		}
