@@ -9,7 +9,7 @@ using AgateLib.Physics.Forces;
 
 namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
-	public class BoxChainExample : IKinematicsExample
+	public class BoxChainExample : IPhysicsExample
 	{
 		private const int boxSize = 40;
 		private const float gravity = 100f;

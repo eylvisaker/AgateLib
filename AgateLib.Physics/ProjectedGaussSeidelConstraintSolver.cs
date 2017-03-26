@@ -146,7 +146,7 @@ namespace AgateLib.Physics
 			Matrix<double> A = jacobian * massInverseMatrix * jacobian.Transpose();
 			Matrix<double> B = -jacobian * (velocity / dt + massInverseMatrix * externalForces);
 
-			B -= SpringConstant * constraintValues / dt;// + DampeningConstant * jacobian * velocity / dt;
+			B -= SpringConstant * constraintValues / dt;// + DampeningConstant * jacobian * velocity;
 
 			CoefficientMatrix = A;
 			EquationConstants = B;

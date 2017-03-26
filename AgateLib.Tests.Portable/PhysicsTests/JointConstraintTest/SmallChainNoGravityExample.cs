@@ -7,7 +7,7 @@ using AgateLib.Physics;
 
 namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
-	public class SmallChainNoGravityExample : IKinematicsExample
+	public class SmallChainNoGravityExample : IPhysicsExample
 	{
 		private const int boxSize = 40;
 		private const int startingVelocity = 350;

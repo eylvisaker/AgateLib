@@ -11,7 +11,7 @@ using AgateLib.Platform;
 
 namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
-	public class JointConstraintTester : Scene, IAgateTest
+	public abstract class AgatePhysicsTest : Scene, IAgateTest
 	{
 		private const int boxSize = 40;
 
@@ -21,7 +21,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			system => new ImpulseConstraintSolver(system)
 		};
 
-		private List<IKinematicsExample> examples = new List<IKinematicsExample>();
+		private List<IPhysicsExample> examples = new List<IPhysicsExample>();
 		private int exampleIndex;
 
 		private List<List<PhysicalParticle>> history = new List<List<PhysicalParticle>>();
@@ -32,7 +32,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 
 		private KinematicsSystem system = new KinematicsSystem();
 		private KinematicsIntegrator kinematics;
-		private IConstraintSolver constraintSolver;
+		private IConstraintSolver solver;
 
 		private int debugParticleIndex;
 		private int debugInfoPage;
@@ -40,7 +40,20 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 		private bool running;
 		private int solverIndex;
 
-		public string Name => "Physics Demo";
+		protected List<IPhysicsExample> Examples => examples;
+
+		protected IPhysicsExample CurrentExample
+		{
+			get { return examples[exampleIndex]; }
+			set
+			{
+				exampleIndex = examples.IndexOf(value);
+				InitializeExample();
+			}
+		}
+
+		public abstract string Name { get; }
+
 		public string Category => "Physics";
 
 		public void Run(string[] args)
@@ -54,22 +67,9 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			}
 		}
 
-		private IKinematicsExample CurrentExample => examples[exampleIndex];
-
-		private Size Area => Display.RenderTarget.Size;
-
-		public int BoxCount { get; set; } = 8;
-
 		protected override void OnSceneStart()
 		{
 			InitializeInput();
-
-			examples.Add(new ParticleOnCircleOffCenterExample());
-			examples.Add(new SmallChainNoGravityExample());
-			examples.Add(new ChainOnCircleExample());
-			examples.Add(new BoxChainExample());
-			examples.Add(new ParticleOnCircleExample());
-
 			InitializeExample();
 		}
 
@@ -94,6 +94,10 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			Font.AgateMono.DrawText(0, 0, DebugInfo());
 		}
 
+		protected void AddExamples(params IPhysicsExample[] _examples)
+		{
+			this.examples = _examples.ToList();
+		}
 
 		private void Advance(double dt = 0.005)
 		{
@@ -123,6 +127,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 		{
 			StringBuilder b = new StringBuilder();
 
+			b.AppendLine($"{solver.GetType().Name}");
 			b.AppendLine($"{examples[exampleIndex].Name}: {historyIndex}");
 			b.AppendLine($"Particle {debugParticleIndex}");
 
@@ -146,7 +151,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 
 		private void PrintStateOfBox(StringBuilder b, PhysicalParticle box)
 		{
-			const float RadsToDegress = 180 / (float)Math.PI;
+			const double RadsToDegress = 180 / (double)Math.PI;
 
 			b.AppendLine($"   X: {box.Position.X}");
 			b.AppendLine($"   Y: {box.Position.Y}");
@@ -173,7 +178,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			}
 			else if (debugInfoPage == 1)
 			{
-				constraintSolver.DebugInfo(b, debugInfoPage, box);
+				solver.DebugInfo(b, debugInfoPage, box);
 			}
 		}
 
@@ -184,8 +189,8 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 
 			system = examples[exampleIndex].Initialize(Display.RenderTarget.Size);
 
-			constraintSolver = solvers[solverIndex](system);
-			kinematics = new KinematicsIntegrator(system, constraintSolver);
+			solver = solvers[solverIndex](system);
+			kinematics = new KinematicsIntegrator(system, solver);
 
 			StoreHistory();
 		}
@@ -261,7 +266,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 
 			if (e.KeyCode >= KeyCode.F1 && e.KeyCode <= KeyCode.F12)
 			{
-				solverIndex = (int) (e.KeyCode - KeyCode.F1) % solvers.Count;
+				solverIndex = (int)(e.KeyCode - KeyCode.F1) % solvers.Count;
 
 				InitializeExample();
 			}
@@ -276,7 +281,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 				historyItem[i].CopyTo(particles[i]);
 			}
 
-			constraintSolver.ComputeConstraintForces(0.005f);
+			solver.ComputeConstraintForces(0.005f);
 		}
 
 	}

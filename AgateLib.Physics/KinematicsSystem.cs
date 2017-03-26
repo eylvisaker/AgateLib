@@ -16,11 +16,10 @@ namespace AgateLib.Physics
 
 		public IReadOnlyList<IForce> Forces => forces;
 
-		public double LinearKineticEnergy => particles.Sum(p => .5f * p.Mass * p.Velocity.MagnitudeSquared);
+		public double LinearKineticEnergy => particles.Sum(p => .5 * p.Mass * p.Velocity.MagnitudeSquared);
 
 		public double AngularKineticEnergy
-			=> particles.Sum(p => .5f * p.InertialMoment * p.AngularVelocity * p.AngularVelocity);
-
+			=> particles.Sum(p => .5 * p.InertialMoment * p.AngularVelocity * p.AngularVelocity);
 
 		public void AddParticles(params PhysicalParticle[] items)
 		{

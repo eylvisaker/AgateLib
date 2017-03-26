@@ -8,7 +8,7 @@ using AgateLib.Physics.Forces;
 
 namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {
-	public class ParticleOnCircleOffCenterExample : IKinematicsExample
+	public class ParticleOnCircleOffCenterExample : IPhysicsExample
 	{
 		private const int boxSize = 40;
 		private const float gravity = 1000f;

@@ -1,9 +1,9 @@
 ﻿using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
 
-namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
+namespace AgateLib.Tests.PhysicsTests
 {
-	public interface IKinematicsExample
+	public interface IPhysicsExample
 	{
 		string Name { get; }
 		double PotentialEnergy { get; }
