@@ -15,6 +15,10 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 			InnerBounds = bounds.Contract(bounds.Width / 8);
 		}
 
+		public double MultiplierMin => double.MinValue;
+
+		public double MultiplierMax => 0;
+
 		public ConstraintType ConstraintType => ConstraintType.Inequality;
 
 		public Rectangle InnerBounds { get; private set; }

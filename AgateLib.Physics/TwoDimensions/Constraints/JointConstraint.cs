@@ -24,6 +24,9 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 			this.point2 = point2;
 		}
 
+		public double MultiplierMin => double.MinValue;
+		public double MultiplierMax => double.MaxValue;
+
 		public ConstraintType ConstraintType => ConstraintType.Equality;
 
 		/// <summary>

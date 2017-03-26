@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace AgateLib.Physics.TwoDimensions
 {
@@ -9,6 +10,8 @@ namespace AgateLib.Physics.TwoDimensions
 		public IReadOnlyList<PhysicalParticle> Particles { get; set; }
 
 		public double Value => Constraint.Value(Particles);
+		public double MultiplierMin => Constraint.MultiplierMin;
+		public double MultiplierMax => Constraint.MultiplierMax;
 
 		public bool AppliesTo(PhysicalParticle physicalParticle)
 		{

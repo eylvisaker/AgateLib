@@ -7,6 +7,9 @@ namespace AgateLib.Physics.TwoDimensions
 	/// </summary>
 	public interface IPhysicalConstraint
 	{
+		double MultiplierMin { get; }
+		double MultiplierMax { get; }
+
 		/// <summary>
 		/// Return true to have the constraint applied on ly if its value is positive.
 		/// </summary>
@@ -32,6 +35,7 @@ namespace AgateLib.Physics.TwoDimensions
 		ConstraintDerivative Derivative(PhysicalParticle particle);
 
 		IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system);
+
 	}
 
 	public enum ConstraintType

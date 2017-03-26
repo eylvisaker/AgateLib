@@ -41,5 +41,8 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 				particle.Position.Y - circlePosition.Y,
 				0);
 		}
+
+		public double MultiplierMin => double.MinValue;
+		public double MultiplierMax => double.MaxValue;
 	}
 }

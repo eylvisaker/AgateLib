@@ -8,7 +8,7 @@ using AgateLib.Mathematics;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace AgateLib.Physics.TwoDimensions
-{   
+{
 	/// <summary>
 	/// Unstable.
 	/// </summary>
@@ -151,8 +151,17 @@ namespace AgateLib.Physics.TwoDimensions
 			CoefficientMatrix = A;
 			EquationConstants = B;
 
-			lagrangeMultipliers = ProjectedGaussSeidelSolution(A, B);
-			
+			Matrix<double> lowerLimit = Matrix<double>.Build.Dense(Constraints.Count, 1);
+			Matrix<double> upperLimit = Matrix<double>.Build.Dense(Constraints.Count, 1);
+
+			for (int i = 0; i < Constraints.Count; i++)
+			{
+				lowerLimit[i,0] = Constraints[i].MultiplierMin;
+				upperLimit[i, 0] = Constraints[i].MultiplierMax;
+			}
+
+			lagrangeMultipliers = SolveProjectedGaussSeidel(A, B, lowerLimit, upperLimit);
+
 			totalConstraintForces = jacobian.Transpose() * lagrangeMultipliers;
 
 			for (int i = 0; i < Constraints.Count; i++)
@@ -165,6 +174,7 @@ namespace AgateLib.Physics.TwoDimensions
 		}
 
 		/// <summary>
+		/// Performs a projected G
 		/// </summary>
 		/// <param name="A"></param>
 		/// <param name="B"></param>
@@ -173,12 +183,11 @@ namespace AgateLib.Physics.TwoDimensions
 		/// Method is described here:
 		/// https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method
 		/// </remarks>
-		public Matrix<double> ProjectedGaussSeidelSolution(Matrix<double> A, Matrix<double> B)
+		public Matrix<double> SolveProjectedGaussSeidel(Matrix<double> A, Matrix<double> B, Matrix<double> lowerLimit, Matrix<double> upperLimit)
 		{
 			const double tolerance = 1e-6;
 			Matrix<double> result = Matrix<double>.Build.Dense(A.RowCount, 1);
 			int[] pivot = Enumerable.Range(0, result.RowCount).ToArray();
-			bool singular = false;
 			int singularIndex = result.RowCount;
 
 			// perform pivoting if any diagonal elements are zero.
@@ -203,7 +212,6 @@ namespace AgateLib.Physics.TwoDimensions
 						// we have a singular matrix, so just move this row to the bottom.
 						singularIndex--;
 						swapIndex = singularIndex;
-						singular = true;
 					}
 
 					pivot[i] = swapIndex;
@@ -238,6 +246,9 @@ namespace AgateLib.Physics.TwoDimensions
 
 					var oldElement = result[pivot[i], 0];
 					error += Math.Abs(element - oldElement);
+
+					element = Math.Max(element, lowerLimit[pivot[i], 0]);
+					element = Math.Min(element, upperLimit[pivot[i], 0]);
 
 					result[pivot[i], 0] = element;
 				}
@@ -296,7 +307,7 @@ namespace AgateLib.Physics.TwoDimensions
 					});
 				}
 			}
-			
+
 
 			constraintValues = Matrix<double>.Build.Dense(Constraints.Count, 1);
 			constraintForces = new List<Vector<double>>();

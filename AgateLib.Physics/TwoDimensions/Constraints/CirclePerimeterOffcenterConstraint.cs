@@ -22,6 +22,9 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 			this.offset = offset;
 		}
 
+		public double MultiplierMin => double.MinValue;
+		public double MultiplierMax => double.MaxValue;
+
 		public ConstraintType ConstraintType => ConstraintType.Equality;
 
 		private Vector2 ConstrainedPointLocalPosition => offset.Rotate(particle.Angle);
@@ -53,5 +56,6 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 		{
 			yield return new List<PhysicalParticle> { particle };
 		}
+
 	}
 }

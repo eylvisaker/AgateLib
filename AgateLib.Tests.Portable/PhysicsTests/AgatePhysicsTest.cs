@@ -213,7 +213,13 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			if (e.KeyCode == KeyCode.Z)
 				InitializeExample();
 			if (e.KeyCode == KeyCode.Space && !running)
+			{
 				Advance();
+			}
+			if (e.KeyCode == KeyCode.Space && running)
+			{
+				running = false;
+			}
 			if (e.KeyCode == KeyCode.Enter || e.KeyCode == KeyCode.Return)
 				running = !running;
 
