@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AgateLib.Physics
+namespace AgateLib.Physics.TwoDimensions
 {
 	/// <summary>
 	/// A constraint equation for the kinematics solver to incorporate in the computation of forces.

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using AgateLib.Quality;
 
-namespace AgateLib.Physics
+namespace AgateLib.Physics.TwoDimensions
 {
 	public class KinematicsIntegrator
 	{

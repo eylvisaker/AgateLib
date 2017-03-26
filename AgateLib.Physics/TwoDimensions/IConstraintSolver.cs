@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace AgateLib.Physics
+namespace AgateLib.Physics.TwoDimensions
 {
 	public interface IConstraintSolver
 	{

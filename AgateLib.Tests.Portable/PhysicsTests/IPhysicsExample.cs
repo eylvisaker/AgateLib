@@ -1,5 +1,6 @@
 ﻿using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
+using AgateLib.Physics.TwoDimensions;
 
 namespace AgateLib.Tests.PhysicsTests
 {

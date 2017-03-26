@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace AgateLib.Physics
+namespace AgateLib.Physics.TwoDimensions
 {
 	/// <summary>
 	/// Impulse based constraint solver.

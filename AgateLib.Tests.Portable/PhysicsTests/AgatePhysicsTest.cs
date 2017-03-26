@@ -7,6 +7,7 @@ using AgateLib.InputLib;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
+using AgateLib.Physics.TwoDimensions;
 using AgateLib.Platform;
 
 namespace AgateLib.Tests.PhysicsTests.JointConstraintTest

@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using AgateLib.Physics;
-using AgateLib.Physics.Constraints;
+using AgateLib.Physics.TwoDimensions;
+using AgateLib.Physics.TwoDimensions.Constraints;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

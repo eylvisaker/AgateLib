@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Mathematics;
 
-namespace AgateLib.Physics.Forces
+namespace AgateLib.Physics.TwoDimensions.Forces
 {
 	/// <summary>
 	/// Implements a "planet surface" gravity force, that is, a constant force field that points in a single direction.

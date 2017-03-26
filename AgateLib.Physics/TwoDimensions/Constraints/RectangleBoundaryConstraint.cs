@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.Geometry.Algorithms;
 
-namespace AgateLib.Physics.Constraints
+namespace AgateLib.Physics.TwoDimensions.Constraints
 {
 	public class RectangleBoundaryConstraint : IPhysicalConstraint
 	{

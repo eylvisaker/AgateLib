@@ -3,7 +3,7 @@ using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 
-namespace AgateLib.Physics
+namespace AgateLib.Physics.TwoDimensions
 {
 	public class PhysicalParticle
 	{

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AgateLib.Physics
+namespace AgateLib.Physics.TwoDimensions
 {
 	/// <summary>
 	/// Interface for a force.

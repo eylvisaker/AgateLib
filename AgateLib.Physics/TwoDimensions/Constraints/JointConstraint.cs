@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using AgateLib.Mathematics;
 
-namespace AgateLib.Physics.Constraints
+namespace AgateLib.Physics.TwoDimensions.Constraints
 {
 	/// <summary>
 	/// Implements a constraint which forces the two points relative to each particle be kept at a single point.

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace AgateLib.Physics
+namespace AgateLib.Physics.TwoDimensions
 {   
 	/// <summary>
 	/// Unstable.

@@ -4,8 +4,9 @@ using AgateLib.DisplayLib;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics;
-using AgateLib.Physics.Constraints;
-using AgateLib.Physics.Forces;
+using AgateLib.Physics.TwoDimensions;
+using AgateLib.Physics.TwoDimensions.Constraints;
+using AgateLib.Physics.TwoDimensions.Forces;
 
 namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 {

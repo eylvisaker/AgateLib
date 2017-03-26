@@ -1,4 +1,4 @@
-namespace AgateLib.Physics
+namespace AgateLib.Physics.TwoDimensions
 {
 	/// <summary>
 	/// Compute the derivative of your constraint, with respect to each of the particle's values.

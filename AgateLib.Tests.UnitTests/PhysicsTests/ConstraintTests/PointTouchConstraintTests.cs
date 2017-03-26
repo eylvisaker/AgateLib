@@ -1,6 +1,7 @@
 ﻿using AgateLib.Mathematics;
 using AgateLib.Physics;
-using AgateLib.Physics.Constraints;
+using AgateLib.Physics.TwoDimensions;
+using AgateLib.Physics.TwoDimensions.Constraints;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.PhysicsTests.ConstraintTests

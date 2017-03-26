@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AgateLib.Mathematics;
 
-namespace AgateLib.Physics.Constraints
+namespace AgateLib.Physics.TwoDimensions.Constraints
 {
 	/// <summary>
 	/// Constrains a particle to exist on a circle.
