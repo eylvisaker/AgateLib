@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-
-using AgateLib.Extensions.Collections.Generic;
-
+using AgateLib.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.Extensions
