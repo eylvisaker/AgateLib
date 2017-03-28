@@ -145,6 +145,13 @@ namespace AgateLib.Physics.TwoDimensions
 			//       x = lambda
 			//       B = -J * (v/dt + M^(-1) * F_{ext})
 
+			// Interpretation is:
+			//  A - diagonal elements are the "magnitude" of the Jacobian for the i-th 
+			//      constraint. 
+			//  B - J*v is derivative of the constraint. Alternately, it is the projection 
+			//      of the velocity in the direction of the Jacobian and indicates how much 
+			//      the constraint value will change if the particle continues its motion  
+			//      without any applied force.
 			Matrix<double> A = jacobian * massInverseMatrix * jacobian.Transpose();
 			Matrix<double> B = -jacobian * (velocity / dt + massInverseMatrix * externalForces);
 
@@ -224,7 +231,6 @@ namespace AgateLib.Physics.TwoDimensions
 					});
 				}
 			}
-
 
 			constraintValues = Matrix<double>.Build.Dense(Constraints.Count, 1);
 			constraintForces = new List<Vector<double>>();

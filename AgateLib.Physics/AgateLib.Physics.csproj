@@ -40,6 +40,7 @@
     <Compile Include="TwoDimensions\Constraints\CirclePerimeterOffcenterConstraint.cs" />
     <Compile Include="TwoDimensions\Constraints\CirclePerimeterConstraint.cs" />
     <Compile Include="TwoDimensions\ConstraintDerivative.cs" />
+    <Compile Include="TwoDimensions\Constraints\CollisionConstraint.cs" />
     <Compile Include="TwoDimensions\Constraints\RectangleBoundaryConstraint.cs" />
     <Compile Include="TwoDimensions\Forces\ConstantGravityField.cs" />
     <Compile Include="TwoDimensions\IForce.cs" />

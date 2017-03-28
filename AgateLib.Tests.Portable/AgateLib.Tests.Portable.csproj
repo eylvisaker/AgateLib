@@ -114,9 +114,12 @@
     <Compile Include="FontTests\TextLayout.cs" />
     <Compile Include="FoundationTests\Resources.cs" />
     <Compile Include="IAgateTest.cs" />
-    <Compile Include="PhysicsTests\ContactCollisionConstraintTest\ContactConstraintTest.cs" />
+    <Compile Include="PhysicsTests\CollisionConstraintTest\ContactCollisionExample.cs" />
+    <Compile Include="PhysicsTests\CollisionConstraintTest\ContactConstraintTest.cs" />
+    <Compile Include="PhysicsTests\CollisionConstraintTest\ParticleGenerator.cs" />
+    <Compile Include="PhysicsTests\CollisionConstraintTest\ParticleRenderer.cs" />
     <Compile Include="PhysicsTests\JointConstraintTest\JointConstraintTest.cs" />
-    <Compile Include="PhysicsTests\ContactCollisionConstraintTest\ContactConstrantExample.cs" />
+    <Compile Include="PhysicsTests\CollisionConstraintTest\HittingTheGroundExample.cs" />
     <Compile Include="PhysicsTests\JointConstraintTest\BoxChainExample.cs" />
     <Compile Include="PhysicsTests\JointConstraintTest\ChainOnCircleExample.cs" />
     <Compile Include="PhysicsTests\AgatePhysicsTest.cs" />

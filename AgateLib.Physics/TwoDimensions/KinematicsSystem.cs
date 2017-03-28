@@ -20,6 +20,14 @@ namespace AgateLib.Physics.TwoDimensions
 		public double AngularKineticEnergy
 			=> particles.Sum(p => .5 * p.InertialMoment * p.AngularVelocity * p.AngularVelocity);
 
+		public void AddParticles(IEnumerable<PhysicalParticle> items)
+		{
+			foreach (var item in items)
+			{
+				particles.Add(item);
+			}
+		}
+
 		public void AddParticles(params PhysicalParticle[] items)
 		{
 			foreach (var item in items)
