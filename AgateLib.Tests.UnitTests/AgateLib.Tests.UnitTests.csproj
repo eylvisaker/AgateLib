@@ -82,6 +82,10 @@
       <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.17.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.7.1.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.1\lib\net45\Moq.dll</HintPath>
     </Reference>
@@ -155,6 +159,7 @@
     <Compile Include="MathematicsTests\VectorTypeConverterTests.cs" />
     <Compile Include="PhysicsTests\ConstraintTests\PointTouchConstraintTests.cs" />
     <Compile Include="PhysicsTests\IntegratorTests.cs" />
+    <Compile Include="PhysicsTests\LinearAlgebraTests\GaussSeidelTests.cs" />
     <Compile Include="Platform\IntegrationTest\IntegrationTestPlatformTests.cs" />
     <Compile Include="Platform\ClockTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

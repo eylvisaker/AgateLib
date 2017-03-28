@@ -29,7 +29,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			colors = new[]
 			{
 				Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Purple, Color.Violet, Color.Indigo,
-				Color.Orange, Color.White,
+				Color.Orange, Color.White, Color.Black,
 			};
 
 			for (int i = 0; i < colors.Length; i++)

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
+using AgateLib.Physics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace AgateLib.Physics.TwoDimensions
@@ -33,6 +34,7 @@ namespace AgateLib.Physics.TwoDimensions
 		private Matrix<double> totalConstraintForces;
 		private Matrix<double> constraintValues;
 		private List<Vector<double>> constraintForces;
+		private GaussSeidelAlgorithm gaussSeidel = new GaussSeidelAlgorithm();
 
 		public ProjectedGaussSeidelConstraintSolver(KinematicsSystem system)
 		{
@@ -160,7 +162,7 @@ namespace AgateLib.Physics.TwoDimensions
 				upperLimit[i, 0] = Constraints[i].MultiplierMax;
 			}
 
-			lagrangeMultipliers = SolveProjectedGaussSeidel(A, B, lowerLimit, upperLimit);
+			lagrangeMultipliers = gaussSeidel.SolveProjected(A, B, lowerLimit, upperLimit);
 
 			totalConstraintForces = jacobian.Transpose() * lagrangeMultipliers;
 
@@ -171,91 +173,6 @@ namespace AgateLib.Physics.TwoDimensions
 
 			Debug.Assert(lagrangeMultipliers.RowCount == Constraints.Count);
 			Debug.Assert(lagrangeMultipliers.ColumnCount == 1);
-		}
-
-		/// <summary>
-		/// Performs a projected G
-		/// </summary>
-		/// <param name="A"></param>
-		/// <param name="B"></param>
-		/// <returns></returns>
-		/// <remarks>
-		/// Method is described here:
-		/// https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method
-		/// </remarks>
-		public Matrix<double> SolveProjectedGaussSeidel(Matrix<double> A, Matrix<double> B, Matrix<double> lowerLimit, Matrix<double> upperLimit)
-		{
-			const double tolerance = 1e-6;
-			Matrix<double> result = Matrix<double>.Build.Dense(A.RowCount, 1);
-			int[] pivot = Enumerable.Range(0, result.RowCount).ToArray();
-			int singularIndex = result.RowCount;
-
-			// perform pivoting if any diagonal elements are zero.
-			for (int i = 0; i < A.RowCount; i++)
-			{
-				if (Math.Abs(A[i, i]) < tolerance)
-				{
-					int swapIndex = i;
-					double maxValue = tolerance;
-
-					for (int j = i + 1; j < A.RowCount; j++)
-					{
-						if (Math.Abs(A[j, i]) > maxValue)
-						{
-							maxValue = Math.Abs(A[j, i]);
-							swapIndex = j;
-						}
-					}
-
-					if (swapIndex == i)
-					{
-						// we have a singular matrix, so just move this row to the bottom.
-						singularIndex--;
-						swapIndex = singularIndex;
-					}
-
-					pivot[i] = swapIndex;
-					pivot[swapIndex] = i;
-				}
-			}
-
-			double error;
-			int iter = 0;
-			const int maxIter = 50;
-
-			do
-			{
-				error = 0;
-				iter++;
-
-				for (int i = 0; i < singularIndex; i++)
-				{
-					var element = B[pivot[i], 0];
-
-					for (int j = 0; j < i; j++)
-					{
-						element -= A[pivot[i], j] * result[pivot[j], 0];
-					}
-
-					for (int j = i + 1; j < result.RowCount; j++)
-					{
-						element -= A[pivot[i], j] * result[pivot[j], 0];
-					}
-
-					element /= A[pivot[i], pivot[i]];
-
-					var oldElement = result[pivot[i], 0];
-					error += Math.Abs(element - oldElement);
-
-					element = Math.Max(element, lowerLimit[pivot[i], 0]);
-					element = Math.Min(element, upperLimit[pivot[i], 0]);
-
-					result[pivot[i], 0] = element;
-				}
-
-			} while (error > tolerance && iter < maxIter);
-
-			return result;
 		}
 
 		private void InitializeStep()
@@ -303,7 +220,7 @@ namespace AgateLib.Physics.TwoDimensions
 					Constraints.Add(new AppliedConstraint
 					{
 						Constraint = constraint,
-						Particles = group,
+						Particles = group.ToList(),
 					});
 				}
 			}
