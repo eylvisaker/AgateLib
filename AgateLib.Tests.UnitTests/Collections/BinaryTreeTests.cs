@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Collections.Generic;
-using AgateLib.Extensions.Collections.Generic;
 using AgateLib.Quality;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
