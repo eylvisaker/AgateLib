@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection;
 
 namespace AgateLib.DisplayLib.Sprites
 {

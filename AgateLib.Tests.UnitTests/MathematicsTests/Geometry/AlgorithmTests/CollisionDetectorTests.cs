@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.UnitTests.MathematicsTests
+namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 {
 	[TestClass]
 	public class CollisionDetectorTests

@@ -143,7 +143,7 @@
     <Compile Include="MathematicsTests\AlgorithmTests\ComplexPolygonDetectionTests.cs" />
     <Compile Include="MathematicsTests\AlgorithmTests\LineAlgorithmTests.cs" />
     <Compile Include="MathematicsTests\AlgorithmTests\PolygonDecompositionTests.cs" />
-    <Compile Include="MathematicsTests\CollisionDetectorTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\AlgorithmTests\CollisionDetectorTests.cs" />
     <Compile Include="MathematicsTests\GeometryBuilderTests\EllipseBuilderTests.cs" />
     <Compile Include="MathematicsTests\GeometryBuilderTests\StarBuilderTests.cs" />
     <Compile Include="MathematicsTests\PolygonTests.cs" />

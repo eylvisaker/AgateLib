@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics.Geometry;
 
-namespace AgateLib.Mathematics
+namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
 	/// <summary>
 	/// Class which can be used to detect collision between two polygons.
