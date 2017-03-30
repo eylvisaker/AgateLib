@@ -104,9 +104,10 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <returns></returns>
 		public static double SideOf(Vector2 A, Vector2 B, Vector2 pt)
 		{
+			var toPt = pt - A;
 			var diff = (B - A).Normalize();
-			var projection = pt.ProjectionOn(diff);
-			var ortho = pt - projection;
+			var projection = toPt.ProjectionOn(diff);
+			var ortho = toPt - projection;
 
 			return ortho.CrossProduct(diff);
 		}

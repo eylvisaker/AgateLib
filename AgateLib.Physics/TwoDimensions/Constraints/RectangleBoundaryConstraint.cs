@@ -123,77 +123,8 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 				result.Add(w);
 				v = w;
 
-				result = ConvexHull(result);
+				result = new QuickHull().FindConvexHull(result);
 			}
-		}
-
-		private Polygon ConvexHull(Polygon polygon)
-		{
-			// QuickHull algorithm:
-			// https://en.wikipedia.org/wiki/Quickhull
-
-			Polygon result = new Polygon();
-
-			// Find left & right most points and add them to the hull.
-			Vector2 left = Vector2.UnitX * double.MaxValue;
-			Vector2 right = Vector2.UnitX * double.MinValue;
-
-			foreach (var point in polygon)
-			{
-				if (point.X < left.X)
-					left = point;
-				if (point.X > right.X)
-					right = point;
-			}
-
-			result.Add(left);
-			result.Add(right);
-
-			var leftSet = polygon.Where(v => LineAlgorithms.SideOf(left, right, v) < 0).ToList();
-			var rightSet = polygon.Where(v => LineAlgorithms.SideOf(left, right, v) > 0).ToList();
-
-			FindHull(result, rightSet, left, right);
-			FindHull(result, leftSet, right, left);
-
-			return result;
-		}
-
-		private void FindHull(Polygon result, List<Vector2> set, Vector2 P, Vector2 Q)
-		{
-			if (set.Count == 0)
-				return;
-
-			double max = double.MinValue;
-			Vector2 maxV = set.First();
-
-			foreach (var v in set)
-			{
-				var distance = LineAlgorithms.SideOf(P, Q, v);
-
-				if (distance > max)
-				{
-					max = distance;
-					maxV = v;
-				}
-			}
-
-			var indexA = result.IndexOf(P);
-			var indexB = result.IndexOf(Q);
-
-			if (indexB > indexA)
-			{
-				result.Insert(indexB, maxV);
-			}
-			else
-			{
-				result.Add(maxV);
-			}
-
-			var S1 = set.FindAll(v => LineAlgorithms.SideOf(P, maxV, v) > 0);
-			var S2 = set.FindAll(v => LineAlgorithms.SideOf(maxV, Q, v) > 0);
-
-			FindHull(result, S1, P, maxV);
-			FindHull(result, S2, maxV, Q);
 		}
 
 		private Vector2 PolygonSupport(Polygon polygon, Vector2 d)

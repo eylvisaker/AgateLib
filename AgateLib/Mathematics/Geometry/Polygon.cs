@@ -389,6 +389,9 @@ namespace AgateLib.Mathematics.Geometry
 
 			for (int i = 0, j = nvert - 1; i < nvert; j = i++)
 			{
+				if (point == points[i])
+					return true;
+
 				if (points[i].Y >= point.Y != points[j].Y >= point.Y &&
 				    point.X <= (points[j].X - points[i].X) * (point.Y - points[i].Y) / (points[j].Y - points[i].Y) + points[i].X
 				)
