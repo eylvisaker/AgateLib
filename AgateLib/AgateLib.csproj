@@ -197,6 +197,7 @@
     <Compile Include="DisplayLib\PrimitiveRendererExtensions.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\CollisionDetector.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\BayazitDecomposition.cs" />
+    <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\GilbertJohnsonKeerthiAlgorithm.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\ConvexHull.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\IPolygonConvexDecompositionAlgorithm.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\LineAlgorithms.cs" />

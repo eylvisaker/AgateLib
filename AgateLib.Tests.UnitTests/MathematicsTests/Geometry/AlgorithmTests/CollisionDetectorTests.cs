@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 {
 	[TestClass]
-	public class CollisionDetectorTests
+	public class CollisionDetectorTests : PolygonUnitTest
 	{
 		CollisionDetector collider = new CollisionDetector();
 
@@ -78,6 +78,21 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 			var b = Rectangle.FromLTRB(2, 2, 3, 3).ToPolygon();
 
 			Assert.IsFalse(collider.DoPolygonsIntersect(a, b));
+		}
+
+		[TestMethod]
+		public void CD_GJKCollision()
+		{
+			var pa = new Rectangle(-2, 0, 1, 1).ToPolygon();
+			var pb = new Rectangle(2, 0, 1, 1).ToPolygon();
+
+			var gjk = new GilbertJohnsonKeerthiAlgorithm();
+
+			Assert.IsFalse(gjk.AreColliding(pa, pb));
+
+			pb.TranslateSelf(-3.1 * Vector2.UnitX);
+
+			Assert.IsTrue(gjk.AreColliding(pa, pb));
 		}
 	}
 }

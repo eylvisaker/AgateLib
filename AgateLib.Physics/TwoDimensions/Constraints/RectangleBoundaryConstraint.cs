@@ -109,46 +109,5 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 			}
 		}
 
-		private Polygon ApproximateMinkowskiDifference(Vector2 start,
-			Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB)
-		{
-			Polygon result = new Polygon();
-
-			Vector2 v = start;
-
-			while (true)
-			{
-				var w = supportA(v) - supportB(-v);
-
-				result.Add(w);
-				v = w;
-
-				result = new QuickHull().FindConvexHull(result);
-			}
-		}
-
-		private Vector2 PolygonSupport(Polygon polygon, Vector2 d)
-		{
-			double highest = double.MinValue;
-			Vector2 support = Vector2.Zero;
-
-			foreach (var point in polygon)
-			{
-				var dot = point.DotProduct(d);
-
-				if (dot > highest)
-				{
-					highest = dot;
-					support = point;
-				}
-			}
-
-			return support;
-		}
-
-		private Vector2 RectangleSupport(Rectangle r, Vector2 d)
-		{
-			return PolygonSupport(r.ToPolygon(), d);
-		}
 	}
 }

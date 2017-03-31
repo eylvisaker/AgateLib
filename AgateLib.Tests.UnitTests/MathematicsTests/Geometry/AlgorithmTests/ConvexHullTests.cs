@@ -11,26 +11,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 {
 	[TestClass]
-	public class ConvexHullTests
+	public class ConvexHullTests : PolygonUnitTest
 	{
-		private Polygon Diamond { get; } = new Polygon
-			{
-				{ 1, 0 },
-				{ 0, 1 },
-				{ -1, 0 },
-				{ 0, -1 },
-			};
-
-		private Polygon TetrisL { get; } = new Polygon
-			{
-				Vector2.Zero,
-				{ 2, 0 },
-				{ 2, 1 },
-				{ 1, 1 },
-				{ 1, 3 },
-				{ 0, 3 },
-			};
-
 		[TestMethod]
 		public void ConvexHull_ConvexShape()
 		{

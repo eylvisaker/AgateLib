@@ -11,26 +11,8 @@ using YamlDotNet.Serialization;
 namespace AgateLib.UnitTests.MathematicsTests
 {
 	[TestClass]
-	public class PolygonTests
+	public class PolygonTests : PolygonUnitTest
 	{
-		private Polygon Diamond { get; } = new Polygon
-			{
-				{ 1, 0 },
-				{ 0, 1 },
-				{ -1, 0 },
-				{ 0, -1 },
-			};
-
-		private Polygon TetrisL { get; } = new Polygon
-			{
-				Vector2.Zero,
-				{ 2, 0 },
-				{ 2, 1 },
-				{ 1, 1 },
-				{ 1, 3 },
-				{ 0, 3 },
-			};
-
 		private Polygon OddConcave { get; } = new Polygon
 			{
 				Vector2.Zero,
