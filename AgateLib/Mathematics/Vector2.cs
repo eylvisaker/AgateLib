@@ -497,5 +497,20 @@ namespace AgateLib.Mathematics
 		{
 			return X * b.Y - Y * b.X;
 		}
+
+		/// <summary>
+		/// Computes the left-associated triple vector product (A × B) × C
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <param name="c"></param>
+		/// <returns></returns>
+		public static Vector2 TripleProduct(Vector2 a, Vector2 b, Vector2 c)
+		{
+			// Here we use the identity: 
+			//    (A × B) × C = (A · C)B - (B · C)A
+
+			return a.DotProduct(c) * b - b.DotProduct(c) * a;
+		}
 	}
 }

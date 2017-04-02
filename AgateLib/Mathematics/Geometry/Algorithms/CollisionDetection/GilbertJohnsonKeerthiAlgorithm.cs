@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Quality;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
@@ -19,29 +18,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 	/// </remarks>
 	public class GilbertJohnsonKeerthiAlgorithm
 	{
-		private int maxIterations = 50;
-		private double tolerance = 1e-6;
-
-		public int MaxIterations
-		{
-			get { return maxIterations; }
-			set
-			{
-				Require.ArgumentInRange(value > 1, nameof(MaxIterations), "Value must be greater than 1.");
-				maxIterations = value;
-			}
-		}
-
-		public double Tolerance
-		{
-			get { return tolerance; }
-			set
-			{
-				Require.ArgumentInRange(value > 0, nameof(Tolerance), "Value must be positive.");
-				tolerance = value;
-			}
-		}
-
+		private double Tolerance => IterationControl.Tolerance;
+		private int MaxIterations => IterationControl.MaxIterations;
+		public IterativeAlgorithm IterationControl { get; } = new IterativeAlgorithm();
 
 		public bool AreColliding(Polygon a, Polygon b)
 		{
@@ -49,18 +28,25 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				p => PolygonSupport(a, p),
 				p => PolygonSupport(b, p));
 
-			return minkowskiDiff.DistanceFromOrigin < tolerance;
+			return minkowskiDiff.DistanceFromOrigin < IterationControl.Tolerance;
 		}
 
 		public double DistanceBetween(Polygon a, Polygon b)
+		{
+			var result = FindMinkowskiSimplex(a, b);
+
+			return result.DistanceFromOrigin;
+		}
+
+		public MinkowskiSimplex FindMinkowskiSimplex(Polygon a, Polygon b)
 		{
 			var result = FindMinkowskiSimplex(a.First(),
 				p => PolygonSupport(a, p),
 				p => PolygonSupport(b, p));
 
-			return result.DistanceFromOrigin;
+			return result;
 		}
-
+		
 		public MinkowskiSimplex FindMinkowskiSimplex(Vector2 start,
 			Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB)
 		{
@@ -95,26 +81,28 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				var dota = result.Last().DotProduct(d);
 
 				diff = dotc - dota;
-				if (diff < tolerance)
+				if (diff < Tolerance)
 				{
 					result.DistanceFromOrigin = d.Magnitude;
 					return result;
 				}
 
-				var p1 = LineSegmentPointNearestOrigin(c, result.Simplex[result.Simplex.Count - 2]);
-				var p2 = LineSegmentPointNearestOrigin(c, result.Simplex[result.Simplex.Count - 1]);
+				var ia = result.Simplex.Count - 2;
+				var ib = result.Simplex.Count - 1;
 
-				result.Simplex.Add(c);
-
-				if (result.Simplex.Count > 3)
-					result.Simplex.RemoveAt(0);
-
+				var p1 = LineSegmentPointNearestOrigin(c, result.Simplex[ia]);
+				var p2 = LineSegmentPointNearestOrigin(c, result.Simplex[ib]);
+				
 				if (p1.MagnitudeSquared < p2.MagnitudeSquared)
 				{
+					result.Simplex[0] = result.Simplex[ib];
+					result.Simplex[ib] = c;
 					d = p1;
 				}
 				else
 				{
+					result.Simplex[0] = result.Simplex[ia];
+					result.Simplex[ia] = c;
 					d = p2;
 				}
 			}
@@ -175,7 +163,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			return w;
 		}
 
-		private Vector2 PolygonSupport(Polygon polygon, Vector2 d)
+		public static Vector2 PolygonSupport(Polygon polygon, Vector2 d)
 		{
 			double highest = double.MinValue;
 			Vector2 support = Vector2.Zero;
@@ -193,18 +181,13 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 			return support;
 		}
-
-		private Vector2 RectangleSupport(Rectangle r, Vector2 d)
-		{
-			return PolygonSupport(r.ToPolygon(), d);
-		}
-
+		
 		private Vector2 LineSegmentPointNearestOrigin(Vector2 start, Vector2 end)
 		{
 			var delta = end - start;
 			var perp = new Vector2(delta.Y, -delta.X);
 
-			if (delta.MagnitudeSquared < tolerance)
+			if (delta.MagnitudeSquared < Tolerance)
 				return start;
 
 			var intersection = LineAlgorithms.LineSegmentIntersection(

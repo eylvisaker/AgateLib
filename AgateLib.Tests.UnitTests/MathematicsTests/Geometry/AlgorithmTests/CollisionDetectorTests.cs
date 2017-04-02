@@ -126,5 +126,45 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 			Assert.IsTrue(gjk.AreColliding(pa, pb));
 		}
 
+		[TestMethod]
+		public void CD_GJK_EPA_PenetrationDepth()
+		{
+			var pa = Diamond;
+			var pb = new RectangleF(0.5f, -1, 1, 2).ToPolygon();
+
+			var gjk = new GilbertJohnsonKeerthiAlgorithm();
+
+			var simplex = gjk.FindMinkowskiSimplex(pa, pb);
+			var epa = new ExpandingPolytopAlgorithm();
+
+			var pv = epa.PenetrationDepth(
+				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pa, v),
+				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pb, v),
+				simplex.Simplex);
+
+			Assert.AreEqual(new Vector2(0.5, 0), pv);
+		}
+
+		[TestMethod]
+		public void CD_GJK_EPA_GradualPenetrationDepth()
+		{
+			for (float d = 0.1f; d < 1; d += 0.05f)
+			{
+				var pa = Diamond;
+				var pb = new RectangleF(1 - d, -1, 1, 2).ToPolygon();
+
+				var gjk = new GilbertJohnsonKeerthiAlgorithm();
+
+				var simplex = gjk.FindMinkowskiSimplex(pa, pb);
+				var epa = new ExpandingPolytopAlgorithm();
+
+				var pv = epa.PenetrationDepth(
+					v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pa, v),
+					v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pb, v),
+					simplex.Simplex);
+
+				Assert.IsTrue(new Vector2(d, 0).Equals(pv, 1e-6), $"Penetration depth test failed at {d}");
+			}
+		}
 	}
 }

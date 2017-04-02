@@ -199,6 +199,7 @@
     <Compile Include="Mathematics\Geometry\Algorithms\BayazitDecomposition.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\ExpandingPolytopAlgorithm.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\GilbertJohnsonKeerthiAlgorithm.cs" />
+    <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\IterativeAlgorithm.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\MinkowskiSimplex.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\ConvexHull.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\IPolygonConvexDecompositionAlgorithm.cs" />
