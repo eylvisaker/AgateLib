@@ -88,11 +88,24 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 
 			var gjk = new GilbertJohnsonKeerthiAlgorithm();
 
+			Assert.AreEqual(3, gjk.DistanceBetween(pa, pb));
 			Assert.IsFalse(gjk.AreColliding(pa, pb));
 
 			pb.TranslateSelf(-3.1 * Vector2.UnitX);
 
+			Assert.AreEqual(0, gjk.DistanceBetween(pa, pb));
 			Assert.IsTrue(gjk.AreColliding(pa, pb));
+		}
+
+		[TestMethod]
+		public void CD_GJKDistance()
+		{
+			var pa = new Rectangle(-2, 0, 1, 1).ToPolygon();
+			var pb = new Rectangle(2, 0, 1, 1).ToPolygon();
+
+			var gjk = new GilbertJohnsonKeerthiAlgorithm();
+
+			Assert.AreEqual(3, gjk.DistanceBetween(pa, pb));
 		}
 	}
 }
