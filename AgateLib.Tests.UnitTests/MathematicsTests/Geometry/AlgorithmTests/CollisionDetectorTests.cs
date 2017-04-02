@@ -81,7 +81,7 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 		}
 
 		[TestMethod]
-		public void CD_GJKCollision()
+		public void CD_GJKCollisionRectangles()
 		{
 			var pa = new Rectangle(-2, 0, 1, 1).ToPolygon();
 			var pb = new Rectangle(2, 0, 1, 1).ToPolygon();
@@ -98,7 +98,7 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 		}
 
 		[TestMethod]
-		public void CD_GJKDistance()
+		public void CD_GJKDistanceRectangles()
 		{
 			var pa = new Rectangle(-2, 0, 1, 1).ToPolygon();
 			var pb = new Rectangle(2, 0, 1, 1).ToPolygon();
@@ -107,5 +107,24 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 
 			Assert.AreEqual(3, gjk.DistanceBetween(pa, pb));
 		}
+
+
+		[TestMethod]
+		public void CD_GJKCollisionL()
+		{
+			var pa = TetrisL.Translate(-2 * Vector2.UnitX);
+			var pb = TetrisL.Translate(2 * Vector2.UnitX);
+
+			var gjk = new GilbertJohnsonKeerthiAlgorithm();
+
+			Assert.AreEqual(2, gjk.DistanceBetween(pa, pb));
+			Assert.IsFalse(gjk.AreColliding(pa, pb));
+
+			pb.TranslateSelf(-2.1 * Vector2.UnitX);
+
+			Assert.AreEqual(0, gjk.DistanceBetween(pa, pb));
+			Assert.IsTrue(gjk.AreColliding(pa, pb));
+		}
+
 	}
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
-	class ExpandingPolytopAlgorithm
+	public class ExpandingPolytopAlgorithm
 	{
 	}
 }

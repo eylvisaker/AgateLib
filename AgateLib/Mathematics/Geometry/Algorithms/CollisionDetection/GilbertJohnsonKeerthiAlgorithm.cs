@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,46 +61,34 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			return result.DistanceFromOrigin;
 		}
 
-		public class MinkowskiSimplex : IEnumerable<Vector2>
-		{
-			public Vector2 Start;
-			public Vector2 End;
-			public double DistanceFromOrigin;
-
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return GetEnumerator();
-			}
-
-			public IEnumerator<Vector2> GetEnumerator()
-			{
-				yield return Start;
-				yield return End;
-			}
-		}
-
 		public MinkowskiSimplex FindMinkowskiSimplex(Vector2 start,
 			Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB)
 		{
 			MinkowskiSimplex result = new MinkowskiSimplex();
 
 			Vector2 d = start;
+			Vector2 dperp = new Vector2(-d.Y, d.X);
 
 			int iter = 0;
 			double diff = double.MaxValue;
 
-			result.Start = Support(supportA, supportB, d);
-			result.End = Support(supportA, supportB, -d);
+			result.Simplex.Add(Support(supportA, supportB, dperp));
+			result.Simplex.Add(Support(supportA, supportB, d));
+			result.Simplex.Add(Support(supportA, supportB, -d));
 
-			d = LineSegmentPointNearestOrigin(result.Start, result.End);
+			d = LineSegmentPointNearestOrigin(result.Simplex[1], result.Simplex[2]);
 
 			while (iter < MaxIterations && diff > Tolerance)
 			{
 				iter++;
 
-				d = -d;
 				if (d == Vector2.Zero)
+				{
+					result.DistanceFromOrigin = d.Magnitude;
 					return result;
+				}
+
+				d = -d;
 
 				var c = Support(supportA, supportB, d);
 				var dotc = c.DotProduct(d);
@@ -114,17 +101,20 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 					return result;
 				}
 
-				var p1 = LineSegmentPointNearestOrigin(c, result.Start);
-				var p2 = LineSegmentPointNearestOrigin(c, result.End);
+				var p1 = LineSegmentPointNearestOrigin(c, result.Simplex[result.Simplex.Count - 2]);
+				var p2 = LineSegmentPointNearestOrigin(c, result.Simplex[result.Simplex.Count - 1]);
+
+				result.Simplex.Add(c);
+
+				if (result.Simplex.Count > 3)
+					result.Simplex.RemoveAt(0);
 
 				if (p1.MagnitudeSquared < p2.MagnitudeSquared)
 				{
-					result.End = c;
 					d = p1;
 				}
 				else
 				{
-					result.Start = c;
 					d = p2;
 				}
 			}
@@ -213,6 +203,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 		{
 			var delta = end - start;
 			var perp = new Vector2(delta.Y, -delta.X);
+
+			if (delta.MagnitudeSquared < tolerance)
+				return start;
 
 			var intersection = LineAlgorithms.LineSegmentIntersection(
 				start, end, Vector2.Zero, perp);
