@@ -13,6 +13,71 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 	public class CollisionDetector
 	{
 		/// <summary>
+		/// Gets information about the point of contact of two intersecting polygons.
+		/// </summary>
+		/// <remarks>Contact points are defined as the point on each polygon that is closest
+		/// to the center of the other polygon. This algorithm only works correctly for convex polygons.</remarks>
+		/// <param name="polyA">The first polygon.</param>
+		/// <param name="polyB">The second polygon.</param>
+		/// <returns></returns>
+		public ContactPoint FindConvexContactPoint(Polygon polyA, Polygon polyB)
+		{
+			var gjk = new GilbertJohnsonKeerthiAlgorithm();
+
+			var simplex = gjk.FindMinkowskiSimplex(polyA, polyB);
+			var epa = new ExpandingPolytopeAlgorithm();
+
+			var pv = epa.PenetrationDepth(
+				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyA, v),
+				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyB, v),
+				simplex.Simplex);
+
+			var cpA = FindConvexIntersection(polyA, polyB);
+			var cpB = FindConvexIntersection(polyB, polyA);
+
+			return new ContactPoint
+			{
+				FirstPolygon = polyA,
+				SecondPolygon = polyB,
+
+				PenetrationDepth = pv,
+
+				FirstPolygonContactPoint = cpA,
+				SecondPolygonContactPoint = cpB,
+			};
+		}
+
+		private Vector2 FindConvexIntersection(Polygon polyA, Polygon polyB)
+		{
+			LineSegment centers = new LineSegment { Start = polyA.Centroid, End = polyB.Centroid };
+			Vector2 candidateIntersection = Vector2.Zero;
+			double candidateDistance = double.MaxValue;
+
+			foreach (var edge in polyA.Edges)
+			{
+				var intersection = LineAlgorithms.LineSegmentIntersection(centers, edge);
+
+				if (intersection.WithinFirstSegment && intersection.WithinSecondSegment)
+				{
+					return intersection.IntersectionPoint - centers.Start;
+				}
+
+				if (intersection.WithinSecondSegment)
+				{
+					var dist = (intersection.IntersectionPoint - polyB.Centroid).MagnitudeSquared;
+
+					if (dist < candidateDistance)
+					{
+						candidateIntersection = intersection.IntersectionPoint;
+						candidateDistance = dist;
+					}
+				}
+			}
+
+			return candidateIntersection - centers.Start;
+		}
+
+		/// <summary>
 		/// Checks if two polygons intersect.
 		/// </summary>
 		/// <param name="polyA"></param>
@@ -123,5 +188,16 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 			return false;
 		}
+	}
+
+	public class ContactPoint
+	{
+		public Polygon FirstPolygon { get; set; }
+		public Polygon SecondPolygon { get; set; }
+
+		public Vector2 FirstPolygonContactPoint { get; set; }
+		public Vector2 SecondPolygonContactPoint { get; set; }
+
+		public Vector2 PenetrationDepth { get; set; }
 	}
 }

@@ -44,6 +44,7 @@ namespace AgateLib.Mathematics.Geometry
 		private bool isSimple;
 		private bool isConvex;
 		private List<Polygon> convexDecomposition = new List<Polygon>();
+		private Vector2 centroid;
 
 		/// <summary>
 		/// Constructs an empty polygon object.
@@ -105,33 +106,44 @@ namespace AgateLib.Mathematics.Geometry
 
 		IReadOnlyList<Vector2> IReadOnlyPolygon.Points => Points;
 
+		[YamlIgnore]
+		public IEnumerable<LineSegment> Edges
+		{
+			get
+			{
+				for (int i = 0, j = Points.Count - 1; i < Points.Count; j = i++)
+				{
+					yield return new LineSegment { Start = Points[j], End = Points[i] };
+				}
+			}
+		}
 		bool ICollection<Vector2>.IsReadOnly => false;
 
 		/// <summary>
 		/// Gets the axis-aligned bounding rect.
 		/// </summary>
 		[YamlIgnore]
-		public Rectangle BoundingRect
+		public RectangleF BoundingRect
 		{
 			get
 			{
 				if (points.Count == 0)
 					throw new InvalidOperationException();
 
-				int left = int.MaxValue;
-				int right = int.MinValue;
-				int top = int.MaxValue;
-				int bottom = int.MinValue;
+				float left = float.MaxValue;
+				float right = float.MinValue;
+				float top = float.MaxValue;
+				float bottom = float.MinValue;
 
 				foreach (var pt in points)
 				{
-					if (pt.X < left) left = (int) pt.X;
-					if (pt.X > right) right = (int) pt.X;
-					if (pt.Y < top) top = (int) pt.Y;
-					if (pt.Y > bottom) bottom = (int) pt.Y;
+					if (pt.X < left) left = (float)pt.X;
+					if (pt.X > right) right = (float)pt.X;
+					if (pt.Y < top) top = (float)pt.Y;
+					if (pt.Y > bottom) bottom = (float)pt.Y;
 				}
 
-				return Rectangle.FromLTRB(left, top, right, bottom);
+				return RectangleF.FromLTRB(left, top, right, bottom);
 			}
 		}
 
@@ -162,7 +174,7 @@ namespace AgateLib.Mathematics.Geometry
 			{
 				if (Points.Dirty)
 					ComputeProperties();
-				
+
 				return convexDecomposition;
 			}
 		}
@@ -224,6 +236,20 @@ namespace AgateLib.Mathematics.Geometry
 		public bool IsComplex => !IsSimple;
 
 		/// <summary>
+		/// Returns the centroid of the polygon. The centroid is the average of all the points in the polygon.
+		/// </summary>
+		public Vector2 Centroid
+		{
+			get
+			{
+				if (points.Dirty)
+					ComputeProperties();
+
+				return centroid;
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets a specific point in this polygon/
 		/// </summary>
 		/// <param name="index"></param>
@@ -234,7 +260,7 @@ namespace AgateLib.Mathematics.Geometry
 			get { return points[index]; }
 			set { points[index] = value; }
 		}
-		
+
 		/// <summary>
 		/// Returns a debug string describing this polygon.
 		/// </summary>
@@ -393,7 +419,7 @@ namespace AgateLib.Mathematics.Geometry
 					return true;
 
 				if (points[i].Y >= point.Y != points[j].Y >= point.Y &&
-				    point.X <= (points[j].X - points[i].X) * (point.Y - points[i].Y) / (points[j].Y - points[i].Y) + points[i].X
+					point.X <= (points[j].X - points[i].X) * (point.Y - points[i].Y) / (points[j].Y - points[i].Y) + points[i].X
 				)
 				{
 					contains = !contains;
@@ -516,9 +542,15 @@ namespace AgateLib.Mathematics.Geometry
 
 			Points.Dirty = false;
 
+			ComputeCentroid();
 			ComputeConvexity();
 			ComputeComplexity();
 			ComputeConvexDecomposition();
+		}
+
+		private void ComputeCentroid()
+		{
+			centroid = Points.Sum() / Points.Count;
 		}
 
 		private void ComputeComplexity()

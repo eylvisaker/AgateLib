@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
-	public class ExpandingPolytopAlgorithm
+	public class ExpandingPolytopeAlgorithm
 	{
 		private double Tolerance => IterationControl.Tolerance;
 		private int MaxIterations => IterationControl.MaxIterations;

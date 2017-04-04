@@ -197,7 +197,7 @@
     <Compile Include="DisplayLib\PrimitiveRendererExtensions.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\CollisionDetector.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\BayazitDecomposition.cs" />
-    <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\ExpandingPolytopAlgorithm.cs" />
+    <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\ExpandingPolytopeAlgorithm.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\GilbertJohnsonKeerthiAlgorithm.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\IterativeAlgorithm.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\MinkowskiSimplex.cs" />
@@ -213,6 +213,7 @@
     <Compile Include="Mathematics\Geometry\InvalidPolygonException.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\IPolygonSimpleDetectionAlgorithm.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\PolygonSweepLineAlgorithm.cs" />
+    <Compile Include="Mathematics\Geometry\LineSegment.cs" />
     <Compile Include="Mathematics\Geometry\Vector2List.cs" />
     <Compile Include="Mathematics\LinqExtensions.cs" />
     <Compile Include="Mathematics\TypeConverters\Vector4ConverterYaml.cs" />

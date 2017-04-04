@@ -32,7 +32,7 @@ namespace AgateLib.UnitTests.MathematicsTests
 		[TestMethod]
 		public void Poly_BoundingRect()
 		{
-			Assert.AreEqual(Rectangle.FromLTRB(-1, -1, 1, 1), Diamond.BoundingRect);
+			Assert.AreEqual(RectangleF.FromLTRB(-1, -1, 1, 1), Diamond.BoundingRect);
 		}
 
 		[TestMethod]

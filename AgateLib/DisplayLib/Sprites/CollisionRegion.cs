@@ -72,7 +72,7 @@ namespace AgateLib.DisplayLib.Sprites
 		public bool FlipHorizontal { get; set; }
 		public bool FlipVertical { get; set; }
 
-		public Rectangle BoundingRect
+		public RectangleF BoundingRect
 		{
 			get
 			{

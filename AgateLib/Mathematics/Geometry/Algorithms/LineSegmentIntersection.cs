@@ -63,12 +63,12 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <summary>
 		/// Returns true if the first line segment contains the intersection point.
 		/// </summary>
-		public bool IntersectionWithinFirstSegment => U1 >= 0 && U1 <= 1;
+		public bool WithinFirstSegment => U1 >= 0 && U1 <= 1;
 
 		/// <summary>
 		/// Returns true if the second line segment contains the intersection point.
 		/// </summary>
-		public bool IntersectionWithinSecondSegment => U2 >= 0 && U2 <= 1;
+		public bool WithinSecondSegment => U2 >= 0 && U2 <= 1;
 
 	}
 

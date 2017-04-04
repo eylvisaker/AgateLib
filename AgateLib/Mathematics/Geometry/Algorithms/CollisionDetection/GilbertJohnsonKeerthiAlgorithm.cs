@@ -193,7 +193,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			var intersection = LineAlgorithms.LineSegmentIntersection(
 				start, end, Vector2.Zero, perp);
 
-			if (intersection.IntersectionWithinFirstSegment)
+			if (intersection.WithinFirstSegment)
 				return intersection.IntersectionPoint;
 
 			return start.MagnitudeSquared < end.MagnitudeSquared

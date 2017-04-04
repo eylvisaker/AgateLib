@@ -32,6 +32,21 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 	/// </summary>
 	public static class LineAlgorithms
 	{
+		public const double DefaultTolerance = 1e-8;
+
+		/// <summary>
+		/// Returns a value indicating whether the two lines defined by the line segments intersect.
+		/// Returns null if the two lines are parallel.
+		/// </summary>
+		/// <param name="first"></param>
+		/// <param name="second"></param>
+		/// <param name="tolerance"></param>
+		/// <returns></returns>
+		public static LineSegmentIntersection LineSegmentIntersection(LineSegment first, LineSegment second, double tolerance = DefaultTolerance)
+		{
+			return LineSegmentIntersection(first.Start, first.End, second.Start, second.End, tolerance);
+		}
+
 		/// <summary>
 		/// Returns a value indicating whether lines defined by the segments R1a-R1b and R2a-R2b intersect.
 		/// The result is null if the two lines are parallel.
@@ -49,13 +64,13 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// and l2 is the vector pointing to R2b from R1a
 		/// and S is the vector pointing to R1a from R2a.
 		/// </remarks>
-		/// <param name="a1"></param>
-		/// <param name="a2"></param>
-		/// <param name="b1"></param>
-		/// <param name="b2"></param>
+		/// <param name="R1a">The start point of the first line segment.</param>
+		/// <param name="R1b">The end point of the first line segment.</param>
+		/// <param name="R2a">The start point of the second line segment.</param>
+		/// <param name="R2b">The end point of the second line segment.</param>
 		/// <returns></returns>
 		public static LineSegmentIntersection LineSegmentIntersection(Vector2 R1a, Vector2 R1b, Vector2 R2a, Vector2 R2b,
-			double tolerance = 1e-8)
+			double tolerance = DefaultTolerance)
 		{
 			var line1 = R1b - R1a;
 			var line2 = R2b - R2a;
@@ -111,5 +126,6 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 
 			return ortho.CrossProduct(diff);
 		}
+
 	}
 }

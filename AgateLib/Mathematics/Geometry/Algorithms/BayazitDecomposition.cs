@@ -419,8 +419,8 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 				var intersection = LineAlgorithms.LineSegmentIntersection(p1, p2, q1, q2);
 
 				if (intersection != null
-					&& intersection.IntersectionWithinFirstSegment
-					&& intersection.IntersectionWithinSecondSegment)
+					&& intersection.WithinFirstSegment
+					&& intersection.WithinSecondSegment)
 				{
 					Vector2 intPoint = intersection.IntersectionPoint;
 

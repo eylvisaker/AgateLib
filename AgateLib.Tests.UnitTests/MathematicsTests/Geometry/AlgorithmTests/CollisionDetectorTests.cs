@@ -49,8 +49,8 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 			{
 				{0, 0},
 				{10, 0},
-				{10, 10 },
-				{5, 10 },
+				{10, 10},
+				{5, 10},
 				{5, 5},
 				{0, 5}
 			};
@@ -135,7 +135,7 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 			var gjk = new GilbertJohnsonKeerthiAlgorithm();
 
 			var simplex = gjk.FindMinkowskiSimplex(pa, pb);
-			var epa = new ExpandingPolytopAlgorithm();
+			var epa = new ExpandingPolytopeAlgorithm();
 
 			var pv = epa.PenetrationDepth(
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pa, v),
@@ -156,14 +156,51 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 				var gjk = new GilbertJohnsonKeerthiAlgorithm();
 
 				var simplex = gjk.FindMinkowskiSimplex(pa, pb);
-				var epa = new ExpandingPolytopAlgorithm();
+				var epa = new ExpandingPolytopeAlgorithm();
 
 				var pv = epa.PenetrationDepth(
 					v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pa, v),
 					v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pb, v),
 					simplex.Simplex);
 
-				Assert.IsTrue(new Vector2(d, 0).Equals(pv, 1e-6), $"Penetration depth test failed at {d}");
+				Assert.IsTrue(new Vector2(d, 0).Equals(pv, 1e-6), $"Penetration depth test failed at {d}.");
+			}
+		}
+
+		[TestMethod]
+		public void CD_ContactPoint()
+		{
+			var pa = Diamond;
+			var pb = new RectangleF(0.5f, -1, 1, 2).ToPolygon();
+
+			var contactPoint = collider.FindConvexContactPoint(pa, pb);
+
+			Assert.AreEqual(pa, contactPoint.FirstPolygon);
+			Assert.AreEqual(pb, contactPoint.SecondPolygon);
+
+			Assert.AreEqual(new Vector2(0.5, 0), contactPoint.PenetrationDepth);
+
+			Assert.AreEqual(new Vector2(1, 0), contactPoint.FirstPolygonContactPoint);
+			Assert.AreEqual(new Vector2(-0.5, 0), contactPoint.SecondPolygonContactPoint);
+		}
+
+		[TestMethod]
+		public void CD_ContactPointGradual()
+		{
+			for (float d = 0.1f; d < 1; d += 0.05f)
+			{
+				var pa = Diamond;
+				var pb = new RectangleF(1 - d, -1, 1, 2).ToPolygon();
+
+				var contactPoint = collider.FindConvexContactPoint(pa, pb);
+
+				Assert.AreEqual(pa, contactPoint.FirstPolygon);
+				Assert.AreEqual(pb, contactPoint.SecondPolygon);
+
+				Assert.IsTrue(new Vector2(d, 0).Equals(contactPoint.PenetrationDepth, 1e-6), $"Penetration depth test failed at {d}.");
+
+				Assert.IsTrue(new Vector2(1, 0).Equals(contactPoint.FirstPolygonContactPoint, 1e-6), $"Contact point on diamond failed at {d}.");
+				Assert.IsTrue(new Vector2(-0.5, 0).Equals(contactPoint.SecondPolygonContactPoint, 1e-6), $"Contact point on rectangle failed at {d}.");
 			}
 		}
 	}
