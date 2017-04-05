@@ -22,6 +22,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 		private int MaxIterations => IterationControl.MaxIterations;
 		public IterativeAlgorithm IterationControl { get; } = new IterativeAlgorithm();
 
+		public int Iterations { get; private set; }
+		public bool Converged { get; private set; }
+
 		public bool AreColliding(Polygon a, Polygon b)
 		{
 			var minkowskiDiff = FindMinkowskiSimplex(a.First(),
@@ -55,21 +58,23 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			Vector2 d = start;
 			Vector2 dperp = new Vector2(-d.Y, d.X);
 
-			int iter = 0;
 			double diff = double.MaxValue;
 
-			result.Simplex.Add(Support(supportA, supportB, dperp));
-			result.Simplex.Add(Support(supportA, supportB, d));
-			result.Simplex.Add(Support(supportA, supportB, -d));
+			result.Add(Support(supportA, supportB, dperp));
+			result.Add(Support(supportA, supportB, d));
+			result.Add(Support(supportA, supportB, -d));
 
 			d = LineSegmentPointNearestOrigin(result.Simplex[1], result.Simplex[2]);
 
-			while (iter < MaxIterations && diff > Tolerance)
+			Iterations = 0;
+			Converged = false;
+			while (Iterations < MaxIterations && diff > Tolerance)
 			{
-				iter++;
+				Iterations++;
 
 				if (d == Vector2.Zero)
 				{
+					Converged = true;
 					result.DistanceFromOrigin = d.Magnitude;
 					return result;
 				}
@@ -77,7 +82,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				d = -d;
 
 				var c = Support(supportA, supportB, d);
-				var dotc = c.DotProduct(d);
+				var dotc = c.Difference.DotProduct(d);
 				var dota = result.Last().DotProduct(d);
 
 				diff = dotc - dota;
@@ -90,77 +95,36 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				var ia = result.Simplex.Count - 2;
 				var ib = result.Simplex.Count - 1;
 
-				var p1 = LineSegmentPointNearestOrigin(c, result.Simplex[ia]);
-				var p2 = LineSegmentPointNearestOrigin(c, result.Simplex[ib]);
+				var p1 = LineSegmentPointNearestOrigin(c.Difference, result.Simplex[ia]);
+				var p2 = LineSegmentPointNearestOrigin(c.Difference, result.Simplex[ib]);
 				
 				if (p1.MagnitudeSquared < p2.MagnitudeSquared)
 				{
-					result.Simplex[0] = result.Simplex[ib];
-					result.Simplex[ib] = c;
+					result.Insert(ib, c);
 					d = p1;
 				}
 				else
 				{
-					result.Simplex[0] = result.Simplex[ia];
-					result.Simplex[ia] = c;
+					result.Insert(ia, c);
 					d = p2;
 				}
 			}
 
 			return result;
 		}
-
-		public Polygon ApproximateMinkowskiDifference(Vector2 start,
-			Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB)
-		{
-			Polygon result = new Polygon();
-
-			Vector2 d = start;
-
-			int iter = 0;
-			double diff = double.MaxValue;
-
-			result.Add(Support(supportA, supportB, d));
-			result.Add(Support(supportA, supportB, -d));
-
-			d = FindPointNearestOrigin(result);
-
-			while (iter < MaxIterations && diff > Tolerance)
-			{
-				iter++;
-
-				d = -d;
-				if (d == Vector2.Zero)
-					return result;
-
-				var c = Support(supportA, supportB, d);
-				var dotc = c.DotProduct(d);
-				var dota = result.Last().DotProduct(d);
-
-				diff = dotc - dota;
-
-				result.Add(c);
-
-				diff = (d - c).Magnitude;
-
-				d = c;
-
-				if (result.Count > 2)
-				{
-					result = new QuickHull().FindConvexHull(result);
-				}
-			}
-
-			return result;
-		}
-
-		private static Vector2 Support(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Vector2 v)
+		
+		private static SupportData Support(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Vector2 v)
 		{
 			var sa = supportA(v);
 			var sb = supportB(-v);
 
-			var w = sa - sb;
-			return w;
+			var result = new SupportData
+			{
+				SupportA = sa,
+				SupportB = sb,
+			};
+
+			return result;
 		}
 
 		public static Vector2 PolygonSupport(Polygon polygon, Vector2 d)
@@ -226,4 +190,15 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 		}
 
 	}
+
+
+	internal class SupportData
+	{
+		public Vector2 SupportA { get; set; }
+
+		public Vector2 SupportB { get; set; }
+
+		public Vector2 Difference => SupportA - SupportB;
+	}
+
 }

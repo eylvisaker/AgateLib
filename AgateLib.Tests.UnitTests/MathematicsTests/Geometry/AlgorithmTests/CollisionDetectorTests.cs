@@ -171,14 +171,15 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 		public void CD_ContactPoint()
 		{
 			var pa = Diamond;
-			var pb = new RectangleF(0.5f, -1, 1, 2).ToPolygon();
+			var pb = new RectangleF(0.9f, -1, 1, 2).ToPolygon();
 
 			var contactPoint = collider.FindConvexContactPoint(pa, pb);
 
 			Assert.AreEqual(pa, contactPoint.FirstPolygon);
 			Assert.AreEqual(pb, contactPoint.SecondPolygon);
 
-			Assert.AreEqual(new Vector2(0.5, 0), contactPoint.PenetrationDepth);
+			Assert.IsTrue(new Vector2(0.1, 0).Equals(contactPoint.PenetrationDepth, 1e-6), 
+				$"Penetration depth failed. Expected (0.1, 0) but got {contactPoint.PenetrationDepth}.");
 
 			Assert.AreEqual(new Vector2(1, 0), contactPoint.FirstPolygonContactPoint);
 			Assert.AreEqual(new Vector2(-0.5, 0), contactPoint.SecondPolygonContactPoint);
@@ -189,8 +190,8 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 		{
 			for (float d = 0.1f; d < 1; d += 0.05f)
 			{
-				var pa = Diamond;
-				var pb = new RectangleF(1 - d, -1, 1, 2).ToPolygon();
+				var pa = new Polygon(Diamond.Points.Select(x => 10 * x));
+				var pb = new RectangleF(10 - d, -10, 10, 20).ToPolygon();
 
 				var contactPoint = collider.FindConvexContactPoint(pa, pb);
 
@@ -199,8 +200,10 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 
 				Assert.IsTrue(new Vector2(d, 0).Equals(contactPoint.PenetrationDepth, 1e-6), $"Penetration depth test failed at {d}.");
 
-				Assert.IsTrue(new Vector2(1, 0).Equals(contactPoint.FirstPolygonContactPoint, 1e-6), $"Contact point on diamond failed at {d}.");
-				Assert.IsTrue(new Vector2(-0.5, 0).Equals(contactPoint.SecondPolygonContactPoint, 1e-6), $"Contact point on rectangle failed at {d}.");
+				Assert.IsTrue(new Vector2(10, 0).Equals(contactPoint.FirstPolygonContactPoint, 1e-6), 
+					$"Contact point on diamond failed at {d}. Expected (10, 0) but got {contactPoint.FirstPolygonContactPoint}");
+				Assert.IsTrue(new Vector2(-5, 0).Equals(contactPoint.SecondPolygonContactPoint, 1e-6), 
+					$"Contact point on rectangle failed at {d}. Expected (-5, 0) but got {contactPoint.SecondPolygonContactPoint}");
 			}
 		}
 	}

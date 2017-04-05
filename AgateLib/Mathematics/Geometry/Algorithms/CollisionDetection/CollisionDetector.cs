@@ -25,15 +25,16 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			var gjk = new GilbertJohnsonKeerthiAlgorithm();
 
 			var simplex = gjk.FindMinkowskiSimplex(polyA, polyB);
+
+			var closestA = simplex.ClosestA - polyA.Centroid;
+			var closestB = simplex.ClosestB - polyB.Centroid;
+
 			var epa = new ExpandingPolytopeAlgorithm();
 
 			var pv = epa.PenetrationDepth(
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyA, v),
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyB, v),
 				simplex.Simplex);
-
-			var cpA = FindConvexIntersection(polyA, polyB);
-			var cpB = FindConvexIntersection(polyB, polyA);
 
 			return new ContactPoint
 			{
@@ -42,39 +43,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 				PenetrationDepth = pv,
 
-				FirstPolygonContactPoint = cpA,
-				SecondPolygonContactPoint = cpB,
+				FirstPolygonContactPoint = closestA,
+				SecondPolygonContactPoint = closestB,
 			};
-		}
-
-		private Vector2 FindConvexIntersection(Polygon polyA, Polygon polyB)
-		{
-			LineSegment centers = new LineSegment { Start = polyA.Centroid, End = polyB.Centroid };
-			Vector2 candidateIntersection = Vector2.Zero;
-			double candidateDistance = double.MaxValue;
-
-			foreach (var edge in polyA.Edges)
-			{
-				var intersection = LineAlgorithms.LineSegmentIntersection(centers, edge);
-
-				if (intersection.WithinFirstSegment && intersection.WithinSecondSegment)
-				{
-					return intersection.IntersectionPoint - centers.Start;
-				}
-
-				if (intersection.WithinSecondSegment)
-				{
-					var dist = (intersection.IntersectionPoint - polyB.Centroid).MagnitudeSquared;
-
-					if (dist < candidateDistance)
-					{
-						candidateIntersection = intersection.IntersectionPoint;
-						candidateDistance = dist;
-					}
-				}
-			}
-
-			return candidateIntersection - centers.Start;
 		}
 
 		/// <summary>
