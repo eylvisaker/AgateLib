@@ -28,7 +28,9 @@ namespace AgateLib.Physics.TwoDimensions
 		/// </summary>
 		public Vector2 Force;
 
-		[Obsolete]
+		/// <summary>
+		/// Force exerted by constraints.
+		/// </summary>
 		public Vector2 ConstraintForce;
 
 		/// <summary>
@@ -46,7 +48,9 @@ namespace AgateLib.Physics.TwoDimensions
 		/// </summary>
 		public double Torque;
 
-		[Obsolete]
+		/// <summary>
+		/// Torque exerted by constraints.
+		/// </summary>
 		public double ConstraintTorque;
 
 		/// <summary>

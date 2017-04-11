@@ -93,11 +93,21 @@ namespace AgateLib.Physics.TwoDimensions
 
 		public void ApplyConstraintForces()
 		{
-			if (totalConstraintForces == null)
-				return;
+			if (Constraints.Count == 0)
+			{
+				Parallel.ForEach(Particles, particle =>
+				{
+					particle.ConstraintForce = Vector2.Zero;
+					particle.ConstraintTorque = 0;
+				});
 
+				return;
+			}
+
+#if DEBUG
 			var check = totalConstraintForces.Transpose() * velocity;
 			Debug.WriteLine($"Constraint force dot product: {check[0, 0]}");
+#endif
 
 			for (int i = 0; i < Particles.Count; i++)
 			{
@@ -136,22 +146,30 @@ namespace AgateLib.Physics.TwoDimensions
 
 		private void SolveConstraintEquations(double dt)
 		{
+			if (Constraints.Count == 0)
+				return;
+
 			// Here's the equation:
 			//    J * M^(-1) * J^T * lambda = -J(v / dt - J * M^(-1) * F_{ext}
 			// Lambda (the Lagrange parameter) is the set of unknowns. 
 			// This is just a straightfoward system of linear equations of the form
 			//  A * x = B
 			// where A = J * M^(-1) * J^T 
-			//       x = lambda
+			//       x = Lagrange parameters
 			//       B = -J * (v/dt + M^(-1) * F_{ext})
+			//
+			//   A is Nc x Nc where Nc is the number of constraints
+			//   x is Nc x 1 where Nc is the number of constraints
+			//   B is 
+
 
 			// Interpretation is:
 			//  A - diagonal elements are the "magnitude" of the Jacobian for the i-th 
-			//      constraint. 
+			//      constraint. Dimension is NxN where N is the number of constraints.
 			//  B - J*v is derivative of the constraint. Alternately, it is the projection 
 			//      of the velocity in the direction of the Jacobian and indicates how much 
 			//      the constraint value will change if the particle continues its motion  
-			//      without any applied force.
+			//      without any applied force. Dimension is Mx1 where M is the number of particles.
 			Matrix<double> A = jacobian * massInverseMatrix * jacobian.Transpose();
 			Matrix<double> B = -jacobian * (velocity / dt + massInverseMatrix * externalForces);
 
@@ -165,7 +183,7 @@ namespace AgateLib.Physics.TwoDimensions
 
 			for (int i = 0; i < Constraints.Count; i++)
 			{
-				lowerLimit[i,0] = Constraints[i].MultiplierMin;
+				lowerLimit[i, 0] = Constraints[i].MultiplierMin;
 				upperLimit[i, 0] = Constraints[i].MultiplierMax;
 			}
 
@@ -185,6 +203,10 @@ namespace AgateLib.Physics.TwoDimensions
 		private void InitializeStep()
 		{
 			InitializeConstraintValues();
+
+			if (Constraints.Count == 0)
+				return;
+
 			InitializeJacobian();
 			InitializeMassMatrix();
 			InitializeVelocityVector();
@@ -231,6 +253,9 @@ namespace AgateLib.Physics.TwoDimensions
 					});
 				}
 			}
+
+			if (Constraints.Count == 0)
+				return;
 
 			constraintValues = Matrix<double>.Build.Dense(Constraints.Count, 1);
 			constraintForces = new List<Vector<double>>();
@@ -292,7 +317,6 @@ namespace AgateLib.Physics.TwoDimensions
 				massInverseMatrix[basis + 1, basis + 1] = 1 / Particles[i].Mass;
 				massInverseMatrix[basis + 2, basis + 2] = 1 / Particles[i].InertialMoment;
 			}
-
 		}
 
 		private void CopyValuesForParticle(Matrix<double> matrix, int particleIndex, double x, double y, double angle)

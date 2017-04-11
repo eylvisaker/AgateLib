@@ -49,5 +49,16 @@ namespace AgateLib.Physics.TwoDimensions
 		{
 			return new ConstraintDerivative(a * b.RespectToX, a * b.RespectToY, a * b.RespectToAngle);
 		}
+
+		/// <summary>
+		/// Adds the value of two derivatives together.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static ConstraintDerivative operator +(ConstraintDerivative a, ConstraintDerivative b)
+		{
+			return new ConstraintDerivative(a.RespectToX + b.RespectToX, a.RespectToY + b.RespectToY, a.RespectToAngle + b.RespectToAngle);
+		}
 	}
 }

@@ -36,22 +36,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="LinearAlgebra\GaussSeidelAlgorithm.cs" />
-    <Compile Include="TwoDimensions\AppliedConstraint.cs" />
+    <Compile Include="TwoDimensions\Constraints\IPairConstraint.cs" />
+    <Compile Include="TwoDimensions\Solvers\AppliedConstraint.cs" />
     <Compile Include="TwoDimensions\Constraints\CirclePerimeterOffcenterConstraint.cs" />
     <Compile Include="TwoDimensions\Constraints\CirclePerimeterConstraint.cs" />
     <Compile Include="TwoDimensions\ConstraintDerivative.cs" />
     <Compile Include="TwoDimensions\Constraints\CollisionConstraint.cs" />
     <Compile Include="TwoDimensions\Constraints\RectangleBoundaryConstraint.cs" />
+    <Compile Include="TwoDimensions\Constraints\TwoBodyConstraint.cs" />
     <Compile Include="TwoDimensions\Forces\ConstantGravityField.cs" />
     <Compile Include="TwoDimensions\IForce.cs" />
-    <Compile Include="TwoDimensions\ImpulseConstraintSolver.cs" />
+    <Compile Include="TwoDimensions\Solvers\ImpulseConstraintSolver.cs" />
     <Compile Include="TwoDimensions\IConstraintSolver.cs" />
+    <Compile Include="TwoDimensions\IParticlePairSelector.cs" />
     <Compile Include="TwoDimensions\KinematicsIntegrator.cs" />
     <Compile Include="TwoDimensions\KinematicsSystem.cs" />
     <Compile Include="TwoDimensions\PhysicalParticle.cs" />
     <Compile Include="TwoDimensions\IPhysicalConstraint.cs" />
     <Compile Include="TwoDimensions\Constraints\JointConstraint.cs" />
-    <Compile Include="TwoDimensions\ProjectedGaussSeidelConstraintSolver.cs" />
+    <Compile Include="TwoDimensions\Solvers\ProjectedGaussSeidelConstraintSolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VectorExtensions.cs" />
   </ItemGroup>

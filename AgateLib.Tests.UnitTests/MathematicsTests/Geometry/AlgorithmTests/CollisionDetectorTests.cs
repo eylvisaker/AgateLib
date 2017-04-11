@@ -148,7 +148,7 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 		[TestMethod]
 		public void CD_GJK_EPA_GradualPenetrationDepth()
 		{
-			for (float d = 0.1f; d < 1; d += 0.05f)
+			for (float d = 0.05f; d < 1; d += 0.05f)
 			{
 				var pa = Diamond;
 				var pb = new RectangleF(1 - d, -1, 1, 2).ToPolygon();

@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection;
 
 namespace AgateLib.Physics.TwoDimensions.Constraints
 {
-	public class CollisionConstraint : IPhysicalConstraint
+	public class CollisionConstraint : IPairConstraint
 	{
-		public double MultiplierMin { get; }
-		public double MultiplierMax { get; }
+		private CollisionDetector collider = new CollisionDetector();
 
-		public ConstraintType ConstraintType { get; }
+		public double MultiplierMin => 0;
+		public double MultiplierMax => double.MaxValue;
 
-		public double Value(IReadOnlyList<PhysicalParticle> particles)
+		public ConstraintType ConstraintType => ConstraintType.Inequality;
+
+		public double Value(Tuple<PhysicalParticle, PhysicalParticle> pair)
 		{
 			return 0;
 		}
@@ -23,8 +26,10 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 			throw new NotImplementedException();
 		}
 
-		public ConstraintDerivative Derivative(PhysicalParticle particle)
+		public ConstraintDerivative Derivative(PhysicalParticle particle, Tuple<PhysicalParticle, PhysicalParticle> pair)
 		{
+			var pv = collider.PenetrationVector(pair.Item1.TransformedPolygon, pair.Item2.TransformedPolygon);
+
 			return new ConstraintDerivative();
 		}
 
@@ -35,6 +40,9 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 				foreach (var p2 in system.Particles)
 				{
 					if (p2 == p1)
+						continue;
+
+					if (collider.DoPolygonsIntersect(p1.TransformedPolygon, p2.TransformedPolygon) == false)
 						continue;
 
 					yield return new List<PhysicalParticle> {p1, p2};

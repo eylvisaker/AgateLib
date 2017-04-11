@@ -12,6 +12,21 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 	/// </summary>
 	public class CollisionDetector
 	{
+		public Vector2 PenetrationVector(Polygon polyA, Polygon polyB)
+		{
+			var gjk = new GilbertJohnsonKeerthiAlgorithm();
+
+			var simplex = gjk.FindMinkowskiSimplex(polyA, polyB);
+			var epa = new ExpandingPolytopAlgorithm();
+
+			var pv = epa.PenetrationDepth(
+				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyA, v),
+				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyB, v),
+				simplex.Simplex);
+
+			return pv;
+		}
+
 		/// <summary>
 		/// Gets information about the point of contact of two intersecting polygons.
 		/// </summary>

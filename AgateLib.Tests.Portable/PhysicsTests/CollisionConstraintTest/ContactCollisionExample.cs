@@ -90,7 +90,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 
 		public void RemoveParticle()
 		{
-			particles = Math.Min(1, particles - 1);
+			particles = Math.Max(1, particles - 1);
 		}
 	}
 }
