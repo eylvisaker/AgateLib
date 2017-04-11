@@ -55,13 +55,13 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			var planet = new PhysicalParticle
 			{
 				Position = (Vector2) area / 2,
-				Polygon = new EllipseBuilder().BuildCircle(Vector2.Zero, 60),
+				Polygon = new Rectangle(-30, -30, 60, 60).ToPolygon()
 			};
 
 			system.AddParticles(planet);
 			GenerateParticles(planet);
 
-			system.AddConstraints(new CollisionConstraint());
+			system.AddConstraints(new TwoBodyConstraint(new CollisionConstraint(), new AllPairs()));
 			system.AddForceField(new PlanetGravity(planet, 4000000));
 
 			return system;

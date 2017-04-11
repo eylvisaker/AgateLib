@@ -12,12 +12,12 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 	/// </summary>
 	public class CollisionDetector
 	{
-		public Vector2 PenetrationVector(Polygon polyA, Polygon polyB)
+		public Vector2? PenetrationVector(Polygon polyA, Polygon polyB)
 		{
 			var gjk = new GilbertJohnsonKeerthiAlgorithm();
 
 			var simplex = gjk.FindMinkowskiSimplex(polyA, polyB);
-			var epa = new ExpandingPolytopAlgorithm();
+			var epa = new ExpandingPolytopeAlgorithm();
 
 			var pv = epa.PenetrationDepth(
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyA, v),
@@ -41,6 +41,11 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 			var simplex = gjk.FindMinkowskiSimplex(polyA, polyB);
 
+			if (simplex.ContainsOrigin == false)
+			{
+				return new ContactPoint { Contact = false };
+			}
+
 			var closestA = simplex.ClosestA - polyA.Centroid;
 			var closestB = simplex.ClosestB - polyB.Centroid;
 
@@ -51,12 +56,17 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyB, v),
 				simplex.Simplex);
 
+			if (pv == null)
+				return new ContactPoint { Contact = false };
+
 			return new ContactPoint
 			{
+				Contact = true,
+
 				FirstPolygon = polyA,
 				SecondPolygon = polyB,
 
-				PenetrationDepth = pv,
+				PenetrationDepth = pv.Value,
 
 				FirstPolygonContactPoint = closestA,
 				SecondPolygonContactPoint = closestB,
@@ -185,5 +195,6 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 		public Vector2 SecondPolygonContactPoint { get; set; }
 
 		public Vector2 PenetrationDepth { get; set; }
+		public bool Contact { get; set; }
 	}
 }

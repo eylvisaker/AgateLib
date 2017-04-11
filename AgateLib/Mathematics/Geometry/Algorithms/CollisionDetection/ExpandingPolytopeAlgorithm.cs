@@ -8,8 +8,13 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
 	public class ExpandingPolytopeAlgorithm
 	{
+		private int iterations;
+
 		private double Tolerance => IterationControl.Tolerance;
 		private int MaxIterations => IterationControl.MaxIterations;
+
+		public int Iterations => iterations;
+
 		public IterativeAlgorithm IterationControl { get; } = new IterativeAlgorithm();
 
 		class Edge
@@ -19,10 +24,14 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			public int Index { get; set; }
 		}
 
-		public Vector2 PenetrationDepth(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Polygon simplex)
+		public Vector2? PenetrationDepth(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Polygon simplex)
 		{
-			while (true)
+			iterations = 0;
+
+			while (iterations < MaxIterations)
 			{
+				iterations++;
+
 				Edge e = FindClosestEdge(simplex);
 				Vector2 p = Support(supportA, supportB, e.Normal);
 				double d = p.DotProduct(e.Normal);
@@ -34,6 +43,8 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 				simplex.Insert(e.Index, p);
 			}
+
+			return null;
 		}
 
 		private static Vector2 Support(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Vector2 v)

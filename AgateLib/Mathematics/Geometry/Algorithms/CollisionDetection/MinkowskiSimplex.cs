@@ -15,6 +15,11 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 		public List<Vector2> ShapeA = new List<Vector2>();
 		public List<Vector2> ShapeB = new List<Vector2>();
 
+		/// <summary>
+		/// True indicates that the two polygons are overlapping.
+		/// </summary>
+		public bool ContainsOrigin => Simplex.AreaContains(Vector2.Zero);
+
 		public Vector2 ClosestA
 		{
 			get

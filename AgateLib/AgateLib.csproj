@@ -208,6 +208,7 @@
     <Compile Include="Mathematics\Geometry\Algorithms\PolygonExtensions.cs" />
     <Compile Include="Mathematics\Geometry\Builders\EllipseBuilder.cs" />
     <Compile Include="Mathematics\Geometry\Builders\QuadrilateralBuilder.cs" />
+    <Compile Include="Mathematics\Geometry\Builders\RegularPolygonBuilder.cs" />
     <Compile Include="Mathematics\Geometry\Builders\StarBuilder.cs" />
     <Compile Include="Mathematics\Geometry\EnumerableExtensions.cs" />
     <Compile Include="Mathematics\Geometry\InvalidPolygonException.cs" />

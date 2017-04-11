@@ -88,6 +88,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				diff = dotc - dota;
 				if (diff < Tolerance)
 				{
+					Converged = true;
 					result.DistanceFromOrigin = d.Magnitude;
 					return result;
 				}
@@ -110,6 +111,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				}
 			}
 
+			result.DistanceFromOrigin = d.Magnitude;
 			return result;
 		}
 		

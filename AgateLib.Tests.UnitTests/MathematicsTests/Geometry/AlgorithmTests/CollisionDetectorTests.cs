@@ -163,7 +163,7 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 					v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pb, v),
 					simplex.Simplex);
 
-				Assert.IsTrue(new Vector2(d, 0).Equals(pv, 1e-6), $"Penetration depth test failed at {d}.");
+				Assert.IsTrue(new Vector2(d, 0).Equals(pv.Value, 1e-6), $"Penetration depth test failed at {d}.");
 			}
 		}
 

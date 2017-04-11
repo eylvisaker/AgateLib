@@ -28,9 +28,18 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 
 		public ConstraintDerivative Derivative(PhysicalParticle particle, Tuple<PhysicalParticle, PhysicalParticle> pair)
 		{
-			var pv = collider.PenetrationVector(pair.Item1.TransformedPolygon, pair.Item2.TransformedPolygon);
+			var contactPoint = collider.FindConvexContactPoint(pair.Item1.TransformedPolygon, pair.Item2.TransformedPolygon);
 
-			return new ConstraintDerivative();
+			if (contactPoint.Contact == false)
+				return new ConstraintDerivative();
+
+			var sign = particle == pair.Item1 ? -1 : 1;
+			var force = sign * contactPoint.PenetrationDepth;
+
+			var r = particle == pair.Item1 ? contactPoint.FirstPolygonContactPoint : contactPoint.SecondPolygonContactPoint;
+			var torque = -r.CrossProduct(force); // minus sign because r points from the center to the contact point instead of the other way.
+
+			return new ConstraintDerivative(force.X, force.Y, torque);
 		}
 
 		public IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system)
