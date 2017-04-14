@@ -15,6 +15,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 	public abstract class AgatePhysicsTest : Scene, IAgateTest
 	{
 		private const int boxSize = 40;
+		private const double TimeStep = 0.005;
 
 		private List<Func<KinematicsSystem, IConstraintSolver>> solvers = new List<Func<KinematicsSystem, IConstraintSolver>>
 		{
@@ -100,7 +101,7 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 			this.examples = _examples.ToList();
 		}
 
-		private void Advance(double dt = 0.005)
+		private void Advance(double dt = TimeStep)
 		{
 			CurrentExample.ComputeExternalForces();
 
@@ -192,6 +193,8 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 
 			solver = solvers[solverIndex](system);
 			kinematics = new KinematicsIntegrator(system, solver);
+			kinematics.MinimumTimeStep = TimeStep;
+			kinematics.MaximumTimeStep = TimeStep;
 
 			StoreHistory();
 		}

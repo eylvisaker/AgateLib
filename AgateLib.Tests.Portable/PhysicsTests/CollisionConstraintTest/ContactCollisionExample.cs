@@ -71,7 +71,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 		{
 			system.AddParticles(new ParticleGenerator().Generate(particles,
 				i => planet.Position + Vector2.FromPolar(200, 2 * Math.PI * i / particles),
-				i => Vector2.FromPolar(100, 2 * Math.PI * i / particles + Math.PI * 0.5)));
+				i => Vector2.FromPolar(50, 2 * Math.PI * i / particles + Math.PI * 0.5)));
 		}
 
 		public void Draw()

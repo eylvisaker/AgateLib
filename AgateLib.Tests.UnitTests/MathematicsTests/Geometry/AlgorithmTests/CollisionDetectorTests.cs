@@ -129,8 +129,8 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 		[TestMethod]
 		public void CD_GJK_EPA_PenetrationDepth()
 		{
-			var pa = Diamond;
-			var pb = new RectangleF(0.5f, -1, 1, 2).ToPolygon();
+			var pa = new Polygon(Diamond.Points.Select(x => 10 * x));
+			var pb = new RectangleF(9.5f, -10, 10, 20).ToPolygon();
 
 			var gjk = new GilbertJohnsonKeerthiAlgorithm();
 
@@ -140,8 +140,9 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 			var pv = epa.PenetrationDepth(
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pa, v),
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pb, v),
-				simplex.Simplex);
+				simplex);
 
+			Assert.IsTrue(simplex.ContainsOrigin);
 			Assert.AreEqual(new Vector2(0.5, 0), pv);
 		}
 
@@ -150,8 +151,8 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 		{
 			for (float d = 0.05f; d < 1; d += 0.05f)
 			{
-				var pa = Diamond;
-				var pb = new RectangleF(1 - d, -1, 1, 2).ToPolygon();
+				var pa = new Polygon(Diamond.Points.Select(x => 10 * x));
+				var pb = new RectangleF(10 - d, -10, 10, 20).ToPolygon();
 
 				var gjk = new GilbertJohnsonKeerthiAlgorithm();
 
@@ -161,8 +162,9 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 				var pv = epa.PenetrationDepth(
 					v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pa, v),
 					v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(pb, v),
-					simplex.Simplex);
+					simplex);
 
+				Assert.IsTrue(simplex.ContainsOrigin, $"Collision not detected by Minkowski simplex at {d}.");
 				Assert.IsTrue(new Vector2(d, 0).Equals(pv.Value, 1e-6), $"Penetration depth test failed at {d}.");
 			}
 		}

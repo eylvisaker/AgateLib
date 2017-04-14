@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
@@ -53,16 +55,36 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			return Simplex.GetEnumerator();
 		}
 
+		internal static SupportData Support(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Vector2 v)
+		{
+			var sa = supportA(v);
+			var sb = supportB(-v);
+
+			var result = new SupportData
+			{
+				SupportA = sa,
+				SupportB = sb,
+			};
+
+			return result;
+		}
+
 		internal void Add(SupportData support)
 		{
 			dirty = true;
 
 			Simplex.Add(support.Difference);
+			Debug.Assert(Simplex.Count <= 3);
 
 			AddSupportPoints(support.SupportA, support.SupportB);
 		}
 
-		internal void Insert(int index, SupportData supportData)
+		/// <summary>
+		/// Used by the GJK algorithm to gradually walk a triangle into the final position.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="supportData"></param>
+		internal void StaggerInsert(int index, SupportData supportData)
 		{
 			dirty = true;
 
@@ -76,6 +98,15 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			ShapeA[index] = supportData.SupportA;
 			ShapeB[index] = supportData.SupportB;
 			Simplex[index] = supportData.Difference;
+		}
+
+		internal void Insert(int index, SupportData supportData)
+		{
+			dirty = true;
+
+			ShapeA.Insert(index, supportData.SupportA);
+			ShapeB.Insert(index, supportData.SupportB);
+			Simplex.Insert(index, supportData.Difference);
 		}
 
 		private void AddSupportPoints(Vector2 supportA, Vector2 supportB)

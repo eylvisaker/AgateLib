@@ -33,10 +33,12 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 			if (contactPoint.Contact == false)
 				return new ConstraintDerivative();
 
-			var sign = particle == pair.Item1 ? -1 : 1;
-			var force = sign * contactPoint.PenetrationDepth;
+			var firstParticle = particle == pair.Item1;
 
-			var r = particle == pair.Item1 ? contactPoint.FirstPolygonContactPoint : contactPoint.SecondPolygonContactPoint;
+			var sign = firstParticle ? -1 : 1;
+			var force = sign * contactPoint.FirstPolygonNormal;
+
+			var r = firstParticle ? contactPoint.FirstPolygonContactPoint : contactPoint.SecondPolygonContactPoint;
 			var torque = -r.CrossProduct(force); // minus sign because r points from the center to the contact point instead of the other way.
 
 			return new ConstraintDerivative(force.X, force.Y, torque);

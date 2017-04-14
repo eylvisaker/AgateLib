@@ -26,7 +26,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 		public IterativeAlgorithm IterationControl { get; } = new IterativeAlgorithm();
 
-		public Vector2? PenetrationDepth(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Polygon simplex)
+		public Vector2? PenetrationDepth(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, MinkowskiSimplex simplex)
 		{
 			iterations = 0;
 
@@ -34,8 +34,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			{
 				iterations++;
 
-				Edge e = FindClosestEdge(simplex);
-				Vector2 p = Support(supportA, supportB, e.Normal);
+				Edge e = FindClosestEdge(simplex.Simplex);
+				var support = MinkowskiSimplex.Support(supportA, supportB, e.Normal);
+				Vector2 p = support.Difference;
 				double d = p.DotProduct(e.Normal);
 
 				if (d - e.Distance < Tolerance)
@@ -43,7 +44,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 					return d * e.Normal;
 				}
 
-				simplex.Insert(e.Index, p);
+				simplex.Insert(e.Index, support);
 			}
 
 			return null;
@@ -58,6 +59,11 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			return w;
 		}
 
+		/// <summary>
+		/// Finds the edge of the simplex that is closest to the origin.
+		/// </summary>
+		/// <param name="simplex"></param>
+		/// <returns></returns>
 		private Edge FindClosestEdge(Polygon simplex)
 		{
 			Edge closest = new Edge();

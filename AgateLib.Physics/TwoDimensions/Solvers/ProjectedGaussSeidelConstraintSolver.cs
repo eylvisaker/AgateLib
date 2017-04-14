@@ -124,7 +124,8 @@ namespace AgateLib.Physics.TwoDimensions
 
 		private void ComputeJacobian()
 		{
-			Parallel.For(0, Constraints.Count, i =>
+			//	Parallel.For(0, Constraints.Count, i =>
+			for (int i = 0; i < Constraints.Count; i++)
 			{
 				var constraint = Constraints[i];
 
@@ -141,7 +142,7 @@ namespace AgateLib.Physics.TwoDimensions
 					jacobian[i, basis + 1] = derivative.RespectToY;
 					jacobian[i, basis + 2] = derivative.RespectToAngle;
 				}
-			});
+			}
 		}
 
 		private void SolveConstraintEquations(double dt)

@@ -54,7 +54,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			var pv = epa.PenetrationDepth(
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyA, v),
 				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyB, v),
-				simplex.Simplex);
+				simplex);
 
 			if (pv == null)
 				return new ContactPoint { Contact = false };

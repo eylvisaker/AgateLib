@@ -61,9 +61,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 			double diff = double.MaxValue;
 
-			result.Add(Support(supportA, supportB, dperp));
-			result.Add(Support(supportA, supportB, d));
-			result.Add(Support(supportA, supportB, -d));
+			result.Add(MinkowskiSimplex.Support(supportA, supportB, dperp));
+			result.Add(MinkowskiSimplex.Support(supportA, supportB, d));
+			result.Add(MinkowskiSimplex.Support(supportA, supportB, -d));
 
 			d = LineSegmentPointNearestOrigin(result.Simplex[1], result.Simplex[2]);
 
@@ -82,7 +82,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 				d = -d;
 
-				var c = Support(supportA, supportB, d);
+				var c = MinkowskiSimplex.Support(supportA, supportB, d);
 				var dotc = c.Difference.DotProduct(d);
 				var dota = result.Last().DotProduct(d);
 
@@ -102,12 +102,12 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				
 				if (p1.MagnitudeSquared < p2.MagnitudeSquared)
 				{
-					result.Insert(ib, c);
+					result.StaggerInsert(ib, c);
 					d = p1;
 				}
 				else
 				{
-					result.Insert(ia, c);
+					result.StaggerInsert(ia, c);
 					d = p2;
 				}
 			}
@@ -116,20 +116,6 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			return result;
 		}
 		
-		private static SupportData Support(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Vector2 v)
-		{
-			var sa = supportA(v);
-			var sb = supportB(-v);
-
-			var result = new SupportData
-			{
-				SupportA = sa,
-				SupportB = sb,
-			};
-
-			return result;
-		}
-
 		public static Vector2 PolygonSupport(Polygon polygon, Vector2 d)
 		{
 			double highest = double.MinValue;

@@ -14,7 +14,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 	{
 		private Random random;
 
-		public ParticleGenerator() : this(new Random(3))
+		public ParticleGenerator() : this(new Random(2))
 		{
 		}
 
@@ -45,7 +45,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 				Polygon = GeneratePolygon(size, innerSize),
 				Position = startPoint,
 				Velocity = startVelocity,
-				AngularVelocity = random.NextDouble() * 4,
+				AngularVelocity = random.NextDouble(),
 			};
 
 			return particle;
