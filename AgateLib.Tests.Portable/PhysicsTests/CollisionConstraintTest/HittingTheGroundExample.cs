@@ -37,7 +37,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 
 			system = new KinematicsSystem();
 
-			system.AddParticles(generator.Generate(particleCount, new Vector2(screenArea.Width / 2, 100)));
+			system.AddParticles(generator.Generate(particleCount, new Vector2(screenArea.Width / 2, 100), Vector2.Zero));
 
 			system.AddForceField(new ConstantGravityField());
 

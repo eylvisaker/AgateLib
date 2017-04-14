@@ -14,7 +14,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 	{
 		private Random random;
 
-		public ParticleGenerator() : this(new Random(2))
+		public ParticleGenerator() : this(new Random(3))
 		{
 		}
 
@@ -25,17 +25,17 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 
 		public bool ConvexOnly { get; set; } = true;
 
-		public IEnumerable<PhysicalParticle> Generate(int particleCount, Vector2 startPoint)
+		public IEnumerable<PhysicalParticle> Generate(int particleCount, Vector2 startPoint, Vector2 startVelocity)
 		{
-			return Enumerable.Range(0, particleCount).Select(i => GenerateParticle(startPoint));
+			return Enumerable.Range(0, particleCount).Select(i => GenerateParticle(startPoint, startVelocity));
 		}
 
-		public IEnumerable<PhysicalParticle> Generate(int particleCount, Func<int, Vector2> startPoint)
+		public IEnumerable<PhysicalParticle> Generate(int particleCount, Func<int, Vector2> startPoint, Func<int, Vector2> startVelocity = null)
 		{
-			return Enumerable.Range(0, particleCount).Select(i => GenerateParticle(startPoint(i)));
+			return Enumerable.Range(0, particleCount).Select(i => GenerateParticle(startPoint(i), startVelocity?.Invoke(i) ?? Vector2.Zero));
 		}
 
-		private PhysicalParticle GenerateParticle(Vector2 startPoint)
+		private PhysicalParticle GenerateParticle(Vector2 startPoint, Vector2 startVelocity)
 		{
 			var size = random.Next(15, 80);
 			var innerSize = random.NextDouble() * 0.7 * size + 1;
@@ -44,7 +44,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			{
 				Polygon = GeneratePolygon(size, innerSize),
 				Position = startPoint,
-				Velocity = new Vector2(random.Next(-100, 100), random.Next(-100, 200)),
+				Velocity = startVelocity,
 				AngularVelocity = random.NextDouble() * 4,
 			};
 
