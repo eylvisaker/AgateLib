@@ -56,6 +56,8 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			{
 				Position = (Vector2) area / 2,
 				Polygon = new RegularPolygonBuilder().BuildPolygon(6, 60),
+				Mass = 10,
+				InertialMoment = 5 * 60 * 60,
 			};
 
 			system.AddParticles(planet);
@@ -70,7 +72,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 		private void GenerateParticles(PhysicalParticle planet)
 		{
 			system.AddParticles(new ParticleGenerator().Generate(particles,
-				i => planet.Position + Vector2.FromPolar(200, 2 * Math.PI * i / particles),
+				i => planet.Position + Vector2.FromPolar(300, 2 * Math.PI * i / particles),
 				i => Vector2.FromPolar(50, 2 * Math.PI * i / particles + Math.PI * 0.5)));
 		}
 

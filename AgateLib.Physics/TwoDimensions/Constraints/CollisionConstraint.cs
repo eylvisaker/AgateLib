@@ -13,12 +13,22 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 
 		public double MultiplierMin => 0;
 		public double MultiplierMax => double.MaxValue;
-
+		
 		public ConstraintType ConstraintType => ConstraintType.Inequality;
 
 		public double Value(Tuple<PhysicalParticle, PhysicalParticle> pair)
 		{
-			return 0;
+			var contactPoint = collider.FindConvexContactPoint(pair.Item1.TransformedPolygon, pair.Item2.TransformedPolygon);
+
+			if (contactPoint.Contact == false)
+				return 0;
+
+			var springConstant = 30;
+
+			return springConstant *
+				((contactPoint.SecondPolygon.Centroid + contactPoint.SecondPolygonContactPoint) -
+				 (contactPoint.FirstPolygon.Centroid + contactPoint.FirstPolygonContactPoint))
+				.DotProduct(contactPoint.FirstPolygonNormal);
 		}
 
 		public bool AppliesTo(PhysicalParticle particle)
@@ -56,7 +66,7 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 					if (collider.DoPolygonsIntersect(p1.TransformedPolygon, p2.TransformedPolygon) == false)
 						continue;
 
-					yield return new List<PhysicalParticle> {p1, p2};
+					yield return new List<PhysicalParticle> { p1, p2 };
 				}
 			}
 		}

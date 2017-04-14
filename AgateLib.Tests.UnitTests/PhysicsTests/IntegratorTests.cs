@@ -91,8 +91,8 @@ namespace AgateLib.UnitTests.PhysicsTests
 			var constraintSolver = solver(system);
 			var integrator = new KinematicsIntegrator(system, constraintSolver)
 			{
-				MaximumTimeStep = 0.01,
-				MaxStepsPerFrame = 500
+				MaximumTimeStep = 0.005,
+				MaxStepsPerFrame = 1000
 			};
 
 			integrator.Integrate(1);

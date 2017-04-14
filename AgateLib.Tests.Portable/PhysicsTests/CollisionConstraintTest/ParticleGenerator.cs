@@ -46,6 +46,7 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 				Position = startPoint,
 				Velocity = startVelocity,
 				AngularVelocity = random.NextDouble(),
+				InertialMoment = 0.5 * size * size,
 			};
 
 			return particle;

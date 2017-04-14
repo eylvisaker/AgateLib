@@ -116,6 +116,7 @@
     <Compile Include="IAgateTest.cs" />
     <Compile Include="PhysicsTests\CollisionConstraintTest\ContactCollisionExample.cs" />
     <Compile Include="PhysicsTests\CollisionConstraintTest\ContactConstraintTest.cs" />
+    <Compile Include="PhysicsTests\CollisionConstraintTest\ColliderExample.cs" />
     <Compile Include="PhysicsTests\CollisionConstraintTest\ParticleGenerator.cs" />
     <Compile Include="PhysicsTests\CollisionConstraintTest\ParticleRenderer.cs" />
     <Compile Include="PhysicsTests\JointConstraintTest\JointConstraintTest.cs" />

@@ -9,8 +9,9 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 		protected override void OnSceneStart()
 		{
 			AddExamples(
-				new HittingTheGroundExample(),
-				new ContactCollisionExample());
+				new ColliderExample(),
+				new ContactCollisionExample(),
+				new HittingTheGroundExample());
 
 			base.OnSceneStart();
 		}
