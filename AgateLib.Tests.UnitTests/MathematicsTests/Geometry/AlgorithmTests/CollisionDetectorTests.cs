@@ -19,7 +19,7 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 		public void CD_RectsCollide()
 		{
 			var a = Rectangle.FromLTRB(0, 0, 10, 10).ToPolygon();
-			var b = Rectangle.FromLTRB(10, 9, 20, 20).ToPolygon();
+			var b = Rectangle.FromLTRB(9, 9, 20, 20).ToPolygon();
 
 			Assert.IsTrue(collider.DoPolygonsIntersect(a, b));
 		}

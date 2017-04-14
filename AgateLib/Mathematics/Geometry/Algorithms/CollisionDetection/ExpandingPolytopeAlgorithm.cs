@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Mathematics.Geometry.Algorithms.Configuration;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
 	public class ExpandingPolytopeAlgorithm
 	{
+		class Edge
+		{
+			public Vector2 Normal { get; set; }
+			public double Distance { get; set; }
+			public int Index { get; set; }
+		}
+
+
 		private int iterations;
 
 		private double Tolerance => IterationControl.Tolerance;
@@ -16,13 +25,6 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 		public int Iterations => iterations;
 
 		public IterativeAlgorithm IterationControl { get; } = new IterativeAlgorithm();
-
-		class Edge
-		{
-			public Vector2 Normal { get; set; }
-			public double Distance { get; set; }
-			public int Index { get; set; }
-		}
 
 		public Vector2? PenetrationDepth(Func<Vector2, Vector2> supportA, Func<Vector2, Vector2> supportB, Polygon simplex)
 		{

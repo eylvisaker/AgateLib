@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.Algorithms.Configuration;
+using AgateLib.Quality;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
@@ -12,19 +14,17 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 	/// </summary>
 	public class CollisionDetector
 	{
-		public Vector2? PenetrationVector(Polygon polyA, Polygon polyB)
+		private IterativeAlgorithm iterationControl = new IterativeAlgorithm();
+
+		public IterativeAlgorithm IterationControl
 		{
-			var gjk = new GilbertJohnsonKeerthiAlgorithm();
+			get { return iterationControl; }
+			set
+			{
+				Require.ArgumentNotNull(value, nameof(IterationControl));
 
-			var simplex = gjk.FindMinkowskiSimplex(polyA, polyB);
-			var epa = new ExpandingPolytopeAlgorithm();
-
-			var pv = epa.PenetrationDepth(
-				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyA, v),
-				v => GilbertJohnsonKeerthiAlgorithm.PolygonSupport(polyB, v),
-				simplex.Simplex);
-
-			return pv;
+				iterationControl = value;
+			}
 		}
 
 		/// <summary>
@@ -59,6 +59,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			if (pv == null)
 				return new ContactPoint { Contact = false };
 
+			var edgeA = FindClosestEdge(simplex.ClosestA, polyA);
+			var edgeB = FindClosestEdge(simplex.ClosestB, polyB);
+
 			return new ContactPoint
 			{
 				Contact = true,
@@ -69,8 +72,33 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				PenetrationDepth = pv.Value,
 
 				FirstPolygonContactPoint = closestA,
+				FirstPolygonNormal = edgeA.Normal,
+
 				SecondPolygonContactPoint = closestB,
+				SecondPolygonNormal = edgeB.Normal,
 			};
+		}
+
+		private PolygonEdge FindClosestEdge(Vector2 point, Polygon poly)
+		{
+			double distance = double.MaxValue;
+			PolygonEdge result = null;
+
+			foreach (var edge in poly.Edges)
+			{
+				var dist = Math.Abs(LineAlgorithms.SideOf(edge.LineSegment.Start, edge.LineSegment.End, point));
+
+				if (dist < distance)
+				{
+					result = edge;
+					distance = dist;
+
+					if (dist <= IterationControl.Tolerance)
+						break;
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -157,8 +185,8 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 					var dot = diff.DotProduct(edge);
 					var side = Math.Sign(dot);
 
-					// this means vector2s in vb are on the same side 
-					// of the edge as vector2s in va. Thus, it is not 
+					// this means points in vb are on the same side 
+					// of the edge as vectors in va. Thus, it is not 
 					// a separating axis.
 					if (side == inSide)
 					{
@@ -195,6 +223,10 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 		public Vector2 SecondPolygonContactPoint { get; set; }
 
 		public Vector2 PenetrationDepth { get; set; }
+
 		public bool Contact { get; set; }
+
+		public Vector2 FirstPolygonNormal { get; set; }
+		public Vector2 SecondPolygonNormal { get; set; }
 	}
 }

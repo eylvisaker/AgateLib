@@ -347,7 +347,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 			if (p.Count < 3)
 				return p;
 
-			if (!p.IsCounterClockWise())
+			if (!p.IsCounterClockwise())
 				return new Polygon(p.Reverse());
 
 			return p;

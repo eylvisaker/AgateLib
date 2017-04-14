@@ -43,7 +43,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// Indicates if the vertices are in counter clockwise order.
 		/// Warning: If the area of the polygon is 0, it is unable to determine the winding.
 		/// </summary>
-		public static bool IsCounterClockWise(this Polygon polygon)
+		public static bool IsCounterClockwise(this Polygon polygon)
 		{
 			if (polygon.Count < 3)
 				return false;

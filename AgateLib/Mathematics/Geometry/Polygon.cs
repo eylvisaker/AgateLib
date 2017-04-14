@@ -43,7 +43,10 @@ namespace AgateLib.Mathematics.Geometry
 
 		private bool isSimple;
 		private bool isConvex;
+		private PolygonWinding winding;
 		private List<Polygon> convexDecomposition = new List<Polygon>();
+		private List<PolygonEdge> edges = new List<PolygonEdge>();
+
 		private Vector2 centroid;
 
 		/// <summary>
@@ -62,7 +65,7 @@ namespace AgateLib.Mathematics.Geometry
 			this.points = points.ToVector2List();
 			this.points.Dirty = true;
 
-			ComputeProperties();
+			ComputeAllProperties();
 		}
 
 		/// <summary>
@@ -74,7 +77,7 @@ namespace AgateLib.Mathematics.Geometry
 			this.points = points.ToVector2List();
 			this.points.Dirty = true;
 
-			ComputeProperties();
+			ComputeAllProperties();
 		}
 
 		/// <summary>
@@ -86,7 +89,7 @@ namespace AgateLib.Mathematics.Geometry
 			this.points = points.ToVector2List();
 			this.points.Dirty = true;
 
-			ComputeProperties();
+			ComputeAllProperties();
 		}
 
 		/// <summary>
@@ -107,14 +110,14 @@ namespace AgateLib.Mathematics.Geometry
 		IReadOnlyList<Vector2> IReadOnlyPolygon.Points => Points;
 
 		[YamlIgnore]
-		public IEnumerable<LineSegment> Edges
+		public IEnumerable<PolygonEdge> Edges
 		{
 			get
 			{
-				for (int i = 0, j = Points.Count - 1; i < Points.Count; j = i++)
-				{
-					yield return new LineSegment { Start = Points[j], End = Points[i] };
-				}
+				if (points.Dirty)
+					ComputeAllProperties();
+
+				return edges;
 			}
 		}
 		bool ICollection<Vector2>.IsReadOnly => false;
@@ -156,7 +159,7 @@ namespace AgateLib.Mathematics.Geometry
 			get
 			{
 				if (Points.Dirty)
-					ComputeProperties();
+					ComputeAllProperties();
 
 				return isConvex;
 			}
@@ -173,7 +176,7 @@ namespace AgateLib.Mathematics.Geometry
 			get
 			{
 				if (Points.Dirty)
-					ComputeProperties();
+					ComputeAllProperties();
 
 				return convexDecomposition;
 			}
@@ -190,6 +193,22 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		[YamlIgnore]
 		public int Count => points.Count;
+
+		/// <summary>
+		/// Returns the winding direction of the points of the polygon.
+		/// </summary>
+		[YamlIgnore]
+		public PolygonWinding Winding
+
+		{
+			get
+			{
+				if (Points.Dirty)
+					ComputeAllProperties();
+
+				return winding;
+			}
+		}
 
 		/// <summary>
 		/// Computes the area of the polygon.
@@ -223,7 +242,7 @@ namespace AgateLib.Mathematics.Geometry
 			get
 			{
 				if (points.Dirty)
-					ComputeProperties();
+					ComputeAllProperties();
 
 				return isSimple;
 			}
@@ -243,7 +262,7 @@ namespace AgateLib.Mathematics.Geometry
 			get
 			{
 				if (points.Dirty)
-					ComputeProperties();
+					ComputeAllProperties();
 
 				return centroid;
 			}
@@ -535,17 +554,36 @@ namespace AgateLib.Mathematics.Geometry
 			return true;
 		}
 
-		private void ComputeProperties()
+		private void ComputeAllProperties()
 		{
 			if (!Points.Dirty)
 				return;
 
 			Points.Dirty = false;
 
+			winding = this.IsCounterClockwise() ? PolygonWinding.CounterClockwise : PolygonWinding.Clockwise;
+
 			ComputeCentroid();
+			ComputeEdges();
 			ComputeConvexity();
 			ComputeComplexity();
 			ComputeConvexDecomposition();
+		}
+
+		private void ComputeEdges()
+		{
+			edges.Clear();
+
+			for (int i = 0, j = Points.Count - 1; i < Points.Count; j = i++)
+			{
+				var segment = new LineSegment {Start = Points[j], End = Points[i]};
+				var normal = new Vector2(segment.Displacement.Y, -segment.Displacement.X).Normalize();
+
+				if (winding == PolygonWinding.Clockwise)
+					normal *= -1;
+
+				edges.Add(new PolygonEdge(segment, normal));
+			}
 		}
 
 		private void ComputeCentroid()

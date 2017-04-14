@@ -1,6 +1,6 @@
 using AgateLib.Quality;
 
-namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
+namespace AgateLib.Mathematics.Geometry.Algorithms.Configuration
 {
 	public class IterativeAlgorithm
 	{

@@ -412,9 +412,9 @@ namespace AgateLib.Mathematics.Geometry
 			result.Points.Count = 4;
 
 			result[0] = new Vector2(Left, Top);
-			result[1] = new Vector2(Right, Top);
+			result[1] = new Vector2(Left, Bottom);
 			result[2] = new Vector2(Right, Bottom);
-			result[3] = new Vector2(Left, Bottom);
+			result[3] = new Vector2(Right, Top);
 		}
 
 		#endregion

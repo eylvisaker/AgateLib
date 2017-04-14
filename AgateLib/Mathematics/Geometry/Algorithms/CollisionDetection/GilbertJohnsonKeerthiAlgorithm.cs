@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Mathematics.Geometry.Algorithms.Configuration;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
@@ -31,14 +32,14 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 				p => PolygonSupport(a, p),
 				p => PolygonSupport(b, p));
 
-			return minkowskiDiff.DistanceFromOrigin < IterationControl.Tolerance;
+			return minkowskiDiff.ContainsOrigin;
 		}
 
 		public double DistanceBetween(Polygon a, Polygon b)
 		{
 			var result = FindMinkowskiSimplex(a, b);
 
-			return result.DistanceFromOrigin;
+			return result.ContainsOrigin ? 0 : result.DistanceFromOrigin;
 		}
 
 		public MinkowskiSimplex FindMinkowskiSimplex(Polygon a, Polygon b)
