@@ -236,6 +236,18 @@ namespace AgateLib.Tests.PhysicsTests.JointConstraintTest
 				CurrentExample.RemoveParticle();
 				InitializeExample();
 			}
+			if (e.KeyCode == KeyCode.Left)
+			{
+				debugParticleIndex--;
+				if (debugParticleIndex < 0)
+					debugParticleIndex = 0;
+			}
+			if (e.KeyCode == KeyCode.Right)
+			{
+				debugParticleIndex++;
+				if (debugParticleIndex >= system.Particles.Count)
+					debugParticleIndex = system.Particles.Count - 1;
+			}
 			if (e.KeyCode == KeyCode.Down)
 			{
 				historyIndex--;

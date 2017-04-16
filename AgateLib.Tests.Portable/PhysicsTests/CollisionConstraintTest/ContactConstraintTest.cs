@@ -11,7 +11,8 @@ namespace AgateLib.Tests.PhysicsTests.CollisionConstraintTest
 			AddExamples(
 				new ColliderExample(),
 				new ContactCollisionExample(),
-				new HittingTheGroundExample());
+				new HittingTheGroundExample(),
+				new BoxStackingExample());
 
 			base.OnSceneStart();
 		}

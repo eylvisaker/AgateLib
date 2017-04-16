@@ -114,6 +114,7 @@
     <Compile Include="FontTests\TextLayout.cs" />
     <Compile Include="FoundationTests\Resources.cs" />
     <Compile Include="IAgateTest.cs" />
+    <Compile Include="PhysicsTests\CollisionConstraintTest\BoxStackingExample.cs" />
     <Compile Include="PhysicsTests\CollisionConstraintTest\ContactCollisionExample.cs" />
     <Compile Include="PhysicsTests\CollisionConstraintTest\ContactConstraintTest.cs" />
     <Compile Include="PhysicsTests\CollisionConstraintTest\ColliderExample.cs" />
