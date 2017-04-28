@@ -9,12 +9,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AgateLib.UnitTests.MathematicsTests.AlgorithmTests
 {
 	[TestClass]
-	public class ComplexPolygonDetectionTests
+	public class SimplePolygonDetectionTests
 	{
 		[TestMethod]
 		public void Polygon_RectangleIsSimple()
 		{
 			Assert.IsTrue(new Rectangle(1, 2, 3, 4).ToPolygon().IsSimple);
+		}
+
+		[TestMethod]
+		public void Polygon_ZeroPolygonIsSimple()
+		{
+			var poly = new Rectangle().ToPolygon();
+
+			Assert.AreEqual(4, poly.Count);
+			Assert.IsTrue(new Rectangle().ToPolygon().IsSimple);
 		}
 
 		[TestMethod]

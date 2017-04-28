@@ -126,7 +126,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 					sortedEvents[2 * i + 1].Vertex = polygon.At(i + 1);
 
 					// determine type
-					if (XYOrder(polygon.At(i), polygon.At(i + 1)) < 0)
+					if (XYOrder(polygon.At(i), polygon.At(i + 1)) <= 0)
 					{
 						sortedEvents[2 * i].EventType = EventType.Left;
 						sortedEvents[2 * i + 1].EventType = EventType.Right;

@@ -142,7 +142,7 @@
     <Compile Include="InputTests\SimpleInputHandlerTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="AgateIntegrationTest.cs" />
-    <Compile Include="MathematicsTests\AlgorithmTests\ComplexPolygonDetectionTests.cs" />
+    <Compile Include="MathematicsTests\AlgorithmTests\SimplePolygonDetectionTests.cs" />
     <Compile Include="MathematicsTests\AlgorithmTests\LineAlgorithmTests.cs" />
     <Compile Include="MathematicsTests\AlgorithmTests\PolygonDecompositionTests.cs" />
     <Compile Include="MathematicsTests\Geometry\AlgorithmTests\CollisionDetectorTests.cs" />
