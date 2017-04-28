@@ -125,10 +125,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 					sortedEvents[2 * i].Vertex = polygon.At(i);
 					sortedEvents[2 * i + 1].Vertex = polygon.At(i + 1);
 
-
+					// determine type
 					if (XYOrder(polygon.At(i), polygon.At(i + 1)) < 0)
 					{
-						// determine type
 						sortedEvents[2 * i].EventType = EventType.Left;
 						sortedEvents[2 * i + 1].EventType = EventType.Right;
 					}
@@ -312,14 +311,15 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		///     Return: false(0) = is NOT simple
 		///             true(1)  = IS simple
 		/// </summary>
-		/// <param name="Pn"></param>
+		/// <param name="polygon"></param>
 		/// <returns></returns>
-		public bool IsSimple(Polygon Pn)
+		public bool IsSimple(Polygon polygon)
 		{
-			EventQueue eventQueue = new EventQueue(Pn);
-			SweepLine sweepLine = new SweepLine(Pn);
+			Require.ArgumentNotNull(polygon, nameof(polygon));
+
+			EventQueue eventQueue = new EventQueue(polygon);
+			SweepLine sweepLine = new SweepLine(polygon);
 			Event currentEvent;                  // the current event
-			SweepLineSegment currentSegment;                  // the current SL segment
 
 			// This loop processes all events in the sorted queue
 			// Events are only left or right vertices since
@@ -329,7 +329,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 				// while there are events
 				if (currentEvent.EventType == EventType.Left)
 				{      // process a left vertex
-					currentSegment = sweepLine.Add(currentEvent);          // add it to the sweep line
+					var currentSegment = sweepLine.Add(currentEvent);          // add it to the sweep line
 					if (sweepLine.Intersect(currentSegment, currentSegment.Above))
 						return false;      // Pn is NOT simple
 					if (sweepLine.Intersect(currentSegment, currentSegment.Below))
@@ -337,7 +337,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 				}
 				else
 				{                      // processs a right vertex
-					currentSegment = sweepLine.Find(currentEvent);
+					var currentSegment = sweepLine.Find(currentEvent);
 					if (sweepLine.Intersect(currentSegment.Above, currentSegment.Below))
 						return false;      // Pn is NOT simple
 					sweepLine.Remove(currentSegment);           // remove it from the sweep line

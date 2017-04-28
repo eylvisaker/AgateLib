@@ -566,7 +566,7 @@ namespace AgateLib.Mathematics.Geometry
 			ComputeCentroid();
 			ComputeEdges();
 			ComputeConvexity();
-			ComputeComplexity();
+			ComputeSimplicity();
 			ComputeConvexDecomposition();
 		}
 
@@ -591,7 +591,7 @@ namespace AgateLib.Mathematics.Geometry
 			centroid = Points.Sum() / Points.Count;
 		}
 
-		private void ComputeComplexity()
+		private void ComputeSimplicity()
 		{
 			isSimple = _simplePolygonDetectionAlgorithm.IsSimple(this);
 		}
