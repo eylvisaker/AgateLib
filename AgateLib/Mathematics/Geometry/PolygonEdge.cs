@@ -14,8 +14,14 @@ namespace AgateLib.Mathematics.Geometry
 			Normal = normal;
 		}
 
-		public LineSegment LineSegment { get; }
+		public LineSegment LineSegment { get; private set; }
 
-		public Vector2 Normal { get; }
+		public Vector2 Normal { get; private set; }
+
+		internal void SetValue(LineSegment segment, Vector2 normal)
+		{
+			LineSegment = segment;
+			Normal = normal;
+		}
 	}
 }

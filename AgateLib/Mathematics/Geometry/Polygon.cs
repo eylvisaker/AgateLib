@@ -572,7 +572,10 @@ namespace AgateLib.Mathematics.Geometry
 
 		private void ComputeEdges()
 		{
-			edges.Clear();
+			while (edges.Count > Points.Count)
+				edges.RemoveAt(edges.Count - 1);
+			while (edges.Count < Points.Count)
+				edges.Add(new PolygonEdge(new LineSegment(), new Vector2()));
 
 			for (int i = 0, j = Points.Count - 1; i < Points.Count; j = i++)
 			{
@@ -582,7 +585,7 @@ namespace AgateLib.Mathematics.Geometry
 				if (winding == PolygonWinding.Clockwise)
 					normal *= -1;
 
-				edges.Add(new PolygonEdge(segment, normal));
+				edges[i].SetValue(segment, normal);
 			}
 		}
 
