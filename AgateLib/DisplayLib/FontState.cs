@@ -34,14 +34,13 @@ namespace AgateLib.DisplayLib
 	/// </summary>
 	public class FontState
 	{
-		private OriginAlignment mAlignment = OriginAlignment.TopLeft;
-		private Color mColor = Color.White;
-		private double mScaleWidth = 1.0;
-		private double mScaleHeight = 1.0;
-		private Vector2f mLocation;
-		private string mText = string.Empty;
-		private FontStateCache mCache;
-		private string mTransformedText;
+		private OriginAlignment alignment = OriginAlignment.TopLeft;
+		private Color color = Color.White;
+		private double scaleWidth = 1.0;
+		private double scaleHeight = 1.0;
+		private Vector2f location;
+		private string text = "";
+		private FontStateCache cache;
 		private int size = 10;
 		private FontStyles style;
 
@@ -55,11 +54,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public string Text
 		{
-			get { return mText; }
+			get { return text; }
 			set
 			{
-				mText = value;
-				mTransformedText = string.Empty;
+				text = value;
 
 				if (Cache != null)
 					Cache.OnTextChanged(this);
@@ -71,10 +69,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public Vector2f Location
 		{
-			get { return mLocation; }
+			get { return location; }
 			set
 			{
-				mLocation = value;
+				location = value;
 
 				if (Cache != null)
 					Cache.OnLocationChanged(this);
@@ -85,10 +83,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public OriginAlignment TextAlignment
 		{
-			get { return mAlignment; }
+			get { return alignment; }
 			set
 			{
-				mAlignment = value;
+				alignment = value;
 
 				Cache?.OnDisplayAlignmentChanged(this);
 			}
@@ -98,10 +96,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public Color Color
 		{
-			get { return mColor; }
+			get { return color; }
 			set
 			{
-				mColor = value;
+				color = value;
 
 				if (Cache != null)
 					Cache.OnColorChanged(this);
@@ -112,13 +110,13 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public double Alpha
 		{
-			get { return mColor.A / 255.0; }
+			get { return color.A / 255.0; }
 			set
 			{
 				if (value < 0) value = 0;
 				if (value > 1.0) value = 1.0;
 
-				mColor = Color.FromArgb((int)(value * 255), mColor);
+				color = Color.FromArgb((int)(value * 255), color);
 
 				Cache?.OnColorChanged(this);
 			}
@@ -154,10 +152,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		internal double ScaleWidth
 		{
-			get { return mScaleWidth; }
+			get { return scaleWidth; }
 			set
 			{
-				mScaleWidth = value;
+				scaleWidth = value;
 
 				if (Cache != null)
 					Cache.OnScaleChanged(this);
@@ -169,10 +167,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		internal double ScaleHeight
 		{
-			get { return mScaleHeight; }
+			get { return scaleHeight; }
 			set
 			{
-				mScaleHeight = value;
+				scaleHeight = value;
 
 				if (Cache != null)
 					Cache.OnScaleChanged(this);
@@ -185,8 +183,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public FontStateCache Cache
 		{
-			get { return mCache; }
-			set { mCache = value; }
+			get { return cache; }
+			set { cache = value; }
 		}
 
 		/// <summary>
@@ -206,17 +204,19 @@ namespace AgateLib.DisplayLib
 		{
 			FontState result = new FontState();
 
-			result.mAlignment = mAlignment;
-			result.mColor = mColor;
-			result.mScaleWidth = mScaleWidth;
-			result.mScaleHeight = mScaleHeight;
-			result.mLocation = mLocation;
-			result.mText = mText;
+			result.alignment = alignment;
+			result.color = color;
+			result.scaleWidth = scaleWidth;
+			result.scaleHeight = scaleHeight;
+			result.location = location;
+			result.text = text;
 			result.InterpolationHint = InterpolationHint;
+			result.Size = size;
+			result.Style = Style;
 
-			if (mCache != null)
+			if (cache != null)
 			{
-				result.mCache = mCache.Clone();
+				result.cache = cache.Clone();
 			}
 
 			return result;
