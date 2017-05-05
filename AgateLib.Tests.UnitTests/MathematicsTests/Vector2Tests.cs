@@ -12,6 +12,24 @@ namespace AgateLib.UnitTests.MathematicsTests
 	public class Vector2Tests
 	{
 		[TestMethod]
+		public void V2_Parse()
+		{
+			Vector2 result = Vector2.Parse("3.5,-4.2");
+
+			Assert.AreEqual(3.5, result.X, 1e-8);
+			Assert.AreEqual(-4.2, result.Y, 1e-8);
+		}
+
+		[TestMethod]
+		public void V2_ParseScientificNotation()
+		{
+			Vector2 result = Vector2.Parse("-1.2e+12,2.4e-18");
+
+			Assert.AreEqual(-1.2e+12, result.X, 1e4);
+			Assert.AreEqual(2.4e-18, result.Y, 1e-26);
+		}
+
+		[TestMethod]
 		public void V2_DotProductOrtho()
 		{
 			Vector2 v1 = Vector2.UnitX;

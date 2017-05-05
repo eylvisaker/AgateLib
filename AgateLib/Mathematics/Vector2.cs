@@ -58,6 +58,21 @@ namespace AgateLib.Mathematics
 		public static readonly Vector2 UnitY = new Vector2(0, 1);
 
 		/// <summary>
+		/// Parses a string of the format "x,y" into a Vector2 object.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static Vector2 Parse(string value)
+		{
+			var coords = value.Split(',');
+
+			if (coords.Length != 2)
+				throw new FormatException("Value was not the correct format.");
+
+			return new Vector2(double.Parse(coords[0]), double.Parse(coords[1]));
+		}
+
+		/// <summary>
 		/// Constructs a Vector2 object.
 		/// </summary>
 		/// <param name="x"></param>
