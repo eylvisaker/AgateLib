@@ -76,12 +76,12 @@ namespace AgateLib.Platform.Test
 			return files.ContainsKey(filename);
 		}
 
-		public IEnumerable<string> GetAllFiles()
+		public IEnumerable<string> GetAllFiles(FileSearchOption searchOption)
 		{
 			return files.Keys;
 		}
 
-		public IEnumerable<string> GetAllFiles(string searchPattern)
+		public IEnumerable<string> GetAllFiles(string searchPattern, FileSearchOption searchOption)
 		{
 			return files.Keys.Where(file => SearchPatternMatches(searchPattern, file));
 		}
@@ -127,6 +127,5 @@ namespace AgateLib.Platform.Test
 		{
 			return filename.Replace("\\", "/");
 		}
-
 	}
 }

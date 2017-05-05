@@ -251,7 +251,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// Enumerates all files in the archive.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<string> GetAllFiles()
+		public IEnumerable<string> GetAllFiles(FileSearchOption searchOption)
 		{
 			foreach (FileInfo info in mFiles)
 			{
@@ -263,7 +263,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="searchPattern"></param>
 		/// <returns></returns>
-		public IEnumerable<string> GetAllFiles(string searchPattern)
+		public IEnumerable<string> GetAllFiles(string searchPattern, FileSearchOption searchOption)
 		{
 			Regex r = new Regex(
 				searchPattern.Replace(".", "\\.").Replace("*", ".*"));

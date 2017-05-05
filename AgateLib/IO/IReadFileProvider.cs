@@ -48,7 +48,7 @@ namespace AgateLib.IO
 		/// Enumerates through all existing filenames in the file provider.
 		/// </summary>
 		/// <returns></returns>
-		IEnumerable<string> GetAllFiles();
+		IEnumerable<string> GetAllFiles(FileSearchOption searchOption = FileSearchOption.CurrentDirectory);
 		/// <summary>
 		/// Enumerates through all filenames which match the specified search pattern.
 		/// </summary>
@@ -57,7 +57,7 @@ namespace AgateLib.IO
 		/// "*.*" would match all filenames with a period in them.</remarks>
 		/// <param name="searchPattern"></param>
 		/// <returns></returns>
-		IEnumerable<string> GetAllFiles(string searchPattern);
+		IEnumerable<string> GetAllFiles(string searchPattern, FileSearchOption searchOption = FileSearchOption.CurrentDirectory);
 		/// <summary>
 		/// Returns a string containing the entire contents of the specified file.
 		/// </summary>

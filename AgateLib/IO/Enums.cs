@@ -45,4 +45,13 @@ namespace AgateLib.IO
 		/// </summary>
 		Append,
 	}
+
+	/// <summary>
+	/// Enum indicating whether directories should be traversed in file searches.
+	/// </summary>
+	public enum FileSearchOption
+	{
+		CurrentDirectory,
+		AllFolders,
+	}
 }

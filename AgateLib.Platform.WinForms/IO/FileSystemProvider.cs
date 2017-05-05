@@ -241,11 +241,11 @@ namespace AgateLib.Platform.WinForms.IO
 		/// Gets all files in all paths.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<string> GetAllFiles()
+		public IEnumerable<string> GetAllFiles(FileSearchOption searchOption)
 		{
 			List<string> files = new List<string>();
 
-			files.AddRange(Directory.GetFiles(mPath));
+			files.AddRange(Directory.GetFiles(mPath, "*.*", SearchOptionOf(searchOption)));
 
 			return files;
 		}
@@ -254,13 +254,13 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="searchPattern"></param>
 		/// <returns></returns>
-		public IEnumerable<string> GetAllFiles(string searchPattern)
+		public IEnumerable<string> GetAllFiles(string searchPattern, FileSearchOption searchOption)
 		{
 			List<string> files = new List<string>();
 
 			try
 			{
-				files.AddRange(Directory.GetFiles(mPath, searchPattern)
+				files.AddRange(Directory.GetFiles(mPath, searchPattern, SearchOptionOf(searchOption))
 					.Select(x => MakeRelativePath(x)));
 			}
 			catch (DirectoryNotFoundException)
@@ -334,6 +334,21 @@ namespace AgateLib.Platform.WinForms.IO
 				default:
 					throw new ArgumentException("Unknown FileOpenMode value.",
 						nameof(mode));
+			}
+		}
+
+		private SearchOption SearchOptionOf(FileSearchOption searchOption)
+		{
+			switch (searchOption)
+			{
+				case FileSearchOption.CurrentDirectory:
+					return SearchOption.TopDirectoryOnly;
+
+				case FileSearchOption.AllFolders:
+					return SearchOption.AllDirectories;
+
+				default:
+					throw new ArgumentException("Unknown FileSearchOption value.", nameof(searchOption));
 			}
 		}
 	}

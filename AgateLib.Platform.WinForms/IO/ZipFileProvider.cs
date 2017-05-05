@@ -314,7 +314,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// Enumerates all files in the archive.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<string> GetAllFiles()
+		public IEnumerable<string> GetAllFiles(FileSearchOption searchOption)
 		{
 			foreach (var header in files)
 			{
@@ -329,13 +329,13 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="searchPattern"></param>
 		/// <returns></returns>
-		public IEnumerable<string> GetAllFiles(string searchPattern)
+		public IEnumerable<string> GetAllFiles(string searchPattern, FileSearchOption searchOption)
 		{
 			string regex = searchPattern.Replace(".", @"\.").Replace("*", "[^/]*");
 			System.Text.RegularExpressions.Regex r = new
 				System.Text.RegularExpressions.Regex(regex);
 
-			foreach (var name in GetAllFiles())
+			foreach (var name in GetAllFiles(searchOption))
 			{
 				if (r.IsMatch(name))
 					yield return name;

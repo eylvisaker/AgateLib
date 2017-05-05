@@ -63,14 +63,14 @@ namespace AgateLib.IO
 			return parent.FileExists(MapFilename(filename));
 		}
 
-		public IEnumerable<string> GetAllFiles()
+		public IEnumerable<string> GetAllFiles(FileSearchOption searchOption)
 		{
-			return parent.GetAllFiles(subdir + "**");
+			return parent.GetAllFiles(subdir + "**", searchOption);
 		}
 
-		public IEnumerable<string> GetAllFiles(string searchPattern)
+		public IEnumerable<string> GetAllFiles(string searchPattern, FileSearchOption searchOption)
 		{
-			var results = parent.GetAllFiles(subdir + searchPattern);
+			var results = parent.GetAllFiles(subdir + searchPattern, searchOption);
 
 			foreach (var result in results)
 			{
