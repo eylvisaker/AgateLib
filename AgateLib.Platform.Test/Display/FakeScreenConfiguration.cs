@@ -30,7 +30,20 @@ namespace AgateLib.Platform.Test.Display
 {
 	public class FakeScreenConfiguration : IScreenConfiguration
 	{
-		public List<ScreenInfo> Screens { get; set; }
+		public FakeScreenConfiguration()
+		{
+			Screens.Add(new ScreenInfo
+			{
+				Bounds = new Rectangle(0, 0, 1920, 1080),
+				DeviceName = "Fake Screen",
+				IsPrimary = true,
+				Scaling = 1,
+			});
+
+			PrimaryScreen = Screens.First();
+		}
+
+		public List<ScreenInfo> Screens { get; set; } = new List<ScreenInfo>();
 
 		public ScreenInfo PrimaryScreen { get; set; }
 
