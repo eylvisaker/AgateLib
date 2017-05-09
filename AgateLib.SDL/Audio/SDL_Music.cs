@@ -37,7 +37,7 @@ namespace AgateLib.AgateSDL.Audio
 		SDL_Audio audio;
 		IntPtr music;
 		string filename;
-		double mVolume;
+		double mVolume = 1;
 
 		public SDL_Music(SDL_Audio audio, Stream stream)
 		{
@@ -124,7 +124,8 @@ namespace AgateLib.AgateSDL.Audio
 		public override void Play()
 		{
 			sdl.Mixer.Mix_PlayMusic(music, IsLooping ? -1 : 1);
-			mVolume = sdl.Mixer.Mix_VolumeMusic(-1) / (double)SDLConstants.MIX_MAX_VOLUME;
+
+			SetMixerVolume();
 		}
 
 		public override void Stop()
@@ -144,10 +145,15 @@ namespace AgateLib.AgateSDL.Audio
 				if (mVolume < 0) mVolume = 0;
 				if (mVolume > 1) mVolume = 1;
 
-				int v = (int)(mVolume * SDLConstants.MIX_MAX_VOLUME);
-
-				sdl.Mixer.Mix_VolumeMusic(v);
+				SetMixerVolume();
 			}
+		}
+
+		private void SetMixerVolume()
+		{
+			int v = (int)(mVolume * AudioLib.Audio.Configuration.MusicVolume * SDLConstants.MIX_MAX_VOLUME);
+
+			sdl.Mixer.Mix_VolumeMusic(v);
 		}
 	}
 }

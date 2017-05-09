@@ -34,5 +34,6 @@ namespace AgateLib.Configuration.State
 		internal AudioImpl Impl;
 		internal readonly AudioCapsInfo Caps = new AudioCapsInfo();
 
+		internal AudioConfiguration Configuration = new AudioConfiguration();
 	}
 }

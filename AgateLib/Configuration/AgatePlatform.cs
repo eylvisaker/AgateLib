@@ -28,6 +28,7 @@ using AgateLib.Diagnostics;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.IO;
+using AgateLib.AudioLib;
 
 namespace AgateLib.Configuration
 {
@@ -148,6 +149,10 @@ namespace AgateLib.Configuration
 			{
 				case "-novsync":
 					Display.RenderState.WaitForVerticalBlank = false;
+					break;
+
+				case "-nomusic":
+					Audio.Configuration.MusicVolume = 0;
 					break;
 			}
 		}

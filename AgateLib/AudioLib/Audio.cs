@@ -49,6 +49,8 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		public static AudioImpl Impl => State?.Impl;
 
+		public static AudioConfiguration Configuration => State?.Configuration;
+
 		/// <summary>
 		/// Initializes the audio system by instantiating the driver with the given
 		/// AudioTypeID.  The audio driver must be registered with the Registrar

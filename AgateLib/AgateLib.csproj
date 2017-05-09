@@ -189,6 +189,7 @@
     <Compile Include="Algorithms\PathFinding\AStar.cs" />
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
+    <Compile Include="AudioLib\AudioConfiguration.cs" />
     <Compile Include="Collections\Generic\BinaryTree.cs" />
     <Compile Include="Collections\Generic\BinaryTreeNode.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateAppVocabulary.cs" />
