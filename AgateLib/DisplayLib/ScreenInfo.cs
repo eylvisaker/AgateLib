@@ -54,5 +54,10 @@ namespace AgateLib.DisplayLib
 		/// this monitor reference.
 		/// </summary>
 		protected internal IntPtr SystemIndex { get; set; }
+
+		/// <summary>
+		/// Gets the desktop scaling value. 
+		/// </summary>
+		public double Scaling { get; set; } = 1.0;
 	}
 }

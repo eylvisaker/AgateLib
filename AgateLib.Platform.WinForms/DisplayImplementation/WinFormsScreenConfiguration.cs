@@ -23,6 +23,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
+using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.Mathematics.Geometry;
 
@@ -62,6 +64,20 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				IsPrimary = wfScreen.Primary,
 				SystemIndex = index,
 			};
+
+			// It seems like Windows will only report scaling for the primary monitor, so this ends
+			// up with the same result on all monitors.
+			using (var frm = new Form())
+			{
+				frm.Location = wfScreen.Bounds.Location;
+
+				using (var graphics = frm.CreateGraphics())
+				{
+					var dpi = graphics.DpiX;
+
+					result.Scaling = dpi / 96.0;
+				}
+			}
 
 			if (result.IsPrimary)
 				PrimaryScreen = result;

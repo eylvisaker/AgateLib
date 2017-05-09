@@ -175,6 +175,13 @@ namespace AgateLib.DisplayLib
 				size,
 				renderMode ?? createParams?.Resolution?.RenderMode ?? RenderMode.RetainAspectRatio);
 
+			if (createParams.PhysicalSize == null)
+			{
+				createParams.PhysicalSize = new Size(
+					(int)(Display.Screens.PrimaryScreen.Scaling * size.Width),
+					(int)(Display.Screens.PrimaryScreen.Scaling * size.Height));
+			}
+
 			return this;
 		}
 
@@ -297,6 +304,7 @@ namespace AgateLib.DisplayLib
 
 			return this;
 		}
+
 		/// <summary>
 		/// Processes a single command line argument. Override this to replace how
 		/// command line arguments interact with AgateLib. Unrecognized arguments will be
@@ -325,7 +333,6 @@ namespace AgateLib.DisplayLib
 			AgateApp.IsAlive = false;
 		}
 
-
 		private void ApplyProperties(DisplayWindow window)
 		{
 			ApplyAutoResize(window);
@@ -348,7 +355,7 @@ namespace AgateLib.DisplayLib
 
 		private void DisplayWindow_Resized(object sender, EventArgs e)
 		{
-			DisplayWindow window = (DisplayWindow) sender;
+			DisplayWindow window = (DisplayWindow)sender;
 
 			window.Resolution = window.Resolution.Clone(window.PhysicalSize);
 		}
