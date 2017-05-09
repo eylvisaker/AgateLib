@@ -83,14 +83,20 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 				Vector2 n = Vector2.TripleProduct(e, oa, e);
 
-				n = n.Normalize();
+				var normalized = n.Normalize();
 
-				double d = n.DotProduct(a);
+				double d = normalized.DotProduct(a);
 
-				if (d < closest.Distance)
+				if (n.IsZero || d < closest.Distance)
 				{
+					if (n.IsZero)
+					{
+						d = 0;
+						normalized = n;
+					}
+
 					closest.Distance = d;
-					closest.Normal = n;
+					closest.Normal = normalized;
 					closest.Index = j;
 				}
 			}

@@ -208,5 +208,29 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 					$"Contact point on rectangle failed at {d}. Expected (-5, 0) but got {contactPoint.SecondPolygonContactPoint}");
 			}
 		}
+
+		[TestMethod]
+		public void CD_EdgeTouching()
+		{
+			var polyA = new Polygon
+			{
+				{3126, 535 },
+				{3126, 608 },
+				{3156, 608 },
+				{3156,535 },
+			};
+
+			var polyB = new Polygon
+			{
+				{3104, 608 },
+				{3104, 640 },
+				{3136, 640 },
+				{3136, 608 },
+			};
+
+			var contactPoint = collider.FindConvexContactPoint(polyA, polyB);
+
+			Assert.AreEqual(Point.Zero, contactPoint.PenetrationDepth);
+		}
 	}
 }
