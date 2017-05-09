@@ -151,6 +151,10 @@ namespace AgateLib.Configuration
 					Display.RenderState.WaitForVerticalBlank = false;
 					break;
 
+				case "-nosound":
+					Audio.Configuration.SoundVolume = 0;
+					goto case "-nomusic";
+
 				case "-nomusic":
 					Audio.Configuration.MusicVolume = 0;
 					break;

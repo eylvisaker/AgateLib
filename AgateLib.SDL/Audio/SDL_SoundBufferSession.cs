@@ -41,13 +41,11 @@ namespace AgateLib.AgateSDL.Audio
 		SDL_SoundBuffer buffer;
 		SDL_Audio audio;
 
-		public bool mIsPlaying;
-
 		public SDL_SoundBufferSession(SoundBufferSession owner, SDL_SoundBuffer buffer)
 		{
 			sdl = SdlFactory.CreateSDL();
 			Owner = owner;
-			
+
 			this.buffer = buffer;
 			loop = buffer.Loop;
 
@@ -55,24 +53,66 @@ namespace AgateLib.AgateSDL.Audio
 			volume = buffer.Volume;
 
 			audio = (SDL_Audio)AgateLib.AudioLib.Audio.Impl;
-
-			Debug.Print("Playing " + buffer.Filename);
-
-			Play();
 		}
 
 		protected override void Dispose(bool disposing)
 		{
-            HaltChannel();
+			HaltChannel();
 
-            base.Dispose(disposing);
+			base.Dispose(disposing);
+		}
+
+		private int LoopCount
+		{
+			get
+			{
+				int loops = 0;
+				if (loop)
+					loops = -1;
+
+				return loops;
+			}
 		}
 
 		public SoundBufferSession Owner { get; private set; }
 
-		protected override void Initialize()
+		public override double Volume
 		{
+			get
+			{
+				return volume;
+			}
+			set
+			{
+				volume = value;
 
+				SetVolume();
+			}
+		}
+
+		public override bool IsPaused
+		{
+			get
+			{
+				if (channel == -1)
+					return false;
+				else
+					return sdl.Mixer.Mix_Paused(channel) != 0;
+			}
+			set
+			{
+				if (channel == -1)
+					return;
+
+				if (IsPaused)
+				{
+					sdl.Mixer.Mix_Resume(channel);
+				}
+				else
+				{
+					sdl.Mixer.Mix_Pause(channel);
+				}
+			}
 		}
 
 		public override bool IsPlaying
@@ -107,17 +147,6 @@ namespace AgateLib.AgateSDL.Audio
 			}
 		}
 
-		private void SetPanning()
-		{
-			if (channel == -1)
-				return;
-
-			byte leftVol = (byte)(pan <= 0 ? 255 : (int)((1.0 - pan) * 255));
-			byte rightVol = (byte)(pan >= 0 ? 255 : (int)((pan + 1.0) * 255));
-
-			sdl.Mixer.Mix_SetPanning(channel, leftVol, rightVol);
-		}
-
 		public override void Play()
 		{
 			if (IsPlaying == false)
@@ -139,79 +168,48 @@ namespace AgateLib.AgateSDL.Audio
 			watch.Start();
 
 			audio.RegisterChannel(channel, this);
-
-			mIsPlaying = true;
-		}
-
-		int LoopCount
-		{
-			get
-			{
-				int loops = 0;
-				if (loop)
-					loops = -1;
-
-				return loops;
-			}
 		}
 
 		public override void Stop()
 		{
-            HaltChannel();
+			HaltChannel();
 
 			watch.Stop();
 		}
 
-        private void HaltChannel()
-        {
-            sdl.Mixer.Mix_HaltChannel(channel);
-        }
-
-		public override double Volume
+		internal void OnPlaybackFinished()
 		{
-			get
-			{
-				return volume;
-			}
-			set
-			{
-				volume = value;
+			channel = -1;
+		}
 
-				SetVolume();
-			}
+		protected override void Initialize()
+		{
+
+		}
+
+		private void HaltChannel()
+		{
+			sdl.Mixer.Mix_HaltChannel(channel);
 		}
 
 		private void SetVolume()
 		{
 			if (channel != -1)
 			{
-				sdl.Mixer.Mix_Volume(channel, (int)(volume * 128));
+				sdl.Mixer.Mix_Volume(channel, (int)(volume * AudioLib.Audio.Configuration.SoundVolume * 128));
 			}
 		}
 
-		public override bool IsPaused
+		private void SetPanning()
 		{
-			get
-			{
-				if (channel == -1)
-					return false;
-				else
-					return sdl.Mixer.Mix_Paused(channel) != 0;
-			}
-			set
-			{
-				if (channel == -1)
-					return;
+			if (channel == -1)
+				return;
 
-				if (IsPaused)
-				{
-					sdl.Mixer.Mix_Resume(channel);
-				}
-				else
-				{
-					sdl.Mixer.Mix_Pause(channel);
-				}
-			}
+			byte leftVol = (byte)(pan <= 0 ? 255 : (int)((1.0 - pan) * 255));
+			byte rightVol = (byte)(pan >= 0 ? 255 : (int)((pan + 1.0) * 255));
+
+			sdl.Mixer.Mix_SetPanning(channel, leftVol, rightVol);
 		}
+
 	}
 }

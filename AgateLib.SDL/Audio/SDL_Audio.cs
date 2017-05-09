@@ -26,6 +26,7 @@ using System.IO;
 using AgateLib.AudioLib.ImplementationBase;
 using AgateLib.AgateSDL.Sdl2;
 using AgateLib.Diagnostics;
+using AgateLib.Quality;
 
 namespace AgateLib.AgateSDL.Audio
 {
@@ -98,9 +99,13 @@ namespace AgateLib.AgateSDL.Audio
 
 		void ChannelFinished(int channel)
 		{
-			mChannels[channel].mIsPlaying = false;
+			if (!mChannels.ContainsKey(channel))
+				return;
 
+			var session = mChannels[channel];
 			mChannels.Remove(channel);
+
+			session.OnPlaybackFinished();
 		}
 
 		internal void RegisterTempFile(string filename)
@@ -109,6 +114,8 @@ namespace AgateLib.AgateSDL.Audio
 		}
 		internal void RegisterChannel(int channel, SDL_SoundBufferSession session)
 		{
+			Require.ArgumentInRange(channel >= 0, nameof(channel), "Invalid channel.");
+
 			mChannels[channel] = session;
 		}
 

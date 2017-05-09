@@ -85,10 +85,9 @@ namespace AgateLib.Platform.WinForms
 	{
 		internal WinFormsPlatform(FormsFactory factory, string[] commandLineArguments = null)
 		{
-			ParseCommandLineArgs(commandLineArguments);
-
 			AgateApp.Initialize(factory);
-		}
 
+			ParseCommandLineArgs(commandLineArguments);
+		}
 	}
 }
