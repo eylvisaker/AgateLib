@@ -85,8 +85,8 @@
     <Reference Include="MathNet.Numerics, Version=3.19.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.19.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.7.9.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.7.9\lib\net45\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.7.10.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.7.10\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -131,6 +131,7 @@
     <Compile Include="DisplayLib\PixelBufferTest.cs" />
     <Compile Include="DisplayLib\SurfaceTest.cs" />
     <Compile Include="Collections\ListExtensions.cs" />
+    <Compile Include="InputTests\StateTrackingTests.cs" />
     <Compile Include="MathematicsTests\Geometry\AlgorithmTests\ConvexHullTests.cs" />
     <Compile Include="MathematicsTests\Geometry\AlgorithmTests\LineAlgorithmTests.cs" />
     <Compile Include="MathematicsTests\Geometry\ColorTests.cs" />

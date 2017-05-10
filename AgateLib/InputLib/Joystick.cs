@@ -299,6 +299,5 @@ namespace AgateLib.InputLib
 		{
 			return impl.GetButtonState(buttonIndex);
 		}
-
 	}
 }

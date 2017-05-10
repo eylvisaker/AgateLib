@@ -29,7 +29,7 @@ using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics.ConsoleSupport
 {
-	class AgateConsoleCore : IAgateConsole
+	internal class AgateConsoleCore : IAgateConsole
 	{
 		private bool visible = false;
 		private List<ConsoleMessage> inputHistory = new List<ConsoleMessage>();

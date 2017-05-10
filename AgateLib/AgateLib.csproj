@@ -196,6 +196,7 @@
     <Compile Include="DisplayLib\FontBuilder.cs" />
     <Compile Include="DisplayLib\IDisplayContext.cs" />
     <Compile Include="DisplayLib\PrimitiveRendererExtensions.cs" />
+    <Compile Include="InputLib\InputHandlerStateTracker.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\CollisionDetector.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\ConvexDecomposition\BayazitDecomposition.cs" />
     <Compile Include="Mathematics\Geometry\Algorithms\CollisionDetection\ExpandingPolytopeAlgorithm.cs" />

@@ -35,6 +35,6 @@ namespace AgateLib.InputLib
 	{
 		public IInputHandler Handler { get; set; }
 
-		public HashSet<KeyCode> KeysPressed { get; private set; } = new HashSet<KeyCode>();
+		public HashSet<int> ButtonsPressed { get; } = new HashSet<int>();
 	}
 }

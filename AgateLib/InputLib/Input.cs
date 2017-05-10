@@ -71,8 +71,6 @@ namespace AgateLib.InputLib
 
 		private static List<AgateInputEventArgs> EventQueue => State?.EventQueue;
 
-		private static Dictionary<IInputHandler, HandlerState> HandlerStates => State?.HandlerStates;
-
 		/// <summary>
 		/// Enumerates the input handlers in the order they should process an event.
 		/// </summary>
@@ -93,6 +91,8 @@ namespace AgateLib.InputLib
 		}
 
 		private static IInputHandler FirstInputHandler => State?.FirstHandler;
+
+		private static InputHandlerStateTracker StateTracker => State?.StateTracker;
 
 		/// <summary>
 		/// Gets the list of joysticks attached to the system.
@@ -148,34 +148,15 @@ namespace AgateLib.InputLib
 
 			RunDispatch();
 
-			FixKeystate();
+			StateTracker.FixButtonState(AllInputHandlers, eventArgs =>
+			{
+				lock (EventQueue)
+				{
+					EventQueue.Insert(0, eventArgs);
+				}
+			});
 
 			RunDispatch();
-		}
-
-		private static void FixKeystate()
-		{
-			foreach (var handler in AllInputHandlers)
-			{
-				var handlerState = GetOrCreateHandlerState(handler);
-
-				if (!handlerState.KeysPressed.SetEquals(State.KeysPressed))
-				{
-					foreach (var key in handlerState.KeysPressed)
-					{
-						if (!State.KeysPressed.Contains(key))
-						{
-							lock (EventQueue)
-							{
-								EventQueue.Insert(0, AgateInputEventArgs.KeyUp(key, new KeyModifiers()));
-							}
-						}
-					}
-				}
-
-				if (handler.ForwardUnhandledEvents == false)
-					break;
-			}
 		}
 
 		private static void RunDispatch()
@@ -221,13 +202,11 @@ namespace AgateLib.InputLib
 			}
 			else
 			{
-				if (evt.IsKeyboardEvent)
-					TrackGlobalKeyState(evt);
+				StateTracker.TrackGlobalButtonState(evt);
 
 				foreach (var handler in AllInputHandlers)
 				{
-					if (evt.IsKeyboardEvent)
-						TrackHandlerKeyState(handler, evt);
+					StateTracker.TrackHandlerButtonState(handler, evt);
 
 					processedHandler = handler;
 					handler.ProcessEvent(evt);
@@ -245,47 +224,11 @@ namespace AgateLib.InputLib
 			if (clearMouseInputOwner)
 				State.MouseInputOwner = null;
 		}
-
-		private static void TrackHandlerKeyState(IInputHandler handler, AgateInputEventArgs evt)
-		{
-			if (evt.InputEventType == InputEventType.KeyDown)
-			{
-				var state = GetOrCreateHandlerState(handler);
-
-				state.KeysPressed.Add(evt.KeyCode);
-			}
-			else if (evt.InputEventType == InputEventType.KeyUp)
-			{
-				var state = GetOrCreateHandlerState(handler);
-
-				state.KeysPressed.Remove(evt.KeyCode);
-			}
-		}
-
-		private static void TrackGlobalKeyState(AgateInputEventArgs evt)
-		{
-			if (evt.InputEventType == InputEventType.KeyDown)
-				State.KeysPressed.Add(evt.KeyCode);
-			else if (evt.InputEventType == InputEventType.KeyUp)
-				State.KeysPressed.Remove(evt.KeyCode);
-		}
-
-		private static HandlerState GetOrCreateHandlerState(IInputHandler handler)
-		{
-			if (!HandlerStates.ContainsKey(handler))
-			{
-				HandlerStates.Add(handler, new InputLib.HandlerState());
-			}
-
-			return HandlerStates[handler];
-		}
-
-
+		
 		private static void Handlers_HandlerRemoved(object sender, InputHandlerEventArgs e)
 		{
-			HandlerStates.Remove(e.Handler);
+			StateTracker.Synchronize(Handlers);
 		}
-
 
 		private static void InitializeJoysticks()
 		{

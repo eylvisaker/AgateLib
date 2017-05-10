@@ -523,6 +523,25 @@ namespace AgateLib.InputLib
 		}
 
 		/// <summary>
+		/// Gets whether this event is a joystick button event.
+		/// </summary>
+		public bool IsJoystickButtonEvent
+		{
+			get
+			{
+				switch (InputEventType)
+				{
+					case InputEventType.JoystickButtonPressed:
+					case InputEventType.JoystickButtonReleased:
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		}
+
+		/// <summary>
 		/// Returns a string representation.
 		/// </summary>
 		/// <returns></returns>

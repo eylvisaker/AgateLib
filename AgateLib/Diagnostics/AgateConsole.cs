@@ -179,7 +179,6 @@ namespace AgateLib.Diagnostics
 		internal static void Initialize(IAgateConsole instance)
 		{
 			Instance = instance;
-			Input.Handlers.Add(Instance);
 
 			PrivateInitialize();
 		}
