@@ -43,7 +43,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 			if (simplex.ContainsOrigin == false)
 			{
-				return new ContactPoint { Contact = false };
+				return new ContactPoint { Contact = false, DistanceToContact = (simplex.ClosestA - simplex.ClosestB).Magnitude};
 			}
 
 			var closestA = simplex.ClosestA - polyA.Centroid;
@@ -212,21 +212,5 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 
 			return false;
 		}
-	}
-
-	public class ContactPoint
-	{
-		public Polygon FirstPolygon { get; set; }
-		public Polygon SecondPolygon { get; set; }
-
-		public Vector2 FirstPolygonContactPoint { get; set; }
-		public Vector2 SecondPolygonContactPoint { get; set; }
-
-		public Vector2 PenetrationDepth { get; set; }
-
-		public bool Contact { get; set; }
-
-		public Vector2 FirstPolygonNormal { get; set; }
-		public Vector2 SecondPolygonNormal { get; set; }
 	}
 }

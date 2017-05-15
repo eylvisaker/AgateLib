@@ -232,5 +232,29 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 
 			Assert.AreEqual(Point.Zero, contactPoint.PenetrationDepth);
 		}
+
+		[TestMethod]
+		public void CD_CloseApproach()
+		{
+			var polyA = new Polygon
+			{
+				{607.7, 644.8 },
+				{637.7, 644.8 },
+				{637.7, 717.8 },
+				{637.7,717.8 },
+			};
+
+			var polyB = new Polygon
+			{
+				{564, 718},
+				{564, 750},
+				{692, 750},
+				{692, 718},
+			};
+
+			var contactPoint = collider.FindConvexContactPoint(polyA, polyB);
+
+			Assert.AreEqual(0.2, contactPoint.DistanceToContact, 1e-6);
+		}
 	}
 }
