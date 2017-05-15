@@ -180,7 +180,7 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 			Assert.AreEqual(pa, contactPoint.FirstPolygon);
 			Assert.AreEqual(pb, contactPoint.SecondPolygon);
 
-			Assert.IsTrue(new Vector2(0.1, 0).Equals(contactPoint.PenetrationDepth, 1e-6), 
+			Assert.IsTrue(new Vector2(0.1, 0).Equals(contactPoint.PenetrationDepth, 1e-6),
 				$"Penetration depth failed. Expected (0.1, 0) but got {contactPoint.PenetrationDepth}.");
 
 			Assert.AreEqual(new Vector2(1, 0), contactPoint.FirstPolygonContactPoint);
@@ -202,9 +202,9 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 
 				Assert.IsTrue(new Vector2(d, 0).Equals(contactPoint.PenetrationDepth, 1e-6), $"Penetration depth test failed at {d}.");
 
-				Assert.IsTrue(new Vector2(10, 0).Equals(contactPoint.FirstPolygonContactPoint, 1e-6), 
+				Assert.IsTrue(new Vector2(10, 0).Equals(contactPoint.FirstPolygonContactPoint, 1e-6),
 					$"Contact point on diamond failed at {d}. Expected (10, 0) but got {contactPoint.FirstPolygonContactPoint}");
-				Assert.IsTrue(new Vector2(-5, 0).Equals(contactPoint.SecondPolygonContactPoint, 1e-6), 
+				Assert.IsTrue(new Vector2(-5, 0).Equals(contactPoint.SecondPolygonContactPoint, 1e-6),
 					$"Contact point on rectangle failed at {d}. Expected (-5, 0) but got {contactPoint.SecondPolygonContactPoint}");
 			}
 		}
@@ -255,6 +255,48 @@ namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
 			var contactPoint = collider.FindConvexContactPoint(polyA, polyB);
 
 			Assert.AreEqual(0.2, contactPoint.DistanceToContact, 1e-6);
+		}
+
+		/// <summary>
+		/// OddCase and OddCase2 have demonstrated an instability - one passed and the other failed.
+		/// These are here to prevent a regression.
+		/// </summary>
+		[TestMethod]
+		public void CD_OddCase()
+		{
+			var polyA = new Polygon
+			{
+				 {1418.51965332031,409.606781005859},
+				 {1448.51965332031,409.606781005859},
+				 {1448.51965332031,482.606781005859},
+				 {1418.51965332031,482.606781005859}
+			};
+
+			var polyB = new Polygon
+			{
+				{1328,482},
+				{1328,514},
+				{1456,514},
+				{1456,482}
+			};
+
+			var contactPoint = collider.FindConvexContactPoint(polyA, polyB);
+
+			Assert.IsTrue(contactPoint.Contact);
+			Assert.AreEqual(0.606781, contactPoint.PenetrationDepth.Magnitude, 1e-6);
+		}
+
+
+		[TestMethod]
+		public void CD_OddCase2()
+		{
+			var polyA = new RectangleF(1418.51965332031f, 409.606781005859f, 30, 73).ToPolygon();
+			var polyB = new RectangleF(1328, 482, 128, 32).ToPolygon();
+
+			var contactPoint = collider.FindConvexContactPoint(polyA, polyB);
+
+			Assert.IsTrue(contactPoint.Contact);
+			Assert.AreEqual(0.606781, contactPoint.PenetrationDepth.Magnitude, 1e-6);
 		}
 	}
 }

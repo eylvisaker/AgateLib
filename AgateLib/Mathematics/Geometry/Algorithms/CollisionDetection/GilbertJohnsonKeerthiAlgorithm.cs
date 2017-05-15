@@ -73,7 +73,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 			{
 				Iterations++;
 
-				if (d == Vector2.Zero)
+				if (result.ContainsOrigin)
 				{
 					Converged = true;
 					result.DistanceFromOrigin = d.Magnitude;
