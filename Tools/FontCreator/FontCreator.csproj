@@ -249,6 +249,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="FontParameters\Build-8-bit-Limit.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FontParameters\Build-KingthingsPetrock.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="images\bgdark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

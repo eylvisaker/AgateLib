@@ -31,6 +31,32 @@ using AgateLib.Quality;
 
 namespace AgateLib
 {
+
+	/// <summary>
+	/// The SceneStack interface.
+	/// </summary>
+	public interface ISceneStack
+	{
+		event EventHandler FrameCompleted;
+
+		/// <summary>
+		/// Gets the top scene on the stack.
+		/// </summary>
+		IScene TopScene { get; }
+
+		/// <summary>
+		/// Adds a scene to the scene stack.
+		/// </summary>
+		/// <param name="scene"></param>
+		void Add(IScene scene);
+
+		/// <summary>
+		/// Removes a scene from the scene stack.
+		/// </summary>
+		/// <param name="scene"></param>
+		void Remove(IScene scene);
+	}
+
 	/// <summary>
 	/// Provides a stack-based state machine for a game. IScene objects can be 
 	/// added to the scene stack, and each object can signal when it is finished.
@@ -39,6 +65,7 @@ namespace AgateLib
 	{
 		private readonly List<IScene> scenes = new List<IScene>();
 		private readonly List<IDisplayContext> contexts = new List<IDisplayContext>();
+		private bool alive = true;
 
 		public SceneStack()
 		{
@@ -47,6 +74,11 @@ namespace AgateLib
 				contexts.Add(Display.CurrentWindow);
 			}
 		}
+
+		/// <summary>
+		/// Event called after each frame is completed.
+		/// </summary>
+		public event EventHandler FrameCompleted;
 
 		/// <summary>
 		/// Gets the top scene on the stack.
@@ -78,6 +110,14 @@ namespace AgateLib
 		/// Gets the number of scenes in the stack.
 		/// </summary>
 		public int Count => scenes.Count;
+
+		/// <summary>
+		/// Terminates the scene stack loop.
+		/// </summary>
+		protected void Abort()
+		{
+			alive = false;
+		}
 
 		/// <summary>
 		/// Adds a scene to the stack.
@@ -143,7 +183,7 @@ namespace AgateLib
 			if (sceneToStartWith != null)
 				Add(sceneToStartWith);
 
-			while (Count > 0 && AgateApp.IsAlive)
+			while (Count > 0 && AgateApp.IsAlive && alive)
 			{
 				RunSingleFrame();
 			}
@@ -177,6 +217,8 @@ namespace AgateLib
 				}
 
 				Display.EndFrame();
+
+				FrameCompleted?.Invoke(this, EventArgs.Empty);
 			}
 
 			AgateApp.KeepAlive();
@@ -208,6 +250,11 @@ namespace AgateLib
 
 			while (scenes.Count > 0 && TopScene.IsFinished)
 			{
+				if (TopScene is IDisposable disposable)
+				{
+					disposable.Dispose();
+				}
+
 				Remove(TopScene);
 				activate = true;
 			}
@@ -218,28 +265,5 @@ namespace AgateLib
 			}
 		}
 
-	}
-
-	/// <summary>
-	/// The SceneStack interface.
-	/// </summary>
-	public interface ISceneStack
-	{
-		/// <summary>
-		/// Gets the top scene on the stack.
-		/// </summary>
-		IScene TopScene { get; }
-
-		/// <summary>
-		/// Adds a scene to the scene stack.
-		/// </summary>
-		/// <param name="scene"></param>
-		void Add(IScene scene);
-
-		/// <summary>
-		/// Removes a scene from the scene stack.
-		/// </summary>
-		/// <param name="scene"></param>
-		void Remove(IScene scene);
 	}
 }

@@ -246,7 +246,8 @@ namespace AgateLib
 
 		/// <summary>
 		/// Return true to indicate this scene is finished and should be
-		/// removed from the stack.
+		/// removed from the stack. If the scene implements IDisposable, its Dispose
+		/// method will be called.
 		/// </summary>
 		bool IsFinished { get; }
 
