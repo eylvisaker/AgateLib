@@ -27,7 +27,7 @@ namespace AgateLib.UnitTests.UserInterface.Layout
 
 		public TestFacet Facet { get; private set; }
 		public AgateResourceManager Resources { get; private set; }
-		public IGuiLayoutEngine LayoutEngine { get; private set; }
+		public IFacetLayoutEngine LayoutEngine { get; private set; }
 		public IWidgetAdapter Adapter { get; private set; }
 
 		public void InitializeWindow(int width, int height)

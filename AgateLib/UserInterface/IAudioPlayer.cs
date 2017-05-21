@@ -32,6 +32,6 @@ namespace AgateLib.UserInterface
 	{
 		void PlaySound(string p);
 
-		void PlaySound(Widgets.GuiSound sound);
+		void PlaySound(Widgets.FacetSound sound);
 	}
 }

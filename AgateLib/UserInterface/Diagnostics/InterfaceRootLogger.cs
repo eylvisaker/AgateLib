@@ -39,7 +39,7 @@ namespace AgateLib.UserInterface.Diagnostics
 		/// Outputs the structure of the widgets to the console.
 		/// </summary>
 		/// <param name="ui"></param>
-		public static void LogWidgetStructure(this Gui ui)
+		public static void LogWidgetStructure(this FacetScene ui)
 		{
 			Log.WriteLine($"Facet: {ui.FacetName}");
 

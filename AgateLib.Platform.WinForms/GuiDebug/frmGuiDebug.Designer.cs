@@ -51,7 +51,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Gui");
+			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("FacetScene");
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.tvWidgets = new System.Windows.Forms.TreeView();
 			this.tabs = new System.Windows.Forms.TabControl();
@@ -101,7 +101,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 			this.tvWidgets.Location = new System.Drawing.Point(0, 0);
 			this.tvWidgets.Name = "tvWidgets";
 			treeNode2.Name = "Node0";
-			treeNode2.Text = "Gui";
+			treeNode2.Text = "FacetScene";
 			this.tvWidgets.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2});
 			this.tvWidgets.Size = new System.Drawing.Size(260, 407);
@@ -229,7 +229,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "frmGuiDebug";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Gui Debugger";
+			this.Text = "FacetScene Debugger";
 			this.Load += new System.EventHandler(this.frmGuiDebug_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);

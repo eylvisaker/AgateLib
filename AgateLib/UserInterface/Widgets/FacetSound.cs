@@ -24,12 +24,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.UserInterface.Rendering;
+using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public interface IGuiLayoutEngine
+	public enum FacetSound
 	{
-		void UpdateLayout(Gui gui);
+		MenuNavigate,
+		Invalid,
+		MenuSelect,
 	}
 }

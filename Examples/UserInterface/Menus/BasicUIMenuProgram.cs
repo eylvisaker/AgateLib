@@ -38,7 +38,7 @@ namespace Examples.UserInterface.Menus
 			/// user interface. It is set by the
 			/// resource manager.
 			/// </summary>
-			public Gui InterfaceRoot { get; set; }
+			public FacetScene InterfaceRoot { get; set; }
 		}
 
 		[STAThread]

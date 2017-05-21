@@ -722,12 +722,12 @@
     <Compile Include="UserInterface\Widgets\Gesture.cs" />
     <Compile Include="UserInterface\Widgets\Gestures\IGestureController.cs" />
     <Compile Include="UserInterface\Widgets\Gestures\MouseGesture.cs" />
-    <Compile Include="UserInterface\Widgets\Gui.cs" />
+    <Compile Include="UserInterface\Widgets\FacetScene.cs" />
     <Compile Include="UserInterface\Widgets\GuiInput.cs" />
-    <Compile Include="UserInterface\Widgets\GuiSound.cs" />
+    <Compile Include="UserInterface\Widgets\FacetSound.cs" />
     <Compile Include="DisplayLib\IDrawable.cs" />
-    <Compile Include="UserInterface\Widgets\IGuiLayoutEngine.cs" />
-    <Compile Include="UserInterface\Widgets\IGuiRenderer.cs" />
+    <Compile Include="UserInterface\Widgets\IFacetLayoutEngine.cs" />
+    <Compile Include="UserInterface\Widgets\IFacetRenderer.cs" />
     <Compile Include="UserInterface\Widgets\ImageBox.cs" />
     <Compile Include="UserInterface\Widgets\InputMap.cs" />
     <Compile Include="UserInterface\Widgets\InputMode.cs" />

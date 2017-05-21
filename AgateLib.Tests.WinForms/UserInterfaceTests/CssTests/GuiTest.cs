@@ -11,7 +11,7 @@ namespace AgateLib.Tests.UserInterfaceTests.CssTests
 {
 	class GuiTest : IAgateTest
 	{
-		public string Name => "Gui Test";
+		public string Name => "FacetScene Test";
 
 		public string Category => "User Interface";
 

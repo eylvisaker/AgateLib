@@ -340,12 +340,12 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		internal bool StyleDirty { get; set; }
 
-		protected internal virtual Gui MyGui
+		protected internal virtual FacetScene MyFacetScene
 		{
 			get
 			{
 				if (Parent != null)
-					return Parent.MyGui;
+					return Parent.MyFacetScene;
 				else
 					return null;
 			}
@@ -452,9 +452,9 @@ namespace AgateLib.UserInterface.Widgets
 
 		public virtual void Focus()
 		{
-			MyGui.FocusWidget = this;
+			MyFacetScene.FocusWidget = this;
 		}
-		public bool HasFocus { get { return MyGui.FocusWidget == this; } }
+		public bool HasFocus { get { return MyFacetScene.FocusWidget == this; } }
 
 
 		protected internal virtual void OnUpdate(ClockTimeSpan elapsed)

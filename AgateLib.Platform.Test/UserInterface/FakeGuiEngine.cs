@@ -30,7 +30,7 @@ using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.Platform.Test.UserInterface
 {
-	public class FakeRenderer : IGuiRenderer
+	public class FakeRenderer : IFacetRenderer
 	{
 		public void Draw()
 		{
@@ -44,14 +44,14 @@ namespace AgateLib.Platform.Test.UserInterface
 
 		public bool InTransition => false;
 
-		public Gui MyGui { get; set; }
+		public FacetScene MyFacetScene { get; set; }
 
 		public IWidgetAdapter Adapter { get; set; }
 	}
 
-	public class FakeLayoutEngine : IGuiLayoutEngine
+	public class FakeLayoutEngine : IFacetLayoutEngine
 	{
-		public void UpdateLayout(Gui gui)
+		public void UpdateLayout(FacetScene facetScene)
 		{
 		}
 	}

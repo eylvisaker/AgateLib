@@ -37,16 +37,16 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering
 {
-	public class AgateUserInterfaceRenderer : IGuiRenderer
+	public class AgateUserInterfaceRenderer : IFacetRenderer
 	{
 		private IWidgetAdapter mAdapter;
 		Surface mBlankSurface;
 		IUserInterfaceImageProvider mImageProvider;
-		Gui mGui;
+		FacetScene mFacetScene;
 
 		Dictionary<Widget, IWidgetAnimator> mAnimators = new Dictionary<Widget, IWidgetAnimator>();
 
-		IWidgetAnimator mRootAnimator { get { return GetOrCreateAnimator(mGui.Desktop); } }
+		IWidgetAnimator mRootAnimator { get { return GetOrCreateAnimator(mFacetScene.Desktop); } }
 
 		List<IWidgetAnimator> animsToRemove = new List<IWidgetAnimator>();
 
@@ -63,7 +63,7 @@ namespace AgateLib.UserInterface.Rendering
 
 		public IWidgetAdapter Adapter => mAdapter;
 
-		public Gui MyGui { get { return mGui; } set { mGui = value; } }
+		public FacetScene MyFacetScene { get { return mFacetScene; } set { mFacetScene = value; } }
 		public Gesture ActiveGesture { get; set; }
 
 		public void Update(ClockTimeSpan elapsed)
@@ -109,10 +109,10 @@ namespace AgateLib.UserInterface.Rendering
 		public void UpdateAnimatorTree()
 		{
 			// update animator tree
-			var rootAnimator = GetOrCreateAnimator(MyGui.Desktop);
+			var rootAnimator = GetOrCreateAnimator(MyFacetScene.Desktop);
 
-			TreeAddMissingAnimators(rootAnimator, MyGui.Desktop);
-			TreeRemoveDeadAnimators(rootAnimator, MyGui.Desktop);
+			TreeAddMissingAnimators(rootAnimator, MyFacetScene.Desktop);
+			TreeRemoveDeadAnimators(rootAnimator, MyFacetScene.Desktop);
 		}
 
 		private void TreeAddMissingAnimators(IWidgetAnimator anim, Widget container)

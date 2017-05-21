@@ -8,7 +8,7 @@ namespace AgateLib.UnitTests.UserInterface.Layout
 	[TestClass]
 	public class BasicScrollingTests : AgateUnitTest
 	{
-		Gui gui;
+		FacetScene facetScene;
 		Window window;
 		Panel panel1;
 		Label label0;
@@ -20,8 +20,8 @@ namespace AgateLib.UnitTests.UserInterface.Layout
 		[TestInitialize]
 		public void Initialize()
 		{
-			gui = new Gui(new FakeRenderer(), new FakeLayout());
-			gui.Desktop.Windows.Add(window = new Window { X = 40, Y = 50 });
+			facetScene = new FacetScene(new FakeRenderer(), new FakeLayout());
+			facetScene.Desktop.Windows.Add(window = new Window { X = 40, Y = 50 });
 
 			panel1 = new Panel() { X = 15, Y = 80, Width = 140, Height = 150 };
 
@@ -36,7 +36,7 @@ namespace AgateLib.UnitTests.UserInterface.Layout
 			panel1.Children.Add(label0, label1, label2, label3, label4);
 			panel1.WidgetStyle.View.AllowScroll = ScrollAxes.Both;
 
-			foreach (var widget in gui.Desktop.Descendants)
+			foreach (var widget in facetScene.Desktop.Descendants)
 				widget.WidgetSize = widget.ClientRect.Size;
 		}
 

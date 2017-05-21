@@ -22,7 +22,7 @@ namespace AgateLib.UnitTests.UserInterface.Layout
 		public Label label_4 { get; set; }
 		public Label label_5 { get; set; }
 
-		public Gui InterfaceRoot { get; set; }
+		public FacetScene InterfaceRoot { get; set; }
 	}
 
 }

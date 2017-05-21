@@ -265,12 +265,12 @@ namespace AgateLib.UserInterface.Widgets
 			if (item == null) return;
 			if (item.Enabled == false)
 			{
-				MyGui.PlaySound(GuiSound.Invalid);
+				MyFacetScene.PlaySound(FacetSound.Invalid);
 				return;
 			}
 			else
 			{
-				MyGui.PlaySound(GuiSound.MenuSelect);
+				MyFacetScene.PlaySound(FacetSound.MenuSelect);
 			}
 
 			if (AllowDualSelection)
@@ -419,7 +419,7 @@ namespace AgateLib.UserInterface.Widgets
 
 			if (sound)
 			{
-				MyGui.PlaySound("menunav");
+				MyFacetScene.PlaySound("menunav");
 			}
 
 			if (mScrollRow < mRowY.Count)

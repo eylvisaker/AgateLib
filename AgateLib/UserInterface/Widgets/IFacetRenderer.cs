@@ -29,9 +29,9 @@ using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public interface IGuiRenderer
+	public interface IFacetRenderer
 	{
-		Gui MyGui { get; set; }
+		FacetScene MyFacetScene { get; set; }
 
 		void Draw();
 		void Update(ClockTimeSpan elapsed);

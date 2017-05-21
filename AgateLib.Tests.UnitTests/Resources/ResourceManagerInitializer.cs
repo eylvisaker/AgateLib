@@ -66,7 +66,7 @@ default_facet:
 		{
 			public string FacetName { get; set; } = "default_facet";
 
-			public Gui InterfaceRoot { get; set; }
+			public FacetScene InterfaceRoot { get; set; }
 
 			[BindTo("window_A")]
 			public Window WindowA { get; set; }

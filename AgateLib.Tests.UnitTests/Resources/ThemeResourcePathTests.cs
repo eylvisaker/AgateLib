@@ -21,7 +21,7 @@ namespace AgateLib.UnitTests.Resources
 		{
 			public string FacetName => "DefaultFacet";
 
-			public Gui InterfaceRoot { get; set; }
+			public FacetScene InterfaceRoot { get; set; }
 
 			public Window window { get; set; }
 		}

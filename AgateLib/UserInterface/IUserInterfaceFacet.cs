@@ -39,6 +39,6 @@ namespace AgateLib.UserInterface
 		/// look up the configuration for the UI.
 		/// </summary>
 		string FacetName { get; }
-		Gui InterfaceRoot { get; set; }
+		FacetScene InterfaceRoot { get; set; }
 	}
 }

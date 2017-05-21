@@ -35,7 +35,7 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Layout
 {
-	public class AgateLayoutEngine : IGuiLayoutEngine, ILayoutBuilder
+	public class AgateLayoutEngine : IFacetLayoutEngine, ILayoutBuilder
 	{
 		private AgateWidgetAdapter adapter;
 		private MetricsComputer metricsComputer;
@@ -50,23 +50,23 @@ namespace AgateLib.UserInterface.Layout
 			layoutAssemblers.Add(new ColumnAssembler());
 		}
 
-		public void UpdateLayout(Gui gui)
+		public void UpdateLayout(FacetScene facetScene)
 		{
-			UpdateLayout(gui, Display.Coordinates.Size);
+			UpdateLayout(facetScene, Display.Coordinates.Size);
 		}
-		public void UpdateLayout(Gui gui, Size renderTargetSize)
+		public void UpdateLayout(FacetScene facetScene, Size renderTargetSize)
 		{
 			bool totalRefresh = false;
 
-			totalRefresh |= gui.Desktop.Width != renderTargetSize.Width;
-			totalRefresh |= gui.Desktop.Height != renderTargetSize.Height;
-			totalRefresh |= gui.Desktop.LayoutDirty;
+			totalRefresh |= facetScene.Desktop.Width != renderTargetSize.Width;
+			totalRefresh |= facetScene.Desktop.Height != renderTargetSize.Height;
+			totalRefresh |= facetScene.Desktop.LayoutDirty;
 
-			SetDesktopStyleProperties(gui.Desktop, renderTargetSize);
+			SetDesktopStyleProperties(facetScene.Desktop, renderTargetSize);
 
-			ComputeNaturalSize(gui.Desktop);
+			ComputeNaturalSize(facetScene.Desktop);
 
-			LayoutChildren(gui.Desktop, totalRefresh, renderTargetSize.Width, renderTargetSize.Height);
+			LayoutChildren(facetScene.Desktop, totalRefresh, renderTargetSize.Width, renderTargetSize.Height);
 		}
 
 		public bool ComputeNaturalSize(WidgetStyle style)

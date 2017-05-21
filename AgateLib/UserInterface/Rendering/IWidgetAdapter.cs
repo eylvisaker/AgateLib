@@ -33,6 +33,6 @@ namespace AgateLib.UserInterface.Rendering
 
 		WidgetStyle StyleOf(Widget widget);
 		void SetFont(Widget widget);
-		void InitializeStyleData(Gui gui);
+		void InitializeStyleData(FacetScene facetScene);
 	}
 }

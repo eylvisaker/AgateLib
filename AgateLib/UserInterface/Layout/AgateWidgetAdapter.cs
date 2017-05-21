@@ -62,11 +62,11 @@ namespace AgateLib.UserInterface.Layout
 
 		public ThemeModelCollection ThemeData { get; set; }
 
-		public void InitializeStyleData(Gui gui)
+		public void InitializeStyleData(FacetScene facetScene)
 		{
-			var facetModel = FacetData[gui.FacetName];
+			var facetModel = FacetData[facetScene.FacetName];
 
-			InitializeStyleData(gui.Desktop.LayoutChildren, facetModel);
+			InitializeStyleData(facetScene.Desktop.LayoutChildren, facetModel);
 		}
 		public WidgetStyle StyleOf(Widget widget)
 		{

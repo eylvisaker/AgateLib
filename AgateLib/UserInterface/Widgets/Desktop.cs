@@ -30,13 +30,13 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public class Desktop : Widget
 	{
-		private Gui gui;
+		private FacetScene facetScene;
 		Widget mFocusWidget;
 		NewWidgetList<Window> windows;
 
-		internal Desktop(Gui gui)
+		internal Desktop(FacetScene facetScene)
 		{
-			this.gui = gui;
+			this.facetScene = facetScene;
 
 			windows = new NewWidgetList<Window>();
 			windows.WidgetAdded += Children_WidgetAdded;
@@ -92,7 +92,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		protected internal override IEnumerable<Widget> RenderChildren => Windows;
 
-		protected internal override Gui MyGui { get { return gui; } }
+		protected internal override FacetScene MyFacetScene { get { return facetScene; } }
 
 	}
 }

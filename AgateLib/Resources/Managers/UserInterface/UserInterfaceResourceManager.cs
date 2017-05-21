@@ -88,7 +88,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 				var facetModel = data.Facets[facet.FacetName];
 
-				var gui = new Gui(guiRenderer, layoutEngine);
+				var gui = new FacetScene(guiRenderer, layoutEngine);
 
 				RealizeFacetModel(facet, gui, facetModel);
 
@@ -106,7 +106,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 			}
 		}
 
-		private void RealizeFacetModel(IUserInterfaceFacet facet, Gui gui, FacetModel facetModel)
+		private void RealizeFacetModel(IUserInterfaceFacet facet, FacetScene facetScene, FacetModel facetModel)
 		{
 			var propertyMap = facetInspector.BuildPropertyMap(facet);
 			List<PropertyMapValue<Widget>> assigned = new List<PropertyMapValue<Widget>>();
@@ -137,7 +137,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 				throw new AgateUserInterfaceInitializationException($"While initializing facet {facet.FacetName} the following properties were unfulfilled: {missingList}");
 			}
 
-			gui.Desktop.Windows.AddRange(widgets.Cast<Window>());
+			facetScene.Desktop.Windows.AddRange(widgets.Cast<Window>());
 		}
 	}
 }

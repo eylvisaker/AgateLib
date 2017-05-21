@@ -24,9 +24,9 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.Platform.Test.UserInterface
 {
-	public class FakeLayout : IGuiLayoutEngine
+	public class FakeLayout : IFacetLayoutEngine
 	{
-		public void UpdateLayout(Gui gui)
+		public void UpdateLayout(FacetScene facetScene)
 		{
 		}
 	}

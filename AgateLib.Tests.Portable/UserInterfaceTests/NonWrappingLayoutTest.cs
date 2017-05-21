@@ -25,7 +25,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 			public Label label_1 { get; set; }
 
-			public Gui InterfaceRoot { get; set; }
+			public FacetScene InterfaceRoot { get; set; }
 
 			public string FacetName => "NonWrappingLayout";
 		}

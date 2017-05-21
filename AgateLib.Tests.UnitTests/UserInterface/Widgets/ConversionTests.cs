@@ -9,7 +9,7 @@ namespace AgateLib.UnitTests.UserInterface.Widgets
 	[TestClass]
 	public class ConversionTests
 	{
-		Gui gui;
+		FacetScene facetScene;
 		Window window;
 		Label label1;
 		Label label2;
@@ -21,10 +21,10 @@ namespace AgateLib.UnitTests.UserInterface.Widgets
 		[TestInitialize]
 		public void initialize()
 		{
-			gui = new Gui(new FakeRenderer(), new FakeLayout());
-			gui.Desktop.Windows.Add(new Window { X = 40, Y = 50 });
+			facetScene = new FacetScene(new FakeRenderer(), new FakeLayout());
+			facetScene.Desktop.Windows.Add(new Window { X = 40, Y = 50 });
 
-			window = gui.Desktop.Windows.First();
+			window = facetScene.Desktop.Windows.First();
 
 			panel1 = new Panel() { X = 15, Y = 80 };
 			panel2 = new Panel() { X = 88, Y = 44 };

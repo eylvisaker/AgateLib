@@ -32,11 +32,11 @@ using AgateLib.UserInterface.Widgets.Gestures;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class Gui : IInputHandler, IDisposable
+	public class FacetScene : IInputHandler, IDisposable
 	{
 		Desktop mDesktop;
-		IGuiRenderer mRenderer;
-		IGuiLayoutEngine mLayout;
+		IFacetRenderer mRenderer;
+		IFacetLayoutEngine mLayout;
 
 		Widget mHoverWidget;
 		Widget mMouseEventWidget;
@@ -44,8 +44,7 @@ namespace AgateLib.UserInterface.Widgets
 		Gesture mCurrentGesture = new Gesture();
 		IGestureController mGestureController;
 
-
-		public Gui(IGuiRenderer renderer, IGuiLayoutEngine layout)
+		public FacetScene(IFacetRenderer renderer, IFacetLayoutEngine layout)
 		{
 			Require.ArgumentNotNull(renderer, nameof(renderer));
 			Require.ArgumentNotNull(layout, nameof(layout));
@@ -53,7 +52,7 @@ namespace AgateLib.UserInterface.Widgets
 			mRenderer = renderer;
 			mLayout = layout;
 
-			mRenderer.MyGui = this;
+			mRenderer.MyFacetScene = this;
 
 			mDesktop = new Desktop(this);
 			InputMap = InputMap.CreateDefaultInputMap();
@@ -327,7 +326,7 @@ namespace AgateLib.UserInterface.Widgets
 			return window;
 		}
 
-		public void PlaySound(GuiSound sound)
+		public void PlaySound(FacetSound sound)
 		{
 			if (AudioPlayer == null)
 				return;
@@ -344,9 +343,9 @@ namespace AgateLib.UserInterface.Widgets
 
 		public IAudioPlayer AudioPlayer { get; set; }
 
-		public IGuiRenderer Renderer { get { return mRenderer; } }
+		public IFacetRenderer Renderer { get { return mRenderer; } }
 
-		public IGuiLayoutEngine LayoutEngine { get { return mLayout; } }
+		public IFacetLayoutEngine LayoutEngine { get { return mLayout; } }
 
 		public string FacetName { get; internal set; }
 

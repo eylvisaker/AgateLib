@@ -33,18 +33,18 @@ namespace AgateLib.UserInterface
 	[Obsolete("Use SceneStack instead.")]
 	public static class GuiStack
 	{
-		static List<Gui> mStack = new List<Gui>();
+		static List<FacetScene> mStack = new List<FacetScene>();
 
-		internal static void Add(Gui gui)
+		internal static void Add(FacetScene facetScene)
 		{
-			mStack.Add(gui);
+			mStack.Add(facetScene);
 		}
-		internal static bool Remove(Gui gui)
+		internal static bool Remove(FacetScene facetScene)
 		{
-			return mStack.Remove(gui);
+			return mStack.Remove(facetScene);
 		}
 
-		public static IEnumerable<Gui> Items { get { return mStack; } }
+		public static IEnumerable<FacetScene> Items { get { return mStack; } }
 
 		internal static void ListenEvent(object sender, AgateInputEventArgs args)
 		{

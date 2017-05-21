@@ -38,7 +38,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 	public partial class frmGuiDebug : Form
 	{
 		Dictionary<AgateLib.UserInterface.Widgets.Widget, TreeNode> mNodes = new Dictionary<UserInterface.Widgets.Widget, TreeNode>();
-		Dictionary<AgateLib.UserInterface.Widgets.Widget, AgateLib.UserInterface.Widgets.Gui> mGuiMap = new Dictionary<UserInterface.Widgets.Widget, UserInterface.Widgets.Gui>();
+		Dictionary<AgateLib.UserInterface.Widgets.Widget, AgateLib.UserInterface.Widgets.FacetScene> mGuiMap = new Dictionary<UserInterface.Widgets.Widget, UserInterface.Widgets.FacetScene>();
 
 		TreeNode RootNode { get { return tvWidgets.Nodes[0]; } }
 
@@ -144,11 +144,11 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 		}
 
 		List<AgateLib.UserInterface.Widgets.Widget> itemsToRemove = new List<AgateLib.UserInterface.Widgets.Widget>();
-		AgateLib.UserInterface.Widgets.Gui currentGui;
+		AgateLib.UserInterface.Widgets.FacetScene currentFacetScene;
 
 		private void UpdateTreeView()
 		{
-			var list = new List<Gui>(AgateLib.UserInterface.GuiStack.Items.Count());
+			var list = new List<FacetScene>(AgateLib.UserInterface.GuiStack.Items.Count());
 			list.AddRange(AgateLib.UserInterface.GuiStack.Items);
 
 			foreach (var gui in list)
@@ -158,7 +158,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 				if (adapter == null)
 					continue;
 
-				currentGui = gui;
+				currentFacetScene = gui;
 
 				TreeViewAddCheck(gui.Desktop);
 			}
@@ -192,11 +192,11 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 		{
 			if (mNodes.ContainsKey(widget))
 				return;
-			if (currentGui == null)
+			if (currentFacetScene == null)
 				return;
 
 			mNodes[widget] = new TreeNode(widget.ToString()) { Tag = widget };
-			mGuiMap[widget] = currentGui;
+			mGuiMap[widget] = currentFacetScene;
 
 			if (widget.Parent == null)
 			{
@@ -240,7 +240,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 			var widget = (AgateLib.UserInterface.Widgets.Widget)e.Node.Tag;
 			var adapter = GetAdapter(widget);
 			var style = adapter.StyleOf(widget);
-			var renderer = (AgateUserInterfaceRenderer)widget.MyGui.Renderer;
+			var renderer = (AgateUserInterfaceRenderer)widget.MyFacetScene.Renderer;
 
 			pgWidget.SelectedObject = widget;
 			pgStyle.SelectedObject = style;
@@ -256,11 +256,11 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 			return GetAdapter(gui);
 		}
 
-		private static IWidgetAdapter GetAdapter(UserInterface.Widgets.Gui gui)
+		private static IWidgetAdapter GetAdapter(UserInterface.Widgets.FacetScene facetScene)
 		{
 			try
 			{
-				var renderer = gui.Renderer;
+				var renderer = facetScene.Renderer;
 
 				if (renderer == null)
 					return null;

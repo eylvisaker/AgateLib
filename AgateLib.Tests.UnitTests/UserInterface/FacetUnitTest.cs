@@ -19,7 +19,7 @@ namespace AgateLib.UnitTests.UserInterface
 
 		public string FacetName { get; set; }
 
-		public Gui InterfaceRoot { get; set; }
+		public FacetScene InterfaceRoot { get; set; }
 
 		public IWidgetAdapter Adapter { get; set; }
 

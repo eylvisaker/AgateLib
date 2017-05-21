@@ -25,7 +25,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 			public Label DebugLabel { get; set; }
 
-			public Gui InterfaceRoot { get; set; }
+			public FacetScene InterfaceRoot { get; set; }
 
 			public string FacetName => "MenuScroll";
 		}
