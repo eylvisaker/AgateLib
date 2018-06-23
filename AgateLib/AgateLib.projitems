@@ -9,6 +9,11 @@
     <Import_RootNamespace>AgateLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\Inverting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\AStar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\AStarNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\AStarState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\IAStarMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\BinaryTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\BinaryTreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\ListSorting.cs" />

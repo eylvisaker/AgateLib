@@ -43,6 +43,8 @@ namespace AgateLib.Mathematics.Geometry
         /// <summary>
         /// Set this to true to skip all computations of polygon simplicity.
         /// These calculations are fairly expensive so performance may be improved if this is set to true.
+        /// This of course means that if you actually have complex polygons, they will not be detected
+        /// as complex and algorithms will not work properly.
         /// </summary>
         public static bool AssumeAllPolygonsAreSimple { get; set; } = true;
 

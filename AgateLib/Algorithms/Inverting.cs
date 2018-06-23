@@ -26,104 +26,115 @@ using System.Text;
 
 namespace AgateLib.Mathematics.Algorithms
 {
-	/// <summary>
-	/// Contains algorithms for inverting a function.
-	/// </summary>
-	public class Inverting
-	{
-		/// <summary>
-		/// Uses binary search to find x such that func(x) == targetVal
-		/// </summary>
-		/// <param name="func"></param>
-		/// <param name="targetVal"></param>
-		/// <param name="initialPt"></param>
-		/// <param name="itermax"></param>
-		/// <returns></returns>
-		public static double IterateInvert(Func<double, double> func, double targetVal, double initialPt = 0, int itermax = 500)
-		{
-			bool hasLower = false;
-			bool hasUpper = false;
-			int iter = 0;
+    /// <summary>
+    /// Contains algorithms for inverting a function.
+    /// </summary>
+    public static class Inverting
+    {
+        struct Point<T>
+        {
+            public Point(T x, T y)
+            {
+                X = x;
+                Y = y;
+            }
+            public T X, Y;
+        }
 
-			var p1 = new Pair<double, double>(initialPt, func(initialPt));
-			Pair<double, double> lowerVal, upperVal;
+        /// <summary>
+        /// Uses binary search to find x such that func(x) == targetVal
+        /// </summary>
+        /// <param name="func"></param>
+        /// <param name="targetVal"></param>
+        /// <param name="initialPt"></param>
+        /// <param name="itermax"></param>
+        /// <returns></returns>
+        public static double IterateInvert(Func<double, double> func, double targetVal, double initialPt = 0, int itermax = 500)
+        {
+            // TODO: consider making this function generic.
+            bool hasLower = false;
+            bool hasUpper = false;
+            int iter = 0;
 
-			int sign;
+            var p1 = new Point<double>(initialPt, func(initialPt));
+            Point<double> lowerVal, upperVal;
 
-			if (p1.Second < targetVal)
-			{
-				hasLower = true;
-				upperVal = lowerVal = p1;
+            int sign;
 
-				sign = 1;
-			}
-			else if (p1.Second > targetVal)
-			{
-				hasUpper = true;
-				lowerVal = upperVal = p1;
+            if (p1.Y < targetVal)
+            {
+                hasLower = true;
+                upperVal = lowerVal = p1;
 
-				sign = -1;
-			}
-			else
-				return initialPt;
+                sign = 1;
+            }
+            else if (p1.Y > targetVal)
+            {
+                hasUpper = true;
+                lowerVal = upperVal = p1;
 
-			int step = 1 * sign;
+                sign = -1;
+            }
+            else
+                return initialPt;
 
-			while ((hasUpper && hasLower) == false)
-			{
-				p1.First += step;
-				p1.Second = func(p1.First);
+            int step = 1 * sign;
 
-				if (p1.Second < targetVal)
-				{
-					lowerVal = p1;
-					hasLower = true;
-				}
-				else if (p1.Second > targetVal)
-				{
-					upperVal = p1;
-					hasUpper = true;
-				}
-				else
-					return p1.First;
+            while ((hasUpper && hasLower) == false)
+            {
+                p1.X += step;
+                p1.Y = func(p1.X);
 
-				iter++;
-				step *= 2;
+                if (p1.Y < targetVal)
+                {
+                    lowerVal = p1;
+                    hasLower = true;
+                }
+                else if (p1.Y > targetVal)
+                {
+                    upperVal = p1;
+                    hasUpper = true;
+                }
+                else
+                    return p1.X;
 
-				if (iter > itermax)
-					throw new InvalidOperationException("No solution found.");
+                iter++;
+                step *= 2;
 
-			}
+                if (iter > itermax)
+                    throw new InvalidOperationException("No solution found.");
 
-			while (Math.Abs(p1.Second - targetVal) > 1e-7)
-			{
-				if (iter % 3 == 0)
-				{
-					p1.First = (upperVal.First + lowerVal.First) / 2;
-					p1.Second = func(p1.First);
-				}
-				else
-				{
-					double invslope = (upperVal.First - lowerVal.First) /
-									  (upperVal.Second - lowerVal.Second);
+            }
 
-					p1.First = lowerVal.First + invslope * (targetVal - lowerVal.Second);
-					p1.Second = func(p1.First);
-				}
+            while (Math.Abs(p1.Y - targetVal) > 1e-7)
+            {
+                if (iter % 3 == 0)
+                {
+                    p1.X = (upperVal.X + lowerVal.X) / 2;
+                    p1.Y = func(p1.X);
+                }
+                else
+                {
+                    double invslope = (upperVal.X - lowerVal.X) /
+                                      (upperVal.Y - lowerVal.Y);
 
-				if (p1.Second < targetVal)
-					lowerVal = p1;
-				else if (p1.Second > targetVal)
-					upperVal = p1;
-				else
-					return p1.First;
+                    p1.X = lowerVal.X + invslope * (targetVal - lowerVal.Y);
+                    p1.Y = func(p1.X);
+                }
 
-				iter++;
-				if (iter > itermax)
-					throw new InvalidOperationException("No solution found.");
-			}
+                if (p1.Y < targetVal)
+                    lowerVal = p1;
+                else if (p1.Y > targetVal)
+                    upperVal = p1;
+                else
+                    return p1.X;
 
-			return p1.First;
-		}
-	}
+                iter++;
+                if (iter > itermax)
+                    throw new InvalidOperationException("No solution found.");
+            }
+
+            return p1.X;
+        }
+    }
 }

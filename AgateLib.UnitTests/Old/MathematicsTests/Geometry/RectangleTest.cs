@@ -1,31 +1,20 @@
 ﻿using AgateLib.Mathematics.Geometry;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
+using Xunit;
 
 namespace AgateLib.UnitTests.MathematicsTests.Geometry
 {
-    [TestClass]
     public class RectangleTest
     {
-        [TestMethod]
+        [Fact]
         public void FromStringDelimited()
         {
-            var rect = Rectangle.FromString("2, 3, 4, 5");
+            var rect = RectangleX.Parse("2, 3, 4, 5");
 
-            Assert.AreEqual(2, rect.X);
-            Assert.AreEqual(3, rect.Y);
-            Assert.AreEqual(4, rect.Width);
-            Assert.AreEqual(5, rect.Height);
-        }
-
-        [TestMethod]
-        public void FromStringNamedArgs()
-        {
-            var rect = Rectangle.FromString("x = 2, y = 3, width = 4, height = 5");
-
-            Assert.AreEqual(2, rect.X);
-            Assert.AreEqual(3, rect.Y);
-            Assert.AreEqual(4, rect.Width);
-            Assert.AreEqual(5, rect.Height);
+            rect.X.Should().Be(2);
+            rect.Y.Should().Be(3);
+            rect.Width.Should().Be(4);
+            rect.Height.Should().Be(5);
         }
     }
 }

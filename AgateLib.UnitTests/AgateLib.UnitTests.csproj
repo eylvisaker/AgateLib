@@ -182,11 +182,36 @@
     <Reference Include="xunit.execution.desktop, Version=2.3.1.3858, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.extensibility.execution.2.3.1\lib\net452\xunit.execution.desktop.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet, Version=4.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YamlDotNet.4.3.1\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\PathFinding\AStarTest.cs" />
     <Compile Include="Collections\Generic\ListSortingTests.cs" />
     <Compile Include="Collections\Generic\PoolTest.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Old\MathematicsTests\AlgorithmTests\LineAlgorithmTests.cs" />
+    <Compile Include="Old\MathematicsTests\AlgorithmTests\PolygonDecompositionTests.cs" />
+    <Compile Include="Old\MathematicsTests\AlgorithmTests\SimplePolygonDetectionTests.cs" />
+    <Compile Include="Old\MathematicsTests\GeometryBuilderTests\EllipseBuilderTests.cs" />
+    <Compile Include="Old\MathematicsTests\GeometryBuilderTests\StarBuilderTests.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\AlgorithmTests\CollisionDetectorTests.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\AlgorithmTests\ConvexHullTests.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\AlgorithmTests\LineAlgorithmTests.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\ColorTests.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\PolygonEdgeTests.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\PolygonTests.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\PolygonUnitTest.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\RectangleTest.cs" />
+    <Compile Include="Old\MathematicsTests\Geometry\TypeConverters\GeometryConverterTests.cs" />
+    <Compile Include="Old\MathematicsTests\RectangleFTests.cs" />
+    <Compile Include="Old\MathematicsTests\RectangleXTests.cs" />
+    <Compile Include="Old\MathematicsTests\SizeFTests.cs" />
+    <Compile Include="Old\MathematicsTests\SizeTests.cs" />
+    <Compile Include="Old\MathematicsTests\Vector2ListTests.cs" />
+    <Compile Include="Old\MathematicsTests\Vector2XTests.cs" />
+    <Compile Include="Old\MathematicsTests\VectorTypeConverterTests.cs" />
     <Compile Include="Scenes\SceneStackTest.cs" />
     <Compile Include="UserInterface\CommonMocks.cs" />
     <Compile Include="UserInterface\Content\LayoutTest.cs" />

@@ -84,15 +84,15 @@ namespace AgateLib.Display
 			return true;
 		}
 
-		/// <summary>
-		/// Tries to convert a string to a Color structure.
-		/// </summary>
-		/// <param name="str">The string to convert.  It must be in one of the following formats
-		/// RRGGBB, AARRGGBB, 0xRRGGBB, 0xAARRGGBB where AA, RR, GG, BB are each a hexidecimal
-		/// number (such as "ff" or "8B").</param>
-		/// <param name="result">The resulting color.</param>
-		/// <returns></returns>
-		public static bool TryParseFromArgb(string str, out Color result)
+        /// <summary>
+        /// Tries to convert a string to a Microsoft.Xna.Framework.Color structure.
+        /// </summary>
+        /// <param name="str">The string to convert.  It must be in one of the following formats
+        /// RRGGBB, AARRGGBB, 0xRRGGBB, 0xAARRGGBB where AA, RR, GG, BB are each a hexidecimal
+        /// number (such as "ff" or "8B").</param>
+        /// <param name="result">The resulting color.</param>
+        /// <returns></returns>
+        public static bool TryParseFromArgb(string str, out Color result)
 		{
 			if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
 				str = str.Substring(2);
@@ -145,14 +145,14 @@ namespace AgateLib.Display
 			return false;
 		}
 
-		/// <summary>
-		/// Converts a string to an AgateLib.Geometry.Color structure.
-		/// </summary>
-		/// <param name="str">The string to convert.  It must be in one of the following formats
-		/// RRGGBB, AARRGGBB, 0xRRGGBB, 0xAARRGGBB where AA, RR, GG, BB are each a hexidecimal
-		/// number (such as "ff" or "8B").</param>
-		/// <returns></returns>
-		public static Color FromArgb(string str)
+        /// <summary>
+        /// Converts a string to an Microsoft.Xna.Framework.Color structure.
+        /// </summary>
+        /// <param name="str">The string to convert.  It must be in one of the following formats
+        /// RRGGBB, AARRGGBB, 0xRRGGBB, 0xAARRGGBB where AA, RR, GG, BB are each a hexidecimal
+        /// number (such as "ff" or "8B").</param>
+        /// <returns></returns>
+        public static Color FromArgb(string str)
 		{
 			if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
 				str = str.Substring(2);
@@ -179,13 +179,47 @@ namespace AgateLib.Display
 					"Argument \"{0}\" is not a valid Color string.", str));
 		}
 
-		/// <summary>
-		/// Converts a string like "FF" to a byte value.  Throws an exception if the
-		/// string does not convert to a value which fits into a byte.
-		/// </summary>
-		/// <param name="hex"></param>
-		/// <returns></returns>
-		private static bool TryParseByteValueFromHex(string hex, out byte value)
+        /// <summary>
+        /// Converts a string to an Microsoft.Xna.Framework.Color structure.
+        /// </summary>
+        /// <param name="str">The string to convert.  It must be in one of the following formats
+        /// BBGGRR, AABBGGRR, 0xBBGGRR, 0xAABBGGRR where AA, RR, GG, BB are each a hexidecimal
+        /// number (such as "ff" or "8B").</param>
+        /// <returns></returns>
+        public static Color FromAbgr(string str)
+        {
+            if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                str = str.Substring(2);
+
+            if (str.Length == 6)
+            {
+                byte b = ByteValueFromHex(str.Substring(0, 2));
+                byte g = ByteValueFromHex(str.Substring(2, 2));
+                byte r = ByteValueFromHex(str.Substring(4, 2));
+
+                return new Color(r, g, b);
+            }
+            else if (str.Length == 8)
+            {
+                byte a = ByteValueFromHex(str.Substring(0, 2));
+                byte b = ByteValueFromHex(str.Substring(2, 2));
+                byte g = ByteValueFromHex(str.Substring(4, 2));
+                byte r = ByteValueFromHex(str.Substring(6, 2));
+
+                return new Color(r, g, b, a);
+            }
+            else
+                throw new ArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
+                    "Argument \"{0}\" is not a valid Color string.", str));
+        }
+
+        /// <summary>
+        /// Converts a string like "FF" to a byte value.  Throws an exception if the
+        /// string does not convert to a value which fits into a byte.
+        /// </summary>
+        /// <param name="hex"></param>
+        /// <returns></returns>
+        private static bool TryParseByteValueFromHex(string hex, out byte value)
 		{
 			value = 0;
 

@@ -5,96 +5,97 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
+using Microsoft.Xna.Framework;
+using Xunit;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.UnitTests.MathematicsTests
 {
-	[TestClass]
-	public class PolygonTests : PolygonUnitTest
-	{
-		private Polygon OddConcave { get; } = new Polygon
-			{
-				Vector2.Zero,
-				{ 1, 0 },
-				{ 1.5, 0.5 },
-				{ 2, 0 },
-				{ 2, 2 },
-			};
+    public class PolygonTests : PolygonUnitTest
+    {
+        private Polygon OddConcave { get; } = new Polygon
+            {
+                Vector2.Zero,
+                { 1, 0 },
+                { 1.5f, 0.5f },
+                { 2, 0 },
+                { 2, 2 },
+            };
 
-		[TestMethod]
-		public void Poly_Area()
-		{
-			Assert.AreEqual(2, Diamond.Area, 0.000001);
-			Assert.AreEqual(4, TetrisL.Area, 0.000001);
-		}
+        [Fact]
+        public void Poly_Area()
+        {
+            Diamond.Area.Should().BeApproximately(2, 0.000001);
+            TetrisL.Area.Should().BeApproximately(4, 0.000001);
+        }
 
-		[TestMethod]
-		public void Poly_BoundingRect()
-		{
-			Assert.AreEqual(RectangleF.FromLTRB(-1, -1, 1, 1), Diamond.BoundingRect);
-		}
+        [Fact]
+        public void Poly_BoundingRect()
+        {
+            Diamond.BoundingRect.Should().Be(RectangleF.FromLTRB(-1, -1, 1, 1));
+        }
 
-		[TestMethod]
-		public void Poly_IsConvex()
-		{
-			Assert.IsTrue(Diamond.IsConvex, "Diamond should report convexity.");
-			Assert.IsTrue(OddConcave.IsConcave, "Odd concave shape should report concavity.");
-		}
+        [Fact]
+        public void Poly_IsConvex()
+        {
+            Diamond.IsConvex.Should().BeTrue("Diamond should report convexity.");
+            OddConcave.IsConcave.Should().BeTrue("Odd concave shape should report concavity.");
+        }
 
-		[TestMethod]
-		public void Poly_PointOnEdgeIsInside()
-		{
-			Assert.IsTrue(Diamond.AreaContains(new Vector2(0.5, 0.5)));
-		}
+        [Fact]
+        public void Poly_PointOnEdgeIsInside()
+        {
+            Diamond.AreaContains(new Vector2(0.5f, 0.5f)).Should().BeTrue();
+        }
 
-		[TestMethod]
-		public void Poly_DiamondContainsPoint()
-		{
-			Assert.IsTrue(Diamond.AreaContains(new Vector2(0, 0)));
+        [Fact]
+        public void Poly_DiamondContainsPoint()
+        {
+            Diamond.AreaContains(new Vector2(0, 0)).Should().BeTrue();
 
-			Assert.IsTrue(Diamond.Translate(new Vector2(100, 15)).AreaContains(new Vector2(100, 15)));
-		}
+            Diamond.Translate(new Vector2(100, 15)).AreaContains(new Vector2(100, 15)).Should().BeTrue();
+        }
 
-		[TestMethod]
-		public void Poly_OddConcaveContainsPoint()
-		{
-			Assert.IsFalse(OddConcave.AreaContains(new Vector2(1.5, 0)));
-		}
+        [Fact]
+        public void Poly_OddConcaveContainsPoint()
+        {
+            OddConcave.AreaContains(new Vector2(1.5f, 0)).Should().BeFalse();
+        }
 
-		[TestMethod]
-		public void Poly_SerializationRoundTrip()
-		{
-			var serializer = new SerializerBuilder()
-				.WithTypeConvertersForAgateLibMathematics()
-				.Build();
+        [Fact]
+        public void Poly_SerializationRoundTrip()
+        {
+            var serializer = new SerializerBuilder()
+                .WithTypeConvertersForBasicStructures()
+                .Build();
 
-			var deserializer = new DeserializerBuilder()
-				.WithTypeConvertersForAgateLibMathematics()
-				.Build();
+            var deserializer = new DeserializerBuilder()
+                .WithTypeConvertersForBasicStructures()
+                .Build();
 
-			var result = deserializer.Deserialize<Polygon>(serializer.Serialize(Diamond));
+            var result = deserializer.Deserialize<Polygon>(serializer.Serialize(Diamond));
 
-			Assert.AreEqual(Diamond.Points.Count, result.Points.Count);
+            result.Points.Count.Should().Be(Diamond.Points.Count);
 
-			for (var index = 0; index < Diamond.Points.Count; index++)
-			{
-				Assert.AreEqual(Diamond.Points[index], result.Points[index]);
-			}
-		}
+            for (var index = 0; index < Diamond.Points.Count; index++)
+            {
+                result.Points[index].Should().Be(Diamond.Points[index]);
+            }
+        }
 
-		[TestMethod]
-		public void Poly_Rotate()
-		{
-			var a = Rectangle.FromLTRB(0, 0, 10, 5).ToPolygon();
-			var b = a.RotateDegrees(90, new Vector2(10, 5));
+        [Fact]
+        public void Poly_Rotate()
+        {
+            var a = RectangleX.FromLTRB(0, 0, 10, 5).ToPolygon();
+            var b = a.RotateDegrees(90, new Vector2(10, 5));
 
-			Assert.AreEqual(4, b.Count);
+            b.Count.Should().Be(4);
 
-			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(5, 5), 1e-8)));
-			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(10, 5), 1e-8)));
-			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(10, 15), 1e-8)));
-			Assert.IsTrue(b.Any(x => x.Equals(new Vector2(5, 15), 1e-8)));
-		}
-	}
+            b.Any(x => Vector2X.Equals(x, new Vector2(5, 5), 1e-5f)).Should().BeTrue();
+            b.Any(x => Vector2X.Equals(x, new Vector2(10, 5), 1e-5f)).Should().BeTrue();
+            b.Any(x => Vector2X.Equals(x, new Vector2(10, 15), 1e-5f)).Should().BeTrue();
+            b.Any(x => Vector2X.Equals(x, new Vector2(5, 15), 1e-5f)).Should().BeTrue();
+        }
+    }
 }

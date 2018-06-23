@@ -57,13 +57,23 @@ namespace AgateLib.Mathematics
 			return (float)Math.Cos(angle);
 		}
 
-		/// <summary>
-		/// Floating precision exponential function.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <returns></returns>
-		public static float Pow(float x, float y)
+        /// <summary>
+        /// Single precision square root.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static float Sqrt(float value)
+        {
+            return (float)Math.Sqrt(value);
+        }
+
+        /// <summary>
+        /// Floating precision exponential function.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static float Pow(float x, float y)
 		{
 			return (float)Math.Pow(x, y);
 		}
