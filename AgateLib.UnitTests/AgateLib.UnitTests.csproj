@@ -191,27 +191,27 @@
     <Compile Include="Collections\Generic\ListSortingTests.cs" />
     <Compile Include="Collections\Generic\PoolTest.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Old\MathematicsTests\AlgorithmTests\LineAlgorithmTests.cs" />
-    <Compile Include="Old\MathematicsTests\AlgorithmTests\PolygonDecompositionTests.cs" />
-    <Compile Include="Old\MathematicsTests\AlgorithmTests\SimplePolygonDetectionTests.cs" />
-    <Compile Include="Old\MathematicsTests\GeometryBuilderTests\EllipseBuilderTests.cs" />
-    <Compile Include="Old\MathematicsTests\GeometryBuilderTests\StarBuilderTests.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\AlgorithmTests\CollisionDetectorTests.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\AlgorithmTests\ConvexHullTests.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\AlgorithmTests\LineAlgorithmTests.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\ColorTests.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\PolygonEdgeTests.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\PolygonTests.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\PolygonUnitTest.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\RectangleTest.cs" />
-    <Compile Include="Old\MathematicsTests\Geometry\TypeConverters\GeometryConverterTests.cs" />
-    <Compile Include="Old\MathematicsTests\RectangleFTests.cs" />
-    <Compile Include="Old\MathematicsTests\RectangleXTests.cs" />
-    <Compile Include="Old\MathematicsTests\SizeFTests.cs" />
-    <Compile Include="Old\MathematicsTests\SizeTests.cs" />
-    <Compile Include="Old\MathematicsTests\Vector2ListTests.cs" />
-    <Compile Include="Old\MathematicsTests\Vector2XTests.cs" />
-    <Compile Include="Old\MathematicsTests\VectorTypeConverterTests.cs" />
+    <Compile Include="MathematicsTests\AlgorithmTests\LineAlgorithmTests.cs" />
+    <Compile Include="MathematicsTests\AlgorithmTests\PolygonDecompositionTests.cs" />
+    <Compile Include="MathematicsTests\AlgorithmTests\SimplePolygonDetectionTests.cs" />
+    <Compile Include="MathematicsTests\GeometryBuilderTests\EllipseBuilderTests.cs" />
+    <Compile Include="MathematicsTests\GeometryBuilderTests\StarBuilderTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\AlgorithmTests\CollisionDetectorTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\AlgorithmTests\ConvexHullTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\AlgorithmTests\LineAlgorithmTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\ColorTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\PolygonEdgeTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\PolygonTests.cs" />
+    <Compile Include="MathematicsTests\Geometry\PolygonUnitTest.cs" />
+    <Compile Include="MathematicsTests\Geometry\RectangleTest.cs" />
+    <Compile Include="MathematicsTests\Geometry\TypeConverters\GeometryConverterTests.cs" />
+    <Compile Include="MathematicsTests\RectangleFTests.cs" />
+    <Compile Include="MathematicsTests\RectangleXTests.cs" />
+    <Compile Include="MathematicsTests\SizeFTests.cs" />
+    <Compile Include="MathematicsTests\SizeTests.cs" />
+    <Compile Include="MathematicsTests\Vector2ListTests.cs" />
+    <Compile Include="MathematicsTests\Vector2XTests.cs" />
+    <Compile Include="MathematicsTests\VectorTypeConverterTests.cs" />
     <Compile Include="Scenes\SceneStackTest.cs" />
     <Compile Include="UserInterface\CommonMocks.cs" />
     <Compile Include="UserInterface\Content\LayoutTest.cs" />
@@ -243,6 +243,9 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Old\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
