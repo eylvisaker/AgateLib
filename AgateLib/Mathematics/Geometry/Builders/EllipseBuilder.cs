@@ -1,16 +1,16 @@
 ﻿//
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,6 +19,7 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.Mathematics.Geometry.Builders
 {
@@ -52,7 +54,7 @@ namespace AgateLib.Mathematics.Geometry.Builders
 		/// is zero, the major axis is aligned with the X axis and the minor axis
 		/// is aligned with the Y axis.</param>
 		/// <returns></returns>
-		public Polygon BuildEllipse(Vector2 center, double majorAxisRadius, double minorAxisRadius, double rotationAngle)
+		public Polygon BuildEllipse(Microsoft.Xna.Framework.Vector2 center, double majorAxisRadius, double minorAxisRadius, double rotationAngle)
 		{
 			double h = Math.Pow(majorAxisRadius - minorAxisRadius, 2) / Math.Pow(majorAxisRadius + minorAxisRadius, 2);
 
@@ -64,7 +66,7 @@ namespace AgateLib.Mathematics.Geometry.Builders
 			// on the ellipse.
 			int ptCount = (int)Math.Ceiling(circumference * PointCountFactor);
 
-			List<Vector2> result = new List<Vector2>();
+			List<Microsoft.Xna.Framework.Vector2> result = new List<Microsoft.Xna.Framework.Vector2>();
 
 			double step = 2 * Math.PI / (ptCount - 1);
 
@@ -72,9 +74,9 @@ namespace AgateLib.Mathematics.Geometry.Builders
 			{
 				var angle = step * i + rotationAngle;
 
-				result.Add(new Vector2(
-					center.X + majorAxisRadius * Math.Cos(angle),
-					center.Y + minorAxisRadius * Math.Sin(angle)));
+				result.Add(new Microsoft.Xna.Framework.Vector2(
+					(float)(center.X + majorAxisRadius * Math.Cos(angle)),
+					(float)(center.Y + minorAxisRadius * (float)Math.Sin(angle))));
 			}
 
 			return new Polygon(result);
@@ -92,7 +94,7 @@ namespace AgateLib.Mathematics.Geometry.Builders
 		/// <param name="rect">The rectangle in which the ellipse should be inscribed.</param>
 		public Polygon BuildEllipse(RectangleF rect)
 		{
-			Vector2 center = new Vector2(rect.Left + rect.Width / 2,
+			Microsoft.Xna.Framework.Vector2 center = new Microsoft.Xna.Framework.Vector2(rect.Left + rect.Width / 2,
 				rect.Top + rect.Height / 2);
 
 			double radiusX = rect.Width / 2;
@@ -107,6 +109,6 @@ namespace AgateLib.Mathematics.Geometry.Builders
 		/// <param name="center"></param>
 		/// <param name="radius"></param>
 		/// <returns></returns>
-		public Polygon BuildCircle(Vector2 center, double radius) => BuildEllipse(center, radius, radius, 0);
+		public Polygon BuildCircle(Microsoft.Xna.Framework.Vector2 center, double radius) => BuildEllipse(center, radius, radius, 0);
 	}
 }

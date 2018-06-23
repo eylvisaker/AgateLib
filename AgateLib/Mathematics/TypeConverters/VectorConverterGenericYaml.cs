@@ -1,16 +1,16 @@
 ﻿//
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Quality;
+using Microsoft.Xna.Framework;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
@@ -56,16 +57,22 @@ namespace AgateLib.Mathematics.TypeConverters
 		{
 			var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
 			var value = scalar.Value;
+			var isNullable = type == typeof(Vector2?) || type == typeof(Vector3?) || type == typeof(Vector4?);
 
-			if (string.IsNullOrWhiteSpace(value) && type == typeof(Vector3?))
+			if (string.IsNullOrWhiteSpace(value))
 			{
-				parser.MoveNext();
-				return null;
+				if (isNullable)
+				{
+					parser.MoveNext();
+					return null;
+				}
+
+				throw new InvalidDataException("Null value not allowed.");
 			}
 
 			var values = value
 				.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
-				.Select(double.Parse)
+				.Select(float.Parse)
 				.ToArray();
 
 			var result = Deserialize(values);
@@ -117,6 +124,6 @@ namespace AgateLib.Mathematics.TypeConverters
 		/// </summary>
 		/// <param name="values"></param>
 		/// <returns></returns>
-		protected abstract T Deserialize(double[] values);
+		protected abstract T Deserialize(float[] values);
 	}
 }

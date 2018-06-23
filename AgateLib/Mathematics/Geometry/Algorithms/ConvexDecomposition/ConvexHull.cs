@@ -1,11 +1,30 @@
-﻿using System;
+﻿//
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
+//    Permission is hereby granted, free of charge, to any person obtaining a copy
+//    of this software and associated documentation files (the "Software"), to deal
+//    in the Software without restriction, including without limitation the rights
+//    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//    copies of the Software, and to permit persons to whom the Software is
+//    furnished to do so, subject to the following conditions:
+//
+//    The above copyright notice and this permission notice shall be included in all
+//    copies or substantial portions of the Software.
+//
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//    SOFTWARE.
+//
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Quality;
 
-namespace AgateLib.Mathematics.Geometry.Algorithms
+namespace AgateLib.Mathematics.Geometry.Algorithms.ConvexDecomposition
 {
 	/// <summary>
 	/// An algorithm for finding the convex hull of a polygon.
@@ -20,7 +39,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 
 		public double Tolerance
 		{
-			get { return tolerance; }
+			get => tolerance;
 			set
 			{
 				Require.ArgumentInRange(value > 0, nameof(Tolerance),
@@ -35,8 +54,8 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 			Polygon result = new Polygon();
 
 			// Find left & right most points and add them to the hull.
-			Vector2 left = Vector2.UnitX * double.MaxValue;
-			Vector2 right = Vector2.UnitX * double.MinValue;
+			Microsoft.Xna.Framework.Vector2 left = Microsoft.Xna.Framework.Vector2.UnitX * float.MaxValue;
+			Microsoft.Xna.Framework.Vector2 right = Microsoft.Xna.Framework.Vector2.UnitX * float.MinValue;
 
 			foreach (var point in polygon)
 			{
@@ -58,13 +77,13 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 			return result;
 		}
 
-		private void FindHull(Polygon result, List<Vector2> set, Vector2 P, Vector2 Q)
+		private void FindHull(Polygon result, List<Microsoft.Xna.Framework.Vector2> set, Microsoft.Xna.Framework.Vector2 P, Microsoft.Xna.Framework.Vector2 Q)
 		{
 			if (set.Count == 0)
 				return;
 
 			double max = double.MinValue;
-			Vector2 C = set.First();
+			Microsoft.Xna.Framework.Vector2 C = set.First();
 
 			foreach (var v in set)
 			{

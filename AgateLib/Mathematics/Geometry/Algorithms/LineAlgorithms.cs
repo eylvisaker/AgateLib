@@ -1,16 +1,16 @@
 ﻿//
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,11 +19,13 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms
 {
@@ -69,7 +71,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="R2a">The start point of the second line segment.</param>
 		/// <param name="R2b">The end point of the second line segment.</param>
 		/// <returns></returns>
-		public static LineSegmentIntersection LineSegmentIntersection(Vector2 R1a, Vector2 R1b, Vector2 R2a, Vector2 R2b,
+		public static LineSegmentIntersection LineSegmentIntersection(Microsoft.Xna.Framework.Vector2 R1a, Microsoft.Xna.Framework.Vector2 R1b, Microsoft.Xna.Framework.Vector2 R2a, Microsoft.Xna.Framework.Vector2 R2b,
 			double tolerance = DefaultTolerance)
 		{
 			var line1 = R1b - R1a;
@@ -99,7 +101,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="b"></param>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		public static bool AreCollinear(Vector2 a, Vector2 b, Vector2 c, double tolerance = 1e-6)
+		public static bool AreCollinear(Microsoft.Xna.Framework.Vector2 a, Microsoft.Xna.Framework.Vector2 b, Microsoft.Xna.Framework.Vector2 c, double tolerance = 1e-6)
 		{
 			// algorithm from http://math.stackexchange.com/a/405981/212825
 			var diff = (b.Y - a.Y) * (c.X - b.X) - (c.Y - b.Y) * (b.X - a.X);
@@ -117,15 +119,19 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="B"></param>
 		/// <param name="pt"></param>
 		/// <returns></returns>
-		public static double SideOf(Vector2 A, Vector2 B, Vector2 pt)
+		public static double SideOf(Microsoft.Xna.Framework.Vector2 A, Microsoft.Xna.Framework.Vector2 B,
+			Microsoft.Xna.Framework.Vector2 pt)
 		{
 			var toPt = pt - A;
-			var diff = (B - A).Normalize();
+			var diff = (B - A);
+
+			diff.Normalize();
 			var projection = toPt.ProjectionOn(diff);
 			var ortho = toPt - projection;
 
-			return ortho.CrossProduct(diff);
+			return Microsoft.Xna.Framework.Vector3.Cross(
+				new Microsoft.Xna.Framework.Vector3(ortho.X, ortho.Y, 0),
+				new Microsoft.Xna.Framework.Vector3(diff.X, diff.Y, 0)).Z;
 		}
-
 	}
 }

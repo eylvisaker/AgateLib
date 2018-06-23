@@ -1,16 +1,16 @@
 //
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,24 +21,23 @@
 //
 
 using System;
-using System.Runtime.Serialization;
+using Microsoft.Xna.Framework;
+using YamlDotNet.Serialization;
 
 namespace AgateLib.Mathematics.Geometry
 {
 	/// <summary>
 	/// SizeF structure.
 	/// </summary>
-	[DataContract]
 	public struct SizeF  
 	{
-		[DataMember]
 		float width, height;
 
 		/// <summary>
 		/// Constructs a SizeF structure.
 		/// </summary>
 		/// <param name="pt"></param>
-		public SizeF(PointF pt)
+		public SizeF(Vector2 pt)
 		{
 			width = pt.X;
 			height = pt.Y;
@@ -60,36 +59,32 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		public float Width
 		{
-			get { return width; }
-			set { width = value; }
+			get => width;
+			set => width = value;
 		}
 		/// <summary>
 		/// Gets or sets the height.
 		/// </summary>
 		public float Height
 		{
-			get { return height; }
-			set { height = value; }
+			get => height;
+			set => height = value;
 		}
 
 		/// <summary>
 		/// Gets the aspect ratio (width / height) of this Size object.
 		/// </summary>
-		public double AspectRatio
-		{
-			get { return width / height; }
-		}
+		[YamlIgnore]
+		public double AspectRatio => width / height;
 
 		/// <summary>
 		/// True if width and height are zero.
 		/// </summary>
-
-		public bool IsZero
-		{
-			get { return width == 0 && height == 0; }
-		}
+		[YamlIgnore]
+		public bool IsZero => width == 0 && height == 0;
 
 		[Obsolete("Use IsZero instead.")]
+		[YamlIgnore]
 		public bool IsEmpty => IsZero;
 
 		/// <summary>
@@ -135,23 +130,13 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			return !a.Equals(b);
 		}
-
 		/// <summary>
-		/// Converts a Size to a Vector2.
+		/// Converts a Size to a Vector2f.
 		/// </summary>
 		/// <param name="size"></param>
 		public static explicit operator Vector2(SizeF size)
 		{
 			return new Vector2(size.Width, size.Height);
-		}
-
-		/// <summary>
-		/// Converts a Size to a Vector2f.
-		/// </summary>
-		/// <param name="size"></param>
-		public static explicit operator Vector2f(SizeF size)
-		{
-			return new Vector2f(size.Width, size.Height);
 		}
 
 

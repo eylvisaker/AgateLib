@@ -1,16 +1,16 @@
 //
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,18 +22,17 @@
 
 using System;
 using System.Runtime.Serialization;
+using Microsoft.Xna.Framework;
+using YamlDotNet.Serialization;
 
 namespace AgateLib.Mathematics.Geometry
 {
 	/// <summary>
 	/// Replacement for System.Drawing.RectangleF structure.
 	/// </summary>
-	[DataContract]
 	public struct RectangleF 
 	{
-		[DataMember]
-		PointF pt;
-		[DataMember]
+		Vector2 pt;
 		SizeF sz;
 
 		/// <summary>
@@ -45,7 +44,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <param name="height"></param>
 		public RectangleF(float x, float y, float width, float height)
 		{
-			this.pt = new PointF(x, y);
+			this.pt = new Vector2(x, y);
 			this.sz = new SizeF(width, height);
 		}
 		/// <summary>
@@ -53,10 +52,15 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="pt"></param>
 		/// <param name="sz"></param>
-		public RectangleF(Vector2 pt, SizeF sz)
+		public RectangleF(Microsoft.Xna.Framework.Vector2 pt, SizeF sz)
 		{
-			this.pt = (PointF)pt;
+			this.pt = (Vector2)pt;
 			this.sz = sz;
+		}
+
+		public static explicit operator RectangleF(Rectangle r)
+		{
+			return new RectangleF(r.X, r.Y, r.Width, r.Height);
 		}
 
 		/// <summary>
@@ -71,21 +75,22 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			return new RectangleF(left, top, right - left, bottom - top);
 		}
+
 		/// <summary>
 		/// X value
 		/// </summary>
 		public float X
 		{
-			get { return pt.X; }
-			set { pt.X = value; }
+			get => pt.X;
+			set => pt.X = value;
 		}
 		/// <summary>
 		/// Y value
 		/// </summary>
 		public float Y
 		{
-			get { return pt.Y; }
-			set { pt.Y = value; }
+			get => pt.Y;
+			set => pt.Y = value;
 		}
 
 		/// <summary>
@@ -93,8 +98,8 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		public float Width
 		{
-			get { return sz.Width; }
-			set { sz.Width = value; }
+			get => sz.Width;
+			set => sz.Width = value;
 		}
 
 		/// <summary>
@@ -102,59 +107,54 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		public float Height
 		{
-			get { return sz.Height; }
-			set { sz.Height = value; }
+			get => sz.Height;
+			set => sz.Height = value;
 		}
 
 		/// <summary>
 		/// Gets bottom.
 		/// </summary>
-		public float Bottom
-		{
-			get { return pt.Y + sz.Height; }
-		}
+		[YamlIgnore]
+		public float Bottom => pt.Y + sz.Height;
 
 		/// <summary>
 		/// Gets left.
 		/// </summary>
-		public float Left
-		{
-			get { return pt.X; }
-		}
+		[YamlIgnore]
+		public float Left => pt.X;
 
 		/// <summary>
 		/// Gets top.
 		/// </summary>
-		public float Top
-		{
-			get { return pt.Y; }
-		}
+		[YamlIgnore]
+		public float Top => pt.Y;
 
 		/// <summary>
 		/// Gets right.
 		/// </summary>
-		public float Right
-		{
-			get { return pt.X + sz.Width; }
-		}
+		[YamlIgnore]
+		public float Right => pt.X + sz.Width;
 
 		/// <summary>
 		/// Gets or sets top-left point.
 		/// </summary>
-		public PointF Location
+		[YamlIgnore]
+		public Vector2 Location
 		{
-			get { return pt; }
-			set { pt = value; }
+			get => pt;
+			set => pt = value;
 		}
 
 		/// <summary>
 		/// Gets or sets size.
 		/// </summary>
+		[YamlIgnore]
 		public SizeF Size
 		{
-			get { return sz; }
-			set { sz = value; }
+			get => sz;
+			set => sz = value;
 		}
+
 		/// <summary>
 		/// Returns true if the RectangleF contains a point.
 		/// </summary>
@@ -163,7 +163,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <returns></returns>
 		public bool Contains(float x, float y)
 		{
-			return Contains(new PointF(x, y));
+			return Contains(new Vector2(x, y));
 		}
 		/// <summary>
 		/// Returns true if the RectangleF contains a point.
@@ -191,7 +191,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <returns></returns>
 		public bool Contains(RectangleF rect)
 		{
-			if (Contains(rect.Location) && Contains(PointF.Add(rect.Location, rect.Size)))
+			if (Contains(rect.Location) && Contains(Vector2.Add(rect.Location, (Vector2)rect.Size)))
 				return true;
 			else
 				return false;
@@ -247,15 +247,15 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Writes the rectangle vertices to the polygon.
 		/// </summary>
-		/// <param name="result"></param>
-		public void WriteToPolygon(Polygon result)
+		/// <param name="destination"></param>
+		public void WriteToPolygon(Polygon destination)
 		{
-			result.Points.Count = 4;
+			destination.Points.Count = 4;
 
-			result[0] = new Vector2(Left, Top);
-			result[1] = new Vector2(Right, Top);
-			result[2] = new Vector2(Right, Bottom);
-			result[3] = new Vector2(Left, Bottom);
+			destination[0] = new Microsoft.Xna.Framework.Vector2(Left, Top);
+			destination[1] = new Microsoft.Xna.Framework.Vector2(Right, Top);
+			destination[2] = new Microsoft.Xna.Framework.Vector2(Right, Bottom);
+			destination[3] = new Microsoft.Xna.Framework.Vector2(Left, Bottom);
 		}
 
 		#endregion
@@ -381,8 +381,8 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Returns true if all members of the rectangle are zero.
 		/// </summary>
-		
-		public bool IsEmpty => pt.IsZero && sz.IsZero;
+		[YamlIgnore]
+		public bool IsEmpty => pt.X == 0 && pt.Y == 0 && sz.IsZero;
 
 		/// <summary>
 		/// Empty RectangleF

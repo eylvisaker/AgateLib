@@ -1,16 +1,16 @@
 //
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,17 +22,16 @@
 
 using System;
 using System.Diagnostics;
-using System.Runtime.Serialization;
+using Microsoft.Xna.Framework;
+using YamlDotNet.Serialization;
 
 namespace AgateLib.Mathematics.Geometry
 {
 	/// <summary>
 	/// A structure with two properties, a width and height.
 	/// </summary>
-	[DataContract]
 	public struct Size
 	{
-		[DataMember]
 		int width, height;
 
 		/// <summary>
@@ -56,6 +55,16 @@ namespace AgateLib.Mathematics.Geometry
 		{
 			this.width = width;
 			this.height = height;
+		}
+
+		public static implicit operator Size(Microsoft.Xna.Framework.Point pt)
+		{
+			return new Size(pt.X, pt.Y);
+		}
+
+		public static implicit operator Microsoft.Xna.Framework.Point(Size sz)
+		{
+			return new Microsoft.Xna.Framework.Point(sz.Width, sz.Height);
 		}
 
 		/// <summary>
@@ -83,6 +92,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Returns true if width and height are zero.
 		/// </summary>
+		[YamlIgnore]
 		public bool IsEmpty
 		{
 			[DebuggerStepThrough]
@@ -92,17 +102,21 @@ namespace AgateLib.Mathematics.Geometry
 		/// <summary>
 		/// Gets the aspect ratio (width / height) of this Size object.
 		/// </summary>
+		[YamlIgnore]
 		public double AspectRatio => width / (double)height;
 
-		#region --- Operator Overloads ---
+        public static Size Minimum { get; internal set; }
+        public static Size Maximum { get; internal set; }
 
-		/// <summary>
-		/// Equality comparison test.
-		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <returns></returns>
-		public static bool operator ==(Size a, Size b)
+        #region --- Operator Overloads ---
+
+        /// <summary>
+        /// Equality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(Size a, Size b)
 		{
 			return a.Equals(b);
 		}
@@ -118,21 +132,12 @@ namespace AgateLib.Mathematics.Geometry
 		}
 
 		/// <summary>
-		/// Converts a Size to a Vector2.
-		/// </summary>
-		/// <param name="size"></param>
-		public static explicit operator Vector2(Size size)
-		{
-			return new Vector2(size.Width, size.Height);
-		}
-
-		/// <summary>
 		/// Converts a Size to a Vector2f.
 		/// </summary>
 		/// <param name="size"></param>
-		public static explicit operator Vector2f(Size size)
+		public static explicit operator Microsoft.Xna.Framework.Vector2(Size size)
 		{
-			return new Vector2f(size.Width, size.Height);
+			return new Microsoft.Xna.Framework.Vector2(size.Width, size.Height);
 		}
 
 		#endregion
@@ -259,5 +264,22 @@ namespace AgateLib.Mathematics.Geometry
 			return result;
 		}
 
-	}
+		/// <summary>
+		/// Converts a Size object to a Point object.
+		/// </summary>
+		/// <returns></returns>
+		public Point ToPoint()
+		{
+			return new Point(Width, Height);
+		}
+
+        /// <summary>
+        /// Converts a Size object to a Vector2 object.
+        /// </summary>
+        /// <returns></returns>
+        public Vector2 ToVector2()
+        {
+            return new Vector2(Width, Height);
+        }
+    }
 }

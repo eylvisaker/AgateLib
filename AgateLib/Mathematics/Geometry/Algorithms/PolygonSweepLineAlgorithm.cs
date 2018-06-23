@@ -1,16 +1,16 @@
 //
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,6 +21,8 @@
 //
 
 using AgateLib.Collections.Generic;
+using AgateLib.Mathematics.Geometry.Algorithms.ConvexDecomposition;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms
 {
@@ -58,7 +60,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 
 		// xyorder(): determines the xy lexicographical order of two points
 		//      returns: (+1) if p1 > p2; (-1) if p1 < p2; and  0 if equal 
-		static int XYOrder(Vector2 p1, Vector2 p2)
+		static int XYOrder(Microsoft.Xna.Framework.Vector2 p1, Microsoft.Xna.Framework.Vector2 p2)
 		{
 			// test the x-coord first
 			if (p1.X > p2.X) return 1;
@@ -75,7 +77,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		// isLeft(): tests if point P2 is Left|On|Right of the line P0 to P1.
 		//      returns: >0 for left, 0 for on, and <0 for  right of the line.
 		//      (see Algorithm 1 on Area of Triangles)
-		static double IsLeft(Vector2 P0, Vector2 P1, Vector2 P2)
+		static double IsLeft(Microsoft.Xna.Framework.Vector2 P0, Microsoft.Xna.Framework.Vector2 P1, Microsoft.Xna.Framework.Vector2 P2)
 		{
 			return (P1.X - P0.X) * (P2.Y - P0.Y) - (P2.X - P0.X) * (P1.Y - P0.Y);
 		}
@@ -90,7 +92,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		{
 			public int Edge;          // polygon edge i is V[i] to V[i+1]
 			public EventType EventType;   // event type: LEFT or RIGHT vertex
-			public Vector2 Vertex;            // event vertex
+			public Microsoft.Xna.Framework.Vector2 Vertex;            // event vertex
 		};
 
 		static int EventComparison(Event v1, Event v2) // qsort compare two events
@@ -157,8 +159,8 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		class SweepLineSegment
 		{
 			public int Edge;          // polygon edge i is V[i] to V[i+1]
-			public Vector2 LeftVertex;            // leftmost vertex point
-			public Vector2 RightVertex;            // rightmost vertex point
+			public Microsoft.Xna.Framework.Vector2 LeftVertex;            // leftmost vertex point
+			public Microsoft.Xna.Framework.Vector2 RightVertex;            // rightmost vertex point
 			public SweepLineSegment Above;         // segment above this one
 			public SweepLineSegment Below;         // segment below this one
 
@@ -200,8 +202,8 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 
 				// if it is being added, then it must be a LEFT edge event
 				// but need to determine which endpoint is the left one 
-				Vector2 v1 = polygon.At(segToAdd.Edge);
-				Vector2 v2 = polygon.At(segToAdd.Edge + 1);
+				Microsoft.Xna.Framework.Vector2 v1 = polygon.At(segToAdd.Edge);
+				Microsoft.Xna.Framework.Vector2 v2 = polygon.At(segToAdd.Edge + 1);
 
 				// determine which is leftmost
 				if (XYOrder(v1, v2) < 0)

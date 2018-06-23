@@ -1,16 +1,16 @@
 //
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,6 +23,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.Mathematics.Geometry
 {
@@ -31,7 +32,7 @@ namespace AgateLib.Mathematics.Geometry
 	/// </summary>
 	public class Vector2List : IVector2List
 	{
-		private List<Vector2> list = new List<Vector2>();
+		private List<Microsoft.Xna.Framework.Vector2> list = new List<Microsoft.Xna.Framework.Vector2>();
 
 		/// <summary>
 		/// Constructs a Vector2List object.
@@ -44,7 +45,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// Constructs a Vector2List object, adding the vectors passed in.
 		/// </summary>
 		/// <param name="vectors"></param>
-		public Vector2List(IEnumerable<Vector2> vectors)
+		public Vector2List(IEnumerable<Microsoft.Xna.Framework.Vector2> vectors)
 		{
 			list = vectors.ToList();
 		}
@@ -56,9 +57,12 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		public int Count
 		{
-			get { return list.Count; }
+			get => list.Count;
 			set
 			{
+				if (value == list.Count)
+					return;
+
 				var oldList = list;
 				list = new List<Vector2>(value);
 				list.AddRange(oldList.Take(value));
@@ -82,7 +86,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// <returns></returns>
 		public Vector2 this[int index]
 		{
-			get { return list[index]; }
+			get => list[index];
 			set
 			{
 				list[index] = value;
@@ -117,7 +121,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// Adds a point to the list.
 		/// </summary>
 		/// <param name="item"></param>
-		public void Add(Vector2 item)
+		public void Add(Microsoft.Xna.Framework.Vector2 item)
 		{
 			list.Add(item);
 			Dirty = true;
@@ -128,9 +132,9 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
-		public void Add(double x, double y)
+		public void Add(float x, float y)
 		{
-			list.Add(new Vector2(x, y));
+			list.Add(new Microsoft.Xna.Framework.Vector2(x, y));
 			Dirty = true;
 		}
 
@@ -138,7 +142,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// Adds a set of points to the end of the list.
 		/// </summary>
 		/// <param name="items"></param>
-		public void AddRange(IEnumerable<Vector2> items)
+		public void AddRange(IEnumerable<Microsoft.Xna.Framework.Vector2> items)
 		{
 			list.AddRange(items);
 			Dirty = true;
@@ -158,7 +162,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public bool Contains(Vector2 item)
+		public bool Contains(Microsoft.Xna.Framework.Vector2 item)
 		{
 			return list.Contains(item);
 		}
@@ -168,7 +172,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="array"></param>
 		/// <param name="arrayIndex"></param>
-		public void CopyTo(Vector2[] array, int arrayIndex)
+		public void CopyTo(Microsoft.Xna.Framework.Vector2[] array, int arrayIndex)
 		{
 			list.CopyTo(array, arrayIndex);
 		}
@@ -178,7 +182,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public bool Remove(Vector2 item)
+		public bool Remove(Microsoft.Xna.Framework.Vector2 item)
 		{
 			Dirty = true;
 			return list.Remove(item);
@@ -189,7 +193,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public int IndexOf(Vector2 item)
+		public int IndexOf(Microsoft.Xna.Framework.Vector2 item)
 		{
 			return list.IndexOf(item);
 		}
@@ -199,7 +203,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="index"></param>
 		/// <param name="item"></param>
-		public void Insert(int index, Vector2 item)
+		public void Insert(int index, Microsoft.Xna.Framework.Vector2 item)
 		{
 			Dirty = true;
 			list.Insert(index, item);
@@ -210,7 +214,7 @@ namespace AgateLib.Mathematics.Geometry
 		/// </summary>
 		/// <param name="index"></param>
 		/// <param name="items"></param>
-		public void InsertRange(int index, IEnumerable<Vector2> items)
+		public void InsertRange(int index, IEnumerable<Microsoft.Xna.Framework.Vector2> items)
 		{
 			foreach(var item in items)
 			{
@@ -233,13 +237,13 @@ namespace AgateLib.Mathematics.Geometry
 	/// <summary>
 	/// Interface for a list of Vector2 values.
 	/// </summary>
-	public interface IVector2List : IList<Vector2>, IReadOnlyList<Vector2>
+	public interface IVector2List : IList<Microsoft.Xna.Framework.Vector2>, IReadOnlyList<Microsoft.Xna.Framework.Vector2>
 	{
 		/// <summary>
 		/// Adds a point to the list.
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
-		void Add(double x, double y);
+		void Add(float x, float y);
 	}
 }

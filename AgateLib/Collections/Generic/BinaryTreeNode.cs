@@ -1,16 +1,16 @@
 ﻿//
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,6 +19,7 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
+
 using System;
 using AgateLib.Quality;
 
@@ -38,7 +39,7 @@ namespace AgateLib.Collections.Generic
 		/// <param name="item"></param>
 		public BinaryTreeNode(IBinaryTree<T> owner, T item)
 		{
-			Require.True(item != null, $"{nameof(item)} must not be null.");
+			Require.That(item != null, $"{nameof(item)} must not be null.");
 			Require.ArgumentNotNull(owner, nameof(owner));
 
 			this.Value = item;
@@ -57,7 +58,7 @@ namespace AgateLib.Collections.Generic
 		/// </summary>
 		public BinaryTreeNode<T> Left
 		{
-			get { return left; }
+			get => left;
 			internal set
 			{
 				left = value;
@@ -72,14 +73,16 @@ namespace AgateLib.Collections.Generic
 			}
 		}
 
-		BinaryTreeNode<T> IBinaryTreeNodeStructure<T>.Left { get { return Left; } set { Left = value; } }
+		BinaryTreeNode<T> IBinaryTreeNodeStructure<T>.Left { get => Left;
+			set => Left = value;
+		}
 
 		/// <summary>
 		/// The node to the right.
 		/// </summary>
 		public BinaryTreeNode<T> Right
 		{
-			get { return right; }
+			get => right;
 			internal set
 			{
 				right = value;
@@ -94,7 +97,9 @@ namespace AgateLib.Collections.Generic
 			}
 		}
 
-		BinaryTreeNode<T> IBinaryTreeNodeStructure<T>.Right { get { return Right; } set { Right = value; } }
+		BinaryTreeNode<T> IBinaryTreeNodeStructure<T>.Right { get => Right;
+			set => Right = value;
+		}
 
 		/// <summary>
 		/// The parent of this node.

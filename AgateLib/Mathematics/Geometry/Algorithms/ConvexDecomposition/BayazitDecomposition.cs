@@ -1,16 +1,16 @@
 ﻿//
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,15 +19,11 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.Mathematics.Geometry.Algorithms
+using System.Collections.Generic;
+using System.Linq;
+
+namespace AgateLib.Mathematics.Geometry.Algorithms.ConvexDecomposition
 {
 	/// <summary>
 	/// This implements Bayazit's polygon decomposition algorithm.
@@ -62,9 +58,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 
 			double d = 0.0;
 			double lowerDist, upperDist;
-			Vector2 p;
-			Vector2 lowerInt = new Vector2();
-			Vector2 upperInt = new Vector2(); // intersection points
+			Microsoft.Xna.Framework.Vector2 p;
+			Microsoft.Xna.Framework.Vector2 lowerInt = new Microsoft.Xna.Framework.Vector2();
+			Microsoft.Xna.Framework.Vector2 upperInt = new Microsoft.Xna.Framework.Vector2(); // intersection points
 			int lowerIndex = 0, upperIndex = 0;
 			Polygon lowerPoly, upperPoly;
 
@@ -78,9 +74,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 			// otherwise, its angle is only reduced
 			for (int i = 0; i < polygon.Count; i++)
 			{
-				Vector2 prev = polygon.At(i - 1);
-				Vector2 on = polygon.At(i);
-				Vector2 next = polygon.At(i + 1);
+				Microsoft.Xna.Framework.Vector2 prev = polygon.At(i - 1);
+				Microsoft.Xna.Framework.Vector2 on = polygon.At(i);
+				Microsoft.Xna.Framework.Vector2 next = polygon.At(i + 1);
 
 				if (IsReflex(prev, on, next))
 				{
@@ -100,10 +96,10 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 						// testing incoming edge:
 						// if line coming into i vertex (i-1 to i) has j vertex of the test-line on left
 						// AND have j-i on right, then they will be intersecting
-						Vector2 iPrev = polygon.At(i - 1);
-						Vector2 iSelf = polygon.At(i);
-						Vector2 jSelf = polygon.At(j);
-						Vector2 jPrev = polygon.At(j - 1);
+						Microsoft.Xna.Framework.Vector2 iPrev = polygon.At(i - 1);
+						Microsoft.Xna.Framework.Vector2 iSelf = polygon.At(i);
+						Microsoft.Xna.Framework.Vector2 jSelf = polygon.At(j);
+						Microsoft.Xna.Framework.Vector2 jPrev = polygon.At(j - 1);
 
 						bool leftOK = Left(iPrev, iSelf, jSelf);
 						bool rightOK = Right(iPrev, iSelf, jPrev);
@@ -115,7 +111,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 						{
 							// lines are colinear, they can not be overlapping as polygon is simple
 							// find closest point which is not internal to incoming line i , i -1
-							d = Vector2.DistanceSquared(iSelf, jSelf);
+							d = Microsoft.Xna.Framework.Vector2.DistanceSquared(iSelf, jSelf);
 
 							// this lower* is the point got from incoming edge into the i vertex,
 							// lowerInt incoming edge intersection point
@@ -128,7 +124,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 								lowerIndex = j - 1;
 							}
 
-							d = Vector2.DistanceSquared(iSelf, jPrev);
+							d = Microsoft.Xna.Framework.Vector2.DistanceSquared(iSelf, jPrev);
 
 							// this lower* is the point got from incoming edge into the i vertex,
 							// lowerInt incoming edge intersection point
@@ -155,7 +151,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 								// make sure it's inside the poly, 
 								if (Right(polygon.At(i + 1), polygon.At(i), p))
 								{
-									d = Vector2.DistanceSquared(polygon.At(i), p);
+									d = Microsoft.Xna.Framework.Vector2.DistanceSquared(polygon.At(i), p);
 
 									// this lower* is the point got from incoming edge into the i vertex,
 									// lowerInt incoming edge intersection point
@@ -174,8 +170,8 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 						// testing outgoing edge:
 						// if line outgoing from i vertex (i to i+1) has j vertex of the test-line on right
 						// AND has j+1 on left, they they will be intersecting
-						Vector2 iNext = polygon.At(i + 1);
-						Vector2 jNext = polygon.At(j + 1);
+						Microsoft.Xna.Framework.Vector2 iNext = polygon.At(i + 1);
+						Microsoft.Xna.Framework.Vector2 jNext = polygon.At(j + 1);
 
 						bool leftOKn = Left(iNext, iSelf, jNext);
 						bool rightOKn = Right(iNext, iSelf, jSelf);
@@ -187,7 +183,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 						{
 							// lines are colinear, they can not be overlapping as polygon is simple
 							// find closest point which is not internal to incoming line i , i -1
-							d = Vector2.DistanceSquared(iSelf, jNext);
+							d = Microsoft.Xna.Framework.Vector2.DistanceSquared(iSelf, jNext);
 
 							// this upper* is the point got from outgoing edge into the i vertex,
 							// upperInt outgoing edge intersection point
@@ -200,7 +196,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 								upperIndex = j + 1;
 							}
 
-							d = Vector2.DistanceSquared(polygon.At(i), polygon.At(j));
+							d = Microsoft.Xna.Framework.Vector2.DistanceSquared(polygon.At(i), polygon.At(j));
 
 							// this upper* is the point got from outgoing edge into the i vertex,
 							// upperInt outgoing edge intersection point
@@ -225,7 +221,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 
 								if (Left(polygon.At(i - 1), polygon.At(i), p))
 								{
-									d = Vector2.DistanceSquared(polygon.At(i), p);
+									d = Microsoft.Xna.Framework.Vector2.DistanceSquared(polygon.At(i), p);
 
 									// this upper* is the point got from outgoing edge from the i vertex,
 									// upperInt outgoing edge intersection point
@@ -245,7 +241,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 					//// if there are no vertices to connect to, choose a point in the middle
 					if (lowerIndex == (upperIndex + 1) % polygon.Count)
 					{
-						Vector2 sp = ((lowerInt + upperInt) / 2);
+						Microsoft.Xna.Framework.Vector2 sp = ((lowerInt + upperInt) / 2);
 
 						lowerPoly = polygon.CopyRange(i, upperIndex);
 						lowerPoly.Add(sp);
@@ -263,12 +259,12 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 						{
 							if (CanSee(polygon, i, j))
 							{
-								double score = 1 / (Vector2.DistanceSquared(polygon.At(i), polygon.At(j)) + 1);
+								double score = 1 / (Microsoft.Xna.Framework.Vector2.DistanceSquared(polygon.At(i), polygon.At(j)) + 1);
 
 								// if another vertex is Reflex, choosing it has highest score
-								Vector2 prevj = polygon.At(j - 1);
-								Vector2 onj = polygon.At(j);
-								Vector2 nextj = polygon.At(j + 1);
+								Microsoft.Xna.Framework.Vector2 prevj = polygon.At(j - 1);
+								Microsoft.Xna.Framework.Vector2 onj = polygon.At(j);
+								Microsoft.Xna.Framework.Vector2 nextj = polygon.At(j + 1);
 
 								if (IsReflex(prevj, onj, nextj))
 								{
@@ -374,9 +370,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <returns></returns>
 		private bool CanSee(Polygon polygon, int i, int j)
 		{
-			Vector2 prev = polygon.At(i - 1);
-			Vector2 on = polygon.At(i);
-			Vector2 next = polygon.At(i + 1);
+			Microsoft.Xna.Framework.Vector2 prev = polygon.At(i - 1);
+			Microsoft.Xna.Framework.Vector2 on = polygon.At(i);
+			Microsoft.Xna.Framework.Vector2 next = polygon.At(i + 1);
 
 			if (IsReflex(prev, on, next))
 			{
@@ -389,9 +385,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 					LeftOrOn(polygon.At(i), polygon.At(i - 1), polygon.At(j))) return false;
 			}
 
-			Vector2 prevj = polygon.At(j - 1);
-			Vector2 onj = polygon.At(j);
-			Vector2 nextj = polygon.At(j + 1);
+			Microsoft.Xna.Framework.Vector2 prevj = polygon.At(j - 1);
+			Microsoft.Xna.Framework.Vector2 onj = polygon.At(j);
+			Microsoft.Xna.Framework.Vector2 nextj = polygon.At(j + 1);
 
 			if (IsReflex(prevj, onj, nextj))
 			{
@@ -407,10 +403,10 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 			for (int k = 0; k < polygon.Count; ++k)
 			{
 				// YOGESH : changed from Line-Line intersection to Segment-Segment Intersection
-				Vector2 p1 = polygon.At(i);
-				Vector2 p2 = polygon.At(j);
-				Vector2 q1 = polygon.At(k);
-				Vector2 q2 = polygon.At(k + 1);
+				Microsoft.Xna.Framework.Vector2 p1 = polygon.At(i);
+				Microsoft.Xna.Framework.Vector2 p2 = polygon.At(j);
+				Microsoft.Xna.Framework.Vector2 q1 = polygon.At(k);
+				Microsoft.Xna.Framework.Vector2 q2 = polygon.At(k + 1);
 
 				// ignore incident edges
 				if (p1.Equals(q1) || p1.Equals(q2) || p2.Equals(q1) || p2.Equals(q2))
@@ -422,7 +418,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 					&& intersection.WithinFirstSegment
 					&& intersection.WithinSecondSegment)
 				{
-					Vector2 intPoint = intersection.IntersectionPoint;
+					Microsoft.Xna.Framework.Vector2 intPoint = intersection.IntersectionPoint;
 
 					// intPoint is not any of the j line then false, else continue. Intersection has to be interior to qualify s 'false' from here
 					if ((!intPoint.Equals(polygon.At(k))) || (!intPoint.Equals(polygon.At(k + 1))))
@@ -440,7 +436,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="on"></param>
 		/// <param name="next"></param>
 		/// <returns></returns>
-		private bool IsReflex(Vector2 prev, Vector2 on, Vector2 next)
+		private bool IsReflex(Microsoft.Xna.Framework.Vector2 prev, Microsoft.Xna.Framework.Vector2 on, Microsoft.Xna.Framework.Vector2 next)
 		{
 			// YOGESH: Added following condition of collinearity
 			if (LineAlgorithms.AreCollinear(prev, on, next))
@@ -456,7 +452,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="b"></param>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		private bool Left(Vector2 a, Vector2 b, Vector2 c)
+		private bool Left(Microsoft.Xna.Framework.Vector2 a, Microsoft.Xna.Framework.Vector2 b, Microsoft.Xna.Framework.Vector2 c)
 		{
 			return Winding(a, b, c) > 0;
 		}
@@ -468,7 +464,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="b"></param>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		private bool LeftOrOn(Vector2 a, Vector2 b, Vector2 c)
+		private bool LeftOrOn(Microsoft.Xna.Framework.Vector2 a, Microsoft.Xna.Framework.Vector2 b, Microsoft.Xna.Framework.Vector2 c)
 		{
 			return Winding(a, b, c) >= 0;
 		}
@@ -480,7 +476,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="b"></param>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		private bool Right(Vector2 a, Vector2 b, Vector2 c)
+		private bool Right(Microsoft.Xna.Framework.Vector2 a, Microsoft.Xna.Framework.Vector2 b, Microsoft.Xna.Framework.Vector2 c)
 		{
 			return Winding(a, b, c) < 0;
 		}
@@ -492,7 +488,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// <param name="b"></param>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		private bool RightOrOn(Vector2 a, Vector2 b, Vector2 c)
+		private bool RightOrOn(Microsoft.Xna.Framework.Vector2 a, Microsoft.Xna.Framework.Vector2 b, Microsoft.Xna.Framework.Vector2 c)
 		{
 			return Winding(a, b, c) <= 0;
 		}
@@ -510,9 +506,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 
 			for (int i = 0; i < polygon.Count; i++)
 			{
-				Vector2 prev = polygon.At(i - 1);
-				Vector2 current = polygon[i];
-				Vector2 next = polygon.At(i + 1);
+				Microsoft.Xna.Framework.Vector2 prev = polygon.At(i - 1);
+				Microsoft.Xna.Framework.Vector2 current = polygon[i];
+				Microsoft.Xna.Framework.Vector2 next = polygon.At(i + 1);
 
 				// Skip adding this point to the result if it is collinear with its neighbors.
 				if (LineAlgorithms.AreCollinear(prev, current, next))
@@ -529,7 +525,7 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
 		/// </summary>
 		/// <returns>Positive number if point is left, negative if point is right, 
 		/// and 0 if points are collinear.</returns>
-		private double Winding(Vector2 a, Vector2 b, Vector2 c)
+		private double Winding(Microsoft.Xna.Framework.Vector2 a, Microsoft.Xna.Framework.Vector2 b, Microsoft.Xna.Framework.Vector2 c)
 		{
 			return a.X * (b.Y - c.Y) + b.X * (c.Y - a.Y) + c.X * (a.Y - b.Y);
 		}

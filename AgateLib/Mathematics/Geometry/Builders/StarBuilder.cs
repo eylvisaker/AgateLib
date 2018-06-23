@@ -1,16 +1,16 @@
 ﻿//
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,12 +19,14 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
+
 using AgateLib.Mathematics.Geometry.Algorithms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.Mathematics.Geometry.Builders
 {
@@ -42,10 +44,10 @@ namespace AgateLib.Mathematics.Geometry.Builders
 		/// <param name="location"></param>
 		/// <param name="angle">The rotation angle for the star.</param>
 		/// <returns></returns>
-		public Polygon BuildStar(int pointCount, double size, double innerSize, Vector2 location = new Vector2(), double angle = 0)
+		public Polygon BuildStar(int pointCount, float size, float innerSize, Microsoft.Xna.Framework.Vector2 location = new Microsoft.Xna.Framework.Vector2(), float angle = 0)
 		{
 			var outerpoints = RegularShape(angle, pointCount, size);
-			var innerPoints = RegularShape(Math.PI / pointCount + angle, pointCount, innerSize);
+			var innerPoints = RegularShape((float)Math.PI / pointCount + angle, pointCount, innerSize);
 
 			var result = new Polygon();
 
@@ -58,15 +60,15 @@ namespace AgateLib.Mathematics.Geometry.Builders
 			return result.Translate(location);
 		}
 
-		private static Polygon RegularShape(double angle, int pointCount, double size)
+		private static Polygon RegularShape(float angle, int pointCount, float size)
 		{
-			double step = 2 * Math.PI / pointCount;
+			float step = 2 * (float)Math.PI / pointCount;
 
 			Polygon result = new Polygon();
 
 			for (int i = 0; i < pointCount; i++)
 			{
-				result.Add(Vector2.FromPolar(size, angle));
+				result.Add(Vector2X.FromPolar(size, angle));
 				angle += step;
 			}
 

@@ -1,16 +1,16 @@
 ﻿//
-//    Copyright (c) 2006-2017 Erik Ylvisaker
-//    
+//    Copyright (c) 2006-2018 Erik Ylvisaker
+//
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
 //    of this software and associated documentation files (the "Software"), to deal
 //    in the Software without restriction, including without limitation the rights
 //    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //    copies of the Software, and to permit persons to whom the Software is
 //    furnished to do so, subject to the following conditions:
-//    
+//
 //    The above copyright notice and this permission notice shall be included in all
 //    copies or substantial portions of the Software.
-//  
+//
 //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,6 +19,7 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace AgateLib.Collections.Generic
 	{
 		private int count;
 
-		class AscendingEnumerable<T> : IEnumerable<BinaryTreeNode<T>>
+		class AscendingEnumerable : IEnumerable<BinaryTreeNode<T>>
 		{
 			private BinaryTreeNode<T> root;
 
@@ -65,7 +66,7 @@ namespace AgateLib.Collections.Generic
 			}
 		}
 
-		class DescendingEnumerable<T> : IEnumerable<BinaryTreeNode<T>>
+		class DescendingEnumerable : IEnumerable<BinaryTreeNode<T>>
 		{
 			private BinaryTreeNode<T> root;
 
@@ -92,22 +93,19 @@ namespace AgateLib.Collections.Generic
 			}
 		}
 
-		class PseudoBinaryTreeNode<T> : IBinaryTreeNodeStructure<T>
+		class PseudoBinaryTreeNode : IBinaryTreeNodeStructure<T>
 		{
 			private BinaryTreeNode<T> right;
 
 			public BinaryTreeNode<T> Left
 			{
-				get { return null; }
-				set { throw new InvalidOperationException("The PseudoBinaryTreeNode should never have a left value."); }
+				get => null;
+				set => throw new InvalidOperationException("The PseudoBinaryTreeNode should never have a left value.");
 			}
 
 			public BinaryTreeNode<T> Right
 			{
-				get
-				{
-					return right;
-				}
+				get => right;
 				set
 				{
 					right = value;
@@ -189,19 +187,19 @@ namespace AgateLib.Collections.Generic
 		/// <summary>
 		/// Enumerates the items in the tree in an ascending order.
 		/// </summary>
-		public IEnumerable<BinaryTreeNode<T>> ItemsAscending => new AscendingEnumerable<T>(root);
+		public IEnumerable<BinaryTreeNode<T>> ItemsAscending => new AscendingEnumerable(root);
 
 		/// <summary>
 		/// Enumerates the items in the tree in a descending order.
 		/// </summary>
-		public IEnumerable<BinaryTreeNode<T>> ItemsDescending => new DescendingEnumerable<T>(root);
+		public IEnumerable<BinaryTreeNode<T>> ItemsDescending => new DescendingEnumerable(root);
 
 		/// <summary>
 		/// Returns the count of objects in the tree.
 		/// </summary>
 		public int Count
 		{
-			get { return count; }
+			get => count;
 			private set
 			{
 				Require.ArgumentInRange(value >= 0, nameof(Count), "Count must not be negative.");
@@ -339,7 +337,7 @@ namespace AgateLib.Collections.Generic
 		/// </remarks>
 		public void Balance()
 		{
-			var pseudoRoot = new PseudoBinaryTreeNode<T>();
+			var pseudoRoot = new PseudoBinaryTreeNode();
 			pseudoRoot.Right = root;
 
 			TreeToVine(pseudoRoot);
@@ -438,7 +436,7 @@ namespace AgateLib.Collections.Generic
 		public void Remove(BinaryTreeNode<T> node)
 		{
 			Require.ArgumentNotNull(node, nameof(node));
-			Require.True<InvalidOperationException>(node?.Owner == this, "Cannot remove a node which does not belong to this tree.");
+			Require.That<InvalidOperationException>(node?.Owner == this, "Cannot remove a node which does not belong to this tree.");
 
 			try
 			{
