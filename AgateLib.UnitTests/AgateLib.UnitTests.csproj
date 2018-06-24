@@ -212,6 +212,9 @@
     <Compile Include="MathematicsTests\Vector2ListTests.cs" />
     <Compile Include="MathematicsTests\Vector2XTests.cs" />
     <Compile Include="MathematicsTests\VectorTypeConverterTests.cs" />
+    <Compile Include="PhysicsTests\ConstraintTests\PointTouchConstraintTests.cs" />
+    <Compile Include="PhysicsTests\IntegratorTests.cs" />
+    <Compile Include="PhysicsTests\LinearAlgebraTests\GaussSeidelTests.cs" />
     <Compile Include="Scenes\SceneStackTest.cs" />
     <Compile Include="UserInterface\CommonMocks.cs" />
     <Compile Include="UserInterface\Content\LayoutTest.cs" />

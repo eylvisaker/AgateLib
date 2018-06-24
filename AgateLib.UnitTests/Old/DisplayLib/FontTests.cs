@@ -1,6 +1,6 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.Platform.Test.Display;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace AgateLib.UnitTests.DisplayLib
 {
