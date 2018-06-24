@@ -12,7 +12,7 @@ namespace ManualTests.AgateLib.Console
     {
         private Texture2D whiteTexture;
         private SpriteBatch spriteBatch;
-        private ErikConsole console;
+        private AgateConsole console;
         private Font font;
 
         private readonly List<Point> points = new List<Point>();
@@ -53,7 +53,7 @@ namespace ManualTests.AgateLib.Console
         {
             whiteTexture = resources.WhiteTexture;
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);
-            console = new ErikConsole(new ConsoleRenderer(resources.GraphicsDevice,
+            console = new AgateConsole(new ConsoleRenderer(resources.GraphicsDevice,
                 new ConsoleTextEngine(resources.Fonts)));
 
             font = new Font(resources.Fonts.Default);

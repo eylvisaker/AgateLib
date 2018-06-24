@@ -28,7 +28,7 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.Diagnostics.Consoles
 {
-    public class DebugOnlyConsole : IErikConsole
+    public class DebugOnlyConsole : IConsoleSetup
     {
         public bool IsActive => true;
 

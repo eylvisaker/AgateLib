@@ -35,7 +35,7 @@ namespace AgateLib.Diagnostics
         void WriteLine(string text);
     }
 
-    public interface IErikConsole : IConsole
+    public interface IConsoleSetup : IConsole
     {
         bool IsActive { get; }
 
@@ -47,7 +47,7 @@ namespace AgateLib.Diagnostics
     }
 
     [Singleton]
-    public class ErikConsole : IErikConsole
+    public class AgateConsole : IConsoleSetup
     {
         private readonly IConsoleRenderer renderer;
         private readonly ConsoleShell shell = new ConsoleShell();
@@ -56,7 +56,7 @@ namespace AgateLib.Diagnostics
 
         private bool suppressToggleKey;
 
-        public ErikConsole(IConsoleRenderer renderer)
+        public AgateConsole(IConsoleRenderer renderer)
         {
             this.renderer = renderer;
 
