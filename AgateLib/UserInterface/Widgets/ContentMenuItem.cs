@@ -29,7 +29,7 @@ using AgateLib.UserInterface.Content;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class ContentMenuItem : Widget
+    public class ContentMenuItem : RenderWidget
     {
         private string text;
         private IContentLayout content;

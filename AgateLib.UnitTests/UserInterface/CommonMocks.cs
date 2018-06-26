@@ -18,9 +18,9 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Mock<Widget> Widget(string name)
+        public static Mock<RenderWidget> Widget(string name)
         {
-            Mock<Widget> result = new Mock<Widget>(name);
+            Mock<RenderWidget> result = new Mock<RenderWidget>(name);
 
             result.CallBase = true;
 

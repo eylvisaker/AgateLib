@@ -37,14 +37,14 @@ namespace AgateLib.UserInterface.Styling.Themes
             state = new StyleConfiguratorState(themes) { Fonts = fontProvider };
         }
 
-        public void ApplyStyle(IWidget widget, string defaultTheme)
+        public void ApplyStyle(IRenderWidget widget, string defaultTheme)
         {
             state.DefaultTheme = defaultTheme;
 
             ApplyStyleCore(widget);
         }
 
-        private void ApplyStyleCore(IWidget widget)
+        private void ApplyStyleCore(IRenderWidget widget)
         { 
             try
             {
@@ -81,7 +81,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         private IThemeCollection themes;
 
         private Stack<string> widgetThemes = new Stack<string>();
-        private List<IWidget> parents = new List<IWidget>();
+        private List<IRenderWidget> parents = new List<IRenderWidget>();
 
         private IFontProvider fonts;
 
@@ -149,11 +149,11 @@ namespace AgateLib.UserInterface.Styling.Themes
         }
 
 
-        public IWidget Parent => parents.Count > 0 ? parents[parents.Count - 1] : null;
+        public IRenderWidget Parent => parents.Count > 0 ? parents[parents.Count - 1] : null;
 
         public string DefaultTheme { get; set; }
 
-        public void PushParent(IWidget widget)
+        public void PushParent(IRenderWidget widget)
         {
             parents.Add(widget);
         }

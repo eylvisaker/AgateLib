@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Event which is raised before each widget is updated.
         /// </summary>
-        event Action<IWidget> BeforeUpdate;
+        event Action<IRenderWidget> BeforeUpdate;
 
         /// <summary>
         /// Gets the graphics device.
@@ -101,21 +101,21 @@ namespace AgateLib.UserInterface.Widgets
         /// Updates all items in a collection.
         /// </summary>
         /// <param name="items"></param>
-        void Update(IEnumerable<IWidget> items);
+        void Update(IEnumerable<IRenderWidget> items);
 
         /// <summary>
         /// Draws a child widget of the current widget.
         /// </summary>
         /// <param name="contentDest"></param>
         /// <param name="child"></param>
-        void DrawChild(Point contentDest, IWidget child);
+        void DrawChild(Point contentDest, IRenderWidget child);
 
         /// <summary>
         /// Draws a collection of child widgets of the current widget.
         /// </summary>
         /// <param name="contentDest"></param>
         /// <param name="children"></param>
-        void DrawChildren(Point contentDest, IEnumerable<IWidget> children);
+        void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children);
 
         /// <summary>
         /// Prepares the render context for an update.
@@ -132,16 +132,16 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="renderTarget"></param>
         void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget);
 
-        void ApplyStyles(IEnumerable<IWidget> items, string defaultTheme);
+        void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme);
         
-        void DrawWorkspace(Workspace workspace, IEnumerable<IWidget> items);
+        void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items);
     }
 
     public class WidgetRenderContext : IWidgetRenderContext
     {
         private readonly ILocalizedContentLayoutEngine contentLayoutEngine;
 
-        private IWidget lastParentWidget;
+        private IRenderWidget lastParentWidget;
 
         private WidgetRenderContext parentRenderContext;
         bool workspaceIsActive;
@@ -188,7 +188,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Event that is raised before a widget is updated.
         /// </summary>
-        public event Action<IWidget> BeforeUpdate;
+        public event Action<IRenderWidget> BeforeUpdate;
 
         public GraphicsDevice GraphicsDevice { get; }
 
@@ -252,24 +252,27 @@ namespace AgateLib.UserInterface.Widgets
             set => workspaceIsActive = value;
         }
 
-        public void Update(IWidget widget)
+        public void Update(IRenderWidget widget)
         {
             UserInterfaceRenderer.UpdateAnimation(this, widget);
 
             BeforeUpdate?.Invoke(widget);
 
-            widget.Update(this);
+            ((IWidget)widget).Update(this);
+
         }
 
-        public void Update(IEnumerable<IWidget> items)
+        [Obsolete("Call Update on your own widgets.")]
+        public void Update(IEnumerable<IRenderWidget> items)
         {
+            // TODO: after rendering, call UserInterfaceRenderer.UpdateAnimation on each element.
             foreach (var item in items)
             {
                 Update(item);
             }
         }
 
-        public void DrawChild(Point parentContentDest, IWidget widget)
+        public void DrawChild(Point parentContentDest, IRenderWidget widget)
         {
             if (widget.Display.Animation.IsDoubleBuffered)
             {
@@ -302,7 +305,7 @@ namespace AgateLib.UserInterface.Widgets
             widget.ProcessEvent(eventArgs);
         }
 
-        public void DrawWorkspace(Workspace workspace, IEnumerable<IWidget> items)
+        public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)
         {
             WorkspaceIsActive = workspace.IsActive;
 
@@ -311,7 +314,7 @@ namespace AgateLib.UserInterface.Widgets
             EndWorkspace(workspace);
         }
 
-        public void DrawChildren(Point contentDest, IEnumerable<IWidget> children)
+        public void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children)
         {
             var oldParent = lastParentWidget;
 
@@ -345,7 +348,7 @@ namespace AgateLib.UserInterface.Widgets
             RenderTarget = renderTarget;
         }
 
-        public void ApplyStyles(IEnumerable<IWidget> items, string defaultTheme)
+        public void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme)
         {
             foreach (var item in items)
                 StyleConfigurator.ApplyStyle(item, defaultTheme);

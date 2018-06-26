@@ -194,6 +194,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ButtonPress.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ContentLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ContentMenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetChildren.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Instructions.cs" />

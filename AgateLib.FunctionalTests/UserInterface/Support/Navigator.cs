@@ -33,14 +33,16 @@ namespace AgateLib.FunctionalTests.UserInterface.Support
         {
             Desktop.ClearAnimations();
 
-            var menu = context.Desktop.ActiveWorkspace.ActiveWindow as Menu;
+            throw new NotImplementedException();
 
-            if (!gotoMethods.ContainsKey(menu.Layout.GetType()))
-                throw new InvalidOperationException($"Menu {menu.Name} has unsupported layout type: {menu.Layout.GetType().Name}");
+            //var menu = context.Desktop.ActiveWorkspace.ActiveWindow as Menu;
 
-            var method = gotoMethods[menu.Layout.GetType()];
+            //if (!gotoMethods.ContainsKey(menu.Layout.GetType()))
+            //    throw new InvalidOperationException($"Menu {menu.Name} has unsupported layout type: {menu.Layout.GetType().Name}");
 
-            method(menuItem);
+            //var method = gotoMethods[menu.Layout.GetType()];
+
+            //method(menuItem);
         }
 
         private void SingleColumnGoTo(string menuItem)
@@ -55,25 +57,27 @@ namespace AgateLib.FunctionalTests.UserInterface.Support
 
         private void NavigateListLayout(string menuItem, MenuInputButton nextButton, MenuInputButton prevButton)
         {
-            var menu = context.Desktop.ActiveWorkspace.ActiveWindow as Menu;
-            ListLayout layout = menu.Layout as ListLayout;
+            throw new NotImplementedException();
 
-            var target = layout.Items.SingleOrDefault(w => w.Name.Equals(menuItem, StringComparison.OrdinalIgnoreCase));
-            if (target == null)
-                throw new InvalidOperationException($"Could not find {menuItem} in {menu.Name}. Active workspace: {context.Desktop.ActiveWorkspace}");
+            //var menu = context.Desktop.ActiveWorkspace.ActiveWindow as Menu;
+            //ListLayout layout = menu.Layout as ListLayout;
 
-            var targetIndex = layout.IndexOf(target);
+            //var target = layout.Items.SingleOrDefault(w => w.Name.Equals(menuItem, StringComparison.OrdinalIgnoreCase));
+            //if (target == null)
+            //    throw new InvalidOperationException($"Could not find {menuItem} in {menu.Name}. Active workspace: {context.Desktop.ActiveWorkspace}");
 
-            while (targetIndex > layout.FocusIndex)
-            {
-                Desktop.ClearAnimations();
+            //var targetIndex = layout.IndexOf(target);
 
-                instructor.SendButtonPress(nextButton);
-            }
-            while (targetIndex < layout.FocusIndex)
-            {
-                instructor.SendButtonPress(prevButton);
-            }
+            //while (targetIndex > layout.FocusIndex)
+            //{
+            //    Desktop.ClearAnimations();
+
+            //    instructor.SendButtonPress(nextButton);
+            //}
+            //while (targetIndex < layout.FocusIndex)
+            //{
+            //    instructor.SendButtonPress(prevButton);
+            //}
         }
     }
 }

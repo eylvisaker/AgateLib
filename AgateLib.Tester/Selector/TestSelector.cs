@@ -46,7 +46,7 @@ namespace ManualTests.AgateLib.Selector
             
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);
 
-            var menu = new Menu();
+            var menu = new Menu(new MenuProps());
 
             foreach (var test in tests)
             {
@@ -133,7 +133,7 @@ namespace ManualTests.AgateLib.Selector
             throw new NotImplementedException();
         }
 
-        public void RegisterChildren(IWidget parent, IEnumerable<IWidget> children)
+        public void RegisterChildren(IRenderWidget parent, IEnumerable<IRenderWidget> children)
         {
             throw new NotImplementedException();
         }

@@ -41,9 +41,9 @@ namespace AgateLib.Fakes
 
         public Font Font { get; set; }
 
-        public event Action<IWidget> BeforeUpdate;
+        public event Action<IRenderWidget> BeforeUpdate;
 
-        public void ApplyStyles(IEnumerable<IWidget> items, string defaultTheme)
+        public void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme)
         {
         }
 
@@ -55,11 +55,11 @@ namespace AgateLib.Fakes
             });
         }
 
-        public void DrawChild(Point contentDest, IWidget child)
+        public void DrawChild(Point contentDest, IRenderWidget child)
         {
         }
 
-        public void DrawChildren(Point contentDest, IEnumerable<IWidget> children)
+        public void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children)
         {
         }
 
@@ -79,22 +79,24 @@ namespace AgateLib.Fakes
         {
         }
 
-        public void Update(IWidget widget)
+        public void Update(IRenderWidget widget)
         {
-            UserInterfaceRenderer?.UpdateAnimation(this, widget);
+            throw new NotImplementedException();
 
-            BeforeUpdate?.Invoke(widget);
+            //UserInterfaceRenderer?.UpdateAnimation(this, widget);
 
-            widget.Update(this);
+            //BeforeUpdate?.Invoke(widget);
+
+            //widget.Update(this);
         }
 
-        public void Update(IEnumerable<IWidget> items)
+        public void Update(IEnumerable<IRenderWidget> items)
         {
             foreach (var item in items)
                 Update(item);
         }
 
-        public void DrawWorkspace(Workspace workspace, IEnumerable<IWidget> items)
+        public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)
         {
         }
     }

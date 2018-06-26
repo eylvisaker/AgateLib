@@ -23,20 +23,22 @@ namespace AgateLib.FunctionalTests.UserInterface.Support.Initialization
 
         public void Initialize()
         {
-            var menu = new Menu();
+            throw new NotImplementedException();
 
-            var layout = new SingleColumnLayout();
+            //var menu = new Menu();
 
-            layout.AddMenuItem("Start", () => context.RecordEvent("Game Start"));
-            layout.AddMenuItem("Load", () => context.RecordEvent("Game Load"));
-            layout.AddMenuItem("Quit", () => context.RecordEvent("Game Quit"));
+            //var layout = new SingleColumnLayout();
 
-            menu.Layout = layout;
+            //layout.AddMenuItem("Start", () => context.RecordEvent("Game Start"));
+            //layout.AddMenuItem("Load", () => context.RecordEvent("Game Load"));
+            //layout.AddMenuItem("Quit", () => context.RecordEvent("Game Quit"));
 
-            var workspace = new Workspace("Default");
-            workspace.Layout.Add(menu);
+            //menu.Layout = layout;
 
-            context.Desktop.PushWorkspace(workspace);
+            //var workspace = new Workspace("Default");
+            //workspace.Layout.Add(menu);
+
+            //context.Desktop.PushWorkspace(workspace);
         }
 
         public void SetInventory(IEnumerable<Item> items)

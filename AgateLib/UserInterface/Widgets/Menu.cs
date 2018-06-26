@@ -36,15 +36,31 @@ using System.Linq;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class Menu : Window
+    public class MenuProps : WidgetProps
+    {
+        public IList<IWidget> Children { get; set; } = new List<IWidget>();
+
+        public IWidget InitialFocus { get; set; }
+    }
+
+    public class MenuState : WidgetState
+    {
+
+    }
+
+    public class Menu : Widget<MenuProps, MenuState>
     {
         /// <summary>
         /// Out of order! Fuck, even in the future nothing works.
         /// </summary>
         private bool cancelButton = false;
         private CancelEventArgs cancelEventArgs = new CancelEventArgs();
+        IWidgetLayout layout = new SingleColumnLayout();
 
-        public Menu(string name = "") : base(name) { }
+        public Menu(MenuProps props) : base(props)
+        {
+            SetState(new MenuState());
+        }
 
         public event Action Exit;
         public event Action<CancelEventArgs> Cancel;
@@ -67,30 +83,18 @@ namespace AgateLib.UserInterface.Widgets
             Cancel?.Invoke(eventArgs);
         }
 
-        [Obsolete("Set indicator at desktop level.", true)]
-        public IMenuIndicatorRenderer Indicator { get; set; }
-
-        public override void ProcessEvent(WidgetEventArgs args)
-        {
-            base.ProcessEvent(args);
-        }
-
-        protected override void OnFocusGained()
-        {
-            base.OnFocusGained();
-        }
-
         /// <summary>
         /// Adds an item to the menu.
         /// </summary>
         /// <param name="text"></param>
         /// <param name="action"></param>
+        [Obsolete("Pass children in props")]
         public void Add(string text, Action action)
         {
             var item = new ContentMenuItem { Text = text, Name = text };
             item.PressAccept += (sender, e) => action();
 
-            Layout.Add(item);
+            UpdateProps(p => p.Children.Add(item));
         }
 
         /// <summary>
@@ -103,10 +107,10 @@ namespace AgateLib.UserInterface.Widgets
             var item = new ContentMenuItem { Text = text, Name = name };
             item.PressAccept += (sender, e) => action();
 
-            Layout.Add(item);
+            UpdateProps(p => p.Children.Add(item));
         }
 
-        protected override void OnButtonUp(MenuInputButton button)
+        protected void OnButtonUp(MenuInputButton button)
         {
             switch (button)
             {
@@ -132,11 +136,18 @@ namespace AgateLib.UserInterface.Widgets
         {
             base.Update(renderContext);
 
-            if (Layout.Focus == null && Layout.Count > 0)
-                Layout.Focus = Layout.First();
+            throw new NotImplementedException();
+            //if (Layout.Focus == null && Layout.Count > 0)
+            //    Layout.Focus = Layout.First();
         }
 
-        protected override void OnButtonDown(MenuInputButton button)
+        public override IRenderElement Render()
+        {
+            layout.SetChildren(Props.Children.Select(c => c.Render()));
+            return layout;
+        }
+
+        protected void OnButtonDown(MenuInputButton button)
         {
             switch (button)
             {
@@ -144,27 +155,6 @@ namespace AgateLib.UserInterface.Widgets
                     cancelButton = true;
                     break;
             }
-
-            base.OnButtonDown(button);
-        }
-
-        public override void Draw(
-            IWidgetRenderContext renderContext,
-            Point clientDest)
-        {
-            foreach (var child in Layout.Items)
-            {
-                if (child == Layout.Focus)
-                {
-                    child.Display.Styles.SetActiveStyle("selected");
-                }
-                else
-                {
-                    child.Display.Styles.SetActiveStyle("");
-                }
-            }
-
-            renderContext.DrawChildren(clientDest, Layout.Items);
         }
     }
 }

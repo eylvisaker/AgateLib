@@ -79,7 +79,7 @@ namespace AgateLib.UserInterface
             exited.Should().BeTrue();
         }
 
-        private Workspace CreateWorkspace(string workspaceName, params Widget[] contents)
+        private Workspace CreateWorkspace(string workspaceName, params RenderWidget[] contents)
         {
             var result = new Workspace(workspaceName);
 

@@ -35,13 +35,13 @@ namespace AgateLib.UserInterface.Layout
 {
     public class AnchoredLayout : IWidgetLayout
     {
-        List<IWidget> items = new List<IWidget>();
+        List<IRenderWidget> items = new List<IRenderWidget>();
 
         int focusIndex = -1;
 
         public event WidgetEventHandler WidgetAdded;
 
-        public IWidget Focus
+        public IRenderWidget Focus
         {
             get => focusIndex >= 0 ? items[focusIndex] : null;
             set
@@ -60,9 +60,9 @@ namespace AgateLib.UserInterface.Layout
 
         public OriginAlignment Anchor { get; set; } = OriginAlignment.Center;
 
-        public IEnumerable<IWidget> Items => items;
+        public IEnumerable<IRenderWidget> Items => items;
 
-        public void Add(IWidget widget)
+        public void Add(IRenderWidget widget)
         {
             Require.ArgumentNotNull(widget, nameof(widget));
 
@@ -102,8 +102,20 @@ namespace AgateLib.UserInterface.Layout
 
         public int Count => items.Count;
 
-        bool ICollection<IWidget>.IsReadOnly => false;
-        
+        IEnumerable<IRenderElement> IWidgetLayout.Items => throw new NotImplementedException();
+
+        public WidgetDisplay Display => throw new NotImplementedException();
+
+        public IWidgetChildren Children => throw new NotImplementedException();
+
+        IRenderElement IRenderElement.Focus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public string StyleTypeIdentifier => throw new NotImplementedException();
+
+        public string Name => throw new NotImplementedException();
+
+        public bool CanHaveFocus => throw new NotImplementedException();
+
         public Size ComputeIdealSize(Size maxSize, IWidgetRenderContext renderContext)
         {
             foreach (var item in Items)
@@ -171,15 +183,38 @@ namespace AgateLib.UserInterface.Layout
                 item.Display.HasFocus = item == focusWidget;
         }
 
-        public bool Contains(IWidget item) => items.Contains(item);
+        public bool Contains(IRenderWidget item) => items.Contains(item);
 
-        public void CopyTo(IWidget[] array, int arrayIndex)
+        public void CopyTo(IRenderWidget[] array, int arrayIndex)
             => items.CopyTo(array, arrayIndex);
 
-        public bool Remove(IWidget item) => items.Remove(item);
+        public bool Remove(IRenderWidget item) => items.Remove(item);
 
-        public IEnumerator<IWidget> GetEnumerator() => items.GetEnumerator();
+        public IEnumerator<IRenderWidget> GetEnumerator() => items.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public void SetChildren(IEnumerable<IRenderElement> enumerable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Draw(IWidgetRenderContext renderContext, Point offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(IWidgetRenderContext renderContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ProcessEvent(WidgetEventArgs widgetEventArgs)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

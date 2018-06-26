@@ -28,7 +28,7 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class Label : Widget, IWidget
+    public class Label : RenderWidget, IRenderWidget
     {
         public string Text { get; set; }
 

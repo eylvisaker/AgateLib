@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Rendering
         /// </summary>
         /// <param name="renderContext"></param>
         /// <param name="widget"></param>
-        void UpdateAnimation(IWidgetRenderContext renderContext, IWidget widget);
+        void UpdateAnimation(IWidgetRenderContext renderContext, IRenderWidget widget);
 
         /// <summary>
         /// Draws the background of a widget.
@@ -158,7 +158,7 @@ namespace AgateLib.UserInterface.Rendering
                 borderScale);
         }
 
-        public void UpdateAnimation(IWidgetRenderContext renderContext, IWidget widget)
+        public void UpdateAnimation(IWidgetRenderContext renderContext, IRenderWidget widget)
         {
             var animator = widget.Display.Animation;
 
@@ -172,7 +172,7 @@ namespace AgateLib.UserInterface.Rendering
             }
         }
 
-        private void AdvanceTransitionState(IWidget widget)
+        private void AdvanceTransitionState(IRenderWidget widget)
         {
             var animator = widget.Display.Animation;
 
@@ -194,7 +194,7 @@ namespace AgateLib.UserInterface.Rendering
             SetTransition(widget);
         }
 
-        private void SetTransition(IWidget widget)
+        private void SetTransition(IRenderWidget widget)
         {
             var animator = widget.Display.Animation;
             var style = widget.Display.Style.Animation;

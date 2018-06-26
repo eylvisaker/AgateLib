@@ -14,86 +14,90 @@ namespace AgateLib.UserInterface.Layout
         [Fact]
         public void Layout_FirstItemHasFocus()
         {
-            WidgetLayout.Clear();
+            throw new NotImplementedException();
 
-            WidgetLayout.Focus.Should().BeNull();
+            //WidgetLayout.Clear();
 
-            var widget = CommonMocks.Widget("widget").Object;
+            //WidgetLayout.Focus.Should().BeNull();
 
-            WidgetLayout.Add(widget);
-            WidgetLayout.Focus.Should().Be(widget);
+            //var widget = CommonMocks.Widget("widget").Object;
+
+            //WidgetLayout.Add(widget);
+            //WidgetLayout.Focus.Should().Be(widget);
         }
 
-        [Fact]
-        public void Layout_WidgetAddedEvent()
+        //[Fact]
+        //public void Layout_WidgetAddedEvent()
+        //{
+        //    var widgetsAdded = new List<IRenderWidget>();
+        //    var widgetsCreated = new List<IRenderWidget>();
+
+        //    WidgetLayout.WidgetAdded += w => widgetsAdded.Add(w);
+
+        //    for (int i = 0; i < 10; i++)
+        //    {
+        //        var widget = CommonMocks.Widget("test" + i).Object;
+
+        //        widgetsCreated.Add(widget);
+        //        WidgetLayout.Add(widget);
+        //    }
+
+        //    widgetsAdded.Should().BeEquivalentTo(widgetsCreated);
+        //}
+
+        //[Fact]
+        //public void Layout_SetsDisplayHasFocus()
+        //{
+        //    var widgetsCreated = new List<IRenderWidget>();
+
+        //    for (int i = 0; i < 10; i++)
+        //    {
+        //        var widget = CommonMocks.Widget("test" + i).Object;
+
+        //        widgetsCreated.Add(widget);
+        //        WidgetLayout.Add(widget);
+        //    }
+
+        //    for (int j = 0; j < 10; j++)
+        //    {
+        //        WidgetLayout.Focus = widgetsCreated[j];
+
+        //        FocusShouldBe(widgetsCreated[j]);
+
+        //        for (int i = 0; i < 10; i++)
+        //        {
+        //            if (i == j)
+        //                widgetsCreated[i].Display.HasFocus.Should().BeTrue($"item {i} should be told that it has focus");
+        //            else
+        //                widgetsCreated[i].Display.HasFocus.Should().BeFalse(
+        //                    $"after setting item {j} to have focus, item {i} should be marked as not having focus");
+        //        }
+        //    }
+        //}
+
+        protected void FocusShouldBe(IRenderWidget widget)
         {
-            var widgetsAdded = new List<IWidget>();
-            var widgetsCreated = new List<IWidget>();
+            throw new NotImplementedException();
 
-            WidgetLayout.WidgetAdded += w => widgetsAdded.Add(w);
+            //bool found = false;
 
-            for (int i = 0; i < 10; i++)
-            {
-                var widget = CommonMocks.Widget("test" + i).Object;
+            //WidgetLayout.Focus.Should().Be(widget);
 
-                widgetsCreated.Add(widget);
-                WidgetLayout.Add(widget);
-            }
+            //foreach (var item in WidgetLayout)
+            //{
+            //    found |= item == widget;
 
-            widgetsAdded.Should().BeEquivalentTo(widgetsCreated);
-        }
+            //    item.Display.HasFocus.Should().Be(item == widget);
+            //}
 
-        [Fact]
-        public void Layout_SetsDisplayHasFocus()
-        {
-            var widgetsCreated = new List<IWidget>();
-
-            for (int i = 0; i < 10; i++)
-            {
-                var widget = CommonMocks.Widget("test" + i).Object;
-
-                widgetsCreated.Add(widget);
-                WidgetLayout.Add(widget);
-            }
-
-            for (int j = 0; j < 10; j++)
-            {
-                WidgetLayout.Focus = widgetsCreated[j];
-
-                FocusShouldBe(widgetsCreated[j]);
-
-                for (int i = 0; i < 10; i++)
-                {
-                    if (i == j)
-                        widgetsCreated[i].Display.HasFocus.Should().BeTrue($"item {i} should be told that it has focus");
-                    else
-                        widgetsCreated[i].Display.HasFocus.Should().BeFalse(
-                            $"after setting item {j} to have focus, item {i} should be marked as not having focus");
-                }
-            }
-        }
-
-        protected void FocusShouldBe(IWidget widget)
-        {
-            bool found = false;
-
-            WidgetLayout.Focus.Should().Be(widget);
-
-            foreach (var item in WidgetLayout)
-            {
-                found |= item == widget;
-
-                item.Display.HasFocus.Should().Be(item == widget);
-            }
-
-            if (widget != null)
-            {
-                found.Should().BeTrue("the widget should be part of the layout");
-            }
-            else
-            {
-                found.Should().BeFalse("null should not be part of the layout");
-            }
+            //if (widget != null)
+            //{
+            //    found.Should().BeTrue("the widget should be part of the layout");
+            //}
+            //else
+            //{
+            //    found.Should().BeFalse("null should not be part of the layout");
+            //}
         }
 
         protected abstract IWidgetLayout WidgetLayout { get; }

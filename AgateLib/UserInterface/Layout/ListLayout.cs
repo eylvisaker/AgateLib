@@ -27,10 +27,11 @@ using System.Text;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 using AgateLib.UserInterface.Widgets;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Layout
 {
-    public interface IListLayout : IWidgetLayout, IList<IWidget>
+    public interface IListLayout : IWidgetLayout, IList<IRenderWidget>
     {
         event EventHandler FocusChanged;
 
@@ -49,11 +50,11 @@ namespace AgateLib.UserInterface.Layout
 
         public event EventHandler FocusChanged;
 
-        protected List<IWidget> items { get; private set; } = new List<IWidget>();
+        protected List<IRenderElement> items { get; private set; } = new List<IRenderElement>();
 
         public int Count => items.Count;
 
-        public IWidget Focus
+        public IRenderElement Focus
         {
             get
             {
@@ -92,13 +93,26 @@ namespace AgateLib.UserInterface.Layout
             }
         }
 
-        public WidgetRegion FocusLayout => Focus?.Display.Region;
+        bool ICollection<IRenderWidget>.IsReadOnly => false;
 
-        public IEnumerable<IWidget> Items => items;
-        
-        bool ICollection<IWidget>.IsReadOnly => false;
+        IEnumerable<IRenderElement> IWidgetLayout.Items => throw new NotImplementedException();
 
-        public IWidget this[int index]
+        public bool IsReadOnly => throw new NotImplementedException();
+
+        public WidgetDisplay Display => throw new NotImplementedException();
+
+        public string StyleTypeIdentifier => throw new NotImplementedException();
+
+        public string Name => throw new NotImplementedException();
+
+        public bool CanHaveFocus => throw new NotImplementedException();
+
+        public IWidgetChildren Children => throw new NotImplementedException();
+
+        IRenderElement IRenderElement.Focus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        IRenderWidget IList<IRenderWidget>.this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IRenderElement this[int index]
         {
             get => items[index];
             set => items[index] = value 
@@ -111,7 +125,7 @@ namespace AgateLib.UserInterface.Layout
             layoutDirty = true;
         }
 
-        public void Add(IWidget widget)
+        public void Add(IRenderWidget widget)
         {
             if (widget == null)
                 throw new ArgumentNullException(nameof(widget));
@@ -126,7 +140,7 @@ namespace AgateLib.UserInterface.Layout
             OnWidgetAdded(widget);
         }
 
-        public bool Remove(IWidget widget)
+        public bool Remove(IRenderWidget widget)
         {
             var result = items.Remove(widget);
 
@@ -136,10 +150,7 @@ namespace AgateLib.UserInterface.Layout
         }
 
         public virtual void Initialize()
-        {
-            foreach (var item in Items)
-                item.Initialize();
-        }
+        { }
 
         public abstract Size ComputeIdealSize(Size maxSize, IWidgetRenderContext renderContext);
 
@@ -147,12 +158,12 @@ namespace AgateLib.UserInterface.Layout
 
         public abstract void ApplyLayout(Size size, IWidgetRenderContext renderContext);
 
-        public int IndexOf(IWidget item)
+        public int IndexOf(IRenderWidget item)
         {
             return items.IndexOf(item);
         }
 
-        public void Insert(int index, IWidget widget)
+        public void Insert(int index, IRenderWidget widget)
         {
             if (widget == null)
                 throw new ArgumentNullException(nameof(widget));
@@ -167,19 +178,19 @@ namespace AgateLib.UserInterface.Layout
             items.RemoveAt(index);
         }
 
-        public bool Contains(IWidget item)
+        public bool Contains(IRenderWidget item)
         {
             return items.Contains(item);
         }
 
-        void ICollection<IWidget>.CopyTo(IWidget[] array, int arrayIndex)
+        void ICollection<IRenderWidget>.CopyTo(IRenderWidget[] array, int arrayIndex)
         {
             items.CopyTo(array, arrayIndex);
         }
 
-        public IEnumerator<IWidget> GetEnumerator()
+        public IEnumerator<IRenderWidget> GetEnumerator()
         {
-            return items.GetEnumerator();
+            throw new NotImplementedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -187,9 +198,55 @@ namespace AgateLib.UserInterface.Layout
             return GetEnumerator();
         }
 
-        protected virtual void OnWidgetAdded(IWidget widget)
+        protected virtual void OnWidgetAdded(IRenderWidget widget)
         {
             WidgetAdded?.Invoke(widget);
+        }
+
+        public void SetChildren(IEnumerable<IRenderElement> children)
+        {
+            items.Clear();
+            items.AddRange(children);
+        }
+
+        public void Add(IRenderElement item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(IRenderElement item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(IRenderElement[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(IRenderElement item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Draw(IWidgetRenderContext renderContext, Point offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(IWidgetRenderContext renderContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ProcessEvent(WidgetEventArgs widgetEventArgs)
+        {
+            throw new NotImplementedException();
         }
     }
 }

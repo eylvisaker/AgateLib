@@ -85,7 +85,8 @@ namespace AgateLib.FunctionalTests.UserInterface.Steps
         {
             var menu = context.ActiveWindow as Menu;
 
-            menu.Layout.Focus.Name.Should().BeEquivalentTo(menuItemName);
+            throw new NotImplementedException();
+            //menu.Layout.Focus.Name.Should().BeEquivalentTo(menuItemName);
         }
 
         [Then(@"(.*) is healed")]

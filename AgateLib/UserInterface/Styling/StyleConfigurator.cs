@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Styling
         /// </summary>
         /// <param name="widget"></param>
         /// <param name="defaultTheme"></param>
-		void ApplyStyle(IWidget widget, string defaultTheme);
+		void ApplyStyle(IRenderWidget widget, string defaultTheme);
 	}
 
 }

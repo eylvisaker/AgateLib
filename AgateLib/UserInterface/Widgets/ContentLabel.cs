@@ -29,7 +29,7 @@ using AgateLib.UserInterface.Content;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class ContentLabel : Widget
+    public class ContentLabel : RenderWidget
     {
         private readonly IContentLayoutEngine layoutEngine;
         private readonly ITextRepository textRepo;

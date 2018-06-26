@@ -31,84 +31,112 @@ namespace AgateLib.UserInterface.Widgets
 {
     public interface IWidget
     {
-        /// <summary>
-        /// Gets the widget display object that contains all the data needed to
-        /// render styling and animation of the widget on screen.
-        /// </summary>
-        WidgetDisplay Display { get; }
-
-        /// <summary>
-        /// Gets a read-only collection of children of this widget.
-        /// </summary>
-        IWidgetChildren Children { get; }
-
-        /// <summary>
-        /// Gets the type identifier used to identify this widget type to the styling
-        /// engine.
-        /// </summary>
-        string StyleTypeIdentifier { get; }
-
-        /// <summary>
-        /// Gets the name of the widget.
-        /// </summary>
         string Name { get; }
 
         /// <summary>
-        /// Gets whether or not the widget can receive input focus.
+        /// Renders the widget by producing an IRenderComponent object.
         /// </summary>
-        bool CanHaveFocus { get; }
+        /// <returns></returns>
+        IRenderElement Render();
 
-        /// <summary>
-        /// Gets or sets a data object which you can use for any purpose you desire.
-        /// </summary>
-        object Tag { get; set; }
-
-        /// <summary>
-        /// Gets the child of this widget that has focus.
-        /// </summary>
-        IWidget Focus { get; }
-
-        /// <summary>
-        /// Called when the UI is first pulled up.
-        /// </summary>
         void Initialize();
 
-        /// <summary>
-        /// Draws the content of the widget.
-        /// To draw children, call <c >renderContext.DrawChildren</c>.
-        /// </summary>
-        /// <param name="renderContext"></param>
-        /// <param name="offset"></param>
-        void Draw(IWidgetRenderContext renderContext, Point offset);
-
-        /// <summary>
-        /// Updates the widget.
-        /// </summary>
-        /// <param name="renderContext"></param>
         void Update(IWidgetRenderContext renderContext);
-
-        /// <summary>
-        /// Compute the ideal size of the content of the widget.
-        /// </summary>
-        /// <param name="renderContext"></param>
-        /// <param name="maxSize"></param>
-        /// <returns></returns>
-        Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize);
-        
-        /// <summary>
-        /// Called when the widget receives an input event.
-        /// </summary>
-        /// <param name="widgetEventArgs"></param>
-        void ProcessEvent(WidgetEventArgs widgetEventArgs);
     }
 
-    public abstract class Widget : IWidget
+    [Obsolete]
+    public interface IRenderWidget : IWidget, IRenderElement
+    {
+    }
+
+    public class WidgetProps
+    {
+        public string Name { get; set; }
+        public IReadOnlyList<IWidget> Children { get; set; }
+    }
+
+    public class WidgetState
+    {
+        public bool IsDirty { get; protected set; }
+    }
+
+    public abstract class Widget<TProps, TState> : IWidget
+        where TProps : WidgetProps where TState : WidgetState
+    {
+        private TProps props;
+
+        public Widget(TProps props)
+        {
+            this.props = props;
+        }
+
+        #region --- Props Management ---
+
+        /// <summary>
+        /// Read-only props. Do not modify props, instead call SetProps method.
+        /// Props should not be modified within a widget, instead they should
+        /// only be updated by the widget's owner.
+        /// </summary>
+        protected TProps Props => props;
+
+        public void SetProps(TProps props)
+        {
+            this.props = props;
+        }
+
+        public void UpdateProps(Action<TProps> propsUpdater)
+        {
+            propsUpdater(props);
+        }
+
+        #endregion
+        #region --- State Management ---
+
+        private TState state;
+
+        protected TState State => state;
+
+        protected void ReplaceState(Func<TState, TState> stateMutator)
+        {
+            SetState(stateMutator(state));
+        }
+        protected void UpdateState(Action<TState> stateMutator)
+        {
+            stateMutator(state);
+        }
+
+        protected void SetState(TState newState)
+        {
+            this.state = newState;
+
+            NeedsRender = true;
+        }
+
+        internal bool NeedsRender { get; private set; }
+
+        #endregion
+
+        public string Name => props.Name;
+
+        public virtual void Initialize()
+        {
+        }
+
+        public abstract IRenderElement Render();
+
+        public virtual void Update(IWidgetRenderContext renderContext)
+        {
+        }
+    }
+
+    [Obsolete]
+    public abstract class RenderWidget : IRenderWidget
     {
         /// <summary>
         /// Initializes a widget and sets its name.
         /// </summary>
         /// <param name="name">If name is null, it is replaced by the empty string.</param>
-        protected Widget(string name = "")
+        protected RenderWidget(string name = "")
         {
             Name = name ?? "";
         }
@@ -138,7 +166,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the child of this widget that has focus.
         /// </summary>
-        public virtual IWidget Focus
+        public virtual IRenderWidget Focus
         {
             get => Children?.Focus;
             set => throw new InvalidOperationException();
@@ -148,13 +176,14 @@ namespace AgateLib.UserInterface.Widgets
 
         protected virtual string StyleTypeIdentifier => GetType().Name;
 
-        string IWidget.StyleTypeIdentifier => StyleTypeIdentifier;
+        string IRenderElement.StyleTypeIdentifier => StyleTypeIdentifier;
 
         #endregion
 
         public virtual bool CanHaveFocus => false;
 
         public object Tag { get; set; }
+        IRenderElement IRenderElement.Focus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
         /// Compute the ideal size of the content of the widget.
@@ -171,7 +200,7 @@ namespace AgateLib.UserInterface.Widgets
         public abstract void Update(IWidgetRenderContext renderContext);
 
         public virtual void Initialize() { }
-        
+
         public virtual void ProcessEvent(WidgetEventArgs widgetEventArgs)
         {
             switch (widgetEventArgs.EventType)
@@ -227,6 +256,11 @@ namespace AgateLib.UserInterface.Widgets
         {
             return $"{GetType().Name}: {Name}";
         }
+
+        public virtual IRenderElement Render()
+        {
+            return this;
+        }
     }
 
     public static class WidgetExtensions
@@ -237,7 +271,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="widget"></param>
         /// <param name="renderContext"></param>
         /// <param name="parentMaxSize"></param>
-        public static Size RecalculateSize(this IWidget widget, IWidgetRenderContext renderContext, Size parentMaxSize)
+        public static Size RecalculateSize(this IRenderElement widget, IWidgetRenderContext renderContext, Size parentMaxSize)
         {
             widget.Display.Region.Size.ParentMaxSize = parentMaxSize;
 
@@ -254,7 +288,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="owner"></param>
         /// <param name="renderContext"></param>
         /// <param name="parentMaxSize"></param>
-        public static Size RecalculateSize(this IWidgetLayout layout, IWidget owner, IWidgetRenderContext renderContext, Size parentMaxSize)
+        public static Size RecalculateSize(this IWidgetLayout layout, IRenderElement owner, IWidgetRenderContext renderContext, Size parentMaxSize)
         {
             owner.Display.Region.Size.ParentMaxSize = parentMaxSize;
 

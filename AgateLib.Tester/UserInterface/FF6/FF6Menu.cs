@@ -64,141 +64,145 @@ namespace ManualTests.AgateLib.UserInterface.FF6
 
         private void InitializeRelicMenu(Workspace workspace)
         {
-            var relicMenu = new Menu("Relic");
-            var slotsMenu = new Menu("Slots");
-            var itemsMenu = new Menu("Items");
+            throw new NotImplementedException();
 
-            Action<string> slotsFollowUp = null;
+            //var relicMenu = new Menu("Relic");
+            //var slotsMenu = new Menu("Slots");
+            //var itemsMenu = new Menu("Items");
 
-            void EquipMenuFor(string location)
-            {
-                workspace.ActivateWindow("Items");
+            //Action<string> slotsFollowUp = null;
 
-                itemsMenu.Layout.Clear();
+            //void EquipMenuFor(string location)
+            //{
+            //    workspace.ActivateWindow("Items");
 
-                foreach (var item in Model.Inventory)
-                {
-                    itemsMenu.Add(item.Name, () => Model.EquipPC(selectedPC, item, location));
-                }
-            }
+            //    itemsMenu.Layout.Clear();
 
-            relicMenu.Add("Equip", () =>
-            {
-                slotsFollowUp = EquipMenuFor;
-                workspace.ActivateWindow(slotsMenu);
-            });
+            //    foreach (var item in Model.Inventory)
+            //    {
+            //        itemsMenu.Add(item.Name, () => Model.EquipPC(selectedPC, item, location));
+            //    }
+            //}
 
-            relicMenu.Add("Remove", () =>
-            {
-                slotsFollowUp = location =>
-                {
-                    Model.EquipPC(selectedPC, null, location);
-                };
-                workspace.ActivateWindow(slotsMenu);
-            });
+            //relicMenu.Add("Equip", () =>
+            //{
+            //    slotsFollowUp = EquipMenuFor;
+            //    workspace.ActivateWindow(slotsMenu);
+            //});
 
-            slotsMenu.Add("Relic 1", "Relic", () => slotsFollowUp("Relic 1"));
-            slotsMenu.Add("Relic 2", "Relic", () => slotsFollowUp("Relic 2"));
+            //relicMenu.Add("Remove", () =>
+            //{
+            //    slotsFollowUp = location =>
+            //    {
+            //        Model.EquipPC(selectedPC, null, location);
+            //    };
+            //    workspace.ActivateWindow(slotsMenu);
+            //});
 
-            var layout = new FixedGridLayout(2, 6);
+            //slotsMenu.Add("Relic 1", "Relic", () => slotsFollowUp("Relic 1"));
+            //slotsMenu.Add("Relic 2", "Relic", () => slotsFollowUp("Relic 2"));
 
-            layout.Add(relicMenu, new Rectangle(0, 0, 2, 1));
-            layout.Add(slotsMenu, new Rectangle(0, 1, 2, 2));
-            layout.Add(itemsMenu, new Rectangle(0, 3, 1, 3));
+            //var layout = new FixedGridLayout(2, 6);
 
-            workspace.Layout = layout;
+            //layout.Add(relicMenu, new Rectangle(0, 0, 2, 1));
+            //layout.Add(slotsMenu, new Rectangle(0, 1, 2, 2));
+            //layout.Add(itemsMenu, new Rectangle(0, 3, 1, 3));
+
+            //workspace.Layout = layout;
         }
 
         private void InitializeEquipMenu(Workspace workspace)
         {
-            var equipMenu = new Menu("Equip") { LayoutType = LayoutType.SingleRow };
-            var slotsMenu = new Menu("Slots");
-            var itemsMenu = new Menu("Items");
+            throw new NotImplementedException();
 
-            Action<string> slotsFollowUp = null;
+            //var equipMenu = new Menu("Equip") { LayoutType = LayoutType.SingleRow };
+            //var slotsMenu = new Menu("Slots");
+            //var itemsMenu = new Menu("Items");
 
-            void EquipMenuFor(string location)
-            {
-                workspace.ActivateWindow("Items");
+            //Action<string> slotsFollowUp = null;
 
-                itemsMenu.Layout.Clear();
+            //void EquipMenuFor(string location)
+            //{
+            //    workspace.ActivateWindow("Items");
 
-                foreach (var item in Model.ItemsForSlot(selectedPC, location))
-                {
-                    itemsMenu.Add(item.Name, () =>
-                    {
-                        Model.EquipPC(selectedPC, item, location);
-                        workspace.ActivateWindow("Slots");
+            //    itemsMenu.Layout.Clear();
 
-                        UpdateEquipmentSlots();
+            //    foreach (var item in Model.ItemsForSlot(selectedPC, location))
+            //    {
+            //        itemsMenu.Add(item.Name, () =>
+            //        {
+            //            Model.EquipPC(selectedPC, item, location);
+            //            workspace.ActivateWindow("Slots");
 
-                        itemsMenu.Layout.Clear();
-                    });
-                }
-            }
+            //            UpdateEquipmentSlots();
 
-            equipMenu.Add("Equip", () =>
-            {
-                slotsFollowUp = EquipMenuFor;
-                workspace.ActivateWindow("Slots");
+            //            itemsMenu.Layout.Clear();
+            //        });
+            //    }
+            //}
 
-                UpdateEquipmentSlots();
-            });
+            //equipMenu.Add("Equip", () =>
+            //{
+            //    slotsFollowUp = EquipMenuFor;
+            //    workspace.ActivateWindow("Slots");
 
-            equipMenu.Add("Optimum", () =>
-            {
-                Model.EquipPC(selectedPC, BestItem("L-Hand"), "L-Hand");
-                Model.EquipPC(selectedPC, BestItem("R-Hand"), "R-Hand");
-                Model.EquipPC(selectedPC, BestItem("Head"), "Head");
-                Model.EquipPC(selectedPC, BestItem("Body"), "Body");
+            //    UpdateEquipmentSlots();
+            //});
 
-                UpdateEquipmentSlots();
-            });
+            //equipMenu.Add("Optimum", () =>
+            //{
+            //    Model.EquipPC(selectedPC, BestItem("L-Hand"), "L-Hand");
+            //    Model.EquipPC(selectedPC, BestItem("R-Hand"), "R-Hand");
+            //    Model.EquipPC(selectedPC, BestItem("Head"), "Head");
+            //    Model.EquipPC(selectedPC, BestItem("Body"), "Body");
 
-            equipMenu.Add("Remove", () =>
-            {
-                slotsFollowUp = location =>
-                {
-                    Model.EquipPC(selectedPC, null, location);
+            //    UpdateEquipmentSlots();
+            //});
 
-                    UpdateEquipmentSlots();
-                };
+            //equipMenu.Add("Remove", () =>
+            //{
+            //    slotsFollowUp = location =>
+            //    {
+            //        Model.EquipPC(selectedPC, null, location);
 
-                workspace.ActivateWindow("Slots");
-            });
+            //        UpdateEquipmentSlots();
+            //    };
 
-            equipMenu.Add("Empty", () =>
-            {
-                Model.EquipPC(selectedPC, null, "L-Hand");
-                Model.EquipPC(selectedPC, null, "R-Hand");
-                Model.EquipPC(selectedPC, null, "Head");
-                Model.EquipPC(selectedPC, null, "Body");
+            //    workspace.ActivateWindow("Slots");
+            //});
 
-                UpdateEquipmentSlots();
-            });
+            //equipMenu.Add("Empty", () =>
+            //{
+            //    Model.EquipPC(selectedPC, null, "L-Hand");
+            //    Model.EquipPC(selectedPC, null, "R-Hand");
+            //    Model.EquipPC(selectedPC, null, "Head");
+            //    Model.EquipPC(selectedPC, null, "Body");
 
-            equipMenu.Exit += () => desktop.PopWorkspace();
+            //    UpdateEquipmentSlots();
+            //});
 
-            slotsMenu.Add("L-Hand", () => slotsFollowUp("L-Hand"));
-            slotsMenu.Add("R-Hand", () => slotsFollowUp("R-Hand"));
-            slotsMenu.Add("Head", () => slotsFollowUp("Head"));
-            slotsMenu.Add("Body", () => slotsFollowUp("Body"));
+            //equipMenu.Exit += () => desktop.PopWorkspace();
 
-            slotsMenu.Exit += () => workspace.ActivateWindow(equipMenu);
+            //slotsMenu.Add("L-Hand", () => slotsFollowUp("L-Hand"));
+            //slotsMenu.Add("R-Hand", () => slotsFollowUp("R-Hand"));
+            //slotsMenu.Add("Head", () => slotsFollowUp("Head"));
+            //slotsMenu.Add("Body", () => slotsFollowUp("Body"));
 
-            itemsMenu.Exit += () =>
-            {
-                itemsMenu.Layout.Clear();
-                workspace.ActivateWindow(slotsMenu);
-            };
+            //slotsMenu.Exit += () => workspace.ActivateWindow(equipMenu);
 
-            var layout = new FixedGridLayout(2, 6);
+            //itemsMenu.Exit += () =>
+            //{
+            //    itemsMenu.Layout.Clear();
+            //    workspace.ActivateWindow(slotsMenu);
+            //};
 
-            layout.Add(equipMenu, new Rectangle(0, 0, 2, 1));
-            layout.Add(slotsMenu, new Rectangle(0, 1, 2, 2));
-            layout.Add(itemsMenu, new Rectangle(0, 3, 1, 3));
+            //var layout = new FixedGridLayout(2, 6);
 
-            workspace.Layout = layout;
+            //layout.Add(equipMenu, new Rectangle(0, 0, 2, 1));
+            //layout.Add(slotsMenu, new Rectangle(0, 1, 2, 2));
+            //layout.Add(itemsMenu, new Rectangle(0, 3, 1, 3));
+
+            //workspace.Layout = layout;
         }
 
         private Item BestItem(string slotName)
@@ -212,70 +216,77 @@ namespace ManualTests.AgateLib.UserInterface.FF6
 
         private void InitializeEspersMenu(Workspace workspace)
         {
-            esperList = new Menu("Espers");
+            throw new NotImplementedException();
+            //esperList = new Menu("Espers");
 
-            workspace.Add(esperList);
+            //workspace.Add(esperList);
         }
 
         private void InitializeMagicMenu(Workspace workspace)
         {
-            magicList = new Menu("Magic");
+            throw new NotImplementedException();
 
-            magicList.Exit += () => desktop.PopWorkspace();
+            //magicList = new Menu("Magic");
 
-            workspace.Add(magicList);
+            //magicList.Exit += () => desktop.PopWorkspace();
+
+            //workspace.Add(magicList);
         }
 
         private void InitializeMainMenu(Workspace workspace)
         {
-            var menu = new Menu("Main");
+            throw new NotImplementedException();
 
-            menu.Add("Items", StartItemsMenu);
-            menu.Add("Skills", StartSkillsMenu);
-            menu.Add("Equip", StartEquipMenu);
-            menu.Add("Relic", StartRelicMenu);
-            menu.Add("Status", () => RecordEvent("Status"));
-            menu.Add("Config", () => RecordEvent("Config"));
-            menu.Add("Save", () => RecordEvent("Save"));
+            //var menu = new Menu("Main");
 
-            pcMenu = new Menu("SelectPC");
+            //menu.Add("Items", StartItemsMenu);
+            //menu.Add("Skills", StartSkillsMenu);
+            //menu.Add("Equip", StartEquipMenu);
+            //menu.Add("Relic", StartRelicMenu);
+            //menu.Add("Status", () => RecordEvent("Status"));
+            //menu.Add("Config", () => RecordEvent("Config"));
+            //menu.Add("Save", () => RecordEvent("Save"));
 
-            pcMenu.Exit += () => workspace.ActivateWindow(menu);
+            //pcMenu = new Menu("SelectPC");
 
-            var layout = new FixedGridLayout(8, 8);
-            workspace.Layout = layout;
+            //pcMenu.Exit += () => workspace.ActivateWindow(menu);
 
-            layout.Add(pcMenu, new Rectangle(0, 0, 8, 8));
-            layout.Add(menu, new Rectangle(7, 0, 1, 5));
+            //var layout = new FixedGridLayout(8, 8);
+            //workspace.Layout = layout;
+
+            //layout.Add(pcMenu, new Rectangle(0, 0, 8, 8));
+            //layout.Add(menu, new Rectangle(7, 0, 1, 5));
         }
 
         private void InitializeItemsMenu(Workspace workspace)
         {
-            var arrangeWindow = new Menu("ArrangeItems");
+            throw new NotImplementedException();
 
-            arrangeWindow.LayoutType = LayoutType.SingleRow;
-            arrangeWindow.Add("Arrange", () => ArrangeItems());
-            arrangeWindow.Add("Rare", () => RareItems());
+            //var arrangeWindow = new Menu("ArrangeItems");
 
-            itemsList = new Menu("Items");
-            itemsList.Cancel += cancel =>
-            {
-                workspace.ActivateWindow(arrangeWindow);
-                cancel.Cancel = true;
-            };
+            //arrangeWindow.LayoutType = LayoutType.SingleRow;
+            //arrangeWindow.Add("Arrange", () => ArrangeItems());
+            //arrangeWindow.Add("Rare", () => RareItems());
 
-            arrangeWindow.Exit += () => desktop.PopWorkspace();
+            //itemsList = new Menu("Items");
+            //itemsList.Cancel += cancel =>
+            //{
+            //    workspace.ActivateWindow(arrangeWindow);
+            //    cancel.Cancel = true;
+            //};
 
-            itemTarget = new Menu("ItemTarget");
-            itemTarget.Display.IsVisible = false;
+            //arrangeWindow.Exit += () => desktop.PopWorkspace();
 
-            var layout = new FixedGridLayout(1, 8);
+            //itemTarget = new Menu("ItemTarget");
+            //itemTarget.Display.IsVisible = false;
 
-            layout.Add(arrangeWindow, new Rectangle(0, 0, 1, 1));
-            layout.Add(itemsList, new Rectangle(0, 1, 1, 7));
-            layout.Add(itemTarget, new Rectangle(0, 3, 1, 1));
+            //var layout = new FixedGridLayout(1, 8);
 
-            workspace.Layout = layout;
+            //layout.Add(arrangeWindow, new Rectangle(0, 0, 1, 1));
+            //layout.Add(itemsList, new Rectangle(0, 1, 1, 7));
+            //layout.Add(itemTarget, new Rectangle(0, 3, 1, 1));
+
+            //workspace.Layout = layout;
         }
 
         private void ArrangeItems()
@@ -299,21 +310,23 @@ namespace ManualTests.AgateLib.UserInterface.FF6
 
         private void InitializeSkillsMenu(Workspace workspace)
         {
-            var layout = new FixedGridLayout(1, 1);
-            workspace.Layout = layout;
+            throw new NotImplementedException();
 
-            var menu = new Menu("SkillType");
+            //var layout = new FixedGridLayout(1, 1);
+            //workspace.Layout = layout;
 
-            menu.Add("Magic", StartMagicMenu);
-            menu.Add("Espers", StartEspersMenu);
-            menu.Add("Blitz", () => RecordEvent("Blitz"));
-            menu.Add("SwdTech", () => RecordEvent("SwdTech"));
-            menu.Add("Blue", () => RecordEvent("Blue"));
-            menu.Add("Rage", () => RecordEvent("Rage"));
+            //var menu = new Menu("SkillType");
 
-            menu.Exit += ReturnToDesktop;
+            //menu.Add("Magic", StartMagicMenu);
+            //menu.Add("Espers", StartEspersMenu);
+            //menu.Add("Blitz", () => RecordEvent("Blitz"));
+            //menu.Add("SwdTech", () => RecordEvent("SwdTech"));
+            //menu.Add("Blue", () => RecordEvent("Blue"));
+            //menu.Add("Rage", () => RecordEvent("Rage"));
 
-            layout.Add(menu, Point.Zero);
+            //menu.Exit += ReturnToDesktop;
+
+            //layout.Add(menu, Point.Zero);
         }
 
         private void ReturnToDesktop()
@@ -349,49 +362,51 @@ namespace ManualTests.AgateLib.UserInterface.FF6
 
         private void UpdateMagic()
         {
-            magicList.Layout.Clear();
+            throw new NotImplementedException();
+            //magicList.Layout.Clear();
 
-            foreach (var item in selectedPC.Magic)
-            {
-                magicList.Add(item.Name, () => RecordEvent("Used magic " + item.Name));
-            }
+            //foreach (var item in selectedPC.Magic)
+            //{
+            //    magicList.Add(item.Name, () => RecordEvent("Used magic " + item.Name));
+            //}
         }
 
 
         private void UpdateItems()
         {
-            itemsList.Layout.Clear();
-            Item selectedItem = null;
+            throw new NotImplementedException();
+            //itemsList.Layout.Clear();
+            //Item selectedItem = null;
 
-            void ItemAccept(Item item)
-            {
-                if (selectedItem == null)
-                {
-                    selectedItem = item;
-                }
-                else
-                {
-                    if (selectedItem != item)
-                    {
-                        var spot1 = Model.Inventory.IndexOf(selectedItem);
-                        var spot2 = Model.Inventory.IndexOf(item);
+            //void ItemAccept(Item item)
+            //{
+            //    if (selectedItem == null)
+            //    {
+            //        selectedItem = item;
+            //    }
+            //    else
+            //    {
+            //        if (selectedItem != item)
+            //        {
+            //            var spot1 = Model.Inventory.IndexOf(selectedItem);
+            //            var spot2 = Model.Inventory.IndexOf(item);
 
-                        Model.Inventory[spot1] = item;
-                        Model.Inventory[spot2] = selectedItem;
-                    }
-                    else
-                    {
-                        UseItem(item);
-                    }
+            //            Model.Inventory[spot1] = item;
+            //            Model.Inventory[spot2] = selectedItem;
+            //        }
+            //        else
+            //        {
+            //            UseItem(item);
+            //        }
 
-                    selectedItem = null;
-                }
-            }
+            //        selectedItem = null;
+            //    }
+            //}
 
-            foreach (var item in Model.Inventory)
-            {
-                itemsList.Add(item.Name, () => ItemAccept(item));
-            }
+            //foreach (var item in Model.Inventory)
+            //{
+            //    itemsList.Add(item.Name, () => ItemAccept(item));
+            //}
         }
 
         private void UseItem(Item item)
@@ -411,19 +426,21 @@ namespace ManualTests.AgateLib.UserInterface.FF6
 
         private void SelectItemTarget(Action<PlayerCharacter> afterSelection)
         {
-            itemTarget.Layout.Clear();
+            throw new NotImplementedException();
 
-            foreach (var pc in Model.Party.Characters)
-            {
-                itemTarget.Add(pc.Name, () =>
-                {
-                    itemTarget.Display.IsVisible = false;
-                    AfterItemTarget(pc);
-                });
-            }
+            //itemTarget.Layout.Clear();
 
-            desktop.ActiveWorkspace.ActivateWindow("ItemTarget");
-            AfterItemTarget = afterSelection;
+            //foreach (var pc in Model.Party.Characters)
+            //{
+            //    itemTarget.Add(pc.Name, () =>
+            //    {
+            //        itemTarget.Display.IsVisible = false;
+            //        AfterItemTarget(pc);
+            //    });
+            //}
+
+            //desktop.ActiveWorkspace.ActivateWindow("ItemTarget");
+            //AfterItemTarget = afterSelection;
         }
 
         private void StartSkillsMenu()
@@ -449,14 +466,16 @@ namespace ManualTests.AgateLib.UserInterface.FF6
 
         private void UpdateEquipmentSlots()
         {
-            var slots = equipWorkspace.FindWindow<Menu>(x => x.Name == "Slots");
+            throw new NotImplementedException();
 
-            foreach (var item in slots.Layout.OfType<ContentMenuItem>())
-            {
-                var type = item.Name;
+            //var slots = equipWorkspace.FindWindow<Menu>(x => x.Name == "Slots");
 
-                item.Text = type + ": " + selectedPC.Equipment[type]?.Name ?? "Empty";
-            }
+            //foreach (var item in slots.Layout.OfType<ContentMenuItem>())
+            //{
+            //    var type = item.Name;
+
+            //    item.Text = type + ": " + selectedPC.Equipment[type]?.Name ?? "Empty";
+            //}
         }
 
         private void SelectPC(Action afterSelectPc)
@@ -476,12 +495,14 @@ namespace ManualTests.AgateLib.UserInterface.FF6
 
         public void PartyUpdated()
         {
-            pcMenu.Layout.Clear();
+            throw new NotImplementedException();
 
-            foreach (var ch in Model.Party.Characters)
-            {
-                pcMenu.Add(ch.Name, () => OnPCSelected(ch));
-            }
+            //pcMenu.Layout.Clear();
+
+            //foreach (var ch in Model.Party.Characters)
+            //{
+            //    pcMenu.Add(ch.Name, () => OnPCSelected(ch));
+            //}
         }
 
         private void OnPCSelected(PlayerCharacter pc)

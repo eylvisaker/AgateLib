@@ -18,7 +18,7 @@ namespace ManualTests.AgateLib.UserInterface.FF6
             this.texture = texture;
         }
         
-        public override void TheDrawFocus(IWidgetRenderContext renderContext, IWidget widget, Rectangle destRect)
+        public override void TheDrawFocus(IWidgetRenderContext renderContext, IRenderWidget widget, Rectangle destRect)
         {
             const int overlap = 1;
 

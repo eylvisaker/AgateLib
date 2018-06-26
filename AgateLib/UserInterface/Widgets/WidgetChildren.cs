@@ -26,11 +26,11 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public interface IWidgetChildren : ICollection<IWidget>
+    public interface IWidgetChildren : ICollection<IRenderWidget>
     {
         /// <summary>
         /// Gets or sets the item that has focus.
         /// </summary>
-        IWidget Focus { get; set; }
+        IRenderWidget Focus { get; set; }
     }
 }

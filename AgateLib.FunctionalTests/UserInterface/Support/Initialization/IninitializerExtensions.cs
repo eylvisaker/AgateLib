@@ -16,7 +16,8 @@ namespace AgateLib.FunctionalTests.UserInterface.Support.Initialization
             var item = new ContentMenuItem { Text = text, Name = text };
             item.PressAccept += (sender, e) => method();
 
-            layout.Add(item);
+            throw new NotImplementedException();
+            //layout.Add(item);
         }
     }
 }

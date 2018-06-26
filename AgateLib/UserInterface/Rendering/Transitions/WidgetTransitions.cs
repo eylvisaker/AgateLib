@@ -32,18 +32,18 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 	public interface IWidgetTransition
 	{
-		bool Update(IWidget owner, IWidgetRenderContext renderContext);
+		bool Update(IRenderWidget owner, IWidgetRenderContext renderContext);
 
-		void Initialize(IWidget menu);
+		void Initialize(IRenderWidget menu);
 	}
 
 	public class WidgetSuddenTransition : IWidgetTransition
 	{
-		public void Initialize(IWidget owner)
+		public void Initialize(IRenderWidget owner)
 		{
 		}
 
-		public bool Update(IWidget owner, IWidgetRenderContext renderContext)
+		public bool Update(IRenderWidget owner, IWidgetRenderContext renderContext)
 		{
 			var animation = owner.Display.Animation;
 
@@ -58,12 +58,12 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 	public class WidgetFadeInTransition : IWidgetTransition
 	{
-		public void Initialize(IWidget menu)
+		public void Initialize(IRenderWidget menu)
 		{
 			menu.Display.Animation.Alpha = 0;
 		}
 
-		public bool Update(IWidget menu, IWidgetRenderContext renderContext)
+		public bool Update(IRenderWidget menu, IWidgetRenderContext renderContext)
 		{
 			var animation = menu.Display.Animation;
 			animation.IsVisible = true;
@@ -98,11 +98,11 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 	public class WidgetFadeOutTransition : IWidgetTransition
 	{
-		public void Initialize(IWidget menu)
+		public void Initialize(IRenderWidget menu)
 		{
 		}
 
-		public bool Update(IWidget widget, IWidgetRenderContext renderContext)
+		public bool Update(IRenderWidget widget, IWidgetRenderContext renderContext)
 		{
 			var animation = widget.Display.Animation;
 

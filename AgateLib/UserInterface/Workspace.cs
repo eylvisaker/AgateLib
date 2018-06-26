@@ -34,7 +34,7 @@ using System.Linq;
 
 namespace AgateLib.UserInterface
 {
-    public class Workspace
+    public class Workspace : IWidget
     {
         private class WorkspaceRenderContext : IWidgetRenderContext
         {
@@ -69,7 +69,7 @@ namespace AgateLib.UserInterface
                 set => rootRenderContext = value ?? throw new ArgumentNullException();
             }
 
-            public event Action<IWidget> BeforeUpdate
+            public event Action<IRenderWidget> BeforeUpdate
             {
                 add
                 {
@@ -81,7 +81,7 @@ namespace AgateLib.UserInterface
                 }
             }
 
-            public void ApplyStyles(IEnumerable<IWidget> items, string defaultTheme)
+            public void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme)
             {
                 rootRenderContext.ApplyStyles(items, defaultTheme);
             }
@@ -91,16 +91,16 @@ namespace AgateLib.UserInterface
                 return rootRenderContext.CreateContentLayout(text, contentLayoutOptions, localizeText);
             }
 
-            public void DrawChild(Point contentDest, IWidget child)
+            public void DrawChild(Point contentDest, IRenderWidget child)
             {
                 rootRenderContext.DrawChild(contentDest, child);
             }
 
-            public void DrawChildren(Point contentDest, IEnumerable<IWidget> children)
+            public void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children)
             {
                 rootRenderContext.DrawChildren(contentDest, children);
             }
-            
+
             public void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
             {
                 rootRenderContext.BeginDraw(time, spriteBatch, renderTarget);
@@ -111,16 +111,16 @@ namespace AgateLib.UserInterface
                 rootRenderContext.InitializeUpdate(time);
             }
 
-            public void Update(IWidget widget)
+            public void Update(IRenderWidget widget)
             {
                 widget.Display.Instructions = Workspace.Instructions;
-                
+
                 UserInterfaceRenderer?.UpdateAnimation(this, widget);
 
-                widget.Update(this);
+                ((IWidget)widget).Update(this);
             }
 
-            public void Update(IEnumerable<IWidget> items)
+            public void Update(IEnumerable<IRenderWidget> items)
             {
                 foreach (var item in items)
                 {
@@ -128,7 +128,7 @@ namespace AgateLib.UserInterface
                 }
             }
 
-            public void DrawWorkspace(Workspace workspace, IEnumerable<IWidget> items)
+            public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)
             {
                 rootRenderContext.DrawWorkspace(workspace, items);
             }
@@ -141,6 +141,9 @@ namespace AgateLib.UserInterface
         private IInstructions instructions;
 
         private WorkspaceRenderContext workspaceRenderContext;
+        private List<IWidget> children = new List<IWidget>();
+
+        private IWidget activeWindow;
 
         /// <summary>
         /// Initializes the workspace object.
@@ -165,27 +168,22 @@ namespace AgateLib.UserInterface
             set => instructions = value ?? throw new ArgumentNullException(nameof(Instructions));
         }
 
+        public void Add(IWidget child)
+        {
+            children.Add(child);
+        }
+
+        [Obsolete]
         public IWidgetLayout Layout
         {
             get => layout;
-            set
-            {
-                if (layout != null)
-                    layout.WidgetAdded -= Layout_WidgetAdded;
-
-                layout = value;
-
-                layout.WidgetAdded += Layout_WidgetAdded;
-
-                foreach (var window in layout)
-                    Layout_WidgetAdded(window);
-            }
+            set => layout = value ?? throw new ArgumentNullException(nameof(Layout));
         }
 
-        private void Layout_WidgetAdded(IWidget widget)
+        private void Layout_WidgetAdded(IRenderElement widget)
         {
             widget.Display.Animation.IsDoubleBuffered = true;
-            
+
             // TODO: Figure out how to apply a style when a widget is added while
             // the workspace is active.
 
@@ -203,26 +201,23 @@ namespace AgateLib.UserInterface
         /// Gets whether the workspace is the active workspace.
         /// </summary>
         public bool IsActive { get; internal set; }
-        
-        public IWidget ActiveWindow => Layout.Focus;
+
+        public IWidget ActiveWindow
+        {
+            get => activeWindow;
+            set => throw new NotImplementedException();
+        }
 
         public string DefaultTheme { get; set; }
 
         public void Clear()
         {
-            Layout.Clear();
-        }
-
-        public void Add(IWidget window)
-        {
-            Layout.Add(window);
-
-            UpdateLayout();
+            children.Clear();
         }
 
         public bool Contains(IWidget window)
         {
-            return Layout.Contains(window);
+            return children.Contains(window);
         }
 
         public void HandleInputEvent(WidgetEventArgs args)
@@ -233,23 +228,23 @@ namespace AgateLib.UserInterface
                 UnhandledEvent?.Invoke(this, args);
         }
 
-        public void Draw(IWidgetRenderContext renderContext)
-        {
-            renderContext.DrawWorkspace(this, Layout.Items);
-        }
-
         public void Update(IWidgetRenderContext renderContext)
         {
-            workspaceRenderContext.RootRenderContext = renderContext;
+            foreach (var item in children)
+                item.Update(renderContext);
 
-            screenMetrics.ParentMaxSize = Size;
-            region.ContentSize = Size;
+            //workspaceRenderContext.RootRenderContext = renderContext;
 
-            renderContext.ApplyStyles(Layout.Items, DefaultTheme);
+            //screenMetrics.ParentMaxSize = Size;
+            //region.ContentSize = Size;
 
-            UpdateLayout();
+            //renderContext.ApplyStyles(Layout.Items, DefaultTheme);
 
-            workspaceRenderContext.Update(layout.Items);
+            //UpdateLayout();
+
+            //workspaceRenderContext.Update(layout.Items);
+
+            throw new NotImplementedException();
         }
 
         private void UpdateLayout()
@@ -267,14 +262,14 @@ namespace AgateLib.UserInterface
         /// <param name="explorer">A function which takes two parameters: the parent
         /// widget and the child widget. Parent widget will be null for top level
         /// widgets.</param>
-        public void Explore(Action<IWidget, IWidget> explorer)
+        public void Explore(Action<IRenderWidget, IRenderWidget> explorer)
         {
-            void ExploreInner(IWidget parent)
+            void ExploreInner(IRenderWidget parent)
             {
                 if (parent.Children == null)
                     return;
 
-                foreach(var item in parent.Children)
+                foreach (var item in parent.Children)
                 {
                     explorer(parent, item);
 
@@ -282,12 +277,13 @@ namespace AgateLib.UserInterface
                 }
             }
 
-            foreach(var item in Layout.Items)
-            {
-                explorer(null, item);
+            //foreach(var item in Layout.Items)
+            //{
+            //    explorer(null, item);
 
-                ExploreInner(item);
-            }
+            //    ExploreInner(item);
+            //}
+            throw new NotImplementedException();
         }
 
         public void Initialize()
@@ -322,12 +318,14 @@ namespace AgateLib.UserInterface
         /// <param name="window"></param>
         public void ActivateWindow(IWidget window, WindowActivationBehaviors behavior = WindowActivationBehaviors.Default)
         {
-            Layout.Focus = window;
+            ActiveWindow = window;
 
-            if (behavior.HasFlag(WindowActivationBehaviors.BringToFront))
-            {
-                window.Display.StackOrder = Layout.Items.Max(x => x.Display.StackOrder) + 1;
-            }
+            //Layout.Focus = window;
+
+            //if (behavior.HasFlag(WindowActivationBehaviors.BringToFront))
+            //{
+            //    window.Display.StackOrder = Layout.Items.Max(x => x.Display.StackOrder) + 1;
+            //}
         }
 
         /// <summary>
@@ -337,7 +335,7 @@ namespace AgateLib.UserInterface
         /// <returns></returns>
         public IWidget FindWindow(Func<IWidget, bool> selector)
         {
-            return Layout.Items.SingleOrDefault(selector);
+            return children.SingleOrDefault(selector);
         }
 
         /// <summary>
@@ -345,7 +343,7 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public T FindWindow<T>(Func<T, bool> selector) where T : IWidget
+        public T FindWindow<T>(Func<T, bool> selector) where T : IRenderWidget
         {
             return Layout.Items.OfType<T>().SingleOrDefault(selector);
         }
@@ -381,17 +379,22 @@ namespace AgateLib.UserInterface
 
         internal void TransitionIn()
         {
-            foreach(var window in Layout.Items)
+            foreach (var window in Layout.Items)
             {
                 window.Display.Animation.State = AnimationState.TransitionIn;
             }
         }
 
+        public IRenderElement Render()
+        {
+            Layout.SetChildren(children.Select(c => c.Render()));
+            return Layout;
+        }
     }
 
     public static class WorkspaceExtensions
     {
-        public static void ApplyStyle(this Workspace workspace, IWidgetRenderContext renderContext, params IWidget[] widgets)
+        public static void ApplyStyle(this Workspace workspace, IWidgetRenderContext renderContext, params IRenderWidget[] widgets)
         {
             renderContext.ApplyStyles(widgets, workspace.DefaultTheme);
         }

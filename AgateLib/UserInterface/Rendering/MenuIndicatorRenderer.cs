@@ -38,42 +38,46 @@ namespace AgateLib.UserInterface.Rendering
 
     public abstract class MenuIndicatorRenderer : IMenuIndicatorRenderer
     {
-        public virtual void TheDrawFocus(IWidgetRenderContext renderContext, IWidget widget, Rectangle destRect)
+        public virtual void TheDrawFocus(IWidgetRenderContext renderContext, IRenderWidget widget, Rectangle destRect)
         {
         }
 
         public void DrawFocus(IWidgetRenderContext renderContext, Workspace workspace)
         {
-            (IWidget focusWidget, Point offset) = FindFocus(workspace.Layout.Focus);
+            throw new NotImplementedException();
 
-            if (focusWidget == null)
-                return;
+            //(IRenderWidget focusWidget, Point offset) = FindFocus(workspace.Layout.Focus);
 
-            if (!focusWidget.CanHaveFocus)
-                return;
+            //if (focusWidget == null)
+            //    return;
 
-            TheDrawFocus(renderContext, focusWidget,
-                new Rectangle(offset, focusWidget.Display.Region.ContentSize));
+            //if (!focusWidget.CanHaveFocus)
+            //    return;
+
+            //TheDrawFocus(renderContext, focusWidget,
+            //    new Rectangle(offset, focusWidget.Display.Region.ContentSize));
         }
 
-        private (IWidget, Point) FindFocus(IWidget widget)
+        private (IRenderWidget, Point) FindFocus(IRenderWidget widget)
         {
-            if (widget.Display.Animation.IsAnimating)
-                return (null, Point.Zero);
+            throw new NotImplementedException();
 
-            var child = widget.Focus;
+            //if (widget.Display.Animation.IsAnimating)
+            //    return (null, Point.Zero);
 
-            if (child == null)
-                return (widget, ContentPositionOf(widget));
+            //var child = widget.Focus;
 
-            Point offset = ContentPositionOf(widget);
+            //if (child == null)
+            //    return (widget, ContentPositionOf(widget));
 
-            (var focus, Point nextOffset) = FindFocus(child);
+            //Point offset = ContentPositionOf(widget);
 
-            return (focus, offset + nextOffset);
+            //(var focus, Point nextOffset) = FindFocus(child);
+
+            //return (focus, offset + nextOffset);
         }
 
-        private static Point ContentPositionOf(IWidget child)
+        private static Point ContentPositionOf(IRenderWidget child)
         {
             return child.Display.Animation.BorderRect.Location
                                      + child.Display.Region.BorderToContentOffset.TopLeft;

@@ -32,7 +32,7 @@ namespace AgateLib.UserInterface.Layout
     /// <summary>
     /// Interface for performing layout of items.
     /// </summary>
-    public interface IWidgetLayout : ICollection<IWidget>, IWidgetChildren
+    public interface IWidgetLayout : IRenderElement
     {
         /// <summary>
         /// Event raised when a widget is added to the collection.
@@ -42,7 +42,7 @@ namespace AgateLib.UserInterface.Layout
         /// <summary>
         /// Gets the collection of items in the layout.
         /// </summary>
-        IEnumerable<IWidget> Items { get; }
+        IEnumerable<IRenderElement> Items { get; }
 
         /// <summary>
         /// Processes an input event.
@@ -64,7 +64,13 @@ namespace AgateLib.UserInterface.Layout
         /// <param name="size">The size of the layout in pixels. Should be close to
         /// the return value from ComputeIdealSize if possible.</param>
         void ApplyLayout(Size size, IWidgetRenderContext renderContext);
+
+        /// <summary>
+        /// Sets the children of the layout.
+        /// </summary>
+        /// <param name="enumerable"></param>
+        void SetChildren(IEnumerable<IRenderElement> enumerable);
     }
 
-    public delegate void WidgetEventHandler(IWidget widget);
+    public delegate void WidgetEventHandler(IRenderWidget widget);
 }

@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
@@ -29,19 +30,25 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
+    public class WindowProps : WidgetProps
+    {
+        public IList<IWidget> Children { get; set; }
+
+        public IWidget Focus { get; set; }
+    }
+
     /// <summary>
     /// Widget that contains other widgets in a layout.
     /// Does not handle navigation between widgets, that must be handled manually.
     /// </summary>
-    public class Window : Widget
+    public class Window : Widget<WindowProps, WidgetState>
     {
         private IWidgetLayout layout = new SingleColumnLayout();
+        private List<IWidget> children = new List<IWidget>();
 
-        public Window(string name = "") : base(name)
+        public Window(WindowProps props) : base(props)
         {
         }
-
-        public override IWidgetChildren Children => layout;
 
         /// <summary>
         /// Gets or sets the layout type of the menu.
@@ -83,9 +90,6 @@ namespace AgateLib.UserInterface.Widgets
                         throw new ArgumentException("Cannot understand layout type.");
                 }
 
-                foreach (var item in layout)
-                    newLayout.Add(item);
-
                 layout = newLayout;
             }
         }
@@ -94,54 +98,39 @@ namespace AgateLib.UserInterface.Widgets
         /// Adds a widget to the window layout.
         /// </summary>
         /// <param name="widget"></param>
+        [Obsolete("Pass children in props")]
         public void Add(IWidget widget)
         {
-            Layout.Add(widget);
+            children.Add(widget);
         }
 
         /// <summary>
         /// Gets or sets the IWidgetLayout object that handles the actual layout
         /// of the menu items. Cannot be null.
         /// </summary>
+        [Obsolete]
         public IWidgetLayout Layout
         {
             get => layout;
             set => layout = value ?? throw new ArgumentNullException(nameof(Layout));
         }
 
-        /// <summary>
-        /// Gets or sets the widget within the window that has input focus.
-        /// </summary>
-        public IWidget Focus
-        {
-            get => layout.Focus;
-            set => layout.Focus = value;
-        }
-
-        public override void ProcessEvent(WidgetEventArgs args)
+        [Obsolete]
+        public virtual void ProcessEvent(WidgetEventArgs args)
         {
             Layout?.InputEvent(args);
-
-            base.ProcessEvent(args);
         }
 
-        public override void Update(IWidgetRenderContext renderContext)
+        public virtual void Update(IWidgetRenderContext renderContext)
         {
-            layout.ApplyLayout(Display.Region.ContentSize, renderContext);
-            renderContext.Update(layout.Items);
+            foreach (var item in children)
+                item.Update(renderContext);
         }
 
-        public override void Draw(
-            IWidgetRenderContext renderContext,
-            Point clientDest)
+        public override IRenderElement Render()
         {
-            renderContext.DrawChildren(clientDest, Layout.Items);
-
-        }
-
-        public override Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
-        {
-            return Layout.RecalculateSize(this, renderContext, maxSize);
+            layout.SetChildren(children.Select(c => c.Render()));
+            return layout;
         }
     }
 

@@ -37,12 +37,12 @@ namespace AgateLib.UserInterface.Styling.Themes
     {
         IFontProvider Fonts { get; set; }
 
-        void ApplyTo(IWidget widget, IWidgetStackState state);
+        void ApplyTo(IRenderWidget widget, IWidgetStackState state);
     }
 
     public interface IWidgetStackState
     {
-        IWidget Parent { get; }
+        IRenderWidget Parent { get; }
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public IFontProvider Fonts { get; set; }
 
-        public void ApplyTo(IWidget widget, IWidgetStackState state)
+        public void ApplyTo(IRenderWidget widget, IWidgetStackState state)
         {
             themeMatches.Clear();
             themeMatches.AddRange(data.Where(x => x.Selector.Matches(widget, state)));

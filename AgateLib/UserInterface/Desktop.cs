@@ -27,6 +27,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Rendering;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
 {
@@ -53,7 +54,7 @@ namespace AgateLib.UserInterface
         /// Explores all the widgets on the desktop using a depth-first search.
         /// </summary>
         /// <param name="explorer"></param>
-        public void Explore(Action<IWidget, IWidget> explorer)
+        public void Explore(Action<IRenderWidget, IRenderWidget> explorer)
         {
             foreach(var workspace in workspaces)
             {
@@ -230,7 +231,9 @@ namespace AgateLib.UserInterface
 
                 foreach (var w in workspaces)
                 {
-                    w.Draw(renderContext);
+                    var element = w.Render();
+
+                    element.Draw(renderContext, new Point(0, 0));
                 }
             }
             finally

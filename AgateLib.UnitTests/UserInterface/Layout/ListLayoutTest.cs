@@ -168,7 +168,7 @@ namespace ManualTests.AgateLib.UserInterface.Layout
         [Fact]
         public void LL_ListBehavior()
         {
-            var item = new Mock<IWidget>().Object;
+            var item = new Mock<IRenderWidget>().Object;
 
             var item3 = ListLayout[3];
             ListLayout.IndexOf(item3).Should().Be(3);
@@ -194,7 +194,7 @@ namespace ManualTests.AgateLib.UserInterface.Layout
             ListLayout.Contains(item3).Should().BeFalse();
             ListLayout.Count.Should().Be(9);
 
-            IWidget[] array = new IWidget[9];
+            IRenderWidget[] array = new IRenderWidget[9];
             ListLayout.CopyTo(array, 0);
 
             var index = 0;
@@ -228,7 +228,7 @@ namespace ManualTests.AgateLib.UserInterface.Layout
         protected abstract void NextItem();
         protected abstract void PreviousItem();
 
-        protected void Add(IWidget widget)
+        protected void Add(IRenderWidget widget)
         {
             ListLayout.Add(widget);
         }
@@ -249,9 +249,9 @@ namespace ManualTests.AgateLib.UserInterface.Layout
             idealSize.Should().Be(expectedIdealSize);
         }
 
-        private Mock<IWidget> CreateWidget()
+        private Mock<IRenderWidget> CreateWidget()
         {
-            var result = new Mock<IWidget>();
+            var result = new Mock<IRenderWidget>();
             var display = new WidgetDisplay();
 
             result.Setup(x => x.Display).Returns(display);
