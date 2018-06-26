@@ -34,7 +34,7 @@ using System.Linq;
 
 namespace AgateLib.UserInterface
 {
-    public class Workspace : IWidget
+    public class Workspace
     {
         private class WorkspaceRenderContext : IWidgetRenderContext
         {
@@ -132,11 +132,26 @@ namespace AgateLib.UserInterface
             {
                 rootRenderContext.DrawWorkspace(workspace, items);
             }
+
+            public void DrawChild(Point contentDest, IRenderElement child)
+            {
+                rootRenderContext.DrawChild(contentDest, child);
+            }
+
+            public void DrawChildren(Point contentDest, IEnumerable<IRenderElement> children)
+            {
+                rootRenderContext.DrawChildren(contentDest, children);
+            }
+
+            public void DrawWorkspace(Workspace workspace, VisualTree visualTree)
+            {
+                rootRenderContext.DrawWorkspace(workspace, visualTree);
+            }
         }
 
         private readonly SizeMetrics screenMetrics = new SizeMetrics();
         private readonly WidgetRegion region = new WidgetRegion(new WidgetStyle());
-
+        private readonly VisualTree visualTree = new VisualTree();
         private IWidgetLayout layout;
         private IInstructions instructions;
 
@@ -228,6 +243,7 @@ namespace AgateLib.UserInterface
                 UnhandledEvent?.Invoke(this, args);
         }
 
+
         public void Update(IWidgetRenderContext renderContext)
         {
             foreach (var item in children)
@@ -244,7 +260,11 @@ namespace AgateLib.UserInterface
 
             //workspaceRenderContext.Update(layout.Items);
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            visualTree.Render(children.Select(c => c.Render()));
+
+            visualTree.Update(renderContext);
         }
 
         private void UpdateLayout()
@@ -255,6 +275,12 @@ namespace AgateLib.UserInterface
             Layout.ComputeIdealSize(Size, workspaceRenderContext);
             Layout.ApplyLayout(Size, workspaceRenderContext);
         }
+
+        public void Draw(IWidgetRenderContext renderContext)
+        {
+            renderContext.DrawWorkspace(this, visualTree);
+        }
+
 
         /// <summary>
         /// Explores the entire UI tree via a depth-first search.
@@ -357,21 +383,22 @@ namespace AgateLib.UserInterface
         {
             get
             {
-                if (Layout.Items.Any(x => x.Display.Animation.State == AnimationState.TransitionIn))
+                if (visualTree.Items.Any(x => x.Display.Animation.State == AnimationState.TransitionIn))
                     return AnimationState.TransitionIn;
 
-                if (Layout.Items.Any(x => x.Display.Animation.State == AnimationState.TransitionOut))
+                if (visualTree.Items.Any(x => x.Display.Animation.State == AnimationState.TransitionOut))
                     return AnimationState.TransitionOut;
 
-                if (Layout.Items.All(x => x.Display.Animation.State == AnimationState.Dead))
+                if (visualTree.Items.All(x => x.Display.Animation.State == AnimationState.Dead))
                     return AnimationState.Dead;
 
                 return AnimationState.Static;
             }
         }
+
         internal void TransitionOut()
         {
-            foreach (var window in Layout.Items)
+            foreach (var window in visualTree.Items)
             {
                 window.Display.Animation.State = AnimationState.TransitionOut;
             }
@@ -379,16 +406,10 @@ namespace AgateLib.UserInterface
 
         internal void TransitionIn()
         {
-            foreach (var window in Layout.Items)
+            foreach (var window in visualTree.Items)
             {
                 window.Display.Animation.State = AnimationState.TransitionIn;
             }
-        }
-
-        public IRenderElement Render()
-        {
-            Layout.SetChildren(children.Select(c => c.Render()));
-            return Layout;
         }
     }
 

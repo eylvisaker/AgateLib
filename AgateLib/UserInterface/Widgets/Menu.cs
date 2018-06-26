@@ -38,7 +38,7 @@ namespace AgateLib.UserInterface.Widgets
 {
     public class MenuProps : WidgetProps
     {
-        public IList<IWidget> Children { get; set; } = new List<IWidget>();
+        public IEnumerable<IWidget> Children { get; set; } = new List<IWidget>();
 
         public IWidget InitialFocus { get; set; }
     }
@@ -94,7 +94,7 @@ namespace AgateLib.UserInterface.Widgets
             var item = new ContentMenuItem { Text = text, Name = text };
             item.PressAccept += (sender, e) => action();
 
-            UpdateProps(p => p.Children.Add(item));
+            UpdateProps(p => p.Children = p.Children.Union(new[] { item }));
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace AgateLib.UserInterface.Widgets
             var item = new ContentMenuItem { Text = text, Name = name };
             item.PressAccept += (sender, e) => action();
 
-            UpdateProps(p => p.Children.Add(item));
+            UpdateProps(p => p.Children = p.Children.Union(new[] { item }));
         }
 
         protected void OnButtonUp(MenuInputButton button)

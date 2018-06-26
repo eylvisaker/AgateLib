@@ -101,6 +101,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Updates all items in a collection.
         /// </summary>
         /// <param name="items"></param>
+        [Obsolete("Go home")]
         void Update(IEnumerable<IRenderWidget> items);
 
         /// <summary>
@@ -108,14 +109,14 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="contentDest"></param>
         /// <param name="child"></param>
-        void DrawChild(Point contentDest, IRenderWidget child);
+        void DrawChild(Point contentDest, IRenderElement child);
 
         /// <summary>
         /// Draws a collection of child widgets of the current widget.
         /// </summary>
         /// <param name="contentDest"></param>
         /// <param name="children"></param>
-        void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children);
+        void DrawChildren(Point contentDest, IEnumerable<IRenderElement> children);
 
         /// <summary>
         /// Prepares the render context for an update.
@@ -133,15 +134,16 @@ namespace AgateLib.UserInterface.Widgets
         void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget);
 
         void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme);
-        
+
         void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items);
+        void DrawWorkspace(Workspace workspace, VisualTree visualTree);
     }
 
     public class WidgetRenderContext : IWidgetRenderContext
     {
         private readonly ILocalizedContentLayoutEngine contentLayoutEngine;
 
-        private IRenderWidget lastParentWidget;
+        private IRenderElement lastParentWidget;
 
         private WidgetRenderContext parentRenderContext;
         bool workspaceIsActive;
@@ -272,7 +274,7 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        public void DrawChild(Point parentContentDest, IRenderWidget widget)
+        public void DrawChild(Point parentContentDest, IRenderElement widget)
         {
             if (widget.Display.Animation.IsDoubleBuffered)
             {
@@ -298,7 +300,7 @@ namespace AgateLib.UserInterface.Widgets
 
                 widget.Draw(this, dest);
             }
-          
+
             eventArgs.Initialize(WidgetEventType.DrawComplete);
             eventArgs.Location = parentContentDest;
 
@@ -314,11 +316,26 @@ namespace AgateLib.UserInterface.Widgets
             EndWorkspace(workspace);
         }
 
+
+        public void DrawWorkspace(Workspace workspace, VisualTree visualTree)
+        {
+            WorkspaceIsActive = workspace.IsActive;
+
+            DrawChildren(Point.Zero, visualTree.Items);
+
+            EndWorkspace(workspace);
+        }
+
         public void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children)
+        {
+            DrawChildren(contentDest, children.Cast<IRenderElement>());
+        }
+
+        public void DrawChildren(Point contentDest, IEnumerable<IRenderElement> items)
         {
             var oldParent = lastParentWidget;
 
-            foreach (var child in children.Where(x => x.Display.IsVisible)
+            foreach (var child in items.Where(x => x.Display.IsVisible)
                 .OrderBy(x => x.Display.StackOrder))
             {
                 lastParentWidget = child;

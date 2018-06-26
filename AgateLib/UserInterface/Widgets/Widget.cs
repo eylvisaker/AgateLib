@@ -52,7 +52,6 @@ namespace AgateLib.UserInterface.Widgets
     public class WidgetProps
     {
         public string Name { get; set; }
-        public IReadOnlyList<IWidget> Children { get; set; }
     }
 
     public class WidgetState

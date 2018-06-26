@@ -4,12 +4,12 @@ using AgateLib.Display;
 using ManualTests.AgateLib.FontTests;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
-using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AgateLib.Scenes;
 using System.Collections.Generic;
+using ManualTests.AgateLib.Selector.Widgets;
 
 namespace ManualTests.AgateLib.Selector
 {
@@ -46,16 +46,15 @@ namespace ManualTests.AgateLib.Selector
             
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);
 
-            var menu = new Menu(new MenuProps());
-
-            foreach (var test in tests)
+            var app = new TestSelectorApp(new TestSelectorProps
             {
-                menu.Add(test.Name, () => StartTest?.Invoke(this, new TestEventArgs(test)));
-            }
+                Tests = tests,
+                OnAcceptTest = test => StartTest?.Invoke(this, new TestEventArgs(test))
+            });
 
             var workspace = new Workspace("default");
 
-            workspace.Add(menu);
+            workspace.Add(app);
 
             scene.Desktop.PushWorkspace(workspace);
 

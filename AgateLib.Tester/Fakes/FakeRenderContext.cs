@@ -55,11 +55,11 @@ namespace AgateLib.Fakes
             });
         }
 
-        public void DrawChild(Point contentDest, IRenderWidget child)
+        public void DrawChild(Point contentDest, IRenderElement child)
         {
         }
 
-        public void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children)
+        public void DrawChildren(Point contentDest, IEnumerable<IRenderElement> children)
         {
         }
 
@@ -97,6 +97,10 @@ namespace AgateLib.Fakes
         }
 
         public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)
+        {
+        }
+
+        public void DrawWorkspace(Workspace workspace, VisualTree visualTree)
         {
         }
     }

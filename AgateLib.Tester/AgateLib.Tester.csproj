@@ -159,6 +159,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplaceMe\TextRepository.cs" />
     <Compile Include="Selector\FakeTextRepository.cs" />
+    <Compile Include="Selector\Widgets\TestDrawer.cs" />
+    <Compile Include="Selector\Widgets\TestSelectorApp.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="TestResources.cs" />
     <Compile Include="Selector\TestSelector.cs" />

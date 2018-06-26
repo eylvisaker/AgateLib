@@ -177,6 +177,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\Tokenizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\FixedGridLayout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\FlexContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\ImageSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\TypeConverters\FontStylePropertiesYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\TypeConverters\ImageSourceYamlConverter.cs" />
@@ -194,6 +196,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ButtonPress.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ContentLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ContentMenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\MenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\NewLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetChildren.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetEventArgs.cs" />

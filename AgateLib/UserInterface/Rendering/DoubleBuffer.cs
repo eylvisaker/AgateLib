@@ -28,9 +28,9 @@ namespace AgateLib.UserInterface.Rendering
 {
     public interface IDoubleBuffer
     {
-        IWidgetRenderContext PrepRenderState(IRenderWidget widget, IWidgetRenderContext renderContext);
+        IWidgetRenderContext PrepRenderState(IRenderElement widget, IWidgetRenderContext renderContext);
 
-        void CompleteRendering(Point parentContentDest, IWidgetRenderContext renderContext, IRenderWidget widget);
+        void CompleteRendering(Point parentContentDest, IWidgetRenderContext renderContext, IRenderElement widget);
     }
 
     [Transient]
@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Rendering
         };
 
         public void CompleteRendering(Point parentContentDest,
-            IWidgetRenderContext renderContext, IRenderWidget widget)
+            IWidgetRenderContext renderContext, IRenderElement widget)
         {
             var animation = widget.Display.Animation;
             var display = widget.Display;
@@ -73,7 +73,7 @@ namespace AgateLib.UserInterface.Rendering
                 animation.LayerDepth);
         }
 
-        public IWidgetRenderContext PrepRenderState(IRenderWidget widget, IWidgetRenderContext renderContext)
+        public IWidgetRenderContext PrepRenderState(IRenderElement widget, IWidgetRenderContext renderContext)
         {
             var animation = widget.Display.Animation;
             var display = widget.Display;

@@ -198,11 +198,6 @@ namespace AgateLib.UserInterface
             foreach (var workspace in workspaces)
                 workspace.IsActive = workspace == ActiveWorkspace;
 
-            if (ActiveWorkspace?.AnimationState == AnimationState.Dead)
-            {
-                workspaces.Remove(ActiveWorkspace);
-            }
-
             if (workspaces.Count == 0)
             {
                 OnEmpty();
@@ -220,6 +215,11 @@ namespace AgateLib.UserInterface
 
                 ActiveWorkspace?.Update(renderContext);
 
+                if (ActiveWorkspace?.AnimationState == AnimationState.Dead)
+                {
+                    workspaces.Remove(ActiveWorkspace);
+                }
+
             } while (activeWorkspace != ActiveWorkspace);
         }
 
@@ -231,9 +231,7 @@ namespace AgateLib.UserInterface
 
                 foreach (var w in workspaces)
                 {
-                    var element = w.Render();
-
-                    element.Draw(renderContext, new Point(0, 0));
+                    w.Draw(renderContext);
                 }
             }
             finally

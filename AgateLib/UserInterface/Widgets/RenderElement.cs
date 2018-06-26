@@ -68,4 +68,48 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="widgetEventArgs"></param>
         void ProcessEvent(WidgetEventArgs widgetEventArgs);
     }
+
+    public abstract class RenderElement<TProps> : IRenderElement where TProps : RenderElementProps
+    {
+        public RenderElement(TProps props)
+        {
+            this.Props = props;
+        }
+
+        public WidgetDisplay Display { get; } = new WidgetDisplay();
+
+        public virtual IWidgetChildren Children => null;
+
+        public virtual IRenderElement Focus
+        {
+            get => null;
+            set => throw new NotImplementedException();
+        }
+
+        public string StyleTypeIdentifier => Props.StyleClass;
+
+        public string Name => Props.StyleId;
+
+        public virtual bool CanHaveFocus => false;
+
+        public TProps Props { get; }
+
+        public abstract Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize);
+
+        public abstract void Draw(IWidgetRenderContext renderContext, Point offset);
+
+        public virtual void ProcessEvent(WidgetEventArgs widgetEventArgs)
+        { }
+
+        public virtual void Update(IWidgetRenderContext renderContext)
+        {
+        }
+    }
+
+    public class RenderElementProps
+    {
+        public string StyleId { get; set; }
+
+        public string StyleClass { get; set; }
+    }
 }
