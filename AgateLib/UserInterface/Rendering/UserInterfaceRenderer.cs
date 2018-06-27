@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Rendering
         /// <param name="renderContext"></param>
         /// <param name="display"></param>
         /// <param name="dest"></param>
-        void DrawBackground(IWidgetRenderContext renderContext, WidgetDisplay display, Point dest);
+        void DrawBackground(IWidgetRenderContext renderContext, WidgetDisplay display, Rectangle clientDest);
 
         /// <summary>
         /// Draws the border of a widget.
@@ -56,7 +56,7 @@ namespace AgateLib.UserInterface.Rendering
         /// <param name="renderContext"></param>
         /// <param name="display"></param>
         /// <param name="dest"></param>
-        void DrawFrame(IWidgetRenderContext renderContext, WidgetDisplay display, Point dest);
+        void DrawFrame(IWidgetRenderContext renderContext, WidgetDisplay display, Rectangle clientDest);
 
 
         void DrawBackground(SpriteBatch spriteBatch, BackgroundStyle background, Rectangle backgroundRect);
@@ -103,7 +103,7 @@ namespace AgateLib.UserInterface.Rendering
         {
         }
 
-        public void DrawBackground(IWidgetRenderContext renderContext, WidgetDisplay display, Point dest)
+        public void DrawBackground(IWidgetRenderContext renderContext, WidgetDisplay display, Rectangle clientDest)
         {
             // This draws the background behind the border - a problem for borders which have transparency on their outer edges
             // but important for borders which have transparency on their inner edges. Oh what to do...
@@ -115,8 +115,8 @@ namespace AgateLib.UserInterface.Rendering
             // Here we make a compromise and set the background rectangle to be slightly smaller than
             // the border rectangle
             Rectangle backgroundRect = new Rectangle(
-                dest.X - display.Region.BorderToContentOffset.Left + display.Region.Style.Border.Left.Width / 2, 
-                dest.Y - display.Region.BorderToContentOffset.Top + display.Region.Style.Border.Top.Width / 2,
+                clientDest.X - display.Region.BorderToContentOffset.Left + display.Region.Style.Border.Left.Width / 2,
+                clientDest.Y - display.Region.BorderToContentOffset.Top + display.Region.Style.Border.Top.Width / 2,
                 display.Region.BorderRect.Width - display.Region.Style.Border.Width / 2,
                 display.Region.BorderRect.Height - display.Region.Style.Border.Height / 2);
 
@@ -131,14 +131,14 @@ namespace AgateLib.UserInterface.Rendering
             styleRenderer.DrawBackground(spriteBatch, background, backgroundRect);
         }
 
-        public void DrawFrame(IWidgetRenderContext renderContext, WidgetDisplay display, Point dest)
+        public void DrawFrame(IWidgetRenderContext renderContext, WidgetDisplay display, Rectangle clientDest)
         {
             styleRenderer.DrawFrame(
                 renderContext.SpriteBatch,
                 display.Style.Border,
                 new Rectangle(
-                    new Point(dest.X - display.Region.BorderToContentOffset.Left,
-                        dest.Y - display.Region.BorderToContentOffset.Top),
+                    new Point(clientDest.X - display.Region.BorderToContentOffset.Left,
+                              clientDest.Y - display.Region.BorderToContentOffset.Top),
                     display.Region.BorderRect.Size));
         }
 

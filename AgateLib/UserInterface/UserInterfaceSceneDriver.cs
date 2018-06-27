@@ -22,6 +22,7 @@
 
 using System;
 using AgateLib.Input;
+using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,7 +36,7 @@ namespace AgateLib.UserInterface
 
         private UserInterfaceInputEvents uiInput = new UserInterfaceInputEvents();
 
-        public UserInterfaceSceneDriver(IWidgetRenderContext renderContext)
+        public UserInterfaceSceneDriver(IWidgetRenderContext renderContext, IStyleConfigurator style)
         {
             this.renderContext = renderContext;
 
@@ -43,6 +44,7 @@ namespace AgateLib.UserInterface
                 widget => widget.Display.Instructions = Desktop.Instructions;
 
             desktop = new Desktop();
+            desktop.Style = style;
 
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
 

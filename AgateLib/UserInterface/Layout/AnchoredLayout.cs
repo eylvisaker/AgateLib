@@ -106,7 +106,7 @@ namespace AgateLib.UserInterface.Layout
 
         public WidgetDisplay Display => throw new NotImplementedException();
 
-        public IWidgetChildren Children => throw new NotImplementedException();
+        public IEnumerable<IRenderElement> Children => throw new NotImplementedException();
 
         IRenderElement IRenderElement.Focus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -115,6 +115,8 @@ namespace AgateLib.UserInterface.Layout
         public string Name => throw new NotImplementedException();
 
         public bool CanHaveFocus => throw new NotImplementedException();
+
+        public IRenderElementStyle Style => throw new NotImplementedException();
 
         public Size ComputeIdealSize(Size maxSize, IWidgetRenderContext renderContext)
         {
@@ -197,7 +199,7 @@ namespace AgateLib.UserInterface.Layout
             throw new NotImplementedException();
         }
 
-        public void Draw(IWidgetRenderContext renderContext, Point offset)
+        public void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
             throw new NotImplementedException();
         }

@@ -102,9 +102,11 @@ namespace AgateLib.UserInterface.Rendering
             newRenderContext.Indicator = renderContext.Indicator;
             newRenderContext.SpriteBatch.Begin();
 
-            widget.Display.Animation.Buffer.ContentDestination = new Point(
+            widget.Display.Animation.Buffer.ContentDestination = new Rectangle(
                 display.Region.MarginToContentOffset.Left,
-                display.Region.MarginToContentOffset.Top);
+                display.Region.MarginToContentOffset.Top,
+                widget.Display.Animation.RenderTarget.Width - display.Region.MarginToContentOffset.Right,
+                widget.Display.Animation.RenderTarget.Height - display.Region.MarginToContentOffset.Bottom);
 
             return newRenderContext;
         }

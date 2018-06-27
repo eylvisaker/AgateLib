@@ -28,6 +28,7 @@ using AgateLib.Quality;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
+using AgateLib.UserInterface.Styling;
 
 namespace AgateLib.UserInterface
 {
@@ -50,11 +51,13 @@ namespace AgateLib.UserInterface
             inputEventArgsInitialize = inputEventArgs;
         }
 
+        public IStyleConfigurator Style { get; set; }
+
         /// <summary>
         /// Explores all the widgets on the desktop using a depth-first search.
         /// </summary>
         /// <param name="explorer"></param>
-        public void Explore(Action<IRenderWidget, IRenderWidget> explorer)
+        public void Explore(Action<IRenderElement, IRenderElement> explorer)
         {
             foreach(var workspace in workspaces)
             {
@@ -90,13 +93,16 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="workspace">The new active workspace.</param>
         /// <param name="activateWindow">Optional; the name of the window to activate in the workspace. If this parameter is blank no window will be activated by this method.</param>
-        /// <param name="style">Optional; specify an IStyleConfigurator object to apply styling to the window.</param>
         public void PushWorkspace(Workspace workspace, string activateWindow = "")
         {
             Require.Not(inDraw, "Cannot add workspace while drawing.");
             Require.Not(workspaces.Contains(workspace), "Cannot add same workspace twice.", CommonException.ArgumentException);
 
             workspaces.Add(workspace);
+
+            workspace.Style = Style;
+
+            workspace.Render();
 
             workspace.Instructions = Instructions;
 

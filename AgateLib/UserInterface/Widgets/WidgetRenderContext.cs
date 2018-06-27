@@ -291,9 +291,11 @@ namespace AgateLib.UserInterface.Widgets
             }
             else
             {
-                Point dest = parentContentDest;
-                dest.X += widget.Display.Animation.ContentRect.X;
-                dest.Y += widget.Display.Animation.ContentRect.Y;
+                Rectangle dest = new Rectangle(
+                    parentContentDest.X + widget.Display.Animation.ContentRect.X,
+                    parentContentDest.Y + widget.Display.Animation.ContentRect.Y,
+                    widget.Display.Animation.ContentRect.Width,
+                    widget.Display.Animation.ContentRect.Height);
 
                 UserInterfaceRenderer.DrawBackground(this, widget.Display, dest);
                 UserInterfaceRenderer.DrawFrame(this, widget.Display, dest);
@@ -316,12 +318,12 @@ namespace AgateLib.UserInterface.Widgets
             EndWorkspace(workspace);
         }
 
-
+        [Obsolete]
         public void DrawWorkspace(Workspace workspace, VisualTree visualTree)
         {
             WorkspaceIsActive = workspace.IsActive;
 
-            DrawChildren(Point.Zero, visualTree.Items);
+            DrawChildren(Point.Zero, new[] { visualTree.TreeRoot });
 
             EndWorkspace(workspace);
         }

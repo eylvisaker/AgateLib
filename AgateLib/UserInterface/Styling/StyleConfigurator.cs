@@ -21,12 +21,10 @@
 //
 
 using AgateLib.UserInterface;
-using AgateLib.UserInterface.Styling;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using AgateLib.UserInterface.Widgets;
-using AgateLib.Display;
 
 namespace AgateLib.UserInterface.Styling
 {
@@ -35,12 +33,14 @@ namespace AgateLib.UserInterface.Styling
     /// </summary>
 	public interface IStyleConfigurator
 	{
+        void Apply(IRenderElement root, string defaultTheme);
+
         /// <summary>
         /// Applies styling to a widget and its children.
         /// </summary>
         /// <param name="widget"></param>
         /// <param name="defaultTheme"></param>
-		void ApplyStyle(IRenderWidget widget, string defaultTheme);
+        void ApplyStyle(IRenderElement widget, string defaultTheme);
 	}
 
 }

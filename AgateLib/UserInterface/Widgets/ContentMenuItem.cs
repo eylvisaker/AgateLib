@@ -81,11 +81,11 @@ namespace AgateLib.UserInterface.Widgets
             return content?.Size ?? Size.Empty;
         }
 
-        public override void Draw(IWidgetRenderContext renderContext, Point offset)
+        public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
             RefreshContent(renderContext);
 
-            content.Draw(offset.ToVector2(), renderContext.SpriteBatch);
+            content.Draw(clientArea.Location.ToVector2(), renderContext.SpriteBatch);
         }
         
         public override void ProcessEvent(WidgetEventArgs inputEventArgs)

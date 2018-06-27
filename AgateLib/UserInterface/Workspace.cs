@@ -25,6 +25,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -223,7 +224,11 @@ namespace AgateLib.UserInterface
             set => throw new NotImplementedException();
         }
 
-        public string DefaultTheme { get; set; }
+        public string DefaultTheme
+        {
+            get => visualTree.DefaultTheme;
+            set => visualTree.DefaultTheme = value;
+        }
 
         public void Clear()
         {
@@ -261,10 +266,17 @@ namespace AgateLib.UserInterface
             //workspaceRenderContext.Update(layout.Items);
 
             //throw new NotImplementedException();
-
-            visualTree.Render(children.Select(c => c.Render()));
+            Render();
 
             visualTree.Update(renderContext);
+        }
+
+        public void Render()
+        {
+            visualTree.Render(new FlexContainer(new FlexContainerProps
+            {
+                Children = children.Select(c => c.Render())
+            }));
         }
 
         private void UpdateLayout()
@@ -278,7 +290,7 @@ namespace AgateLib.UserInterface
 
         public void Draw(IWidgetRenderContext renderContext)
         {
-            renderContext.DrawWorkspace(this, visualTree);
+            visualTree.TreeRoot.Draw(renderContext, new Rectangle(Point.Zero, Size));
         }
 
 
@@ -288,9 +300,9 @@ namespace AgateLib.UserInterface
         /// <param name="explorer">A function which takes two parameters: the parent
         /// widget and the child widget. Parent widget will be null for top level
         /// widgets.</param>
-        public void Explore(Action<IRenderWidget, IRenderWidget> explorer)
+        public void Explore(Action<IRenderElement, IRenderElement> explorer)
         {
-            void ExploreInner(IRenderWidget parent)
+            void ExploreInner(IRenderElement parent)
             {
                 if (parent.Children == null)
                     return;
@@ -317,7 +329,7 @@ namespace AgateLib.UserInterface
             Explore((parent, child) =>
             {
                 child.Display.Instructions = Instructions;
-                child.Initialize();
+                //child.Initialize();
             });
         }
 
@@ -383,22 +395,28 @@ namespace AgateLib.UserInterface
         {
             get
             {
-                if (visualTree.Items.Any(x => x.Display.Animation.State == AnimationState.TransitionIn))
+                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animation.State == AnimationState.TransitionIn))
                     return AnimationState.TransitionIn;
 
-                if (visualTree.Items.Any(x => x.Display.Animation.State == AnimationState.TransitionOut))
+                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animation.State == AnimationState.TransitionOut))
                     return AnimationState.TransitionOut;
 
-                if (visualTree.Items.All(x => x.Display.Animation.State == AnimationState.Dead))
+                if (visualTree.TreeRoot.Children.All(x => x.Display.Animation.State == AnimationState.Dead))
                     return AnimationState.Dead;
 
                 return AnimationState.Static;
             }
         }
 
+        public IStyleConfigurator Style
+        {
+            get => visualTree.Style;
+            set => visualTree.Style = value;
+        }
+
         internal void TransitionOut()
         {
-            foreach (var window in visualTree.Items)
+            foreach (var window in visualTree.TreeRoot.Children)
             {
                 window.Display.Animation.State = AnimationState.TransitionOut;
             }
@@ -406,7 +424,7 @@ namespace AgateLib.UserInterface
 
         internal void TransitionIn()
         {
-            foreach (var window in visualTree.Items)
+            foreach (var window in visualTree.TreeRoot.Children)
             {
                 window.Display.Animation.State = AnimationState.TransitionIn;
             }

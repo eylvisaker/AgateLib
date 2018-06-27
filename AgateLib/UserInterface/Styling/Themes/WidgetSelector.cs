@@ -29,7 +29,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 {
     public interface IWidgetSelector
     {
-        bool Matches(IRenderWidget widget, IWidgetStackState state);
+        bool Matches(IRenderElement widget, IWidgetStackState state);
     }
 
     public class ParentWidgetSelector : WidgetSelector
@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             this.parentType = parentType;
         }
 
-        public override bool Matches(IRenderWidget widget, IWidgetStackState state)
+        public override bool Matches(IRenderElement widget, IWidgetStackState state)
         {
             return IsType(state.Parent, parentType);
         }
@@ -49,7 +49,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
     public abstract class WidgetSelector : IWidgetSelector
     {
-        public bool IsType(IRenderWidget widget, string typeIdentifier)
+        public bool IsType(IRenderElement widget, string typeIdentifier)
         {
             if (widget == null)
                 return typeIdentifier == null;
@@ -57,7 +57,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             return widget.StyleTypeIdentifier.Equals(typeIdentifier, StringComparison.OrdinalIgnoreCase);
         }
 
-        public abstract bool Matches(IRenderWidget widget, IWidgetStackState state);
+        public abstract bool Matches(IRenderElement widget, IWidgetStackState state);
     }
 
     public class PatternWidgetSelector : WidgetSelector
@@ -103,7 +103,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public override string ToString() => regex.ToString();
 
-        public override bool Matches(IRenderWidget widget, IWidgetStackState state)
+        public override bool Matches(IRenderElement widget, IWidgetStackState state)
         {
             var id = BuildStateIdentifier(widget, state);
 
@@ -117,7 +117,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             return result;
         }
 
-        private string BuildStateIdentifier(IRenderWidget widget, IWidgetStackState state)
+        private string BuildStateIdentifier(IRenderElement widget, IWidgetStackState state)
         {
             if (state.Parent == null)
                 return widget.StyleTypeIdentifier;

@@ -46,6 +46,8 @@ namespace AgateLib.UserInterface.Layout
         private int focusIndex = -1;
         private bool layoutDirty;
 
+        public ListLayout() {
+        }
         public event WidgetEventHandler WidgetAdded;
 
         public event EventHandler FocusChanged;
@@ -107,9 +109,11 @@ namespace AgateLib.UserInterface.Layout
 
         public bool CanHaveFocus => throw new NotImplementedException();
 
-        public IWidgetChildren Children => throw new NotImplementedException();
+        public IEnumerable<IRenderElement> Children => throw new NotImplementedException();
 
         IRenderElement IRenderElement.Focus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public IRenderElementStyle Style => throw new NotImplementedException();
 
         IRenderWidget IList<IRenderWidget>.this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IRenderElement this[int index]
@@ -229,7 +233,7 @@ namespace AgateLib.UserInterface.Layout
             throw new NotImplementedException();
         }
 
-        public void Draw(IWidgetRenderContext renderContext, Point offset)
+        public void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
             throw new NotImplementedException();
         }

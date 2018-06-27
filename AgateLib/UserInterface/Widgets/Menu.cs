@@ -55,11 +55,11 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         private bool cancelButton = false;
         private CancelEventArgs cancelEventArgs = new CancelEventArgs();
-        IWidgetLayout layout = new SingleColumnLayout();
 
         public Menu(MenuProps props) : base(props)
         {
             SetState(new MenuState());
+            
         }
 
         public event Action Exit;
@@ -143,8 +143,10 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderElement Render()
         {
-            layout.SetChildren(Props.Children.Select(c => c.Render()));
-            return layout;
+            return new FlexContainer(new FlexContainerProps
+            {
+                Children = Props.Children.Select(c => c.Render())
+            });
         }
 
         protected void OnButtonDown(MenuInputButton button)

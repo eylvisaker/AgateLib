@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.Display;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Styling.Themes
@@ -31,21 +32,59 @@ namespace AgateLib.UserInterface.Styling.Themes
     public class ThemeStyler : IStyleConfigurator
     {
         private readonly StyleConfiguratorState state;
+        private readonly IThemeCollection themes;
 
         public ThemeStyler(IFontProvider fontProvider, IThemeCollection themes)
         {
             state = new StyleConfiguratorState(themes) { Fonts = fontProvider };
+            this.themes = themes;
         }
 
-        public void ApplyStyle(IRenderWidget widget, string defaultTheme)
+        public void ApplyStyle(IRenderElement widget, string defaultTheme)
         {
             state.DefaultTheme = defaultTheme;
 
             ApplyStyleCore(widget);
         }
 
-        private void ApplyStyleCore(IRenderWidget widget)
-        { 
+        public void Apply(IRenderElement rootWidget, string defaultTheme)
+        {
+            void ApplyRecurse(IRenderElement widget, ITheme theme, Font font)
+            {
+                theme = ThemeOf(widget, theme);
+                FontOf(widget, font);
+
+                theme.Apply(widget);
+
+                foreach (var child in widget.Children)
+                {
+                    ApplyRecurse(child, theme, font);
+                }
+            }
+
+            var initialTheme = ThemeOf(rootWidget, themes[defaultTheme]);
+
+            ApplyRecurse(rootWidget, initialTheme, initialTheme.Fonts.Default);
+        }
+
+        private Font FontOf(IRenderElement widget, Font font)
+        {
+            widget.Display.Style.
+        }
+
+        private ITheme ThemeOf(IRenderElement widget, ITheme theme)
+        {
+            if (!string.IsNullOrWhiteSpace(widget.Display.Theme)
+                && themes.ContainsKey(widget.Display.Theme))
+            {
+                return themes[widget.Display.Theme];
+            }
+
+            return theme;
+        }
+
+        private void ApplyStyleCore(IRenderElement widget)
+        {
             try
             {
                 state.PushTheme(widget.Display.Theme);
@@ -81,7 +120,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         private IThemeCollection themes;
 
         private Stack<string> widgetThemes = new Stack<string>();
-        private List<IRenderWidget> parents = new List<IRenderWidget>();
+        private List<IRenderElement> parents = new List<IRenderElement>();
 
         private IFontProvider fonts;
 
@@ -149,11 +188,11 @@ namespace AgateLib.UserInterface.Styling.Themes
         }
 
 
-        public IRenderWidget Parent => parents.Count > 0 ? parents[parents.Count - 1] : null;
+        public IRenderElement Parent => parents.Count > 0 ? parents[parents.Count - 1] : null;
 
         public string DefaultTheme { get; set; }
 
-        public void PushParent(IRenderWidget widget)
+        public void PushParent(IRenderElement widget)
         {
             parents.Add(widget);
         }

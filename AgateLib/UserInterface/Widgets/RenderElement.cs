@@ -15,9 +15,9 @@ namespace AgateLib.UserInterface.Widgets
         WidgetDisplay Display { get; }
 
         /// <summary>
-        /// Gets a read-only collection of children of this widget.
+        /// Gets a read-only collection of children of this element.
         /// </summary>
-        IWidgetChildren Children { get; }
+        IEnumerable<IRenderElement> Children { get; }
 
         /// <summary>
         /// Gets the child of this element that has focus.
@@ -30,6 +30,10 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         string StyleTypeIdentifier { get; }
 
+        // TODO: Add StyleClass property.
+        // TODO: Add StyleId property.
+        
+
         /// <summary>
         /// Gets the name of the widget.
         /// </summary>
@@ -39,14 +43,16 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets whether or not the widget can receive input focus.
         /// </summary>
         bool CanHaveFocus { get; }
-        
+
+        IRenderElementStyle Style { get; }
+
         /// <summary>
         /// Draws the content of the widget.
         /// To draw children, call <c >renderContext.DrawChildren</c>.
         /// </summary>
         /// <param name="renderContext"></param>
         /// <param name="offset"></param>
-        void Draw(IWidgetRenderContext renderContext, Point offset);
+        void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
 
         /// <summary>
         /// Updates the widget.
@@ -78,7 +84,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public WidgetDisplay Display { get; } = new WidgetDisplay();
 
-        public virtual IWidgetChildren Children => null;
+
+        public virtual IEnumerable<IRenderElement> Children => null;
 
         public virtual IRenderElement Focus
         {
@@ -86,7 +93,13 @@ namespace AgateLib.UserInterface.Widgets
             set => throw new NotImplementedException();
         }
 
-        public string StyleTypeIdentifier => Props.StyleClass;
+        public IRenderElementStyle Style { get; } = new RenderElementStyle();
+
+        public virtual string StyleTypeIdentifier => GetType().Name;
+
+        public string StyleClass => Props.StyleClass;
+
+        public string StyleId => Props.StyleId;
 
         public string Name => Props.StyleId;
 
@@ -96,7 +109,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public abstract Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize);
 
-        public abstract void Draw(IWidgetRenderContext renderContext, Point offset);
+        public abstract void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
 
         public virtual void ProcessEvent(WidgetEventArgs widgetEventArgs)
         { }

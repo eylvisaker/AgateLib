@@ -160,14 +160,14 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the readonly collection of children.
         /// </summary>
-        public virtual IWidgetChildren Children => null;
+        public virtual IEnumerable<IRenderElement> Children => null;
 
         /// <summary>
         /// Gets the child of this widget that has focus.
         /// </summary>
         public virtual IRenderWidget Focus
         {
-            get => Children?.Focus;
+            get => null;
             set => throw new InvalidOperationException();
         }
 
@@ -184,6 +184,8 @@ namespace AgateLib.UserInterface.Widgets
         public object Tag { get; set; }
         IRenderElement IRenderElement.Focus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public IRenderElementStyle Style => throw new NotImplementedException();
+
         /// <summary>
         /// Compute the ideal size of the content of the widget.
         /// </summary>
@@ -194,7 +196,7 @@ namespace AgateLib.UserInterface.Widgets
             IWidgetRenderContext renderContext,
             Size maxSize);
 
-        public abstract void Draw(IWidgetRenderContext renderContext, Point offset);
+        public abstract void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
 
         public abstract void Update(IWidgetRenderContext renderContext);
 

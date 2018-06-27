@@ -57,14 +57,14 @@ namespace AgateLib.Mathematics.Geometry
 			this.height = height;
 		}
 
-		public static implicit operator Size(Microsoft.Xna.Framework.Point pt)
+		public static implicit operator Size(Point pt)
 		{
 			return new Size(pt.X, pt.Y);
 		}
 
-		public static implicit operator Microsoft.Xna.Framework.Point(Size sz)
+		public static implicit operator Point(Size sz)
 		{
-			return new Microsoft.Xna.Framework.Point(sz.Width, sz.Height);
+			return new Point(sz.Width, sz.Height);
 		}
 
 		/// <summary>
@@ -135,9 +135,9 @@ namespace AgateLib.Mathematics.Geometry
 		/// Converts a Size to a Vector2f.
 		/// </summary>
 		/// <param name="size"></param>
-		public static explicit operator Microsoft.Xna.Framework.Vector2(Size size)
+		public static explicit operator Vector2(Size size)
 		{
-			return new Microsoft.Xna.Framework.Vector2(size.Width, size.Height);
+			return new Vector2(size.Width, size.Height);
 		}
 
 		#endregion

@@ -41,10 +41,10 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        public override void Draw(IWidgetRenderContext renderContext, Point offset)
+        public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
             Display.Font.DrawText(renderContext.SpriteBatch,
-                offset.ToVector2(), Props.Text);
+                clientArea.Location.ToVector2(), Props.Text);
         }
     }
 

@@ -29,7 +29,7 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public class BufferState
 	{
-		public Point ContentDestination { get; internal set; }
+		public Rectangle ContentDestination { get; internal set; }
 
 		public WidgetRenderContext RenderContext { get; internal set; }
 	}
