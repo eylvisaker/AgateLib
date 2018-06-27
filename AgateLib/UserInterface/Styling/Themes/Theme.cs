@@ -37,10 +37,13 @@ namespace AgateLib.UserInterface.Styling.Themes
     {
         IFontProvider Fonts { get; set; }
 
+        [Obsolete]
         void ApplyTo(IRenderElement widget, IWidgetStackState state);
-        void Apply(IRenderElement widget);
+
+        void Apply(IRenderElement widget, RenderElementStack parentStack);
     }
 
+    [Obsolete]
     public interface IWidgetStackState
     {
         IRenderElement Parent { get; }
@@ -123,6 +126,15 @@ namespace AgateLib.UserInterface.Styling.Themes
         }
 
         public IFontProvider Fonts { get; set; }
+
+        public void Apply(IRenderElement element, RenderElementStack stack)
+        {
+            element.Display.ElementStyles.Clear();
+
+            element.Display.ElementStyles.AddRange(
+                data.Where(x => x.Selector.Matches(element, stack))
+                    .Select(x => x.ToElementStyle()));
+        }
 
         public void ApplyTo(IRenderElement widget, IWidgetStackState state)
         {

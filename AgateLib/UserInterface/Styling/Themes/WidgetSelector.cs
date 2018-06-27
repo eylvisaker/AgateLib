@@ -21,6 +21,7 @@
 //
 
 using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using AgateLib.UserInterface.Widgets;
@@ -29,7 +30,9 @@ namespace AgateLib.UserInterface.Styling.Themes
 {
     public interface IWidgetSelector
     {
+        [Obsolete]
         bool Matches(IRenderElement widget, IWidgetStackState state);
+        bool Matches(IRenderElement element, RenderElementStack stack);
     }
 
     public class ParentWidgetSelector : WidgetSelector
@@ -45,6 +48,14 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             return IsType(state.Parent, parentType);
         }
+
+        public override bool Matches(IRenderElement element, RenderElementStack stack)
+        {
+            if (stack.ParentStack.Count == 0)
+                return false;
+
+            return IsType(stack.ParentStack.Last(), parentType);
+        }
     }
 
     public abstract class WidgetSelector : IWidgetSelector
@@ -58,6 +69,8 @@ namespace AgateLib.UserInterface.Styling.Themes
         }
 
         public abstract bool Matches(IRenderElement widget, IWidgetStackState state);
+
+        public abstract bool Matches(IRenderElement element, RenderElementStack stack);
     }
 
     public class PatternWidgetSelector : WidgetSelector
@@ -105,7 +118,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public override bool Matches(IRenderElement widget, IWidgetStackState state)
         {
-            var id = BuildStateIdentifier(widget, state);
+            var id = BuildStateIdentifier(widget, state.Parent);
 
             return Matches(id);
         }
@@ -117,12 +130,19 @@ namespace AgateLib.UserInterface.Styling.Themes
             return result;
         }
 
-        private string BuildStateIdentifier(IRenderElement widget, IWidgetStackState state)
+        private string BuildStateIdentifier(IRenderElement widget, IRenderElement parent)
         {
-            if (state.Parent == null)
+            if (parent == null)
                 return widget.StyleTypeIdentifier;
 
-            return state.Parent.StyleTypeIdentifier + "." + widget.StyleTypeIdentifier;
+            return parent.StyleTypeIdentifier + "." + widget.StyleTypeIdentifier;
+        }
+
+        public override bool Matches(IRenderElement element, RenderElementStack stack)
+        {
+            var id = BuildStateIdentifier(element, stack.ParentStack.LastOrDefault());
+
+            return Matches(id);
         }
     }
 }

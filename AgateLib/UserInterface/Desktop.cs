@@ -102,13 +102,13 @@ namespace AgateLib.UserInterface
 
             workspace.Style = Style;
 
-            workspace.Render();
-
-            workspace.Instructions = Instructions;
-
             // TODO: find a better way to do this.
             if (string.IsNullOrWhiteSpace(workspace.DefaultTheme))
                 workspace.DefaultTheme = DefaultTheme;
+
+            workspace.Render();
+
+            workspace.Instructions = Instructions;
 
             if (!string.IsNullOrWhiteSpace(activateWindow))
             {

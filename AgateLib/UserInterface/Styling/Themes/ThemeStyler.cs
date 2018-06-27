@@ -49,27 +49,35 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public void Apply(IRenderElement rootWidget, string defaultTheme)
         {
+            RenderElementStack parentStack = new RenderElementStack();
+
             void ApplyRecurse(IRenderElement widget, ITheme theme, Font font)
             {
                 theme = ThemeOf(widget, theme);
-                FontOf(widget, font);
 
-                theme.Apply(widget);
+                theme.Apply(widget, parentStack);
 
-                foreach (var child in widget.Children)
+                if (widget.Children == null)
+                    return;
+
+                try
                 {
-                    ApplyRecurse(child, theme, font);
+                    parentStack.PushParent(widget);
+
+                    foreach (var child in widget.Children)
+                    {
+                        ApplyRecurse(child, theme, font);
+                    }
+                }
+                finally
+                {
+                    parentStack.PopParent();
                 }
             }
 
             var initialTheme = ThemeOf(rootWidget, themes[defaultTheme]);
 
             ApplyRecurse(rootWidget, initialTheme, initialTheme.Fonts.Default);
-        }
-
-        private Font FontOf(IRenderElement widget, Font font)
-        {
-            widget.Display.Style.
         }
 
         private ITheme ThemeOf(IRenderElement widget, ITheme theme)
@@ -112,6 +120,23 @@ namespace AgateLib.UserInterface.Styling.Themes
             {
                 state.PopTheme();
             }
+        }
+    }
+
+    public class RenderElementStack
+    {
+        List<IRenderElement> parentStack = new List<IRenderElement>();
+
+        public IReadOnlyList<IRenderElement> ParentStack => parentStack;
+
+        public void PushParent(IRenderElement parent)
+        {
+            parentStack.Add(parent);
+        }
+
+        public void PopParent()
+        {
+            parentStack.RemoveAt(parentStack.Count - 1);
         }
     }
 
