@@ -138,7 +138,7 @@ namespace AgateLib.UserInterface.Widgets
         public event EventHandler FocusLost;
         public event EventHandler<MenuInputButton> ButtonDown;
         public event EventHandler<MenuInputButton> ButtonUp;
-        public event EventHandler<Point> AfterDraw;
+        public event EventHandler<Rectangle> AfterDraw;
 
         /// <summary>
         /// Gets or sets the name of the widget.
@@ -221,12 +221,12 @@ namespace AgateLib.UserInterface.Widgets
                     break;
 
                 case WidgetEventType.DrawComplete:
-                    OnDrawComplete(widgetEventArgs.Location);
+                    OnDrawComplete(widgetEventArgs.Area);
                     break;
             }
         }
 
-        private void OnDrawComplete(Point location)
+        private void OnDrawComplete(Rectangle location)
         {
             AfterDraw?.Invoke(this, location);
         }

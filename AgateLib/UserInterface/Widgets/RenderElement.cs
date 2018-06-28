@@ -131,14 +131,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public void DrawChildren(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
-            foreach(var child in Children)
-            {
-                var childClient = child.Display.Region.ContentRect;
-
-                childClient.Location += clientArea.Location;
-
-                child.Draw(renderContext, childClient);
-            }
+            renderContext.DrawChildren(clientArea, Children);
         }
 
         public override string ToString()

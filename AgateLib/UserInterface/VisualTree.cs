@@ -52,6 +52,7 @@ namespace AgateLib.UserInterface
             {
                 x.Display.Fonts = renderContext.Fonts;
                 x.Style.Update();
+                renderContext.UpdateAnimation(x);
             });
 
             root.Update(renderContext);

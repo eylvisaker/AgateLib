@@ -59,11 +59,11 @@ namespace AgateLib.Fakes
             });
         }
 
-        public void DrawChild(Point contentDest, IRenderElement child)
+        public void DrawChild(Rectangle contentDest, IRenderElement child)
         {
         }
 
-        public void DrawChildren(Point contentDest, IEnumerable<IRenderElement> children)
+        public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderElement> children)
         {
         }
 
@@ -106,6 +106,11 @@ namespace AgateLib.Fakes
 
         public void DrawWorkspace(Workspace workspace, VisualTree visualTree)
         {
+        }
+
+        public void UpdateAnimation(IRenderElement x)
+        {
+            throw new NotImplementedException();
         }
     }
 }

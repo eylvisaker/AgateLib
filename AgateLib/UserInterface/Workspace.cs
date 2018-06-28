@@ -37,129 +37,12 @@ namespace AgateLib.UserInterface
 {
     public class Workspace
     {
-        [Obsolete("I think this can go away.")]
-        private class WorkspaceRenderContext : IWidgetRenderContext
-        {
-            private IWidgetRenderContext rootRenderContext;
-
-            public WorkspaceRenderContext(Workspace workspace)
-            {
-                Workspace = workspace;
-            }
-
-            public Workspace Workspace { get; }
-
-            public GraphicsDevice GraphicsDevice => rootRenderContext.GraphicsDevice;
-
-            public SpriteBatch SpriteBatch => rootRenderContext.SpriteBatch;
-
-            public RenderTarget2D RenderTarget => rootRenderContext.RenderTarget;
-
-            public GameTime GameTime => rootRenderContext.GameTime;
-
-            public IFontProvider Fonts => rootRenderContext.Fonts;
-
-            public IUserInterfaceRenderer UserInterfaceRenderer => rootRenderContext.UserInterfaceRenderer;
-
-            public IMenuIndicatorRenderer Indicator => rootRenderContext.Indicator;
-
-            public Rectangle Area => rootRenderContext.Area;
-
-            public Size GraphicsDeviceRenderTargetSize => rootRenderContext.GraphicsDeviceRenderTargetSize;
-
-            public IWidgetRenderContext RootRenderContext
-            {
-                get => rootRenderContext;
-                set => rootRenderContext = value ?? throw new ArgumentNullException();
-            }
-
-            public event Action<IRenderWidget> BeforeUpdate
-            {
-                add
-                {
-                    rootRenderContext.BeforeUpdate += value;
-                }
-                remove
-                {
-                    rootRenderContext.BeforeUpdate -= value;
-                }
-            }
-
-            public void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme)
-            {
-                rootRenderContext.ApplyStyles(items, defaultTheme);
-            }
-
-            public IContentLayout CreateContentLayout(string text, ContentLayoutOptions contentLayoutOptions, bool localizeText = true)
-            {
-                return rootRenderContext.CreateContentLayout(text, contentLayoutOptions, localizeText);
-            }
-
-            public void DrawChild(Point contentDest, IRenderWidget child)
-            {
-                rootRenderContext.DrawChild(contentDest, child);
-            }
-
-            public void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children)
-            {
-                rootRenderContext.DrawChildren(contentDest, children);
-            }
-
-            public void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
-            {
-                rootRenderContext.BeginDraw(time, spriteBatch, renderTarget);
-            }
-
-            public void InitializeUpdate(GameTime time)
-            {
-                rootRenderContext.InitializeUpdate(time);
-            }
-
-            public void Update(IRenderWidget widget)
-            {
-                widget.Display.Instructions = Workspace.Instructions;
-
-                UserInterfaceRenderer?.UpdateAnimation(this, widget);
-
-                ((IWidget)widget).Update(this);
-            }
-
-            public void Update(IEnumerable<IRenderWidget> items)
-            {
-                foreach (var item in items)
-                {
-                    Update(item);
-                }
-            }
-
-            public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)
-            {
-                rootRenderContext.DrawWorkspace(workspace, items);
-            }
-
-            public void DrawChild(Point contentDest, IRenderElement child)
-            {
-                rootRenderContext.DrawChild(contentDest, child);
-            }
-
-            public void DrawChildren(Point contentDest, IEnumerable<IRenderElement> children)
-            {
-                rootRenderContext.DrawChildren(contentDest, children);
-            }
-
-            public void DrawWorkspace(Workspace workspace, VisualTree visualTree)
-            {
-                rootRenderContext.DrawWorkspace(workspace, visualTree);
-            }
-        }
-
         private readonly SizeMetrics screenMetrics = new SizeMetrics();
         private readonly WidgetRegion region = new WidgetRegion(new WidgetStyle());
         private readonly VisualTree visualTree = new VisualTree();
         private IWidgetLayout layout;
         private IInstructions instructions;
 
-        private WorkspaceRenderContext workspaceRenderContext;
         private List<IWidget> children = new List<IWidget>();
 
         private IWidget activeWindow;
@@ -172,8 +55,6 @@ namespace AgateLib.UserInterface
         /// an AnchoredLayout object.</param>
         public Workspace(string name, OriginAlignment anchor = OriginAlignment.Center)
         {
-            workspaceRenderContext = new WorkspaceRenderContext(this);
-
             Name = name;
 
             Layout = new AnchoredLayout { Anchor = anchor };
@@ -284,20 +165,10 @@ namespace AgateLib.UserInterface
             }));
         }
 
-        private void UpdateLayout()
-        {
-            if (workspaceRenderContext.RootRenderContext == null)
-                return;
-
-            Layout.ComputeIdealSize(Size, workspaceRenderContext);
-            Layout.ApplyLayout(Size, workspaceRenderContext);
-        }
-
         public void Draw(IWidgetRenderContext renderContext)
         {
             visualTree.TreeRoot.Draw(renderContext, new Rectangle(Point.Zero, Size));
         }
-
 
         /// <summary>
         /// Explores the entire UI tree via a depth-first search.

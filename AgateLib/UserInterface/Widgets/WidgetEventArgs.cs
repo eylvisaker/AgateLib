@@ -49,7 +49,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public bool Handled { get; set; }
 
-        public Point Location { get; internal set; }
+        public Rectangle Area { get; internal set; }
 
         private void InitializeButtonDown(MenuInputButton button)
         {
@@ -82,7 +82,7 @@ namespace AgateLib.UserInterface.Widgets
 
         internal WidgetEventArgs Initialize(WidgetEventType eventType)
         {
-            Location = Point.Zero;
+            Area = new Rectangle();
             EventType = eventType;
 
             return this;

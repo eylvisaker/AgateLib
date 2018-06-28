@@ -101,27 +101,20 @@ namespace AgateLib.UserInterface.Widgets
             string text,
             ContentLayoutOptions contentLayoutOptions,
             bool localizeText = true);
-
-        /// <summary>
-        /// Updates all items in a collection.
-        /// </summary>
-        /// <param name="items"></param>
-        [Obsolete("Go home")]
-        void Update(IEnumerable<IRenderWidget> items);
-
+        
         /// <summary>
         /// Draws a child widget of the current widget.
         /// </summary>
-        /// <param name="contentDest"></param>
+        /// <param name="contentArea"></param>
         /// <param name="child"></param>
-        void DrawChild(Point contentDest, IRenderElement child);
+        void DrawChild(Rectangle contentArea, IRenderElement child);
 
         /// <summary>
         /// Draws a collection of child widgets of the current widget.
         /// </summary>
-        /// <param name="contentDest"></param>
+        /// <param name="contentArea"></param>
         /// <param name="children"></param>
-        void DrawChildren(Point contentDest, IEnumerable<IRenderElement> children);
+        void DrawChildren(Rectangle contentArea, IEnumerable<IRenderElement> children);
 
         /// <summary>
         /// Prepares the render context for an update.
@@ -142,6 +135,8 @@ namespace AgateLib.UserInterface.Widgets
 
         void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items);
         void DrawWorkspace(Workspace workspace, VisualTree visualTree);
+
+        void UpdateAnimation(IRenderElement x);
     }
 
     public class WidgetRenderContext : IWidgetRenderContext
@@ -263,27 +258,12 @@ namespace AgateLib.UserInterface.Widgets
             set => workspaceIsActive = value;
         }
 
-        public void Update(IRenderWidget widget)
+        public void UpdateAnimation(IRenderElement widget)
         {
             UserInterfaceRenderer.UpdateAnimation(this, widget);
-
-            BeforeUpdate?.Invoke(widget);
-
-            ((IWidget)widget).Update(this);
-
         }
-
-        [Obsolete("Call Update on your own widgets.")]
-        public void Update(IEnumerable<IRenderWidget> items)
-        {
-            // TODO: after rendering, call UserInterfaceRenderer.UpdateAnimation on each element.
-            foreach (var item in items)
-            {
-                Update(item);
-            }
-        }
-
-        public void DrawChild(Point parentContentDest, IRenderElement widget)
+        
+        public void DrawChild(Rectangle parentContentDest, IRenderElement widget)
         {
             if (widget.Display.Animation.IsDoubleBuffered)
             {
@@ -313,7 +293,7 @@ namespace AgateLib.UserInterface.Widgets
             }
 
             eventArgs.Initialize(WidgetEventType.DrawComplete);
-            eventArgs.Location = parentContentDest;
+            eventArgs.Area = parentContentDest;
 
             widget.ProcessEvent(eventArgs);
         }
@@ -322,7 +302,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             WorkspaceIsActive = workspace.IsActive;
 
-            DrawChildren(Point.Zero, items);
+            DrawChildren(new Rectangle(Point.Zero, workspace.Size), items);
 
             EndWorkspace(workspace);
         }
@@ -332,17 +312,17 @@ namespace AgateLib.UserInterface.Widgets
         {
             WorkspaceIsActive = workspace.IsActive;
 
-            DrawChildren(Point.Zero, new[] { visualTree.TreeRoot });
+            DrawChildren(new Rectangle(), new[] { visualTree.TreeRoot });
 
             EndWorkspace(workspace);
         }
 
-        public void DrawChildren(Point contentDest, IEnumerable<IRenderWidget> children)
+        public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderWidget> children)
         {
             DrawChildren(contentDest, children.Cast<IRenderElement>());
         }
 
-        public void DrawChildren(Point contentDest, IEnumerable<IRenderElement> items)
+        public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderElement> items)
         {
             var oldParent = lastParentWidget;
 

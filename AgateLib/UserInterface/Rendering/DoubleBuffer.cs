@@ -30,7 +30,7 @@ namespace AgateLib.UserInterface.Rendering
     {
         IWidgetRenderContext PrepRenderState(IRenderElement widget, IWidgetRenderContext renderContext);
 
-        void CompleteRendering(Point parentContentDest, IWidgetRenderContext renderContext, IRenderElement widget);
+        void CompleteRendering(Rectangle parentContentDest, IWidgetRenderContext renderContext, IRenderElement widget);
     }
 
     [Transient]
@@ -47,7 +47,7 @@ namespace AgateLib.UserInterface.Rendering
             ColorDestinationBlend = Blend.InverseSourceAlpha,
         };
 
-        public void CompleteRendering(Point parentContentDest,
+        public void CompleteRendering(Rectangle parentContentDest,
             IWidgetRenderContext renderContext, IRenderElement widget)
         {
             var animation = widget.Display.Animation;

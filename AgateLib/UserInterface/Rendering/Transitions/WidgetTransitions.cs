@@ -32,24 +32,24 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 	public interface IWidgetTransition
 	{
-		bool Update(IRenderWidget owner, IWidgetRenderContext renderContext);
+		bool Update(WidgetDisplay display, IWidgetRenderContext renderContext);
 
-		void Initialize(IRenderWidget menu);
+		void Initialize(WidgetDisplay display);
 	}
 
 	public class WidgetSuddenTransition : IWidgetTransition
 	{
-		public void Initialize(IRenderWidget owner)
+		public void Initialize(WidgetDisplay display)
 		{
 		}
 
-		public bool Update(IRenderWidget owner, IWidgetRenderContext renderContext)
+		public bool Update(WidgetDisplay display, IWidgetRenderContext renderContext)
 		{
-			var animation = owner.Display.Animation;
+			var animation = display.Animation;
 
-			animation.IsVisible = owner.Display.IsVisible;
-			animation.ContentRect = owner.Display.Region.ContentRect;
-			animation.BorderRect = owner.Display.Region.BorderRect;
+			animation.IsVisible = display.IsVisible;
+			animation.ContentRect = display.Region.ContentRect;
+			animation.BorderRect = display.Region.BorderRect;
 			animation.Alpha = 1;
 
 			return true;
@@ -58,24 +58,24 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 	public class WidgetFadeInTransition : IWidgetTransition
 	{
-		public void Initialize(IRenderWidget menu)
+		public void Initialize(WidgetDisplay display)
 		{
-			menu.Display.Animation.Alpha = 0;
+			display.Animation.Alpha = 0;
 		}
 
-		public bool Update(IRenderWidget menu, IWidgetRenderContext renderContext)
+		public bool Update(WidgetDisplay display, IWidgetRenderContext renderContext)
 		{
-			var animation = menu.Display.Animation;
+			var animation = display.Animation;
 			animation.IsVisible = true;
 
 			animation.Alpha += 
 				(float)renderContext.GameTime.ElapsedGameTime.TotalSeconds 
-				/ menu.Display.Style.Animation.TransitionInTime;
+				/ display.Style.Animation.TransitionInTime;
 
 			if (animation.Alpha >= 1)
 			{
 				animation.Alpha = 1;
-				animation.BorderRect = menu.Display.Region.BorderRect;
+				animation.BorderRect = display.Region.BorderRect;
 
 				return true;
 			}
@@ -83,14 +83,14 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			const float shrinkMax = 0.1f;
 			float shrink = shrinkMax * MathF.Pow(1 - animation.Alpha, 3);
 
-			float leftRightMargin = shrink * menu.Display.Region.BorderRect.Width;
-			float topBottomMargin = shrink * menu.Display.Region.BorderRect.Height;
+			float leftRightMargin = shrink * display.Region.BorderRect.Width;
+			float topBottomMargin = shrink * display.Region.BorderRect.Height;
 
 			animation.BorderRect = new Rectangle(
-				menu.Display.Region.BorderRect.X + (int)leftRightMargin,
-				menu.Display.Region.BorderRect.Y + (int)leftRightMargin,
-				menu.Display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
-				menu.Display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
+				display.Region.BorderRect.X + (int)leftRightMargin,
+				display.Region.BorderRect.Y + (int)leftRightMargin,
+				display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
+				display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
 
 			return false;
 		}
@@ -98,19 +98,19 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 	public class WidgetFadeOutTransition : IWidgetTransition
 	{
-		public void Initialize(IRenderWidget menu)
+		public void Initialize(WidgetDisplay display)
 		{
 		}
 
-		public bool Update(IRenderWidget widget, IWidgetRenderContext renderContext)
+		public bool Update(WidgetDisplay display, IWidgetRenderContext renderContext)
 		{
-			var animation = widget.Display.Animation;
+			var animation = display.Animation;
 
-			animation.BorderRect = widget.Display.Region.BorderRect;
+			animation.BorderRect = display.Region.BorderRect;
 
 			animation.Alpha -=
 				(float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
-				/ widget.Display.Style.Animation.TransitionOutTime;
+				/ display.Style.Animation.TransitionOutTime;
 
 			if (animation.Alpha <= 0)
 			{
@@ -122,14 +122,14 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 			const float shrinkMax = 0.1f;
 			float shrink = shrinkMax * MathF.Pow(1 - animation.Alpha, 0.8f);
 
-			float leftRightMargin = shrink * widget.Display.Region.BorderRect.Width;
-			float topBottomMargin = shrink * widget.Display.Region.BorderRect.Height;
+			float leftRightMargin = shrink * display.Region.BorderRect.Width;
+			float topBottomMargin = shrink * display.Region.BorderRect.Height;
 
 			animation.BorderRect = new Rectangle(
-				widget.Display.Region.BorderRect.X + (int)leftRightMargin,
-				widget.Display.Region.BorderRect.Y + (int)leftRightMargin,
-				widget.Display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
-				widget.Display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
+				display.Region.BorderRect.X + (int)leftRightMargin,
+				display.Region.BorderRect.Y + (int)leftRightMargin,
+				display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
+				display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
 
 			return false;
 		}

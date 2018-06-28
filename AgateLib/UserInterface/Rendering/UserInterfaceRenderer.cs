@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Rendering
         /// </summary>
         /// <param name="renderContext"></param>
         /// <param name="widget"></param>
-        void UpdateAnimation(IWidgetRenderContext renderContext, IRenderWidget widget);
+        void UpdateAnimation(IWidgetRenderContext renderContext, IRenderElement widget);
 
         /// <summary>
         /// Draws the background of a widget.
@@ -158,21 +158,21 @@ namespace AgateLib.UserInterface.Rendering
                 borderScale);
         }
 
-        public void UpdateAnimation(IWidgetRenderContext renderContext, IRenderWidget widget)
+        public void UpdateAnimation(IWidgetRenderContext renderContext, IRenderElement element)
         {
-            var animator = widget.Display.Animation;
+            var animator = element.Display.Animation;
 
-            SetTransition(widget);
+            SetTransition(element);
 
-            bool finished = animator.Transition?.Update(widget, renderContext) ?? false;
+            bool finished = animator.Transition?.Update(element.Display, renderContext) ?? false;
 
             if (finished)
             {
-                AdvanceTransitionState(widget);
+                AdvanceTransitionState(element);
             }
         }
 
-        private void AdvanceTransitionState(IRenderWidget widget)
+        private void AdvanceTransitionState(IRenderElement widget)
         {
             var animator = widget.Display.Animation;
 
@@ -194,7 +194,7 @@ namespace AgateLib.UserInterface.Rendering
             SetTransition(widget);
         }
 
-        private void SetTransition(IRenderWidget widget)
+        private void SetTransition(IRenderElement widget)
         {
             var animator = widget.Display.Animation;
             var style = widget.Display.Style.Animation;
@@ -214,7 +214,6 @@ namespace AgateLib.UserInterface.Rendering
                 default:
                     transitionName = "sudden";
                     break;
-
             }
 
             if (transitions.TryGetValue(transitionName, out IWidgetTransition newTransition))
@@ -222,7 +221,7 @@ namespace AgateLib.UserInterface.Rendering
                 if (animator.Transition != newTransition)
                 {
                     animator.Transition = newTransition;
-                    animator.Transition?.Initialize(widget);
+                    animator.Transition?.Initialize(widget.Display);
                 }
             }
         }
