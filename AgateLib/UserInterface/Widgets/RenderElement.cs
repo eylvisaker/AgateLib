@@ -96,7 +96,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public WidgetDisplay Display { get; } = new WidgetDisplay();
 
-
         public virtual IEnumerable<IRenderElement> Children => null;
 
         public virtual IRenderElement Focus
@@ -140,6 +139,21 @@ namespace AgateLib.UserInterface.Widgets
 
                 child.Draw(renderContext, childClient);
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append(StyleTypeIdentifier);
+
+            if (!string.IsNullOrWhiteSpace(StyleClass))
+                result.Append($".{StyleClass}");
+
+            if (!string.IsNullOrWhiteSpace(StyleId))
+                result.Append($"#{StyleId}");
+
+            return result.ToString();
         }
 
         IRenderElement IRenderable.Render() => this;
