@@ -37,6 +37,7 @@ namespace AgateLib.UserInterface
 {
     public class Workspace
     {
+        [Obsolete("I think this can go away.")]
         private class WorkspaceRenderContext : IWidgetRenderContext
         {
             private IWidgetRenderContext rootRenderContext;
@@ -55,6 +56,8 @@ namespace AgateLib.UserInterface
             public RenderTarget2D RenderTarget => rootRenderContext.RenderTarget;
 
             public GameTime GameTime => rootRenderContext.GameTime;
+
+            public IFontProvider Fonts => rootRenderContext.Fonts;
 
             public IUserInterfaceRenderer UserInterfaceRenderer => rootRenderContext.UserInterfaceRenderer;
 
@@ -275,7 +278,7 @@ namespace AgateLib.UserInterface
         {
             visualTree.Render(new FlexContainer(new FlexContainerProps
             {
-                Children = children.Select(c => c.Render())
+                Children = children.ToList<IRenderable>()
             }));
         }
 

@@ -52,6 +52,11 @@ namespace AgateLib.Diagnostics.Rendering
                 Default = Font.Load(contentProvider, "AgateMono");
             }
 
+            public ConsoleFontProvider(Font font)
+            {
+                Default = font;
+            }
+
             public Font this[string fontFace] => Default;
 
             public Font Default { get; }
@@ -60,6 +65,8 @@ namespace AgateLib.Diagnostics.Rendering
             {
                 return new List<Font> { Default }.GetEnumerator();
             }
+
+            public Font GetOrDefault(string fontFace) => Default;
 
             public bool HasFont(string fontFace)
             {

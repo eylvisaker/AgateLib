@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public interface IRenderElement
+    public interface IRenderElement : IRenderable
     {
         /// <summary>
         /// Gets the widget display object that contains all the data needed to
@@ -44,6 +44,9 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         bool CanHaveFocus { get; }
 
+        /// <summary>
+        /// Gets the aggregated style of the render element.
+        /// </summary>
         IRenderElementStyle Style { get; }
 
         /// <summary>
@@ -80,6 +83,8 @@ namespace AgateLib.UserInterface.Widgets
         public RenderElement(TProps props)
         {
             this.Props = props;
+
+            Style = new RenderElementStyle(Display, Props.Style);
         }
 
         public WidgetDisplay Display { get; } = new WidgetDisplay();
@@ -93,7 +98,7 @@ namespace AgateLib.UserInterface.Widgets
             set => throw new NotImplementedException();
         }
 
-        public IRenderElementStyle Style { get; } = new RenderElementStyle();
+        public IRenderElementStyle Style { get; }
 
         public virtual string StyleTypeIdentifier => GetType().Name;
 
@@ -117,6 +122,20 @@ namespace AgateLib.UserInterface.Widgets
         public virtual void Update(IWidgetRenderContext renderContext)
         {
         }
+
+        public void DrawChildren(IWidgetRenderContext renderContext, Rectangle clientArea)
+        {
+            foreach(var child in Children)
+            {
+                var childClient = child.Display.Region.ContentRect;
+
+                childClient.Location += clientArea.Location;
+
+                child.Draw(renderContext, childClient);
+            }
+        }
+
+        IRenderElement IRenderable.Render() => this;
     }
 
     public class RenderElementProps
@@ -124,5 +143,10 @@ namespace AgateLib.UserInterface.Widgets
         public string StyleId { get; set; }
 
         public string StyleClass { get; set; }
+
+        /// <summary>
+        /// Style elements specified by the parent.
+        /// </summary>
+        public InlineElementStyle Style { get; set; }
     }
 }

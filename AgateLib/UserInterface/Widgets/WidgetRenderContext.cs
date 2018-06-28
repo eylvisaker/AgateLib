@@ -64,6 +64,11 @@ namespace AgateLib.UserInterface.Widgets
         GameTime GameTime { get; }
 
         /// <summary>
+        /// Font provider
+        /// </summary>
+        IFontProvider Fonts { get; }
+
+        /// <summary>
         /// Gets the style renderer for the UI.
         /// </summary>
         IUserInterfaceRenderer UserInterfaceRenderer { get; }
@@ -142,7 +147,7 @@ namespace AgateLib.UserInterface.Widgets
     public class WidgetRenderContext : IWidgetRenderContext
     {
         private readonly ILocalizedContentLayoutEngine contentLayoutEngine;
-
+        private readonly IFontProvider fonts;
         private IRenderElement lastParentWidget;
 
         private WidgetRenderContext parentRenderContext;
@@ -155,6 +160,7 @@ namespace AgateLib.UserInterface.Widgets
             ILocalizedContentLayoutEngine contentLayoutEngine,
             IUserInterfaceRenderer uiRenderer,
             IStyleConfigurator styleConfigurator,
+            IFontProvider fonts,
             RenderTarget2D renderTarget = null,
             SpriteBatch spriteBatch = null,
             IDoubleBuffer doubleBuffer = null)
@@ -163,6 +169,7 @@ namespace AgateLib.UserInterface.Widgets
             this.contentLayoutEngine = contentLayoutEngine;
             this.UserInterfaceRenderer = uiRenderer;
             this.StyleConfigurator = styleConfigurator;
+            this.fonts = fonts;
             this.RenderTarget = renderTarget;
             this.SpriteBatch = spriteBatch ?? new SpriteBatch(graphicsDevice);
             this.DoubleBuffer = doubleBuffer ?? new DoubleBuffer();
@@ -197,6 +204,8 @@ namespace AgateLib.UserInterface.Widgets
         public SpriteBatch SpriteBatch { get; set; }
 
         public RenderTarget2D RenderTarget { get; set; }
+
+        public IFontProvider Fonts => fonts;
 
         public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 

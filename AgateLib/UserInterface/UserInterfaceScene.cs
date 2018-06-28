@@ -54,6 +54,7 @@ namespace AgateLib.UserInterface
         public UserInterfaceScene(GraphicsDevice graphicsDevice,
             IUserInterfaceRenderer userInterfaceRenderer,
             ILocalizedContentLayoutEngine contentLayoutEngine,
+            IFontProvider fontProvider,
             IStyleConfigurator styleConfigurator,
             IDoubleBuffer doubleBuffer = null,
             RenderTarget2D renderTarget = null)
@@ -66,6 +67,7 @@ namespace AgateLib.UserInterface
                 contentLayoutEngine,
                 userInterfaceRenderer,
                 styleConfigurator,
+                fontProvider,
                 renderTarget,
                 null,
                 doubleBuffer);

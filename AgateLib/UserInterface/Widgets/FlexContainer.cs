@@ -11,14 +11,16 @@ namespace AgateLib.UserInterface.Widgets
 {
     public class FlexContainer : RenderElement<FlexContainerProps>
     {
-        public FlexContainer(FlexContainerProps props) : base(props)
-        {
-
-        }
-
+        private readonly List<IRenderElement> children;
         FlexDirection Direction = FlexDirection.Column;
 
-        public override IEnumerable<IRenderElement> Children => Props.Children;
+        public FlexContainer(FlexContainerProps props) : base(props)
+        {
+            children = props.Children.Select(c => c.Render()).ToList();
+        }
+
+
+        public override IEnumerable<IRenderElement> Children => children;
 
         public override Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
         {
@@ -47,7 +49,7 @@ namespace AgateLib.UserInterface.Widgets
             int idealWidth = 0;
             int idealHeight = 0;
 
-            foreach(var item in Props.Children)
+            foreach(var item in Children)
             {
                 if (!item.Display.IsVisible)
                     continue;
@@ -72,6 +74,8 @@ namespace AgateLib.UserInterface.Widgets
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
             PerformLayout(renderContext, clientArea);
+
+            DrawChildren(renderContext, clientArea);
         }
 
         private void PerformLayout(IWidgetRenderContext renderContext, Rectangle clientArea)
@@ -79,19 +83,19 @@ namespace AgateLib.UserInterface.Widgets
             switch (Direction)
             {
                 case FlexDirection.Column:
-                    PerformColumnLayout(renderContext, clientArea, Props.Children);
+                    PerformColumnLayout(renderContext, clientArea, Children);
                     break;
 
                 case FlexDirection.ColumnReverse:
-                    PerformColumnLayout(renderContext, clientArea, Props.Children.Reverse());
+                    PerformColumnLayout(renderContext, clientArea, Children.Reverse());
                     break;
 
                 case FlexDirection.Row:
-                    PerformRowLayout(renderContext, clientArea, Props.Children);
+                    PerformRowLayout(renderContext, clientArea, Children);
                     break;
 
                 case FlexDirection.RowReverse:
-                    PerformRowLayout(renderContext, clientArea, Props.Children.Reverse());
+                    PerformRowLayout(renderContext, clientArea, Children.Reverse());
                     break;
 
                 default:
@@ -115,6 +119,8 @@ namespace AgateLib.UserInterface.Widgets
                 if (!item.Display.IsVisible)
                     continue;
 
+                item.Display.ParentFont = Style.Font;
+
                 var itemDest = dest;
                 var marginToContent = item.Display.Region.MarginToContentOffset;
                 var idealSize = item.ComputeIdealSize(renderContext, clientArea.Size);
@@ -137,7 +143,7 @@ namespace AgateLib.UserInterface.Widgets
 
     public class FlexContainerProps : RenderElementProps
     {
-        public IEnumerable<IRenderElement> Children { get; set; }
+        public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
     }
 
     public enum FlexDirection

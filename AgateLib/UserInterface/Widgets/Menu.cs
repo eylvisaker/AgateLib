@@ -38,7 +38,7 @@ namespace AgateLib.UserInterface.Widgets
 {
     public class MenuProps : WidgetProps
     {
-        public IEnumerable<IWidget> Children { get; set; } = new List<IWidget>();
+        public IList<MenuItem> Children { get; set; } = new List<MenuItem>();
 
         public IWidget InitialFocus { get; set; }
     }
@@ -88,13 +88,10 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="text"></param>
         /// <param name="action"></param>
-        [Obsolete("Pass children in props")]
+        [Obsolete("Pass children in props", true)]
         public void Add(string text, Action action)
         {
-            var item = new ContentMenuItem { Text = text, Name = text };
-            item.PressAccept += (sender, e) => action();
-
-            UpdateProps(p => p.Children = p.Children.Union(new[] { item }));
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -102,12 +99,10 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="text"></param>
         /// <param name="action"></param>
+        [Obsolete("Pass children in props", true)]
         public void Add(string name, string text, Action action)
         {
-            var item = new ContentMenuItem { Text = text, Name = name };
-            item.PressAccept += (sender, e) => action();
-
-            UpdateProps(p => p.Children = p.Children.Union(new[] { item }));
+            throw new NotSupportedException();
         }
 
         protected void OnButtonUp(MenuInputButton button)
@@ -145,7 +140,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             return new FlexContainer(new FlexContainerProps
             {
-                Children = Props.Children.Select(c => c.Render())
+                Children = Props.Children.ToList<IRenderable>()
             });
         }
 

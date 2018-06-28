@@ -178,6 +178,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\FixedGridLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Renderable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\FlexContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\ImageSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\TypeConverters\FontStylePropertiesYaml.cs" />

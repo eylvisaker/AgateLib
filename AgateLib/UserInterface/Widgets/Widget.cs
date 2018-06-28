@@ -29,15 +29,9 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public interface IWidget
+    public interface IWidget : IRenderable
     {
         string Name { get; }
-
-        /// <summary>
-        /// Renders the widget by producing an IRenderComponent object.
-        /// </summary>
-        /// <returns></returns>
-        IRenderElement Render();
 
         void Initialize();
 

@@ -27,6 +27,8 @@ namespace AgateLib.Fakes
 
         public RenderTarget2D RenderTarget => null;
 
+        public IFontProvider Fonts => null;
+
         public GameTime GameTime { get; set; }
 
         public IMenuIndicatorRenderer Indicator => null;
@@ -39,7 +41,9 @@ namespace AgateLib.Fakes
 
         public Size GraphicsDeviceRenderTargetSize { get; set; }
 
+        [Obsolete("The fake font provider should be implemented.")]
         public Font Font { get; set; }
+
 
         public event Action<IRenderWidget> BeforeUpdate;
 

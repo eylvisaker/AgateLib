@@ -21,11 +21,10 @@ namespace ManualTests.AgateLib.Selector.Widgets
 
         public override IRenderElement Render()
         {
-            return new FlexContainer(
-                new FlexContainerProps
-                {
-                    Children = new IWidget[] { choose, carousel }.Select(x => x.Render()).ToArray()
-                });
+            return new FlexContainer(new FlexContainerProps
+            {
+                Children = { choose, carousel }
+            });
         }
     }
 

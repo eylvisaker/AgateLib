@@ -29,6 +29,7 @@ namespace ManualTests.AgateLib.UserInterface.FF6
                 resources.GraphicsDevice,
                 resources.UserInterfaceRenderer,
                 resources.LocalizedContent,
+                resources.Fonts,
                 resources.StyleConfigurator)
             {
                 DrawBelow = false,

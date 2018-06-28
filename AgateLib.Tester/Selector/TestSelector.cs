@@ -42,6 +42,7 @@ namespace ManualTests.AgateLib.Selector
                 resources.GraphicsDevice,
                 resources.UserInterfaceRenderer,
                 resources.LocalizedContent,
+                resources.Fonts,
                 resources.StyleConfigurator);
             
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);

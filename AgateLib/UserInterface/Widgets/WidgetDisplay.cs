@@ -95,7 +95,12 @@ namespace AgateLib.UserInterface.Widgets
         public bool HasFocus { get; set; }
         public IndicatorType IndicatorType { get; internal set; }
 
-        public List<IRenderElementStyle> ElementStyles { get; } = new List<IRenderElementStyle>();
+        public List<IRenderElementStyleProperties> ElementStyles { get; } 
+            = new List<IRenderElementStyleProperties>();
+
+        public IFont ParentFont { get; set; }
+
+        public IFontProvider Fonts { get; set; }
 
         internal void StyleUpdated()
         {

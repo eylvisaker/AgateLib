@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Display;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
@@ -42,11 +43,34 @@ namespace AgateLib.UserInterface
         public IRenderElement TreeRoot => root;
 
         public IStyleConfigurator Style { get; set; }
-        public string DefaultTheme { get; internal set; }
+
+        public string DefaultTheme { get; set; }
 
         public void Update(IWidgetRenderContext renderContext)
         {
+            Walk(x =>
+            {
+                x.Display.Fonts = renderContext.Fonts;
+                x.Style.Update();
+            });
+
             root.Update(renderContext);
+        }
+
+        private void Walk(Action<IRenderElement> action)
+        {
+            Walk(root, action);
+        }
+
+        private void Walk(IRenderElement node, Action<IRenderElement> action)
+        {
+            action(node);
+
+            if (node.Children == null)
+                return;
+
+            foreach (var item in node.Children)
+                Walk(item, action);
         }
     }
 }

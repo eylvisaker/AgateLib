@@ -30,14 +30,24 @@ namespace AgateLib.UserInterface
 {
 	public interface IFontProvider : IEnumerable<Font>
 	{
+        /// <summary>
+        /// Gets the default font.
+        /// </summary>
 		Font Default { get; }
 
-		/// <summary>
-		/// Gets a font by font face name. Throws an exception if the font is not present.
-		/// </summary>
-		/// <param name="fontFace"></param>
-		/// <returns></returns>
-		Font this[string fontFace] { get; }
+        /// <summary>
+        /// Creates a font object for the specified font face.
+        /// Returns the default font if the specified font face is not found.
+        /// </summary>
+        /// <param name="family"></param>
+        Font GetOrDefault(string fontFace);
+
+        /// <summary>
+        /// Gets a font by font face name. Throws an exception if the font is not present.
+        /// </summary>
+        /// <param name="fontFace"></param>
+        /// <returns></returns>
+        Font this[string fontFace] { get; }
 
 		/// <summary>
 		/// Returns true if the specified font is available.
@@ -60,6 +70,9 @@ namespace AgateLib.UserInterface
 
 		public bool HasFont(string fontFace)
 		{
+            if (fontFace == null)
+                return false;
+
 			return fonts.ContainsKey(fontFace);
 		}
 
@@ -80,5 +93,13 @@ namespace AgateLib.UserInterface
 		{
 			return GetEnumerator();
 		}
-	}
+
+        public Font GetOrDefault(string fontFace)
+        {
+            if (HasFont(fontFace))
+                return this[fontFace];
+
+            return new Font(Default);
+        }
+    }
 }

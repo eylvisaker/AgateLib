@@ -33,17 +33,17 @@ namespace AgateLib.UserInterface.Widgets
         {
             if (string.IsNullOrEmpty(Props.Text))
             {
-                return Display.Font.MeasureString("M");
+                return Style.Font.MeasureString("M");
             }
             else
             {
-                return Display.Font.MeasureString(Props.Text);
+                return Style.Font.MeasureString(Props.Text);
             }
         }
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
-            Display.Font.DrawText(renderContext.SpriteBatch,
+            Style.Font.DrawText(renderContext.SpriteBatch,
                 clientArea.Location.ToVector2(), Props.Text);
         }
     }

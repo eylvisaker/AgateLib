@@ -34,6 +34,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         private readonly StyleConfiguratorState state;
         private readonly IThemeCollection themes;
 
+        [Obsolete("This shouldn't need a font provider object.")]
         public ThemeStyler(IFontProvider fontProvider, IThemeCollection themes)
         {
             state = new StyleConfiguratorState(themes) { Fonts = fontProvider };
@@ -43,7 +44,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         public void ApplyStyle(IRenderElement widget, string defaultTheme)
         {
             state.DefaultTheme = defaultTheme;
-
+            
             ApplyStyleCore(widget);
         }
 

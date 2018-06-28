@@ -218,5 +218,10 @@ namespace AgateLib.UserInterface.Layout
         {
             throw new NotImplementedException();
         }
+
+        public IRenderElement Render()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
