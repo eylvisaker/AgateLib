@@ -62,6 +62,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             var data = new ThemeData
             {
+                // TODO: Remove the top three.
                 new ThemeStyle
                 {
                     Pattern = "*",
@@ -77,7 +78,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                 new ThemeStyle
                 {
                     Pattern = "menu.*",
-                    Padding = LayoutBox.SameAllAround(8),                    
+                    Padding = LayoutBox.SameAllAround(8),
                 },
 
                 new ThemeStyle
@@ -87,6 +88,32 @@ namespace AgateLib.UserInterface.Styling.Themes
                     Padding = LayoutBox.SameAllAround(8),
                     Background = new ThemeWidgetBackground { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black }
+                },
+
+                // Keep these, using the new css selectors
+                new ThemeStyle
+                {
+                    Selector = ".workspace > *",
+                    Background = new ThemeWidgetBackground { Color = Color.Black, },
+                    Font = new FontStyleProperties { Color = Color.White, },
+                    Animation = new ThemeWidgetAnimation
+                    {
+                        TransitionIn = "fade-in",
+                        TransitionOut = "fade-out"
+                    }
+                },
+
+                new ThemeStyle
+                {
+                    Selector = ".menu-item",
+                    Padding = LayoutBox.SameAllAround(8),
+                },
+
+                new ThemeStyle
+                {
+                    Selector = ".menu-item:focus",
+                    Background = new ThemeWidgetBackground { Color = Color.White },
+                    Font = new FontStyleProperties { Color = Color.Black },
                 }
             };
 
@@ -132,14 +159,14 @@ namespace AgateLib.UserInterface.Styling.Themes
             element.Display.ElementStyles.Clear();
 
             element.Display.ElementStyles.AddRange(
-                data.Where(x => x.Selector.Matches(element, stack))
+                data.Where(x => x.MatchExecutor.Matches(element, stack))
                     .Select(x => x.ToElementStyle()));
         }
 
         public void ApplyTo(IRenderElement widget, IWidgetStackState state)
         {
             themeMatches.Clear();
-            themeMatches.AddRange(data.Where(x => x.Selector.Matches(widget, state)));
+            themeMatches.AddRange(data.Where(x => x.MatchExecutor.Matches(widget, state)));
 
             if (themeMatches.Count == 0)
             {
@@ -268,7 +295,12 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             foreach (var item in data)
             {
-                item.Selector = new PatternWidgetSelector(item.Pattern);
+                if (!string.IsNullOrWhiteSpace(item.Selector))
+                    item.MatchExecutor = new CssWidgetSelector(item.Selector);
+                else
+                {
+                    item.MatchExecutor = new PatternWidgetSelector(item.Pattern);
+                }
             }
         }
     }

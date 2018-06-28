@@ -115,6 +115,10 @@ namespace AgateLib.UserInterface.Layout
 
         public IRenderElementStyle Style => throw new NotImplementedException();
 
+        public string StyleClass => throw new NotImplementedException();
+
+        public string StyleId => throw new NotImplementedException();
+
         IRenderWidget IList<IRenderWidget>.this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IRenderElement this[int index]
         {

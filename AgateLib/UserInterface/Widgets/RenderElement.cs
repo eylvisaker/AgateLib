@@ -30,13 +30,20 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         string StyleTypeIdentifier { get; }
 
-        // TODO: Add StyleClass property.
-        // TODO: Add StyleId property.
-        
+        /// <summary>
+        /// Gets the class name used to identify this widget to the styling
+        /// </summary>
+        string StyleClass { get; }
+
+        /// <summary>
+        /// Gets the identifier of this widget for styling.
+        /// </summary>
+        string StyleId { get; }        
 
         /// <summary>
         /// Gets the name of the widget.
         /// </summary>
+        [Obsolete("Use StyleId instead?")]
         string Name { get; }
 
         /// <summary>

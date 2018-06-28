@@ -225,6 +225,7 @@
     <Compile Include="UserInterface\Layout\FixedGridLayoutTests.cs" />
     <Compile Include="UserInterface\Layout\LayoutTests.cs" />
     <Compile Include="UserInterface\Layout\SimpleGridLayoutTests.cs" />
+    <Compile Include="UserInterface\Styling\Themes\CssSelectorTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\PatternWidgetSelectorTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\ThemeDeserializationTests.cs" />
     <Compile Include="UserInterface\Layout\ListLayoutTest.cs" />

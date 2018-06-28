@@ -57,5 +57,4 @@ namespace AgateLib.UserInterface.Widgets
 
         public string Text { get; }
     }
-
 }

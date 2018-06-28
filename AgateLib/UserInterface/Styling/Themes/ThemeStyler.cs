@@ -130,14 +130,19 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public IReadOnlyList<IRenderElement> ParentStack => parentStack;
 
+        public int Count => parentStack.Count;
+
         public void PushParent(IRenderElement parent)
         {
             parentStack.Add(parent);
         }
 
-        public void PopParent()
+        public IRenderElement PopParent()
         {
+            var item = parentStack[parentStack.Count - 1];
             parentStack.RemoveAt(parentStack.Count - 1);
+
+            return item;
         }
     }
 

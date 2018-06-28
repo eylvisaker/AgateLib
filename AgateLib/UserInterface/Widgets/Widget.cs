@@ -180,6 +180,10 @@ namespace AgateLib.UserInterface.Widgets
 
         public IRenderElementStyle Style => throw new NotImplementedException();
 
+        public string StyleClass => throw new NotImplementedException();
+
+        public string StyleId => throw new NotImplementedException();
+
         /// <summary>
         /// Compute the ideal size of the content of the widget.
         /// </summary>

@@ -140,6 +140,8 @@ namespace AgateLib.UserInterface.Widgets
         {
             return new FlexContainer(new FlexContainerProps
             {
+                StyleId = Props.Name,
+                StyleClass = "menu",
                 Children = Props.Children.ToList<IRenderable>()
             });
         }

@@ -21,6 +21,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,26 +36,209 @@ namespace AgateLib.UserInterface.Styling.Themes
         bool Matches(IRenderElement element, RenderElementStack stack);
     }
 
-    public class ParentWidgetSelector : WidgetSelector
+    /// <summary>
+    /// CSS style element matcher.
+    /// </summary>
+    /// <remarks>
+    /// Currently only supports the following CSS selectors:
+    /// * Chains: parent child
+    /// * Classes: .parent .child
+    /// * Identifiers: #parent #child
+    /// * First decendent: .parent > .child
+    /// * Wild cards: .parent * (matches all ancestors of a parent), or .parent * .child (matches all grandchildren and further descendents of a parent)
+    /// </remarks>
+    public class CssWidgetSelector : WidgetSelector
     {
-        private readonly string parentType;
+        private static Regex pattern = new Regex(
+            @"(?<whitespace>\s+)|" +
+            @"(?<id>#[a-zA-Z_][a-zA-Z0-9_]*)|" +
+            @"(?<class>\.[a-zA-Z_][a-zA-Z0-9_]*)|" +
+            @"(?<typeid>[a-zA-Z_][a-zA-Z0-9_]*)|" +
+            @"(?<child>\>)|" +
+            @"(?<wildcard>\*)|" +
+            @"(?<invalid>[^\s]+)");
 
-        public ParentWidgetSelector(string parentType)
+        enum TokenType
         {
-            this.parentType = parentType;
+            Whitespace,
+
+            Id,
+            Class,
+            TypeId,
+            Child,
+            Wildcard,
+
+            Invalid,
+        }
+
+        class Token
+        {
+            public TokenType Type { get; set; }
+            public string Value { get; set; }
+        }
+
+        /// <summary>
+        /// Stores tokens in REVERSE order.
+        /// </summary>
+        List<Token> tokens = new List<Token>();
+
+        public CssWidgetSelector(string selector)
+        {
+            TokenizeSelector(selector);
+
+            IsValid = Validate();
+        }
+
+        public bool IsValid { get; }
+
+        private bool Validate()
+        {
+            switch (tokens.First().Type)
+            {
+                case TokenType.Child:
+                    return false;
+            }
+
+            switch (tokens.Last().Type)
+            {
+                case TokenType.Wildcard:
+                case TokenType.Child:
+                    return false;
+            }
+
+            bool foundChild = false;
+            for (int i = 1; i < tokens.Count; i++)
+            {
+                if (tokens[i].Type == TokenType.Child)
+                {
+                    if (foundChild)
+                        return false;
+
+                    foundChild = true;
+                }
+                else
+                    foundChild = false;
+            }
+
+            return true;
+        }
+
+        private void TokenizeSelector(string selector)
+        {
+            MatchCollection matches = pattern.Matches(selector);
+
+            foreach (Match match in matches)
+            {
+                int i = 0;
+
+                foreach (Group group in match.Groups)
+                {
+                    string matchValue = group.Value;
+                    bool success = group.Success;
+                    // ignore capture index 0 and 1 (general and WhiteSpace)
+                    if (success && i > 1)
+                    {
+                        string groupName = pattern.GroupNameFromNumber(i);
+                        tokens.Add(new Token
+                        {
+                            Type = (TokenType)Enum.Parse(typeof(TokenType), groupName, true),
+                            Value = matchValue
+                        });
+                    }
+                    i++;
+                }
+            }
+
+            tokens.Reverse();
         }
 
         public override bool Matches(IRenderElement widget, IWidgetStackState state)
         {
-            return IsType(state.Parent, parentType);
+            return false;
         }
 
         public override bool Matches(IRenderElement element, RenderElementStack stack)
         {
-            if (stack.ParentStack.Count == 0)
+            if (!IsValid)
                 return false;
 
-            return IsType(stack.ParentStack.Last(), parentType);
+            // first check if the final token is a potential match to the actual element.
+            if (!IsMatch(tokens.First(), element))
+                return false;
+
+            int stackPtr = stack.ParentStack.Count - 1;
+
+            for (int i = 1; i < tokens.Count; i++)
+            {
+                bool foundMatch = false;
+
+                switch (tokens[i].Type)
+                {
+                    case TokenType.Child:
+                        i++;
+
+                        if (stackPtr < 0)
+                            return false;
+
+                        if (!IsMatch(tokens[i], stack.ParentStack[stackPtr]))
+                            return false;
+
+                        stackPtr--;
+                        break;
+
+                    case TokenType.Id:
+                    case TokenType.TypeId:
+                    case TokenType.Class:
+                        while (stackPtr >= 0)
+                        {
+                            stackPtr--;
+
+                            if (IsMatch(tokens[i], stack.ParentStack[stackPtr+1]))
+                            {
+                                foundMatch = true;
+                                break;
+                            }
+                        }
+
+                        if (!foundMatch)
+                            return false;
+
+                        break;
+
+                    case TokenType.Wildcard:
+                        if (stackPtr < 0)
+                            return false;
+
+                        stackPtr--;
+                        break;
+                }
+            }
+
+            return true;
+        }
+
+        private bool IsMatch(Token token, IRenderElement element)
+        {
+            if (token.Type == TokenType.Wildcard)
+                return true;
+
+            if (token.Type == TokenType.Class)
+            {
+                if (token.Value.Substring(1).Equals(element.StyleClass, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            else if (token.Type == TokenType.Id)
+            {
+                if (token.Value.Substring(1).Equals(element.StyleId, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            else if (token.Type == TokenType.TypeId)
+            {
+                if (token.Value.Equals(element.StyleTypeIdentifier, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
         }
     }
 

@@ -278,6 +278,8 @@ namespace AgateLib.UserInterface
         {
             visualTree.Render(new FlexContainer(new FlexContainerProps
             {
+                StyleId = Name,
+                StyleClass = "workspace",
                 Children = children.ToList<IRenderable>()
             }));
         }

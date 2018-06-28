@@ -118,6 +118,10 @@ namespace AgateLib.UserInterface.Layout
 
         public IRenderElementStyle Style => throw new NotImplementedException();
 
+        public string StyleClass => throw new NotImplementedException();
+
+        public string StyleId => throw new NotImplementedException();
+
         public Size ComputeIdealSize(Size maxSize, IWidgetRenderContext renderContext)
         {
             foreach (var item in Items)

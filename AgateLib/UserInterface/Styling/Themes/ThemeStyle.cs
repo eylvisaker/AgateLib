@@ -29,7 +29,12 @@ namespace AgateLib.UserInterface.Styling.Themes
     {
         #region --- Matching Widgets ---
 
-        internal IWidgetSelector Selector { get; set; }
+        internal IWidgetSelector MatchExecutor { get; set; }
+
+        /// <summary>
+        /// Matches widgets with a CSS style selector
+        /// </summary>
+        public string Selector { get; set; }
 
         /// <summary>
         /// Matches widgets with a pattern.
@@ -71,7 +76,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             var b = new PropertyDebugStringBuilder();
 
-            b.Add(nameof(Selector), Selector);
+            b.Add(nameof(MatchExecutor), MatchExecutor);
             b.Add(nameof(Font), Font);
             b.Add(nameof(Background), Background);
             b.Add(nameof(Padding), Padding);
