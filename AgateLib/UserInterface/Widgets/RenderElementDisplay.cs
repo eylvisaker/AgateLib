@@ -94,7 +94,7 @@ namespace AgateLib.UserInterface.Widgets
         public List<IRenderElementStyleProperties> ElementStyles { get; }
             = new List<IRenderElementStyleProperties>();
 
-        public IFont ParentFont { get; set; }
+        public Font ParentFont { get; set; }
 
         public IFontProvider Fonts => System.Fonts;
         
@@ -151,5 +151,7 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public IDisplaySystem System { get; internal set; }
+
+        public bool HasFocus => System.Focus.Display == this;
     }
 }

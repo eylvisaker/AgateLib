@@ -64,7 +64,7 @@ namespace AgateLib.UserInterface
         private readonly SizeMetrics screenMetrics = new SizeMetrics();
 
         [Obsolete("Is this needed?")]
-        private readonly WidgetRegion region 
+        private readonly WidgetRegion region
             = new WidgetRegion(new RenderElementStyle(new RenderElementDisplay(), new InlineElementStyle()));
 
         private readonly VisualTree visualTree = new VisualTree();
@@ -94,6 +94,12 @@ namespace AgateLib.UserInterface
         }
 
         public event EventHandler<WidgetEventArgs> UnhandledEvent;
+
+        public IFontProvider Fonts
+        {
+            get => displaySystem.Fonts;
+            set => displaySystem.Fonts = value ?? throw new ArgumentNullException(nameof(Fonts));
+        }
 
         public IInstructions Instructions
         {
@@ -162,8 +168,6 @@ namespace AgateLib.UserInterface
 
         public void Update(IWidgetRenderContext renderContext)
         {
-            displaySystem.Fonts = renderContext.Fonts;
-
             foreach (var item in children)
                 item.Update(renderContext);
 
@@ -280,7 +284,7 @@ namespace AgateLib.UserInterface
         {
             return children.SingleOrDefault(selector);
         }
-        
+
         public override string ToString()
         {
             return $"Workspace: {Name}";

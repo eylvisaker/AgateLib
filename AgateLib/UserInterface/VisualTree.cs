@@ -18,6 +18,7 @@ namespace AgateLib.UserInterface
         public void Render(IRenderElement newRoot)
         {
             root = Reconcile(root, newRoot);
+            root.Display.ParentFont = DisplaySystem.Fonts.Default;
 
             Style.Apply(root, DefaultTheme);
 
@@ -100,6 +101,8 @@ namespace AgateLib.UserInterface
 
             foreach (var item in node.Children)
             {
+                item.Display.ParentFont = node.Style.Font;
+
                 var cont = Walk(item, action);
 
                 if (!cont)

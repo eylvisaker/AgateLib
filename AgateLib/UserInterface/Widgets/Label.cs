@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class NewLabel : Widget<LabelProps, WidgetState>
+    public class Label : Widget<LabelProps, WidgetState>
     {
-        public NewLabel(LabelProps props) : base(props)
+        public Label(LabelProps props) : base(props)
         {
         }
 

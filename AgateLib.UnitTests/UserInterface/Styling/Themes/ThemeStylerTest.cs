@@ -26,7 +26,7 @@ namespace AgateLib.UnitTests.UserInterface.Styling.Themes
                 ["xyz"] = CreateTestTheme(),
             };
 
-            ThemeStyler styler = new ThemeStyler(fontProvider.Object, themes);
+            ThemeStyler styler = new ThemeStyler(themes);
 
             var widget = CommonMocks.Widget("widget");
 

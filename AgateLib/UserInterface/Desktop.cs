@@ -101,6 +101,7 @@ namespace AgateLib.UserInterface
             workspaces.Add(workspace);
 
             workspace.Style = Style;
+            workspace.Fonts = Fonts;
 
             // TODO: find a better way to do this.
             if (string.IsNullOrWhiteSpace(workspace.DefaultTheme))
@@ -155,6 +156,8 @@ namespace AgateLib.UserInterface
         public Workspace ActiveWorkspace => workspaces.LastOrDefault();
 
         public IReadOnlyList<Workspace> Workspaces => workspaces;
+
+        public IFontProvider Fonts { get; internal set; }
 
         public void ButtonUp(MenuInputButton button)
         {

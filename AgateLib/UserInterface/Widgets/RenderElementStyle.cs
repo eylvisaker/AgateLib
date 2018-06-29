@@ -11,7 +11,7 @@ namespace AgateLib.UserInterface.Widgets
 {
     public interface IRenderElementStyle
     {
-        IFont Font { get; }
+        Font Font { get; }
 
         BorderStyle Border { get; }
 
@@ -45,6 +45,8 @@ namespace AgateLib.UserInterface.Widgets
         FontStyleProperties fontProperties = new FontStyleProperties();
         FontStyleProperties compareFont = new FontStyleProperties();
 
+        Font font;
+
         public RenderElementStyle(RenderElementDisplay display, IRenderElementStyleProperties inline)
         {
             this.display = display;
@@ -53,7 +55,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public void Update()
         {
-            if (!FindActiveProperties() && Font != null)
+            if (!FindActiveProperties())
                 return;
 
             AggregateFont();
@@ -73,24 +75,31 @@ namespace AgateLib.UserInterface.Widgets
             compareFont.Style = Aggregate(p => p.FontStyle);
             compareFont.Size = Aggregate(p => p.FontSize);
 
-            if (Font == null || !compareFont.Equals(fontProperties))
+            if (compareFont.IsEmpty)
+            {
+                font = null;
+            }
+            else if (!compareFont.Equals(fontProperties))
             {
                 Swap(ref fontProperties, ref compareFont);
 
-                if (!string.IsNullOrWhiteSpace(fontProperties.Family)
-                    && display.Fonts.HasFont(fontProperties.Family)
-                    && !fontProperties.Family.Equals(Font?.Name, StringComparison.OrdinalIgnoreCase))
+                if (string.IsNullOrWhiteSpace(fontProperties.Family))
                 {
-                    Font = new Font(display.Fonts[fontProperties.Family]);
+                    font = new Font(display.ParentFont);
+                }
+                else if (display.Fonts.HasFont(fontProperties.Family)
+                         && !fontProperties.Family.Equals(Font?.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    font = new Font(display.Fonts[fontProperties.Family]);
                 }
                 else if (Font == null)
                 {
-                    Font = new Font(display.Fonts.GetOrDefault(fontProperties.Family));
+                    font = new Font(display.ParentFont);
                 }
 
-                Font.Color = fontProperties.Color ?? display.ParentFont?.Color ?? Font.Color;
-                Font.Style = fontProperties.Style ?? display.ParentFont?.Style ?? Font.Style;
-                Font.Size = fontProperties.Size ?? display.ParentFont?.Size ?? Font.Size;
+                font.Color = fontProperties.Color ?? display.ParentFont?.Color ?? Font.Color;
+                font.Style = fontProperties.Style ?? display.ParentFont?.Style ?? Font.Style;
+                font.Size = fontProperties.Size ?? display.ParentFont?.Size ?? Font.Size;
             }
         }
 
@@ -147,12 +156,18 @@ namespace AgateLib.UserInterface.Widgets
             testProperties.Clear();
 
             // TODO: Implement filtering based on current state and pseudoclasses.
-            testProperties.AddRange(display.ElementStyles);
+            foreach(var property in display.ElementStyles)
+            {
+                if (PropertyApplies(property))
+                    testProperties.Add(property);
+            }
 
             if (inline != null)
             {
                 testProperties.Add(inline);
             }
+
+            SortProperties(testProperties);
 
             bool sameProps = true;
 
@@ -180,7 +195,29 @@ namespace AgateLib.UserInterface.Widgets
             return true;
         }
 
-        public IFont Font { get; private set; }
+        private void SortProperties(List<IRenderElementStyleProperties> props)
+        {
+            props.Sort((x, y) => x.Specificity.CompareTo(y.Specificity));
+        }
+
+        private bool PropertyApplies(IRenderElementStyleProperties property)
+        {
+            if (string.IsNullOrWhiteSpace(property.PseudoClass))
+                return true;
+
+            if (property.PseudoClass == "focus")
+                return display.HasFocus;
+
+            return false;
+        }
+
+        public Font Font
+        {
+            get
+            {
+                return font ?? display.ParentFont;
+            }
+        }
 
         public BorderStyle Border { get; private set; }
 
@@ -215,6 +252,10 @@ namespace AgateLib.UserInterface.Widgets
         LayoutBox? Margin { get; }
 
         FlexStyle Flex { get; }
+
+        string PseudoClass { get; }
+
+        int Specificity { get; }
     }
 
     public static class RenderElementStyleExtensions
@@ -245,6 +286,8 @@ namespace AgateLib.UserInterface.Widgets
             this.themeStyle = themeStyle;
         }
 
+        public string PseudoClass => themeStyle.PseudoClass;
+
         public string FontFace => themeStyle.Font?.Family;
         public Color? TextColor => themeStyle.Font?.Color;
         public int? FontSize => themeStyle.Font?.Size;
@@ -261,6 +304,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public LayoutBox? Margin => themeStyle.Margin;
         public LayoutBox? Padding => themeStyle.Padding;
+
+        public int Specificity => themeStyle.Specificity;
     }
 
     public class InlineElementStyle : IRenderElementStyleProperties
@@ -284,6 +329,10 @@ namespace AgateLib.UserInterface.Widgets
         public LayoutBox? Padding { get; set; }
 
         public LayoutBox? Margin { get; set; }
+
+        public string PseudoClass => null;
+
+        public int Specificity => 1000;
     }
 
 }

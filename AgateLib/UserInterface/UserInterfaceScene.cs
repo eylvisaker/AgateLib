@@ -72,7 +72,7 @@ namespace AgateLib.UserInterface
                 null,
                 doubleBuffer);
 
-            driver = new UserInterfaceSceneDriver(renderContext, styleConfigurator);
+            driver = new UserInterfaceSceneDriver(renderContext, styleConfigurator, fontProvider);
 
             driver.Desktop.Empty += () => 
             {

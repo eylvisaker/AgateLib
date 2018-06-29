@@ -36,7 +36,7 @@ namespace AgateLib.UserInterface
 
         private UserInterfaceInputEvents uiInput = new UserInterfaceInputEvents();
 
-        public UserInterfaceSceneDriver(IWidgetRenderContext renderContext, IStyleConfigurator style)
+        public UserInterfaceSceneDriver(IWidgetRenderContext renderContext, IStyleConfigurator style, IFontProvider fonts)
         {
             this.renderContext = renderContext;
 
@@ -45,6 +45,7 @@ namespace AgateLib.UserInterface
 
             desktop = new Desktop();
             desktop.Style = style;
+            desktop.Fonts = fonts;
 
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
 

@@ -200,7 +200,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ContentLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ContentMenuItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\MenuItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\NewLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetEventArgs.cs" />

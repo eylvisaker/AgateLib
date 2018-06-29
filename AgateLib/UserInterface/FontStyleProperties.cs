@@ -49,5 +49,11 @@ namespace AgateLib.UserInterface
 
             return b.ToString();
         }
+
+        public bool IsEmpty
+            => string.IsNullOrWhiteSpace(Family)
+            && Size == null
+            && Style == null
+            && Color == null;
     }
 }

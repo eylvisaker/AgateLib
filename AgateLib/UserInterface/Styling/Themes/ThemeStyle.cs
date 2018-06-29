@@ -52,6 +52,10 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// </summary>
         public string WidgetState { get; set; }
 
+        public string PseudoClass => MatchExecutor.PseudoClass;
+
+        public int Specificity => MatchExecutor.Specificity;
+
         #endregion
 
         #region --- Properties to apply ---

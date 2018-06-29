@@ -71,9 +71,39 @@ namespace AgateLib.UserInterface.Styling.Themes
         }
 
         [Fact]
+        public void PsuedoClassMatches()
+        {
+            var tree = Element(cls: "workspace", children: new[]
+                {
+                    Element(typeId:"menu", children: new []
+                    {
+                        Element(children: new [] { Element() }),
+                        Element(),
+                    }),
+                    Element(),
+                });
+
+            var selector = "menu:something";
+
+            // Top level
+            DoesNotMatch(tree, selector, tree);
+
+            // First level
+            Matches(tree, selector, tree.Children.First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(1).First());
+
+            // Second level
+            DoesNotMatch(tree, selector, tree.Children.First().Children.First());
+            DoesNotMatch(tree, selector, tree.Children.First().Children.Skip(1).First());
+
+            // Third level
+            DoesNotMatch(tree, selector, tree.Children.First().Children.First().Children.First());
+        }
+
+        [Fact]
         public void MatchesDescendents()
         {
-            var tree = Element(cls:"workspace", children: new[]
+            var tree = Element(cls: "workspace", children: new[]
                 {
                     Element(cls:"menu", children: new []
                     {
@@ -280,6 +310,41 @@ namespace AgateLib.UserInterface.Styling.Themes
             DoesNotMatch(tree, selector, tree.Children.First().Children.First().Children.First());
         }
 
+        [Fact]
+        public void MatchesTypeAndClass()
+        {
+            var tree = Element(cls: "workspace", children: new[]
+                {
+                    Element(cls:"menu", children: new []
+                    {
+                        Element(typeId:"menuitem", cls:"first", children: new []
+                        {
+                            Element(name:"label")
+                        }),
+                        Element(typeId:"menuitem"),
+                        Element(typeId:"menuitem", cls:"first"),
+                    }),
+                    Element(name: "label"),
+                });
+
+            var selector = "menuitem.first";
+
+            // Top level
+            DoesNotMatch(tree, selector, tree);
+
+            // First level
+            DoesNotMatch(tree, selector, tree.Children.First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(1).First());
+
+            // Second level
+            Matches(tree, selector, tree.Children.First().Children.First());
+            DoesNotMatch(tree, selector, tree.Children.First().Children.Skip(1).First());
+            Matches(tree, selector, tree.Children.First().Children.Skip(2).First());
+
+            // Third level
+            DoesNotMatch(tree, selector, tree.Children.First().Children.First().Children.First());
+        }
+
         private void DoesNotMatch(IRenderElement tree, string selector, IRenderElement renderElement)
         {
             Matches(tree, selector, renderElement, false);
@@ -320,6 +385,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             Search(tree).Should().BeTrue("Could not find element in tree.");
 
+            // We need to reverse the stack
             RenderElementStack result = new RenderElementStack();
 
             while (temp.Count > 0)

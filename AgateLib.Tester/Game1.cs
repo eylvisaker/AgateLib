@@ -79,7 +79,7 @@ namespace ManualTests.AgateLib
                 ["FF"] = resources.ThemeLoader.LoadTheme(resources.Content, "UserInterface/FF")
             };
 
-            resources.StyleConfigurator = new ThemeStyler(resources.Fonts, resources.Themes);
+            resources.StyleConfigurator = new ThemeStyler(resources.Themes);
 
             resources.UserInterfaceRenderer = new UserInterfaceRenderer(
                 new ComponentStyleRenderer(resources.GraphicsDevice,

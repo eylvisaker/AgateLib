@@ -10,12 +10,12 @@ namespace ManualTests.AgateLib.Selector.Widgets
 {
     public class TestSelectorApp : Widget<TestSelectorProps, TestSelectorState>
     {
-        private NewLabel choose;
+        private Label choose;
         private TestDrawer carousel;
 
         public TestSelectorApp(TestSelectorProps props) : base(props)
         {
-            choose = new NewLabel(new LabelProps { Text = "Choose a test" });
+            choose = new Label(new LabelProps { Text = "Choose a test" });
             carousel = new TestDrawer(new TestDrawerProps { Tests = props.Tests });
         }
 

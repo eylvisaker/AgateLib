@@ -18,7 +18,7 @@ namespace AgateLib.UserInterface.Widgets
             return new MenuItemElement(new MenuItemElementProps
             {
                 OnAccept = Props.OnAccept,
-                Children = { new NewLabel(new LabelProps { Text = Props.Text }) }
+                Children = { new Label(new LabelProps { Text = Props.Text }) }
             });
         }
     }

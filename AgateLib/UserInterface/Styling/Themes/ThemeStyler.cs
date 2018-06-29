@@ -31,13 +31,10 @@ namespace AgateLib.UserInterface.Styling.Themes
     [Singleton]
     public class ThemeStyler : IStyleConfigurator
     {
-        private readonly StyleConfiguratorState state;
         private readonly IThemeCollection themes;
 
-        [Obsolete("This shouldn't need a font provider object.")]
-        public ThemeStyler(IFontProvider fontProvider, IThemeCollection themes)
+        public ThemeStyler(IThemeCollection themes)
         {
-            state = new StyleConfiguratorState(themes) { Fonts = fontProvider };
             this.themes = themes;
         }
 
@@ -45,7 +42,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             RenderElementStack parentStack = new RenderElementStack();
 
-            void ApplyRecurse(IRenderElement widget, ITheme theme, Font font)
+            void ApplyRecurse(IRenderElement widget, ITheme theme)
             {
                 theme = ThemeOf(widget, theme);
 
@@ -60,7 +57,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                     foreach (var child in widget.Children)
                     {
-                        ApplyRecurse(child, theme, font);
+                        ApplyRecurse(child, theme);
                     }
                 }
                 finally
@@ -71,7 +68,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             var initialTheme = ThemeOf(rootWidget, themes[defaultTheme]);
 
-            ApplyRecurse(rootWidget, initialTheme, initialTheme.Fonts.Default);
+            ApplyRecurse(rootWidget, initialTheme);
         }
 
         private ITheme ThemeOf(IRenderElement widget, ITheme theme)
@@ -106,94 +103,5 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             return item;
         }
-    }
-
-    public class StyleConfiguratorState : IWidgetStackState
-    {
-        private IThemeCollection themes;
-
-        private Stack<string> widgetThemes = new Stack<string>();
-        private List<IRenderElement> parents = new List<IRenderElement>();
-
-        private IFontProvider fonts;
-
-        // hacky..
-        private int emptyThemes = 0;
-
-        public StyleConfiguratorState(IThemeCollection themes)
-        {
-            this.themes = themes;
-        }
-
-        public IFontProvider Fonts
-        {
-            get => fonts;
-            set
-            {
-                fonts = value;
-
-                foreach (var theme in themes.Values)
-                {
-                    theme.Fonts = value;
-                }
-            }
-        }
-
-        public string CurrentThemeKey
-        {
-            get
-            {
-
-                if (widgetThemes.Count == 0)
-                    return DefaultTheme ?? "default";
-
-                return widgetThemes.Peek();
-            }
-        }
-
-        public ITheme CurrentTheme => themes[CurrentThemeKey];
-
-        public void PushTheme(string theme)
-        {
-            if (string.IsNullOrWhiteSpace(theme))
-            {
-                emptyThemes++;
-                return;
-            }
-            if (!themes.ContainsKey(theme))
-            {
-                emptyThemes++;
-                return;
-            }
-
-            widgetThemes.Push(theme);
-        }
-
-        public void PopTheme()
-        {
-            if (emptyThemes > 0)
-            {
-                emptyThemes--;
-                return;
-            }
-
-            widgetThemes.Pop();
-        }
-
-
-        public IRenderElement Parent => parents.Count > 0 ? parents[parents.Count - 1] : null;
-
-        public string DefaultTheme { get; set; }
-
-        public void PushParent(IRenderElement widget)
-        {
-            parents.Add(widget);
-        }
-
-        public void PopParent()
-        {
-            parents.RemoveAt(parents.Count - 1);
-        }
-
     }
 }

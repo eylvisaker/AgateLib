@@ -141,12 +141,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             foreach (var item in data)
             {
-                if (!string.IsNullOrWhiteSpace(item.Selector))
-                    item.MatchExecutor = new CssWidgetSelector(item.Selector);
-                else
-                {
-                    item.MatchExecutor = new PatternWidgetSelector(item.Pattern);
-                }
+                item.MatchExecutor = new CssWidgetSelector(item.Selector);
             }
         }
     }

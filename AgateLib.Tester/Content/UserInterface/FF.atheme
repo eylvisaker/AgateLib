@@ -1,4 +1,4 @@
-- pattern: Menu
+- selector: menu
   animation:
     transition-in: fade-in
     transition-out: fade-out
@@ -17,10 +17,10 @@
     repeat: both
   padding: 10
  
-- pattern: Menu.*
+- selector: menuitem
   padding: 10
 
-- pattern: Menu.*
+- selector: menuitem:focus
   widget-state: selected
   background: 
     image: MessageBoxes:rect(13 173 285 51)
