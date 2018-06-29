@@ -18,7 +18,7 @@ namespace ManualTests.AgateLib.Selector.Widgets
 
         public override IRenderElement Render()
         {
-            return new FlexContainer(new FlexContainerProps
+            return new FlexBox(new FlexContainerProps
             {
                 StyleId = "test-drawer",
                 Children = categories

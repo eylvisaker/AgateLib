@@ -32,7 +32,7 @@ namespace AgateLib.UserInterface.Widgets
     {
         public string Text { get; set; }
 
-        public override Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             if (string.IsNullOrEmpty(Text))
             {

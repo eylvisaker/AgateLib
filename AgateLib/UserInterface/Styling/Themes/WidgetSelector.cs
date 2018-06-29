@@ -31,8 +31,6 @@ namespace AgateLib.UserInterface.Styling.Themes
 {
     public interface IWidgetSelector
     {
-        [Obsolete]
-        bool Matches(IRenderElement widget, IWidgetStackState state);
         bool Matches(IRenderElement element, RenderElementStack stack);
     }
 
@@ -51,9 +49,9 @@ namespace AgateLib.UserInterface.Styling.Themes
     {
         private static Regex pattern = new Regex(
             @"(?<whitespace>\s+)|" +
-            @"(?<id>#[a-zA-Z_][a-zA-Z0-9_]*)|" +
-            @"(?<class>\.[a-zA-Z_][a-zA-Z0-9_]*)|" +
-            @"(?<typeid>[a-zA-Z_][a-zA-Z0-9_]*)|" +
+            @"(?<id>#[a-zA-Z_][a-zA-Z0-9_\-]*)|" +
+            @"(?<class>\.[a-zA-Z_][a-zA-Z0-9_\-]*)|" +
+            @"(?<typeid>[a-zA-Z_][a-zA-Z0-9_\-]*)|" +
             @"(?<child>\>)|" +
             @"(?<wildcard>\*)|" +
             @"(?<invalid>[^\s]+)");
@@ -83,15 +81,25 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// Stores tokens in REVERSE order.
         /// </summary>
         List<Token> tokens = new List<Token>();
+        string selector;
 
         public CssWidgetSelector(string selector)
         {
-            TokenizeSelector(selector);
-
-            IsValid = Validate();
+            Selector = selector;
         }
 
-        public bool IsValid { get; }
+        public bool IsValid { get; private set; }
+
+        public string Selector
+        {
+            get => selector;
+            set
+            {
+                selector = value;
+                TokenizeSelector(selector);
+                IsValid = Validate();
+            }
+        }
 
         private bool Validate()
         {
@@ -127,6 +135,8 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         private void TokenizeSelector(string selector)
         {
+            tokens.Clear();
+
             MatchCollection matches = pattern.Matches(selector);
 
             foreach (Match match in matches)
@@ -152,11 +162,6 @@ namespace AgateLib.UserInterface.Styling.Themes
             }
 
             tokens.Reverse();
-        }
-
-        public override bool Matches(IRenderElement widget, IWidgetStackState state)
-        {
-            return false;
         }
 
         public override bool Matches(IRenderElement element, RenderElementStack stack)
@@ -195,7 +200,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                         {
                             stackPtr--;
 
-                            if (IsMatch(tokens[i], stack.ParentStack[stackPtr+1]))
+                            if (IsMatch(tokens[i], stack.ParentStack[stackPtr + 1]))
                             {
                                 foundMatch = true;
                                 break;
@@ -254,8 +259,6 @@ namespace AgateLib.UserInterface.Styling.Themes
             return widget.StyleTypeIdentifier.Equals(typeIdentifier, StringComparison.OrdinalIgnoreCase);
         }
 
-        public abstract bool Matches(IRenderElement widget, IWidgetStackState state);
-
         public abstract bool Matches(IRenderElement element, RenderElementStack stack);
     }
 
@@ -301,13 +304,6 @@ namespace AgateLib.UserInterface.Styling.Themes
         }
 
         public override string ToString() => regex.ToString();
-
-        public override bool Matches(IRenderElement widget, IWidgetStackState state)
-        {
-            var id = BuildStateIdentifier(widget, state.Parent);
-
-            return Matches(id);
-        }
 
         public bool Matches(string stateIdentifier)
         {

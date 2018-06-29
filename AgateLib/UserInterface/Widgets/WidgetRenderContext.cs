@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Event which is raised before each widget is updated.
         /// </summary>
-        event Action<IRenderWidget> BeforeUpdate;
+        event Action<IRenderElement> BeforeUpdate;
 
         /// <summary>
         /// Gets the graphics device.
@@ -190,7 +190,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Event that is raised before a widget is updated.
         /// </summary>
-        public event Action<IRenderWidget> BeforeUpdate;
+        public event Action<IRenderElement> BeforeUpdate;
 
         public GraphicsDevice GraphicsDevice { get; }
 
@@ -263,11 +263,11 @@ namespace AgateLib.UserInterface.Widgets
         
         public void DrawChild(Rectangle parentContentDest, IRenderElement widget)
         {
-            if (widget.Display.Animation.IsDoubleBuffered)
+            if (widget.Display.Animator.IsDoubleBuffered)
             {
                 var newContext = DoubleBuffer.PrepRenderState(widget, this);
 
-                var rtClientDest = widget.Display.Animation.Buffer.ContentDestination;
+                var rtClientDest = widget.Display.Animator.Buffer.ContentDestination;
 
                 UserInterfaceRenderer.DrawBackground(newContext, widget.Display, rtClientDest);
                 UserInterfaceRenderer.DrawFrame(newContext, widget.Display, rtClientDest);
@@ -278,11 +278,12 @@ namespace AgateLib.UserInterface.Widgets
             }
             else
             {
+
                 Rectangle dest = new Rectangle(
-                    parentContentDest.X + widget.Display.Animation.ContentRect.X,
-                    parentContentDest.Y + widget.Display.Animation.ContentRect.Y,
-                    widget.Display.Animation.ContentRect.Width,
-                    widget.Display.Animation.ContentRect.Height);
+                    parentContentDest.X + widget.Display.Animator.AnimatedContentRect.X,
+                    parentContentDest.Y + widget.Display.Animator.AnimatedContentRect.Y,
+                    widget.Display.Animator.AnimatedContentRect.Width,
+                    widget.Display.Animator.AnimatedContentRect.Height);
 
                 UserInterfaceRenderer.DrawBackground(this, widget.Display, dest);
                 UserInterfaceRenderer.DrawFrame(this, widget.Display, dest);

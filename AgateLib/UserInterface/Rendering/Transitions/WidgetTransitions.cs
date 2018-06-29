@@ -30,108 +30,124 @@ using System.Text;
 namespace AgateLib.UserInterface.Rendering.Transitions
 {
 
-	public interface IWidgetTransition
-	{
-		bool Update(WidgetDisplay display, IWidgetRenderContext renderContext);
+    public interface IWidgetTransition
+    {
+        bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext);
 
-		void Initialize(WidgetDisplay display);
-	}
+        void Initialize(RenderElementDisplay display);
 
-	public class WidgetSuddenTransition : IWidgetTransition
-	{
-		public void Initialize(WidgetDisplay display)
-		{
-		}
+        void ContentRectUpdated(RenderElementDisplay display);
+    }
 
-		public bool Update(WidgetDisplay display, IWidgetRenderContext renderContext)
-		{
-			var animation = display.Animation;
+    public class WidgetSuddenTransition : IWidgetTransition
+    {
+        public void ContentRectUpdated(RenderElementDisplay display)
+        {
+            display.Animator.AnimatedContentRect = display.Region.ContentRect;
+            display.Animator.AnimatedBorderRect = display.Region.BorderRect;
+        }
 
-			animation.IsVisible = display.IsVisible;
-			animation.ContentRect = display.Region.ContentRect;
-			animation.BorderRect = display.Region.BorderRect;
-			animation.Alpha = 1;
+        public void Initialize(RenderElementDisplay display)
+        {
+        }
 
-			return true;
-		}
-	}
+        public bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext)
+        {
+            var animator = display.Animator;
 
-	public class WidgetFadeInTransition : IWidgetTransition
-	{
-		public void Initialize(WidgetDisplay display)
-		{
-			display.Animation.Alpha = 0;
-		}
+            animator.IsVisible = display.IsVisible;
+            animator.AnimatedContentRect = display.Region.ContentRect;
+            animator.AnimatedBorderRect = display.Region.BorderRect;
+            animator.Alpha = 1;
 
-		public bool Update(WidgetDisplay display, IWidgetRenderContext renderContext)
-		{
-			var animation = display.Animation;
-			animation.IsVisible = true;
+            return true;
+        }
+    }
 
-			animation.Alpha += 
-				(float)renderContext.GameTime.ElapsedGameTime.TotalSeconds 
-				/ display.Style.Animation.TransitionInTime;
+    public class WidgetFadeInTransition : IWidgetTransition
+    {
+        public void ContentRectUpdated(RenderElementDisplay display)
+        {
+        }
 
-			if (animation.Alpha >= 1)
-			{
-				animation.Alpha = 1;
-				animation.BorderRect = display.Region.BorderRect;
+        public void Initialize(RenderElementDisplay display)
+        {
+            display.Animator.Alpha = 0;
+        }
 
-				return true;
-			}
+        public bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext)
+        {
+            var animation = display.Animator;
+            animation.IsVisible = true;
 
-			const float shrinkMax = 0.1f;
-			float shrink = shrinkMax * MathF.Pow(1 - animation.Alpha, 3);
+            animation.Alpha +=
+                (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
+                / display.Style.Animation.TransitionInTime;
 
-			float leftRightMargin = shrink * display.Region.BorderRect.Width;
-			float topBottomMargin = shrink * display.Region.BorderRect.Height;
+            if (animation.Alpha >= 1)
+            {
+                animation.Alpha = 1;
+                animation.AnimatedBorderRect = display.Region.BorderRect;
 
-			animation.BorderRect = new Rectangle(
-				display.Region.BorderRect.X + (int)leftRightMargin,
-				display.Region.BorderRect.Y + (int)leftRightMargin,
-				display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
-				display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
+                return true;
+            }
 
-			return false;
-		}
-	}
+            const float shrinkMax = 0.1f;
+            float shrink = shrinkMax * MathF.Pow(1 - animation.Alpha, 3);
 
-	public class WidgetFadeOutTransition : IWidgetTransition
-	{
-		public void Initialize(WidgetDisplay display)
-		{
-		}
+            float leftRightMargin = shrink * display.Region.BorderRect.Width;
+            float topBottomMargin = shrink * display.Region.BorderRect.Height;
 
-		public bool Update(WidgetDisplay display, IWidgetRenderContext renderContext)
-		{
-			var animation = display.Animation;
+            animation.AnimatedBorderRect = new Rectangle(
+                display.Region.BorderRect.X + (int)leftRightMargin,
+                display.Region.BorderRect.Y + (int)leftRightMargin,
+                display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
+                display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
 
-			animation.BorderRect = display.Region.BorderRect;
+            return false;
+        }
+    }
 
-			animation.Alpha -=
-				(float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
-				/ display.Style.Animation.TransitionOutTime;
+    public class WidgetFadeOutTransition : IWidgetTransition
+    {
+        public void ContentRectUpdated(RenderElementDisplay display)
+        {
+        }
 
-			if (animation.Alpha <= 0)
-			{
-				animation.Alpha = 0;
-				animation.IsVisible = false;
-				return true;
-			}
+        public void Initialize(RenderElementDisplay display)
+        {
+        }
 
-			const float shrinkMax = 0.1f;
-			float shrink = shrinkMax * MathF.Pow(1 - animation.Alpha, 0.8f);
+        public bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext)
+        {
+            var animation = display.Animator;
 
-			float leftRightMargin = shrink * display.Region.BorderRect.Width;
-			float topBottomMargin = shrink * display.Region.BorderRect.Height;
+            animation.AnimatedBorderRect = display.Region.BorderRect;
 
-			animation.BorderRect = new Rectangle(
-				display.Region.BorderRect.X + (int)leftRightMargin,
-				display.Region.BorderRect.Y + (int)leftRightMargin,
-				display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
-				display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
+            animation.Alpha -=
+                (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
+                / display.Style.Animation.TransitionOutTime;
 
-			return false;
-		}
-	}
+            if (animation.Alpha <= 0)
+            {
+                animation.Alpha = 0;
+                animation.IsVisible = false;
+                return true;
+            }
+
+            const float shrinkMax = 0.1f;
+            float shrink = shrinkMax * MathF.Pow(1 - animation.Alpha, 0.8f);
+
+            float leftRightMargin = shrink * display.Region.BorderRect.Width;
+            float topBottomMargin = shrink * display.Region.BorderRect.Height;
+
+            animation.AnimatedBorderRect = new Rectangle(
+                display.Region.BorderRect.X + (int)leftRightMargin,
+                display.Region.BorderRect.Y + (int)leftRightMargin,
+                display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
+                display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
+
+            return false;
+        }
+    }
 }

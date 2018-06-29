@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Rendering
         /// <param name="renderContext"></param>
         /// <param name="display"></param>
         /// <param name="dest"></param>
-        void DrawBackground(IWidgetRenderContext renderContext, WidgetDisplay display, Rectangle clientDest);
+        void DrawBackground(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest);
 
         /// <summary>
         /// Draws the border of a widget.
@@ -56,7 +56,7 @@ namespace AgateLib.UserInterface.Rendering
         /// <param name="renderContext"></param>
         /// <param name="display"></param>
         /// <param name="dest"></param>
-        void DrawFrame(IWidgetRenderContext renderContext, WidgetDisplay display, Rectangle clientDest);
+        void DrawFrame(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest);
 
 
         void DrawBackground(SpriteBatch spriteBatch, BackgroundStyle background, Rectangle backgroundRect);
@@ -103,7 +103,7 @@ namespace AgateLib.UserInterface.Rendering
         {
         }
 
-        public void DrawBackground(IWidgetRenderContext renderContext, WidgetDisplay display, Rectangle clientDest)
+        public void DrawBackground(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
         {
             // This draws the background behind the border - a problem for borders which have transparency on their outer edges
             // but important for borders which have transparency on their inner edges. Oh what to do...
@@ -114,11 +114,13 @@ namespace AgateLib.UserInterface.Rendering
 
             // Here we make a compromise and set the background rectangle to be slightly smaller than
             // the border rectangle
+            var borderLayout = display.Style.Border.ToLayoutBox();
+
             Rectangle backgroundRect = new Rectangle(
-                clientDest.X - display.Region.BorderToContentOffset.Left + display.Region.Style.Border.Left.Width / 2,
-                clientDest.Y - display.Region.BorderToContentOffset.Top + display.Region.Style.Border.Top.Width / 2,
-                display.Region.BorderRect.Width - display.Region.Style.Border.Width / 2,
-                display.Region.BorderRect.Height - display.Region.Style.Border.Height / 2);
+                clientDest.X - display.Region.BorderToContentOffset.Left + borderLayout.Left / 2,
+                clientDest.Y - display.Region.BorderToContentOffset.Top  + borderLayout.Top / 2,
+                display.Region.BorderRect.Width  - borderLayout.Width / 2,
+                display.Region.BorderRect.Height - borderLayout.Height / 2);
 
             styleRenderer.DrawBackground(
                 renderContext.SpriteBatch,
@@ -131,7 +133,7 @@ namespace AgateLib.UserInterface.Rendering
             styleRenderer.DrawBackground(spriteBatch, background, backgroundRect);
         }
 
-        public void DrawFrame(IWidgetRenderContext renderContext, WidgetDisplay display, Rectangle clientDest)
+        public void DrawFrame(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
         {
             styleRenderer.DrawFrame(
                 renderContext.SpriteBatch,
@@ -160,7 +162,7 @@ namespace AgateLib.UserInterface.Rendering
 
         public void UpdateAnimation(IWidgetRenderContext renderContext, IRenderElement element)
         {
-            var animator = element.Display.Animation;
+            var animator = element.Display.Animator;
 
             SetTransition(element);
 
@@ -174,7 +176,7 @@ namespace AgateLib.UserInterface.Rendering
 
         private void AdvanceTransitionState(IRenderElement widget)
         {
-            var animator = widget.Display.Animation;
+            var animator = widget.Display.Animator;
 
             switch (animator.State)
             {
@@ -196,12 +198,12 @@ namespace AgateLib.UserInterface.Rendering
 
         private void SetTransition(IRenderElement widget)
         {
-            var animator = widget.Display.Animation;
+            var animator = widget.Display.Animator;
             var style = widget.Display.Style.Animation;
 
             string transitionName = "sudden";
 
-            switch (widget.Display.Animation.State)
+            switch (widget.Display.Animator.State)
             {
                 case AnimationState.TransitionIn:
                     transitionName = style?.TransitionIn ?? transitionName;

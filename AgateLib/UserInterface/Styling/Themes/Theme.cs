@@ -23,10 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using AgateLib.Display;
-using AgateLib.Quality;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
@@ -59,7 +55,16 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             var data = new ThemeData
             {
-                // Keep these, using the new css selectors
+                new ThemeStyle
+                {
+                    Selector = ".workspace",
+                    Padding = LayoutBox.SameAllAround(30),
+                    Flex = new FlexStyle
+                    {
+                        AlignItems = AlignItems.Center,
+                    }
+                },
+
                 new ThemeStyle
                 {
                     Selector = ".workspace > *",

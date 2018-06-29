@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Layout;
+using AgateLib.UnitTests;
 
 namespace AgateLib.FunctionalTests.UserInterface.Support
 {

@@ -149,7 +149,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets the WidgetDisplay object that controls how the widget is
         /// displayed on screen.
         /// </summary>
-        public WidgetDisplay Display { get; } = new WidgetDisplay();
+        public RenderElementDisplay Display { get; } = new RenderElementDisplay();
 
         /// <summary>
         /// Gets the readonly collection of children.
@@ -190,7 +190,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="renderContext"></param>
         /// <param name="maxSize"></param>
         /// <returns></returns>
-        public abstract Size ComputeIdealSize(
+        public abstract Size CalcIdealContentSize(
             IWidgetRenderContext renderContext,
             Size maxSize);
 
@@ -275,7 +275,7 @@ namespace AgateLib.UserInterface.Widgets
             widget.Display.Region.Size.ParentMaxSize = parentMaxSize;
 
             widget.Display.Region.Size.IdealContentSize
-                = widget.ComputeIdealSize(renderContext, parentMaxSize);
+                = widget.CalcIdealContentSize(renderContext, parentMaxSize);
 
             return widget.Display.Region.Size.IdealContentSize;
         }

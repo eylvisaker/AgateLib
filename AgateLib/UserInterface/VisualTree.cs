@@ -77,5 +77,12 @@ namespace AgateLib.UserInterface
             foreach (var item in node.Children)
                 Walk(item, action);
         }
+
+        internal void Draw(IWidgetRenderContext renderContext, Rectangle area)
+        {
+            TreeRoot.Display.MarginRect = area;
+
+            renderContext.DrawChild(TreeRoot.Display.ContentRect, TreeRoot);
+        }
     }
 }

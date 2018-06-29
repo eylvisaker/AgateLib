@@ -12,7 +12,11 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderElement Render()
         {
-            return new LabelElement(new LabelElementProps(Props.Text));
+            return new LabelElement(new LabelElementProps
+            {
+                StyleClass = "menu-item",
+                Text = Props.Text
+            });
         }
     }
 

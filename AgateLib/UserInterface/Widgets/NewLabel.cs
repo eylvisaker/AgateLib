@@ -14,7 +14,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderElement Render()
         {
-            return new LabelElement(new LabelElementProps(Props.Text));
+            return new LabelElement(new LabelElementProps {
+                Text = Props.Text });
         }
     }
 
@@ -29,7 +30,9 @@ namespace AgateLib.UserInterface.Widgets
         {
         }
 
-        public override Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
+        public override string StyleTypeIdentifier => "Label";
+
+        public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             if (string.IsNullOrEmpty(Props.Text))
             {
@@ -50,11 +53,10 @@ namespace AgateLib.UserInterface.Widgets
 
     public class LabelElementProps : RenderElementProps
     {
-        public LabelElementProps(string text)
+        public LabelElementProps()
         {
-            this.Text = text;
         }
 
-        public string Text { get; }
+        public string Text { get; set; }
     }
 }

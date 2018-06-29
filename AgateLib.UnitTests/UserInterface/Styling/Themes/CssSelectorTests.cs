@@ -245,6 +245,41 @@ namespace AgateLib.UserInterface.Styling.Themes
             DoesNotMatch(tree, selector, tree.Children.First().Children.First().Children.First());
         }
 
+        [Fact]
+        public void MatchesClassWithDashes()
+        {
+            var tree = Element(cls: "workspace", children: new[]
+                {
+                    Element(cls:"menu", children: new []
+                    {
+                        Element(cls:"menu-item", children: new []
+                        {
+                            Element(name:"label")
+                        }),
+                        Element(cls:"menu-item"),
+                        Element(cls:"menu-item"),
+                    }),
+                    Element(name: "label"),
+                });
+
+            var selector = ".menu-item";
+
+            // Top level
+            DoesNotMatch(tree, selector, tree);
+
+            // First level
+            DoesNotMatch(tree, selector, tree.Children.First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(1).First());
+
+            // Second level
+            Matches(tree, selector, tree.Children.First().Children.First());
+            Matches(tree, selector, tree.Children.First().Children.Skip(1).First());
+            Matches(tree, selector, tree.Children.First().Children.Skip(2).First());
+
+            // Third level
+            DoesNotMatch(tree, selector, tree.Children.First().Children.First().Children.First());
+        }
+
         private void DoesNotMatch(IRenderElement tree, string selector, IRenderElement renderElement)
         {
             Matches(tree, selector, renderElement, false);

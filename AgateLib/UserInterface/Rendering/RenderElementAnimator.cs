@@ -31,8 +31,15 @@ using AgateLib.UserInterface.Widgets;
 namespace AgateLib.UserInterface.Rendering
 {
 
-    public class WidgetAnimationState
+    public class RenderElementAnimator
     {
+        private readonly RenderElementDisplay display;
+
+        public RenderElementAnimator(RenderElementDisplay display)
+        {
+            this.display = display;
+        }
+
         /// <summary>
         /// Gets the state for double buffering. 
         /// </summary>
@@ -45,12 +52,13 @@ namespace AgateLib.UserInterface.Rendering
         /// <summary>
         /// Gets or sets the border rect in the widget's parent's client space.
         /// </summary>
-        public Rectangle BorderRect { get; set; }
+        public Rectangle AnimatedBorderRect { get; set; }
 
         /// <summary>
         /// Gets or sets the client rect in the widget's parent's client space.
         /// </summary>
-        public Rectangle ContentRect { get; set; }
+        /// TODO: Unify data storage for content and border rects.
+        public Rectangle AnimatedContentRect { get; set; }
 
         public Color Color => new Color(Alpha, Alpha, Alpha, Alpha);
 
@@ -78,6 +86,19 @@ namespace AgateLib.UserInterface.Rendering
             State = 0;
             Alpha = 1;
             Transition = null;
+        }
+
+        internal void ContentRectUpdated()
+        {
+            if (Transition != null)
+            {
+                Transition?.ContentRectUpdated(display);
+            }
+            else
+            {
+                AnimatedContentRect = display.ContentRect;
+                AnimatedBorderRect = display.BorderRect;
+            }
         }
     }
 

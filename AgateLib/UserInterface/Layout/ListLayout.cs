@@ -101,7 +101,7 @@ namespace AgateLib.UserInterface.Layout
 
         public bool IsReadOnly => throw new NotImplementedException();
 
-        public WidgetDisplay Display => throw new NotImplementedException();
+        public RenderElementDisplay Display => throw new NotImplementedException();
 
         public string StyleTypeIdentifier => throw new NotImplementedException();
 
@@ -247,7 +247,7 @@ namespace AgateLib.UserInterface.Layout
             throw new NotImplementedException();
         }
 
-        public Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
+        public Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             throw new NotImplementedException();
         }

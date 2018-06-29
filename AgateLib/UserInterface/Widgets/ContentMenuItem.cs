@@ -72,7 +72,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public ContentLayoutOptions ContentLayoutOptions { get; set; } = new ContentLayoutOptions();
         
-        public override Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             Display.Region.Size.ParentMaxSize = maxSize;
 

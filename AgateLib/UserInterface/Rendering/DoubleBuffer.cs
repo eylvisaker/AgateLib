@@ -50,15 +50,15 @@ namespace AgateLib.UserInterface.Rendering
         public void CompleteRendering(Rectangle parentContentDest,
             IWidgetRenderContext renderContext, IRenderElement widget)
         {
-            var animation = widget.Display.Animation;
+            var animation = widget.Display.Animator;
             var display = widget.Display;
 
-            display.Animation.Buffer.RenderContext.SpriteBatch.End();
+            display.Animator.Buffer.RenderContext.SpriteBatch.End();
 
             // Now use the parent render target.
             renderContext.GraphicsDevice.SetRenderTarget(renderContext.RenderTarget);
 
-            var screenRect = animation.BorderRect;
+            var screenRect = animation.AnimatedBorderRect;
             screenRect.X += parentContentDest.X;
             screenRect.Y += parentContentDest.Y;
 
@@ -75,23 +75,23 @@ namespace AgateLib.UserInterface.Rendering
 
         public IWidgetRenderContext PrepRenderState(IRenderElement widget, IWidgetRenderContext renderContext)
         {
-            var animation = widget.Display.Animation;
+            var animation = widget.Display.Animator;
             var display = widget.Display;
 
             if (InitializeRenderTarget(display, renderContext.GraphicsDevice))
             {
-                if (display.Animation.Buffer.RenderContext == null)
+                if (display.Animator.Buffer.RenderContext == null)
                 {
-                    display.Animation.Buffer.RenderContext = new WidgetRenderContext(
+                    display.Animator.Buffer.RenderContext = new WidgetRenderContext(
                         (WidgetRenderContext)renderContext,
                         new SpriteBatch(renderContext.GraphicsDevice),
                         animation.RenderTarget);
                 }
 
-                display.Animation.Buffer.RenderContext.RenderTarget = animation.RenderTarget;
+                display.Animator.Buffer.RenderContext.RenderTarget = animation.RenderTarget;
             }
 
-            var newRenderContext = display.Animation.Buffer.RenderContext;
+            var newRenderContext = display.Animator.Buffer.RenderContext;
 
             newRenderContext.GameTime = renderContext.GameTime;
 
@@ -102,11 +102,11 @@ namespace AgateLib.UserInterface.Rendering
             newRenderContext.Indicator = renderContext.Indicator;
             newRenderContext.SpriteBatch.Begin();
 
-            widget.Display.Animation.Buffer.ContentDestination = new Rectangle(
+            widget.Display.Animator.Buffer.ContentDestination = new Rectangle(
                 display.Region.MarginToContentOffset.Left,
                 display.Region.MarginToContentOffset.Top,
-                widget.Display.Animation.RenderTarget.Width - display.Region.MarginToContentOffset.Right,
-                widget.Display.Animation.RenderTarget.Height - display.Region.MarginToContentOffset.Bottom);
+                widget.Display.Animator.RenderTarget.Width - display.Region.MarginToContentOffset.Right,
+                widget.Display.Animator.RenderTarget.Height - display.Region.MarginToContentOffset.Bottom);
 
             return newRenderContext;
         }
@@ -117,9 +117,9 @@ namespace AgateLib.UserInterface.Rendering
         /// </summary>
         /// <param name="display"></param>
         /// <returns></returns>
-        public bool InitializeRenderTarget(WidgetDisplay display, GraphicsDevice graphicsDevice)
+        public bool InitializeRenderTarget(RenderElementDisplay display, GraphicsDevice graphicsDevice)
         {
-            var animation = display.Animation;
+            var animation = display.Animator;
 
 
             if (animation.RenderTarget == null ||

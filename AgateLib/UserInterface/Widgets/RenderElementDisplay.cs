@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using AgateLib.Display;
 using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -32,24 +33,20 @@ namespace AgateLib.UserInterface.Widgets
     /// An object which contains all information that the rendering system
     /// needs to render a widget.
     /// </summary>
-    public class WidgetDisplay
+    public class RenderElementDisplay
     {
-        public WidgetDisplay(IRenderElementStyleProperties inlineStyle = null)
+        public RenderElementDisplay(IRenderElementStyleProperties inlineStyle = null)
         {
-            Region = new WidgetRegion(Styles.ActiveStyle);
-
-            Styles.ActiveStyleChanged += (sender, e) =>
-            {
-                StyleUpdated();
-            };
-
             Style = new RenderElementStyle(this, inlineStyle);
+            Region = new WidgetRegion(Style);
+
+            Animator = new RenderElementAnimator(this);
         }
 
         /// <summary>
         /// Owned by the rendering engine.
         /// </summary>
-        public WidgetAnimationState Animation { get; } = new WidgetAnimationState();
+        public RenderElementAnimator Animator { get; } 
 
         /// <summary>
         /// Gets the layout state.
@@ -96,18 +93,66 @@ namespace AgateLib.UserInterface.Widgets
         /// Set by parent widgets to indicate whether the owning widget has focus.
         /// </summary>
         public bool HasFocus { get; set; }
+
         public IndicatorType IndicatorType { get; internal set; }
 
-        public List<IRenderElementStyleProperties> ElementStyles { get; } 
+        public List<IRenderElementStyleProperties> ElementStyles { get; }
             = new List<IRenderElementStyleProperties>();
 
         public IFont ParentFont { get; set; }
 
         public IFontProvider Fonts { get; set; }
 
-        internal void StyleUpdated()
+        /// <summary>
+        /// Gets the content rectangle, or sets all three rectangles based on the box model
+        /// and the specified content rectangle.
+        /// </summary>
+        public Rectangle ContentRect
         {
-            Region.Style = Styles.ActiveStyle;
+            get => Region.ContentRect;
+            set
+            {
+                Region.SetContentRect(value);
+                Animator.ContentRectUpdated();
+            }
+        }
+
+        /// <summary>
+        /// Gets the margin rectangle, or sets all three rectangles based on the box model
+        /// and the specified margin rectangle.
+        /// </summary>
+        public Rectangle MarginRect
+        {
+            get => Region.MarginRect;
+            set
+            {
+                Rectangle contentRect = new Rectangle(
+                    value.X + Region.MarginToContentOffset.Left,
+                    value.Y + Region.MarginToContentOffset.Top,
+                    value.Width - Region.MarginToContentOffset.Width,
+                    value.Height - Region.MarginToContentOffset.Height);
+
+                Region.SetContentRect(contentRect);
+            }
+        }
+
+        /// <summary>
+        /// Gets the border rectangle, or sets all three rectangles based on the box model
+        /// and the specified border rectangle.
+        /// </summary>
+        public Rectangle BorderRect
+        {
+            get => Region.BorderRect;
+            set
+            {
+                Rectangle contentRect = new Rectangle(
+                    value.X + Region.BorderToContentOffset.Left,
+                    value.Y + Region.BorderToContentOffset.Top,
+                    value.Width - Region.BorderToContentOffset.Width,
+                    value.Height - Region.BorderToContentOffset.Height);
+
+                Region.SetContentRect(contentRect);
+            }
         }
     }
 }

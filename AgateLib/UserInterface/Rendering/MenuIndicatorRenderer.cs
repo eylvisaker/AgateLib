@@ -79,7 +79,7 @@ namespace AgateLib.UserInterface.Rendering
 
         private static Point ContentPositionOf(IRenderWidget child)
         {
-            return child.Display.Animation.BorderRect.Location
+            return child.Display.Animator.AnimatedBorderRect.Location
                                      + child.Display.Region.BorderToContentOffset.TopLeft;
         }
     }

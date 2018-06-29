@@ -180,7 +180,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Renderable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\FlexContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\FlexBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\ImageSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\TypeConverters\FontStylePropertiesYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\TypeConverters\ImageSourceYamlConverter.cs" />
@@ -202,7 +202,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\NewLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetChildren.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Instructions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Label.cs" />
@@ -222,12 +221,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Transitions\WidgetTransitions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceImageProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceRenderer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\WidgetAnimationState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\RenderElementAnimator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\TabMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\UserInterfaceInputEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Widget.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetDisplay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetRegion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetRenderContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetStyle.cs" />

@@ -12,7 +12,7 @@ using Xunit;
 using Microsoft.Xna.Framework;
 using Moq;
 
-namespace ManualTests.AgateLib.UserInterface.Layout
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
     public class SingleRowLayoutTests : ListLayoutTests
     {
@@ -36,13 +36,15 @@ namespace ManualTests.AgateLib.UserInterface.Layout
         [Fact]
         public void SRL_SizeMetricsWithMargins()
         {
-            for (int i = 0; i < 10; i += 2)
-            {
-                layout[i].Display.Region.Style.Margin 
-                    = new LayoutBox(1, 2, 3, 4);
-            }
+            throw new NotImplementedException();
 
-            TestSizeMetrics(new Size(1020, 26));
+            //for (int i = 0; i < 10; i += 2)
+            //{
+            //    layout[i].Display.Region.Style.Margin 
+            //        = new LayoutBox(1, 2, 3, 4);
+            //}
+
+            //TestSizeMetrics(new Size(1020, 26));
         }
 
         [Fact]
@@ -55,7 +57,7 @@ namespace ManualTests.AgateLib.UserInterface.Layout
                 layout[i].Display.IsVisible = false;
             }
             
-            WidgetRegion region = new WidgetRegion(new WidgetStyle());
+            WidgetRegion region = new WidgetRegion(CommonMocks.RenderElementStyle().Object);
 
             region.Size.IdealContentSize = layout.ComputeIdealSize(
                 region.Size.ParentMaxSize, renderContext.Object);
@@ -87,15 +89,17 @@ namespace ManualTests.AgateLib.UserInterface.Layout
         {
             var renderContext = new Mock<IWidgetRenderContext>(MockBehavior.Strict);
 
-            for (int i = 0; i < 10; i += 2)
-            {
-                layout[i].Display.Region.Style.Margin
-                    = new LayoutBox(1, 2, 3, 4);
-                layout[i].Display.Region.Style.Padding
-                    = new LayoutBox(2, 4, 6, 8);
-            }
+            throw new NotImplementedException();
+
+            //for (int i = 0; i < 10; i += 2)
+            //{
+            //    layout[i].Display.Region.Style.Margin
+            //        = new LayoutBox(1, 2, 3, 4);
+            //    layout[i].Display.Region.Style.Padding
+            //        = new LayoutBox(2, 4, 6, 8);
+            //}
             
-            WidgetRegion region = new WidgetRegion(new WidgetStyle());
+            WidgetRegion region = new WidgetRegion(CommonMocks.RenderElementStyle().Object);
             
             region.Size.IdealContentSize = layout.ComputeIdealSize(
                 region.Size.ParentMaxSize, renderContext.Object);

@@ -48,61 +48,10 @@ namespace AgateLib.UserInterface.Widgets
 
         public event EventHandler ActiveStyleChanged;
 
-        public WidgetStyle DefaultStyle => styles[defaultKey];
-
         public WidgetStyle ActiveStyle
         {
             get => activeStyle;
-            private set
-            {
-                if (activeStyle == value)
-                    return;
-
-                activeStyle = value;
-
-                ActiveStyleChanged?.Invoke(this, EventArgs.Empty);
-            }
         }
-
-        /// <summary>
-        /// Gets or creates a style for the specified widget state.
-        /// </summary>
-        /// <param name="state">The state of the widget where this
-        /// style should be active.</param>
-        /// <returns></returns>
-        public WidgetStyle GetOrCreate(string state)
-        {
-            if (string.IsNullOrWhiteSpace(state))
-                return DefaultStyle;
-
-            if (styles.TryGetValue(state, out WidgetStyle result) == false)
-            {
-                result = new WidgetStyle();
-                styles[state] = result;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Sets the active style based on the current state of the widget.
-        /// </summary>
-        /// <param name="state"></param>
-        public void SetActiveStyle(string state)
-        {
-            if (styles.TryGetValue(state, out WidgetStyle result))
-            {
-                SetState(result);
-            }
-            else
-            {
-                SetState(DefaultStyle);
-            }
-        }
-
-        private void SetState(WidgetStyle widgetStyle)
-        {
-            ActiveStyle = widgetStyle;
-        }
+        
     }
 }

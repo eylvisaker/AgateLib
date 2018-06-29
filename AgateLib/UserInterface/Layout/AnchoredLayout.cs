@@ -104,7 +104,7 @@ namespace AgateLib.UserInterface.Layout
 
         IEnumerable<IRenderElement> IWidgetLayout.Items => throw new NotImplementedException();
 
-        public WidgetDisplay Display => throw new NotImplementedException();
+        public RenderElementDisplay Display => throw new NotImplementedException();
 
         public IEnumerable<IRenderElement> Children => throw new NotImplementedException();
 
@@ -136,7 +136,7 @@ namespace AgateLib.UserInterface.Layout
         {
             if (Focus != null)
             {
-                if (Focus.Display.Animation.State != AnimationState.Static)
+                if (Focus.Display.Animator.State != AnimationState.Static)
                     return;
 
                 Focus.ProcessEvent(input);
@@ -162,18 +162,20 @@ namespace AgateLib.UserInterface.Layout
         {
             Size = size;
 
-            foreach (var item in items)
-            {
-                item.Display.Region.ContentSize = item.Display.Region.Size.ComputeContentSize();
+            throw new NotImplementedException();
 
-                var itemContentSize = item.Display.Region.ContentSize;
+            //foreach (var item in items)
+            //{
+            //    item.Display.Region.ContentSize = item.Display.Region.Size.ComputeContentSize();
 
-                var position = Origin.Calc(Anchor, size);
-                var itemPosition = Origin.Calc(Anchor, itemContentSize);
+            //    var itemContentSize = item.Display.Region.ContentSize;
 
-                item.Display.Region.Position =
-                    new Point(position.X - itemPosition.X, position.Y - itemPosition.Y);
-            }
+            //    var position = Origin.Calc(Anchor, size);
+            //    var itemPosition = Origin.Calc(Anchor, itemContentSize);
+
+            //    item.Display.Region.Position =
+            //        new Point(position.X - itemPosition.X, position.Y - itemPosition.Y);
+            //}
         }
 
         private void ResetFocusWidget()
@@ -213,7 +215,7 @@ namespace AgateLib.UserInterface.Layout
             throw new NotImplementedException();
         }
 
-        public Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
+        public Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             throw new NotImplementedException();
         }

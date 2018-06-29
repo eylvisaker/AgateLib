@@ -7,7 +7,7 @@ using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib
+namespace AgateLib.UnitTests
 {
     public static class Extensions
     {
@@ -27,11 +27,11 @@ namespace AgateLib
         {
             desktop.Explore((parent, widget) => 
             {
-                if (widget.Display.Animation.State == AnimationState.TransitionOut)
+                if (widget.Display.Animator.State == AnimationState.TransitionOut)
                     widget.Display.IsVisible = false;
 
-                widget.Display.Animation.State = AnimationState.Static;
-                widget.Display.Animation.IsVisible = widget.Display.IsVisible;
+                widget.Display.Animator.State = AnimationState.Static;
+                widget.Display.Animator.IsVisible = widget.Display.IsVisible;
             });
         }
     }

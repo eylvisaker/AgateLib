@@ -20,7 +20,7 @@
 //    SOFTWARE.
 //
 
-using AgateLib.UserInterface.Styling;
+using System;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using AgateLib.UserInterface.Widgets;
 
@@ -43,6 +43,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// "*" matches all widgets.
         /// "type.*" matches all widgets that are children of widgets which match type.
         /// </summary>
+        [Obsolete("Use Selector instead.")]
         public string Pattern { get; set; }
 
         /// <summary>

@@ -111,29 +111,29 @@ namespace AgateLib.UserInterface.Layout
         {
             Point dest = new Point(0, 0);
 
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (!items[i].Display.IsVisible)
-                    continue;
+            throw new NotImplementedException();
 
-                var item = items[i];
-                var idealSize = sizes[i];
+            //for (int i = 0; i < items.Count; i++)
+            //{
+            //    if (!items[i].Display.IsVisible)
+            //        continue;
 
-                var itemDest = dest;
-                var marginToContent = item.Display.Region.MarginToContentOffset;
+            //    var item = items[i];
+            //    var idealSize = sizes[i];
 
-                itemDest.X += marginToContent.Left;
-                itemDest.Y += marginToContent.Top;
+            //    var itemDest = dest;
+            //    var marginToContent = item.Display.Region.MarginToContentOffset;
 
-                item.Display.Region.Position = itemDest;
-                item.Display.Region.ContentSize = item.Display.Region.Size.ComputeContentSize();
+            //    itemDest.X += marginToContent.Left;
+            //    itemDest.Y += marginToContent.Top;
 
-                dest.X += item.Display.Region.MarginRect.Width;
+            //    item.Display.Region.Position = itemDest;
+            //    item.Display.Region.ContentSize = item.Display.Region.Size.ComputeContentSize();
 
-                item.Display.HasFocus = item == Focus;
-            }
+            //    dest.X += item.Display.Region.MarginRect.Width;
+
+            //    item.Display.HasFocus = item == Focus;
+            //}
         }
-
-
     }
 }

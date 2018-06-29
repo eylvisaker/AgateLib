@@ -11,8 +11,10 @@ using FluentAssertions;
 using Xunit;
 using Microsoft.Xna.Framework;
 using Moq;
+using AgateLib.UserInterface;
+using AgateLib.UnitTests.UserInterface;
 
-namespace ManualTests.AgateLib.UserInterface.Layout
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
     public class SingleColumnLayoutTests : ListLayoutTests
     {
@@ -40,11 +42,12 @@ namespace ManualTests.AgateLib.UserInterface.Layout
         [Fact]
         public void SCL_SizeMetricsWithMargins()
         {
-            for (int i = 0; i < 10; i += 2)
-            {
-                layout[i].Display.Region.Style.Margin
-                    = new LayoutBox(1, 2, 3, 4);
-            }
+            throw new NotImplementedException();
+            //for (int i = 0; i < 10; i += 2)
+            //{
+            //    layout[i].Display.Region.Style.Margin
+            //        = new LayoutBox(1, 2, 3, 4);
+            //}
 
             TestSizeMetrics(new Size(104, 230));
         }
@@ -59,7 +62,8 @@ namespace ManualTests.AgateLib.UserInterface.Layout
                 layout[i].Display.IsVisible = false;
             }
 
-            WidgetRegion region = new WidgetRegion(new WidgetStyle());
+
+            WidgetRegion region = new WidgetRegion(CommonMocks.RenderElementStyle().Object);
 
             region.Size.IdealContentSize = layout.ComputeIdealSize(
                 region.Size.ParentMaxSize, renderContext.Object);
@@ -89,37 +93,39 @@ namespace ManualTests.AgateLib.UserInterface.Layout
         [Fact]
         public void SCL_UpdateLayoutWithMarginAndPadding()
         {
-            var renderContext = new Mock<IWidgetRenderContext>(MockBehavior.Strict);
+            throw new NotImplementedException();
 
-            for (int i = 0; i < 10; i += 2)
-            {
-                layout[i].Display.Region.Style.Margin
-                    = new LayoutBox(1, 2, 3, 4);
-                layout[i].Display.Region.Style.Padding
-                    = new LayoutBox(2, 4, 6, 8);
-            }
+            //var renderContext = new Mock<IWidgetRenderContext>(MockBehavior.Strict);
+
+            //for (int i = 0; i < 10; i += 2)
+            //{
+            //    layout[i].Display.Region.Style.Margin
+            //        = new LayoutBox(1, 2, 3, 4);
+            //    layout[i].Display.Region.Style.Padding
+            //        = new LayoutBox(2, 4, 6, 8);
+            //}
             
-            WidgetRegion region = new WidgetRegion(new WidgetStyle());
+            //WidgetRegion region = new WidgetRegion(new WidgetStyle());
             
-            region.Size.IdealContentSize = layout.ComputeIdealSize(
-                region.Size.ParentMaxSize, renderContext.Object);
+            //region.Size.IdealContentSize = layout.ComputeIdealSize(
+            //    region.Size.ParentMaxSize, renderContext.Object);
 
-            layout.ApplyLayout(region.Size.IdealContentSize, renderContext.Object);
+            //layout.ApplyLayout(region.Size.IdealContentSize, renderContext.Object);
 
-            var dest = new Point();
+            //var dest = new Point();
 
-            for(int i = 0; i < 10; i++)
-            {
-                var widgetRegion = layout[i].Display.Region;
-                var thisDest = dest;
+            //for(int i = 0; i < 10; i++)
+            //{
+            //    var widgetRegion = layout[i].Display.Region;
+            //    var thisDest = dest;
 
-                thisDest.X += widgetRegion.MarginToContentOffset.Left;
-                thisDest.Y += widgetRegion.MarginToContentOffset.Top;
+            //    thisDest.X += widgetRegion.MarginToContentOffset.Left;
+            //    thisDest.Y += widgetRegion.MarginToContentOffset.Top;
 
-                widgetRegion.ContentRect.Location.Should().Be(thisDest);
+            //    widgetRegion.ContentRect.Location.Should().Be(thisDest);
 
-                dest.Y += 20 + widgetRegion.MarginToContentOffset.Height;
-            }
+            //    dest.Y += 20 + widgetRegion.MarginToContentOffset.Height;
+            //}
         }
 
         protected override IListLayout ListLayout => layout;

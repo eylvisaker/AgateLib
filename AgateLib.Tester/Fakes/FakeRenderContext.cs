@@ -45,7 +45,7 @@ namespace AgateLib.Fakes
         public Font Font { get; set; }
 
 
-        public event Action<IRenderWidget> BeforeUpdate;
+        public event Action<IRenderElement> BeforeUpdate;
 
         public void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme)
         {

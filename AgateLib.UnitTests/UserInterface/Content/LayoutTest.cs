@@ -10,8 +10,9 @@ using Moq;
 using AgateLib.Display;
 using AgateLib.Fakes;
 using FluentAssertions;
+using AgateLib.UserInterface.Content;
 
-namespace AgateLib.UserInterface.Content
+namespace AgateLib.UnitTests.UserInterface.Content
 {
     public class LayoutTest
     {
@@ -22,7 +23,7 @@ namespace AgateLib.UserInterface.Content
 Try crouching with {Color Yellow}Down{Color White} and slashing with {Color Yellow}Sword{Color White} to beat enemies with shields.
 Be careful! Some enemies may anticipate this!";
 
-            var fontProvider = CommonMocks.FontProvider("temp");
+            var fontProvider =  CommonMocks.FontProvider("temp");
 
             ContentLayoutEngine layoutEngine = new ContentLayoutEngine(fontProvider.Object);
 

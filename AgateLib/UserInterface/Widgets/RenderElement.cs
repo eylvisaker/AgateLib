@@ -12,7 +12,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets the widget display object that contains all the data needed to
         /// render styling and animation of the widget on screen.
         /// </summary>
-        WidgetDisplay Display { get; }
+        RenderElementDisplay Display { get; }
 
         /// <summary>
         /// Gets a read-only collection of children of this element.
@@ -76,7 +76,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="renderContext"></param>
         /// <param name="maxSize"></param>
         /// <returns></returns>
-        Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize);
+        Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
         /// <summary>
         /// Called when the widget receives an input event.
@@ -91,10 +91,10 @@ namespace AgateLib.UserInterface.Widgets
         {
             this.Props = props;
 
-            Display = new WidgetDisplay(Props.Style);
+            Display = new RenderElementDisplay(Props.Style);
         }
 
-        public WidgetDisplay Display { get; }
+        public RenderElementDisplay Display { get; }
 
         public virtual IEnumerable<IRenderElement> Children => null;
 
@@ -118,7 +118,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public TProps Props { get; }
 
-        public abstract Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize);
+        public abstract Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
         public abstract void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
 

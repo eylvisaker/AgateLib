@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Display;
 using AgateLib.Fakes;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Widgets;
 using Moq;
 
-namespace AgateLib.UserInterface
+namespace AgateLib.UnitTests
 {
     public static class CommonMocks
     {
@@ -62,6 +63,11 @@ namespace AgateLib.UserInterface
                 .Returns(uiRenderer);
 
             return result;
+        }
+
+        public static Mock<IRenderElementStyle> RenderElementStyle()
+        {
+            return new Mock<IRenderElementStyle>();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class WidgetRegion
     {
-        WidgetStyle style;
+        IRenderElementStyle style;
         Rectangle contentRect;
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Widgets
         /// The WidgetStyle can be switched to any other WidgetStyle at-will without any deterimental effect to the behavior of the WidgetLayout.
         /// Because of these facts, we can freely change the style for a widget at will.
         /// </remarks>
-        public WidgetRegion(WidgetStyle activeStyle)
+        public WidgetRegion(IRenderElementStyle activeStyle)
         {
             this.Style = activeStyle;
         }
@@ -58,13 +58,18 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public LayoutBox BorderToContentOffset
         {
-            get => new LayoutBox
+            get
             {
-                Left = Style.Border.Left.Width + Style.Padding.Left,
-                Top = Style.Border.Top.Width + Style.Padding.Top,
-                Right = Style.Border.Right.Width + Style.Padding.Right,
-                Bottom = Style.Border.Bottom.Width + Style.Padding.Bottom,
-            };
+                var borderLayout = Style.Border.ToLayoutBox();
+
+                return new LayoutBox
+                {
+                    Left = borderLayout.Left + Style.Padding.Left,
+                    Top = borderLayout.Top + Style.Padding.Top,
+                    Right = borderLayout.Right + Style.Padding.Right,
+                    Bottom = borderLayout.Bottom + Style.Padding.Bottom,
+                };
+            }
         }
 
         /// <summary>
@@ -72,13 +77,18 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public LayoutBox MarginToContentOffset
         {
-            get => new LayoutBox
+            get
             {
-                Left = Style.Border.Left.Width + Style.Padding.Left + Style.Margin.Left,
-                Top = Style.Border.Top.Width + Style.Padding.Top + Style.Margin.Top,
-                Right = Style.Border.Right.Width + Style.Padding.Right + Style.Margin.Right,
-                Bottom = Style.Border.Bottom.Width + Style.Padding.Bottom + Style.Margin.Bottom,
-            };
+                var borderLayout = Style.Border.ToLayoutBox();
+
+                return new LayoutBox
+                {
+                    Left = borderLayout.Left + Style.Padding.Left + Style.Margin.Left,
+                    Top = borderLayout.Top + Style.Padding.Top + Style.Margin.Top,
+                    Right = borderLayout.Right + Style.Padding.Right + Style.Margin.Right,
+                    Bottom = borderLayout.Bottom + Style.Padding.Bottom + Style.Margin.Bottom,
+                };
+            }
         }
 
         /// <summary>
@@ -104,19 +114,19 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets or sets the position of the content for this widget.
         /// This is in the parent's client space.
         /// </summary>
+        [Obsolete]
         public Point Position
         {
             get => contentRect.Location;
-            set => contentRect.Location = value;
         }
 
         /// <summary>
         /// Gets or sets the size of the client area for this widget.
         /// </summary>
+        [Obsolete]
         public Size ContentSize
         {
             get => new Size(contentRect.Size.X, contentRect.Size.Y);
-            set => contentRect.Size = new Point(value.Width, value.Height);
         }
 
         /// <summary>
@@ -145,16 +155,17 @@ namespace AgateLib.UserInterface.Widgets
         public Rectangle ContentRect
         {
             get => contentRect;
-            set => contentRect = value;
         }
+
+        internal void SetContentRect(Rectangle newContentRect) => contentRect = newContentRect;
 
         /// <summary>
         /// A reference to the active style for this widget.
         /// </summary>
-        public WidgetStyle Style
+        public IRenderElementStyle Style
         {
             get => style;
-            set
+            private set
             {
                 style = value ?? throw new ArgumentNullException(nameof(Style));
 

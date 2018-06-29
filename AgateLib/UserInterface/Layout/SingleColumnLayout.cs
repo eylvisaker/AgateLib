@@ -109,29 +109,31 @@ namespace AgateLib.UserInterface.Layout
 
             int itemWidth = size.Width;
 
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (!items[i].Display.IsVisible)
-                    continue;
+            throw new NotImplementedException();
 
-                var item = items[i];
+            //for (int i = 0; i < items.Count; i++)
+            //{
+            //    if (!items[i].Display.IsVisible)
+            //        continue;
 
-                var itemDest = dest;
-                var marginToContent = item.Display.Region.MarginToContentOffset;
+            //    var item = items[i];
 
-                itemDest.X += marginToContent.Left;
-                itemDest.Y += marginToContent.Top;
+            //    var itemDest = dest;
+            //    var marginToContent = item.Display.Region.MarginToContentOffset;
 
-                item.Display.Region.Position = itemDest;
-                var contentSize = item.Display.Region.Size.ComputeContentSize();
+            //    itemDest.X += marginToContent.Left;
+            //    itemDest.Y += marginToContent.Top;
 
-                contentSize.Width = itemWidth - item.Display.Region.MarginToContentOffset.Width;
-                item.Display.Region.ContentSize = contentSize;
+            //    item.Display.Region.Position = itemDest;
+            //    var contentSize = item.Display.Region.Size.ComputeContentSize();
 
-                dest.Y += item.Display.Region.MarginRect.Height;
+            //    contentSize.Width = itemWidth - item.Display.Region.MarginToContentOffset.Width;
+            //    item.Display.Region.ContentSize = contentSize;
 
-                item.Display.HasFocus = item == Focus;
-            }
+            //    dest.Y += item.Display.Region.MarginRect.Height;
+
+            //    item.Display.HasFocus = item == Focus;
+            //}
         }
 
     }

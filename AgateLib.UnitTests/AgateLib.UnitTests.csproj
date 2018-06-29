@@ -216,7 +216,7 @@
     <Compile Include="PhysicsTests\IntegratorTests.cs" />
     <Compile Include="PhysicsTests\LinearAlgebraTests\GaussSeidelTests.cs" />
     <Compile Include="Scenes\SceneStackTest.cs" />
-    <Compile Include="UserInterface\CommonMocks.cs" />
+    <Compile Include="CommonMocks.cs" />
     <Compile Include="UserInterface\Content\LayoutTest.cs" />
     <Compile Include="UserInterface\Content\TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

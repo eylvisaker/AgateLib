@@ -11,7 +11,7 @@ using FluentAssertions;
 using Xunit;
 using Moq;
 
-namespace ManualTests.AgateLib.UserInterface.Layout
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
     public abstract class ListLayoutTests : LayoutTests
     {
@@ -252,11 +252,11 @@ namespace ManualTests.AgateLib.UserInterface.Layout
         private Mock<IRenderWidget> CreateWidget()
         {
             var result = new Mock<IRenderWidget>();
-            var display = new WidgetDisplay();
+            var display = new RenderElementDisplay();
 
             result.Setup(x => x.Display).Returns(display);
             result.Setup(
-                x => x.ComputeIdealSize(It.IsAny<IWidgetRenderContext>(), It.IsAny<Size>()))
+                x => x.CalcIdealContentSize(It.IsAny<IWidgetRenderContext>(), It.IsAny<Size>()))
                 .Returns<IWidgetRenderContext, Size>((_, size) => new Size(100, 20));
 
             return result;

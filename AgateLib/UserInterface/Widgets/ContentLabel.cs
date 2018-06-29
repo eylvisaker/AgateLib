@@ -80,7 +80,7 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        public override Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             RefreshContent(maxSize.Width);
 

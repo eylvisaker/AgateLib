@@ -8,8 +8,11 @@ using FluentAssertions;
 using Xunit;
 using Microsoft.Xna.Framework;
 using Moq;
+using AgateLib.UserInterface.Styling.Themes;
+using AgateLib.UserInterface.Styling;
+using AgateLib.UserInterface;
 
-namespace AgateLib.UserInterface.Styling.Themes
+namespace AgateLib.UnitTests.UserInterface.Styling.Themes
 {
     public class ThemeStylerTest
     {

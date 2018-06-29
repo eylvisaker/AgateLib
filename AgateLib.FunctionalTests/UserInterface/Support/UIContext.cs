@@ -10,6 +10,7 @@ using FluentAssertions;
 using Moq;
 using ManualTests.AgateLib.UserInterface.FF6;
 using AgateLib.Fakes;
+using AgateLib.UnitTests;
 
 namespace AgateLib.FunctionalTests.UserInterface.Support
 {

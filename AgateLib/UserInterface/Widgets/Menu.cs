@@ -138,7 +138,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderElement Render()
         {
-            return new FlexContainer(new FlexContainerProps
+            return new FlexBox(new FlexContainerProps
             {
                 StyleId = Props.Name,
                 StyleClass = "menu",

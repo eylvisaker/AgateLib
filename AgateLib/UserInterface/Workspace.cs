@@ -37,8 +37,13 @@ namespace AgateLib.UserInterface
 {
     public class Workspace
     {
+        [Obsolete("Is this needed?")]
         private readonly SizeMetrics screenMetrics = new SizeMetrics();
-        private readonly WidgetRegion region = new WidgetRegion(new WidgetStyle());
+
+        [Obsolete("Is this needed?")]
+        private readonly WidgetRegion region 
+            = new WidgetRegion(new RenderElementStyle(new RenderElementDisplay(), new InlineElementStyle()));
+
         private readonly VisualTree visualTree = new VisualTree();
         private IWidgetLayout layout;
         private IInstructions instructions;
@@ -82,7 +87,7 @@ namespace AgateLib.UserInterface
 
         private void Layout_WidgetAdded(IRenderElement widget)
         {
-            widget.Display.Animation.IsDoubleBuffered = true;
+            widget.Display.Animator.IsDoubleBuffered = true;
 
             // TODO: Figure out how to apply a style when a widget is added while
             // the workspace is active.
@@ -138,26 +143,12 @@ namespace AgateLib.UserInterface
             foreach (var item in children)
                 item.Update(renderContext);
 
-            //workspaceRenderContext.RootRenderContext = renderContext;
-
-            //screenMetrics.ParentMaxSize = Size;
-            //region.ContentSize = Size;
-
-            //renderContext.ApplyStyles(Layout.Items, DefaultTheme);
-
-            //UpdateLayout();
-
-            //workspaceRenderContext.Update(layout.Items);
-
-            //throw new NotImplementedException();
-            Render();
-
             visualTree.Update(renderContext);
         }
 
         public void Render()
         {
-            visualTree.Render(new FlexContainer(new FlexContainerProps
+            visualTree.Render(new FlexBox(new FlexContainerProps
             {
                 StyleId = Name,
                 StyleClass = "workspace",
@@ -167,7 +158,7 @@ namespace AgateLib.UserInterface
 
         public void Draw(IWidgetRenderContext renderContext)
         {
-            visualTree.TreeRoot.Draw(renderContext, new Rectangle(Point.Zero, Size));
+            visualTree.Draw(renderContext, new Rectangle(Point.Zero, Size));
         }
 
         /// <summary>
@@ -271,13 +262,13 @@ namespace AgateLib.UserInterface
         {
             get
             {
-                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animation.State == AnimationState.TransitionIn))
+                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animator.State == AnimationState.TransitionIn))
                     return AnimationState.TransitionIn;
 
-                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animation.State == AnimationState.TransitionOut))
+                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animator.State == AnimationState.TransitionOut))
                     return AnimationState.TransitionOut;
 
-                if (visualTree.TreeRoot.Children.All(x => x.Display.Animation.State == AnimationState.Dead))
+                if (visualTree.TreeRoot.Children.All(x => x.Display.Animator.State == AnimationState.Dead))
                     return AnimationState.Dead;
 
                 return AnimationState.Static;
@@ -294,7 +285,7 @@ namespace AgateLib.UserInterface
         {
             foreach (var window in visualTree.TreeRoot.Children)
             {
-                window.Display.Animation.State = AnimationState.TransitionOut;
+                window.Display.Animator.State = AnimationState.TransitionOut;
             }
         }
 
@@ -302,7 +293,7 @@ namespace AgateLib.UserInterface
         {
             foreach (var window in visualTree.TreeRoot.Children)
             {
-                window.Display.Animation.State = AnimationState.TransitionIn;
+                window.Display.Animator.State = AnimationState.TransitionIn;
             }
         }
     }
