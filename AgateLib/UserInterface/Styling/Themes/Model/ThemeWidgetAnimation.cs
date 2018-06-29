@@ -29,6 +29,7 @@ namespace AgateLib.UserInterface.Styling.Themes.Model
     /// <summary>
     /// Specifies how a widget is animated.
     /// </summary>
+    [Obsolete]
     public class ThemeWidgetAnimation
     {
         /// <summary>

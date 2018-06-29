@@ -204,11 +204,11 @@ namespace AgateLib.UserInterface.Rendering
             switch (widget.Display.Animation.State)
             {
                 case AnimationState.TransitionIn:
-                    transitionName = style.TransitionIn ?? transitionName;
+                    transitionName = style?.TransitionIn ?? transitionName;
                     break;
 
                 case AnimationState.TransitionOut:
-                    transitionName = style.TransitionOut ?? transitionName;
+                    transitionName = style?.TransitionOut ?? transitionName;
                     break;
 
                 default:

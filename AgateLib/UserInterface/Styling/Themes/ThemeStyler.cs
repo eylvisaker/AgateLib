@@ -41,13 +41,6 @@ namespace AgateLib.UserInterface.Styling.Themes
             this.themes = themes;
         }
 
-        public void ApplyStyle(IRenderElement widget, string defaultTheme)
-        {
-            state.DefaultTheme = defaultTheme;
-            
-            ApplyStyleCore(widget);
-        }
-
         public void Apply(IRenderElement rootWidget, string defaultTheme)
         {
             RenderElementStack parentStack = new RenderElementStack();
@@ -90,37 +83,6 @@ namespace AgateLib.UserInterface.Styling.Themes
             }
 
             return theme;
-        }
-
-        private void ApplyStyleCore(IRenderElement widget)
-        {
-            try
-            {
-                state.PushTheme(widget.Display.Theme);
-
-                state.CurrentTheme.ApplyTo(widget, state);
-
-                if (widget.Children != null)
-                {
-                    try
-                    {
-                        state.PushParent(widget);
-
-                        foreach (var child in widget.Children)
-                        {
-                            ApplyStyleCore(child);
-                        }
-                    }
-                    finally
-                    {
-                        state.PopParent();
-                    }
-                }
-            }
-            finally
-            {
-                state.PopTheme();
-            }
         }
     }
 

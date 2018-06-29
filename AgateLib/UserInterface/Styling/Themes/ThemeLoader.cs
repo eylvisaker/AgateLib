@@ -94,7 +94,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             }
         }
 
-        private void AddPath(ThemeWidgetBorder border, string path)
+        private void AddPath(BorderStyle border, string path)
         {
             if (border?.Image == null)
                 return;
@@ -102,7 +102,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             border.Image.File = CombinePath(path, border.Image.File);
         }
 
-        private void AddPath(ThemeWidgetBackground background, string path)
+        private void AddPath(BackgroundStyle background, string path)
         {
             if (background?.Image == null)
                 return;

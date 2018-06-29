@@ -91,10 +91,10 @@ namespace AgateLib.UserInterface.Widgets
         {
             this.Props = props;
 
-            Style = new RenderElementStyle(Display, Props.Style);
+            Display = new WidgetDisplay(Props.Style);
         }
 
-        public WidgetDisplay Display { get; } = new WidgetDisplay();
+        public WidgetDisplay Display { get; }
 
         public virtual IEnumerable<IRenderElement> Children => null;
 
@@ -104,7 +104,7 @@ namespace AgateLib.UserInterface.Widgets
             set => throw new NotImplementedException();
         }
 
-        public IRenderElementStyle Style { get; }
+        public IRenderElementStyle Style => Display.Style;
 
         public virtual string StyleTypeIdentifier => GetType().Name;
 

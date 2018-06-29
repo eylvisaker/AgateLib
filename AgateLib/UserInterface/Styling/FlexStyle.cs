@@ -20,24 +20,22 @@
 //    SOFTWARE.
 //
 
-using AgateLib.UserInterface;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Styling
 {
-    /// <summary>
-    /// Interface for an object which applies styling to widgets.
-    /// </summary>
-	public interface IStyleConfigurator
+    public class FlexStyle
     {
-        /// <summary>
-        /// Applies styling to a render element and its children.
-        /// </summary>
-        /// <param name="root"></param>
-        /// <param name="defaultTheme"></param>
-        void Apply(IRenderElement root, string defaultTheme);
+        public AlignItems AlignItems { get; set; }
+    }
+
+    public enum AlignItems
+    {
+        Start,
+        End,
+        Center,
+        Stretch,
     }
 }

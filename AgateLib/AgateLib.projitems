@@ -177,6 +177,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\Tokenizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\FixedGridLayout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Renderable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\FlexContainer.cs" />

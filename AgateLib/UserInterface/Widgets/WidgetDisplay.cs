@@ -34,7 +34,7 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class WidgetDisplay
     {
-        public WidgetDisplay()
+        public WidgetDisplay(IRenderElementStyleProperties inlineStyle = null)
         {
             Region = new WidgetRegion(Styles.ActiveStyle);
 
@@ -43,6 +43,7 @@ namespace AgateLib.UserInterface.Widgets
                 StyleUpdated();
             };
 
+            Style = new RenderElementStyle(this, inlineStyle);
         }
 
         /// <summary>
@@ -58,17 +59,19 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the active widget style.
         /// </summary>
-        public WidgetStyle Style => Styles.ActiveStyle;
+        public IRenderElementStyle Style { get; }
 
         /// <summary>
         /// Gets the collection of styles that can be swapped out based on the widget's state.
         /// </summary>
+        [Obsolete]
         public WidgetStyleCollection Styles { get; } = new WidgetStyleCollection();
 
         /// <summary>
         /// Gets the font for this widget.
         /// </summary>
-        public Font Font => Style.Font;
+        [Obsolete("Elements should use Style.Font instead.")]
+        public Font Font => (Font)Style.Font;
 
         /// <summary>
         /// Gets or sets whether the widget should be displayed and participate in layout.

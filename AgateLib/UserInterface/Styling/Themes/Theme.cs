@@ -37,9 +37,6 @@ namespace AgateLib.UserInterface.Styling.Themes
     {
         IFontProvider Fonts { get; set; }
 
-        [Obsolete]
-        void ApplyTo(IRenderElement widget, IWidgetStackState state);
-
         void Apply(IRenderElement widget, RenderElementStack parentStack);
     }
 
@@ -62,41 +59,13 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             var data = new ThemeData
             {
-                // TODO: Remove the top three.
-                new ThemeStyle
-                {
-                    Pattern = "*",
-                    Background = new ThemeWidgetBackground { Color = Color.Black, },
-                    Font = new FontStyleProperties { Color = Color.White, },
-                    Animation = new ThemeWidgetAnimation
-                    {
-                        TransitionIn = "fade-in",
-                        TransitionOut = "fade-out"
-                    }
-                },
-
-                new ThemeStyle
-                {
-                    Pattern = "menu.*",
-                    Padding = LayoutBox.SameAllAround(8),
-                },
-
-                new ThemeStyle
-                {
-                    Pattern = "menu.*",
-                    WidgetState = "selected",
-                    Padding = LayoutBox.SameAllAround(8),
-                    Background = new ThemeWidgetBackground { Color = Color.White },
-                    Font = new FontStyleProperties { Color = Color.Black }
-                },
-
                 // Keep these, using the new css selectors
                 new ThemeStyle
                 {
                     Selector = ".workspace > *",
-                    Background = new ThemeWidgetBackground { Color = Color.Black, },
+                    Background = new BackgroundStyle { Color = Color.Black, },
                     Font = new FontStyleProperties { Color = Color.White, },
-                    Animation = new ThemeWidgetAnimation
+                    Animation = new AnimationStyle
                     {
                         TransitionIn = "fade-in",
                         TransitionOut = "fade-out"
@@ -112,7 +81,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                 new ThemeStyle
                 {
                     Selector = ".menu-item:focus",
-                    Background = new ThemeWidgetBackground { Color = Color.White },
+                    Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
                 }
             };
@@ -162,134 +131,6 @@ namespace AgateLib.UserInterface.Styling.Themes
                 data.Where(x => x.MatchExecutor.Matches(element, stack))
                     .Select(x => x.ToElementStyle()));
         }
-
-        public void ApplyTo(IRenderElement widget, IWidgetStackState state)
-        {
-            themeMatches.Clear();
-            themeMatches.AddRange(data.Where(x => x.MatchExecutor.Matches(widget, state)));
-
-            if (themeMatches.Count == 0)
-            {
-                ApplyDefaultStyling(widget.Display.Style);
-                return;
-            }
-
-            // TODO: sort matches
-            var defaultTheme = themeMatches.FirstOrDefault(x => string.IsNullOrEmpty(x.WidgetState))
-                ?? themeMatches.First();
-
-            foreach (var theme in themeMatches)
-            {
-                var style = widget.Display.Styles.GetOrCreate(theme.WidgetState);
-
-                ApplyDefaultStyling(style);
-
-                if (theme != defaultTheme)
-                {
-                    ApplyStyle(style, defaultTheme);
-                }
-
-                ApplyStyle(style, theme);
-
-                widget.Display.StyleUpdated();
-            }
-        }
-
-        private void ApplyDefaultStyling(WidgetStyle style)
-        {
-            style.Font = new Font(Fonts.Default);
-        }
-
-        private void ApplyStyle(WidgetStyle style, ThemeStyle theme)
-        {
-            ApplyAnimation(style.Animation, theme.Animation);
-            ApplyBackground(style.Background, theme.Background);
-            ApplyBorder(style.Border, theme.Border);
-            ApplyFont(style, theme.Font);
-            ApplyPadding(style, theme.Padding);
-            ApplyMargin(style, theme.Margin);
-            ApplySize(style.Size, theme.Size);
-        }
-
-        private void ApplySize(ThemeWidgetSize style, ThemeWidgetSize theme)
-        {
-            if (theme == null)
-                return;
-
-            style.Min = theme.Min;
-            style.Max = theme.Max;
-        }
-
-        private void ApplyAnimation(AnimationStyle style, ThemeWidgetAnimation theme)
-        {
-            if (theme == null)
-                return;
-
-            style.TransitionIn = theme.TransitionIn;
-            style.TransitionOut = theme.TransitionOut;
-
-            style.TransitionInTime = theme.TransitionInTime ?? 0.35f;
-            style.TransitionOutTime = theme.TransitionOutTime ?? 0.35f;
-        }
-
-        private void ApplyBackground(BackgroundStyle style, ThemeWidgetBackground theme)
-        {
-            if (theme == null)
-                return;
-
-            style.Image = theme?.Image ?? style.Image;
-            style.Color = theme?.Color ?? style.Color;
-            style.Repeat = theme?.Repeat ?? style.Repeat;
-            style.Clip = theme?.Clip ?? style.Clip;
-            style.Position = theme?.Position ?? style.Position;
-        }
-
-        private void ApplyBorder(BorderStyle style, ThemeWidgetBorder theme)
-        {
-            if (theme == null)
-                return;
-
-            style.Image = theme.Image ?? style.Image;
-            style.ImageSlice = theme.ImageSlice ?? style.ImageSlice;
-            style.ImageScale = theme.ImageScale ?? style.ImageScale;
-
-            style.Left = theme.Left ?? style.Left;
-            style.Right = theme.Right ?? style.Right;
-            style.Top = theme.Top ?? style.Top;
-            style.Bottom = theme.Bottom ?? style.Bottom;
-        }
-
-        private void ApplyFont(WidgetStyle style, FontStyleProperties theme)
-        {
-            if (theme == null)
-                return;
-
-            Font font = style.Font;
-
-            if (!string.IsNullOrWhiteSpace(theme.Family))
-            {
-                font = Fonts[theme.Family];
-            }
-
-            font = font ?? Fonts.Default;
-            var currentColor = font.Color;
-
-            style.Font = new Font(font, theme.Size ?? font.Size, theme.Style ?? font.Style)
-            {
-                Color = theme.Color ?? currentColor
-            };
-        }
-
-        private void ApplyMargin(WidgetStyle style, LayoutBox? margin)
-        {
-            style.Margin = margin ?? style.Margin;
-        }
-
-        private void ApplyPadding(WidgetStyle style, LayoutBox? padding)
-        {
-            style.Padding = padding ?? style.Padding;
-        }
-
 
         private void InitializeSelectors()
         {

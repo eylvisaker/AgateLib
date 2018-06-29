@@ -1,5 +1,6 @@
 ﻿using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
+using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 using System;
@@ -24,7 +25,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
         {
-            switch(Direction)
+            switch (Direction)
             {
                 case FlexDirection.Column:
                 case FlexDirection.ColumnReverse:
@@ -49,7 +50,7 @@ namespace AgateLib.UserInterface.Widgets
             int idealWidth = 0;
             int idealHeight = 0;
 
-            foreach(var item in Children)
+            foreach (var item in Children)
             {
                 if (!item.Display.IsVisible)
                     continue;
@@ -112,9 +113,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             Point dest = new Point(0, 0);
 
-            int itemWidth = clientArea.Width;
-
-            foreach(var item in children)
+            foreach (var item in children)
             {
                 if (!item.Display.IsVisible)
                     continue;
@@ -124,12 +123,33 @@ namespace AgateLib.UserInterface.Widgets
                 var itemDest = dest;
                 var marginToContent = item.Display.Region.MarginToContentOffset;
                 var idealSize = item.ComputeIdealSize(renderContext, clientArea.Size);
+                item.Display.Region.Size.IdealContentSize = idealSize;
 
                 itemDest.X += marginToContent.Left;
                 itemDest.Y += marginToContent.Top;
 
                 item.Display.Region.Position = itemDest;
                 var contentSize = item.Display.Region.Size.ComputeContentSize();
+
+                int itemWidth = contentSize.Width;
+                int left = 0;
+
+                switch (Style.Flex?.AlignItems ?? AlignItems.Start)
+                {
+                    case AlignItems.End:
+                        left = clientArea.Width - contentSize.Width - marginToContent.Width;
+                        break;
+
+                    case AlignItems.Center:
+                        left = (clientArea.Width - contentSize.Width - marginToContent.Width) / 2;
+                        break;
+
+                    case AlignItems.Stretch:
+                        itemWidth = clientArea.Width;
+                        break;
+                }
+
+                itemDest.X += left;
 
                 contentSize.Width = itemWidth - item.Display.Region.MarginToContentOffset.Width;
                 item.Display.Region.ContentSize = contentSize;

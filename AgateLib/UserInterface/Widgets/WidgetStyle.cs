@@ -43,8 +43,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public LayoutBox Margin { get; set; }
 
-        public string Theme { get; set; }
-
         public Font Font { get; set; }
     }
 }

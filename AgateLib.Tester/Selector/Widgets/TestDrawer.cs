@@ -20,6 +20,7 @@ namespace ManualTests.AgateLib.Selector.Widgets
         {
             return new FlexContainer(new FlexContainerProps
             {
+                StyleId = "test-drawer",
                 Children = categories
                           .Select(x => CreateMenu(x.Value))
                           .Select(x => x.Render())
@@ -31,7 +32,7 @@ namespace ManualTests.AgateLib.Selector.Widgets
         {
             return new Menu(new MenuProps
             {
-                Children = value.Select(x => new MenuItem( new MenuItemProps
+                Children = value.Select(x => new MenuItem(new MenuItemProps
                 {
                     Text = x.Name,
                     OnAccept = () => Props.OnAcceptTest(x),

@@ -27,7 +27,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             var widget = CommonMocks.Widget("widget");
 
-            styler.ApplyStyle(widget.Object, "xyz");
+            throw new NotImplementedException();
 
             widget.Object.Display.Style.Padding.Left.Should().Be(14);
             widget.Object.Display.Font.Color.Should().Be(Color.Yellow);
@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                 new ThemeStyle
                 {
                     Pattern = "*",
-                    Background = new ThemeWidgetBackground { Color = Color.Blue, },
+                    Background = new BackgroundStyle { Color = Color.Blue, },
                     Padding = LayoutBox.SameAllAround(14),
                     Font = new FontStyleProperties { Color = Color.Yellow, },
                 },
@@ -56,7 +56,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                     Pattern = "menu.*",
                     WidgetState = "selected",
                     Padding = LayoutBox.SameAllAround(14),
-                    Background = new ThemeWidgetBackground { Color = Color.White },
+                    Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black }
                 }
             };

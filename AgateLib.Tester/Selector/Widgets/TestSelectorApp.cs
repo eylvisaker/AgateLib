@@ -23,6 +23,7 @@ namespace ManualTests.AgateLib.Selector.Widgets
         {
             return new FlexContainer(new FlexContainerProps
             {
+                StyleId = "test-selector-app",
                 Children = { choose, carousel }
             });
         }

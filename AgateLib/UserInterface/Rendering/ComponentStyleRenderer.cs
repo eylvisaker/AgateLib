@@ -73,6 +73,9 @@ namespace AgateLib.UserInterface.Rendering
 
         public void DrawBackground(SpriteBatch spriteBatch, BackgroundStyle background, Rectangle backgroundRect)
         {
+            if (background == null)
+                return;
+
             this.SpriteBatch = spriteBatch;
 
             if (background.Color.A > 0)
@@ -115,6 +118,9 @@ namespace AgateLib.UserInterface.Rendering
 
         public void DrawFrame(SpriteBatch spriteBatch, BorderStyle border, Rectangle borderRect)
         {
+            if (border == null)
+                return;
+
             this.SpriteBatch = spriteBatch;
 
             if (string.IsNullOrEmpty(border.Image?.File))

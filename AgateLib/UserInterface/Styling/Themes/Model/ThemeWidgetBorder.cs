@@ -20,8 +20,11 @@
 //    SOFTWARE.
 //
 
+using System;
+
 namespace AgateLib.UserInterface.Styling.Themes.Model
 {
+    [Obsolete]
     public class ThemeWidgetBorder
     {
         public ImageSource Image { get; set; }

@@ -131,8 +131,6 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="renderTarget"></param>
         void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget);
 
-        void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme);
-
         void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items);
         void DrawWorkspace(Workspace workspace, VisualTree visualTree);
 
@@ -355,13 +353,7 @@ namespace AgateLib.UserInterface.Widgets
             SpriteBatch = spriteBatch;
             RenderTarget = renderTarget;
         }
-
-        public void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme)
-        {
-            foreach (var item in items)
-                StyleConfigurator.ApplyStyle(item, defaultTheme);
-        }
-
+        
         public void EndWorkspace(Workspace workspace)
         {
             if (WorkspaceIsActive)

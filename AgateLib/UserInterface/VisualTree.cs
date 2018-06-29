@@ -23,7 +23,11 @@ namespace AgateLib.UserInterface
 
         private IRenderElement CompareNodes(IRenderElement oldNode, IRenderElement newNode)
         {
-            return newNode;
+            if (oldNode == null)
+                return newNode;
+
+            return oldNode;
+
             //var array = enumerable.ToList();
 
             //var removed = tree.Where(x => !array.Contains(x));

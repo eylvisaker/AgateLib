@@ -22,6 +22,7 @@
 
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes.Model;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {
@@ -54,11 +55,11 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         #region --- Properties to apply ---
 
-        public ThemeWidgetAnimation Animation { get; set; }
+        public AnimationStyle Animation { get; set; }
 
-        public ThemeWidgetBackground Background { get; set; }
+        public BackgroundStyle Background { get; set; }
 
-        public ThemeWidgetBorder Border { get; set; }
+        public BorderStyle Border { get; set; }
 
         public FontStyleProperties Font { get; set; }
 
@@ -67,6 +68,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         public LayoutBox? Margin { get; set; }
 
         public ThemeWidgetSize Size { get; set; }
+        public FlexStyle Flex { get; set; }
 
         #endregion
 

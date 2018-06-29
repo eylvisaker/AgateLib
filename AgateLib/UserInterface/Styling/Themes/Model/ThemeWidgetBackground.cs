@@ -20,11 +20,13 @@
 //    SOFTWARE.
 //
 
+using System;
 using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Styling.Themes.Model
 {
+    [Obsolete]
     public class ThemeWidgetBackground
     {
         public ImageSource Image { get; set; }

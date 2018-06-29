@@ -1,5 +1,7 @@
 ﻿using AgateLib.Display;
+using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
+using AgateLib.UserInterface.Styling.Themes.Model;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,20 @@ namespace AgateLib.UserInterface.Widgets
     {
         IFont Font { get; }
 
+        BorderStyle Border { get; }
+
+        BackgroundStyle Background { get; }
+
+        AnimationStyle Animation { get; }
+
+        ThemeWidgetSize Size { get; }
+
+        FlexStyle Flex { get; }
+
+        LayoutBox Padding { get; }
+
+        LayoutBox Margin { get; }
+        
         /// <summary>
         /// Called by the rendering engine before each frame to ensure that the style
         /// is updated based on the widget's current state.
@@ -39,6 +55,26 @@ namespace AgateLib.UserInterface.Widgets
         {
             FindValidProperties();
 
+            UpdateFont();
+            UpdateBackground();
+            UpdateBorder();
+
+            Animation = Aggregate(p => p.Animation);
+            Flex = Aggregate(p => p.Flex);
+        }
+
+        private void UpdateBorder()
+        {
+            Border = Aggregate(p => p.Border);
+        }
+
+        private void UpdateBackground()
+        {
+            Background = Aggregate(p => p.Background);
+        }
+
+        private void UpdateFont()
+        {
             compareFont.Family = Aggregate(p => p.FontFace);
             compareFont.Color = Aggregate(p => p.TextColor);
             compareFont.Style = Aggregate(p => p.FontStyle);
@@ -122,19 +158,20 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public IFont Font { get; private set; }
-    }
 
-    public interface IxRenderElementStyle
-    {
-        //Overflow Overflow { get; }
-        //IFont Font { get; }
-    }
+        public BorderStyle Border { get; private set; }
 
-    public enum Overflow
-    {
-        Visible,
-        Hidden,
-        Scroll,
+        public BackgroundStyle Background { get; private set; }
+
+        public AnimationStyle Animation { get; private set; }
+
+        public ThemeWidgetSize Size { get; } = new ThemeWidgetSize();
+
+        public LayoutBox Padding { get; set; }
+
+        public LayoutBox Margin { get; set; }
+
+        public FlexStyle Flex { get; set; }
     }
 
     public interface IRenderElementStyleProperties
@@ -143,6 +180,11 @@ namespace AgateLib.UserInterface.Widgets
         Color? TextColor { get; }
         int? FontSize { get; }
         FontStyles? FontStyle { get; }
+
+        AnimationStyle Animation { get; }
+        BackgroundStyle Background { get; }
+        BorderStyle Border { get; }
+        FlexStyle Flex { get; }
     }
 
     public static class RenderElementStyleExtensions
@@ -167,6 +209,13 @@ namespace AgateLib.UserInterface.Widgets
         public int? FontSize => themeStyle.Font?.Size;
         public FontStyles? FontStyle => themeStyle.Font?.Style;
 
+        public BackgroundStyle Background => themeStyle.Background;
+
+        public BorderStyle Border => themeStyle.Border;
+
+        public AnimationStyle Animation => themeStyle.Animation;
+
+        public FlexStyle Flex => themeStyle.Flex;
     }
 
     public class InlineElementStyle : IRenderElementStyleProperties
@@ -178,5 +227,13 @@ namespace AgateLib.UserInterface.Widgets
         public int? FontSize { get; set; }
 
         public FontStyles? FontStyle { get; set; }
+
+        public BackgroundStyle Background { get; set; }
+
+        public BorderStyle Border { get; set; }
+
+        public AnimationStyle Animation { get; set; }
+
+        public FlexStyle Flex { get; set; }
     }
 }

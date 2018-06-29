@@ -306,14 +306,4 @@ namespace AgateLib.UserInterface
             }
         }
     }
-
-    public static class WorkspaceExtensions
-    {
-        public static void ApplyStyle(this Workspace workspace, IWidgetRenderContext renderContext, params IRenderWidget[] widgets)
-        {
-            renderContext.ApplyStyles(widgets, workspace.DefaultTheme);
-        }
-
-
-    }
 }
