@@ -175,6 +175,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\LocalizedContentLayoutEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\TextureLayoutItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\Tokenizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\DisplaySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\FixedGridLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
@@ -204,7 +205,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Instructions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\AnchoredLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\LayoutMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\ListLayout.cs" />

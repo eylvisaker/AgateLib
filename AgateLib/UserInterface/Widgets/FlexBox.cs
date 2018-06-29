@@ -10,12 +10,12 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class FlexBox : RenderElement<FlexContainerProps>
+    public class FlexBox : RenderElement<FlexBoxProps>
     {
         private readonly List<IRenderElement> children;
         FlexDirection Direction = FlexDirection.Column;
 
-        public FlexBox(FlexContainerProps props) : base(props)
+        public FlexBox(FlexBoxProps props) : base(props)
         {
             children = props.Children.Select(c => c.Render()).ToList();
         }
@@ -155,8 +155,6 @@ namespace AgateLib.UserInterface.Widgets
                 item.Display.ContentRect = new Rectangle(itemDest, contentSize);
 
                 dest.Y += item.Display.Region.MarginRect.Height;
-
-                item.Display.HasFocus = item == Focus;
             }
         }
 
@@ -167,7 +165,7 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public class FlexContainerProps : RenderElementProps
+    public class FlexBoxProps : RenderElementProps
     {
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
     }

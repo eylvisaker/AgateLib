@@ -19,10 +19,12 @@ namespace AgateLib.FunctionalTests.UserInterface.Support
 
         public Navigator(UIContext context, Instructor instructor)
         {
+            throw new NotImplementedException();
+
             gotoMethods = new Dictionary<Type, Action<string>>
             {
-                { typeof(SingleColumnLayout), SingleColumnGoTo },
-                { typeof(SingleRowLayout), SingleRowGoTo }
+                //{ typeof(SingleColumnLayout), SingleColumnGoTo },
+                //{ typeof(SingleRowLayout), SingleRowGoTo }
             };
             this.context = context;
             this.instructor = instructor;

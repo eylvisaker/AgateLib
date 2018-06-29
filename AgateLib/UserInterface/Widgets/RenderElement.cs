@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
@@ -18,11 +19,6 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets a read-only collection of children of this element.
         /// </summary>
         IEnumerable<IRenderElement> Children { get; }
-
-        /// <summary>
-        /// Gets the child of this element that has focus.
-        /// </summary>
-        IRenderElement Focus { get; set; }
 
         /// <summary>
         /// Gets the type identifier used to identify this widget type to the styling
@@ -47,14 +43,24 @@ namespace AgateLib.UserInterface.Widgets
         string Name { get; }
 
         /// <summary>
-        /// Gets whether or not the widget can receive input focus.
+        /// Gets whether or not the element can receive input focus.
         /// </summary>
         bool CanHaveFocus { get; }
+
+        /// <summary>
+        /// Called when the element loses focus.
+        /// </summary>
+        void Blur();
 
         /// <summary>
         /// Gets the aggregated style of the render element.
         /// </summary>
         IRenderElementStyle Style { get; }
+
+        /// <summary>
+        /// Called when the element gains focus.
+        /// </summary>
+        void Focus();
 
         /// <summary>
         /// Draws the content of the widget.
@@ -96,14 +102,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public RenderElementDisplay Display { get; }
 
-        public virtual IEnumerable<IRenderElement> Children => null;
-
-        public virtual IRenderElement Focus
-        {
-            get => null;
-            set => throw new NotImplementedException();
-        }
-
+        public virtual IEnumerable<IRenderElement> Children { get; protected set; }
+        
         public IRenderElementStyle Style => Display.Style;
 
         public virtual string StyleTypeIdentifier => GetType().Name;
@@ -150,6 +150,14 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         IRenderElement IRenderable.Render() => this;
+
+        public virtual void Blur()
+        {
+        }
+
+        public virtual void Focus()
+        {
+        }
     }
 
     public class RenderElementProps

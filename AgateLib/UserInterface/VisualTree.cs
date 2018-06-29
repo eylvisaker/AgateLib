@@ -13,15 +13,22 @@ namespace AgateLib.UserInterface
     public class VisualTree
     {
         IRenderElement root;
+        IRenderElement focus;
 
         public void Render(IRenderElement newRoot)
         {
-            root = CompareNodes(root, newRoot);
+            root = Reconcile(root, newRoot);
 
             Style.Apply(root, DefaultTheme);
+
+            Walk(element =>
+            {
+                element.Display.System = DisplaySystem;
+                return true;
+            });
         }
 
-        private IRenderElement CompareNodes(IRenderElement oldNode, IRenderElement newNode)
+        private IRenderElement Reconcile(IRenderElement oldNode, IRenderElement newNode)
         {
             if (oldNode == null)
                 return newNode;
@@ -43,6 +50,19 @@ namespace AgateLib.UserInterface
 
             //tree.RemoveAll(x => x.Display.Animation.State == AnimationState.Dead);
         }
+        
+        public IDisplaySystem DisplaySystem { get; set; }
+
+        public IRenderElement Focus
+        {
+            get => focus;
+            set
+            {
+                focus?.Blur();
+                focus = value;
+                focus?.Focus();
+            }
+        }
 
         public IRenderElement TreeRoot => root;
 
@@ -52,30 +72,41 @@ namespace AgateLib.UserInterface
 
         public void Update(IWidgetRenderContext renderContext)
         {
-            Walk(x =>
+            Walk(element =>
             {
-                x.Display.Fonts = renderContext.Fonts;
-                x.Style.Update();
-                renderContext.UpdateAnimation(x);
+                element.Style.Update();
+                renderContext.UpdateAnimation(element);
+                return true;
             });
 
             root.Update(renderContext);
         }
 
-        private void Walk(Action<IRenderElement> action)
+        /// <summary>
+        /// Walks the entire visual tree.
+        /// </summary>
+        /// <param name="action">An action to execute on each render element. Return true to continue walking, false to exit.</param>
+        public void Walk(Func<IRenderElement, bool> action)
         {
             Walk(root, action);
         }
 
-        private void Walk(IRenderElement node, Action<IRenderElement> action)
+        private bool Walk(IRenderElement node, Func<IRenderElement, bool> action)
         {
             action(node);
 
             if (node.Children == null)
-                return;
+                return true;
 
             foreach (var item in node.Children)
-                Walk(item, action);
+            {
+                var cont = Walk(item, action);
+
+                if (!cont)
+                    return false;
+            }
+
+            return true;
         }
 
         internal void Draw(IWidgetRenderContext renderContext, Rectangle area)

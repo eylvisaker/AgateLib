@@ -89,11 +89,6 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public string Theme { get; set; }
 
-        /// <summary>
-        /// Set by parent widgets to indicate whether the owning widget has focus.
-        /// </summary>
-        public bool HasFocus { get; set; }
-
         public IndicatorType IndicatorType { get; internal set; }
 
         public List<IRenderElementStyleProperties> ElementStyles { get; }
@@ -101,8 +96,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public IFont ParentFont { get; set; }
 
-        public IFontProvider Fonts { get; set; }
-
+        public IFontProvider Fonts => System.Fonts;
+        
         /// <summary>
         /// Gets the content rectangle, or sets all three rectangles based on the box model
         /// and the specified content rectangle.
@@ -154,5 +149,7 @@ namespace AgateLib.UserInterface.Widgets
                 Region.SetContentRect(contentRect);
             }
         }
+
+        public IDisplaySystem System { get; internal set; }
     }
 }

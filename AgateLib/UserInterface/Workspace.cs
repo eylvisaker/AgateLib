@@ -37,6 +37,29 @@ namespace AgateLib.UserInterface
 {
     public class Workspace
     {
+        class WorkspaceDisplaySystem : IDisplaySystem
+        {
+            private readonly Workspace workspace;
+
+            public WorkspaceDisplaySystem(Workspace workspace)
+            {
+                this.workspace = workspace;
+            }
+
+            public IFontProvider Fonts { get; set; }
+
+            public IRenderElement Focus
+            {
+                get => workspace.Focus;
+                set => workspace.Focus = value;
+            }
+
+            public void SetFocus(IRenderElement focusElement)
+            {
+                workspace.Focus = focusElement;
+            }
+        }
+
         [Obsolete("Is this needed?")]
         private readonly SizeMetrics screenMetrics = new SizeMetrics();
 
@@ -45,7 +68,6 @@ namespace AgateLib.UserInterface
             = new WidgetRegion(new RenderElementStyle(new RenderElementDisplay(), new InlineElementStyle()));
 
         private readonly VisualTree visualTree = new VisualTree();
-        private IWidgetLayout layout;
         private IInstructions instructions;
 
         private List<IWidget> children = new List<IWidget>();
@@ -53,16 +75,22 @@ namespace AgateLib.UserInterface
         private IWidget activeWindow;
 
         /// <summary>
-        /// Initializes the workspace object.
+        /// Initializes a workspace object.
         /// </summary>
         /// <param name="name">Name of the workspace.</param>
-        /// <param name="anchor">Specifies the alighment for the default layout, which is
-        /// an AnchoredLayout object.</param>
-        public Workspace(string name, OriginAlignment anchor = OriginAlignment.Center)
+        public Workspace(string name)
         {
             Name = name;
 
-            Layout = new AnchoredLayout { Anchor = anchor };
+            displaySystem = new WorkspaceDisplaySystem(this);
+
+            visualTree.DisplaySystem = displaySystem;
+        }
+
+        public IRenderElement Focus
+        {
+            get => visualTree.Focus;
+            set => visualTree.Focus = value;
         }
 
         public event EventHandler<WidgetEventArgs> UnhandledEvent;
@@ -76,13 +104,6 @@ namespace AgateLib.UserInterface
         public void Add(IWidget child)
         {
             children.Add(child);
-        }
-
-        [Obsolete]
-        public IWidgetLayout Layout
-        {
-            get => layout;
-            set => layout = value ?? throw new ArgumentNullException(nameof(Layout));
         }
 
         private void Layout_WidgetAdded(IRenderElement widget)
@@ -101,6 +122,8 @@ namespace AgateLib.UserInterface
         public Size Size { get; set; }
 
         public string Name { get; private set; }
+
+        private readonly WorkspaceDisplaySystem displaySystem;
 
         /// <summary>
         /// Gets whether the workspace is the active workspace.
@@ -131,15 +154,16 @@ namespace AgateLib.UserInterface
 
         public void HandleInputEvent(WidgetEventArgs args)
         {
-            Layout.InputEvent(args);
+            Focus.ProcessEvent(args);
 
             if (!args.Handled)
                 UnhandledEvent?.Invoke(this, args);
         }
 
-
         public void Update(IWidgetRenderContext renderContext)
         {
+            displaySystem.Fonts = renderContext.Fonts;
+
             foreach (var item in children)
                 item.Update(renderContext);
 
@@ -148,12 +172,26 @@ namespace AgateLib.UserInterface
 
         public void Render()
         {
-            visualTree.Render(new FlexBox(new FlexContainerProps
+            visualTree.Render(new FlexBox(new FlexBoxProps
             {
                 StyleId = Name,
                 StyleClass = "workspace",
                 Children = children.ToList<IRenderable>()
             }));
+
+            if (Focus == null)
+            {
+                visualTree.Walk(element =>
+                {
+                    if (element.CanHaveFocus)
+                    {
+                        Focus = element;
+                        return false;
+                    }
+
+                    return true;
+                });
+            }
         }
 
         public void Draw(IWidgetRenderContext renderContext)
@@ -242,17 +280,7 @@ namespace AgateLib.UserInterface
         {
             return children.SingleOrDefault(selector);
         }
-
-        /// <summary>
-        /// Finds a window that matches a user specified criteria.
-        /// </summary>
-        /// <param name="selector"></param>
-        /// <returns></returns>
-        public T FindWindow<T>(Func<T, bool> selector) where T : IRenderWidget
-        {
-            return Layout.Items.OfType<T>().SingleOrDefault(selector);
-        }
-
+        
         public override string ToString()
         {
             return $"Workspace: {Name}";

@@ -1,143 +1,143 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
-using FluentAssertions;
-using Xunit;
-using Microsoft.Xna.Framework;
-using Moq;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using AgateLib.Mathematics.Geometry;
+//using AgateLib.UserInterface.Layout;
+//using AgateLib.UserInterface.Styling;
+//using AgateLib.UserInterface.Widgets;
+//using FluentAssertions;
+//using Xunit;
+//using Microsoft.Xna.Framework;
+//using Moq;
 
-namespace AgateLib.UnitTests.UserInterface.Layout
-{
-    public class SingleRowLayoutTests : ListLayoutTests
-    {
-        SingleRowLayout layout = new SingleRowLayout();
+//namespace AgateLib.UnitTests.UserInterface.Layout
+//{
+//    public class SingleRowLayoutTests : ListLayoutTests
+//    {
+//        SingleRowLayout layout = new SingleRowLayout();
 
-        [Fact]
-        public void SRL_SizeMetrics()
-        {
-            TestSizeMetrics(new Size(1000, 20));
-        }
+//        [Fact]
+//        public void SRL_SizeMetrics()
+//        {
+//            TestSizeMetrics(new Size(1000, 20));
+//        }
 
-        [Fact]
-        public void SRL_SizeMetricsWithHiddenItems()
-        {
-            for (int i = 0; i < 10; i += 2)
-                layout[i].Display.IsVisible = false;
+//        [Fact]
+//        public void SRL_SizeMetricsWithHiddenItems()
+//        {
+//            for (int i = 0; i < 10; i += 2)
+//                layout[i].Display.IsVisible = false;
 
-            TestSizeMetrics(new Size(500, 20));
-        }
+//            TestSizeMetrics(new Size(500, 20));
+//        }
 
-        [Fact]
-        public void SRL_SizeMetricsWithMargins()
-        {
-            throw new NotImplementedException();
+//        [Fact]
+//        public void SRL_SizeMetricsWithMargins()
+//        {
+//            throw new NotImplementedException();
 
-            //for (int i = 0; i < 10; i += 2)
-            //{
-            //    layout[i].Display.Region.Style.Margin 
-            //        = new LayoutBox(1, 2, 3, 4);
-            //}
+//            //for (int i = 0; i < 10; i += 2)
+//            //{
+//            //    layout[i].Display.Region.Style.Margin 
+//            //        = new LayoutBox(1, 2, 3, 4);
+//            //}
 
-            //TestSizeMetrics(new Size(1020, 26));
-        }
+//            //TestSizeMetrics(new Size(1020, 26));
+//        }
 
-        [Fact]
-        public void SRL_UpdateLayoutWithHiddenItems()
-        {
-            var renderContext = new Mock<IWidgetRenderContext>(MockBehavior.Strict);
+//        [Fact]
+//        public void SRL_UpdateLayoutWithHiddenItems()
+//        {
+//            var renderContext = new Mock<IWidgetRenderContext>(MockBehavior.Strict);
 
-            for (int i = 0; i < 10; i += 2)
-            {
-                layout[i].Display.IsVisible = false;
-            }
+//            for (int i = 0; i < 10; i += 2)
+//            {
+//                layout[i].Display.IsVisible = false;
+//            }
             
-            WidgetRegion region = new WidgetRegion(CommonMocks.RenderElementStyle().Object);
+//            WidgetRegion region = new WidgetRegion(CommonMocks.RenderElementStyle().Object);
 
-            region.Size.IdealContentSize = layout.ComputeIdealSize(
-                region.Size.ParentMaxSize, renderContext.Object);
+//            region.Size.IdealContentSize = layout.ComputeIdealSize(
+//                region.Size.ParentMaxSize, renderContext.Object);
 
-            layout.ApplyLayout(region.Size.IdealContentSize, renderContext.Object);
+//            layout.ApplyLayout(region.Size.IdealContentSize, renderContext.Object);
 
-            var dest = new Point();
+//            var dest = new Point();
 
-            for (int i = 0; i < 10; i++)
-            {
-                if (i % 2 == 0)
-                    continue;
+//            for (int i = 0; i < 10; i++)
+//            {
+//                if (i % 2 == 0)
+//                    continue;
 
-                var widgetRegion = layout[i].Display.Region;
-                var thisDest = dest;
+//                var widgetRegion = layout[i].Display.Region;
+//                var thisDest = dest;
 
-                thisDest.X += widgetRegion.MarginToContentOffset.Left;
-                thisDest.Y += widgetRegion.MarginToContentOffset.Top;
+//                thisDest.X += widgetRegion.MarginToContentOffset.Left;
+//                thisDest.Y += widgetRegion.MarginToContentOffset.Top;
 
-                widgetRegion.ContentRect.Location.Should().Be(thisDest, 
-                    $"location test failed for item {i}");
+//                widgetRegion.ContentRect.Location.Should().Be(thisDest, 
+//                    $"location test failed for item {i}");
 
-                dest.X += 100 + widgetRegion.MarginToContentOffset.Width;
-            }
-        }
+//                dest.X += 100 + widgetRegion.MarginToContentOffset.Width;
+//            }
+//        }
 
-        [Fact]
-        public void SRL_UpdateLayoutWithMarginAndPadding()
-        {
-            var renderContext = new Mock<IWidgetRenderContext>(MockBehavior.Strict);
+//        [Fact]
+//        public void SRL_UpdateLayoutWithMarginAndPadding()
+//        {
+//            var renderContext = new Mock<IWidgetRenderContext>(MockBehavior.Strict);
 
-            throw new NotImplementedException();
+//            throw new NotImplementedException();
 
-            //for (int i = 0; i < 10; i += 2)
-            //{
-            //    layout[i].Display.Region.Style.Margin
-            //        = new LayoutBox(1, 2, 3, 4);
-            //    layout[i].Display.Region.Style.Padding
-            //        = new LayoutBox(2, 4, 6, 8);
-            //}
+//            //for (int i = 0; i < 10; i += 2)
+//            //{
+//            //    layout[i].Display.Region.Style.Margin
+//            //        = new LayoutBox(1, 2, 3, 4);
+//            //    layout[i].Display.Region.Style.Padding
+//            //        = new LayoutBox(2, 4, 6, 8);
+//            //}
             
-            WidgetRegion region = new WidgetRegion(CommonMocks.RenderElementStyle().Object);
+//            WidgetRegion region = new WidgetRegion(CommonMocks.RenderElementStyle().Object);
             
-            region.Size.IdealContentSize = layout.ComputeIdealSize(
-                region.Size.ParentMaxSize, renderContext.Object);
+//            region.Size.IdealContentSize = layout.ComputeIdealSize(
+//                region.Size.ParentMaxSize, renderContext.Object);
 
-            layout.ApplyLayout(region.Size.IdealContentSize, renderContext.Object);
+//            layout.ApplyLayout(region.Size.IdealContentSize, renderContext.Object);
 
-            var dest = new Point();
+//            var dest = new Point();
 
-            for (int i = 0; i < 10; i++)
-            {
-                var widgetRegion = layout[i].Display.Region;
-                var thisDest = dest;
+//            for (int i = 0; i < 10; i++)
+//            {
+//                var widgetRegion = layout[i].Display.Region;
+//                var thisDest = dest;
 
-                thisDest.X += widgetRegion.MarginToContentOffset.Left;
-                thisDest.Y += widgetRegion.MarginToContentOffset.Top;
+//                thisDest.X += widgetRegion.MarginToContentOffset.Left;
+//                thisDest.Y += widgetRegion.MarginToContentOffset.Top;
 
-                widgetRegion.ContentRect.Location.Should().Be(thisDest);
+//                widgetRegion.ContentRect.Location.Should().Be(thisDest);
 
-                dest.X += 100 + widgetRegion.MarginToContentOffset.Width;
-            }
-        }
+//                dest.X += 100 + widgetRegion.MarginToContentOffset.Width;
+//            }
+//        }
 
-        protected override IListLayout ListLayout => layout;
+//        protected override IListLayout ListLayout => layout;
 
-        protected override bool EnableWrapping
-        {
-            get => layout.LeftRightWrap;
-            set => layout.LeftRightWrap = value;
-        }
+//        protected override bool EnableWrapping
+//        {
+//            get => layout.LeftRightWrap;
+//            set => layout.LeftRightWrap = value;
+//        }
 
-        protected override void NextItem()
-        {
-            Send(MenuInputButton.Right);
-        }
+//        protected override void NextItem()
+//        {
+//            Send(MenuInputButton.Right);
+//        }
 
-        protected override void PreviousItem()
-        {
-            Send(MenuInputButton.Left);
-        }
-    }
-}
+//        protected override void PreviousItem()
+//        {
+//            Send(MenuInputButton.Left);
+//        }
+//    }
+//}

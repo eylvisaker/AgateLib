@@ -43,7 +43,7 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class Window : Widget<WindowProps, WidgetState>
     {
-        private IWidgetLayout layout = new SingleColumnLayout();
+        private IWidgetLayout layout;//= new SingleColumnLayout();
         private List<IWidget> children = new List<IWidget>();
 
         public Window(WindowProps props) : base(props)
@@ -61,8 +61,8 @@ namespace AgateLib.UserInterface.Widgets
             {
                 var type = Layout.GetType();
 
-                if (type == typeof(SingleColumnLayout)) return LayoutType.SingleColumn;
-                if (type == typeof(SingleRowLayout)) return LayoutType.SingleRow;
+                //if (type == typeof(SingleColumnLayout)) return LayoutType.SingleColumn;
+                //if (type == typeof(SingleRowLayout)) return LayoutType.SingleRow;
 
                 return LayoutType.Custom;
             }
@@ -78,13 +78,13 @@ namespace AgateLib.UserInterface.Widgets
 
                 switch (value)
                 {
-                    case LayoutType.SingleColumn:
-                        newLayout = new SingleColumnLayout();
-                        break;
+                    //case LayoutType.SingleColumn:
+                    //    newLayout = new SingleColumnLayout();
+                    //    break;
 
-                    case LayoutType.SingleRow:
-                        newLayout = new SingleRowLayout();
-                        break;
+                    //case LayoutType.SingleRow:
+                    //    newLayout = new SingleRowLayout();
+                    //    break;
 
                     default:
                         throw new ArgumentException("Cannot understand layout type.");

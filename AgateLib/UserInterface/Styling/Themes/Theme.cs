@@ -79,13 +79,13 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
-                    Selector = ".menu-item",
+                    Selector = "menuitem",
                     Padding = LayoutBox.SameAllAround(8),
                 },
 
                 new ThemeStyle
                 {
-                    Selector = ".menu-item:focus",
+                    Selector = "menuitem:focus",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
                 }

@@ -221,7 +221,6 @@
     <Compile Include="UserInterface\Content\TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterface\DesktopTests.cs" />
-    <Compile Include="UserInterface\Layout\AnchoredLayoutTests.cs" />
     <Compile Include="UserInterface\Layout\FixedGridLayoutTests.cs" />
     <Compile Include="UserInterface\Layout\LayoutTests.cs" />
     <Compile Include="UserInterface\Layout\SimpleGridLayoutTests.cs" />

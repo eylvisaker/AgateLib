@@ -175,9 +175,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual bool CanHaveFocus => false;
 
-        public object Tag { get; set; }
-        IRenderElement IRenderElement.Focus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
         public IRenderElementStyle Style => throw new NotImplementedException();
 
         public string StyleClass => throw new NotImplementedException();
@@ -259,6 +256,16 @@ namespace AgateLib.UserInterface.Widgets
         public virtual IRenderElement Render()
         {
             return this;
+        }
+
+        public void Blur()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRenderElement.Focus()
+        {
+            throw new NotImplementedException();
         }
     }
 
