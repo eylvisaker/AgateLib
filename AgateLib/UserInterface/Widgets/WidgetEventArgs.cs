@@ -27,18 +27,18 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class WidgetEventArgs : EventArgs, IWidgetEventArgsInitialize
+    public class InputEventArgs : EventArgs, IWidgetEventArgsInitialize
     {
-        public static WidgetEventArgs ButtonDown(MenuInputButton button)
+        public static InputEventArgs ButtonDown(MenuInputButton button)
         {
-            var result = new WidgetEventArgs();
+            var result = new InputEventArgs();
             result.InitializeButtonDown(button);
             return result;
         }
 
-        public static WidgetEventArgs ButtonUp(MenuInputButton button)
+        public static InputEventArgs ButtonUp(MenuInputButton button)
         {
-            var result = new WidgetEventArgs();
+            var result = new InputEventArgs();
             result.InitializeButtonUp(button);
             return result;
         }
@@ -80,7 +80,7 @@ namespace AgateLib.UserInterface.Widgets
             return $"{Button} {EventType} (Handled: {Handled})";
         }
 
-        internal WidgetEventArgs Initialize(WidgetEventType eventType)
+        internal InputEventArgs Initialize(WidgetEventType eventType)
         {
             Area = new Rectangle();
             EventType = eventType;

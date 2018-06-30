@@ -21,6 +21,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using AgateLib.UserInterface.Widgets;
 
@@ -52,7 +53,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// </summary>
         public string WidgetState { get; set; }
 
-        public string PseudoClass => MatchExecutor.PseudoClass;
+        public IReadOnlyCollection<string> PseudoClasses => MatchExecutor.PseudoClasses;
 
         public int Specificity => MatchExecutor.Specificity;
 

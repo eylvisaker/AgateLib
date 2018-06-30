@@ -151,7 +151,7 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public IDisplaySystem System { get; internal set; }
-
-        public bool HasFocus => System.Focus.Display == this;
+        
+        public List<string> PseudoClasses { get; } = new List<string>();
     }
 }

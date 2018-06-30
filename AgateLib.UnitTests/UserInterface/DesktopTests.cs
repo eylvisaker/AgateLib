@@ -36,11 +36,11 @@ namespace AgateLib.UnitTests.UserInterface
             int goodCalls = 0;
             int badCalls = 0;
 
-            w1.Setup(x => x.ProcessEvent(It.IsAny<WidgetEventArgs>()))
-                .Callback<WidgetEventArgs>(e => ++goodCalls);
+            w1.Setup(x => x.OnInputEvent(It.IsAny<InputEventArgs>()))
+                .Callback<InputEventArgs>(e => ++goodCalls);
 
-            w2.Setup(x => x.ProcessEvent(It.IsAny<WidgetEventArgs>()))
-                .Callback<WidgetEventArgs>(e => ++badCalls);
+            w2.Setup(x => x.OnInputEvent(It.IsAny<InputEventArgs>()))
+                .Callback<InputEventArgs>(e => ++badCalls);
 
             desktop.ButtonDown(MenuInputButton.Down);
             desktop.ButtonUp(MenuInputButton.Down);

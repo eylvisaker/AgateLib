@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Layout
         /// Processes an input event.
         /// </summary>
         /// <param name="input"></param>
-        void InputEvent(WidgetEventArgs input);
+        void InputEvent(InputEventArgs input);
         
         /// <summary>
         /// Computes the ideal size of the layout.

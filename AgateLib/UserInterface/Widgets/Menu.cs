@@ -33,6 +33,7 @@ using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Transitions;
 using System.ComponentModel;
 using System.Linq;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -59,7 +60,7 @@ namespace AgateLib.UserInterface.Widgets
         public Menu(MenuProps props) : base(props)
         {
             SetState(new MenuState());
-            
+
         }
 
         public event Action Exit;
@@ -81,17 +82,6 @@ namespace AgateLib.UserInterface.Widgets
         protected virtual void OnCancel(CancelEventArgs eventArgs)
         {
             Cancel?.Invoke(eventArgs);
-        }
-
-        /// <summary>
-        /// Adds an item to the menu.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="action"></param>
-        [Obsolete("Pass children in props", true)]
-        public void Add(string text, Action action)
-        {
-            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -136,9 +126,9 @@ namespace AgateLib.UserInterface.Widgets
             //    Layout.Focus = Layout.First();
         }
 
-        public override IRenderElement Render()
+        public override IRenderable Render()
         {
-            return new FlexBox(new FlexBoxProps
+            return new MenuElement(new MenuElementProps
             {
                 StyleId = Props.Name,
                 StyleClass = "menu",
@@ -155,5 +145,70 @@ namespace AgateLib.UserInterface.Widgets
                     break;
             }
         }
+    }
+
+    public class MenuElement : RenderElement<MenuElementProps>
+    {
+        FlexBox child;
+        int selectedIndex;
+
+        public MenuElement(MenuElementProps props) : base(props)
+        {
+            child = new FlexBox(new FlexBoxProps
+            {
+                Children = props.Children
+            });
+
+            Children = new[] { child };
+
+            SelectedMenuItem.Display.PseudoClasses.Add("selected");
+        }
+
+        IRenderElement SelectedMenuItem => child.Children.Skip(selectedIndex).First();
+
+        public override bool CanHaveFocus => true;
+
+       
+        public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
+        {
+            return child.CalcIdealContentSize(renderContext, maxSize);
+        }
+
+        public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
+        {
+            renderContext.DrawChild(clientArea, child);
+        }
+
+        public override void OnInputEvent(InputEventArgs e)
+        {
+            if (e.EventType == WidgetEventType.ButtonDown)
+            {
+                var newIndex = selectedIndex;
+
+                if (e.Button == MenuInputButton.Down)
+                    newIndex++;
+                if (e.Button == MenuInputButton.Up)
+                    newIndex--;
+
+                if (newIndex < 0)
+                    newIndex = 0;
+                if (newIndex >= Props.Children.Count)
+                    newIndex = Props.Children.Count - 1;
+
+                if (newIndex != selectedIndex)
+                {
+                    SelectedMenuItem.Display.PseudoClasses.Remove("selected");
+                    selectedIndex = newIndex;
+                    SelectedMenuItem.Display.PseudoClasses.Add("selected");
+                }
+            }
+
+            base.OnInputEvent(e);
+        }
+    }
+
+    public class MenuElementProps : RenderElementProps
+    {
+        public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
     }
 }

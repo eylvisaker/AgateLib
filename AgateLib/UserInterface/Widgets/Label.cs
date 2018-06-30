@@ -12,7 +12,7 @@ namespace AgateLib.UserInterface.Widgets
         {
         }
 
-        public override IRenderElement Render()
+        public override IRenderable Render()
         {
             return new LabelElement(new LabelElementProps {
                 Text = Props.Text });

@@ -19,7 +19,7 @@ namespace ManualTests.AgateLib.Selector.Widgets
             carousel = new TestDrawer(new TestDrawerProps { Tests = props.Tests });
         }
 
-        public override IRenderElement Render()
+        public override IRenderable Render()
         {
             return new FlexBox(new FlexBoxProps
             {

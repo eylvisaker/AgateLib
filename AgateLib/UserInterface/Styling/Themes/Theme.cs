@@ -85,7 +85,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
-                    Selector = "menuitem:focus",
+                    Selector = "menuitem:selected",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
                 }

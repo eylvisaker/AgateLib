@@ -36,7 +36,7 @@ namespace AgateLib.UserInterface
     {
         private readonly List<Workspace> workspaces = new List<Workspace>();
 
-        private readonly WidgetEventArgs inputEventArgs = new WidgetEventArgs();
+        private readonly InputEventArgs inputEventArgs = new InputEventArgs();
         private readonly IWidgetEventArgsInitialize inputEventArgsInitialize;
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
 
@@ -69,7 +69,7 @@ namespace AgateLib.UserInterface
         /// Event raised when the desktop is empty.
         /// </summary>
         public event Action Empty;
-        public event EventHandler<WidgetEventArgs> UnhandledEvent;
+        public event EventHandler<InputEventArgs> UnhandledEvent;
 
         public string DefaultTheme { get; set; } = "default";
 

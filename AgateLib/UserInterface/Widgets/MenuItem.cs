@@ -13,7 +13,7 @@ namespace AgateLib.UserInterface.Widgets
         {
         }
 
-        public override IRenderElement Render()
+        public override IRenderable Render()
         {
             return new MenuItemElement(new MenuItemElementProps
             {
@@ -49,7 +49,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             if (props.Children.Count == 1)
             {
-                child = props.Children.First().Render();
+                child = props.Children.First().Finalize();
             }
             else
             {

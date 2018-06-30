@@ -17,9 +17,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public FlexBox(FlexBoxProps props) : base(props)
         {
-            children = props.Children.Select(c => c.Render()).ToList();
+            children = props.Children.Select(c => c.Finalize()).ToList();
         }
-
 
         public override IEnumerable<IRenderElement> Children => children;
 

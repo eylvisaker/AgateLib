@@ -16,30 +16,38 @@ namespace ManualTests.AgateLib.Selector.Widgets
             categories = props.Tests.GroupBy(x => x.Category).ToDictionary(x => x.Key, x => x.ToArray());
         }
 
-        public override IRenderElement Render()
+        public override IRenderable Render()
         {
-            return new FlexBox(new FlexBoxProps
+            return new Menu(new MenuProps
             {
-                StyleId = "test-drawer",
-                Children = categories
-                          .Select(x => CreateMenu(x.Value))
-                          .Select(x => x.Render())
-                          .ToArray()
+                Children = Props.Tests.Select(CreateMenuItem).ToList()
             });
+
+            //return new FlexBox(new FlexBoxProps
+            //{
+            //    StyleId = "test-drawer",
+            //    Children = categories
+            //              .Select(x => CreateMenu(x.Value))
+            //              .ToArray()
+            //});
         }
 
         private Menu CreateMenu(ITest[] value)
         {
             return new Menu(new MenuProps
             {
-                Children = value.Select(x => new MenuItem(new MenuItemProps
-                {
-                    Text = x.Name,
-                    OnAccept = () => Props.OnAcceptTest(x),
-                })).ToList(),
+                Children = value.Select(CreateMenuItem).ToList(),
             });
         }
 
+        private MenuItem CreateMenuItem(ITest test)
+        {
+            return new MenuItem(new MenuItemProps
+            {
+                Text = test.Name,
+                OnAccept = () => Props.OnAcceptTest(test),
+            });
+        }
     }
 
     public class TestDrawerProps : WidgetProps

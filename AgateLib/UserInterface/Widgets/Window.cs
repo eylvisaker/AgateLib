@@ -116,7 +116,7 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         [Obsolete]
-        public virtual void ProcessEvent(WidgetEventArgs args)
+        public virtual void ProcessEvent(InputEventArgs args)
         {
             Layout?.InputEvent(args);
         }
@@ -127,9 +127,9 @@ namespace AgateLib.UserInterface.Widgets
                 item.Update(renderContext);
         }
 
-        public override IRenderElement Render()
+        public override IRenderable Render()
         {
-            layout.SetChildren(children.Select(c => c.Render()));
+            layout.SetChildren(children.Select(c => c.Finalize()));
             return layout;
         }
     }

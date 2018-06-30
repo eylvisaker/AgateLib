@@ -59,9 +59,13 @@ namespace AgateLib.UserInterface
             get => focus;
             set
             {
-                focus?.Blur();
+                focus?.Display.PseudoClasses.Remove("focus");
+                focus?.OnBlur();
+
                 focus = value;
-                focus?.Focus();
+
+                focus?.OnFocus();
+                focus?.Display.PseudoClasses.Add("focus");
             }
         }
 
@@ -84,7 +88,7 @@ namespace AgateLib.UserInterface
         }
 
         /// <summary>
-        /// Walks the entire visual tree.
+        /// Walks the entire visual tree, using a depth first approach.
         /// </summary>
         /// <param name="action">An action to execute on each render element. Return true to continue walking, false to exit.</param>
         public void Walk(Func<IRenderElement, bool> action)
@@ -94,7 +98,10 @@ namespace AgateLib.UserInterface
 
         private bool Walk(IRenderElement node, Func<IRenderElement, bool> action)
         {
-            action(node);
+            bool cont = action(node);
+
+            if (!cont)
+                return false;
 
             if (node.Children == null)
                 return true;
@@ -103,7 +110,7 @@ namespace AgateLib.UserInterface
             {
                 item.Display.ParentFont = node.Style.Font;
 
-                var cont = Walk(item, action);
+                cont = Walk(item, action);
 
                 if (!cont)
                     return false;

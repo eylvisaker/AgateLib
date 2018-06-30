@@ -93,7 +93,7 @@ namespace AgateLib.UserInterface
             set => visualTree.Focus = value;
         }
 
-        public event EventHandler<WidgetEventArgs> UnhandledEvent;
+        public event EventHandler<InputEventArgs> UnhandledEvent;
 
         public IFontProvider Fonts
         {
@@ -158,9 +158,9 @@ namespace AgateLib.UserInterface
             return children.Contains(window);
         }
 
-        public void HandleInputEvent(WidgetEventArgs args)
+        public void HandleInputEvent(InputEventArgs args)
         {
-            Focus.ProcessEvent(args);
+            Focus.OnInputEvent(args);
 
             if (!args.Handled)
                 UnhandledEvent?.Invoke(this, args);

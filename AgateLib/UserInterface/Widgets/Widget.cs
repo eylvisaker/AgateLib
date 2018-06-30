@@ -115,7 +115,7 @@ namespace AgateLib.UserInterface.Widgets
         {
         }
 
-        public abstract IRenderElement Render();
+        public abstract IRenderable Render();
 
         public virtual void Update(IWidgetRenderContext renderContext)
         {
@@ -197,7 +197,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual void Initialize() { }
 
-        public virtual void ProcessEvent(WidgetEventArgs widgetEventArgs)
+        public virtual void OnInputEvent(InputEventArgs widgetEventArgs)
         {
             switch (widgetEventArgs.EventType)
             {
@@ -253,17 +253,17 @@ namespace AgateLib.UserInterface.Widgets
             return $"{GetType().Name}: {Name}";
         }
 
-        public virtual IRenderElement Render()
+        public virtual IRenderable Render()
         {
             return this;
         }
 
-        public void Blur()
+        public void OnBlur()
         {
             throw new NotImplementedException();
         }
 
-        void IRenderElement.Focus()
+        void IRenderElement.OnFocus()
         {
             throw new NotImplementedException();
         }

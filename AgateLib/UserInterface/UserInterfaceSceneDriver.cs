@@ -110,7 +110,7 @@ namespace AgateLib.UserInterface
             desktop.Draw(renderContext);
         }
 
-        private void Desktop_UnhandledEvent(object sender, WidgetEventArgs e)
+        private void Desktop_UnhandledEvent(object sender, InputEventArgs e)
         {
             if (e.EventType == WidgetEventType.ButtonUp
                 && e.Button == MenuInputButton.Exit)

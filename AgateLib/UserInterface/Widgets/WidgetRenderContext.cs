@@ -146,7 +146,7 @@ namespace AgateLib.UserInterface.Widgets
         private WidgetRenderContext parentRenderContext;
         bool workspaceIsActive;
 
-        private WidgetEventArgs eventArgs = new WidgetEventArgs();
+        private InputEventArgs eventArgs = new InputEventArgs();
 
         public WidgetRenderContext(
             GraphicsDevice graphicsDevice,
@@ -294,7 +294,7 @@ namespace AgateLib.UserInterface.Widgets
             eventArgs.Initialize(WidgetEventType.DrawComplete);
             eventArgs.Area = parentContentDest;
 
-            widget.ProcessEvent(eventArgs);
+            widget.OnInputEvent(eventArgs);
         }
 
         public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)

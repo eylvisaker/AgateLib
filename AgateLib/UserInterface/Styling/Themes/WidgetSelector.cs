@@ -31,7 +31,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 {
     public interface IWidgetSelector
     {
-        string PseudoClass { get; }
+        IReadOnlyCollection<string> PseudoClasses { get; }
 
         int Specificity { get; }
 
@@ -77,6 +77,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         class Token
         {
             public TokenType Type { get; set; }
+
             public string Value { get; set; }
 
             public override string ToString() => $"{Type}: {Value}";
@@ -128,7 +129,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             }
         }
 
-        public string PseudoClass => matchers.FirstOrDefault()?.PseudoClasses.FirstOrDefault();
+        public IReadOnlyCollection<string> PseudoClasses => matchers.First()?.PseudoClasses;
 
         public int Specificity { get; private set; }
 
@@ -176,17 +177,17 @@ namespace AgateLib.UserInterface.Styling.Themes
                         break;
 
                     case TokenType.Class:
-                        matcher.ClassNames.Add(token.Value.Substring(1));
+                        matcher.ClassNames.Add(token.Value.Substring(1).ToLowerInvariant());
                         hasValue = true;
                         break;
 
                     case TokenType.Id:
-                        matcher.Identifiers.Add(token.Value.Substring(1));
+                        matcher.Identifiers.Add(token.Value.Substring(1).ToLowerInvariant());
                         hasValue = true;
                         break;
 
                     case TokenType.Pseudoclass:
-                        matcher.PseudoClasses.Add(token.Value.Substring(1));
+                        matcher.PseudoClasses.Add(token.Value.Substring(1).ToLowerInvariant());
                         hasValue = true;
                         break;
 

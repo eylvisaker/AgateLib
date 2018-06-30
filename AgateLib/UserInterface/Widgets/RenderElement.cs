@@ -48,19 +48,9 @@ namespace AgateLib.UserInterface.Widgets
         bool CanHaveFocus { get; }
 
         /// <summary>
-        /// Called when the element loses focus.
-        /// </summary>
-        void Blur();
-
-        /// <summary>
         /// Gets the aggregated style of the render element.
         /// </summary>
         IRenderElementStyle Style { get; }
-
-        /// <summary>
-        /// Called when the element gains focus.
-        /// </summary>
-        void Focus();
 
         /// <summary>
         /// Draws the content of the widget.
@@ -84,11 +74,22 @@ namespace AgateLib.UserInterface.Widgets
         /// <returns></returns>
         Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
+
+        /// <summary>
+        /// Called when the element loses focus.
+        /// </summary>
+        void OnBlur();
+
+        /// <summary>
+        /// Called when the element gains focus.
+        /// </summary>
+        void OnFocus();
+
         /// <summary>
         /// Called when the widget receives an input event.
         /// </summary>
         /// <param name="widgetEventArgs"></param>
-        void ProcessEvent(WidgetEventArgs widgetEventArgs);
+        void OnInputEvent(InputEventArgs widgetEventArgs);
     }
 
     public abstract class RenderElement<TProps> : IRenderElement where TProps : RenderElementProps
@@ -122,7 +123,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public abstract void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
 
-        public virtual void ProcessEvent(WidgetEventArgs widgetEventArgs)
+        public virtual void OnInputEvent(InputEventArgs widgetEventArgs)
         { }
 
         public virtual void Update(IWidgetRenderContext renderContext)
@@ -149,13 +150,13 @@ namespace AgateLib.UserInterface.Widgets
             return result.ToString();
         }
 
-        IRenderElement IRenderable.Render() => this;
+        IRenderable IRenderable.Render() => this;
 
-        public virtual void Blur()
+        public virtual void OnBlur()
         {
         }
 
-        public virtual void Focus()
+        public virtual void OnFocus()
         {
         }
     }

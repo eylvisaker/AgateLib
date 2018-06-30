@@ -88,7 +88,7 @@ namespace AgateLib.UserInterface.Widgets
             content.Draw(clientArea.Location.ToVector2(), renderContext.SpriteBatch);
         }
         
-        public override void ProcessEvent(WidgetEventArgs inputEventArgs)
+        public override void OnInputEvent(InputEventArgs inputEventArgs)
         {
             if (inputEventArgs.Button == MenuInputButton.Accept)
             {
