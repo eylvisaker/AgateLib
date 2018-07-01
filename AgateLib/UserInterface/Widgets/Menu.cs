@@ -149,8 +149,9 @@ namespace AgateLib.UserInterface.Widgets
 
     public class MenuElement : RenderElement<MenuElementProps>
     {
-        FlexBox child;
-        int selectedIndex;
+        private FlexBox child;
+        private int selectedIndex;
+        private ButtonPress<MenuInputButton> buttonPress = new ButtonPress<MenuInputButton>();
 
         public MenuElement(MenuElementProps props) : base(props)
         {
@@ -162,6 +163,8 @@ namespace AgateLib.UserInterface.Widgets
             Children = new[] { child };
 
             SelectedMenuItem.Display.PseudoClasses.Add("selected");
+
+            buttonPress.Press += OnButtonPress;
         }
 
         IRenderElement SelectedMenuItem => child.Children.Skip(selectedIndex).First();
@@ -179,17 +182,21 @@ namespace AgateLib.UserInterface.Widgets
             renderContext.DrawChild(clientArea, child);
         }
 
+        List<MenuInputButton> buttonsDown = new List<MenuInputButton>();
+
         public override void OnInputEvent(InputEventArgs e)
         {
             if (e.EventType == WidgetEventType.ButtonDown)
             {
+                buttonPress.ButtonDown(e.Button);
+
                 var newIndex = selectedIndex;
 
                 if (e.Button == MenuInputButton.Down)
                     newIndex++;
                 if (e.Button == MenuInputButton.Up)
                     newIndex--;
-
+                
                 if (newIndex < 0)
                     newIndex = 0;
                 if (newIndex >= Props.Children.Count)
@@ -202,8 +209,28 @@ namespace AgateLib.UserInterface.Widgets
                     SelectedMenuItem.Display.PseudoClasses.Add("selected");
                 }
             }
+            else if (e.EventType == WidgetEventType.ButtonUp)
+            {
+                buttonPress.ButtonUp(e.Button);
+
+            }
 
             base.OnInputEvent(e);
+        }
+
+        private void OnButtonPress(MenuInputButton btn)
+        {
+            if (btn == MenuInputButton.Accept)
+            {
+                SelectedMenuItem?.OnAccept();
+            }
+        }
+
+        public override void OnBlur()
+        {
+            base.OnBlur();
+
+            buttonPress.Clear();
         }
     }
 

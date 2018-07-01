@@ -267,6 +267,11 @@ namespace AgateLib.UserInterface.Widgets
         {
             throw new NotImplementedException();
         }
+
+        public void OnAccept()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public static class WidgetExtensions

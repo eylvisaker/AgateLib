@@ -48,5 +48,10 @@ namespace AgateLib.UserInterface.Widgets
         public bool IsButtonUp(T button) => !buttonsDown.Contains(button);
 
         public event Action<T> Press;
+
+        public void Clear()
+        {
+            buttonsDown.Clear();
+        }
     }
 }

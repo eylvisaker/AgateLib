@@ -90,6 +90,11 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="widgetEventArgs"></param>
         void OnInputEvent(InputEventArgs widgetEventArgs);
+
+        /// <summary>
+        /// Called when the user accepts an item. Accept can be a button press, enter on the keyboard, or a mouse click (not yet supported).
+        /// </summary>
+        void OnAccept();
     }
 
     public abstract class RenderElement<TProps> : IRenderElement where TProps : RenderElementProps
@@ -124,7 +129,8 @@ namespace AgateLib.UserInterface.Widgets
         public abstract void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
 
         public virtual void OnInputEvent(InputEventArgs widgetEventArgs)
-        { }
+        {
+        }
 
         public virtual void Update(IWidgetRenderContext renderContext)
         {
@@ -157,6 +163,10 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public virtual void OnFocus()
+        {
+        }
+
+        public virtual void OnAccept()
         {
         }
     }

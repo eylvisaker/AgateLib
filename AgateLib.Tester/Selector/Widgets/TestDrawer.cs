@@ -45,7 +45,7 @@ namespace ManualTests.AgateLib.Selector.Widgets
             return new MenuItem(new MenuItemProps
             {
                 Text = test.Name,
-                OnAccept = () => Props.OnAcceptTest(test),
+                OnAccept = () => Props.OnAcceptTest?.Invoke(test),
             });
         }
     }

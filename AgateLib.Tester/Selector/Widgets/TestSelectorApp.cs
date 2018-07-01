@@ -16,7 +16,11 @@ namespace ManualTests.AgateLib.Selector.Widgets
         public TestSelectorApp(TestSelectorProps props) : base(props)
         {
             choose = new Label(new LabelProps { Text = "Choose a test" });
-            carousel = new TestDrawer(new TestDrawerProps { Tests = props.Tests });
+            carousel = new TestDrawer(new TestDrawerProps
+            {
+                Tests = props.Tests,
+                OnAcceptTest = props.OnAcceptTest,
+            });
         }
 
         public override IRenderable Render()

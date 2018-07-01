@@ -59,6 +59,13 @@ namespace AgateLib.UserInterface.Widgets
             Children = new List<IRenderElement> { child };
         }
 
+        public override void OnAccept()
+        {
+            base.OnAccept();
+
+            Props.OnAccept?.Invoke();
+        }
+
         public override string StyleTypeIdentifier => "menuitem";
 
         public override bool CanHaveFocus => true;
