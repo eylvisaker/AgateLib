@@ -84,10 +84,6 @@ namespace ManualTests.AgateLib.Selector
         public void Draw(GameTime gameTime)
         {
             sceneStack.Draw(gameTime);
-
-            spriteBatch.Begin();
-            font.DrawText(spriteBatch, Vector2.Zero, "Test Selector");
-            spriteBatch.End();
         }
     }
 

@@ -181,7 +181,7 @@ namespace AgateLib.UserInterface
             visualTree.Render(new FlexBox(new FlexBoxProps
             {
                 StyleId = Name,
-                StyleClass = "workspace",
+                StyleTypeId = "workspace",
                 Children = children.ToList<IRenderable>()
             }));
 

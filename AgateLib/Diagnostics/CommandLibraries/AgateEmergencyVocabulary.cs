@@ -28,89 +28,90 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics.CommandLibraries
 {
-	class AgateEmergencyVocabulary : IVocabulary
-	{
-		private readonly ConsoleShell agateConsoleCore;
+    class AgateEmergencyVocabulary : IVocabulary
+    {
+        private readonly ConsoleShell agateConsoleCore;
 
-		public AgateEmergencyVocabulary(ConsoleShell agateConsoleCore)
-		{
-			this.agateConsoleCore = agateConsoleCore;
-		}
+        public AgateEmergencyVocabulary(ConsoleShell agateConsoleCore)
+        {
+            this.agateConsoleCore = agateConsoleCore;
+        }
 
-		public string Namespace => "";
+        public string Namespace => "";
 
-		public IConsoleShell Shell { get; set; }
+        public IConsoleShell Shell { get; set; }
 
-		[ConsoleCommand("Provides help for commands. You can type 'help' or 'help <command>' to get more information.", Hidden = true)]
-		public void Help([JoinArgs] string command = null)
-		{
-			var commandLibraries = agateConsoleCore.CommandLibrarySet.ToList();
+        [ConsoleCommand("Provides help for commands. You can type 'help' or 'help <command>' to get more information.", Hidden = true)]
+        public void Help([JoinArgs] string command = null)
+        {
+            var commandLibraries = agateConsoleCore.CommandLibrarySet.ToList();
 
-			if (commandLibraries.Any())
-			{
-				if (string.IsNullOrEmpty(command))
-				{
-					WriteLine("Available Commands:");
+            if (commandLibraries.Any())
+            {
+                if (string.IsNullOrEmpty(command))
+                {
+                    WriteLine("Available Commands:");
 
-					foreach (var commandProcessor in commandLibraries)
-					{
-						commandProcessor.Shell = Shell;
-						commandProcessor.Help();
-					}
-				}
-				else
-				{
-					foreach (var commandProcessor in commandLibraries)
-					{
-						commandProcessor.Shell = Shell;
-						commandProcessor.Help(command);
-					}
+                    foreach (var commandProcessor in commandLibraries)
+                    {
+                        commandProcessor.Shell = Shell;
+                        commandProcessor.Help();
+                    }
+                }
+                else
+                {
+                    foreach (var commandProcessor in commandLibraries)
+                    {
+                        commandProcessor.Shell = Shell;
+                        commandProcessor.Help(command);
+                    }
 
-					return;
-				}
-			}
-			else
-			{
-				WriteLine("No command processors installed.");
-				WriteLine("Available Commands:");
-			}
+                    return;
+                }
+            }
+            else
+            {
+                WriteLine("No command processors installed.");
+                WriteLine("Available Commands:");
+            }
 
-			WriteLine("    debug [on|off]");
-			WriteLine("    quit");
-			WriteLine("Use up / down arrow keys to navigate input history.");
-			WriteLine("Use shift+up / shift+down to view output history.");
-		}
+            WriteLine("    debug [on|off]");
+            WriteLine("    quit");
+            WriteLine("Use up / down arrow keys to navigate input history.");
+            WriteLine("Use shift+up / shift+down to view output history.");
+        }
 
-		[ConsoleCommand("Quits the application. No option to save is given.", Hidden = true)]
-		public void Quit()
-		{
-			throw new NotImplementedException();
-		}
+        [ConsoleCommand("Quits the application. No option to save is given.", Hidden = true)]
+        public void Quit()
+        {
+            // TODO: Implement or remove this.
+            throw new NotImplementedException();
+        }
 
-		[ConsoleCommand("Enable or disable debug info with 'debug on' or 'debug off'", Hidden = true)]
-		public void Debug(string mode = "")
-		{
-			if (mode == "off")
-			{
-				Shell.WriteLine("Disabling debug information.");
-				Shell.State.Debug = false;
-				return;
-			}
-			if (mode == "on")
-			{
-				Shell.WriteLine("Enabling debug information. Type 'debug off' to turn it off.");
-				Shell.State.Debug = true;
-				return;
-			}
+        [ConsoleCommand("Enable or disable debug info with 'debug on' or 'debug off'", Hidden = true)]
+        public void Debug(string mode = "")
+        {
+            if (mode == "off")
+            {
+                Shell.WriteLine("Disabling debug information.");
+                Shell.State.Debug = false;
+                return;
+            }
+            if (mode == "on")
+            {
+                Shell.WriteLine("Enabling debug information. Type 'debug off' to turn it off.");
+                Shell.State.Debug = true;
+                return;
+            }
 
-			Shell.WriteLine("Type 'debug on' to enable debug information.");
-			Shell.WriteLine("Type 'debug off' to disable debug information.");
-		}
+            Shell.WriteLine("Type 'debug on' to enable debug information.");
+            Shell.WriteLine("Type 'debug off' to disable debug information.");
+        }
 
-		private void WriteLine(string message)
-		{
-			Shell.WriteLine(message);
-		}
+        private void WriteLine(string message)
+        {
+            Shell.WriteLine(message);
+        }
 
-	}
+    }
 }

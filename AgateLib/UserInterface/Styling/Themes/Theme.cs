@@ -57,7 +57,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             {
                 new ThemeStyle
                 {
-                    Selector = ".workspace",
+                    Selector = "workspace",
                     Padding = LayoutBox.SameAllAround(30),
                     Flex = new FlexStyle
                     {
@@ -67,7 +67,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
-                    Selector = ".workspace > *",
+                    Selector = "workspace > *",
                     Background = new BackgroundStyle { Color = Color.Black, },
                     Font = new FontStyleProperties { Color = Color.White, },
                     Animation = new AnimationStyle

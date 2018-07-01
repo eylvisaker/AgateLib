@@ -1,12 +1,9 @@
 ﻿using AgateLib.Display;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Styling.Themes.Model;
-using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {

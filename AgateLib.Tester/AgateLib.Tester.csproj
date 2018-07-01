@@ -154,6 +154,7 @@
     <Compile Include="FontTests\FontAlignment.cs" />
     <Compile Include="FontTests\PaletteC64.cs" />
     <Compile Include="FontTests\SimpleTextTest.cs" />
+    <Compile Include="FrameCounter.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -24,7 +24,10 @@ namespace ManualTests.AgateLib
         private ITest activeTest;
         private TestResources resources = new TestResources();
         private TestSelector testSelector;
+        private FrameCounter frameCounter = new FrameCounter();
 
+        private SpriteBatch spriteBatch;
+        private Font font;
         private bool escaped;
 
         public Game1()
@@ -88,6 +91,10 @@ namespace ManualTests.AgateLib
             resources.WhiteTexture = new TextureBuilder(graphics.GraphicsDevice).SolidColor(10, 10, Color.White);
 
             ActiveTest = testSelector;
+
+            spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
+
+            font = new Font(resources.Fonts.Default, FontStyles.Bold);
         }
 
         private FontProvider LoadFonts()
@@ -144,10 +151,31 @@ namespace ManualTests.AgateLib
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             ActiveTest.Draw(gameTime);
 
+            spriteBatch.Begin();
+
+            var fontHeight = font.MeasureString("M").Height;
+
+            spriteBatch.Draw(resources.WhiteTexture, 
+                new Rectangle(0, GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight, GraphicsDevice.PresentationParameters.BackBufferWidth, fontHeight), Color.Black);
+
+            font.TextAlignment = OriginAlignment.BottomLeft;
+            font.DrawText(spriteBatch, 
+                          new Vector2(0, GraphicsDevice.PresentationParameters.BackBufferHeight), 
+                          ActiveTest.Name);
+
+            font.TextAlignment = OriginAlignment.BottomRight;
+            font.DrawText(spriteBatch, 
+                          new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth, 
+                                      GraphicsDevice.PresentationParameters.BackBufferHeight), 
+                          $"{frameCounter.AverageFramesPerSecond:0.000} FPS");
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
