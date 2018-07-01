@@ -64,6 +64,34 @@ namespace AgateLib.UserInterface.Styling
         public Point TopLeft { get => new Point(Left, Top); }
 
         /// <summary>
+        /// Expands a rectangle by the layout box.
+        /// </summary>
+        /// <param name="targetRect"></param>
+        /// <returns></returns>
+        public Rectangle Expand(Rectangle targetRect)
+        {
+            return new Rectangle(
+                targetRect.X - Left,
+                targetRect.Y - Top,
+                targetRect.Width + Width,
+                targetRect.Height + Height);
+        }
+
+        /// <summary>
+        /// Contracts a rectangle by the layout box.
+        /// </summary>
+        /// <param name="targetRect"></param>
+        /// <returns></returns>
+        public Rectangle Contract(Rectangle targetRect)
+        {
+            return new Rectangle(
+                targetRect.X + Left,
+                targetRect.Y + Top,
+                targetRect.Width + Width,
+                targetRect.Height + Height);
+        }
+
+        /// <summary>
         /// Gets a Point representing the bottom right of the LayoutBox.
         /// </summary>
         public Point BottomRight { get => new Point(Right, Bottom); }

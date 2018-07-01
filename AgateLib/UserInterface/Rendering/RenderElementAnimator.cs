@@ -34,6 +34,7 @@ namespace AgateLib.UserInterface.Rendering
     public class RenderElementAnimator
     {
         private readonly RenderElementDisplay display;
+        private Rectangle animatedContentRect;
 
         public RenderElementAnimator(RenderElementDisplay display)
         {
@@ -52,13 +53,21 @@ namespace AgateLib.UserInterface.Rendering
         /// <summary>
         /// Gets or sets the border rect in the widget's parent's client space.
         /// </summary>
-        public Rectangle AnimatedBorderRect { get; set; }
+        public Rectangle AnimatedBorderRect
+        {
+            get => display.Region.BorderToContentOffset.Expand(animatedContentRect);
+            set => animatedContentRect = display.Region.BorderToContentOffset.Contract(value);
+        }
 
         /// <summary>
         /// Gets or sets the client rect in the widget's parent's client space.
         /// </summary>
         /// TODO: Unify data storage for content and border rects.
-        public Rectangle AnimatedContentRect { get; set; }
+        public Rectangle AnimatedContentRect
+        {
+            get => animatedContentRect;
+            set => animatedContentRect = value;
+        }
 
         public Color Color => new Color(Alpha, Alpha, Alpha, Alpha);
 
