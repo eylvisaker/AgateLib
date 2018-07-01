@@ -8,6 +8,10 @@ namespace ManualTests.AgateLib
 {
     public class FrameCounter
     {
+        const int MinimumSamples = 5;
+
+        private Queue<float> sampleBuffer = new Queue<float>();
+
         public FrameCounter()
         {
         }
@@ -17,20 +21,23 @@ namespace ManualTests.AgateLib
         public float AverageFramesPerSecond { get; private set; }
         public float CurrentFramesPerSecond { get; private set; }
 
-        public const int MAXIMUM_SAMPLES = 100;
+        public int MaximumSamples { get; set; } = 20;
 
-        private Queue<float> _sampleBuffer = new Queue<float>();
 
         public bool Update(float deltaTime)
         {
             CurrentFramesPerSecond = 1.0f / deltaTime;
 
-            _sampleBuffer.Enqueue(CurrentFramesPerSecond);
+            sampleBuffer.Enqueue(CurrentFramesPerSecond);
 
-            if (_sampleBuffer.Count > MAXIMUM_SAMPLES)
+            if (sampleBuffer.Count > MaximumSamples)
             {
-                _sampleBuffer.Dequeue();
-                AverageFramesPerSecond = _sampleBuffer.Average(i => i);
+                sampleBuffer.Dequeue();
+            }
+
+            if (sampleBuffer.Count >= MinimumSamples)
+            { 
+                AverageFramesPerSecond = sampleBuffer.Average(i => i);
             }
             else
             {
@@ -39,6 +46,7 @@ namespace ManualTests.AgateLib
 
             TotalFrames++;
             TotalSeconds += deltaTime;
+
             return true;
         }
     }

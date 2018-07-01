@@ -46,6 +46,11 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IEnumerable<IRenderElement> Children => children;
 
+        public override void DoLayout(IWidgetRenderContext renderContext, Size size)
+        {
+            PerformLayout(renderContext, size);
+        }
+
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             switch (Direction)
@@ -97,29 +102,29 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
-            PerformLayout(renderContext, clientArea);
+            //PerformLayout(renderContext, clientArea);
 
             DrawChildren(renderContext, clientArea);
         }
 
-        private void PerformLayout(IWidgetRenderContext renderContext, Rectangle clientArea)
+        private void PerformLayout(IWidgetRenderContext renderContext, Size size)
         {
             switch (Direction)
             {
                 case FlexDirection.Column:
-                    PerformColumnLayout(renderContext, clientArea, Children);
+                    PerformColumnLayout(renderContext, size, Children);
                     break;
 
                 case FlexDirection.ColumnReverse:
-                    PerformColumnLayout(renderContext, clientArea, Children.Reverse());
+                    PerformColumnLayout(renderContext, size, Children.Reverse());
                     break;
 
                 case FlexDirection.Row:
-                    PerformRowLayout(renderContext, clientArea, Children);
+                    PerformRowLayout(renderContext, size, Children);
                     break;
 
                 case FlexDirection.RowReverse:
-                    PerformRowLayout(renderContext, clientArea, Children.Reverse());
+                    PerformRowLayout(renderContext, size, Children.Reverse());
                     break;
 
                 default:
@@ -127,12 +132,12 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        private void PerformRowLayout(IWidgetRenderContext renderContext, Rectangle clientArea, IEnumerable<IRenderElement> children)
+        private void PerformRowLayout(IWidgetRenderContext renderContext, Size size, IEnumerable<IRenderElement> children)
         {
             throw new NotImplementedException();
         }
 
-        private void PerformColumnLayout(IWidgetRenderContext renderContext, Rectangle clientArea, IEnumerable<IRenderElement> children)
+        private void PerformColumnLayout(IWidgetRenderContext renderContext, Size size, IEnumerable<IRenderElement> children)
         {
             Point dest = new Point(0, 0);
 
@@ -145,7 +150,7 @@ namespace AgateLib.UserInterface.Widgets
 
                 var itemDest = dest;
 
-                CalcIdealSize(renderContext, clientArea.Size, item);
+                CalcIdealSize(renderContext, size, item);
 
                 var contentSize = item.Display.Region.Size.ComputeContentSize();
                 var marginSize = new Size(contentSize.Width + item.Display.Region.MarginToContentOffset.Width,
@@ -154,19 +159,20 @@ namespace AgateLib.UserInterface.Widgets
                 switch (Style.Flex?.AlignItems ?? AlignItems.Start)
                 {
                     case AlignItems.End:
-                        itemDest.X += clientArea.Width - marginSize.Width;
+                        itemDest.X += size.Width - marginSize.Width;
                         break;
 
                     case AlignItems.Center:
-                        itemDest.X += (clientArea.Width - marginSize.Width) / 2;
+                        itemDest.X += (size.Width - marginSize.Width) / 2;
                         break;
 
                     case AlignItems.Stretch:
-                        marginSize.Width = clientArea.Width;
+                        marginSize.Width = size.Width;
                         break;
                 }
 
                 item.Display.MarginRect = new Rectangle(itemDest, marginSize);
+                item.DoLayout(renderContext, item.Display.ContentRect.Size);
 
                 dest.Y += item.Display.MarginRect.Height;
             }

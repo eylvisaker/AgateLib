@@ -96,6 +96,12 @@ namespace AgateLib.UserInterface.Widgets
         /// <returns></returns>
         Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
+        /// <summary>
+        /// Instructs the element to prepare its layout.
+        /// </summary>
+        /// <param name="renderContext"></param>
+        /// <param name="clientArea"></param>
+        void DoLayout(IWidgetRenderContext renderContext, Size size);
 
         /// <summary>
         /// Called when the element loses focus.
@@ -149,6 +155,8 @@ namespace AgateLib.UserInterface.Widgets
         public abstract Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
         public abstract void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
+
+        public abstract void DoLayout(IWidgetRenderContext renderContext, Size size);
 
         public virtual void OnInputEvent(InputEventArgs widgetEventArgs)
         {

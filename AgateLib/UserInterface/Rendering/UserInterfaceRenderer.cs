@@ -94,7 +94,7 @@ namespace AgateLib.UserInterface.Rendering
         {
             this.styleRenderer = styleRenderer ?? throw new ArgumentNullException(nameof(styleRenderer));
 
-            transitions["sudden"] = new WidgetSuddenTransition();
+            transitions["immediate"] = new WidgetImmediateTransition();
             transitions["fade-in"] = new WidgetFadeInTransition();
             transitions["fade-out"] = new WidgetFadeOutTransition();
         }
@@ -204,7 +204,7 @@ namespace AgateLib.UserInterface.Rendering
             var animator = widget.Display.Animator;
             var style = widget.Display.Style.Animation;
 
-            string transitionName = "sudden";
+            string transitionName = "immediate";
 
             switch (widget.Display.Animator.State)
             {
@@ -217,7 +217,7 @@ namespace AgateLib.UserInterface.Rendering
                     break;
 
                 default:
-                    transitionName = "sudden";
+                    transitionName = "immediate";
                     break;
             }
 

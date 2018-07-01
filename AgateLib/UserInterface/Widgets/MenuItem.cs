@@ -88,6 +88,11 @@ namespace AgateLib.UserInterface.Widgets
             Props.OnAccept?.Invoke();
         }
 
+        public override void DoLayout(IWidgetRenderContext renderContext, Size size)
+        {
+            child.DoLayout(renderContext, size);
+        }
+
         public override string StyleTypeId => "menuitem";
 
         public override bool CanHaveFocus => true;

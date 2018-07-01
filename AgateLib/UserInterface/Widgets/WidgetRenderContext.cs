@@ -261,40 +261,40 @@ namespace AgateLib.UserInterface.Widgets
             UserInterfaceRenderer.UpdateAnimation(this, widget);
         }
         
-        public void DrawChild(Rectangle parentContentDest, IRenderElement widget)
+        public void DrawChild(Rectangle parentContentDest, IRenderElement element)
         {
-            if (widget.Display.Animator.IsDoubleBuffered)
+            if (element.Display.Animator.IsDoubleBuffered)
             {
-                var newContext = DoubleBuffer.PrepRenderState(widget, this);
+                var newContext = DoubleBuffer.PrepRenderState(element, this);
 
-                var rtClientDest = widget.Display.Animator.Buffer.ContentDestination;
+                var rtClientDest = element.Display.Animator.Buffer.ContentDestination;
 
-                UserInterfaceRenderer.DrawBackground(newContext, widget.Display, rtClientDest);
-                UserInterfaceRenderer.DrawFrame(newContext, widget.Display, rtClientDest);
+                UserInterfaceRenderer.DrawBackground(newContext, element.Display, rtClientDest);
+                UserInterfaceRenderer.DrawFrame(newContext, element.Display, rtClientDest);
 
-                widget.Draw(newContext, rtClientDest);
+                element.Draw(newContext, rtClientDest);
 
-                DoubleBuffer.CompleteRendering(parentContentDest, this, widget);
+                DoubleBuffer.CompleteRendering(parentContentDest, this, element);
             }
             else
             {
 
                 Rectangle dest = new Rectangle(
-                    parentContentDest.X + widget.Display.Animator.AnimatedContentRect.X,
-                    parentContentDest.Y + widget.Display.Animator.AnimatedContentRect.Y,
-                    widget.Display.Animator.AnimatedContentRect.Width,
-                    widget.Display.Animator.AnimatedContentRect.Height);
+                    parentContentDest.X + element.Display.Animator.AnimatedContentRect.X,
+                    parentContentDest.Y + element.Display.Animator.AnimatedContentRect.Y,
+                    element.Display.Animator.AnimatedContentRect.Width,
+                    element.Display.Animator.AnimatedContentRect.Height);
 
-                UserInterfaceRenderer.DrawBackground(this, widget.Display, dest);
-                UserInterfaceRenderer.DrawFrame(this, widget.Display, dest);
+                UserInterfaceRenderer.DrawBackground(this, element.Display, dest);
+                UserInterfaceRenderer.DrawFrame(this, element.Display, dest);
 
-                widget.Draw(this, dest);
+                element.Draw(this, dest);
             }
 
             eventArgs.Initialize(WidgetEventType.DrawComplete);
             eventArgs.Area = parentContentDest;
 
-            widget.OnInputEvent(eventArgs);
+            element.OnInputEvent(eventArgs);
         }
 
         public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)

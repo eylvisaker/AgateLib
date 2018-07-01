@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
         void ContentRectUpdated(RenderElementDisplay display);
     }
 
-    public class WidgetSuddenTransition : IWidgetTransition
+    public class WidgetImmediateTransition : IWidgetTransition
     {
         public bool IsDoubleBuffered => false;
 

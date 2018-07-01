@@ -272,6 +272,11 @@ namespace AgateLib.UserInterface.Widgets
         {
             throw new NotImplementedException();
         }
+
+        public void DoLayout(IWidgetRenderContext renderContext, Size size)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public static class WidgetExtensions

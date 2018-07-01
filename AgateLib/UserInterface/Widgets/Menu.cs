@@ -114,6 +114,11 @@ namespace AgateLib.UserInterface.Widgets
 
         public override bool CanHaveFocus => true;
 
+        public override void DoLayout(IWidgetRenderContext renderContext, Size size)
+        {
+            child.DoLayout(renderContext, size);
+        }
+
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             return child.CalcIdealContentSize(renderContext, maxSize);

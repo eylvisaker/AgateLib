@@ -73,7 +73,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
                 display.BorderRect.Width - (int)(2 * leftRightMargin),
                 display.BorderRect.Height - (int)(2 * leftRightMargin));
 
-            Log.Debug($"Alpha: {animation.Alpha} Rect: {animation.AnimatedBorderRect}");
+            Log.Debug($"Alpha: {animation.Alpha} BorderRect: {display.BorderRect} AnimatedBorderRect: {animation.AnimatedBorderRect}");
 
             return false;
         }

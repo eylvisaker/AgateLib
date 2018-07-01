@@ -101,12 +101,11 @@ namespace AgateLib.UserInterface
         {
             Walk(element =>
             {
+                element.Update(renderContext);
                 element.Style.Update();
                 renderContext.UpdateAnimation(element);
                 return true;
             });
-
-            root.Update(renderContext);
         }
 
         /// <summary>
@@ -141,9 +140,10 @@ namespace AgateLib.UserInterface
             return true;
         }
 
-        internal void Draw(IWidgetRenderContext renderContext, Rectangle area)
+        public void Draw(IWidgetRenderContext renderContext, Rectangle area)
         {
             TreeRoot.Display.MarginRect = area;
+            TreeRoot.DoLayout(renderContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);
 
             renderContext.DrawChild(area, TreeRoot);
         }
