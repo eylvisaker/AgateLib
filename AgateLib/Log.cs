@@ -26,26 +26,78 @@ using System.Text;
 
 namespace AgateLib
 {
-    public interface ILogger
-    {
-        void WriteLine(string text);
-    }
-
+    /// <summary>
+    /// A basic logging interface.
+    /// </summary>
     public static class Log
     {
-        public static ILogger Instance { get; set; } = new ConsoleLogger();
+        /// <summary>
+        /// A list of listeners that receive messages from the log.
+        /// Defaults to logging to standard out.
+        /// </summary>
+        public static List<ILogListener> Listeners { get; } = new List<ILogListener> { new SystemConsoleLogger() };
 
-        public static LogLevel Level { get; set; }
-#if DEBUG
-        = LogLevel.Debug;
-#else
-        = LogLevel.Warn;
-#endif
+        /// <summary>
+        /// Writes a message to all listeners that are listening at the specified level
+        /// or below.
+        /// </summary>
+        /// <param name="level">The minimum LogLevel value for a listener to received the message.</param>
+        /// <param name="textFunc">A callback function to generate the log message. This function will only
+        /// be called once, and only if a listener is configured to receive messages at the current log level.</param>
+        public static void WriteLine(LogLevel level, Func<string> textFunc)
+        {
+            if (textFunc == null)
+                return;
 
+            string text = null;
+
+            foreach (var listener in Listeners)
+            {
+                if (level >= listener.Level)
+                {
+                    if (text == null)
+                        text = textFunc();
+
+                    listener?.WriteLine(level, text);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Writes a message to all listeners that are listening at the specified level
+        /// or below.
+        /// </summary>
+        /// <param name="level">The minimum LogLevel value for a listener to received the message.</param>
+        /// <param name="text">The message to send.</param>
         public static void WriteLine(LogLevel level, string text)
         {
-            if (level >= Level)
-                Instance?.WriteLine(text);
+            foreach (var listener in Listeners)
+            {
+                if (level >= listener.Level)
+                {
+                    listener?.WriteLine(level, text);
+                }
+            }
+        }
+
+        public static void Debug(string text)
+        {
+            WriteLine(LogLevel.Debug, text);
+        }
+
+        public static void Info(string text)
+        {
+            WriteLine(LogLevel.Info, text);
+        }
+
+        public static void Warn(string text)
+        {
+            WriteLine(LogLevel.Warn, text);
+        }
+
+        public static void Error(string text)
+        {
+            WriteLine(LogLevel.Error, text);
         }
     }
 
@@ -58,9 +110,23 @@ namespace AgateLib
         Error,
     }
 
-    public class ConsoleLogger : ILogger
+    public interface ILogListener
     {
-        public void WriteLine(string text)
+        LogLevel Level { get; set; }
+
+        void WriteLine(LogLevel level, string text);
+    }
+
+    public class SystemConsoleLogger : ILogListener
+    {
+        public LogLevel Level { get; set; }
+#if DEBUG
+        = LogLevel.Debug;
+#else
+        = LogLevel.Warn;
+#endif
+
+        public void WriteLine(LogLevel level, string text)
         {
             Console.WriteLine(text);
         }

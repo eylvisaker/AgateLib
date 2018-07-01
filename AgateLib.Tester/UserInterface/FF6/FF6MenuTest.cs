@@ -40,7 +40,7 @@ namespace ManualTests.AgateLib.UserInterface.FF6
 
             InitializeTestData(menu.Model = new FF6Model());
 
-            stack = resources.SceneStack;
+            stack = new SceneStack();
             stack.Add(scene);
 
             scene.Initialize();

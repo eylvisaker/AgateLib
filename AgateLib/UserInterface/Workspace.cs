@@ -113,16 +113,6 @@ namespace AgateLib.UserInterface
             children.Add(child);
         }
 
-        private void Layout_WidgetAdded(IRenderElement widget)
-        {
-            widget.Display.Animator.IsDoubleBuffered = true;
-
-            // TODO: Figure out how to apply a style when a widget is added while
-            // the workspace is active.
-
-            // ApplyStyles(widget);
-        }
-
         /// <summary>
         /// The size of the screen area where the UI controls will be layed out.
         /// </summary>

@@ -75,7 +75,6 @@ namespace ManualTests.AgateLib
                 resources.ContentLayoutEngine, new FakeTextRepository());
 
             resources.ThemeLoader = new ThemeLoader(resources.Fonts);
-            resources.SceneStack = new SceneStack();
 
             resources.Themes = new ThemeCollection {
                 ["default"] = Theme.DefaultTheme,
@@ -157,26 +156,32 @@ namespace ManualTests.AgateLib
 
             ActiveTest.Draw(gameTime);
 
+            DrawStatusBar();
+
+            base.Draw(gameTime);
+        }
+
+        private void DrawStatusBar()
+        {
             spriteBatch.Begin();
 
             var fontHeight = font.MeasureString("M").Height;
 
-            spriteBatch.Draw(resources.WhiteTexture, 
+            spriteBatch.Draw(resources.WhiteTexture,
                 new Rectangle(0, GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight, GraphicsDevice.PresentationParameters.BackBufferWidth, fontHeight), Color.Black);
 
             font.TextAlignment = OriginAlignment.BottomLeft;
-            font.DrawText(spriteBatch, 
-                          new Vector2(0, GraphicsDevice.PresentationParameters.BackBufferHeight), 
+            font.DrawText(spriteBatch,
+                          new Vector2(0, GraphicsDevice.PresentationParameters.BackBufferHeight),
                           ActiveTest.Name);
 
             font.TextAlignment = OriginAlignment.BottomRight;
-            font.DrawText(spriteBatch, 
-                          new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth, 
-                                      GraphicsDevice.PresentationParameters.BackBufferHeight), 
+            font.DrawText(spriteBatch,
+                          new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth,
+                                      GraphicsDevice.PresentationParameters.BackBufferHeight),
                           $"{frameCounter.AverageFramesPerSecond:0.000} FPS");
 
             spriteBatch.End();
-            base.Draw(gameTime);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace AgateLib.UserInterface.Rendering
         /// Gets or sets whether the widget is double buffered for drawing.
         /// This is automatically set for top level windows in a workspace.
         /// </summary>
-        public bool IsDoubleBuffered { get; set; }
+        public bool IsDoubleBuffered => Transition.IsDoubleBuffered;
 
         /// <summary>
         /// Gets whether or not the widget is currently in an animation state.

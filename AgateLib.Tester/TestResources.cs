@@ -34,7 +34,6 @@ namespace ManualTests.AgateLib
         Texture2D WhiteTexture { get; }
 
         UserInterfaceRenderer UserInterfaceRenderer { get; set; }
-        SceneStack SceneStack { get; }
     }
 
     public class TestResources : ITestResources
@@ -56,6 +55,5 @@ namespace ManualTests.AgateLib
         public UserInterfaceRenderer UserInterfaceRenderer { get; set; }
         public IStyleConfigurator StyleConfigurator { get; set; }
         public ThemeLoader ThemeLoader { get; internal set; }
-        public SceneStack SceneStack { get; internal set; }
     }
 }

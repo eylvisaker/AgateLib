@@ -190,7 +190,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\ThemeWidgetAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\ThemeWidgetSize.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\WidgetSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\CssWidgetSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\TypeConverters\BorderSideStyleYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Desktop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\AnimationStyle.cs" />

@@ -33,7 +33,7 @@ namespace ManualTests.AgateLib.Selector
         {
             InitializeTests();
 
-            sceneStack = resources.SceneStack;
+            sceneStack = new SceneStack();
 
             font = new Font(resources.Fonts.Default);
             var fontProvider = resources.Fonts;

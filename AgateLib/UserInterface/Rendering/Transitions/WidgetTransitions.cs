@@ -32,6 +32,8 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
     public interface IWidgetTransition
     {
+        bool IsDoubleBuffered { get; }
+
         bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext);
 
         void Initialize(RenderElementDisplay display);
@@ -41,6 +43,8 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
     public class WidgetSuddenTransition : IWidgetTransition
     {
+        public bool IsDoubleBuffered => false;
+
         public void ContentRectUpdated(RenderElementDisplay display)
         {
             display.Animator.AnimatedContentRect = display.Region.ContentRect;
@@ -66,6 +70,8 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
     public class WidgetFadeInTransition : IWidgetTransition
     {
+        public bool IsDoubleBuffered => true;
+
         public void ContentRectUpdated(RenderElementDisplay display)
         {
         }
@@ -87,7 +93,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
             if (animation.Alpha >= 1)
             {
                 animation.Alpha = 1;
-                animation.AnimatedBorderRect = display.Region.BorderRect;
+                animation.AnimatedBorderRect = display.BorderRect;
 
                 return true;
             }
@@ -95,14 +101,16 @@ namespace AgateLib.UserInterface.Rendering.Transitions
             const float shrinkMax = 0.1f;
             float shrink = shrinkMax * MathF.Pow(1 - animation.Alpha, 3);
 
-            float leftRightMargin = shrink * display.Region.BorderRect.Width;
-            float topBottomMargin = shrink * display.Region.BorderRect.Height;
+            float leftRightMargin = shrink * display.BorderRect.Width;
+            float topBottomMargin = shrink * display.BorderRect.Height;
 
             animation.AnimatedBorderRect = new Rectangle(
-                display.Region.BorderRect.X + (int)leftRightMargin,
-                display.Region.BorderRect.Y + (int)leftRightMargin,
-                display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
-                display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
+                display.BorderRect.X + (int)leftRightMargin,
+                display.BorderRect.Y + (int)leftRightMargin,
+                display.BorderRect.Width - (int)(2 * leftRightMargin),
+                display.BorderRect.Height - (int)(2 * leftRightMargin));
+
+            Log.Debug($"Alpha: {animation.Alpha}");
 
             return false;
         }
@@ -110,6 +118,8 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
     public class WidgetFadeOutTransition : IWidgetTransition
     {
+        public bool IsDoubleBuffered => true;
+
         public void ContentRectUpdated(RenderElementDisplay display)
         {
         }
@@ -122,7 +132,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
         {
             var animation = display.Animator;
 
-            animation.AnimatedBorderRect = display.Region.BorderRect;
+            animation.AnimatedBorderRect = display.BorderRect;
 
             animation.Alpha -=
                 (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
@@ -138,14 +148,14 @@ namespace AgateLib.UserInterface.Rendering.Transitions
             const float shrinkMax = 0.1f;
             float shrink = shrinkMax * MathF.Pow(1 - animation.Alpha, 0.8f);
 
-            float leftRightMargin = shrink * display.Region.BorderRect.Width;
-            float topBottomMargin = shrink * display.Region.BorderRect.Height;
+            float leftRightMargin = shrink * display.BorderRect.Width;
+            float topBottomMargin = shrink * display.BorderRect.Height;
 
             animation.AnimatedBorderRect = new Rectangle(
-                display.Region.BorderRect.X + (int)leftRightMargin,
-                display.Region.BorderRect.Y + (int)leftRightMargin,
-                display.Region.BorderRect.Width - (int)(2 * leftRightMargin),
-                display.Region.BorderRect.Height - (int)(2 * leftRightMargin));
+                display.BorderRect.X + (int)leftRightMargin,
+                display.BorderRect.Y + (int)leftRightMargin,
+                display.BorderRect.Width - (int)(2 * leftRightMargin),
+                display.BorderRect.Height - (int)(2 * leftRightMargin));
 
             return false;
         }
