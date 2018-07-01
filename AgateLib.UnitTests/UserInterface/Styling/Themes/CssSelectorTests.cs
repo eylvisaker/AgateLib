@@ -402,7 +402,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             Mock<IRenderElement> result = new Mock<IRenderElement>();
 
-            result.SetupGet(x => x.StyleTypeIdentifier).Returns(typeId);
+            result.SetupGet(x => x.StyleTypeId).Returns(typeId);
             result.SetupGet(x => x.StyleClass).Returns(cls);
             result.SetupGet(x => x.StyleId).Returns(name);
             result.SetupGet(x => x.Children).Returns(children);

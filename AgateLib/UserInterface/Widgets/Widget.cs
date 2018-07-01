@@ -169,7 +169,7 @@ namespace AgateLib.UserInterface.Widgets
 
         protected virtual string StyleTypeIdentifier => GetType().Name;
 
-        string IRenderElement.StyleTypeIdentifier => StyleTypeIdentifier;
+        string IRenderElement.StyleTypeId => StyleTypeIdentifier;
 
         #endregion
 

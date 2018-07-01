@@ -319,7 +319,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                 return true;
 
             if (!string.IsNullOrWhiteSpace(matcher.TypeId)
-                && !matcher.TypeId.Equals(element.StyleTypeIdentifier))
+                && !matcher.TypeId.Equals(element.StyleTypeId))
             {
                 return false;
             }

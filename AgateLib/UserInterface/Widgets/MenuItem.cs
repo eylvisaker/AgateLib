@@ -66,7 +66,7 @@ namespace AgateLib.UserInterface.Widgets
             Props.OnAccept?.Invoke();
         }
 
-        public override string StyleTypeIdentifier => "menuitem";
+        public override string StyleTypeId => "menuitem";
 
         public override bool CanHaveFocus => true;
 

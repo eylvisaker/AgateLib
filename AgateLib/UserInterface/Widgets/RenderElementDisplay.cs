@@ -75,8 +75,6 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public bool IsVisible { get; set; } = true;
 
-        public IInstructions Instructions { get; set; }
-
         /// <summary>
         /// Order of this window for drawing. Higher values mean the window is drawn 
         /// in front of windows with lower values.
@@ -152,6 +150,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public IDisplaySystem System { get; internal set; }
         
-        public List<string> PseudoClasses { get; } = new List<string>();
+        public HashSet<string> PseudoClasses { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
     }
 }

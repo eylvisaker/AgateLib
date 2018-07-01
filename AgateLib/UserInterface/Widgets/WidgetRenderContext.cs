@@ -105,9 +105,9 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Draws a child widget of the current widget.
         /// </summary>
-        /// <param name="contentArea"></param>
+        /// <param name="arentContentArea"></param>
         /// <param name="child"></param>
-        void DrawChild(Rectangle contentArea, IRenderElement child);
+        void DrawChild(Rectangle arentContentArea, IRenderElement child);
 
         /// <summary>
         /// Draws a collection of child widgets of the current widget.

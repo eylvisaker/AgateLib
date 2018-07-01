@@ -41,7 +41,12 @@ namespace AgateLib.UserInterface.Widgets
     {
         public IList<MenuItem> Children { get; set; } = new List<MenuItem>();
 
-        public IWidget InitialFocus { get; set; }
+        public IWidget InitialSelection { get; set; }
+
+        /// <summary>
+        /// Callback to execute if the user presses cancel (usually the B button).
+        /// </summary>
+        public Action Cancel { get; set; }
     }
 
     public class MenuState : WidgetState
@@ -51,38 +56,12 @@ namespace AgateLib.UserInterface.Widgets
 
     public class Menu : Widget<MenuProps, MenuState>
     {
-        /// <summary>
-        /// Out of order! Fuck, even in the future nothing works.
-        /// </summary>
-        private bool cancelButton = false;
-        private CancelEventArgs cancelEventArgs = new CancelEventArgs();
-
         public Menu(MenuProps props) : base(props)
         {
             SetState(new MenuState());
-
         }
 
-        public event Action Exit;
-        public event Action<CancelEventArgs> Cancel;
-
-        /// <summary>
-        /// Exits the menu.
-        /// </summary>
-        protected virtual void OnExit()
-        {
-            Exit?.Invoke();
-        }
-
-        /// <summary>
-        /// Called when the user presses cancel. If eventArgs.Cancel is set to true, this
-        /// will cancel the cancellation and prevent OnExit from being called.
-        /// </summary>
-        /// <param name="eventArgs"></param>
-        protected virtual void OnCancel(CancelEventArgs eventArgs)
-        {
-            Cancel?.Invoke(eventArgs);
-        }
+        public object Cancel { get; private set; }
 
         /// <summary>
         /// Adds an item to the menu.
@@ -95,55 +74,15 @@ namespace AgateLib.UserInterface.Widgets
             throw new NotSupportedException();
         }
 
-        protected void OnButtonUp(MenuInputButton button)
-        {
-            switch (button)
-            {
-                case MenuInputButton.Cancel:
-                    if (cancelButton)
-                    {
-                        cancelEventArgs.Cancel = false;
-                        OnCancel(cancelEventArgs);
-
-                        if (!cancelEventArgs.Cancel)
-                        {
-                            OnExit();
-                        }
-
-                        cancelButton = false;
-                    }
-
-                    break;
-            }
-        }
-
-        public override void Update(IWidgetRenderContext renderContext)
-        {
-            base.Update(renderContext);
-
-            throw new NotImplementedException();
-            //if (Layout.Focus == null && Layout.Count > 0)
-            //    Layout.Focus = Layout.First();
-        }
-
         public override IRenderable Render()
         {
             return new MenuElement(new MenuElementProps
             {
                 StyleId = Props.Name,
                 StyleClass = "menu",
+                Cancel = Props.Cancel,
                 Children = Props.Children.ToList<IRenderable>()
             });
-        }
-
-        protected void OnButtonDown(MenuInputButton button)
-        {
-            switch (button)
-            {
-                case MenuInputButton.Cancel:
-                    cancelButton = true;
-                    break;
-            }
         }
     }
 
@@ -157,6 +96,10 @@ namespace AgateLib.UserInterface.Widgets
         {
             child = new FlexBox(new FlexBoxProps
             {
+                Style = props.Style,
+                StyleClass = props.StyleClass,
+                StyleId = props.StyleId,
+                StyleTypeId = "menu",
                 Children = props.Children
             });
 
@@ -171,7 +114,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public override bool CanHaveFocus => true;
 
-       
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             return child.CalcIdealContentSize(renderContext, maxSize);
@@ -179,10 +121,9 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
+            child.Display.ContentRect = new Rectangle(Point.Zero, clientArea.Size); 
             renderContext.DrawChild(clientArea, child);
         }
-
-        List<MenuInputButton> buttonsDown = new List<MenuInputButton>();
 
         public override void OnInputEvent(InputEventArgs e)
         {
@@ -196,7 +137,7 @@ namespace AgateLib.UserInterface.Widgets
                     newIndex++;
                 if (e.Button == MenuInputButton.Up)
                     newIndex--;
-                
+
                 if (newIndex < 0)
                     newIndex = 0;
                 if (newIndex >= Props.Children.Count)
@@ -220,9 +161,15 @@ namespace AgateLib.UserInterface.Widgets
 
         private void OnButtonPress(MenuInputButton btn)
         {
-            if (btn == MenuInputButton.Accept)
+            switch (btn)
             {
-                SelectedMenuItem?.OnAccept();
+                case MenuInputButton.Accept:
+                    SelectedMenuItem?.OnAccept();
+                    break;
+
+                case MenuInputButton.Cancel:
+                    Props.Cancel?.Invoke();
+                    break;
             }
         }
 
@@ -237,5 +184,7 @@ namespace AgateLib.UserInterface.Widgets
     public class MenuElementProps : RenderElementProps
     {
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
+
+        public Action Cancel { get; set; }
     }
 }

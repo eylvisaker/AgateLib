@@ -8,6 +8,10 @@ namespace AgateLib.UserInterface
     public interface IDisplaySystem
     {
         IRenderElement Focus { get; set; }
+
         IFontProvider Fonts { get; }
+
+        IInstructions Instructions { get; }
+
     }
 }

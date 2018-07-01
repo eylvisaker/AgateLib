@@ -24,7 +24,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets the type identifier used to identify this widget type to the styling
         /// engine.
         /// </summary>
-        string StyleTypeIdentifier { get; }
+        string StyleTypeId { get; }
 
         /// <summary>
         /// Gets the class name used to identify this widget to the styling
@@ -112,7 +112,7 @@ namespace AgateLib.UserInterface.Widgets
         
         public IRenderElementStyle Style => Display.Style;
 
-        public virtual string StyleTypeIdentifier => GetType().Name;
+        public virtual string StyleTypeId => GetType().Name;
 
         public string StyleClass => Props.StyleClass;
 
@@ -145,7 +145,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             StringBuilder result = new StringBuilder();
 
-            result.Append(StyleTypeIdentifier);
+            result.Append(StyleTypeId);
 
             if (!string.IsNullOrWhiteSpace(StyleClass))
                 result.Append($".{StyleClass}");

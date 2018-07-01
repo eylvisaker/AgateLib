@@ -20,6 +20,8 @@ namespace AgateLib.UserInterface.Widgets
             children = props.Children.Select(c => c.Finalize()).ToList();
         }
 
+        public override string StyleTypeId => Props.StyleTypeId;
+
         public override IEnumerable<IRenderElement> Children => children;
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
@@ -120,40 +122,31 @@ namespace AgateLib.UserInterface.Widgets
                 item.Display.ParentFont = Style.Font;
 
                 var itemDest = dest;
-                var marginToContent = item.Display.Region.MarginToContentOffset;
 
                 CalcIdealSize(renderContext, clientArea.Size, item);
 
-                itemDest.X += marginToContent.Left;
-                itemDest.Y += marginToContent.Top;
-
                 var contentSize = item.Display.Region.Size.ComputeContentSize();
-
-                int itemWidth = contentSize.Width;
-                int left = 0;
+                var marginSize = new Size(contentSize.Width + item.Display.Region.MarginToContentOffset.Width,
+                                          contentSize.Height + item.Display.Region.MarginToContentOffset.Height);
 
                 switch (Style.Flex?.AlignItems ?? AlignItems.Start)
                 {
                     case AlignItems.End:
-                        left = clientArea.Width - contentSize.Width - marginToContent.Width;
+                        itemDest.X += clientArea.Width - marginSize.Width;
                         break;
 
                     case AlignItems.Center:
-                        left = (clientArea.Width - contentSize.Width - marginToContent.Width) / 2;
+                        itemDest.X += (clientArea.Width - marginSize.Width) / 2;
                         break;
 
                     case AlignItems.Stretch:
-                        itemWidth = clientArea.Width;
+                        marginSize.Width = clientArea.Width;
                         break;
                 }
 
-                itemDest.X += left;
+                item.Display.MarginRect = new Rectangle(itemDest, marginSize);
 
-                contentSize.Width = itemWidth - item.Display.Region.MarginToContentOffset.Width;
-
-                item.Display.ContentRect = new Rectangle(itemDest, contentSize);
-
-                dest.Y += item.Display.Region.MarginRect.Height;
+                dest.Y += item.Display.MarginRect.Height;
             }
         }
 
@@ -167,6 +160,7 @@ namespace AgateLib.UserInterface.Widgets
     public class FlexBoxProps : RenderElementProps
     {
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
+        public string StyleTypeId { get; set; }
     }
 
     public enum FlexDirection

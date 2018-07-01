@@ -40,9 +40,6 @@ namespace AgateLib.UserInterface
         {
             this.renderContext = renderContext;
 
-            this.renderContext.BeforeUpdate +=
-                widget => widget.Display.Instructions = Desktop.Instructions;
-
             desktop = new Desktop();
             desktop.Style = style;
             desktop.Fonts = fonts;

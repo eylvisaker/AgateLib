@@ -105,7 +105,7 @@ namespace AgateLib.UnitTests.UserInterface
 
             desktop.Update(renderContext);
 
-            widget.Object.Display.Instructions.Should().BeSameAs(desktop.Instructions);
+            widget.Object.Display.System.Instructions.Should().BeSameAs(desktop.Instructions);
         }
     }
 }

@@ -105,6 +105,9 @@ namespace AgateLib.UserInterface.Rendering
 
         public void DrawBackground(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
         {
+            if (display.Style.Background == null)
+                return;
+
             // This draws the background behind the border - a problem for borders which have transparency on their outer edges
             // but important for borders which have transparency on their inner edges. Oh what to do...
             //Rectangle backgroundRect = new Rectangle(
@@ -119,8 +122,8 @@ namespace AgateLib.UserInterface.Rendering
             Rectangle backgroundRect = new Rectangle(
                 clientDest.X - display.Region.BorderToContentOffset.Left + borderLayout.Left / 2,
                 clientDest.Y - display.Region.BorderToContentOffset.Top  + borderLayout.Top / 2,
-                display.Region.BorderRect.Width  - borderLayout.Width / 2,
-                display.Region.BorderRect.Height - borderLayout.Height / 2);
+                display.BorderRect.Width  - borderLayout.Width / 2,
+                display.BorderRect.Height - borderLayout.Height / 2);
 
             styleRenderer.DrawBackground(
                 renderContext.SpriteBatch,

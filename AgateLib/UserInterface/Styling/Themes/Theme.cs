@@ -79,6 +79,12 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
+                    Selector = "menu",
+                    Flex = new FlexStyle { AlignItems = AlignItems.Stretch },
+                },
+
+                new ThemeStyle
+                {
                     Selector = "menuitem",
                     Padding = LayoutBox.SameAllAround(8),
                 },

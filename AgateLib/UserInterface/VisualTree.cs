@@ -123,7 +123,7 @@ namespace AgateLib.UserInterface
         {
             TreeRoot.Display.MarginRect = area;
 
-            renderContext.DrawChild(TreeRoot.Display.ContentRect, TreeRoot);
+            renderContext.DrawChild(area, TreeRoot);
         }
     }
 }

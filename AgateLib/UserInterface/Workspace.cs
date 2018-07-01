@@ -54,6 +54,8 @@ namespace AgateLib.UserInterface
                 set => workspace.Focus = value;
             }
 
+            public IInstructions Instructions { get; set; }
+
             public void SetFocus(IRenderElement focusElement)
             {
                 workspace.Focus = focusElement;
@@ -68,7 +70,6 @@ namespace AgateLib.UserInterface
             = new WidgetRegion(new RenderElementStyle(new RenderElementDisplay(), new InlineElementStyle()));
 
         private readonly VisualTree visualTree = new VisualTree();
-        private IInstructions instructions;
 
         private List<IWidget> children = new List<IWidget>();
 
@@ -103,8 +104,8 @@ namespace AgateLib.UserInterface
 
         public IInstructions Instructions
         {
-            get => instructions;
-            set => instructions = value ?? throw new ArgumentNullException(nameof(Instructions));
+            get => displaySystem.Instructions;
+            set => displaySystem.Instructions = value ?? throw new ArgumentNullException(nameof(Instructions));
         }
 
         public void Add(IWidget child)
@@ -136,6 +137,7 @@ namespace AgateLib.UserInterface
         /// </summary>
         public bool IsActive { get; internal set; }
 
+        [Obsolete]
         public IWidget ActiveWindow
         {
             get => activeWindow;
@@ -235,11 +237,6 @@ namespace AgateLib.UserInterface
 
         public void Initialize()
         {
-            Explore((parent, child) =>
-            {
-                child.Display.Instructions = Instructions;
-                //child.Initialize();
-            });
         }
 
         /// <summary>
