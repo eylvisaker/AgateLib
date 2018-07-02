@@ -87,8 +87,8 @@ namespace AgateLib.UserInterface.Styling
             return new Rectangle(
                 targetRect.X + Left,
                 targetRect.Y + Top,
-                targetRect.Width + Width,
-                targetRect.Height + Height);
+                targetRect.Width - Width,
+                targetRect.Height - Height);
         }
 
         /// <summary>

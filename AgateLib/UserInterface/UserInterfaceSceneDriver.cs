@@ -22,6 +22,7 @@
 
 using System;
 using AgateLib.Input;
+using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
@@ -36,7 +37,10 @@ namespace AgateLib.UserInterface
 
         private UserInterfaceInputEvents uiInput = new UserInterfaceInputEvents();
 
-        public UserInterfaceSceneDriver(IWidgetRenderContext renderContext, IStyleConfigurator style, IFontProvider fonts)
+        public UserInterfaceSceneDriver(
+            IWidgetRenderContext renderContext, 
+            IStyleConfigurator style, 
+            IFontProvider fonts)
         {
             this.renderContext = renderContext;
 

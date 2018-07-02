@@ -27,13 +27,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.UserInterface.Rendering.Transitions
+namespace AgateLib.UserInterface.Rendering.Animations
 {
 
-    public interface IWidgetTransition
+    public interface IWidgetAnimation
     {
         bool IsDoubleBuffered { get; }
 
+        /// <summary>
+        /// Updates the animation.
+        /// Returns true if the animation has completed.
+        /// </summary>
+        /// <param name="display"></param>
+        /// <param name="renderContext"></param>
+        /// <returns></returns>
         bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext);
 
         void Initialize(RenderElementDisplay display);
@@ -41,31 +48,5 @@ namespace AgateLib.UserInterface.Rendering.Transitions
         void ContentRectUpdated(RenderElementDisplay display);
     }
 
-    public class WidgetImmediateTransition : IWidgetTransition
-    {
-        public bool IsDoubleBuffered => false;
-
-        public void ContentRectUpdated(RenderElementDisplay display)
-        {
-            display.Animator.AnimatedContentRect = display.Region.ContentRect;
-            display.Animator.AnimatedBorderRect = display.Region.BorderRect;
-        }
-
-        public void Initialize(RenderElementDisplay display)
-        {
-        }
-
-        public bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext)
-        {
-            var animator = display.Animator;
-
-            animator.IsVisible = display.IsVisible;
-            animator.AnimatedContentRect = display.Region.ContentRect;
-            animator.AnimatedBorderRect = display.Region.BorderRect;
-            animator.Alpha = 1;
-
-            return true;
-        }
-    }
 
 }

@@ -30,7 +30,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Rendering.Transitions;
+using AgateLib.UserInterface.Rendering.Animations;
 using System.ComponentModel;
 using System.Linq;
 using AgateLib.UserInterface.Widgets;

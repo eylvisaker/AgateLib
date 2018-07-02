@@ -102,8 +102,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
-            //PerformLayout(renderContext, clientArea);
-
             DrawChildren(renderContext, clientArea);
         }
 

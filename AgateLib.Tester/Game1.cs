@@ -11,6 +11,7 @@ using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework.Content;
 using AgateLib.Scenes;
+using AgateLib.UserInterface.Rendering.Animations;
 
 namespace ManualTests.AgateLib
 {

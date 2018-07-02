@@ -1,9 +1,7 @@
 - selector: menu
   animation:
-    transition-in: fade-in
-    transition-out: fade-out
-    transition-in-time: 0.35
-    transition-out-time: 0.35
+    in: fade
+    out: fade
   border:
     image: MessageBoxes:rect(321 481 318 78)
     image-slice: 4

@@ -25,6 +25,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
@@ -55,11 +56,6 @@ namespace AgateLib.UserInterface
             }
 
             public IInstructions Instructions { get; set; }
-
-            public void SetFocus(IRenderElement focusElement)
-            {
-                workspace.Focus = focusElement;
-            }
         }
 
         [Obsolete("Is this needed?")]

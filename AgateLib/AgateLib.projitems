@@ -178,7 +178,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\DisplaySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\FixedGridLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Transitions\FadeTransitions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\AnimationFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\FadeAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\NullAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Renderable.cs" />
@@ -220,7 +222,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\ComponentStyleRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\DoubleBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\MenuIndicatorRenderer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Transitions\WidgetTransitions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\WidgetAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceImageProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\RenderElementAnimator.cs" />

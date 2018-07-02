@@ -31,6 +31,7 @@ using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AgateLib.UserInterface.Rendering.Animations;
 
 namespace AgateLib.UserInterface
 {
@@ -56,11 +57,14 @@ namespace AgateLib.UserInterface
             ILocalizedContentLayoutEngine contentLayoutEngine,
             IFontProvider fontProvider,
             IStyleConfigurator styleConfigurator,
+            IAnimationFactory animationFactory = null,
             IDoubleBuffer doubleBuffer = null,
             RenderTarget2D renderTarget = null)
         {
             DrawBelow = true;
             UpdateBelow = false;
+
+            Animations = animationFactory ?? new AnimationFactory();
 
             renderContext = new WidgetRenderContext(
                 graphicsDevice,
@@ -68,11 +72,15 @@ namespace AgateLib.UserInterface
                 userInterfaceRenderer,
                 styleConfigurator,
                 fontProvider,
+                Animations,
                 renderTarget,
                 null,
                 doubleBuffer);
 
-            driver = new UserInterfaceSceneDriver(renderContext, styleConfigurator, fontProvider);
+            driver = new UserInterfaceSceneDriver(
+                renderContext, 
+                styleConfigurator, 
+                fontProvider);
 
             driver.Desktop.Empty += () => 
             {
@@ -88,6 +96,8 @@ namespace AgateLib.UserInterface
                 AlphaDestinationBlend = Blend.InverseSourceAlpha,
             };
         }
+
+        public IAnimationFactory Animations { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this scene should automatically

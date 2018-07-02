@@ -25,7 +25,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.UserInterface.Rendering.Transitions;
+using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering
@@ -48,7 +48,25 @@ namespace AgateLib.UserInterface.Rendering
 
         public RenderTarget2D RenderTarget { get; set; }
 
-        public IWidgetTransition Transition { get; set; }
+        public IWidgetAnimation Transition
+        {
+            get
+            {
+                switch(State)
+                {
+                    case AnimationState.TransitionIn:
+                        return In;
+
+                    case AnimationState.TransitionOut:
+                        return Out;
+
+                    case AnimationState.Static:
+                    case AnimationState.Dead:
+                    default:
+                        return Static;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the border rect in the widget's parent's client space.
@@ -80,21 +98,37 @@ namespace AgateLib.UserInterface.Rendering
         public bool IsVisible { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the widget is double buffered for drawing.
-        /// This is automatically set for top level windows in a workspace.
+        /// Gets whether the element is double buffered for drawing.
         /// </summary>
-        public bool IsDoubleBuffered => Transition.IsDoubleBuffered;
+        public bool IsDoubleBuffered => Transition?.IsDoubleBuffered ?? false;
 
         /// <summary>
         /// Gets whether or not the widget is currently in an animation state.
         /// </summary>
         public bool IsAnimating => State != AnimationState.Static;
 
+        /// <summary>
+        /// Gets or sets the animator used when the element is transitioning in.
+        /// </summary>
+        public IWidgetAnimation In { get; set; }
+
+        /// <summary>
+        /// Gets or sets the animator used when the element is transitioning out.
+        /// </summary>
+        public IWidgetAnimation Out { get; set; }
+
+        /// <summary>
+        /// Gets or sets the animator used when the element is visible.
+        /// </summary>
+        public IWidgetAnimation Static { get; set; }
+        public string InType { get; internal set; }
+        public string OutType { get; internal set; }
+        public string StaticType { get; internal set; }
+
         public void Initialize()
         {
             State = 0;
             Alpha = 1;
-            Transition = null;
         }
 
         internal void ContentRectUpdated()

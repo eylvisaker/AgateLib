@@ -22,7 +22,7 @@
 
 using System;
 using System.Collections.Generic;
-using AgateLib.UserInterface.Rendering.Transitions;
+using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
@@ -73,8 +73,6 @@ namespace AgateLib.UserInterface.Rendering
     {
         private readonly IComponentStyleRenderer styleRenderer;
 
-        Dictionary<string, IWidgetTransition> transitions = new Dictionary<string, IWidgetTransition>();
-
         private BlendState blendState = new BlendState
         {
             AlphaBlendFunction = BlendFunction.Add,
@@ -93,10 +91,6 @@ namespace AgateLib.UserInterface.Rendering
 		public UserInterfaceRenderer(IComponentStyleRenderer styleRenderer)
         {
             this.styleRenderer = styleRenderer ?? throw new ArgumentNullException(nameof(styleRenderer));
-
-            transitions["immediate"] = new WidgetImmediateTransition();
-            transitions["fade-in"] = new WidgetFadeInTransition();
-            transitions["fade-out"] = new WidgetFadeOutTransition();
         }
 
         public void Dispose()
@@ -167,8 +161,6 @@ namespace AgateLib.UserInterface.Rendering
         {
             var animator = element.Display.Animator;
 
-            SetTransition(element);
-
             bool finished = animator.Transition?.Update(element.Display, renderContext) ?? false;
 
             if (finished)
@@ -194,40 +186,6 @@ namespace AgateLib.UserInterface.Rendering
                 case AnimationState.Dead:
                     animator.State = AnimationState.TransitionIn;
                     break;
-            }
-
-            SetTransition(widget);
-        }
-
-        private void SetTransition(IRenderElement widget)
-        {
-            var animator = widget.Display.Animator;
-            var style = widget.Display.Style.Animation;
-
-            string transitionName = "immediate";
-
-            switch (widget.Display.Animator.State)
-            {
-                case AnimationState.TransitionIn:
-                    transitionName = style?.TransitionIn ?? transitionName;
-                    break;
-
-                case AnimationState.TransitionOut:
-                    transitionName = style?.TransitionOut ?? transitionName;
-                    break;
-
-                default:
-                    transitionName = "immediate";
-                    break;
-            }
-
-            if (transitions.TryGetValue(transitionName, out IWidgetTransition newTransition))
-            {
-                if (animator.Transition != newTransition)
-                {
-                    animator.Transition = newTransition;
-                    animator.Transition?.Initialize(widget.Display);
-                }
             }
         }
     }

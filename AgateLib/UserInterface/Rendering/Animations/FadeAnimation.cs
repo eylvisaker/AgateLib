@@ -28,11 +28,24 @@ using AgateLib.Mathematics;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UserInterface.Rendering.Transitions
+namespace AgateLib.UserInterface.Rendering.Animations
 {
 
-    public class WidgetFadeInTransition : IWidgetTransition
+    public class FadeAnimation : IWidgetAnimation
     {
+        float transitionTime = 0.35f;
+
+        public FadeAnimation(IReadOnlyList<string> args)
+        {
+            if ((args?.Count ?? 0) > 0)
+            {
+                if (!float.TryParse(args[0], out transitionTime))
+                {
+                    Log.Warn($"Failed to parse transition time for fade animation.");
+                }
+            }
+        }
+
         public bool IsDoubleBuffered => true;
 
         public void ContentRectUpdated(RenderElementDisplay display)
@@ -49,9 +62,23 @@ namespace AgateLib.UserInterface.Rendering.Transitions
             var animation = display.Animator;
             animation.IsVisible = true;
 
+            if (animation.State == AnimationState.TransitionIn)
+            {
+                return AnimateEntry(display, renderContext, animation);
+            }
+            else if (animation.State == AnimationState.TransitionOut)
+            {
+                return AnimateExit(display, renderContext, animation);
+            }
+
+            return true;
+        }
+
+        private bool AnimateEntry(RenderElementDisplay display, IWidgetRenderContext renderContext, RenderElementAnimator animation)
+        {
             animation.Alpha +=
                 (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
-                / display.Style.Animation.TransitionInTime;
+                / transitionTime;
 
             if (animation.Alpha >= 1)
             {
@@ -77,29 +104,12 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
             return false;
         }
-    }
 
-    public class WidgetFadeOutTransition : IWidgetTransition
-    {
-        public bool IsDoubleBuffered => true;
-
-        public void ContentRectUpdated(RenderElementDisplay display)
+        private bool AnimateExit(RenderElementDisplay display, IWidgetRenderContext renderContext, RenderElementAnimator animation)
         {
-        }
-
-        public void Initialize(RenderElementDisplay display)
-        {
-        }
-
-        public bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext)
-        {
-            var animation = display.Animator;
-
-            animation.AnimatedBorderRect = display.BorderRect;
-
             animation.Alpha -=
-                (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
-                / display.Style.Animation.TransitionOutTime;
+                                (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
+                                / transitionTime;
 
             if (animation.Alpha <= 0)
             {

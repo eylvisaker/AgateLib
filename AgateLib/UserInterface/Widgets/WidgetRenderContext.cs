@@ -29,6 +29,7 @@ using System.Linq;
 using AgateLib.Mathematics.Geometry;
 using System;
 using AgateLib.UserInterface.Styling;
+using AgateLib.UserInterface.Rendering.Animations;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -134,13 +135,14 @@ namespace AgateLib.UserInterface.Widgets
         void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items);
         void DrawWorkspace(Workspace workspace, VisualTree visualTree);
 
-        void UpdateAnimation(IRenderElement x);
+        void UpdateAnimation(IRenderElement element);
     }
 
     public class WidgetRenderContext : IWidgetRenderContext
     {
         private readonly ILocalizedContentLayoutEngine contentLayoutEngine;
         private readonly IFontProvider fonts;
+        private readonly IAnimationFactory animationFactory;
         private IRenderElement lastParentWidget;
 
         private WidgetRenderContext parentRenderContext;
@@ -154,6 +156,7 @@ namespace AgateLib.UserInterface.Widgets
             IUserInterfaceRenderer uiRenderer,
             IStyleConfigurator styleConfigurator,
             IFontProvider fonts,
+            IAnimationFactory animation,
             RenderTarget2D renderTarget = null,
             SpriteBatch spriteBatch = null,
             IDoubleBuffer doubleBuffer = null)
@@ -163,6 +166,7 @@ namespace AgateLib.UserInterface.Widgets
             this.UserInterfaceRenderer = uiRenderer;
             this.StyleConfigurator = styleConfigurator;
             this.fonts = fonts;
+            this.animationFactory = animation;
             this.RenderTarget = renderTarget;
             this.SpriteBatch = spriteBatch ?? new SpriteBatch(graphicsDevice);
             this.DoubleBuffer = doubleBuffer ?? new DoubleBuffer();
@@ -256,9 +260,10 @@ namespace AgateLib.UserInterface.Widgets
             set => workspaceIsActive = value;
         }
 
-        public void UpdateAnimation(IRenderElement widget)
+        public void UpdateAnimation(IRenderElement element)
         {
-            UserInterfaceRenderer.UpdateAnimation(this, widget);
+            animationFactory.Configure(element.Display);
+            UserInterfaceRenderer.UpdateAnimation(this, element);
         }
         
         public void DrawChild(Rectangle parentContentDest, IRenderElement element)

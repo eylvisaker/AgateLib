@@ -29,6 +29,7 @@ using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using AgateLib.UserInterface.Styling;
+using AgateLib.UserInterface.Rendering.Animations;
 
 namespace AgateLib.UserInterface
 {
@@ -43,6 +44,7 @@ namespace AgateLib.UserInterface
         private Size size;
 
         private IInstructions instructions = new Instructions();
+        private IAnimationFactory animationFactory;
 
         private bool inDraw;
 
@@ -103,7 +105,6 @@ namespace AgateLib.UserInterface
             workspace.Style = Style;
             workspace.Fonts = Fonts;
             workspace.Instructions = Instructions;
-
 
             // TODO: find a better way to do this.
             if (string.IsNullOrWhiteSpace(workspace.DefaultTheme))

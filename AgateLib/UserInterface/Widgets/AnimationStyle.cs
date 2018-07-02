@@ -22,18 +22,64 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
     public class AnimationStyle
     {
-        public string TransitionIn { get; set; }
+        static char[] splitter = new char[] { ' ' };
 
-        public string TransitionOut { get; set; }
+        string _in, _out, _static;
 
-        public float TransitionInTime { get; set; } = 0.35f;
+        string inName, outName, staticName;
+        IReadOnlyList<string> inArgs, outArgs, staticArgs;
 
-        public float TransitionOutTime { get; set; } = 0.35f;
+        public string In
+        {
+            get => _in;
+            set
+            {
+                _in = value;
+                GetAnimationNameAndArgs(value, ref inName, ref inArgs);
+            }
+        }
+
+        public string Out
+        {
+            get => _out;
+            set
+            {
+                _out = value;
+                GetAnimationNameAndArgs(Out, ref outName, ref outArgs);
+            }
+        }
+
+        public string Static
+        {
+            get => _static;
+            set
+            {
+                _static = value;
+                GetAnimationNameAndArgs(Static, ref staticName, ref staticArgs);
+            }
+        }
+
+        internal string InName => inName;
+        internal IReadOnlyList<string> InArgs => inArgs;
+        internal string OutName => outName;
+        internal IReadOnlyList<string> OutArgs => outArgs;
+
+        internal string StaticName => staticName;
+        internal IReadOnlyList<string> StaticArgs => staticArgs;
+
+        private void GetAnimationNameAndArgs(string data, ref string name, ref IReadOnlyList<string> args)
+        {
+            var values = data.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+
+            name = values[0];
+            args = values.Skip(1).ToList();
+        }
     }
 }
