@@ -18,7 +18,7 @@ namespace AgateLib.UnitTests.UserInterface
         [Fact]
         public void Desktop_InputIsSentToActiveWorkspaceOnly()
         {
-            Desktop desktop = new Desktop();
+            Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
 
             var w1 = CommonMocks.Widget("w1");
             var w2 = CommonMocks.Widget("w2");
@@ -52,7 +52,7 @@ namespace AgateLib.UnitTests.UserInterface
         [Fact]
         public void Desktop_MultipleWorkspaces()
         {
-            Desktop desktop = new Desktop();
+            Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
 
             bool exited = false;
 
@@ -95,7 +95,7 @@ namespace AgateLib.UnitTests.UserInterface
         {
             var renderContext = new FakeRenderContext();
 
-            Desktop desktop = new Desktop();
+            Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
             Workspace workspace = new Workspace("");
 
             var widget = CommonMocks.Widget("happy");

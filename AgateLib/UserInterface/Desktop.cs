@@ -48,12 +48,16 @@ namespace AgateLib.UserInterface
 
         private bool inDraw;
 
-        public Desktop()
+        public Desktop(IFontProvider fonts, IStyleConfigurator styles)
         {
             inputEventArgsInitialize = inputEventArgs;
+            Styles = styles;
+            Fonts = fonts;
         }
 
-        public IStyleConfigurator Style { get; set; }
+        public IStyleConfigurator Styles { get; }
+
+        public IFontProvider Fonts { get; }
 
         /// <summary>
         /// Explores all the widgets on the desktop using a depth-first search.
@@ -102,7 +106,7 @@ namespace AgateLib.UserInterface
 
             workspaces.Add(workspace);
 
-            workspace.Style = Style;
+            workspace.Style = Styles;
             workspace.Fonts = Fonts;
             workspace.Instructions = Instructions;
 
@@ -157,8 +161,6 @@ namespace AgateLib.UserInterface
         public Workspace ActiveWorkspace => workspaces.LastOrDefault();
 
         public IReadOnlyList<Workspace> Workspaces => workspaces;
-
-        public IFontProvider Fonts { get; internal set; }
 
         public void ButtonUp(MenuInputButton button)
         {

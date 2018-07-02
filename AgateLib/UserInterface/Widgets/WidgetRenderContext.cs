@@ -283,7 +283,6 @@ namespace AgateLib.UserInterface.Widgets
             }
             else
             {
-
                 Rectangle dest = new Rectangle(
                     parentContentDest.X + element.Display.Animator.AnimatedContentRect.X,
                     parentContentDest.Y + element.Display.Animator.AnimatedContentRect.Y,

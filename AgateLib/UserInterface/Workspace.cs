@@ -92,6 +92,13 @@ namespace AgateLib.UserInterface
 
         public event EventHandler<InputEventArgs> UnhandledEvent;
 
+
+        public IStyleConfigurator Style
+        {
+            get => visualTree.Style;
+            set => visualTree.Style = value ?? throw new ArgumentNullException(nameof(Style));
+        }
+
         public IFontProvider Fonts
         {
             get => displaySystem.Fonts;
@@ -288,12 +295,6 @@ namespace AgateLib.UserInterface
 
                 return AnimationState.Static;
             }
-        }
-
-        public IStyleConfigurator Style
-        {
-            get => visualTree.Style;
-            set => visualTree.Style = value;
         }
 
         internal void TransitionOut()

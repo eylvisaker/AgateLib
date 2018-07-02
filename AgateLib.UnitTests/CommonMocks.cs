@@ -7,6 +7,7 @@ using AgateLib.Display;
 using AgateLib.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Moq;
 
@@ -68,6 +69,11 @@ namespace AgateLib.UnitTests
         public static Mock<IRenderElementStyle> RenderElementStyle()
         {
             return new Mock<IRenderElementStyle>();
+        }
+
+        public static Mock<IStyleConfigurator> StyleConfigurator()
+        {
+            return new Mock<IStyleConfigurator>();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace AgateLib.FunctionalTests.UserInterface.Support
 
         public UIContext()
         {
-            Desktop = new Desktop();
+            Desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
         }
 
         public Desktop Desktop { get; set; }
