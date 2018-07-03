@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManualTests.AgateLib.Selector.Widgets
+namespace AgateLib.Tests.Selector.Widgets
 {
     public class TestDrawer : Widget<TestDrawerProps, TestDrawerState>
     {

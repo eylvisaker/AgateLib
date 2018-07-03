@@ -12,7 +12,7 @@ using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface;
 
-namespace AgateLib.UnitTests.UserInterface.Styling.Themes
+namespace AgateLib.Tests.UserInterface.Styling.Themes
 {
     public class ThemeStylerTest
     {

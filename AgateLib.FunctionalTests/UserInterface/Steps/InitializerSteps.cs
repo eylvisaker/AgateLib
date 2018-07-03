@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.FunctionalTests.UserInterface.Support;
-using ManualTests.AgateLib.UserInterface.FF6;
+using AgateLib.Tests.UserInterface.Support;
+using AgateLib.Tests.UserInterface.FF6;
 using TechTalk.SpecFlow;
 
-namespace AgateLib.FunctionalTests.UserInterface.Steps
+namespace AgateLib.Tests.UserInterface.Steps
 {
     [Binding]
     public class InitializerSteps

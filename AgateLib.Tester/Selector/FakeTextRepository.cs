@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface;
 
-namespace ManualTests.AgateLib.Selector
+namespace AgateLib.Tests.Selector
 {
     class FakeTextRepository : ITextRepository
     {

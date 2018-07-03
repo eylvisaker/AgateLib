@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using Xunit;
 using YamlDotNet.Serialization;
 
-namespace AgateLib.UnitTests.MathematicsTests
+namespace AgateLib.Tests.MathematicsTests
 {
     public class PolygonTests : PolygonUnitTest
     {

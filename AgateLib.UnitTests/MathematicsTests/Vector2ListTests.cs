@@ -7,7 +7,7 @@ using AgateLib.Mathematics.Geometry;
 using FluentAssertions;
 using Xunit;
 
-namespace AgateLib.UnitTests.MathematicsTests
+namespace AgateLib.Tests.MathematicsTests
 {
     public class Vector2ListTests
     {

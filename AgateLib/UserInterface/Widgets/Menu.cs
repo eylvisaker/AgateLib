@@ -112,6 +112,10 @@ namespace AgateLib.UserInterface.Widgets
 
         IRenderElement SelectedMenuItem => child.Children.Skip(selectedIndex).First();
 
+        public int SelectedIndex => selectedIndex;
+
+        public IEnumerable<MenuItemElement> MenuItems => child.Children.OfType<MenuItemElement>();
+
         public override bool CanHaveFocus => true;
 
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)

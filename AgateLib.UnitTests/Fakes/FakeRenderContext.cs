@@ -12,7 +12,7 @@ using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AgateLib.UnitTests.Fakes
+namespace AgateLib.Tests.Fakes
 {
     public class FakeRenderContext : IWidgetRenderContext
     {

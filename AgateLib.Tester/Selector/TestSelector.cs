@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AgateLib.Display;
-using ManualTests.AgateLib.FontTests;
+using AgateLib.Tests.FontTests;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Rendering;
@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AgateLib.Scenes;
 using System.Collections.Generic;
-using ManualTests.AgateLib.Selector.Widgets;
+using AgateLib.Tests.Selector.Widgets;
 
-namespace ManualTests.AgateLib.Selector
+namespace AgateLib.Tests.Selector
 {
     public class TestSelector : ITest
     {
@@ -28,6 +28,8 @@ namespace ManualTests.AgateLib.Selector
         public string Category => "Tests";
 
         public event EventHandler<TestEventArgs> StartTest;
+
+        public Action Exit { get; set; }
 
         public void Initialize(ITestResources resources)
         {

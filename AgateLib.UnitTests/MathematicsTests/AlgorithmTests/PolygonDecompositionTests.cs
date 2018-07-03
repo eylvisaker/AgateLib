@@ -6,7 +6,7 @@ using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using FluentAssertions;
 
-namespace AgateLib.UnitTests.MathematicsTests.AlgorithmTests
+namespace AgateLib.Tests.MathematicsTests.AlgorithmTests
 {
     public class PolygonDecompositionTests
     {

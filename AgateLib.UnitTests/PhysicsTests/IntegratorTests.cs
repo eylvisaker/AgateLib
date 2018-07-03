@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 using Moq;
 using Xunit;
 
-namespace AgateLib.UnitTests.PhysicsTests
+namespace AgateLib.Tests.PhysicsTests
 {
     public class IntegratorTests
     {

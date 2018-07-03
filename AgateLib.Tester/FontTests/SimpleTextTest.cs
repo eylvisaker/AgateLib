@@ -1,8 +1,9 @@
 ﻿using AgateLib.Display;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
-namespace ManualTests.AgateLib.FontTests
+namespace AgateLib.Tests.FontTests
 {
 	public class SimpleTextTest : ITest
 
@@ -14,6 +15,8 @@ namespace ManualTests.AgateLib.FontTests
 		public string Name => "Simple Text";
 
 		public string Category => "Font";
+
+        public Action Exit { get; set; }
 
 		public void Draw(GameTime gameTime)
 		{

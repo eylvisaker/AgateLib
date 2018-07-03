@@ -9,7 +9,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.UnitTests.MathematicsTests.GeometryBuilderTests
+namespace AgateLib.Tests.MathematicsTests.GeometryBuilderTests
 {
     public class EllipseBuilderTests
     {

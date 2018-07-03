@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Display;
-using AgateLib.UnitTests.Fakes;
+using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Moq;
 
-namespace AgateLib.UnitTests
+namespace AgateLib.Tests
 {
     public static class CommonMocks
     {

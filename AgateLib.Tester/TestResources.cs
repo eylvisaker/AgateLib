@@ -12,7 +12,7 @@ using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ManualTests.AgateLib
+namespace AgateLib.Tests
 {
     public interface ITestResources
     {

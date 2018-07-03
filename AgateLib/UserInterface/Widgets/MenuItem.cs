@@ -39,6 +39,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             return new MenuItemElement(new MenuItemElementProps
             {
+                Text = Props.Text,
                 OnAccept = Props.OnAccept,
                 Children = { new Label(new LabelProps { Text = Props.Text }) }
             });
@@ -61,6 +62,11 @@ namespace AgateLib.UserInterface.Widgets
         public Action OnAccept { get; set; }
 
         public List<IRenderable> Children { get; set; } = new List<IRenderable>();
+
+        /// <summary>
+        /// A purely informational property, not used by the MenuItemElement.
+        /// </summary>
+        public string Text { get; set; }
     }
 
     public class MenuItemElement : RenderElement<MenuItemElementProps>

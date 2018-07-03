@@ -9,7 +9,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using Xunit;
 
-namespace AgateLib.UnitTests.PhysicsTests.LinearAlgebraTests
+namespace AgateLib.Tests.PhysicsTests.LinearAlgebraTests
 {
     public class GaussSeidelTests
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using AgateLib.Display;
-using ManualTests.AgateLib.Selector;
+using AgateLib.Tests.Selector;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Content;
 using AgateLib.Scenes;
 using AgateLib.UserInterface.Rendering.Animations;
 
-namespace ManualTests.AgateLib
+namespace AgateLib.Tests
 {
     /// <summary>
     /// This is the main type for your game.
@@ -55,7 +55,11 @@ namespace ManualTests.AgateLib
             get => activeTest;
             set
             {
+                if (activeTest != null)
+                    activeTest.Exit = null;
+
                 activeTest = value;
+                activeTest.Exit = ExitTest;
 
                 activeTest.Initialize(resources);
             }
@@ -128,11 +132,7 @@ namespace ManualTests.AgateLib
                 if (!escaped)
                 {
                     escaped = true;
-
-                    if (ActiveTest == testSelector)
-                        Exit();
-
-                    ActiveTest = testSelector;
+                    ExitTest();
                 }
             }
             else
@@ -143,6 +143,14 @@ namespace ManualTests.AgateLib
             ActiveTest.Update(gameTime);
 
             base.Update(gameTime);
+        }
+
+        private void ExitTest()
+        {
+            if (ActiveTest == testSelector)
+                Exit();
+
+            ActiveTest = testSelector;
         }
 
         /// <summary>

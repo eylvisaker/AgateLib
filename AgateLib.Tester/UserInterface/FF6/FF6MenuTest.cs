@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using AgateLib.Scenes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
-using ManualTests.AgateLib;
+using AgateLib.Tests;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ManualTests.AgateLib.UserInterface.FF6
+namespace AgateLib.Tests.UserInterface.FF6
 {
     public class FF6MenuTest : ITest
     {
@@ -22,6 +22,8 @@ namespace ManualTests.AgateLib.UserInterface.FF6
         public string Name => "FF6 Menu";
 
         public string Category => "User Interface";
+
+        public Action Exit { get; set; }
 
         public void Initialize(ITestResources resources)
         {

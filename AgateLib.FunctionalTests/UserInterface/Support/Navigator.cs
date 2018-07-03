@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Layout;
-using AgateLib.UnitTests;
+using AgateLib.Tests;
 
-namespace AgateLib.FunctionalTests.UserInterface.Support
+namespace AgateLib.Tests.UserInterface.Support
 {
     public class Navigator
     {
@@ -19,13 +19,11 @@ namespace AgateLib.FunctionalTests.UserInterface.Support
 
         public Navigator(UIContext context, Instructor instructor)
         {
-            throw new NotImplementedException();
-
-            gotoMethods = new Dictionary<Type, Action<string>>
-            {
-                //{ typeof(SingleColumnLayout), SingleColumnGoTo },
-                //{ typeof(SingleRowLayout), SingleRowGoTo }
-            };
+            //gotoMethods = new Dictionary<Type, Action<string>>
+            //{
+            //    { typeof(SingleColumnLayout), SingleColumnGoTo },
+            //    { typeof(SingleRowLayout), SingleRowGoTo }
+            //};
             this.context = context;
             this.instructor = instructor;
         }
@@ -36,9 +34,9 @@ namespace AgateLib.FunctionalTests.UserInterface.Support
         {
             Desktop.ClearAnimations();
 
-            throw new NotImplementedException();
+            var menu = context.Desktop.ActiveWorkspace.Focus as MenuElement;
 
-            //var menu = context.Desktop.ActiveWorkspace.ActiveWindow as Menu;
+            SingleColumnGoTo(menuItem);
 
             //if (!gotoMethods.ContainsKey(menu.Layout.GetType()))
             //    throw new InvalidOperationException($"Menu {menu.Name} has unsupported layout type: {menu.Layout.GetType().Name}");
@@ -55,32 +53,36 @@ namespace AgateLib.FunctionalTests.UserInterface.Support
 
         private void SingleRowGoTo(string menuItem)
         {
-            NavigateListLayout(menuItem, MenuInputButton.Right, MenuInputButton.Left);
+            //NavigateListLayout(menuItem, MenuInputButton.Right, MenuInputButton.Left);
         }
 
         private void NavigateListLayout(string menuItem, MenuInputButton nextButton, MenuInputButton prevButton)
         {
-            throw new NotImplementedException();
+            var menu = context.Desktop.ActiveWorkspace.Focus as MenuElement;
 
-            //var menu = context.Desktop.ActiveWorkspace.ActiveWindow as Menu;
-            //ListLayout layout = menu.Layout as ListLayout;
+            var target = menu.MenuItems.SingleOrDefault(
+                w => w.Props.Text.Equals(menuItem, StringComparison.OrdinalIgnoreCase));
 
-            //var target = layout.Items.SingleOrDefault(w => w.Name.Equals(menuItem, StringComparison.OrdinalIgnoreCase));
-            //if (target == null)
-            //    throw new InvalidOperationException($"Could not find {menuItem} in {menu.Name}. Active workspace: {context.Desktop.ActiveWorkspace}");
+            if (target == null)
+                throw new InvalidOperationException($"Could not find {menuItem} in {menu.Name}. Active workspace: {context.Desktop.ActiveWorkspace}");
 
-            //var targetIndex = layout.IndexOf(target);
+            var targetIndex = menu.MenuItems.ToList().IndexOf(target);
 
-            //while (targetIndex > layout.FocusIndex)
-            //{
-            //    Desktop.ClearAnimations();
+            if (targetIndex < 0)
+                throw new InvalidOperationException($"Target index indicates menu item was not found in menu.");
 
-            //    instructor.SendButtonPress(nextButton);
-            //}
-            //while (targetIndex < layout.FocusIndex)
-            //{
-            //    instructor.SendButtonPress(prevButton);
-            //}
+            while (targetIndex > menu.SelectedIndex)
+            {
+                Desktop.ClearAnimations();
+
+                instructor.SendButtonPress(nextButton);
+            }
+            while (targetIndex < menu.SelectedIndex)
+            {
+                Desktop.ClearAnimations();
+
+                instructor.SendButtonPress(prevButton);
+            }
         }
     }
 }

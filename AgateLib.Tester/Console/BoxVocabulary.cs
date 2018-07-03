@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AgateLib.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace ManualTests.AgateLib.Console
+namespace AgateLib.Tests.Console
 {
 	class BoxVocabulary : IVocabulary
 	{

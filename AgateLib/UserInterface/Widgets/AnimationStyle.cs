@@ -31,31 +31,40 @@ namespace AgateLib.UserInterface.Widgets
     {
         static char[] splitter = new char[] { ' ' };
 
-        string _in, _out, _static;
+        string _entry, _exit, _static;
 
-        string inName, outName, staticName;
-        IReadOnlyList<string> inArgs, outArgs, staticArgs;
+        string entryName, exitName, staticName;
+        IReadOnlyList<string> entryArgs, exitArgs, staticArgs;
 
-        public string In
+        /// <summary>
+        /// Animator to use when element is first added to the UI.
+        /// </summary>
+        public string Entry
         {
-            get => _in;
+            get => _entry;
             set
             {
-                _in = value;
-                GetAnimationNameAndArgs(value, ref inName, ref inArgs);
+                _entry = value;
+                GetAnimationNameAndArgs(value, ref entryName, ref entryArgs);
             }
         }
 
-        public string Out
+        /// <summary>
+        /// Animator to use when element is to be removed from the UI.
+        /// </summary>
+        public string Exit
         {
-            get => _out;
+            get => _exit;
             set
             {
-                _out = value;
-                GetAnimationNameAndArgs(Out, ref outName, ref outArgs);
+                _exit = value;
+                GetAnimationNameAndArgs(Exit, ref exitName, ref exitArgs);
             }
         }
 
+        /// <summary>
+        /// Animator to use when element is part of the UI.
+        /// </summary>
         public string Static
         {
             get => _static;
@@ -66,10 +75,10 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        internal string InName => inName;
-        internal IReadOnlyList<string> InArgs => inArgs;
-        internal string OutName => outName;
-        internal IReadOnlyList<string> OutArgs => outArgs;
+        internal string EntryName => entryName;
+        internal IReadOnlyList<string> EntryArgs => entryArgs;
+        internal string ExitName => exitName;
+        internal IReadOnlyList<string> ExitArgs => exitArgs;
 
         internal string StaticName => staticName;
         internal IReadOnlyList<string> StaticArgs => staticArgs;

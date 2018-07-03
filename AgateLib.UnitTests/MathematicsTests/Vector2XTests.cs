@@ -8,7 +8,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.UnitTests.MathematicsTests
+namespace AgateLib.Tests.MathematicsTests
 {
     public class Vector2Tests
     {

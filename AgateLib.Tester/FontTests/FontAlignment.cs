@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace ManualTests.AgateLib.FontTests
+namespace AgateLib.Tests.FontTests
 {
     class FontAlignment : ITest
     {
@@ -32,6 +32,8 @@ namespace ManualTests.AgateLib.FontTests
         public string Name => "Font Alignment";
 
         public string Category => "Fonts";
+
+        public Action Exit { get; set; }
 
         public void Initialize(ITestResources resources)
         {

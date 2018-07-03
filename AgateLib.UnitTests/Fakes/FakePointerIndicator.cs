@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Widgets;
-using ManualTests.AgateLib.UserInterface.FF6;
+using AgateLib.Tests.UserInterface.FF6;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AgateLib.UnitTests.Fakes
+namespace AgateLib.Tests.Fakes
 {
     public class FakePointerIndicator : PointerIndicator
     {

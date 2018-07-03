@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.FunctionalTests.UserInterface.Support
+namespace AgateLib.Tests.UserInterface.Support
 {
     public class Instructor
     {

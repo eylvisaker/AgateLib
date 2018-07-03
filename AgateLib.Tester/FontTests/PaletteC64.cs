@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace ManualTests.AgateLib.FontTests
+namespace AgateLib.Tests.FontTests
 {
 	public class PaletteC64 : IEnumerable<Color>
 	{

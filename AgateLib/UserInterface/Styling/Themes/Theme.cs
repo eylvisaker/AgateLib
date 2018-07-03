@@ -72,8 +72,8 @@ namespace AgateLib.UserInterface.Styling.Themes
                     Font = new FontStyleProperties { Color = Color.White, },
                     Animation = new AnimationStyle
                     {
-                        In = "fade 0.35",
-                        Out = "fade 0.35"
+                        Entry = "fade 0.35",
+                        Exit = "fade 0.35"
                     }
                 },
 

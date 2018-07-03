@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AgateLib.Diagnostics;
 using AgateLib.Diagnostics.Rendering;
 using AgateLib.Display;
@@ -6,7 +7,7 @@ using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ManualTests.AgateLib.Console
+namespace AgateLib.Tests.Console
 {
     public class BasicConsoleTest : ITest
     {
@@ -20,6 +21,8 @@ namespace ManualTests.AgateLib.Console
         public string Name => "Basic Console";
 
         public string Category => "Console";
+
+        public Action Exit { get; set; }
 
         public void Draw(GameTime gameTime)
         {

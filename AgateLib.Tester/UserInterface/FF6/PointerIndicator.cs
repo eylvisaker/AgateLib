@@ -7,7 +7,7 @@ using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ManualTests.AgateLib.UserInterface.FF6
+namespace AgateLib.Tests.UserInterface.FF6
 {
     public class PointerIndicator : MenuIndicatorRenderer
     {

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace AgateLib.FunctionalTests.UserInterface.Features
+namespace AgateLib.Tests.UserInterface.Features
 {
     using TechTalk.SpecFlow;
     

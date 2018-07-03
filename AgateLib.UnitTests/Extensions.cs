@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.UnitTests.Fakes;
+using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UnitTests
+namespace AgateLib.Tests
 {
     public static class Extensions
     {

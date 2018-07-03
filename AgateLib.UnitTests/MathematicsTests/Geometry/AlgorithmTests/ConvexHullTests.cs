@@ -9,7 +9,7 @@ using AgateLib.Mathematics.Geometry.Algorithms.ConvexDecomposition;
 using FluentAssertions;
 using Xunit;
 
-namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
+namespace AgateLib.Tests.MathematicsTests.Geometry.AlgorithmTests
 {
     public class ConvexHullTests : PolygonUnitTest
     {

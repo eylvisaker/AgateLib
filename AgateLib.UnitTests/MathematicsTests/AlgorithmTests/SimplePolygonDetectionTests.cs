@@ -8,7 +8,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.UnitTests.MathematicsTests.AlgorithmTests
+namespace AgateLib.Tests.MathematicsTests.AlgorithmTests
 {
     public class SimplePolygonDetectionTests
     {

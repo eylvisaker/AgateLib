@@ -11,7 +11,7 @@ using AgateLib.Display;
 using FluentAssertions;
 using AgateLib.UserInterface.Content;
 
-namespace AgateLib.UnitTests.UserInterface.Content
+namespace AgateLib.Tests.UserInterface.Content
 {
     public class LayoutTest
     {

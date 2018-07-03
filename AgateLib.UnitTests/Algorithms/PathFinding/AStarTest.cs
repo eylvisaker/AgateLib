@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.UnitTests.Algorithms.PathFinding
+namespace AgateLib.Tests.Algorithms.PathFinding
 {
     public class AStarTest
     {

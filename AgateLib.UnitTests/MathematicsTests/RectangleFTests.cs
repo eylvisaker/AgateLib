@@ -9,7 +9,7 @@ using AgateLib.Mathematics;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UnitTests.MathematicsTests
+namespace AgateLib.Tests.MathematicsTests
 {
     public class RectangleFTests
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ManualTests.AgateLib.UserInterface.FF6;
+using AgateLib.Tests.UserInterface.FF6;
 
-namespace AgateLib.FunctionalTests.UserInterface.Support.Initialization
+namespace AgateLib.Tests.UserInterface.Support.Initialization
 {
     public interface IMenuInitializer
     {

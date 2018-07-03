@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace AgateLib.UnitTests.MathematicsTests.Geometry
+namespace AgateLib.Tests.MathematicsTests.Geometry
 {
     public class RectangleTest
     {

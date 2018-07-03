@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
-using ManualTests.AgateLib.UserInterface.FF6;
-using AgateLib.UnitTests;
+using AgateLib.Tests.UserInterface.FF6;
+using AgateLib.Tests;
 
-namespace AgateLib.FunctionalTests.UserInterface.Support
+namespace AgateLib.Tests.UserInterface.Support
 {
     public class UIContext
     {

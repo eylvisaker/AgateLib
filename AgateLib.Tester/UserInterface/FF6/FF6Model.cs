@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManualTests.AgateLib.UserInterface.FF6
+namespace AgateLib.Tests.UserInterface.FF6
 {
     public class FF6Model
     {

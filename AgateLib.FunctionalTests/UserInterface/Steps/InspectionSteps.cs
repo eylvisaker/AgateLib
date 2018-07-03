@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.FunctionalTests.UserInterface.Support;
+using AgateLib.Tests.UserInterface.Support;
 using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 
-namespace AgateLib.FunctionalTests.UserInterface.Steps
+namespace AgateLib.Tests.UserInterface.Steps
 {
     [Binding]
     public class InspectionSteps

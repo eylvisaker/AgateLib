@@ -3,7 +3,7 @@ using AgateLib;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 
-namespace ManualTests.AgateLib.ReplaceMe
+namespace AgateLib.Tests.ReplaceMe
 {
 	[Singleton]
 	public class TextRepository : ITextRepository

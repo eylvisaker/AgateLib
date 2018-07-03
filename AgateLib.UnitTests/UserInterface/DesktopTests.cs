@@ -8,9 +8,9 @@ using FluentAssertions;
 using Xunit;
 using Moq;
 using AgateLib.UserInterface;
-using AgateLib.UnitTests.Fakes;
+using AgateLib.Tests.Fakes;
 
-namespace AgateLib.UnitTests.UserInterface
+namespace AgateLib.Tests.UserInterface
 {
     public class DesktopTests
     {

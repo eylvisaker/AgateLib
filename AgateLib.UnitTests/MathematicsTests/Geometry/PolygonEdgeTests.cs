@@ -6,7 +6,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.UnitTests.MathematicsTests.Geometry
+namespace AgateLib.Tests.MathematicsTests.Geometry
 {
     public class PolygonEdgeTests : PolygonUnitTest
     {

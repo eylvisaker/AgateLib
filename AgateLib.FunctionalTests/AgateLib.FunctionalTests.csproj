@@ -8,7 +8,7 @@
     <ProjectGuid>{7B509CAC-0FC2-4AAE-83E2-7F37C282A3A0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgateLib.FunctionalTests</RootNamespace>
+    <RootNamespace>AgateLib.Tests</RootNamespace>
     <AssemblyName>AgateLib.FunctionalTests</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

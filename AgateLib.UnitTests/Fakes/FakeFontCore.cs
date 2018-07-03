@@ -31,7 +31,7 @@ using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AgateLib.UnitTests.Fakes
+namespace AgateLib.Tests.Fakes
 {
     public class FakeFontCore : IFontCore
     {

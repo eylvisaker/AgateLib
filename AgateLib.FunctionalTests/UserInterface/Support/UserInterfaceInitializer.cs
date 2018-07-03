@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.FunctionalTests.UserInterface.Support.Initialization;
+using AgateLib.Tests.UserInterface.Support.Initialization;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Layout;
 using FluentAssertions;
 using TechTalk.SpecFlow;
-using ManualTests.AgateLib.UserInterface.FF6;
+using AgateLib.Tests.UserInterface.FF6;
 
-namespace AgateLib.FunctionalTests.UserInterface.Support
+namespace AgateLib.Tests.UserInterface.Support
 {
     public class UserInterfaceInitializer
     {

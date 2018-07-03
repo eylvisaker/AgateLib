@@ -16,10 +16,10 @@ namespace AgateLib.UserInterface.Styling
         {
             var style = new AnimationStyle();
 
-            style.In = "slide right";
+            style.Entry = "slide right";
 
-            style.InName.Should().Be("slide");
-            style.InArgs.Should().BeEquivalentTo(new[] { "right" });
+            style.EntryName.Should().Be("slide");
+            style.EntryArgs.Should().BeEquivalentTo(new[] { "right" });
         }
 
         [Fact]
@@ -27,10 +27,10 @@ namespace AgateLib.UserInterface.Styling
         {
             var style = new AnimationStyle();
 
-            style.Out = "slide right 0.34";
+            style.Exit = "slide right 0.34";
 
-            style.OutName.Should().Be("slide");
-            style.OutArgs.Should().BeEquivalentTo(new[] { "right", "0.34" });
+            style.ExitName.Should().Be("slide");
+            style.ExitArgs.Should().BeEquivalentTo(new[] { "right", "0.34" });
         }
 
         [Fact]
@@ -38,10 +38,10 @@ namespace AgateLib.UserInterface.Styling
         {
             var style = new AnimationStyle();
 
-            style.Out = "slide right 0.34 0.99";
+            style.Exit = "slide right 0.34 0.99";
 
-            style.OutName.Should().Be("slide");
-            style.OutArgs.Should().BeEquivalentTo(new[] { "right", "0.34", "0.99" });
+            style.ExitName.Should().Be("slide");
+            style.ExitArgs.Should().BeEquivalentTo(new[] { "right", "0.34", "0.99" });
         }
     }
 }

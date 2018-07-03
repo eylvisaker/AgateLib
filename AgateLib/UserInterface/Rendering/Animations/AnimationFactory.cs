@@ -78,16 +78,16 @@ namespace AgateLib.UserInterface.Rendering.Animations
 
             // Currently, we don't support updating animators when the style changes unless the name of the
             // animator type has changed. I don't see a good use case for supporting this at the moment. -EY
-            if (display.Animation.InType != display.Style.Animation.InName)
+            if (display.Animation.InType != display.Style.Animation.EntryName)
             {
-                display.Animation.InType = display.Style.Animation.InName;
-                display.Animation.In = animationFactory.Create(display.Style.Animation.InName, display.Style.Animation.InArgs);
+                display.Animation.InType = display.Style.Animation.EntryName;
+                display.Animation.In = animationFactory.Create(display.Style.Animation.EntryName, display.Style.Animation.EntryArgs);
             }
 
-            if (display.Animation.OutType != display.Style.Animation.OutName)
+            if (display.Animation.OutType != display.Style.Animation.ExitName)
             {
-                display.Animation.OutType = display.Style.Animation.OutName;
-                display.Animation.Out = animationFactory.Create(display.Style.Animation.OutName, display.Style.Animation.OutArgs);
+                display.Animation.OutType = display.Style.Animation.ExitName;
+                display.Animation.Out = animationFactory.Create(display.Style.Animation.ExitName, display.Style.Animation.ExitArgs);
             }
 
             if (display.Animation.StaticType != display.Style.Animation.StaticName)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Layout;
 
-namespace AgateLib.FunctionalTests.UserInterface.Support.Initialization
+namespace AgateLib.Tests.UserInterface.Support.Initialization
 {
     public static class IninitializerExtensions
     {

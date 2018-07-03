@@ -10,7 +10,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.UnitTests.MathematicsTests.Geometry.AlgorithmTests
+namespace AgateLib.Tests.MathematicsTests.Geometry.AlgorithmTests
 {
     public class CollisionDetectorTests : PolygonUnitTest
     {

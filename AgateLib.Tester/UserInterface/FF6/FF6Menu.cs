@@ -8,7 +8,7 @@ using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
 
-namespace ManualTests.AgateLib.UserInterface.FF6
+namespace AgateLib.Tests.UserInterface.FF6
 {
     public class FF6Menu
     {

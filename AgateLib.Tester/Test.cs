@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace ManualTests.AgateLib
+namespace AgateLib.Tests
 {
 	public interface ITest
 	{
@@ -14,7 +14,9 @@ namespace ManualTests.AgateLib
 
 		string Category { get; }
 
-		void Initialize(ITestResources resources);
+        Action Exit { get; set; }
+
+        void Initialize(ITestResources resources);
 
 		void Update(GameTime gameTime);
 
