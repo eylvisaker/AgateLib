@@ -69,31 +69,31 @@ namespace AgateLib.UserInterface.Rendering.Animations
         {
             if (display.Style.Animation == null)
             {
-                display.Animator.In = display.Animator.In ?? animationFactory.Create("default", null);
-                display.Animator.Out = display.Animator.Out ?? animationFactory.Create("default", null);
-                display.Animator.Static = display.Animator.Static ?? animationFactory.Create("default", null);
+                display.Animation.In = display.Animation.In ?? animationFactory.Create("default", null);
+                display.Animation.Out = display.Animation.Out ?? animationFactory.Create("default", null);
+                display.Animation.Static = display.Animation.Static ?? animationFactory.Create("default", null);
 
                 return;
             }
 
             // Currently, we don't support updating animators when the style changes unless the name of the
             // animator type has changed. I don't see a good use case for supporting this at the moment. -EY
-            if (display.Animator.InType != display.Style.Animation.InName)
+            if (display.Animation.InType != display.Style.Animation.InName)
             {
-                display.Animator.InType = display.Style.Animation.InName;
-                display.Animator.In = animationFactory.Create(display.Style.Animation.InName, display.Style.Animation.InArgs);
+                display.Animation.InType = display.Style.Animation.InName;
+                display.Animation.In = animationFactory.Create(display.Style.Animation.InName, display.Style.Animation.InArgs);
             }
 
-            if (display.Animator.OutType != display.Style.Animation.OutName)
+            if (display.Animation.OutType != display.Style.Animation.OutName)
             {
-                display.Animator.OutType = display.Style.Animation.OutName;
-                display.Animator.Out = animationFactory.Create(display.Style.Animation.OutName, display.Style.Animation.OutArgs);
+                display.Animation.OutType = display.Style.Animation.OutName;
+                display.Animation.Out = animationFactory.Create(display.Style.Animation.OutName, display.Style.Animation.OutArgs);
             }
 
-            if (display.Animator.StaticType != display.Style.Animation.StaticName)
+            if (display.Animation.StaticType != display.Style.Animation.StaticName)
             {
-                display.Animator.StaticType = display.Style.Animation.StaticName;
-                display.Animator.Static = animationFactory.Create(display.Style.Animation.StaticName, display.Style.Animation.StaticArgs);
+                display.Animation.StaticType = display.Style.Animation.StaticName;
+                display.Animation.Static = animationFactory.Create(display.Style.Animation.StaticName, display.Style.Animation.StaticArgs);
             }
         }
     }

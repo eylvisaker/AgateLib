@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
-using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface.Rendering;
 using FluentAssertions;
-using Moq;
 using ManualTests.AgateLib.UserInterface.FF6;
-using AgateLib.Fakes;
 using AgateLib.UnitTests;
 
 namespace AgateLib.FunctionalTests.UserInterface.Support

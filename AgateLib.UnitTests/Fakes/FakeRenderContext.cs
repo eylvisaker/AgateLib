@@ -12,13 +12,13 @@ using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AgateLib.Fakes
+namespace AgateLib.UnitTests.Fakes
 {
     public class FakeRenderContext : IWidgetRenderContext
     {
         public FakeRenderContext()
         {
-            Font = new Font(new FakeFontCore("FontX"));
+            Fonts = CommonMocks.FontProvider().Object;
         }
 
         public GraphicsDevice GraphicsDevice => null;
@@ -27,7 +27,7 @@ namespace AgateLib.Fakes
 
         public RenderTarget2D RenderTarget => null;
 
-        public IFontProvider Fonts => null;
+        public IFontProvider Fonts { get; set; }
 
         public GameTime GameTime { get; set; }
 
@@ -41,21 +41,13 @@ namespace AgateLib.Fakes
 
         public Size GraphicsDeviceRenderTargetSize { get; set; }
 
-        [Obsolete("The fake font provider should be implemented.")]
-        public Font Font { get; set; }
-
-
         public event Action<IRenderElement> BeforeUpdate;
-
-        public void ApplyStyles(IEnumerable<IRenderWidget> items, string defaultTheme)
-        {
-        }
-
+        
         public IContentLayout CreateContentLayout(string text, ContentLayoutOptions contentLayoutOptions, bool localizeText = true)
         {
 
             return new ContentLayout(new[] {
-                new ContentText(text, Font, Vector2.Zero)
+                new ContentText(text, Fonts.Default, Vector2.Zero)
             });
         }
 
@@ -67,14 +59,6 @@ namespace AgateLib.Fakes
         {
         }
 
-        public void DrawFocus(Rectangle destRect)
-        {
-        }
-
-        public void EndWorkspace()
-        {
-        }
-
         public void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
         {
         }
@@ -83,34 +67,13 @@ namespace AgateLib.Fakes
         {
         }
 
-        public void Update(IRenderWidget widget)
+        public void UpdateAnimation(IRenderElement element)
         {
-            throw new NotImplementedException();
+            if (element.Display.Animation.State == AnimationState.TransitionIn)
+                element.Display.Animation.State = AnimationState.Static;
 
-            //UserInterfaceRenderer?.UpdateAnimation(this, widget);
-
-            //BeforeUpdate?.Invoke(widget);
-
-            //widget.Update(this);
-        }
-
-        public void Update(IEnumerable<IRenderWidget> items)
-        {
-            foreach (var item in items)
-                Update(item);
-        }
-
-        public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)
-        {
-        }
-
-        public void DrawWorkspace(Workspace workspace, VisualTree visualTree)
-        {
-        }
-
-        public void UpdateAnimation(IRenderElement x)
-        {
-            throw new NotImplementedException();
+            if (element.Display.Animation.State == AnimationState.TransitionOut)
+                element.Display.Animation.State = AnimationState.Dead;
         }
     }
 }

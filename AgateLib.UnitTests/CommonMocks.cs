@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Display;
-using AgateLib.Fakes;
+using AgateLib.UnitTests.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
@@ -16,18 +16,30 @@ namespace AgateLib.UnitTests
     public static class CommonMocks
     {
         /// <summary>
-        /// Returns a Mock&lt;Widget&gt; object which doesn't override any behavior of the widget.
+        /// Returns a pair of Mock&lt;Widget&gt; and Mock&lt;RenderElement&gt; 
+        /// objects.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Mock<RenderWidget> Widget(string name)
+        public static (Mock<Widget<WidgetProps, WidgetState>>, Mock<RenderElement<RenderElementProps>>) 
+            Widget(string name, bool elementCanHaveFocus = false)
         {
-            Mock<RenderWidget> result = new Mock<RenderWidget>(name);
+            var elementProps = new RenderElementProps();
+            var renderResult = new Mock<RenderElement<RenderElementProps>>(elementProps);
 
-            result.CallBase = true;
+            renderResult.CallBase = true;
+            renderResult.Setup(x => x.CanHaveFocus).Returns(elementCanHaveFocus);
 
-            return result;
+            var widgetProps = new WidgetProps { Name = name };
+            Mock<Widget<WidgetProps, WidgetState>> widgetResult =
+                new Mock<Widget<WidgetProps, WidgetState>>(widgetProps);
+
+            widgetResult.CallBase = true;
+            widgetResult.Setup(x => x.Render()).Returns(renderResult.Object);
+            
+            return (widgetResult, renderResult);
         }
+        
 
         /// <summary>
         /// Constructs a font provider, with a list of available fake fonts.

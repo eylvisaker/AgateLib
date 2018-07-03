@@ -132,9 +132,10 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="renderTarget"></param>
         void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget);
 
-        void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items);
-        void DrawWorkspace(Workspace workspace, VisualTree visualTree);
-
+        /// <summary>
+        /// Updates the animation state for the specified element.
+        /// </summary>
+        /// <param name="element"></param>
         void UpdateAnimation(IRenderElement element);
     }
 
@@ -268,11 +269,11 @@ namespace AgateLib.UserInterface.Widgets
         
         public void DrawChild(Rectangle parentContentDest, IRenderElement element)
         {
-            if (element.Display.Animator.IsDoubleBuffered)
+            if (element.Display.Animation.IsDoubleBuffered)
             {
                 var newContext = DoubleBuffer.PrepRenderState(element, this);
 
-                var rtClientDest = element.Display.Animator.Buffer.ContentDestination;
+                var rtClientDest = element.Display.Animation.Buffer.ContentDestination;
 
                 UserInterfaceRenderer.DrawBackground(newContext, element.Display, rtClientDest);
                 UserInterfaceRenderer.DrawFrame(newContext, element.Display, rtClientDest);
@@ -284,10 +285,10 @@ namespace AgateLib.UserInterface.Widgets
             else
             {
                 Rectangle dest = new Rectangle(
-                    parentContentDest.X + element.Display.Animator.AnimatedContentRect.X,
-                    parentContentDest.Y + element.Display.Animator.AnimatedContentRect.Y,
-                    element.Display.Animator.AnimatedContentRect.Width,
-                    element.Display.Animator.AnimatedContentRect.Height);
+                    parentContentDest.X + element.Display.Animation.AnimatedContentRect.X,
+                    parentContentDest.Y + element.Display.Animation.AnimatedContentRect.Y,
+                    element.Display.Animation.AnimatedContentRect.Width,
+                    element.Display.Animation.AnimatedContentRect.Height);
 
                 UserInterfaceRenderer.DrawBackground(this, element.Display, dest);
                 UserInterfaceRenderer.DrawFrame(this, element.Display, dest);
@@ -300,25 +301,7 @@ namespace AgateLib.UserInterface.Widgets
 
             element.OnInputEvent(eventArgs);
         }
-
-        public void DrawWorkspace(Workspace workspace, IEnumerable<IRenderWidget> items)
-        {
-            WorkspaceIsActive = workspace.IsActive;
-
-            DrawChildren(new Rectangle(Point.Zero, workspace.Size), items);
-
-            EndWorkspace(workspace);
-        }
-
-        [Obsolete]
-        public void DrawWorkspace(Workspace workspace, VisualTree visualTree)
-        {
-            WorkspaceIsActive = workspace.IsActive;
-
-            DrawChildren(new Rectangle(), new[] { visualTree.TreeRoot });
-
-            EndWorkspace(workspace);
-        }
+        
 
         public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderWidget> children)
         {

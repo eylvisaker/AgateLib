@@ -40,13 +40,13 @@ namespace AgateLib.UserInterface.Widgets
             Style = new RenderElementStyle(this, inlineStyle);
             Region = new WidgetRegion(Style);
 
-            Animator = new RenderElementAnimator(this);
+            Animation = new RenderElementAnimator(this);
         }
 
         /// <summary>
         /// Owned by the rendering engine.
         /// </summary>
-        public RenderElementAnimator Animator { get; } 
+        public RenderElementAnimator Animation { get; } 
 
         /// <summary>
         /// Gets the layout state.
@@ -106,7 +106,7 @@ namespace AgateLib.UserInterface.Widgets
             set
             {
                 Region.SetContentRect(value);
-                Animator.ContentRectUpdated();
+                Animation.ContentRectUpdated();
             }
         }
 

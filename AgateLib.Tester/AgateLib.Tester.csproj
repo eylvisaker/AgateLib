@@ -148,9 +148,6 @@
   <ItemGroup>
     <Compile Include="Console\BasicConsoleTest.cs" />
     <Compile Include="Console\BoxVocabulary.cs" />
-    <Compile Include="Fakes\FakeFontCore.cs" />
-    <Compile Include="Fakes\FakePointerIndicator.cs" />
-    <Compile Include="Fakes\FakeRenderContext.cs" />
     <Compile Include="FontTests\FontAlignment.cs" />
     <Compile Include="FontTests\PaletteC64.cs" />
     <Compile Include="FontTests\SimpleTextTest.cs" />

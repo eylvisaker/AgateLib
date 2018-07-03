@@ -8,7 +8,7 @@ using ManualTests.AgateLib.UserInterface.FF6;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ManualTests.AgateLib.Fakes
+namespace AgateLib.UnitTests.Fakes
 {
     public class FakePointerIndicator : PointerIndicator
     {

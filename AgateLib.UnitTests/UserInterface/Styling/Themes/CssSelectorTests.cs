@@ -40,6 +40,37 @@ namespace AgateLib.UserInterface.Styling.Themes
         }
 
         [Fact]
+        public void SingleWildCard()
+        {
+            var tree = Element(cls: "workspace",
+                children: new[]
+                {
+                    Element(cls:"menu", children: new []
+                    {
+                        Element(children: new [] { Element() }),
+                        Element(),
+                    }),
+                    Element(),
+                });
+
+            var selector = "*";
+
+            // Top level
+            Matches(tree, selector, tree);
+
+            // First level
+            Matches(tree, selector, tree.Children.First());
+            Matches(tree, selector, tree.Children.Skip(1).First());
+
+            // Second level
+            Matches(tree, selector, tree.Children.First().Children.First());
+            Matches(tree, selector, tree.Children.First().Children.Skip(1).First());
+
+            // Third level
+            Matches(tree, selector, tree.Children.First().Children.First().Children.First());
+        }
+
+        [Fact]
         public void MatchesAllDescendentsWildCard()
         {
             var tree = Element(cls: "workspace",

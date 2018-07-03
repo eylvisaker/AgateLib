@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Moq;
 using AgateLib.Display;
-using AgateLib.Fakes;
 using FluentAssertions;
 using AgateLib.UserInterface.Content;
 

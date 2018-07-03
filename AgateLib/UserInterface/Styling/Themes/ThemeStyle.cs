@@ -44,13 +44,14 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// "*" matches all widgets.
         /// "type.*" matches all widgets that are children of widgets which match type.
         /// </summary>
-        [Obsolete("Use Selector instead.")]
+        [Obsolete("Use Selector instead.", true)]
         public string Pattern { get; set; }
 
         /// <summary>
         /// Indicates a pattern should only apply for a particular state of a widget.
         /// Right now, only "selected" is used for menu items.
         /// </summary>
+        [Obsolete("Use a pseudoclass in the selector property instead.", true)]
         public string WidgetState { get; set; }
 
         public IReadOnlyCollection<string> PseudoClasses => MatchExecutor.PseudoClasses;

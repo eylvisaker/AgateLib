@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UnitTests.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
@@ -13,11 +14,12 @@ namespace AgateLib.UnitTests
     {
         public static void WaitForAnimations(this Desktop desktop)
         {
-            var renderContext = CommonMocks.RenderContext();
-            renderContext.Setup(x => x.GameTime).Returns(new GameTime(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2)));
+            var renderContext = new FakeRenderContext();
 
-            desktop.Update(renderContext.Object);
-            desktop.Update(renderContext.Object);
+            renderContext.GameTime = new GameTime(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+
+            desktop.Update(renderContext);
+            desktop.Update(renderContext);
         }
 
         /// <summary>
@@ -25,13 +27,13 @@ namespace AgateLib.UnitTests
         /// </summary>
         public static void ClearAnimations(this Desktop desktop)
         {
-            desktop.Explore((parent, widget) => 
+            desktop.Explore(element => 
             {
-                if (widget.Display.Animator.State == AnimationState.TransitionOut)
-                    widget.Display.IsVisible = false;
+                if (element.Display.Animation.State == AnimationState.TransitionOut)
+                    element.Display.IsVisible = false;
 
-                widget.Display.Animator.State = AnimationState.Static;
-                widget.Display.Animator.IsVisible = widget.Display.IsVisible;
+                element.Display.Animation.State = AnimationState.Static;
+                element.Display.Animation.IsVisible = element.Display.IsVisible;
             });
         }
     }

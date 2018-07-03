@@ -159,7 +159,7 @@ namespace AgateLib.UserInterface.Rendering
 
         public void UpdateAnimation(IWidgetRenderContext renderContext, IRenderElement element)
         {
-            var animator = element.Display.Animator;
+            var animator = element.Display.Animation;
 
             bool finished = animator.Transition?.Update(element.Display, renderContext) ?? false;
 
@@ -171,7 +171,7 @@ namespace AgateLib.UserInterface.Rendering
 
         private void AdvanceTransitionState(IRenderElement widget)
         {
-            var animator = widget.Display.Animator;
+            var animator = widget.Display.Animation;
 
             switch (animator.State)
             {

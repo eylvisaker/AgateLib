@@ -148,14 +148,9 @@ namespace AgateLib.UserInterface
             children.Clear();
         }
 
-        public bool Contains(IWidget window)
-        {
-            return children.Contains(window);
-        }
-
         public void HandleInputEvent(InputEventArgs args)
         {
-            Focus.OnInputEvent(args);
+            Focus?.OnInputEvent(args);
 
             if (!args.Handled)
                 UnhandledEvent?.Invoke(this, args);
@@ -201,31 +196,10 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Explores the entire UI tree via a depth-first search.
         /// </summary>
-        /// <param name="explorer">A function which takes two parameters: the parent
-        /// widget and the child widget. Parent widget will be null for top level
-        /// widgets.</param>
-        public void Explore(Action<IRenderElement, IRenderElement> explorer)
+        /// <param name="explorer"></param>
+        public void Explore(Action<IRenderElement> explorer)
         {
-            void ExploreInner(IRenderElement parent)
-            {
-                if (parent.Children == null)
-                    return;
-
-                foreach (var item in parent.Children)
-                {
-                    explorer(parent, item);
-
-                    ExploreInner(item);
-                }
-            }
-
-            //foreach(var item in Layout.Items)
-            //{
-            //    explorer(null, item);
-
-            //    ExploreInner(item);
-            //}
-            throw new NotImplementedException();
+            visualTree.Walk(element => { explorer(element); return true; });
         }
 
         public void Initialize()
@@ -284,13 +258,13 @@ namespace AgateLib.UserInterface
         {
             get
             {
-                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animator.State == AnimationState.TransitionIn))
+                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animation.State == AnimationState.TransitionIn))
                     return AnimationState.TransitionIn;
 
-                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animator.State == AnimationState.TransitionOut))
+                if (visualTree.TreeRoot.Children.Any(x => x.Display.Animation.State == AnimationState.TransitionOut))
                     return AnimationState.TransitionOut;
 
-                if (visualTree.TreeRoot.Children.All(x => x.Display.Animator.State == AnimationState.Dead))
+                if (visualTree.TreeRoot.Children.All(x => x.Display.Animation.State == AnimationState.Dead))
                     return AnimationState.Dead;
 
                 return AnimationState.Static;
@@ -301,7 +275,7 @@ namespace AgateLib.UserInterface
         {
             foreach (var window in visualTree.TreeRoot.Children)
             {
-                window.Display.Animator.State = AnimationState.TransitionOut;
+                window.Display.Animation.State = AnimationState.TransitionOut;
             }
         }
 
@@ -309,7 +283,7 @@ namespace AgateLib.UserInterface
         {
             foreach (var window in visualTree.TreeRoot.Children)
             {
-                window.Display.Animator.State = AnimationState.TransitionIn;
+                window.Display.Animation.State = AnimationState.TransitionIn;
             }
         }
     }

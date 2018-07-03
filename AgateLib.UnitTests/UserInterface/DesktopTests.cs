@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Fakes;
-using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
 using Xunit;
 using Moq;
 using AgateLib.UserInterface;
+using AgateLib.UnitTests.Fakes;
 
 namespace AgateLib.UnitTests.UserInterface
 {
@@ -20,8 +19,8 @@ namespace AgateLib.UnitTests.UserInterface
         {
             Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
 
-            var w1 = CommonMocks.Widget("w1");
-            var w2 = CommonMocks.Widget("w2");
+            (var w1, var e1) = CommonMocks.Widget("w1", elementCanHaveFocus: true);
+            (var w2, var e2) = CommonMocks.Widget("w2", elementCanHaveFocus: true);
 
             var workspace1 = new Workspace("a");
             var workspace2 = new Workspace("b");
@@ -36,10 +35,10 @@ namespace AgateLib.UnitTests.UserInterface
             int goodCalls = 0;
             int badCalls = 0;
 
-            w1.Setup(x => x.OnInputEvent(It.IsAny<InputEventArgs>()))
+            e1.Setup(x => x.OnInputEvent(It.IsAny<InputEventArgs>()))
                 .Callback<InputEventArgs>(e => ++goodCalls);
 
-            w2.Setup(x => x.OnInputEvent(It.IsAny<InputEventArgs>()))
+            e2.Setup(x => x.OnInputEvent(It.IsAny<InputEventArgs>()))
                 .Callback<InputEventArgs>(e => ++badCalls);
 
             desktop.ButtonDown(MenuInputButton.Down);
@@ -58,8 +57,11 @@ namespace AgateLib.UnitTests.UserInterface
 
             desktop.Empty += () => exited = true;
 
-            var workspace1 = CreateWorkspace("default", CommonMocks.Widget("window").Object);
-            var workspace2 = CreateWorkspace("other", CommonMocks.Widget("window").Object);
+            (var window1, var element1) = CommonMocks.Widget("window");
+            (var window2, var element2) = CommonMocks.Widget("window");
+
+            var workspace1 = CreateWorkspace("default", window1.Object);
+            var workspace2 = CreateWorkspace("other", window2.Object);
 
             desktop.PushWorkspace(workspace1);
             desktop.PushWorkspace(workspace2); 
@@ -80,7 +82,7 @@ namespace AgateLib.UnitTests.UserInterface
             exited.Should().BeTrue();
         }
 
-        private Workspace CreateWorkspace(string workspaceName, params RenderWidget[] contents)
+        private Workspace CreateWorkspace(string workspaceName, params IWidget[] contents)
         {
             var result = new Workspace(workspaceName);
 
@@ -98,14 +100,14 @@ namespace AgateLib.UnitTests.UserInterface
             Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
             Workspace workspace = new Workspace("");
 
-            var widget = CommonMocks.Widget("happy");
+            (var widget, var element) = CommonMocks.Widget("happy");
             workspace.Add(widget.Object);
 
             desktop.PushWorkspace(workspace);
 
             desktop.Update(renderContext);
 
-            widget.Object.Display.System.Instructions.Should().BeSameAs(desktop.Instructions);
+            element.Object.Display.System.Instructions.Should().BeSameAs(desktop.Instructions);
         }
     }
 }

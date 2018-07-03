@@ -28,12 +28,15 @@ namespace AgateLib.UnitTests.UserInterface.Styling.Themes
 
             ThemeStyler styler = new ThemeStyler(themes);
 
-            var widget = CommonMocks.Widget("widget");
+            (var widget, var element) = CommonMocks.Widget("widget");
 
-            throw new NotImplementedException();
+            element.Object.Display.ParentFont = fontProvider.Object.Default;
 
-            widget.Object.Display.Style.Padding.Left.Should().Be(14);
-            widget.Object.Display.Font.Color.Should().Be(Color.Yellow);
+            styler.Apply(element.Object, "xyz");
+
+            element.Object.Style.Update();
+            element.Object.Display.Style.Padding.Left.Should().Be(14);
+            element.Object.Style.Font.Color.Should().Be(Color.Yellow);
         }
 
         private ITheme CreateTestTheme()
@@ -42,7 +45,7 @@ namespace AgateLib.UnitTests.UserInterface.Styling.Themes
             {
                 new ThemeStyle
                 {
-                    Pattern = "*",
+                    Selector = "*",
                     Background = new BackgroundStyle { Color = Color.Blue, },
                     Padding = LayoutBox.SameAllAround(14),
                     Font = new FontStyleProperties { Color = Color.Yellow, },
@@ -50,14 +53,13 @@ namespace AgateLib.UnitTests.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
-                    Pattern = "menu.*",
+                    Selector = "menuitem",
                     Padding = LayoutBox.SameAllAround(14),
                 },
 
                 new ThemeStyle
                 {
-                    Pattern = "menu.*",
-                    WidgetState = "selected",
+                    Selector = "menuitem:selected",
                     Padding = LayoutBox.SameAllAround(14),
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black }

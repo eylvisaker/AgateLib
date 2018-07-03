@@ -124,7 +124,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                 selector = value;
                 TokenizeSelector(selector);
                 BuildMatchers();
-                IsValid = Validate();
+                IsValid = ValidateTokens();
                 CalcSpecificity();
             }
         }
@@ -208,7 +208,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             matchers.Add(matcher);
         }
 
-        private bool Validate()
+        private bool ValidateTokens()
         {
             if (tokens.Any(x => x.Type == TokenType.Invalid))
                 return false;
@@ -219,9 +219,14 @@ namespace AgateLib.UserInterface.Styling.Themes
                     return false;
             }
 
+
             switch (tokens.Last().Type)
             {
                 case TokenType.Wildcard:
+                    if (tokens.Count > 1)
+                        return false;
+                    break;
+
                 case TokenType.Child:
                     return false;
             }

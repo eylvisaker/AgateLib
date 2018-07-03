@@ -54,12 +54,12 @@ namespace AgateLib.UserInterface.Rendering.Animations
 
         public void Initialize(RenderElementDisplay display)
         {
-            display.Animator.Alpha = 0;
+            display.Animation.Alpha = 0;
         }
 
         public bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext)
         {
-            var animation = display.Animator;
+            var animation = display.Animation;
             animation.IsVisible = true;
 
             if (animation.State == AnimationState.TransitionIn)

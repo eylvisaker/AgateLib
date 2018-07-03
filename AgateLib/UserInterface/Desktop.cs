@@ -60,10 +60,10 @@ namespace AgateLib.UserInterface
         public IFontProvider Fonts { get; }
 
         /// <summary>
-        /// Explores all the widgets on the desktop using a depth-first search.
+        /// Explores all the elements in the visual tree on the desktop using a depth-first search.
         /// </summary>
         /// <param name="explorer"></param>
-        public void Explore(Action<IRenderElement, IRenderElement> explorer)
+        public void Explore(Action<IRenderElement> explorer)
         {
             foreach(var workspace in workspaces)
             {
