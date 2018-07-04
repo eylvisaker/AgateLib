@@ -7,6 +7,7 @@ using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
+using AgateLib.Tests.UserInterface.FF6.Widgets;
 
 namespace AgateLib.Tests.UserInterface.FF6
 {
@@ -46,6 +47,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             this.desktop = desktop;
 
             PartyUpdated();
+
             desktop.PushWorkspace(mainWorkspace);
         }
 
@@ -54,12 +56,12 @@ namespace AgateLib.Tests.UserInterface.FF6
         private void InitializeComponent()
         {
             InitializeMainMenu(mainWorkspace = new Workspace("default"));
-            InitializeItemsMenu(itemsWorkspace = new Workspace("items"));
-            InitializeSkillsMenu(skillsWorkspace = new Workspace("skills"));
-            InitializeMagicMenu(magicWorkspace = new Workspace("magic"));
-            InitializeEspersMenu(espersWorkspace = new Workspace("espers"));
-            InitializeEquipMenu(equipWorkspace = new Workspace("equip"));
-            InitializeRelicMenu(relicWorkspace = new Workspace("relic"));
+            //InitializeItemsMenu(itemsWorkspace = new Workspace("items"));
+            //InitializeSkillsMenu(skillsWorkspace = new Workspace("skills"));
+            //InitializeMagicMenu(magicWorkspace = new Workspace("magic"));
+            //InitializeEspersMenu(espersWorkspace = new Workspace("espers"));
+            //InitializeEquipMenu(equipWorkspace = new Workspace("equip"));
+            //InitializeRelicMenu(relicWorkspace = new Workspace("relic"));
         }
 
         private void InitializeRelicMenu(Workspace workspace)
@@ -235,7 +237,12 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         private void InitializeMainMenu(Workspace workspace)
         {
-            throw new NotImplementedException();
+            var mainMenu = new FF6MainMenu(new FF6MainMenuProps
+            {
+                Model = Model,
+            });
+
+            workspace.Add(mainMenu);
 
             //var menu = new Menu("Main");
 
@@ -495,7 +502,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         public void PartyUpdated()
         {
-            throw new NotImplementedException();
+            Log.Warn("Not implemented yet.");
 
             //pcMenu.Layout.Clear();
 

@@ -1,7 +1,7 @@
 - selector: menu
   animation:
-    in: fade
-    out: fade
+    entry: fade
+    exit: fade
   border:
     image: MessageBoxes:rect(321 481 318 78)
     image-slice: 4

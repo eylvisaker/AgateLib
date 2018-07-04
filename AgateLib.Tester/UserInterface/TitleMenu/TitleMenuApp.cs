@@ -18,7 +18,7 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
             return new Menu(new MenuProps
             {
                 Cancel = Props.Cancel,
-                Children =
+                MenuItems =
                 {
                     new MenuItem(new MenuItemProps { Text = "Start", OnAccept = Props.Start }),
                     new MenuItem(new MenuItemProps { Text = "Load", OnAccept = Props.Load }),

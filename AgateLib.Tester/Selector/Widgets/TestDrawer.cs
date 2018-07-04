@@ -20,7 +20,7 @@ namespace AgateLib.Tests.Selector.Widgets
         {
             return new Menu(new MenuProps
             {
-                Children = Props.Tests.Select(CreateMenuItem).ToList()
+                MenuItems = Props.Tests.Select(CreateMenuItem).ToList()
             });
 
             //return new FlexBox(new FlexBoxProps
@@ -36,7 +36,7 @@ namespace AgateLib.Tests.Selector.Widgets
         {
             return new Menu(new MenuProps
             {
-                Children = value.Select(CreateMenuItem).ToList(),
+                MenuItems = value.Select(CreateMenuItem).ToList(),
             });
         }
 

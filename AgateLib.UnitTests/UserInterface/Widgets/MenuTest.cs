@@ -20,7 +20,7 @@ namespace AgateLib.UserInterface.Widgets
             var menu = new Menu(new MenuProps
             {
                 Cancel = () => canceled = true,
-                Children = { new MenuItem(new MenuItemProps { Text = "Hello" }) }
+                MenuItems = { new MenuItem(new MenuItemProps { Text = "Hello" }) }
             });
 
             var element = menu.Finalize();
@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Widgets
             var menu = new Menu(new MenuProps
             {
                 Cancel = () => canceled = true,
-                Children = { new MenuItem(new MenuItemProps { Text = "Hello" }) }
+                MenuItems = { new MenuItem(new MenuItemProps { Text = "Hello" }) }
             });
 
             var element = menu.Finalize();

@@ -10,14 +10,24 @@ namespace AgateLib.Tests.UserInterface.Support
 {
     public class UIContext
     {
-        private List<string> events = new List<string>();
+        private readonly UserInterfaceSceneDriver scene;
+        private readonly List<string> events = new List<string>();
+        private readonly IWidgetRenderContext renderContext;
 
         public UIContext()
         {
-            Desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
+            renderContext = CommonMocks.RenderContext().Object;
+
+            scene = new UserInterfaceSceneDriver(
+                renderContext,
+                CommonMocks.StyleConfigurator().Object,
+                CommonMocks.FontProvider().Object);
         }
 
-        public Desktop Desktop { get; set; }
+        public UserInterfaceSceneDriver Scene => scene;
+
+        [Obsolete("Use Scene instead.")]
+        public Desktop Desktop => scene.Desktop;
 
         public IWidget ActiveWindow => Desktop.ActiveWorkspace.ActiveWindow;
 

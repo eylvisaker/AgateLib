@@ -39,7 +39,7 @@ namespace AgateLib.UserInterface.Widgets
 {
     public class MenuProps : WidgetProps
     {
-        public IList<MenuItem> Children { get; set; } = new List<MenuItem>();
+        public IList<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
 
         public IWidget InitialSelection { get; set; }
 
@@ -81,7 +81,7 @@ namespace AgateLib.UserInterface.Widgets
                 StyleId = Props.Name,
                 StyleClass = "menu",
                 Cancel = Props.Cancel,
-                Children = Props.Children.ToList<IRenderable>()
+                Children = Props.MenuItems.ToList<IRenderable>()
             });
         }
     }
