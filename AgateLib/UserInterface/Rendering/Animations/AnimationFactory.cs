@@ -24,6 +24,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
     /// <summary>
     /// Standard animation factory.
     /// </summary>
+    [Singleton]
     public class AnimationFactory : IAnimationFactory
     {
         Dictionary<string, Func<IReadOnlyList<string>, IWidgetAnimation>> activators
