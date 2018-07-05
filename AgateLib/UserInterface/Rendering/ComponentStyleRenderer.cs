@@ -50,10 +50,10 @@ namespace AgateLib.UserInterface.Rendering
     public class ComponentStyleRenderer : IComponentStyleRenderer
     {
         private Texture2D blankSurface;
-        private ContentManager imageProvider;
+        private IContentProvider imageProvider;
 
         public ComponentStyleRenderer(GraphicsDevice graphicsDevice,
-            ContentManager imageProvider)
+            IContentProvider imageProvider)
         {
             this.imageProvider = imageProvider;
 

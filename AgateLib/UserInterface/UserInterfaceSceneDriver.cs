@@ -84,12 +84,12 @@ namespace AgateLib.UserInterface
         public void UpdateInput(IInputState input)
         {
             uiInput.UpdateState(input);
+
+            uiInput.TriggerEvents();
         }
 
         public void Update(GameTime time)
         {
-            uiInput.TriggerEvents();
-
             renderContext.InitializeUpdate(time);
 
             desktop.Size = renderContext.GraphicsDeviceRenderTargetSize;

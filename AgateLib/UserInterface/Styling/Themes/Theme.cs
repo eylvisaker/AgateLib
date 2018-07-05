@@ -94,6 +94,39 @@ namespace AgateLib.UserInterface.Styling.Themes
                     Selector = "menuitem:selected",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
+                },
+
+                new ThemeStyle
+                {
+                    Selector = "radiomenu",
+                    Flex = new FlexStyle { AlignItems = AlignItems.Stretch },
+                },
+
+                new ThemeStyle
+                {
+                    Selector = "radiobutton",
+                    Padding = LayoutBox.SameAllAround(8),
+                },
+
+                new ThemeStyle
+                {
+                    Selector = "radiobutton:selected",
+                    Background = new BackgroundStyle { Color = Color.White },
+                    Font = new FontStyleProperties { Color = Color.Black },
+                },
+
+                new ThemeStyle
+                {
+                    Selector = "radiobutton:checked",
+                    Background = new BackgroundStyle { Color = Color.DarkCyan },
+                    Font = new FontStyleProperties { Color = Color.Black },
+                },
+
+                new ThemeStyle
+                {
+                    Selector = "radiobutton:checked:selected",
+                    Background = new BackgroundStyle { Color = Color.Yellow },
+                    Font = new FontStyleProperties { Color = Color.Black },
                 }
             };
 

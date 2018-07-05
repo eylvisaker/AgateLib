@@ -19,7 +19,9 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
@@ -30,9 +32,7 @@ using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 
 namespace AgateLib.UserInterface
 {
@@ -56,6 +56,26 @@ namespace AgateLib.UserInterface
             }
 
             public IInstructions Instructions { get; set; }
+
+            public IRenderElement ParentOf(IRenderElement element)
+            {
+                IRenderElement parent = null;
+
+                workspace.visualTree.Walk(e =>
+                {
+                    if (e.Children == null)
+                        return true;
+
+                    if (e.Children.Contains(element))
+                    {
+                        parent = e;
+                    }
+
+                    return parent == null;
+                });
+
+                return parent;
+            }
         }
 
         [Obsolete("Is this needed?")]

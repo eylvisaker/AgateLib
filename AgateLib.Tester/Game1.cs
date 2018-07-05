@@ -90,7 +90,7 @@ namespace AgateLib.Tests
 
             resources.UserInterfaceRenderer = new UserInterfaceRenderer(
                 new ComponentStyleRenderer(resources.GraphicsDevice,
-                    new ContentManager(resources.ServiceProvider, "Content")));
+                    resources.Content));
 
             resources.WhiteTexture = new TextureBuilder(graphics.GraphicsDevice).SolidColor(10, 10, Color.White);
 

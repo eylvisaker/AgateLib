@@ -82,6 +82,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardGamepadMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\KeyMapItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\ManualInputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\_Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mathematics\Geometry\Algorithms\CollisionDetection\CollisionDetector.cs" />
@@ -183,6 +184,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\NullAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RadioButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RadioMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Renderable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\FlexBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\ImageSource.cs" />

@@ -123,6 +123,11 @@ namespace AgateLib.UserInterface.Widgets
         /// Called when the user accepts an item. Accept can be a button press, enter on the keyboard, or a mouse click (not yet supported).
         /// </summary>
         void OnAccept();
+
+        /// <summary>
+        /// Called when the user selects an item in its parent.
+        /// </summary>
+        void OnSelect();
     }
 
     public abstract class RenderElement<TProps> : IRenderElement where TProps : RenderElementProps
@@ -197,6 +202,10 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public virtual void OnAccept()
+        {
+        }
+
+        public virtual void OnSelect()
         {
         }
     }

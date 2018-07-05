@@ -23,12 +23,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Styling
 {
     public class FlexStyle
     {
         public AlignItems AlignItems { get; set; }
+        public FlexDirection Direction { get; internal set; }
     }
 
     public enum AlignItems

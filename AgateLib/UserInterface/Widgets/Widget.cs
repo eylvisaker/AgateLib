@@ -277,6 +277,19 @@ namespace AgateLib.UserInterface.Widgets
         {
             throw new NotImplementedException();
         }
+
+        public void OnSelect()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public abstract class Widget<TProps> : Widget<TProps, WidgetState> where TProps : WidgetProps
+    {
+        public Widget(TProps props) : base(props)
+        {
+        }
     }
 
     public static class WidgetExtensions
@@ -284,31 +297,18 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Recalculates the size of a child widget.
         /// </summary>
-        /// <param name="widget"></param>
+        /// <param name="element"></param>
         /// <param name="renderContext"></param>
         /// <param name="parentMaxSize"></param>
-        public static Size RecalculateSize(this IRenderElement widget, IWidgetRenderContext renderContext, Size parentMaxSize)
+        [Obsolete("This should be moved somewhere else.")]
+        public static Size RecalculateSize(this IRenderElement element, IWidgetRenderContext renderContext, Size parentMaxSize)
         {
-            widget.Display.Region.Size.ParentMaxSize = parentMaxSize;
+            element.Display.Region.Size.ParentMaxSize = parentMaxSize;
 
-            widget.Display.Region.Size.IdealContentSize
-                = widget.CalcIdealContentSize(renderContext, parentMaxSize);
+            element.Display.Region.Size.IdealContentSize
+                = element.CalcIdealContentSize(renderContext, parentMaxSize);
 
-            return widget.Display.Region.Size.IdealContentSize;
-        }
-
-        /// <summary>
-        /// Recalculates the size of a widget's own layout.
-        /// </summary>
-        /// <param name="layout"></param>
-        /// <param name="owner"></param>
-        /// <param name="renderContext"></param>
-        /// <param name="parentMaxSize"></param>
-        public static Size RecalculateSize(this IWidgetLayout layout, IRenderElement owner, IWidgetRenderContext renderContext, Size parentMaxSize)
-        {
-            owner.Display.Region.Size.ParentMaxSize = parentMaxSize;
-
-            return layout.ComputeIdealSize(parentMaxSize, renderContext);
+            return element.Display.Region.Size.IdealContentSize;
         }
     }
 }

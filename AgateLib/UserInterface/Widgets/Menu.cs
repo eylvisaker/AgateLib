@@ -19,49 +19,19 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
-
-using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.Styling;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Rendering.Animations;
-using System.ComponentModel;
 using System.Linq;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.Mathematics.Geometry;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class MenuProps : WidgetProps
-    {
-        public IList<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
-
-        public IWidget InitialSelection { get; set; }
-
-        /// <summary>
-        /// Callback to execute if the user presses cancel (usually the B button).
-        /// </summary>
-        public Action Cancel { get; set; }
-    }
-
-    public class MenuState : WidgetState
-    {
-
-    }
-
-    public class Menu : Widget<MenuProps, MenuState>
+    public class Menu : Widget<MenuProps, WidgetState>
     {
         public Menu(MenuProps props) : base(props)
         {
-            SetState(new MenuState());
         }
-
-        public object Cancel { get; private set; }
 
         /// <summary>
         /// Adds an item to the menu.
@@ -81,15 +51,31 @@ namespace AgateLib.UserInterface.Widgets
                 StyleId = Props.Name,
                 StyleClass = "menu",
                 Cancel = Props.Cancel,
+                InitialSelectionIndex = Props.InitialSelectionIndex,
                 Children = Props.MenuItems.ToList<IRenderable>()
             });
         }
     }
 
+    public class MenuProps : WidgetProps
+    {
+        public IList<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
+
+        /// <summary>
+        /// The zero-based index of the first item that should be selected.
+        /// </summary>
+        public int InitialSelectionIndex { get; set; }
+
+        /// <summary>
+        /// Callback to execute if the user presses cancel (usually the B button).
+        /// </summary>
+        public Action Cancel { get; set; }
+    }
+
     public class MenuElement : RenderElement<MenuElementProps>
     {
         private FlexBox child;
-        private int selectedIndex;
+        private int selectedIndex = -1;
         private ButtonPress<MenuInputButton> buttonPress = new ButtonPress<MenuInputButton>();
 
         public MenuElement(MenuElementProps props) : base(props)
@@ -99,18 +85,21 @@ namespace AgateLib.UserInterface.Widgets
                 Style = props.Style,
                 StyleClass = props.StyleClass,
                 StyleId = props.StyleId,
-                StyleTypeId = "menu",
+                StyleTypeId = string.IsNullOrWhiteSpace(props.StyleTypeId) 
+                            ? "menu" : props.StyleTypeId,
                 Children = props.Children
             });
 
             Children = new[] { child };
 
-            SelectedMenuItem.Display.PseudoClasses.Add("selected");
+            SetSelection(Props.InitialSelectionIndex);
 
             buttonPress.Press += OnButtonPress;
         }
 
-        IRenderElement SelectedMenuItem => child.Children.Skip(selectedIndex).First();
+        IRenderElement SelectedMenuItem 
+            => selectedIndex < child.Children.Count() 
+               ? child.Children.Skip(selectedIndex).First() : null;
 
         public int SelectedIndex => selectedIndex;
 
@@ -147,17 +136,12 @@ namespace AgateLib.UserInterface.Widgets
                 if (e.Button == MenuInputButton.Up)
                     newIndex--;
 
-                if (newIndex < 0)
-                    newIndex = 0;
                 if (newIndex >= Props.Children.Count)
                     newIndex = Props.Children.Count - 1;
+                if (newIndex < 0)
+                    newIndex = 0;
 
-                if (newIndex != selectedIndex)
-                {
-                    SelectedMenuItem.Display.PseudoClasses.Remove("selected");
-                    selectedIndex = newIndex;
-                    SelectedMenuItem.Display.PseudoClasses.Add("selected");
-                }
+                SetSelection(newIndex);
             }
             else if (e.EventType == WidgetEventType.ButtonUp)
             {
@@ -166,6 +150,18 @@ namespace AgateLib.UserInterface.Widgets
             }
 
             base.OnInputEvent(e);
+        }
+
+        private void SetSelection(int newIndex)
+        {
+            if (newIndex != selectedIndex)
+            {
+                SelectedMenuItem?.Display.PseudoClasses.Remove("selected");
+                selectedIndex = newIndex;
+                SelectedMenuItem?.Display.PseudoClasses.Add("selected");
+
+                child.Children.Skip(selectedIndex).First().OnSelect();
+            }
         }
 
         private void OnButtonPress(MenuInputButton btn)
@@ -195,5 +191,9 @@ namespace AgateLib.UserInterface.Widgets
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
 
         public Action Cancel { get; set; }
+
+        public string StyleTypeId { get; set; }
+
+        public int InitialSelectionIndex { get; set; }
     }
 }

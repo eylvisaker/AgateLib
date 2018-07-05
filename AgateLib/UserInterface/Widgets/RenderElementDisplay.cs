@@ -150,6 +150,9 @@ namespace AgateLib.UserInterface.Widgets
 
         public IDisplaySystem System { get; internal set; }
         
+        /// <summary>
+        /// Gets the collection of pseudoclases that apply to this element.
+        /// </summary>
         public HashSet<string> PseudoClasses { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
     }
 }

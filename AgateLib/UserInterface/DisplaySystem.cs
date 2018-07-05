@@ -35,5 +35,7 @@ namespace AgateLib.UserInterface
         IFontProvider Fonts { get; }
 
         IInstructions Instructions { get; }
+
+        IRenderElement ParentOf(IRenderElement element);
     }
 }

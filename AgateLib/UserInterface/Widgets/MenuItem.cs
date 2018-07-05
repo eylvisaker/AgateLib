@@ -29,7 +29,7 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class MenuItem : Widget<MenuItemProps, MenuItemState>
+    public class MenuItem : Widget<MenuItemProps>
     {
         public MenuItem(MenuItemProps props) : base(props)
         {
@@ -51,22 +51,8 @@ namespace AgateLib.UserInterface.Widgets
         public string Text { get; set; }
 
         public Action OnAccept { get; set; }
-    }
 
-    public class MenuItemState : WidgetState
-    {
-    }
-
-    public class MenuItemElementProps : RenderElementProps
-    {
-        public Action OnAccept { get; set; }
-
-        public List<IRenderable> Children { get; set; } = new List<IRenderable>();
-
-        /// <summary>
-        /// A purely informational property, not used by the MenuItemElement.
-        /// </summary>
-        public string Text { get; set; }
+        public Action OnSelect { get; set; }
     }
 
     public class MenuItemElement : RenderElement<MenuItemElementProps>
@@ -109,4 +95,17 @@ namespace AgateLib.UserInterface.Widgets
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
             => renderContext.DrawChild(clientArea, child);
     }
+
+    public class MenuItemElementProps : RenderElementProps
+    {
+        public Action OnAccept { get; set; }
+
+        public List<IRenderable> Children { get; set; } = new List<IRenderable>();
+
+        /// <summary>
+        /// A purely informational property, not used by the MenuItemElement.
+        /// </summary>
+        public string Text { get; set; }
+    }
+
 }

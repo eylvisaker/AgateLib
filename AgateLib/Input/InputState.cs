@@ -37,6 +37,9 @@ namespace AgateLib.Input
         KeyboardState KeyboardState { get; }
     }
 
+    /// <summary>
+    /// Implements IInputState by polling the hardware.
+    /// </summary>
     public class InputState : IInputState
     {
         Dictionary<PlayerIndex, GamePadState?> gamePads = new Dictionary<PlayerIndex, GamePadState?>();
