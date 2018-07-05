@@ -92,7 +92,7 @@ namespace AgateLib.UserInterface.Widgets
 
             Children = new[] { child };
 
-            SetSelection(Props.InitialSelectionIndex);
+            selectedIndex = Props.InitialSelectionIndex;
 
             buttonPress.Press += OnButtonPress;
         }
@@ -152,6 +152,20 @@ namespace AgateLib.UserInterface.Widgets
             base.OnInputEvent(e);
         }
 
+        public override void OnFocus()
+        {
+            base.OnFocus();
+            SelectedMenuItem?.Display.PseudoClasses.Add("selected");
+        }
+
+        public override void OnBlur()
+        {
+            base.OnBlur();
+
+            SelectedMenuItem?.Display.PseudoClasses.Remove("selected");
+            buttonPress.Clear();
+        }
+
         private void SetSelection(int newIndex)
         {
             if (newIndex != selectedIndex)
@@ -178,12 +192,6 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        public override void OnBlur()
-        {
-            base.OnBlur();
-
-            buttonPress.Clear();
-        }
     }
 
     public class MenuElementProps : RenderElementProps
