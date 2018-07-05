@@ -46,6 +46,12 @@ namespace AgateLib.UserInterface.Widgets
     public class WidgetProps
     {
         public string Name { get; set; }
+
+        public string StyleId { get; set; }
+
+        public string StyleClass { get; set; }
+
+        public InlineElementStyle Style { get; set; }
     }
 
     public class WidgetState

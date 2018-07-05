@@ -31,7 +31,6 @@ namespace AgateLib.UserInterface.Widgets
             canceled.Should().BeTrue("Menu did not exit when cancel was pressed.");
         }
 
-
         [Fact]
         public void MenuInputCancelShouldNotHappenIfCancelDownWasNotSent()
         {

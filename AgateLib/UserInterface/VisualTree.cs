@@ -143,10 +143,44 @@ namespace AgateLib.UserInterface
 
         public void Draw(IWidgetRenderContext renderContext, Rectangle area)
         {
-            TreeRoot.Display.MarginRect = area;
-            TreeRoot.DoLayout(renderContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);
+            DoLayout(renderContext, area);
 
             renderContext.DrawChild(area, TreeRoot);
+        }
+
+        public void DoLayout(IWidgetRenderContext renderContext, Rectangle area)
+        {
+            TreeRoot.Display.MarginRect = area;
+            TreeRoot.DoLayout(renderContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);
+        }
+
+        /// <summary>
+        /// Finds a render element in the tree.
+        /// </summary>
+        /// <param name="selector">A string of form "#styleId" </param>
+        /// <returns></returns>
+        public IEnumerable<IRenderElement> Find(string selector)
+        {
+            // TODO: Refactor the CSS matching logic so it can be used from here.
+            List<IRenderElement> results = new List<IRenderElement>();
+            Func<IRenderElement, bool> matcher = null;
+
+            if (selector.StartsWith("#"))
+            {
+                var id = selector.Substring(1);
+
+                matcher = e => e.StyleId == id;
+            }
+
+            Walk(e =>
+            {
+                if (matcher(e))
+                    results.Add(e);
+                return true;
+            });
+
+            return results;
+
         }
     }
 }

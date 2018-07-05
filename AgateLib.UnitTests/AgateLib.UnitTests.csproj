@@ -234,6 +234,7 @@
     <Compile Include="UserInterface\Layout\SingleColumnLayoutTests.cs" />
     <Compile Include="UserInterface\Layout\SingleRowLayoutTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\ThemeStylerTest.cs" />
+    <Compile Include="UserInterface\Widgets\FlexBoxTest.cs" />
     <Compile Include="UserInterface\Widgets\MenuTest.cs" />
     <Compile Include="UserInterface\Widgets\RadioMenuTest.cs" />
     <Compile Include="UserInterface\Widgets\TestUIDriver.cs" />

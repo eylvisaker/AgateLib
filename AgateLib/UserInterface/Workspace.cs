@@ -291,6 +291,8 @@ namespace AgateLib.UserInterface
             }
         }
 
+        internal VisualTree VisualTree { get => visualTree; }
+
         internal void TransitionOut()
         {
             foreach (var window in visualTree.TreeRoot.Children)

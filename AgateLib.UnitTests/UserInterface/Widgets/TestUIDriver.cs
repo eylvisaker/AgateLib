@@ -1,5 +1,8 @@
 ﻿using AgateLib.Input;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.Styling;
+using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -17,12 +20,12 @@ namespace AgateLib.Tests.UserInterface.Widgets
         private readonly Workspace defaultWorkspace;
         private readonly ManualInputState input;
 
-        public TestUIDriver(IWidget app)
+        public TestUIDriver(IWidget app, IStyleConfigurator styleConfigurator = null, IFontProvider fontProvider = null)
         {
             uiDriver = new UserInterfaceSceneDriver(
                 CommonMocks.RenderContext().Object,
-                CommonMocks.StyleConfigurator().Object,
-                CommonMocks.FontProvider().Object);
+                styleConfigurator ?? new ThemeStyler(new ThemeCollection { ["default"] = Theme.CreateDefaultTheme() }),
+                fontProvider ?? CommonMocks.FontProvider().Object);
 
             defaultWorkspace = new Workspace("default");
 
@@ -33,11 +36,25 @@ namespace AgateLib.Tests.UserInterface.Widgets
             uiDriver.Desktop.PushWorkspace(defaultWorkspace);
         }
 
+        public Size Size { get; set; } = new Size(1280, 720);
+
         public Desktop Desktop => uiDriver.Desktop;
 
         public void Add(IWidget widget)
         {
             defaultWorkspace.Add(widget);
+        }
+
+        public void DoLayout()
+        {
+            uiDriver.Update(new GameTime());
+
+            foreach (var workspace in Desktop.Workspaces)
+            {
+                var root = workspace.VisualTree.TreeRoot;
+
+                root.DoLayout(uiDriver.RenderContext, Size);
+            }
         }
 
         public void Press(Buttons buttons, PlayerIndex playerIndex = PlayerIndex.One)

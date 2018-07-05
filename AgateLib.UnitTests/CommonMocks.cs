@@ -42,16 +42,21 @@ namespace AgateLib.Tests
         
 
         /// <summary>
-        /// Constructs a font provider, with a list of available fake fonts.
+        /// Constructs a font provider, with an optional list of available fake fonts.
+        /// If no values are supplied, a single default font will be available in the font provider.
         /// </summary>
         /// <param name="fontNames">An array of font names to be available in the provider. The first one is the default font.</param>
         /// <returns></returns>
         public static Mock<IFontProvider> FontProvider(params string[] fontNames)
         {
             var fontProvider = new Mock<IFontProvider>();
+            var fonts = fontNames.ToList();
             Font defaultFont = null;
 
-            foreach (var fontName in fontNames)
+            if (fonts.Count == 0)
+                fonts.Add("default");
+
+            foreach (var fontName in fonts)
             {
                 var font = new Font(new FakeFontCore(fontName));
 

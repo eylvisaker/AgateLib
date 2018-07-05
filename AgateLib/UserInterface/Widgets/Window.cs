@@ -30,116 +30,29 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class WindowProps : WidgetProps
-    {
-        public IList<IWidget> Children { get; set; }
-
-        public IWidget Focus { get; set; }
-    }
-
     /// <summary>
     /// Widget that contains other widgets in a layout.
-    /// Does not handle navigation between widgets, that must be handled manually.
     /// </summary>
-    public class Window : Widget<WindowProps, WidgetState>
+    public class Window : Widget<WindowProps>
     {
-        private IWidgetLayout layout;//= new SingleColumnLayout();
         private List<IWidget> children = new List<IWidget>();
 
         public Window(WindowProps props) : base(props)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the layout type of the menu.
-        /// Setting this property allows for switching between single column
-        /// or single row layouts. For any custom layout type, set the Layout property.
-        /// </summary>
-        public LayoutType LayoutType
+        public override IRenderable Render() => new FlexBox(new FlexBoxProps
         {
-            get
-            {
-                var type = Layout.GetType();
-
-                //if (type == typeof(SingleColumnLayout)) return LayoutType.SingleColumn;
-                //if (type == typeof(SingleRowLayout)) return LayoutType.SingleRow;
-
-                return LayoutType.Custom;
-            }
-            set
-            {
-                if (value == LayoutType)
-                    return;
-
-                if (value == LayoutType.Custom)
-                    return;
-
-                IWidgetLayout newLayout = null;
-
-                switch (value)
-                {
-                    //case LayoutType.SingleColumn:
-                    //    newLayout = new SingleColumnLayout();
-                    //    break;
-
-                    //case LayoutType.SingleRow:
-                    //    newLayout = new SingleRowLayout();
-                    //    break;
-
-                    default:
-                        throw new ArgumentException("Cannot understand layout type.");
-                }
-
-                layout = newLayout;
-            }
-        }
-
-        /// <summary>
-        /// Adds a widget to the window layout.
-        /// </summary>
-        /// <param name="widget"></param>
-        [Obsolete("Pass children in props")]
-        public void Add(IWidget widget)
-        {
-            children.Add(widget);
-        }
-
-        /// <summary>
-        /// Gets or sets the IWidgetLayout object that handles the actual layout
-        /// of the menu items. Cannot be null.
-        /// </summary>
-        [Obsolete]
-        public IWidgetLayout Layout
-        {
-            get => layout;
-            set => layout = value ?? throw new ArgumentNullException(nameof(Layout));
-        }
-
-        [Obsolete]
-        public virtual void ProcessEvent(InputEventArgs args)
-        {
-            Layout?.InputEvent(args);
-        }
-
-        public virtual void Update(IWidgetRenderContext renderContext)
-        {
-            foreach (var item in children)
-                item.Update(renderContext);
-        }
-
-        public override IRenderable Render()
-        {
-            layout.SetChildren(children.Select(c => c.Finalize()));
-            return layout;
-        }
+            Style = Props.Style,
+            StyleClass = Props.StyleClass,
+            StyleId = Props.StyleId,
+            StyleTypeId = "window",
+            Children = Props.Children.ToList<IRenderable>(),
+        });
     }
 
-
-    public enum LayoutType
+    public class WindowProps : WidgetProps
     {
-        SingleColumn,
-        SingleRow,
-
-        Custom,
+        public IList<IWidget> Children { get; set; } = new List<IWidget>();
     }
 }
