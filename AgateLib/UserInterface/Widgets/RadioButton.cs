@@ -18,7 +18,7 @@ namespace AgateLib.UserInterface.Widgets
             return new RadioButtonElement(new RadioButtonElementProps
             {
                 Text = Props.Text,
-                OnSelect = Props.OnSelect,
+                OnFocus = Props.OnSelect,
                 OnAccept = Props.OnAccept,
                 Children = { new Label(new LabelProps { Text = Props.Text }) }
             });
@@ -45,8 +45,10 @@ namespace AgateLib.UserInterface.Widgets
 
     public class RadioButtonElement : RenderElement<RadioButtonElementProps>
     {
-        IRenderElement child;
-        bool isChecked;
+        private IRenderElement child;
+        private bool isChecked;
+
+        private ButtonPress<MenuInputButton> buttonPress = new ButtonPress<MenuInputButton>();
 
         public RadioButtonElement(RadioButtonElementProps props) : base(props)
         {
@@ -60,6 +62,20 @@ namespace AgateLib.UserInterface.Widgets
             }
 
             Children = new List<IRenderElement> { child };
+
+            buttonPress.Press += OnButtonPress;
+        }
+
+        private void OnButtonPress(MenuInputButton btn)
+        {
+            if (btn == MenuInputButton.Accept)
+            {
+                OnAccept();
+            }
+            else
+            {
+                Parent.OnChildNavigate(this, btn);
+            }
         }
 
         public bool IsChecked
@@ -97,9 +113,20 @@ namespace AgateLib.UserInterface.Widgets
             Props.OnAccept?.Invoke();
         }
 
+        public override void OnFocus()
+        {
+            Props.OnFocus?.Invoke();
+        }
+
+        public override void OnBlur()
+        {
+            base.OnBlur();
+            buttonPress.Clear();
+        }
+
         public override void OnSelect()
         {
-            Props.OnSelect?.Invoke();
+            Props.OnFocus?.Invoke();
         }
 
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)
@@ -116,6 +143,11 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
             => renderContext.DrawChild(clientArea, child);
+
+        public override void OnInputEvent(InputEventArgs input)
+        {
+            buttonPress.HandleInputEvent(input);
+        }
     }
 
     public class RadioButtonElementProps : RenderElementProps
@@ -126,6 +158,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public Action OnAccept { get; set; }
 
-        public Action OnSelect { get; set; }
+        public Action OnFocus { get; set; }
     }
 }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.UserInterface.Layout;
+using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
+using Microsoft.Xna.Framework.Input;
 using Xunit;
-using Moq;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.Tests.UserInterface.Widgets
 {
     public class MenuTest
     {
@@ -23,30 +23,11 @@ namespace AgateLib.UserInterface.Widgets
                 MenuItems = { new MenuItem(new MenuItemProps { Text = "Hello" }) }
             });
 
-            var element = menu.Finalize();
+            TestUIDriver driver = new TestUIDriver(menu);
 
-            element.OnInputEvent(InputEventArgs.ButtonDown(MenuInputButton.Cancel));
-            element.OnInputEvent(InputEventArgs.ButtonUp(MenuInputButton.Cancel));
+            driver.Press(Buttons.B);
 
             canceled.Should().BeTrue("Menu did not exit when cancel was pressed.");
-        }
-
-        [Fact]
-        public void MenuInputCancelShouldNotHappenIfCancelDownWasNotSent()
-        {
-            bool canceled = false;
-
-            var menu = new Menu(new MenuProps
-            {
-                Cancel = () => canceled = true,
-                MenuItems = { new MenuItem(new MenuItemProps { Text = "Hello" }) }
-            });
-
-            var element = menu.Finalize();
-
-            element.OnInputEvent(InputEventArgs.ButtonUp(MenuInputButton.Cancel));
-
-            canceled.Should().BeFalse("Cancel should not have been called.");
         }
     }
 }

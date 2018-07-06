@@ -91,7 +91,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
-                    Selector = "menuitem:selected",
+                    Selector = "menuitem:focus",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
                 },
@@ -110,7 +110,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
-                    Selector = "radiobutton:selected",
+                    Selector = "radiobutton:focus",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
                 },
@@ -124,7 +124,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
-                    Selector = "radiobutton:checked:selected",
+                    Selector = "radiobutton:checked:focus",
                     Background = new BackgroundStyle { Color = Color.Yellow },
                     Font = new FontStyleProperties { Color = Color.Black },
                 }

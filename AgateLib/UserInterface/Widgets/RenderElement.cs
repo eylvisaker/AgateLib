@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets a read-only collection of children of this element.
         /// </summary>
-        IEnumerable<IRenderElement> Children { get; }
+        IReadOnlyList<IRenderElement> Children { get; }
 
         /// <summary>
         /// Gets the type identifier used to identify this widget type to the styling
@@ -73,6 +73,14 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets the aggregated style of the render element.
         /// </summary>
         IRenderElementStyle Style { get; }
+
+        /// <summary>
+        /// Event called by a child component when it receives an input event it cannot handle.
+        /// This is usually a navigation event.
+        /// </summary>
+        /// <param name="menuItemElement"></param>
+        /// <param name="btn"></param>
+        void OnChildNavigate(IRenderElement child, MenuInputButton button);
 
         /// <summary>
         /// Draws the content of the widget.
@@ -117,7 +125,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Called when the widget receives an input event.
         /// </summary>
         /// <param name="widgetEventArgs"></param>
-        void OnInputEvent(InputEventArgs widgetEventArgs);
+        void OnInputEvent(InputEventArgs input);
 
         /// <summary>
         /// Called when the user accepts an item. Accept can be a button press, enter on the keyboard, or a mouse click (not yet supported).
@@ -139,9 +147,11 @@ namespace AgateLib.UserInterface.Widgets
             Display = new RenderElementDisplay(Props.Style);
         }
 
+        protected IRenderElement Parent => Display.System.ParentOf(this);
+
         public RenderElementDisplay Display { get; }
 
-        public virtual IEnumerable<IRenderElement> Children { get; protected set; }
+        public virtual IReadOnlyList<IRenderElement> Children { get; protected set; }
         
         public IRenderElementStyle Style => Display.Style;
 
@@ -163,7 +173,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public abstract void DoLayout(IWidgetRenderContext renderContext, Size size);
 
-        public virtual void OnInputEvent(InputEventArgs widgetEventArgs)
+        public virtual void OnInputEvent(InputEventArgs input)
         {
         }
 
@@ -207,6 +217,18 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual void OnSelect()
         {
+        }
+
+        /// <summary>
+        /// Event called when a child component receives an input event it can't handle.
+        /// Override this method to handle that event, otherwise the event will be passed to 
+        /// this element's parent.
+        /// </summary>
+        /// <param name="child"></param>
+        /// <param name="button"></param>
+        public virtual void OnChildNavigate(IRenderElement child, MenuInputButton button)
+        {
+            Parent?.OnChildNavigate(this, button);
         }
     }
 

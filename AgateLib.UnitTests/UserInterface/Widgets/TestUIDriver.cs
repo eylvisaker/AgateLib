@@ -68,7 +68,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
             ButtonUp();
         }
 
-        private void ButtonUp()
+        public void ButtonUp()
         {
             input.Reset();
             uiDriver.UpdateInput(input);

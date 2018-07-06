@@ -28,13 +28,13 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
             TestUIDriver driver = new TestUIDriver(app);
 
-            driver.Press(Buttons.DPadDown);
+            driver.Press(Buttons.DPadRight);
             driver.Press(Buttons.A);
 
             value.Should().Be("Bar");
             selected.Should().Be("Bar");
 
-            driver.Press(Buttons.DPadDown);
+            driver.Press(Buttons.DPadRight);
 
             value.Should().Be("Bar");
             selected.Should().Be("Gra");

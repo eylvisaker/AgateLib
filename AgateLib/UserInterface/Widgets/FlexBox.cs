@@ -211,7 +211,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override string StyleTypeId => Props.StyleTypeId;
 
-        public override IEnumerable<IRenderElement> Children => children;
+        public override IReadOnlyList<IRenderElement> Children => children;
 
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)
         {
@@ -266,6 +266,60 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
+        public override void OnChildNavigate(IRenderElement child, MenuInputButton button)
+        {
+            var index = IndexOf(child);
+            var newIndex = index;
+
+            if (Direction == FlexDirection.Column || Direction == FlexDirection.ColumnReverse)
+            {
+                if (button == MenuInputButton.Up)
+                {
+                    do
+                    {
+                        newIndex--;
+                    } while (newIndex >= 0 && !Children[newIndex].CanHaveFocus);
+                }
+                if (button == MenuInputButton.Down)
+                {
+                    do
+                    {
+                        newIndex++;
+                    } while (newIndex < Children.Count && !Children[newIndex].CanHaveFocus);
+                }
+            }
+            else
+            {
+                if (button == MenuInputButton.Left)
+                {
+                    do
+                    {
+                        newIndex--;
+                    } while (newIndex >= 0 && !Children[newIndex].CanHaveFocus);
+                }
+                if (button == MenuInputButton.Right)
+                {
+                    do
+                    {
+                        newIndex++;
+                    } while (newIndex < Children.Count && !Children[newIndex].CanHaveFocus);
+                }
+            }
+
+            if (newIndex == index || newIndex < 0 || newIndex >= Children.Count)
+            {
+                base.OnChildNavigate(this, button);
+            }
+            else
+            {
+                Display.System.Focus = Children[newIndex];
+            }
+        }
+
+        private int IndexOf(IRenderElement child)
+        {
+            return Children.ToList().IndexOf(child);
+        }
     }
 
     public class FlexBoxProps : RenderElementProps

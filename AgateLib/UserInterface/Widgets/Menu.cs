@@ -85,7 +85,7 @@ namespace AgateLib.UserInterface.Widgets
                 Style = props.Style,
                 StyleClass = props.StyleClass,
                 StyleId = props.StyleId,
-                StyleTypeId = string.IsNullOrWhiteSpace(props.StyleTypeId) 
+                StyleTypeId = string.IsNullOrWhiteSpace(props.StyleTypeId)
                             ? "menu" : props.StyleTypeId,
                 Children = props.Children
             });
@@ -97,8 +97,8 @@ namespace AgateLib.UserInterface.Widgets
             buttonPress.Press += OnButtonPress;
         }
 
-        IRenderElement SelectedMenuItem 
-            => selectedIndex < child.Children.Count() 
+        IRenderElement SelectedMenuItem
+            => selectedIndex < child.Children.Count()
                ? child.Children.Skip(selectedIndex).First() : null;
 
         bool rowLayout => child.Style.Flex?.Direction == FlexDirection.Row
@@ -125,63 +125,33 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
-            child.Display.ContentRect = new Rectangle(Point.Zero, clientArea.Size); 
+            child.Display.ContentRect = new Rectangle(Point.Zero, clientArea.Size);
             renderContext.DrawChild(clientArea, child);
-        }
-
-        public override void OnInputEvent(InputEventArgs e)
-        {
-            if (e.EventType == WidgetEventType.ButtonDown)
-            {
-                buttonPress.ButtonDown(e.Button);
-
-                var newIndex = selectedIndex;
-
-                if (e.Button == NextButton)
-                    newIndex++;
-                if (e.Button == PrevButton)
-                    newIndex--;
-
-                if (newIndex >= Props.Children.Count)
-                    newIndex = Props.Children.Count - 1;
-                if (newIndex < 0)
-                    newIndex = 0;
-
-                SetSelection(newIndex);
-            }
-            else if (e.EventType == WidgetEventType.ButtonUp)
-            {
-                buttonPress.ButtonUp(e.Button);
-
-            }
-
-            base.OnInputEvent(e);
         }
 
         public override void OnFocus()
         {
             base.OnFocus();
-            SelectedMenuItem?.Display.PseudoClasses.Add("selected");
+            var newFocus = child.Children.Skip(selectedIndex).First();
+            Display.System.Focus = newFocus;
         }
 
         public override void OnBlur()
         {
             base.OnBlur();
 
-            SelectedMenuItem?.Display.PseudoClasses.Remove("selected");
             buttonPress.Clear();
         }
-
-        private void SetSelection(int newIndex)
+        
+        public override void OnChildNavigate(IRenderElement child, MenuInputButton button)
         {
-            if (newIndex != selectedIndex)
+            if (button == MenuInputButton.Cancel)
             {
-                SelectedMenuItem?.Display.PseudoClasses.Remove("selected");
-                selectedIndex = newIndex;
-                SelectedMenuItem?.Display.PseudoClasses.Add("selected");
-
-                child.Children.Skip(selectedIndex).First().OnSelect();
+                Props.Cancel?.Invoke();
+                return;
             }
+
+            base.OnChildNavigate(child, button);
         }
 
         private void OnButtonPress(MenuInputButton btn)
@@ -197,7 +167,6 @@ namespace AgateLib.UserInterface.Widgets
                     break;
             }
         }
-
     }
 
     public class MenuElementProps : RenderElementProps

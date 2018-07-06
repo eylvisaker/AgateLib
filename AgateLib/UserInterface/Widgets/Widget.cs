@@ -160,7 +160,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the readonly collection of children.
         /// </summary>
-        public virtual IEnumerable<IRenderElement> Children => null;
+        public virtual IReadOnlyList<IRenderElement> Children => null;
 
         /// <summary>
         /// Gets the child of this widget that has focus.
@@ -285,6 +285,11 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public void OnSelect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnChildNavigate(IRenderElement child, MenuInputButton button)
         {
             throw new NotImplementedException();
         }

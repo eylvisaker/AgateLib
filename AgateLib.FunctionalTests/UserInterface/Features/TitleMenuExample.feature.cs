@@ -17,7 +17,7 @@ namespace AgateLib.Tests.UserInterface.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.3.2.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class RadioButtonFeatureFeature : Xunit.IClassFixture<RadioButtonFeatureFeature.FixtureData>, System.IDisposable
+    public partial class TitleMenuExampleFeature : Xunit.IClassFixture<TitleMenuExampleFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -27,7 +27,7 @@ namespace AgateLib.Tests.UserInterface.Features
 #line 1 "TitleMenuExample.feature"
 #line hidden
         
-        public RadioButtonFeatureFeature(RadioButtonFeatureFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public TitleMenuExampleFeature(TitleMenuExampleFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -36,7 +36,7 @@ namespace AgateLib.Tests.UserInterface.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RadioButtonFeature", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TitleMenuExample", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -70,7 +70,7 @@ namespace AgateLib.Tests.UserInterface.Features
         {
 #line 3
  #line 4
-  testRunner.Given("I have the radio button menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+  testRunner.Given("I have the title menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -80,7 +80,7 @@ namespace AgateLib.Tests.UserInterface.Features
         }
         
         [Xunit.FactAttribute(DisplayName="Start game from title menu")]
-        [Xunit.TraitAttribute("FeatureTitle", "RadioButtonFeature")]
+        [Xunit.TraitAttribute("FeatureTitle", "TitleMenuExample")]
         [Xunit.TraitAttribute("Description", "Start game from title menu")]
         public virtual void StartGameFromTitleMenu()
         {
@@ -98,7 +98,7 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Xunit.FactAttribute(DisplayName="Load game from title menu")]
-        [Xunit.TraitAttribute("FeatureTitle", "RadioButtonFeature")]
+        [Xunit.TraitAttribute("FeatureTitle", "TitleMenuExample")]
         [Xunit.TraitAttribute("Description", "Load game from title menu")]
         public virtual void LoadGameFromTitleMenu()
         {
@@ -122,12 +122,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                RadioButtonFeatureFeature.FeatureSetup();
+                TitleMenuExampleFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                RadioButtonFeatureFeature.FeatureTearDown();
+                TitleMenuExampleFeature.FeatureTearDown();
             }
         }
     }

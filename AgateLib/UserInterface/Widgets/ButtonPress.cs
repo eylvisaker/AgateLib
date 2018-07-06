@@ -54,4 +54,15 @@ namespace AgateLib.UserInterface.Widgets
             buttonsDown.Clear();
         }
     }
+
+    public static class ButtonPressExtensions
+    {
+        public static void HandleInputEvent(this ButtonPress<MenuInputButton> buttonPress, InputEventArgs input)
+        {
+            if (input.EventType == WidgetEventType.ButtonDown)
+                buttonPress.ButtonDown(input.Button);
+            if (input.EventType == WidgetEventType.ButtonUp)
+                buttonPress.ButtonUp(input.Button);
+        }
+    }
 }
