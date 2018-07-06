@@ -29,15 +29,42 @@ namespace AgateLib.UserInterface.Styling
 {
     public class FlexStyle
     {
+        /// <summary>
+        /// Gets or sets how items should be aligned on the cross axis.
+        /// </summary>
         public AlignItems AlignItems { get; set; }
-        public FlexDirection Direction { get; internal set; }
+
+        /// <summary>
+        /// Gets or sets the direction of the flex axis
+        /// </summary>
+        public FlexDirection Direction { get; set; }
     }
 
+    /// <summary>
+    /// Enum for values which indicate how items should be aligned on the cross axis.
+    /// </summary>
     public enum AlignItems
     {
-        Start,
-        End,
-        Center,
+        /// <summary>
+        /// Items are stretched to fill the entire area available to them on the cross axis.
+        /// </summary>
         Stretch,
+
+        /// <summary>
+        /// Items are aligned to the start of the cross axis. For a column layout, this aligns
+        /// items on the left, and for a row layout this aligns items across the top.
+        /// </summary>
+        Start,
+
+        /// <summary>
+        /// Items are aligned to the end of the cross axis. For a column layout, this
+        /// aligns items on the right, for a row layout this aligns items to the bottom.
+        /// </summary>
+        End,
+
+        /// <summary>
+        /// Items are centered along the cross axis.
+        /// </summary>
+        Center,
     }
 }

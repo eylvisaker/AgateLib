@@ -34,13 +34,180 @@ namespace AgateLib.UserInterface.Widgets
 {
     public class FlexBox : RenderElement<FlexBoxProps>
     {
+        #region --- Axis Interfaces ---
+
+        abstract class AxisSpace
+        {
+            protected abstract int AxisSize(Size itemSize);
+            protected abstract int CrossSize(Size itemSize);
+            protected abstract Size SetCrossSize(Size itemSize, int amount);
+            protected abstract Size SetSize(int axisSize, int crossSize);
+
+            protected abstract Point AdvanceAxis(Point dest, int amount);
+            protected abstract Point AdvanceCross(Point dest, int amount);
+
+            public void PerformLayout(
+                IWidgetRenderContext renderContext,
+                Size size,
+                IRenderElementStyle style,
+                IEnumerable<IRenderElement> children)
+            {
+                Point dest = new Point(0, 0);
+
+                foreach (var item in children)
+                {
+                    if (!item.Display.IsVisible)
+                        continue;
+
+                    item.Display.ParentFont = style.Font;
+
+                    var itemDest = dest;
+
+                    CalcItemIdealSize(renderContext, size, item);
+
+                    var contentSize = item.Display.Region.Size.ComputeContentSize();
+                    var marginSize = new Size(contentSize.Width + item.Display.Region.MarginToContentOffset.Width,
+                                              contentSize.Height + item.Display.Region.MarginToContentOffset.Height);
+
+                    switch (style.Flex?.AlignItems ?? AlignItems.Stretch)
+                    {
+                        case AlignItems.End:
+                            itemDest = AdvanceCross(itemDest, CrossSize(size) - CrossSize(marginSize));
+                            break;
+
+                        case AlignItems.Center:
+                            itemDest = AdvanceCross(itemDest, (CrossSize(size) - CrossSize(marginSize)) / 2);
+                            break;
+
+                        case AlignItems.Stretch:
+                            marginSize = SetCrossSize(marginSize, CrossSize(size));
+                            break;
+                    }
+
+                    item.Display.MarginRect = new Rectangle(itemDest, marginSize);
+                    item.DoLayout(renderContext, item.Display.ContentRect.Size);
+
+                    dest = AdvanceAxis(dest, AxisSize(item.Display.MarginRect.Size));
+                }
+            }
+
+            public Size CalcIdealSize(IWidgetRenderContext renderContext, Size maxSize, List<IRenderElement> children)
+            {
+                int idealCrossSize = 0;
+                int idealAxisSize = 0;
+
+                foreach (var item in children)
+                {
+                    if (!item.Display.IsVisible)
+                        continue;
+
+                    var itemBox = item.Display.Region.MarginToContentOffset;
+
+                    var itemMaxSize = LayoutMath.ItemContentMaxSize(itemBox, maxSize);
+
+                    item.Display.Region.Size.ParentMaxSize = maxSize;
+
+                    item.Display.Region.Size.IdealContentSize
+                        = item.CalcIdealContentSize(renderContext, maxSize);
+
+                    var itemIdealContentSize = item.Display.Region.Size.IdealContentSize;
+                    var itemIdealMarginSize = itemBox.Expand(itemIdealContentSize);
+
+                    idealCrossSize = Math.Max(idealCrossSize, CrossSize(itemIdealMarginSize));
+                    idealAxisSize += AxisSize(itemIdealMarginSize);
+                }
+
+                return SetSize(idealAxisSize, idealCrossSize);
+            }
+
+            private static void CalcItemIdealSize(IWidgetRenderContext renderContext, Size maxSize, IRenderElement item)
+            {
+                var idealSize = item.CalcIdealContentSize(renderContext, maxSize);
+                item.Display.Region.Size.IdealContentSize = idealSize;
+            }
+        }
+
+        class HorizontalAxisSpace : AxisSpace
+        {
+            protected override Size SetSize(int axisSize, int crossSize)
+            {
+                return new Size(axisSize, crossSize);
+            }
+
+            protected override int AxisSize(Size itemSize)
+            {
+                return itemSize.Width;
+            }
+            protected override int CrossSize(Size itemSize)
+            {
+                return itemSize.Height;
+            }
+            protected override Size SetCrossSize(Size itemSize, int amount)
+            {
+                itemSize.Height = amount;
+                return itemSize;
+            }
+
+            protected override Point AdvanceAxis(Point dest, int amount)
+            {
+                dest.X += amount;
+                return dest;
+            }
+
+            protected override Point AdvanceCross(Point dest, int amount)
+            {
+                dest.Y += amount;
+                return dest;
+            }
+        }
+
+        class VerticalAxisSpace : AxisSpace
+        {
+            protected override Size SetSize(int axisSize, int crossSize)
+            {
+                return new Size(crossSize, axisSize);
+            }
+
+            protected override int AxisSize(Size itemSize)
+            {
+                return itemSize.Height;
+            }
+            protected override int CrossSize(Size itemSize)
+            {
+                return itemSize.Width;
+            }
+            protected override Size SetCrossSize(Size itemSize, int amount)
+            {
+                itemSize.Width = amount;
+                return itemSize;
+            }
+
+            protected override Point AdvanceAxis(Point dest, int amount)
+            {
+                dest.Y += amount;
+                return dest;
+            }
+
+            protected override Point AdvanceCross(Point dest, int amount)
+            {
+                dest.X += amount;
+                return dest;
+            }
+        }
+
+        static AxisSpace horizontal = new HorizontalAxisSpace();
+        static AxisSpace vertical = new VerticalAxisSpace();
+
+        #endregion
+
         private readonly List<IRenderElement> children;
-        FlexDirection Direction = FlexDirection.Column;
 
         public FlexBox(FlexBoxProps props) : base(props)
         {
             children = props.Children.Select(c => c.Finalize()).ToList();
         }
+
+        public FlexDirection Direction => Style.Flex?.Direction ?? FlexDirection.Column;
 
         public override string StyleTypeId => Props.StyleTypeId;
 
@@ -57,48 +224,17 @@ namespace AgateLib.UserInterface.Widgets
             {
                 case FlexDirection.Column:
                 case FlexDirection.ColumnReverse:
-                    return ComputeIdealSizeColumn(renderContext, maxSize);
+                    return vertical.CalcIdealSize(renderContext, maxSize, children);
 
                 case FlexDirection.Row:
                 case FlexDirection.RowReverse:
-                    return ComputeIdealSizeRow(renderContext, maxSize);
+                    return horizontal.CalcIdealSize(renderContext, maxSize, children);
 
                 default:
                     throw new InvalidOperationException();
             }
         }
 
-        private Size ComputeIdealSizeRow(IWidgetRenderContext renderContext, Size maxSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Size ComputeIdealSizeColumn(IWidgetRenderContext renderContext, Size maxSize)
-        {
-            int idealWidth = 0;
-            int idealHeight = 0;
-
-            foreach (var item in Children)
-            {
-                if (!item.Display.IsVisible)
-                    continue;
-
-                var itemBox = item.Display.Region.MarginToContentOffset;
-
-                var itemMaxSize =
-                    LayoutMath.ItemContentMaxSize(itemBox, maxSize);
-
-                item.RecalculateSize(renderContext, maxSize);
-
-                var itemIdealContentSize = item.Display.Region.Size.IdealContentSize;
-
-                idealWidth = Math.Max(idealWidth, itemIdealContentSize.Width + itemBox.Width);
-
-                idealHeight += itemIdealContentSize.Height + itemBox.Height;
-            }
-
-            return new Size(idealWidth, idealHeight);
-        }
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
@@ -110,19 +246,19 @@ namespace AgateLib.UserInterface.Widgets
             switch (Direction)
             {
                 case FlexDirection.Column:
-                    PerformColumnLayout(renderContext, size, Children);
+                    vertical.PerformLayout(renderContext, size, Style, Children);
                     break;
 
                 case FlexDirection.ColumnReverse:
-                    PerformColumnLayout(renderContext, size, Children.Reverse());
+                    vertical.PerformLayout(renderContext, size, Style, Children.Reverse());
                     break;
 
                 case FlexDirection.Row:
-                    PerformRowLayout(renderContext, size, Children);
+                    horizontal.PerformLayout(renderContext, size, Style, Children);
                     break;
 
                 case FlexDirection.RowReverse:
-                    PerformRowLayout(renderContext, size, Children.Reverse());
+                    horizontal.PerformLayout(renderContext, size, Style, Children.Reverse());
                     break;
 
                 default:
@@ -130,57 +266,6 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        private void PerformRowLayout(IWidgetRenderContext renderContext, Size size, IEnumerable<IRenderElement> children)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void PerformColumnLayout(IWidgetRenderContext renderContext, Size size, IEnumerable<IRenderElement> children)
-        {
-            Point dest = new Point(0, 0);
-
-            foreach (var item in children)
-            {
-                if (!item.Display.IsVisible)
-                    continue;
-
-                item.Display.ParentFont = Style.Font;
-
-                var itemDest = dest;
-
-                CalcIdealSize(renderContext, size, item);
-
-                var contentSize = item.Display.Region.Size.ComputeContentSize();
-                var marginSize = new Size(contentSize.Width + item.Display.Region.MarginToContentOffset.Width,
-                                          contentSize.Height + item.Display.Region.MarginToContentOffset.Height);
-
-                switch (Style.Flex?.AlignItems ?? AlignItems.Start)
-                {
-                    case AlignItems.End:
-                        itemDest.X += size.Width - marginSize.Width;
-                        break;
-
-                    case AlignItems.Center:
-                        itemDest.X += (size.Width - marginSize.Width) / 2;
-                        break;
-
-                    case AlignItems.Stretch:
-                        marginSize.Width = size.Width;
-                        break;
-                }
-
-                item.Display.MarginRect = new Rectangle(itemDest, marginSize);
-                item.DoLayout(renderContext, item.Display.ContentRect.Size);
-
-                dest.Y += item.Display.MarginRect.Height;
-            }
-        }
-
-        private static void CalcIdealSize(IWidgetRenderContext renderContext, Size maxSize, IRenderElement item)
-        {
-            var idealSize = item.CalcIdealContentSize(renderContext, maxSize);
-            item.Display.Region.Size.IdealContentSize = idealSize;
-        }
     }
 
     public class FlexBoxProps : RenderElementProps

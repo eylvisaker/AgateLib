@@ -101,6 +101,12 @@ namespace AgateLib.UserInterface.Widgets
             => selectedIndex < child.Children.Count() 
                ? child.Children.Skip(selectedIndex).First() : null;
 
+        bool rowLayout => child.Style.Flex?.Direction == FlexDirection.Row
+                       || child.Style.Flex?.Direction == FlexDirection.RowReverse;
+
+        MenuInputButton NextButton => rowLayout ? MenuInputButton.Right : MenuInputButton.Down;
+        MenuInputButton PrevButton => rowLayout ? MenuInputButton.Left : MenuInputButton.Up;
+
         public int SelectedIndex => selectedIndex;
 
         public IEnumerable<MenuItemElement> MenuItems => child.Children.OfType<MenuItemElement>();
@@ -131,9 +137,9 @@ namespace AgateLib.UserInterface.Widgets
 
                 var newIndex = selectedIndex;
 
-                if (e.Button == MenuInputButton.Down)
+                if (e.Button == NextButton)
                     newIndex++;
-                if (e.Button == MenuInputButton.Up)
+                if (e.Button == PrevButton)
                     newIndex--;
 
                 if (newIndex >= Props.Children.Count)

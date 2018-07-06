@@ -36,8 +36,18 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderable Render()
         {
-            return new LabelElement(new LabelElementProps {
-                Text = Props.Text });
+            return new LabelElement(new LabelElementProps
+            {
+                Text = Props.Text,
+                Style = Props.Style,
+                StyleClass = Props.StyleClass,
+                StyleId = Props.StyleId,
+            });
+        }
+
+        public override string ToString()
+        {
+            return $"Label: {Props.Text?.Substring(0, Math.Min(20, Props.Text.Length)) ?? "null"}";
         }
     }
 
@@ -74,6 +84,11 @@ namespace AgateLib.UserInterface.Widgets
         {
             Style.Font.DrawText(renderContext.SpriteBatch,
                 clientArea.Location.ToVector2(), Props.Text);
+        }
+
+        public override string ToString()
+        {
+            return $"LabelElement: {Props.Text?.Substring(0, Math.Min(20, Props.Text.Length)) ?? "null"}";
         }
     }
 

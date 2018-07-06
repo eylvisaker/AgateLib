@@ -34,6 +34,8 @@ namespace AgateLib.Tests.UserInterface.Widgets
             input = new ManualInputState();
 
             uiDriver.Desktop.PushWorkspace(defaultWorkspace);
+
+            DoLayout();
         }
 
         public Size Size { get; set; } = new Size(1280, 720);

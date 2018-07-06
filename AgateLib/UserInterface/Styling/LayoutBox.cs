@@ -26,6 +26,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Styling
@@ -61,7 +62,7 @@ namespace AgateLib.UserInterface.Styling
         /// <summary>
         /// Gets a Point representing the top left of the LayoutBox.
         /// </summary>
-        public Point TopLeft { get => new Point(Left, Top); }
+        public Point TopLeft => new Point(Left, Top);
 
         /// <summary>
         /// Expands a rectangle by the layout box.
@@ -73,6 +74,18 @@ namespace AgateLib.UserInterface.Styling
             return new Rectangle(
                 targetRect.X - Left,
                 targetRect.Y - Top,
+                targetRect.Width + Width,
+                targetRect.Height + Height);
+        }
+
+        /// <summary>
+        /// Expands a rectangle by the layout box.
+        /// </summary>
+        /// <param name="targetRect"></param>
+        /// <returns></returns>
+        public Size Expand(Size targetRect)
+        {
+            return new Size(
                 targetRect.Width + Width,
                 targetRect.Height + Height);
         }

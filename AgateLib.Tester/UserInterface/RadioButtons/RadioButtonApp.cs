@@ -15,6 +15,13 @@ namespace AgateLib.Tests.UserInterface.RadioButtons
 
         public override IRenderable Render() => new RadioMenu(new RadioMenuProps
         {
+            Style = new InlineElementStyle
+            {
+                Flex = new AgateLib.UserInterface.Styling.FlexStyle
+                {
+                    Direction = FlexDirection.Row
+                }
+            },
             Buttons = Props.Items.Select(x => new RadioButton(new RadioButtonProps
             {
                 OnAccept = () => Props.OnValueSet?.Invoke(x),
