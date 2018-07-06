@@ -201,15 +201,22 @@ namespace AgateLib.UserInterface.Widgets
         #endregion
 
         private readonly List<IRenderElement> children;
+        private readonly List<IRenderElement> focusChildren;
+        private int focusIndex;
 
         public FlexBox(FlexBoxProps props) : base(props)
         {
             children = props.Children.Select(c => c.Finalize()).ToList();
+            focusChildren = children.Where(x => CanChildHaveFocus(x)).ToList();
         }
 
         public FlexDirection Direction => Style.Flex?.Direction ?? FlexDirection.Column;
 
+        public int SelectedIndex => focusIndex;
+
         public override string StyleTypeId => Props.StyleTypeId;
+
+        public override bool CanHaveFocus => Children.Any(c => CanChildHaveFocus(c));
 
         public override IReadOnlyList<IRenderElement> Children => children;
 
@@ -235,6 +242,10 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
+        public override void OnFocus()
+        {
+            Display.System.Focus = focusChildren[focusIndex];
+        }
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
@@ -278,14 +289,14 @@ namespace AgateLib.UserInterface.Widgets
                     do
                     {
                         newIndex--;
-                    } while (newIndex >= 0 && !Children[newIndex].CanHaveFocus);
+                    } while (newIndex >= 0 && !CanChildHaveFocus(Children[newIndex]));
                 }
                 if (button == MenuInputButton.Down)
                 {
                     do
                     {
                         newIndex++;
-                    } while (newIndex < Children.Count && !Children[newIndex].CanHaveFocus);
+                    } while (newIndex < focusChildren.Count && !CanChildHaveFocus(Children[newIndex]));
                 }
             }
             else
@@ -295,25 +306,31 @@ namespace AgateLib.UserInterface.Widgets
                     do
                     {
                         newIndex--;
-                    } while (newIndex >= 0 && !Children[newIndex].CanHaveFocus);
+                    } while (newIndex >= 0 && !CanChildHaveFocus(Children[newIndex]));
                 }
                 if (button == MenuInputButton.Right)
                 {
                     do
                     {
                         newIndex++;
-                    } while (newIndex < Children.Count && !Children[newIndex].CanHaveFocus);
+                    } while (newIndex < focusChildren.Count && !CanChildHaveFocus(Children[newIndex]));
                 }
             }
 
-            if (newIndex == index || newIndex < 0 || newIndex >= Children.Count)
+            if (newIndex == index || newIndex < 0 || newIndex >= focusChildren.Count)
             {
                 base.OnChildNavigate(this, button);
             }
             else
             {
-                Display.System.Focus = Children[newIndex];
+                focusIndex = newIndex;
+                Display.System.Focus = focusChildren[newIndex];
             }
+        }
+
+        private bool CanChildHaveFocus(IRenderElement renderElement)
+        {
+            return renderElement.Display.IsVisible && renderElement.CanHaveFocus;
         }
 
         private int IndexOf(IRenderElement child)

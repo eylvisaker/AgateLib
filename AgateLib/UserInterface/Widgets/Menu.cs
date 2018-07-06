@@ -101,13 +101,7 @@ namespace AgateLib.UserInterface.Widgets
             => selectedIndex < child.Children.Count()
                ? child.Children.Skip(selectedIndex).First() : null;
 
-        bool rowLayout => child.Style.Flex?.Direction == FlexDirection.Row
-                       || child.Style.Flex?.Direction == FlexDirection.RowReverse;
-
-        MenuInputButton NextButton => rowLayout ? MenuInputButton.Right : MenuInputButton.Down;
-        MenuInputButton PrevButton => rowLayout ? MenuInputButton.Left : MenuInputButton.Up;
-
-        public int SelectedIndex => selectedIndex;
+        public int SelectedIndex => child.SelectedIndex;
 
         public IEnumerable<MenuItemElement> MenuItems => child.Children.OfType<MenuItemElement>();
 
@@ -132,8 +126,7 @@ namespace AgateLib.UserInterface.Widgets
         public override void OnFocus()
         {
             base.OnFocus();
-            var newFocus = child.Children.Skip(selectedIndex).First();
-            Display.System.Focus = newFocus;
+            Display.System.Focus = child;
         }
 
         public override void OnBlur()
