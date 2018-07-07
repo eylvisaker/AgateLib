@@ -214,7 +214,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public int SelectedIndex => focusIndex;
 
-        public override string StyleTypeId => Props.StyleTypeId;
+        public override string StyleTypeId => Props.StyleTypeId ?? "flexbox";
 
         public override bool CanHaveFocus => Children.Any(c => CanChildHaveFocus(c));
 
@@ -279,7 +279,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void OnChildNavigate(IRenderElement child, MenuInputButton button)
         {
-            var index = IndexOf(child);
+            var index = focusChildren.IndexOf(child);
             var newIndex = index;
 
             if (Direction == FlexDirection.Column || Direction == FlexDirection.ColumnReverse)
@@ -289,14 +289,14 @@ namespace AgateLib.UserInterface.Widgets
                     do
                     {
                         newIndex--;
-                    } while (newIndex >= 0 && !CanChildHaveFocus(Children[newIndex]));
+                    } while (newIndex >= 0 && !CanChildHaveFocus(focusChildren[newIndex]));
                 }
                 if (button == MenuInputButton.Down)
                 {
                     do
                     {
                         newIndex++;
-                    } while (newIndex < focusChildren.Count && !CanChildHaveFocus(Children[newIndex]));
+                    } while (newIndex < focusChildren.Count && !CanChildHaveFocus(focusChildren[newIndex]));
                 }
             }
             else
@@ -306,14 +306,14 @@ namespace AgateLib.UserInterface.Widgets
                     do
                     {
                         newIndex--;
-                    } while (newIndex >= 0 && !CanChildHaveFocus(Children[newIndex]));
+                    } while (newIndex >= 0 && !CanChildHaveFocus(focusChildren[newIndex]));
                 }
                 if (button == MenuInputButton.Right)
                 {
                     do
                     {
                         newIndex++;
-                    } while (newIndex < focusChildren.Count && !CanChildHaveFocus(Children[newIndex]));
+                    } while (newIndex < focusChildren.Count && !CanChildHaveFocus(focusChildren[newIndex]));
                 }
             }
 
@@ -331,11 +331,6 @@ namespace AgateLib.UserInterface.Widgets
         private bool CanChildHaveFocus(IRenderElement renderElement)
         {
             return renderElement.Display.IsVisible && renderElement.CanHaveFocus;
-        }
-
-        private int IndexOf(IRenderElement child)
-        {
-            return Children.ToList().IndexOf(child);
         }
     }
 
