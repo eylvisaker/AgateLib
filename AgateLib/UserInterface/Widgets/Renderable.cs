@@ -38,6 +38,11 @@ namespace AgateLib.UserInterface.Widgets
         ///</remarks>
         /// <returns></returns>
         IRenderable Render();
+
+        /// <summary>
+        /// Event raised by the renderable when it needs to be re-rendered.
+        /// </summary>
+        Action<IRenderable> NeedsRender { get; set; }
     }
 
     public static class RenderableExtension
@@ -45,14 +50,17 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Calls Render repeatedly on the return values of renderable.Render() until an IRenderElement is returned.
         /// </summary>
-        /// <param name="renderable"></param>
+        /// <param name="renderable">The IRenderable object to finalize.</param>
+        /// <param name="needsRenderSubscriber">A handler to subscribe to the NeedsRender event.</param>
         /// <returns></returns>
-        public static IRenderElement Finalize(this IRenderable renderable)
+        public static IRenderElement Finalize(this IRenderable renderable, Action<IRenderable> needsRenderSubscriber)
         {
             IRenderable result = renderable;
             int count = 0;
             const int max = 200;
 
+            renderable.NeedsRender = needsRenderSubscriber;
+            
             do
             {
                 if (result == null)
@@ -61,6 +69,7 @@ namespace AgateLib.UserInterface.Widgets
                     throw new InvalidOperationException($"After {max} iterations, {renderable} failed to return a render element.");
 
                 result = result.Render();
+                result.NeedsRender = needsRenderSubscriber;
 
                 count++;
             } while (!(result is IRenderElement));

@@ -147,7 +147,20 @@ namespace AgateLib.UserInterface.Widgets
             Display = new RenderElementDisplay(Props.Style, Props.DefaultStyle);
         }
 
+        Action<IRenderable> IRenderable.NeedsRender { get => NeedsRender; set => NeedsRender = value; }
+        protected Action<IRenderable> NeedsRender { get; private set; }
+
         protected IRenderElement Parent => Display.System.ParentOf(this);
+
+        protected IEnumerable<IRenderElement> Finalize(IEnumerable<IRenderable> renderables) 
+        {
+            return renderables.Select(Finalize);
+        }
+
+        protected IRenderElement Finalize(IRenderable renderable)
+        {
+            return renderable.Finalize(e => NeedsRender?.Invoke(e));
+        }
 
         public RenderElementDisplay Display { get; }
 

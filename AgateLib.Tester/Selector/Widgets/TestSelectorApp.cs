@@ -25,10 +25,15 @@ namespace AgateLib.Tests.Selector.Widgets
 
         public override IRenderable Render()
         {
-            return new FlexBox(new FlexBoxProps
+            return new App(new AppProps
             {
-                StyleId = "test-selector-app",
-                Children = { choose, carousel }
+                Children = {
+                    new Window(new WindowProps
+                    {
+                        StyleId = "test-selector-app",
+                        Children = { choose, carousel }
+                    })
+                }
             });
         }
     }

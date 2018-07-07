@@ -26,7 +26,7 @@ namespace AgateLib.UserInterface.Widgets
 
     public class RadioMenuProps : WidgetProps
     {
-        public List<RadioButton> Buttons { get; set; }
+        public List<RadioButton> Buttons { get; set; } = new List<RadioButton>();
 
         public Action Cancel { get; set; }
     }

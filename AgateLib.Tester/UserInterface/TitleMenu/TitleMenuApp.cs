@@ -15,14 +15,20 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
 
         public override IRenderable Render()
         {
-            return new Menu(new MenuProps
+            return new App(new AppProps
             {
-                Cancel = Props.Cancel,
-                MenuItems =
+                Children =
                 {
-                    new MenuItem(new MenuItemProps { Text = "Start", OnAccept = Props.Start }),
-                    new MenuItem(new MenuItemProps { Text = "Load", OnAccept = Props.Load }),
-                    new MenuItem(new MenuItemProps { Text = "Quit", OnAccept = Props.Quit })
+                    new Menu(new MenuProps
+                    {
+                        Cancel = Props.Cancel,
+                        MenuItems =
+                        {
+                            new MenuItem(new MenuItemProps { Text = "Start", OnAccept = Props.Start }),
+                            new MenuItem(new MenuItemProps { Text = "Load", OnAccept = Props.Load }),
+                            new MenuItem(new MenuItemProps { Text = "Quit", OnAccept = Props.Quit })
+                        }
+                    })
                 }
             });
         }

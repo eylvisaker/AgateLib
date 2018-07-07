@@ -65,7 +65,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             if (props.Children.Count == 1)
             {
-                child = props.Children.First().Finalize();
+                child = Finalize(props.Children.First());
             }
             else
             {

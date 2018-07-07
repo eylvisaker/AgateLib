@@ -13,22 +13,28 @@ namespace AgateLib.Tests.UserInterface.RadioButtons
         {
         }
 
-        public override IRenderable Render() => new RadioMenu(new RadioMenuProps
+        public override IRenderable Render() => new App(new AppProps
         {
-            Style = new InlineElementStyle
+            Children =
             {
-                Flex = new AgateLib.UserInterface.Styling.FlexStyle
+                new RadioMenu(new RadioMenuProps
                 {
-                    Direction = FlexDirection.Row
-                }
-            },
-            Buttons = Props.Items.Select(x => new RadioButton(new RadioButtonProps
-            {
-                OnAccept = () => Props.OnValueSet?.Invoke(x),
-                OnSelect = () => Props.OnSelectionSet?.Invoke(x),
-                Text = x,
-            })).ToList(),
-            Cancel = Props.Cancel
+                    Style = new InlineElementStyle
+                    {
+                        Flex = new AgateLib.UserInterface.Styling.FlexStyle
+                        {
+                            Direction = FlexDirection.Row
+                        }
+                    },
+                    Buttons = Props.Items.Select(x => new RadioButton(new RadioButtonProps
+                    {
+                        OnAccept = () => Props.OnValueSet?.Invoke(x),
+                        OnSelect = () => Props.OnSelectionSet?.Invoke(x),
+                        Text = x,
+                    })).ToList(),
+                    Cancel = Props.Cancel
+                })
+            }
         });
     }
 

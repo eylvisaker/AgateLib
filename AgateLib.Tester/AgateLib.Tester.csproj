@@ -162,6 +162,7 @@
     <Compile Include="Test.cs" />
     <Compile Include="TestResources.cs" />
     <Compile Include="Selector\TestSelector.cs" />
+    <Compile Include="UserInterface\DoubleRadioMenus\DoubleRadioMenusTest.cs" />
     <Compile Include="UserInterface\FF6\FF6Menu.cs" />
     <Compile Include="UserInterface\FF6\FF6MenuTest.cs" />
     <Compile Include="UserInterface\FF6\FF6Model.cs" />
@@ -169,10 +170,13 @@
     <Compile Include="UserInterface\FF6\Widgets\FF6MainMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\PartyStatusWindow.cs" />
     <Compile Include="UserInterface\DoubleRadioMenus\DoubleRadioMenusApp.cs" />
+    <Compile Include="UserInterface\JustifyContentTest\JustifyContentApp.cs" />
+    <Compile Include="UserInterface\JustifyContentTest\JustifyContentTest.cs" />
     <Compile Include="UserInterface\RadioButtons\RadioButtonApp.cs" />
     <Compile Include="UserInterface\RadioButtons\RadioButtonTest.cs" />
     <Compile Include="UserInterface\TitleMenu\TitleMenuApp.cs" />
     <Compile Include="UserInterface\TitleMenu\TitleMenuTest.cs" />
+    <Compile Include="UserInterface\UITest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=5.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">

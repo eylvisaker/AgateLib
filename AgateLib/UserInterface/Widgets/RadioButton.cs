@@ -20,6 +20,7 @@ namespace AgateLib.UserInterface.Widgets
                 Text = Props.Text,
                 OnFocus = Props.OnSelect,
                 OnAccept = Props.OnAccept,
+                Checked = Props.Checked,
                 Children = { new Label(new LabelProps { Text = Props.Text }) }
             });
         }
@@ -41,6 +42,11 @@ namespace AgateLib.UserInterface.Widgets
         /// Event raised when the radio button is accepted by the user, as in hitting the A button or Enter key.
         /// </summary>
         public Action OnAccept { get; set; }
+
+        /// <summary>
+        /// Gets or sets the initial check state of the radio button.
+        /// </summary>
+        public bool Checked { get; set; }
     }
 
     public class RadioButtonElement : RenderElement<RadioButtonElementProps>
@@ -54,12 +60,14 @@ namespace AgateLib.UserInterface.Widgets
         {
             if (props.Children.Count == 1)
             {
-                child = props.Children.First().Finalize();
+                child = Finalize(props.Children.First());
             }
             else
             {
                 child = new FlexBox(new FlexBoxProps { Children = props.Children });
             }
+
+            isChecked = Props.Checked;
 
             Children = new List<IRenderElement> { child };
 
@@ -159,5 +167,7 @@ namespace AgateLib.UserInterface.Widgets
         public Action OnAccept { get; set; }
 
         public Action OnFocus { get; set; }
+
+        public bool Checked { get; set; }
     }
 }

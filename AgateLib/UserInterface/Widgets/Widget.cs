@@ -71,6 +71,9 @@ namespace AgateLib.UserInterface.Widgets
 
         #region --- Props Management ---
 
+        Action<IRenderable> IRenderable.NeedsRender { get => NeedsRender; set => NeedsRender = value; }
+        protected Action<IRenderable> NeedsRender { get; private set; }
+
         /// <summary>
         /// Read-only props. Do not modify props, instead call SetProps method.
         /// Props should not be modified within a widget, instead they should
@@ -81,11 +84,15 @@ namespace AgateLib.UserInterface.Widgets
         public void SetProps(TProps props)
         {
             this.props = props;
+
+            NeedsRender?.Invoke(this);
         }
 
         public void UpdateProps(Action<TProps> propsUpdater)
         {
             propsUpdater(props);
+
+            NeedsRender?.Invoke(this);
         }
 
         #endregion
@@ -102,16 +109,18 @@ namespace AgateLib.UserInterface.Widgets
         protected void UpdateState(Action<TState> stateMutator)
         {
             stateMutator(state);
+
+            NeedsRender?.Invoke(this);
         }
 
         protected void SetState(TState newState)
         {
             this.state = newState;
 
-            NeedsRender = true;
+            NeedsRender?.Invoke(this);
         }
 
-        internal bool NeedsRender { get; private set; }
+        internal IDisplaySystem DisplaySystem { get; set; }
 
         #endregion
 
@@ -139,6 +148,9 @@ namespace AgateLib.UserInterface.Widgets
         {
             Name = name ?? "";
         }
+
+
+        Action<IRenderable> IRenderable.NeedsRender { get; set; }
 
         public event EventHandler FocusGained;
         public event EventHandler FocusLost;

@@ -55,9 +55,7 @@ namespace AgateLib.Tests.Selector
                 OnAcceptTest = test => StartTest?.Invoke(this, new TestEventArgs(test))
             });
 
-            var workspace = new Workspace("default");
-
-            workspace.Add(app);
+            var workspace = new Workspace("default", app);
 
             scene.Desktop.PushWorkspace(workspace);
 

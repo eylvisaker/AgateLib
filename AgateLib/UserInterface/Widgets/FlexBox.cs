@@ -291,7 +291,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public FlexBox(FlexBoxProps props) : base(props)
         {
-            children = props.Children.Select(c => c.Finalize()).ToList();
+            children = Finalize(props.Children).ToList();
             focusChildren = children.Where(x => CanChildHaveFocus(x)).ToList();
         }
 

@@ -184,6 +184,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\NullAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RadioButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RadioMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Renderable.cs" />

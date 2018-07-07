@@ -38,8 +38,10 @@ namespace AgateLib.UserInterface
         IRenderElement root;
         IRenderElement focus;
 
-        public void Render(IRenderElement newRoot)
+        public void Render(IRenderable rootRenderable)
         {
+            var newRoot = rootRenderable.Finalize(_ => Render(rootRenderable));
+
             root = Reconcile(root, newRoot);
             root.Display.ParentFont = DisplaySystem.Fonts.Default;
 

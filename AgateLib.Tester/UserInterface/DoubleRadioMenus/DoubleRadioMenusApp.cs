@@ -19,40 +19,49 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
         public ItemData SelectedLeft => selectedLeft;
         public ItemData SelectedRight => selectedRight;
 
-        public override IRenderable Render() => new FlexBox(new FlexBoxProps
+        public override IRenderable Render() => new App(new AppProps
         {
             Children =
+            {
+                new FlexBox(new FlexBoxProps
                 {
-                    new Label(new LabelProps { Text = "Choose"}),
-                    new FlexBox(new FlexBoxProps
-                    {
-                        Style = new InlineElementStyle { Flex = new FlexStyle { Direction = FlexDirection.Row } },
-                        Children =
+                    Children =
                         {
-                            new RadioMenu(new RadioMenuProps
+                            new Label(new LabelProps { Text = "Choose"}),
+                            new FlexBox(new FlexBoxProps
                             {
-                                Buttons = CreateLeftRadioButtons().ToList(),
+                                Style = new InlineElementStyle { Flex = new FlexStyle { Direction = FlexDirection.Row } },
+                                Children =
+                                {
+                                    new RadioMenu(new RadioMenuProps
+                                    {
+                                        Buttons = CreateLeftRadioButtons().ToList(),
+                                        Cancel = Props.Cancel,
+                                    }),
+                                    new RadioMenu(new RadioMenuProps
+                                    {
+                                        Buttons = CreateRightRadioButtons().ToList(),
+                                        Cancel = Props.Cancel,
+                                    }),
+                                }
                             }),
-                            new RadioMenu(new RadioMenuProps
-                            {
-                                Buttons = CreateRightRadioButtons().ToList(),
+                            new Menu(new MenuProps{
+                                Cancel = Props.Cancel,
+                                MenuItems = {
+                                    new MenuItem(new MenuItemProps {
+                                        Text = "Accept",
+                                        OnAccept =
+                                            () => Props.OnAccept?.Invoke(selectedLeft, selectedRight)
+                                    })
+                                }
                             }),
-                        }
-                    }),
-                    new Menu(new MenuProps{
-                        MenuItems = {
-                            new MenuItem(new MenuItemProps {
-                                Text = "Accept",
-                                OnAccept = 
-                                    () => Props.OnAccept?.Invoke(selectedLeft, selectedRight)
+                            new Label(new LabelProps {
+                                StyleId = "description",
+                                Text = State.DescriptionText
                             })
                         }
-                    }),
-                    new Label(new LabelProps {
-                        StyleId = "description",
-                        Text = State.DescriptionText
-                    })
-                }
+                })
+            }
         });
 
         private IEnumerable<RadioButton> CreateLeftRadioButtons()
@@ -97,6 +106,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
         public IEnumerable<ItemData> LeftItems { get; set; }
         public IEnumerable<ItemData> RightItems { get; set; }
         public Action<ItemData, ItemData> OnAccept { get; set; }
+        public Action Cancel { get; set; }
     }
 
     public class DoubleRadioMenusState : WidgetState

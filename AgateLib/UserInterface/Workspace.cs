@@ -81,20 +81,31 @@ namespace AgateLib.UserInterface
         private readonly VisualTree visualTree = new VisualTree();
 
         private readonly WorkspaceDisplaySystem displaySystem;
-        private readonly InlineElementStyle layoutStyle;
-        private List<IWidget> children = new List<IWidget>();
 
+        private List<IWidget> legacyChildren = new List<IWidget>();
+        private App legacyApp;
+
+        private IRenderable app;
         private IWidget activeWindow;
+
+        [Obsolete("Use overload which supplies root element instead.")]
+        public Workspace(string name)
+        {
+            Name = name;
+            displaySystem = new WorkspaceDisplaySystem(this);
+
+            visualTree.DisplaySystem = displaySystem;
+        }
 
         /// <summary>
         /// Initializes a workspace object.
         /// </summary>
         /// <param name="name">Name of the workspace.</param>
-        public Workspace(string name, InlineElementStyle layoutStyle = null)
+        public Workspace(string name, IRenderable root)
         {
             Name = name;
-            this.layoutStyle = layoutStyle;
             displaySystem = new WorkspaceDisplaySystem(this);
+            this.app = root;
 
             visualTree.DisplaySystem = displaySystem;
         }
@@ -126,9 +137,12 @@ namespace AgateLib.UserInterface
             set => displaySystem.Instructions = value ?? throw new ArgumentNullException(nameof(Instructions));
         }
 
+        [Obsolete("Use overload which sets root render element .")]
         public void Add(IWidget child)
         {
-            children.Add(child);
+            legacyChildren.Add(child);
+            legacyApp = new App(new AppProps { Children = legacyChildren.ToList<IRenderable>() });
+            Render();
         }
 
         /// <summary>
@@ -158,7 +172,7 @@ namespace AgateLib.UserInterface
 
         public void Clear()
         {
-            children.Clear();
+            legacyChildren.Clear();
         }
 
         public void HandleInputEvent(InputEventArgs args)
@@ -171,7 +185,7 @@ namespace AgateLib.UserInterface
 
         public void Update(IWidgetRenderContext renderContext)
         {
-            foreach (var item in children)
+            foreach (var item in legacyChildren)
                 item.Update(renderContext);
 
             visualTree.Update(renderContext);
@@ -179,22 +193,10 @@ namespace AgateLib.UserInterface
 
         public void Render()
         {
-            visualTree.Render(new FlexBox(new FlexBoxProps
-            {
-                DefaultStyle = new InlineElementStyle
-                {
-                    Flex = new FlexStyle
-                    {
-                        AlignItems = AlignItems.Start,
-                        JustifyContent = JustifyContent.Center,
-                        Direction = FlexDirection.Row
-                    }
-                },
-                Style = layoutStyle,
-                StyleId = Name,
-                StyleTypeId = "workspace",
-                Children = children.ToList<IRenderable>()
-            }));
+            if (displaySystem.Fonts == null)
+                return;
+
+            visualTree.Render(app ?? legacyApp);
 
             if (Focus == null)
             {
@@ -269,7 +271,7 @@ namespace AgateLib.UserInterface
         /// <returns></returns>
         public IWidget FindWindow(Func<IWidget, bool> selector)
         {
-            return children.SingleOrDefault(selector);
+            return legacyChildren.SingleOrDefault(selector);
         }
 
         public override string ToString()
