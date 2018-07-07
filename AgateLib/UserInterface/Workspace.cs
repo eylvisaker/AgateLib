@@ -78,15 +78,10 @@ namespace AgateLib.UserInterface
             }
         }
 
-        [Obsolete("Is this needed?")]
-        private readonly SizeMetrics screenMetrics = new SizeMetrics();
-
-        [Obsolete("Is this needed?")]
-        private readonly WidgetRegion region
-            = new WidgetRegion(new RenderElementStyle(new RenderElementDisplay(), new InlineElementStyle()));
-
         private readonly VisualTree visualTree = new VisualTree();
 
+        private readonly WorkspaceDisplaySystem displaySystem;
+        private readonly InlineElementStyle layoutStyle;
         private List<IWidget> children = new List<IWidget>();
 
         private IWidget activeWindow;
@@ -95,10 +90,10 @@ namespace AgateLib.UserInterface
         /// Initializes a workspace object.
         /// </summary>
         /// <param name="name">Name of the workspace.</param>
-        public Workspace(string name)
+        public Workspace(string name, InlineElementStyle layoutStyle = null)
         {
             Name = name;
-
+            this.layoutStyle = layoutStyle;
             displaySystem = new WorkspaceDisplaySystem(this);
 
             visualTree.DisplaySystem = displaySystem;
@@ -143,8 +138,6 @@ namespace AgateLib.UserInterface
 
         public string Name { get; private set; }
 
-        private readonly WorkspaceDisplaySystem displaySystem;
-
         /// <summary>
         /// Gets whether the workspace is the active workspace.
         /// </summary>
@@ -188,6 +181,16 @@ namespace AgateLib.UserInterface
         {
             visualTree.Render(new FlexBox(new FlexBoxProps
             {
+                DefaultStyle = new InlineElementStyle
+                {
+                    Flex = new FlexStyle
+                    {
+                        AlignItems = AlignItems.Start,
+                        JustifyContent = JustifyContent.Center,
+                        Direction = FlexDirection.Row
+                    }
+                },
+                Style = layoutStyle,
                 StyleId = Name,
                 StyleTypeId = "workspace",
                 Children = children.ToList<IRenderable>()

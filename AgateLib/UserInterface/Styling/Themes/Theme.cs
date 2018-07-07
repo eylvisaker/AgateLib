@@ -59,10 +59,6 @@ namespace AgateLib.UserInterface.Styling.Themes
                 {
                     Selector = "workspace",
                     Padding = LayoutBox.SameAllAround(30),
-                    Flex = new FlexStyle
-                    {
-                        AlignItems = AlignItems.Center,
-                    }
                 },
 
                 new ThemeStyle
@@ -80,7 +76,6 @@ namespace AgateLib.UserInterface.Styling.Themes
                 new ThemeStyle
                 {
                     Selector = "menu",
-                    Flex = new FlexStyle { AlignItems = AlignItems.Stretch },
                 },
 
                 new ThemeStyle
@@ -99,7 +94,6 @@ namespace AgateLib.UserInterface.Styling.Themes
                 new ThemeStyle
                 {
                     Selector = "radiomenu",
-                    Flex = new FlexStyle { AlignItems = AlignItems.Stretch },
                 },
 
                 new ThemeStyle

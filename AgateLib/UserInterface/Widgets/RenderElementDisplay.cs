@@ -35,9 +35,9 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class RenderElementDisplay
     {
-        public RenderElementDisplay(IRenderElementStyleProperties inlineStyle = null)
+        public RenderElementDisplay(IRenderElementStyleProperties inlineStyle = null, IRenderElementStyleProperties defaultStyle = null)
         {
-            Style = new RenderElementStyle(this, inlineStyle);
+            Style = new RenderElementStyle(this, inlineStyle, defaultStyle);
             Region = new WidgetRegion(Style);
 
             Animation = new RenderElementAnimator(this);

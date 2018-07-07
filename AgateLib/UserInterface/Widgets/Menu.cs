@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
@@ -82,6 +83,12 @@ namespace AgateLib.UserInterface.Widgets
         {
             child = new FlexBox(new FlexBoxProps
             {
+                DefaultStyle = props.DefaultStyle ?? new InlineElementStyle
+                {
+                    Flex = new FlexStyle {
+                        AlignItems = AlignItems.Stretch
+                    }
+                },
                 Style = props.Style,
                 StyleClass = props.StyleClass,
                 StyleId = props.StyleId,

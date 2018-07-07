@@ -32,19 +32,35 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
+    /// <summary>
+    /// Render element that can be used for automatic positioning of child elements
+    /// based on a flexible flow layout.
+    /// </summary>
     public class FlexBox : RenderElement<FlexBoxProps>
     {
         #region --- Axis Interfaces ---
 
         abstract class AxisSpace
         {
-            protected abstract int AxisSize(Size itemSize);
-            protected abstract int CrossSize(Size itemSize);
+            protected abstract int MainAxis(Point itemSize);
+            protected abstract int CrossAxis(Point itemSize);
             protected abstract Size SetCrossSize(Size itemSize, int amount);
             protected abstract Size SetSize(int axisSize, int crossSize);
 
-            protected abstract Point AdvanceAxis(Point dest, int amount);
-            protected abstract Point AdvanceCross(Point dest, int amount);
+            protected abstract Point IncMain(Point dest, int amount);
+            protected abstract Point IncCross(Point dest, int amount);
+
+            protected Rectangle IncMain(Rectangle dest, int amount)
+            {
+                var loc = IncMain(dest.Location, amount);
+                return new Rectangle(loc, dest.Size);
+            }
+
+            protected Rectangle IncCross(Rectangle dest, int amount)
+            {
+                var loc = IncCross(dest.Location, amount);
+                return new Rectangle(loc, dest.Size);
+            }
 
             public void PerformLayout(
                 IWidgetRenderContext renderContext,
@@ -69,28 +85,97 @@ namespace AgateLib.UserInterface.Widgets
                     var marginSize = new Size(contentSize.Width + item.Display.Region.MarginToContentOffset.Width,
                                               contentSize.Height + item.Display.Region.MarginToContentOffset.Height);
 
-                    switch (style.Flex?.AlignItems ?? AlignItems.Stretch)
+                    switch (style.Flex?.AlignItems ?? AlignItems.Default)
                     {
                         case AlignItems.End:
-                            itemDest = AdvanceCross(itemDest, CrossSize(size) - CrossSize(marginSize));
+                            itemDest = IncCross(itemDest, CrossAxis(size) - CrossAxis(marginSize));
                             break;
 
                         case AlignItems.Center:
-                            itemDest = AdvanceCross(itemDest, (CrossSize(size) - CrossSize(marginSize)) / 2);
+                            itemDest = IncCross(itemDest, (CrossAxis(size) - CrossAxis(marginSize)) / 2);
                             break;
 
                         case AlignItems.Stretch:
-                            marginSize = SetCrossSize(marginSize, CrossSize(size));
+                            marginSize = SetCrossSize(marginSize, CrossAxis(size));
                             break;
                     }
 
                     item.Display.MarginRect = new Rectangle(itemDest, marginSize);
                     item.DoLayout(renderContext, item.Display.ContentRect.Size);
 
-                    dest = AdvanceAxis(dest, AxisSize(item.Display.MarginRect.Size));
+                    dest = IncMain(dest, MainAxis((Size)item.Display.MarginRect.Size));
+                }
+
+                var extraSpace = MainAxis(size) - MainAxis(dest);
+
+                switch (style.Flex?.JustifyContent ?? JustifyContent.Default)
+                {
+                    case JustifyContent.Center:
+                        foreach (var item in children)
+                        {
+                            item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace / 2);
+                        }
+                        break;
+
+                    case JustifyContent.End:
+                        foreach (var item in children)
+                        {
+                            item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace);
+                        }
+                        break;
+
+                    case JustifyContent.SpaceBetween:
+                        DistributeSpaceBetween(children, extraSpace);
+                        break;
+
+                    case JustifyContent.SpaceAround:
+                        DistributeSpaceAround(children, extraSpace);
+                        break;
+
+                    case JustifyContent.SpaceEvenly:
+                        DistributeSpaceEvenly(children, extraSpace);
+                        break;
                 }
             }
 
+            private void DistributeSpaceBetween(IEnumerable<IRenderElement> children, int extraSpace)
+            {
+                int betweenSpaces = children.Count() - 1;
+                float step = extraSpace / (float)betweenSpaces;
+                int index = 0;
+
+                foreach (var item in children)
+                {
+                    item.Display.MarginRect = IncMain(item.Display.MarginRect, (int)(step * index));
+                    index++;
+                }
+            }
+
+            private void DistributeSpaceAround(IEnumerable<IRenderElement> children, int extraSpace)
+            {
+                int betweenSpaces = children.Count() * 2;
+                float step = extraSpace / (float)betweenSpaces;
+                int index = 1;
+
+                foreach (var item in children)
+                {
+                    item.Display.MarginRect = IncMain(item.Display.MarginRect, (int)(step * index));
+                    index += 2;
+                }
+            }
+
+            private void DistributeSpaceEvenly(IEnumerable<IRenderElement> children, int extraSpace)
+            {
+                int betweenSpaces = children.Count() + 1;
+                float step = extraSpace / (float)betweenSpaces;
+                int index = 1;
+
+                foreach (var item in children)
+                {
+                    item.Display.MarginRect = IncMain(item.Display.MarginRect, (int)(step * index));
+                    index++;
+                }
+            }
             public Size CalcIdealSize(IWidgetRenderContext renderContext, Size maxSize, List<IRenderElement> children)
             {
                 int idealCrossSize = 0;
@@ -113,8 +198,8 @@ namespace AgateLib.UserInterface.Widgets
                     var itemIdealContentSize = item.Display.Region.Size.IdealContentSize;
                     var itemIdealMarginSize = itemBox.Expand(itemIdealContentSize);
 
-                    idealCrossSize = Math.Max(idealCrossSize, CrossSize(itemIdealMarginSize));
-                    idealAxisSize += AxisSize(itemIdealMarginSize);
+                    idealCrossSize = Math.Max(idealCrossSize, CrossAxis(itemIdealMarginSize));
+                    idealAxisSize += MainAxis(itemIdealMarginSize);
                 }
 
                 return SetSize(idealAxisSize, idealCrossSize);
@@ -134,13 +219,13 @@ namespace AgateLib.UserInterface.Widgets
                 return new Size(axisSize, crossSize);
             }
 
-            protected override int AxisSize(Size itemSize)
+            protected override int MainAxis(Point itemSize)
             {
-                return itemSize.Width;
+                return itemSize.X;
             }
-            protected override int CrossSize(Size itemSize)
+            protected override int CrossAxis(Point itemSize)
             {
-                return itemSize.Height;
+                return itemSize.Y;
             }
             protected override Size SetCrossSize(Size itemSize, int amount)
             {
@@ -148,13 +233,13 @@ namespace AgateLib.UserInterface.Widgets
                 return itemSize;
             }
 
-            protected override Point AdvanceAxis(Point dest, int amount)
+            protected override Point IncMain(Point dest, int amount)
             {
                 dest.X += amount;
                 return dest;
             }
 
-            protected override Point AdvanceCross(Point dest, int amount)
+            protected override Point IncCross(Point dest, int amount)
             {
                 dest.Y += amount;
                 return dest;
@@ -168,13 +253,13 @@ namespace AgateLib.UserInterface.Widgets
                 return new Size(crossSize, axisSize);
             }
 
-            protected override int AxisSize(Size itemSize)
+            protected override int MainAxis(Point itemSize)
             {
-                return itemSize.Height;
+                return itemSize.Y;
             }
-            protected override int CrossSize(Size itemSize)
+            protected override int CrossAxis(Point itemSize)
             {
-                return itemSize.Width;
+                return itemSize.X;
             }
             protected override Size SetCrossSize(Size itemSize, int amount)
             {
@@ -182,13 +267,13 @@ namespace AgateLib.UserInterface.Widgets
                 return itemSize;
             }
 
-            protected override Point AdvanceAxis(Point dest, int amount)
+            protected override Point IncMain(Point dest, int amount)
             {
                 dest.Y += amount;
                 return dest;
             }
 
-            protected override Point AdvanceCross(Point dest, int amount)
+            protected override Point IncCross(Point dest, int amount)
             {
                 dest.X += amount;
                 return dest;
@@ -336,7 +421,20 @@ namespace AgateLib.UserInterface.Widgets
 
     public class FlexBoxProps : RenderElementProps
     {
+        public FlexBoxProps()
+        {
+            DefaultStyle = new InlineElementStyle
+            {
+                Flex = new FlexStyle
+                {
+                    AlignItems = AlignItems.Stretch,
+                    Direction = FlexDirection.Column
+                }
+            };
+        }
+
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
+
         public string StyleTypeId { get; set; }
     }
 

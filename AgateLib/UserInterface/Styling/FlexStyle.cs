@@ -38,6 +38,11 @@ namespace AgateLib.UserInterface.Styling
         /// Gets or sets the direction of the flex axis
         /// </summary>
         public FlexDirection Direction { get; set; }
+
+        /// <summary>
+        /// Gets or sets how items should be aligned on the main axis.
+        /// </summary>
+        public JustifyContent JustifyContent { get; set; }
     }
 
     /// <summary>
@@ -47,6 +52,7 @@ namespace AgateLib.UserInterface.Styling
     {
         /// <summary>
         /// Items are stretched to fill the entire area available to them on the cross axis.
+        /// This is the default value.
         /// </summary>
         Stretch,
 
@@ -66,5 +72,52 @@ namespace AgateLib.UserInterface.Styling
         /// Items are centered along the cross axis.
         /// </summary>
         Center,
+
+        /// <summary>
+        /// Default value is Stretch.
+        /// </summary>
+        Default = Stretch,
+    }
+
+    /// <summary>
+    /// Enum for values which indicate how items should be aligned on the main axis.
+    /// </summary>
+    public enum JustifyContent
+    {
+        /// <summary>
+        /// Items are packed from the start of the axis. This is the default.
+        /// </summary>
+        Start,
+
+        /// <summary>
+        /// Items are packed from the end of the axis.
+        /// </summary>
+        End,
+
+        /// <summary>
+        /// Items are packed near the center of the axis.
+        /// </summary>
+        Center,
+
+        /// <summary>
+        /// Additional space is distributed between items.
+        /// </summary>
+        SpaceBetween,
+
+        /// <summary>
+        /// Additional space is distributed around items.
+        /// </summary>
+        SpaceAround,
+
+        /// <summary>
+        /// Additional space is divided up so items have the same amount of space between them and the edges of the
+        /// container.
+        /// </summary>
+        SpaceEvenly,
+
+        /// <summary>
+        /// Default value is Start.
+        /// </summary>
+        Default = Start,
     }
 }

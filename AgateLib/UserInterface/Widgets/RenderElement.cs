@@ -144,7 +144,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             this.Props = props;
 
-            Display = new RenderElementDisplay(Props.Style);
+            Display = new RenderElementDisplay(Props.Style, Props.DefaultStyle);
         }
 
         protected IRenderElement Parent => Display.System.ParentOf(this);
@@ -239,8 +239,13 @@ namespace AgateLib.UserInterface.Widgets
         public string StyleClass { get; set; }
 
         /// <summary>
-        /// Style elements specified by the parent.
+        /// Style elements specified by the parent. Styles specified here have the highest priority.
         /// </summary>
         public InlineElementStyle Style { get; set; }
+
+        /// <summary>
+        /// The default style for this element. Styles specified here have the lowest priority.
+        /// </summary>
+        public InlineElementStyle DefaultStyle { get; set; } 
     }
 }

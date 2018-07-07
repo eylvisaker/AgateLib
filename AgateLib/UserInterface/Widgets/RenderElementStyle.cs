@@ -58,19 +58,23 @@ namespace AgateLib.UserInterface.Widgets
     {
         private RenderElementDisplay display;
         private readonly IRenderElementStyleProperties inline;
+        private readonly IRenderElementStyleProperties defaultStyle;
 
-        List<IRenderElementStyleProperties> activeProperties = new List<IRenderElementStyleProperties>();
-        List<IRenderElementStyleProperties> testProperties = new List<IRenderElementStyleProperties>();
+        private List<IRenderElementStyleProperties> activeProperties = new List<IRenderElementStyleProperties>();
+        private List<IRenderElementStyleProperties> testProperties = new List<IRenderElementStyleProperties>();
 
-        FontStyleProperties fontProperties = new FontStyleProperties();
-        FontStyleProperties compareFont = new FontStyleProperties();
+        private FontStyleProperties fontProperties = new FontStyleProperties();
+        private FontStyleProperties compareFont = new FontStyleProperties();
 
-        Font font;
+        private Font font;
 
-        public RenderElementStyle(RenderElementDisplay display, IRenderElementStyleProperties inline)
+        public RenderElementStyle(RenderElementDisplay display,
+            IRenderElementStyleProperties inline,
+            IRenderElementStyleProperties defaultStyle)
         {
             this.display = display;
             this.inline = inline;
+            this.defaultStyle = defaultStyle;
         }
 
         public void Update()
@@ -175,8 +179,13 @@ namespace AgateLib.UserInterface.Widgets
         {
             testProperties.Clear();
 
+            if (defaultStyle != null)
+            {
+                testProperties.Add(defaultStyle);
+            }
+
             // TODO: Implement filtering based on current state and pseudoclasses.
-            foreach(var property in display.ElementStyles)
+            foreach (var property in display.ElementStyles)
             {
                 if (PropertyApplies(property))
                     testProperties.Add(property);
