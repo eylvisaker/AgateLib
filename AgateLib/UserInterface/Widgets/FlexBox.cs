@@ -66,7 +66,7 @@ namespace AgateLib.UserInterface.Widgets
                 IWidgetRenderContext renderContext,
                 Size size,
                 IRenderElementStyle style,
-                IEnumerable<IRenderElement> children)
+                IList<IRenderElement> children)
             {
                 Point dest = new Point(0, 0);
 
@@ -176,7 +176,7 @@ namespace AgateLib.UserInterface.Widgets
                     index++;
                 }
             }
-            public Size CalcIdealSize(IWidgetRenderContext renderContext, Size maxSize, List<IRenderElement> children)
+            public Size CalcIdealSize(IWidgetRenderContext renderContext, Size maxSize, IList<IRenderElement> children)
             {
                 int idealCrossSize = 0;
                 int idealAxisSize = 0;
@@ -285,14 +285,16 @@ namespace AgateLib.UserInterface.Widgets
 
         #endregion
 
-        private readonly List<IRenderElement> children;
+        private readonly List<IRenderElement> layoutChildren;
         private readonly List<IRenderElement> focusChildren;
         private int focusIndex;
+        private bool currentLayoutIsReversed;
 
         public FlexBox(FlexBoxProps props) : base(props)
         {
-            children = Finalize(props.Children).ToList();
-            focusChildren = children.Where(x => CanChildHaveFocus(x)).ToList();
+            Children = Finalize(props.Children).ToList();
+            layoutChildren = Children.Where(x => x.Display.IsInLayout).ToList();
+            focusChildren = Children.Where(x => CanChildHaveFocus(x)).ToList();
         }
 
         public FlexDirection Direction => Style.Flex?.Direction ?? FlexDirection.Column;
@@ -301,9 +303,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override string StyleTypeId => Props.StyleTypeId ?? "flexbox";
 
-        public override bool CanHaveFocus => Children.Any(c => CanChildHaveFocus(c));
-
-        public override IReadOnlyList<IRenderElement> Children => children;
+        public override bool CanHaveFocus => layoutChildren.Any(c => CanChildHaveFocus(c));
 
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)
         {
@@ -312,15 +312,54 @@ namespace AgateLib.UserInterface.Widgets
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
+            UpdateChildLists();
+
             switch (Direction)
             {
                 case FlexDirection.Column:
                 case FlexDirection.ColumnReverse:
-                    return vertical.CalcIdealSize(renderContext, maxSize, children);
+                    return vertical.CalcIdealSize(renderContext, maxSize, layoutChildren);
 
                 case FlexDirection.Row:
                 case FlexDirection.RowReverse:
-                    return horizontal.CalcIdealSize(renderContext, maxSize, children);
+                    return horizontal.CalcIdealSize(renderContext, maxSize, layoutChildren);
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        public override void OnChildrenUpdated()
+        {
+            UpdateChildLists(true);
+            base.OnChildrenUpdated();
+        }
+
+        private void UpdateChildLists(bool force = false)
+        {
+            switch (Direction)
+            {
+                case FlexDirection.Column:
+                case FlexDirection.Row:
+                    if (force || currentLayoutIsReversed)
+                    {
+                        layoutChildren.Clear();
+                        layoutChildren.AddRange(Children.Where(x => x.Display.IsInLayout));
+                        focusChildren.Clear();
+                        focusChildren.AddRange(layoutChildren.Where(x => CanChildHaveFocus(x)));
+                    }
+                    break;
+
+                case FlexDirection.RowReverse:
+                case FlexDirection.ColumnReverse:
+                    if (force || !currentLayoutIsReversed)
+                    {
+                        layoutChildren.Clear();
+                        layoutChildren.AddRange(Children.Where(x => x.Display.IsInLayout).Reverse());
+                        focusChildren.Clear();
+                        focusChildren.AddRange(layoutChildren.Where(x => CanChildHaveFocus(x)).Reverse());
+                    }
+                    break;
 
                 default:
                     throw new InvalidOperationException();
@@ -339,22 +378,18 @@ namespace AgateLib.UserInterface.Widgets
 
         private void PerformLayout(IWidgetRenderContext renderContext, Size size)
         {
+            UpdateChildLists();
+
             switch (Direction)
             {
                 case FlexDirection.Column:
-                    vertical.PerformLayout(renderContext, size, Style, Children);
-                    break;
-
                 case FlexDirection.ColumnReverse:
-                    vertical.PerformLayout(renderContext, size, Style, Children.Reverse());
+                    vertical.PerformLayout(renderContext, size, Style, layoutChildren);
                     break;
 
                 case FlexDirection.Row:
-                    horizontal.PerformLayout(renderContext, size, Style, Children);
-                    break;
-
                 case FlexDirection.RowReverse:
-                    horizontal.PerformLayout(renderContext, size, Style, Children.Reverse());
+                    horizontal.PerformLayout(renderContext, size, Style, layoutChildren);
                     break;
 
                 default:

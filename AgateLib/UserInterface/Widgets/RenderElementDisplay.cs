@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using AgateLib.Display;
 using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
@@ -35,18 +36,29 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class RenderElementDisplay
     {
-        public RenderElementDisplay(IRenderElementStyleProperties inlineStyle = null, IRenderElementStyleProperties defaultStyle = null)
+        RenderElementStyle style;
+
+        public RenderElementDisplay(RenderElementProps props)
         {
-            Style = new RenderElementStyle(this, inlineStyle, defaultStyle);
+            style = new RenderElementStyle(this, props);
             Region = new WidgetRegion(Style);
 
             Animation = new RenderElementAnimator(this);
         }
 
         /// <summary>
+        /// Called only by RenderElement&lt;T&gt; to pass along a props update.
+        /// </summary>
+        /// <param name="props"></param>
+        internal void SetProps(RenderElementProps props)
+        {
+            style.SetProps(props);
+        }
+
+        /// <summary>
         /// Owned by the rendering engine.
         /// </summary>
-        public RenderElementAnimator Animation { get; } 
+        public RenderElementAnimator Animation { get; }
 
         /// <summary>
         /// Gets the layout state.
@@ -56,7 +68,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the active widget style.
         /// </summary>
-        public IRenderElementStyle Style { get; }
+        public IRenderElementStyle Style => style;
 
         /// <summary>
         /// Gets the collection of styles that can be swapped out based on the widget's state.
@@ -71,9 +83,28 @@ namespace AgateLib.UserInterface.Widgets
         public Font Font => (Font)Style.Font;
 
         /// <summary>
+        /// Gets a value indicating whether this widget is participating in the layout flow.
+        /// </summary>
+        public bool IsInLayout
+        {
+            get
+            {
+                if (!IsVisible) return false;
+
+                var positionType = Style.Layout?.PositionType ?? PositionType.Default;
+
+                if (positionType == PositionType.Absolute || positionType == PositionType.Fixed)
+                    return false;
+
+                return true;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets whether the widget should be displayed and participate in layout.
         /// </summary>
         public bool IsVisible { get; set; } = true;
+
 
         /// <summary>
         /// Order of this window for drawing. Higher values mean the window is drawn 
@@ -95,7 +126,7 @@ namespace AgateLib.UserInterface.Widgets
         public Font ParentFont { get; set; }
 
         public IFontProvider Fonts => System.Fonts;
-        
+
         /// <summary>
         /// Gets the content rectangle, or sets all three rectangles based on the box model
         /// and the specified content rectangle.
@@ -149,7 +180,7 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public IDisplaySystem System { get; internal set; }
-        
+
         /// <summary>
         /// Gets the collection of pseudoclases that apply to this element.
         /// </summary>

@@ -25,16 +25,31 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Styling
 {
-	public class BackgroundStyle
-	{
-		public BackgroundClip Clip { get; set; }
+    public class BackgroundStyle
+    {
+        public static bool Equals(BackgroundStyle a, BackgroundStyle b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
 
-		public Color Color { get; set; }
+            if (a.Clip != b.Clip) return false;
+            if (a.Color != b.Color) return false;
+            if (!ImageSource.Equals(a.Image, b.Image)) return false;
+            if (a.Position != b.Position) return false;
+            if (a.Repeat != b.Repeat) return false;
 
-		public ImageSource Image { get; set; }
+            return true;
+        }
 
-		public Point Position { get; set; }
+        public BackgroundClip Clip { get; set; }
 
-		public BackgroundRepeat Repeat { get; set; }
-	}
+        public Color Color { get; set; }
+
+        public ImageSource Image { get; set; }
+
+        public Point Position { get; set; }
+
+        public BackgroundRepeat Repeat { get; set; }
+
+    }
 }

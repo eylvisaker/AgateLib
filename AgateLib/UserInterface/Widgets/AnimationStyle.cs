@@ -29,6 +29,18 @@ namespace AgateLib.UserInterface.Widgets
 {
     public class AnimationStyle
     {
+        public static bool Equals(AnimationStyle a, AnimationStyle b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+
+            if (a.Entry != b.Entry) return false;
+            if (a.Exit != b.Exit) return false;
+            if (a.Static != b.Static) return false;
+
+            return true;
+        }
+
         static char[] splitter = new char[] { ' ' };
 
         string _entry, _exit, _static;

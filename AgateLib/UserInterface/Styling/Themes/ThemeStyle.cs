@@ -76,6 +76,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public ThemeWidgetSize Size { get; set; }
         public FlexStyle Flex { get; set; }
+        public LayoutStyle Layout { get; internal set; }
 
         #endregion
 

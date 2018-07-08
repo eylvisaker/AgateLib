@@ -26,6 +26,17 @@ namespace AgateLib.UserInterface.Styling
 {
     public class ImageSource
     {
+        public static bool Equals(ImageSource a, ImageSource b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+
+            if (a.File != b.File) return false;
+            if (a.SourceRect != b.SourceRect) return false;
+
+            return true;
+        }
+
         public ImageSource() { }
 
         public ImageSource(string file)

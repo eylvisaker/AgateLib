@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets a read-only collection of children of this element.
         /// </summary>
-        IReadOnlyList<IRenderElement> Children { get; }
+        IList<IRenderElement> Children { get; }
 
         /// <summary>
         /// Gets the type identifier used to identify this widget type to the styling
@@ -56,13 +56,15 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the identifier of this widget for styling.
         /// </summary>
-        string StyleId { get; }        
+        string StyleId { get; }
 
         /// <summary>
         /// Gets the name of the widget.
         /// </summary>
         [Obsolete("Use StyleId instead?")]
         string Name { get; }
+
+        void SetProps(RenderElementProps props);
 
         /// <summary>
         /// Gets whether or not the element can receive input focus.
@@ -75,12 +77,18 @@ namespace AgateLib.UserInterface.Widgets
         IRenderElementStyle Style { get; }
 
         /// <summary>
+        /// Gets the props object for the render element.
+        /// </summary>
+        RenderElementProps Props { get; }
+
+        /// <summary>
         /// Event called by a child component when it receives an input event it cannot handle.
         /// This is usually a navigation event.
         /// </summary>
         /// <param name="menuItemElement"></param>
         /// <param name="btn"></param>
         void OnChildNavigate(IRenderElement child, MenuInputButton button);
+        void OnChildrenUpdated();
 
         /// <summary>
         /// Draws the content of the widget.
@@ -95,6 +103,8 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="renderContext"></param>
         void Update(IWidgetRenderContext renderContext);
+        void OnWillUnmount();
+        void OnDidMount();
 
         /// <summary>
         /// Compute the ideal size of the content of the widget.
@@ -144,15 +154,31 @@ namespace AgateLib.UserInterface.Widgets
         {
             this.Props = props;
 
-            Display = new RenderElementDisplay(Props.Style, Props.DefaultStyle);
+            Display = new RenderElementDisplay(props);
         }
+
+        #region --- Props ---
+
+        public TProps Props { get; private set; }
+        RenderElementProps IRenderElement.Props => Props;
+
+        public void SetProps(RenderElementProps props)
+        {
+            Props = (TProps)props;
+            Display.SetProps(props);
+
+            OnReceiveProps();
+        }
+
+        #endregion
+        #region --- Rendering Widgets ---
 
         Action<IRenderable> IRenderable.NeedsRender { get => NeedsRender; set => NeedsRender = value; }
         protected Action<IRenderable> NeedsRender { get; private set; }
 
         protected IRenderElement Parent => Display.System.ParentOf(this);
 
-        protected IEnumerable<IRenderElement> Finalize(IEnumerable<IRenderable> renderables) 
+        protected IEnumerable<IRenderElement> Finalize(IEnumerable<IRenderable> renderables)
         {
             return renderables.Select(Finalize);
         }
@@ -162,10 +188,12 @@ namespace AgateLib.UserInterface.Widgets
             return renderable.Finalize(e => NeedsRender?.Invoke(e));
         }
 
+        #endregion
+
         public RenderElementDisplay Display { get; }
 
-        public virtual IReadOnlyList<IRenderElement> Children { get; protected set; }
-        
+        public virtual IList<IRenderElement> Children { get; protected set; }
+
         public IRenderElementStyle Style => Display.Style;
 
         public virtual string StyleTypeId => GetType().Name;
@@ -177,8 +205,6 @@ namespace AgateLib.UserInterface.Widgets
         public string Name => Props.StyleId;
 
         public virtual bool CanHaveFocus => false;
-
-        public TProps Props { get; }
 
         public abstract Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
@@ -218,10 +244,12 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual void OnBlur()
         {
+            Props.Blur?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void OnFocus()
         {
+            Props.Focus?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void OnAccept()
@@ -243,12 +271,36 @@ namespace AgateLib.UserInterface.Widgets
         {
             Parent?.OnChildNavigate(this, button);
         }
+
+        public virtual void OnWillUnmount()
+        {
+            Props.WillUnmount?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual void OnDidMount()
+        {
+            Props.DidMount?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual void OnChildrenUpdated()
+        {
+        }
+
+        protected virtual void OnReceiveProps()
+        {
+        }
     }
 
     public class RenderElementProps
     {
+        /// <summary>
+        /// The ID value used in matching styles.
+        /// </summary>
         public string StyleId { get; set; }
 
+        /// <summary>
+        /// The class value used in matching styles.
+        /// </summary>
         public string StyleClass { get; set; }
 
         /// <summary>
@@ -259,6 +311,60 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// The default style for this element. Styles specified here have the lowest priority.
         /// </summary>
-        public InlineElementStyle DefaultStyle { get; set; } 
+        public InlineElementStyle DefaultStyle { get; set; }
+
+        /// <summary>
+        /// Key which is used to match the render element during reconciliation.
+        /// </summary>
+        public string Key { get; set; }
+
+        /// <summary>
+        /// Event raised when a render element is mounted.
+        /// </summary>
+        public EventHandler DidMount { get; set; }
+
+        /// <summary>
+        /// Event raised when a render element is unmounted.
+        /// </summary>
+        public EventHandler WillUnmount { get; set; }
+
+        /// <summary>
+        /// Event raised when a render element receives the focus.
+        /// </summary>
+        public EventHandler Focus { get; set; }
+
+        /// <summary>
+        /// Event raised when a render element loses the focus.
+        /// </summary>
+        public EventHandler Blur { get; set; }
+
+        /// <summary>
+        /// Compares two props objects to see if their property values are equal.
+        /// By default, this uses reflection to check each individual property, except
+        /// properties named "Children".
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public virtual bool PropertiesEqual(RenderElementProps other)
+        {
+            if (other.GetType() != GetType())
+                return false;
+
+            var properties = GetType().GetProperties();
+
+            foreach (var prop in properties.Where(x => x.Name != "Children"))
+            {
+                object myValue = prop.GetValue(this);
+                object otherValue = prop.GetValue(other);
+
+                if (myValue == null && otherValue == null) continue;
+                if (myValue == null || otherValue == null) return false;
+
+                if (!myValue.Equals(otherValue))
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

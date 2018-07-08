@@ -66,6 +66,7 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
                             new Label(new LabelProps { Text = "Really long text to setup some horizontal space." }),
                             new Window(new WindowProps
                             {
+                                StyleId = "magic-window",
                                 Style = new InlineElementStyle
                                 {
                                     Flex = new FlexStyle

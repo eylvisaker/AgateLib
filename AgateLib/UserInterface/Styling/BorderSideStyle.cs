@@ -27,6 +27,17 @@ namespace AgateLib.UserInterface.Styling
 {
 	public class BorderSideStyle
 	{
+        public static bool Equals(BorderSideStyle a, BorderSideStyle b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+
+            if (a.Color != b.Color) return false;
+            if (a.Width != b.Width) return false;
+
+            return true;
+        }
+
 		public Color Color { get; set; }
 
 		public int Width { get; set; }

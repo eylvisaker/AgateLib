@@ -29,6 +29,18 @@ namespace AgateLib.UserInterface.Styling
 {
     public class FlexStyle
     {
+        public static bool Equals(FlexStyle a, FlexStyle b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+
+            if (a.AlignItems != b.AlignItems) return false;
+            if (a.Direction != b.Direction) return false;
+            if (a.JustifyContent != b.JustifyContent) return false;
+
+            return true;
+        }
+
         /// <summary>
         /// Gets or sets how items should be aligned on the cross axis.
         /// </summary>

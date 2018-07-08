@@ -49,5 +49,21 @@ namespace AgateLib.UserInterface.Styling
         /// Gets the sum of the top + bottom border sizes.
         /// </summary>
         public int Height => Top.Width + Bottom.Width;
+
+        public static bool Equals(BorderStyle a, BorderStyle b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+
+            if (!ImageSource.Equals(a.Image, b.Image)) return false;
+            if (!LayoutBox.Equals(a.ImageSlice, b.ImageSlice)) return false;
+            if (!BorderSideStyle.Equals(a.Left, b.Left)) return false;
+            if (!BorderSideStyle.Equals(a.Right, b.Right)) return false;
+            if (!BorderSideStyle.Equals(a.Top, b.Top)) return false;
+            if (!BorderSideStyle.Equals(a.Bottom, b.Bottom)) return false;
+            if (a.ImageScale != b.ImageScale) return false;
+
+            return true;
+        }
     }
 }

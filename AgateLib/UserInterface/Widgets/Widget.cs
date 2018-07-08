@@ -167,12 +167,12 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets the WidgetDisplay object that controls how the widget is
         /// displayed on screen.
         /// </summary>
-        public RenderElementDisplay Display { get; } = new RenderElementDisplay();
+        public RenderElementDisplay Display { get; } = new RenderElementDisplay(new RenderElementProps());
 
         /// <summary>
         /// Gets the readonly collection of children.
         /// </summary>
-        public virtual IReadOnlyList<IRenderElement> Children => null;
+        public virtual IList<IRenderElement> Children => null;
 
         /// <summary>
         /// Gets the child of this widget that has focus.
@@ -198,6 +198,8 @@ namespace AgateLib.UserInterface.Widgets
         public string StyleClass => throw new NotImplementedException();
 
         public string StyleId => throw new NotImplementedException();
+
+        public RenderElementProps Props => throw new NotImplementedException();
 
         /// <summary>
         /// Compute the ideal size of the content of the widget.
@@ -302,6 +304,26 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public void OnChildNavigate(IRenderElement child, MenuInputButton button)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetProps(RenderElementProps props)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnWillUnmount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnDidMount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnChildrenUpdated()
         {
             throw new NotImplementedException();
         }

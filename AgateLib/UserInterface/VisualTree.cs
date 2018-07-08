@@ -42,7 +42,7 @@ namespace AgateLib.UserInterface
         {
             var newRoot = rootRenderable.Finalize(_ => Render(rootRenderable));
 
-            root = Reconcile(root, newRoot);
+            Reconcile(ref root, newRoot);
             root.Display.ParentFont = DisplaySystem.Fonts.Default;
 
             Style.Apply(root, DefaultTheme);
@@ -54,29 +54,116 @@ namespace AgateLib.UserInterface
             });
         }
 
-        private IRenderElement Reconcile(IRenderElement oldNode, IRenderElement newNode)
+        private void Reconcile(ref IRenderElement oldNode, IRenderElement newNode)
         {
             if (oldNode == null)
-                return newNode;
+            {
+                Replace(ref oldNode, newNode);
+                return;
+            }
 
-            return oldNode;
+            if (newNode == null)
+            {
+                Unmount(oldNode);
+                oldNode = null;
+                return;
+            }
 
-            //var array = enumerable.ToList();
+            if (oldNode.GetType() != newNode.GetType())
+            {
+                Replace(ref oldNode, newNode);
+            }
 
-            //var removed = tree.Where(x => !array.Contains(x));
-            //var added = array.Where(x => !tree.Contains(x));
+            if (!oldNode.Props.PropertiesEqual(newNode.Props))
+            {
+                oldNode.SetProps(newNode.Props);
+            }
 
-            //foreach (var item in removed)
-            //    item.Display.Animation.State = AnimationState.TransitionOut;
-            //foreach (var item in added)
-            //    item.Display.Animation.State = AnimationState.TransitionIn;
+            if ((oldNode.Children?.Count ?? 0) == 0 && (newNode.Children?.Count ?? 0) == 0)
+            {
+                return;
+            }
 
-            //// TODO: get the ordering right, so that elements in tree are ordered the same as in enumerable.
-            //tree.AddRange(added);
+            bool childrenUpdated = false;
 
-            //tree.RemoveAll(x => x.Display.Animation.State == AnimationState.Dead);
+            for (int i = 0; i < oldNode.Children.Count || i < newNode.Children.Count; i++)
+            {
+                if (i < oldNode.Children.Count)
+                {
+                    var old = oldNode.Children[i];
+                    var match = FindMatch(oldNode.Children, i, newNode.Children);
+
+                    Reconcile(ref old, match);
+
+                    if (!ReferenceEquals(old, oldNode.Children[i]))
+                    {
+                        oldNode.Children[i] = old;
+                        childrenUpdated = true;
+                    }
+                }
+                else
+                {
+                    oldNode.Children.Add(newNode.Children[i]);
+                    childrenUpdated = true;
+                }
+            }
+
+            for (int i = oldNode.Children.Count - 1; i > 0; i--)
+            {
+                if (oldNode.Children[i] == null)
+                    oldNode.Children.RemoveAt(i);
+            }
+
+            if (childrenUpdated)
+            {
+                oldNode.OnChildrenUpdated();
+            }
         }
-        
+
+        /// <summary>
+        /// Matches an old node to one in the new tree by the key parameters. 
+        /// Or returns the item at the defaultIndex position in the children array.
+        /// </summary>
+        /// <param name="old"></param>
+        /// <param name="children"></param>
+        /// <param name="defaultIndex"></param>
+        private IRenderElement FindMatch(IList<IRenderElement> oldKids, int oldIndex, IList<IRenderElement> newKids)
+        {
+            var old = oldKids[oldIndex];
+
+            if (!string.IsNullOrWhiteSpace(old.Props.Key))
+            {
+                return newKids.FirstOrDefault(x => x.Props.Key == old.Props.Key);
+            }
+
+            int blankCount = oldKids.Take(oldIndex).Count(x => string.IsNullOrWhiteSpace(x.Props.Key));
+
+            return newKids.Where(x => string.IsNullOrWhiteSpace(x.Props.Key)).Skip(blankCount).FirstOrDefault();
+        }
+
+        private void Replace(ref IRenderElement oldNode, IRenderElement newNode)
+        {
+            Unmount(oldNode);
+            oldNode = newNode;
+            Mount(newNode);
+        }
+
+        private void Mount(IRenderElement newNode)
+        {
+            if (newNode == null)
+                return;
+
+            newNode.OnDidMount();
+        }
+
+        private void Unmount(IRenderElement oldNode)
+        {
+            if (oldNode == null)
+                return;
+
+            oldNode.OnWillUnmount();
+        }
+
         public IDisplaySystem DisplaySystem { get; set; }
 
         public IRenderElement Focus

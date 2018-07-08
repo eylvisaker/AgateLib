@@ -50,6 +50,8 @@ namespace AgateLib.UserInterface.Widgets
 
         FlexStyle Flex { get; }
 
+        LayoutStyle Layout { get; }
+
         /// <summary>
         /// The pseudoclasses this property set applies to.
         /// </summary>
@@ -108,11 +110,33 @@ namespace AgateLib.UserInterface.Widgets
 
         public LayoutBox? Padding => themeStyle.Padding;
 
+        public LayoutStyle Layout => themeStyle.Layout;
+
         public int Specificity => themeStyle.Specificity;
     }
 
     public class InlineElementStyle : IRenderElementStyleProperties
     {
+        public static bool Equals(InlineElementStyle a, InlineElementStyle b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+
+            if (a.FontFace != b.FontFace) return false;
+            if (a.TextColor != b.TextColor) return false;
+            if (a.FontSize != b.FontSize) return false;
+            if (a.FontStyle != b.FontStyle) return false;
+            if (!BackgroundStyle.Equals(a.Background, b.Background)) return false;
+            if (!BorderStyle.Equals(a.Border, b.Border)) return false;
+            if (!AnimationStyle.Equals(a.Animation, b.Animation)) return false;
+            if (!FlexStyle.Equals(a.Flex, b.Flex)) return false;
+            if (!Nullable.Equals(a.Padding, b.Padding)) return false;
+            if (!Nullable.Equals(a.Margin, b.Margin)) return false;
+            if (!LayoutStyle.Equals(a.Layout, b.Layout)) return false;
+
+            return true;
+        }
+
         public string FontFace { get; set; }
 
         public Color? TextColor { get; set; }
@@ -129,6 +153,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public FlexStyle Flex { get; set; }
 
+        public LayoutStyle Layout { get; set; }
+
         public LayoutBox? Padding { get; set; }
 
         public LayoutBox? Margin { get; set; }
@@ -136,6 +162,14 @@ namespace AgateLib.UserInterface.Widgets
         public int Specificity => 1000;
 
         IReadOnlyCollection<string> IRenderElementStyleProperties.PseudoClasses => null;
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is InlineElementStyle other))
+                return false;
+
+            return Equals(this, other);
+        }
     }
 
 }

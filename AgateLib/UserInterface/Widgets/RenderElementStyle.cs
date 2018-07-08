@@ -43,9 +43,12 @@ namespace AgateLib.UserInterface.Widgets
 
         FlexStyle Flex { get; }
 
+        LayoutStyle Layout { get; }
+
         LayoutBox Padding { get; }
 
         LayoutBox Margin { get; }
+
 
         /// <summary>
         /// Called by the rendering engine before each frame to ensure that the style
@@ -57,8 +60,10 @@ namespace AgateLib.UserInterface.Widgets
     public class RenderElementStyle : IRenderElementStyle
     {
         private RenderElementDisplay display;
-        private readonly IRenderElementStyleProperties inline;
-        private readonly IRenderElementStyleProperties defaultStyle;
+        private RenderElementProps props;
+
+        private IRenderElementStyleProperties Inline => props.Style;
+        private IRenderElementStyleProperties DefaultStyle => props.DefaultStyle;
 
         private List<IRenderElementStyleProperties> activeProperties = new List<IRenderElementStyleProperties>();
         private List<IRenderElementStyleProperties> testProperties = new List<IRenderElementStyleProperties>();
@@ -68,13 +73,15 @@ namespace AgateLib.UserInterface.Widgets
 
         private Font font;
 
-        public RenderElementStyle(RenderElementDisplay display,
-            IRenderElementStyleProperties inline,
-            IRenderElementStyleProperties defaultStyle)
+        public RenderElementStyle(RenderElementDisplay display, RenderElementProps props)
         {
             this.display = display;
-            this.inline = inline;
-            this.defaultStyle = defaultStyle;
+            this.props = props;
+        }
+
+        public void SetProps(RenderElementProps props)
+        {
+            this.props = props;
         }
 
         public void Update()
@@ -90,6 +97,7 @@ namespace AgateLib.UserInterface.Widgets
             Padding = Aggregate(p => p.Padding) ?? default(LayoutBox);
             Animation = Aggregate(p => p.Animation);
             Flex = Aggregate(p => p.Flex);
+            Layout = Aggregate(p => p.Layout);
         }
 
         private void AggregateFont()
@@ -179,9 +187,9 @@ namespace AgateLib.UserInterface.Widgets
         {
             testProperties.Clear();
 
-            if (defaultStyle != null)
+            if (DefaultStyle != null)
             {
-                testProperties.Add(defaultStyle);
+                testProperties.Add(DefaultStyle);
             }
 
             // TODO: Implement filtering based on current state and pseudoclasses.
@@ -191,9 +199,9 @@ namespace AgateLib.UserInterface.Widgets
                     testProperties.Add(property);
             }
 
-            if (inline != null)
+            if (Inline != null)
             {
-                testProperties.Add(inline);
+                testProperties.Add(Inline);
             }
 
             SortProperties(testProperties);
@@ -264,5 +272,7 @@ namespace AgateLib.UserInterface.Widgets
         public LayoutBox Margin { get; private set; }
 
         public FlexStyle Flex { get; private set; }
+
+        public LayoutStyle Layout { get; private set; }
     }
 }
