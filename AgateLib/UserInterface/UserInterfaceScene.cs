@@ -102,8 +102,9 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets or sets a value indicating whether this scene should automatically
         /// exit when there are no workspaces left in the desktop.
+        /// Defaults to true.
         /// </summary>
-        public bool ExitWhenEmpty { get; set; }
+        public bool ExitWhenEmpty { get; set; } = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether the scene should automatically
@@ -179,6 +180,18 @@ namespace AgateLib.UserInterface
         {
             renderContext.SpriteBatch.End();
             renderContext.SpriteBatch.Begin(blendState: BlendState);
+        }
+
+        /// <summary>
+        /// Exits the user interface, then executes an action once the animation is complete and
+        /// this scene is about to be removed from the scene stack.
+        /// </summary>
+        /// <param name="nextAction"></param>
+        public void ExitThen(Action nextAction)
+        {
+            Desktop.ExitUserInterface();
+
+            SceneEnd += (sender, e) => nextAction();
         }
     }
 }

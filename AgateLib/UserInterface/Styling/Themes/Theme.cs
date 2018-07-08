@@ -86,6 +86,12 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
+                    Selector = "menuitem:disabled",
+                    Font = new FontStyleProperties { Color = Color.Gray }
+                },
+
+                new ThemeStyle
+                {
                     Selector = "menuitem:focus",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
@@ -104,6 +110,12 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
+                    Selector = "radiobutton:disabled",
+                    Font = new FontStyleProperties { Color = Color.Gray }
+                },
+
+                new ThemeStyle
+                {
                     Selector = "radiobutton:focus",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
@@ -114,6 +126,13 @@ namespace AgateLib.UserInterface.Styling.Themes
                     Selector = "radiobutton:checked",
                     Background = new BackgroundStyle { Color = Color.DarkCyan },
                     Font = new FontStyleProperties { Color = Color.Black },
+                },
+
+                new ThemeStyle
+                {
+                    Selector = "radiobutton:checked:disabled",
+                    Background = new BackgroundStyle { Color = Color.DarkCyan },
+                    Font = new FontStyleProperties { Color = Color.Gray },
                 },
 
                 new ThemeStyle

@@ -112,7 +112,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public IEnumerable<MenuItemElement> MenuItems => child.Children.OfType<MenuItemElement>();
 
-        public override bool CanHaveFocus => true;
+        public override bool CanHaveFocus => child.CanHaveFocus;
 
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)
         {
@@ -145,9 +145,9 @@ namespace AgateLib.UserInterface.Widgets
         
         public override void OnChildNavigate(IRenderElement child, MenuInputButton button)
         {
-            if (button == MenuInputButton.Cancel)
+            if (button == MenuInputButton.Cancel && Props.Cancel != null)
             {
-                Props.Cancel?.Invoke();
+                Props.Cancel();
                 return;
             }
 

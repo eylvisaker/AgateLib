@@ -146,6 +146,12 @@ namespace AgateLib.UserInterface.Widgets
         /// Called when the user selects an item in its parent.
         /// </summary>
         void OnSelect();
+
+        /// <summary>
+        /// Called after reconciliation is complete.
+        /// </summary>
+        void OnReconciliationCompleted();
+
     }
 
     public abstract class RenderElement<TProps> : IRenderElement where TProps : RenderElementProps
@@ -287,6 +293,10 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         protected virtual void OnReceiveProps()
+        {
+        }
+
+        public virtual void OnReconciliationCompleted()
         {
         }
     }

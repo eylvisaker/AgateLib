@@ -13,7 +13,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderable Render() => new FlexBox(new FlexBoxProps
         {
-            DefaultStyle = new InlineElementStyle
+            DefaultStyle = Props.DefaultStyle ?? new InlineElementStyle
             {
                 Flex = new FlexStyle
                 {
@@ -26,12 +26,17 @@ namespace AgateLib.UserInterface.Widgets
             StyleId = Props.StyleId,
             StyleClass = Props.StyleClass,
             Style = Props.Style,
+            Cancel = Props.Cancel,
             Children = Props.Children,
         });
     }
 
     public class AppProps : WidgetProps
     {
+        public InlineElementStyle DefaultStyle { get; set; }
+
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
+
+        public Action Cancel { get; set; }
     }
 }

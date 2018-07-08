@@ -27,9 +27,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 styleConfigurator ?? new ThemeStyler(new ThemeCollection { ["default"] = Theme.CreateDefaultTheme() }),
                 fontProvider ?? CommonMocks.FontProvider().Object);
 
-            defaultWorkspace = new Workspace("default");
-
-            Add(app);
+            defaultWorkspace = new Workspace("default", app);
 
             input = new ManualInputState();
 
@@ -42,10 +40,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
         public Desktop Desktop => uiDriver.Desktop;
 
-        public void Add(IWidget widget)
-        {
-            defaultWorkspace.Add(widget);
-        }
+        public IRenderElement Focus => defaultWorkspace.Focus;
 
         public void DoLayout()
         {

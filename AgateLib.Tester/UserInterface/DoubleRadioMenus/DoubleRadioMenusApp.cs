@@ -50,8 +50,8 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                                 MenuItems = {
                                     new MenuItem(new MenuItemProps {
                                         Text = "Accept",
-                                        OnAccept =
-                                            () => Props.OnAccept?.Invoke(selectedLeft, selectedRight)
+                                        Enabled = State.AcceptEnabled,
+                                        OnAccept = () => Props.OnAccept?.Invoke(selectedLeft, selectedRight)
                                     })
                                 }
                             }),
@@ -64,6 +64,26 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
             }
         });
 
+        private void UpdateFlags()
+        {
+            if (selectedLeft == null || selectedRight == null)
+                return;
+
+            UpdateState(state => state.AcceptEnabled = true);
+        }
+
+        void SetLeft(ItemData item)
+        {
+            selectedLeft = item;
+            UpdateFlags();
+        }
+
+        void SetRight(ItemData item)
+        {
+            selectedRight = item;
+            UpdateFlags();
+        }
+
         private IEnumerable<RadioButton> CreateLeftRadioButtons()
         {
             foreach (var item in Props.LeftItems)
@@ -72,7 +92,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                 {
                     Text = item.Name,
                     OnSelect = () => UpdateState(state => state.DescriptionText = item.Description),
-                    OnAccept = () => selectedLeft = item,
+                    OnAccept = () => SetLeft(item),
                 });
 
                 yield return result;
@@ -87,7 +107,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                 {
                     Text = item.Name,
                     OnSelect = () => UpdateState(state => state.DescriptionText = item.Description),
-                    OnAccept = () => selectedRight = item,
+                    OnAccept = () => SetRight(item),
                 });
 
                 yield return result;
@@ -112,5 +132,6 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
     public class DoubleRadioMenusState : WidgetState
     {
         public string DescriptionText { get; set; }
+        public bool AcceptEnabled { get; set; }
     }
 }

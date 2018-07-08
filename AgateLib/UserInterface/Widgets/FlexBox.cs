@@ -303,7 +303,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override string StyleTypeId => Props.StyleTypeId ?? "flexbox";
 
-        public override bool CanHaveFocus => layoutChildren.Any(c => CanChildHaveFocus(c));
+        public override bool CanHaveFocus => focusChildren.Any();
 
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)
         {
@@ -329,6 +329,12 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
+        public override void OnReconciliationCompleted()
+        {
+            UpdateChildLists(true);
+            base.OnReconciliationCompleted();
+        }
+
         public override void OnChildrenUpdated()
         {
             UpdateChildLists(true);
@@ -339,14 +345,15 @@ namespace AgateLib.UserInterface.Widgets
         {
             switch (Direction)
             {
-                case FlexDirection.Column:
                 case FlexDirection.Row:
+                case FlexDirection.Column:
                     if (force || currentLayoutIsReversed)
                     {
                         layoutChildren.Clear();
                         layoutChildren.AddRange(Children.Where(x => x.Display.IsInLayout));
                         focusChildren.Clear();
                         focusChildren.AddRange(layoutChildren.Where(x => CanChildHaveFocus(x)));
+                        currentLayoutIsReversed = false;
                     }
                     break;
 
@@ -358,6 +365,7 @@ namespace AgateLib.UserInterface.Widgets
                         layoutChildren.AddRange(Children.Where(x => x.Display.IsInLayout).Reverse());
                         focusChildren.Clear();
                         focusChildren.AddRange(layoutChildren.Where(x => CanChildHaveFocus(x)).Reverse());
+                        currentLayoutIsReversed = true;
                     }
                     break;
 
@@ -439,7 +447,14 @@ namespace AgateLib.UserInterface.Widgets
 
             if (newIndex == index || newIndex < 0 || newIndex >= focusChildren.Count)
             {
-                base.OnChildNavigate(this, button);
+                if (button == MenuInputButton.Cancel && Props.Cancel != null)
+                {
+                    Props.Cancel();
+                }
+                else
+                {
+                    base.OnChildNavigate(this, button);
+                }
             }
             else
             {
@@ -471,6 +486,8 @@ namespace AgateLib.UserInterface.Widgets
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
 
         public string StyleTypeId { get; set; }
+
+        public Action Cancel { get; set; }
     }
 
     public enum FlexDirection

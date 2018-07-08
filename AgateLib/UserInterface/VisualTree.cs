@@ -41,9 +41,19 @@ namespace AgateLib.UserInterface
         public void Render(IRenderable rootRenderable)
         {
             var newRoot = rootRenderable.Finalize(_ => Render(rootRenderable));
+            bool anyUpdates = false;
 
-            Reconcile(ref root, newRoot);
+            Reconcile(ref root, newRoot, ref anyUpdates);
             root.Display.ParentFont = DisplaySystem.Fonts.Default;
+
+            if (anyUpdates)
+            {
+                Walk(element =>
+                {
+                    element.OnReconciliationCompleted();
+                    return true;
+                });
+            }
 
             Style.Apply(root, DefaultTheme);
 
@@ -54,11 +64,15 @@ namespace AgateLib.UserInterface
             });
         }
 
-        private void Reconcile(ref IRenderElement oldNode, IRenderElement newNode)
+        private void Reconcile(ref IRenderElement oldNode, IRenderElement newNode, ref bool anyUpdates)
         {
+            if (oldNode == null && newNode == null)
+                return;
+
             if (oldNode == null)
             {
                 Replace(ref oldNode, newNode);
+                anyUpdates = true;
                 return;
             }
 
@@ -66,17 +80,20 @@ namespace AgateLib.UserInterface
             {
                 Unmount(oldNode);
                 oldNode = null;
+                anyUpdates = true;
                 return;
             }
 
             if (oldNode.GetType() != newNode.GetType())
             {
                 Replace(ref oldNode, newNode);
+                anyUpdates = true;
             }
 
             if (!oldNode.Props.PropertiesEqual(newNode.Props))
             {
                 oldNode.SetProps(newNode.Props);
+                anyUpdates = true;
             }
 
             if ((oldNode.Children?.Count ?? 0) == 0 && (newNode.Children?.Count ?? 0) == 0)
@@ -93,17 +110,20 @@ namespace AgateLib.UserInterface
                     var old = oldNode.Children[i];
                     var match = FindMatch(oldNode.Children, i, newNode.Children);
 
-                    Reconcile(ref old, match);
+                    Reconcile(ref old, match, ref anyUpdates);
+
+                    anyUpdates = true;
 
                     if (!ReferenceEquals(old, oldNode.Children[i]))
                     {
-                        oldNode.Children[i] = old;
                         childrenUpdated = true;
+                        oldNode.Children[i] = old;
                     }
                 }
                 else
                 {
                     oldNode.Children.Add(newNode.Children[i]);
+                    anyUpdates = true;
                     childrenUpdated = true;
                 }
             }

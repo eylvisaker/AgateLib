@@ -21,6 +21,7 @@ namespace AgateLib.UserInterface.Widgets
                 OnFocus = Props.OnSelect,
                 OnAccept = Props.OnAccept,
                 Checked = Props.Checked,
+                Enabled = Props.Enabled,
                 Children = { new Label(new LabelProps { Text = Props.Text }) }
             });
         }
@@ -28,6 +29,12 @@ namespace AgateLib.UserInterface.Widgets
 
     public class RadioButtonProps : WidgetProps
     {
+        /// <summary>
+        /// Specifies whether the button should be enabled for the user to interact with.
+        /// Defaults to true.
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+
         /// <summary>
         /// Text that should be shown for the radio button.
         /// </summary>
@@ -67,11 +74,21 @@ namespace AgateLib.UserInterface.Widgets
                 child = new FlexBox(new FlexBoxProps { Children = props.Children });
             }
 
-            isChecked = Props.Checked;
+            IsChecked = Props.Checked;
 
             Children = new List<IRenderElement> { child };
 
             buttonPress.Press += OnButtonPress;
+
+            SetDisabledPseudoclass();
+        }
+
+        private void SetDisabledPseudoclass()
+        {
+            if (!Props.Enabled)
+                Display.PseudoClasses.Add("disabled");
+            else
+                Display.PseudoClasses.Remove("disabled");
         }
 
         private void OnButtonPress(MenuInputButton btn)
@@ -144,7 +161,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override string StyleTypeId => "radiobutton";
 
-        public override bool CanHaveFocus => true;
+        public override bool CanHaveFocus => Props.Enabled;
         
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
             => child.CalcIdealContentSize(renderContext, maxSize);
@@ -169,5 +186,7 @@ namespace AgateLib.UserInterface.Widgets
         public Action OnFocus { get; set; }
 
         public bool Checked { get; set; }
+
+        public bool Enabled { get; set; } = true;
     }
 }

@@ -41,6 +41,7 @@ namespace AgateLib.UserInterface.Widgets
             {
                 Text = Props.Text,
                 OnAccept = Props.OnAccept,
+                Enabled = Props.Enabled,
                 Children = { new Label(new LabelProps { Text = Props.Text }) }
             });
         }
@@ -53,6 +54,12 @@ namespace AgateLib.UserInterface.Widgets
         public Action OnAccept { get; set; }
 
         public Action OnSelect { get; set; }
+
+        /// <summary>
+        /// Specifies whether the button should be enabled for the user to interact with.
+        /// Defaults to true.
+        /// </summary>
+        public bool Enabled { get; set; } = true;
     }
 
     public class MenuItemElement : RenderElement<MenuItemElementProps>
@@ -75,6 +82,22 @@ namespace AgateLib.UserInterface.Widgets
             Children = new List<IRenderElement> { child };
 
             buttonPress.Press += OnButtonPress;
+
+            SetDisabledPseudoclass();
+        }
+
+        protected override void OnReceiveProps()
+        {
+            base.OnReceiveProps();
+            SetDisabledPseudoclass();
+        }
+
+        private void SetDisabledPseudoclass()
+        {
+            if (!Props.Enabled)
+                Display.PseudoClasses.Add("disabled");
+            else
+                Display.PseudoClasses.Remove("disabled");
         }
 
         private void OnButtonPress(MenuInputButton btn)
@@ -109,7 +132,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override string StyleTypeId => "menuitem";
 
-        public override bool CanHaveFocus => true;
+        public override bool CanHaveFocus => Props.Enabled;
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
             => child.CalcIdealContentSize(renderContext, maxSize);
@@ -133,6 +156,8 @@ namespace AgateLib.UserInterface.Widgets
         /// A purely informational property, not used by the MenuItemElement.
         /// </summary>
         public string Text { get; set; }
+
+        public bool Enabled { get; set; } = true;
     }
 
 }

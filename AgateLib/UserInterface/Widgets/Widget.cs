@@ -327,6 +327,11 @@ namespace AgateLib.UserInterface.Widgets
         {
             throw new NotImplementedException();
         }
+
+        public void OnReconciliationCompleted()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

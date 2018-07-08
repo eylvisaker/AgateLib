@@ -132,6 +132,9 @@ namespace AgateLib.UserInterface
             workspaces.Add(workspace);
         }
 
+        /// <summary>
+        /// Tells the top workspace on the stack to transition out.
+        /// </summary>
         public void PopWorkspace()
         {
             Require.Not(inDraw, "Cannot modify workspaces while drawing.");
@@ -140,6 +143,17 @@ namespace AgateLib.UserInterface
             var workspace = workspaces[workspaces.Count - 1];
 
             workspace.TransitionOut();
+        }
+
+        /// <summary>
+        /// Tells all workspaces to transition out.
+        /// </summary>
+        public void ExitUserInterface()
+        {
+            foreach(var workspace in workspaces)
+            {
+                workspace.TransitionOut();
+            }
         }
 
         /// <summary>
