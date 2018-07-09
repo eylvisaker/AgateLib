@@ -47,6 +47,7 @@ namespace AgateLib.UserInterface.Widgets
             StyleClass = Props.StyleClass,
             StyleId = Props.StyleId,
             StyleTypeId = "window",
+            Visible = Props.Visible,
             Children = Props.Children.ToList<IRenderable>(),
         });
     }

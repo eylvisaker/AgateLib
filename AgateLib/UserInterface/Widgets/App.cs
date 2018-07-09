@@ -20,7 +20,8 @@ namespace AgateLib.UserInterface.Widgets
                     Direction = FlexDirection.Row,
                     AlignItems = AlignItems.Start,
                     JustifyContent = JustifyContent.SpaceEvenly,
-                }
+                },
+                Padding = new LayoutBox(100, 50, 100, 50),
             },
             StyleTypeId = "workspace",
             StyleId = Props.StyleId,

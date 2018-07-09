@@ -31,20 +31,43 @@ namespace AgateLib
     public interface IRandom
     {
         /// <summary>
-        /// Gets the next random integer in the sequence.
+        /// Gets the seed value.
+        /// </summary>
+        long Seed { get; }
+
+        /// <summary>
+        /// Gets the maximum value that can be returned by NextInteger().
+        /// </summary>
+        int NextIntegerMaxValue { get; }
+
+
+        /// <summary>
+        /// Gets the next random integer in the sequence, between zero and NextIntegerMaxValue.
         /// </summary>
         /// <returns></returns>
         int NextInteger();
 
         /// <summary>
-        /// Gets the next random single precision floating point in the sequence.
+        /// Gets the next random single precision floating point in the sequence, between zero and 1.
         /// </summary>
         /// <returns></returns>
         float NextSingle();
+
+        /// <summary>
+        /// Gets the next double precision floating point in the sequence, between zero and 1.
+        /// </summary>
+        /// <returns></returns>
+        double NextDouble();
     }
 
     public static class RandomExtensions
     {
+        /// <summary>
+        /// Gets a seed value from the system clock.
+        /// </summary>
+        /// <returns></returns>
+        public static int GetSeedFromSystemClock() => Math.Abs((int)DateTime.Now.Ticks);
+
         /// <summary>
         /// Gets the next random integer value which is greater than zero and less than or equal to
         /// the specified maxmimum value.
@@ -77,6 +100,22 @@ namespace AgateLib
         public static float NextSingle(this IRandom random, float min, float max) => ((max - min) * random.NextSingle()) + min;
 
         /// <summary>
+        /// Gets the next random single value which is greater than zero and less than or equal to
+        /// the specified maxmimum value.
+        /// </summary>
+        /// <param name="max">The maximum random single value to return.</param>
+        /// <returns>A random single value between zero and the specified maximum value.</returns>
+        public static double NextDouble(this IRandom random, double max) => max * random.NextDouble();
+
+        /// <summary>
+        /// Gets the next random single value between the specified minimum and maximum values.
+        /// </summary>
+        /// <param name="min">The inclusive minimum value.</param>
+        /// <param name="max">The inclusive maximum value.</param>
+        /// <returns>A random single value between the specified minimum and maximum values.</returns>
+        public static double NextDouble(this IRandom random, double min, double max) => ((max - min) * random.NextDouble()) + min;
+
+        /// <summary>
         /// Gets the next random angle value, in the range of -PI to PI
         /// </summary>
         /// <returns>A random angle value.</returns>
@@ -89,5 +128,15 @@ namespace AgateLib
         /// <param name=""></param>
         /// <returns></returns>
         public static Vector2 NextUnitVector(this IRandom random) => Vector2X.FromPolar(1, random.NextAngle());
+
+        /// <summary>
+        /// Picks a random item from a list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="random"></param>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static T PickOne<T>(this IRandom random, IReadOnlyList<T> items) => items[random.NextInteger(items.Count)];
     }
 }
+

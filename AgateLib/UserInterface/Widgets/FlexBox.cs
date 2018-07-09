@@ -488,6 +488,8 @@ namespace AgateLib.UserInterface.Widgets
         public string StyleTypeId { get; set; }
 
         public Action Cancel { get; set; }
+
+        public bool Visible { get; set; } = true;
     }
 
     public enum FlexDirection

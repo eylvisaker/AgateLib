@@ -58,7 +58,6 @@ namespace AgateLib.UserInterface.Styling.Themes
                 new ThemeStyle
                 {
                     Selector = "workspace",
-                    Padding = LayoutBox.SameAllAround(30),
                 },
 
                 new ThemeStyle

@@ -161,6 +161,8 @@ namespace AgateLib.UserInterface.Widgets
             this.Props = props;
 
             Display = new RenderElementDisplay(props);
+
+            ReceiveRenderElementProps();
         }
 
         #region --- Props ---
@@ -294,6 +296,12 @@ namespace AgateLib.UserInterface.Widgets
 
         protected virtual void OnReceiveProps()
         {
+            ReceiveRenderElementProps();
+        }
+
+        protected void ReceiveRenderElementProps()
+        {
+            Display.IsVisible = Props.Visible;
         }
 
         public virtual void OnReconciliationCompleted()
@@ -349,6 +357,11 @@ namespace AgateLib.UserInterface.Widgets
         public EventHandler Blur { get; set; }
 
         /// <summary>
+        /// Gets or sets whether the element is visible. Defaults to true.
+        /// </summary>
+        public bool Visible { get; set; } = true;
+
+        /// <summary>
         /// Compares two props objects to see if their property values are equal.
         /// By default, this uses reflection to check each individual property, except
         /// properties named "Children".
@@ -377,4 +390,5 @@ namespace AgateLib.UserInterface.Widgets
             return true;
         }
     }
+
 }

@@ -38,13 +38,38 @@ namespace AgateLib.Randomizer
     {
         private int _state = 1;
 
-        public void Seed(int seed)
-        {
-            if (seed < 1)
-                throw new ArgumentOutOfRangeException(nameof(seed), "seed must be greater than zero");
+        [Obsolete("Specify a seed explicitly.")]
+        public FastRandom() : this(1)
+        { }
 
-            _state = seed;
+        /// <summary>
+        /// Initializes a FastRandom object. 
+        /// </summary>
+        /// <param name="seed"></param>
+        public FastRandom(int seed)
+        {
+            Seed = seed;
         }
+
+        /// <summary>
+        /// Gets or sets the seed value that will produce the next random number.
+        /// </summary>
+        public int Seed
+        {
+            get => _state;
+            set
+            {
+                if (value < 1)
+                    throw new ArgumentOutOfRangeException(nameof(Seed), "seed must be greater than zero");
+
+                _state = value;
+            }
+        }
+        long IRandom.Seed => _state;
+
+        public double NextDouble() => NextSingle();
+
+        public int NextIntegerMaxValue => Int16.MaxValue;
 
         /// <summary>
         /// Gets the next random integer value.
@@ -55,7 +80,6 @@ namespace AgateLib.Randomizer
             _state = 214013 * _state + 2531011;
             return (_state >> 16) & 0x7FFF;
         }
-
 
         /// <summary>
         /// Gets the next random single value.

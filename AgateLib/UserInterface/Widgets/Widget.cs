@@ -52,6 +52,8 @@ namespace AgateLib.UserInterface.Widgets
         public string StyleClass { get; set; }
 
         public InlineElementStyle Style { get; set; }
+
+        public bool Visible { get; set; } = true;
     }
 
     public class WidgetState
