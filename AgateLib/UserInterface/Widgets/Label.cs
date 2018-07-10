@@ -66,7 +66,7 @@ namespace AgateLib.UserInterface.Widgets
         {
         }
 
-        public override string StyleTypeId => "Label";
+        public override string StyleTypeId => "label";
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {

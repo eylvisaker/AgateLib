@@ -24,9 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.Display;
-using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
@@ -213,6 +210,10 @@ namespace AgateLib.UserInterface
             {
                 element.Update(renderContext);
                 element.Style.Update();
+
+                foreach(var child in element.Children ?? Enumerable.Empty<IRenderElement>())
+                    child.Display.ParentFont = element.Style.Font;
+
                 renderContext.UpdateAnimation(element);
                 return true;
             });

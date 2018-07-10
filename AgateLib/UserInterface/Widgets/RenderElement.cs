@@ -307,6 +307,24 @@ namespace AgateLib.UserInterface.Widgets
         public virtual void OnReconciliationCompleted()
         {
         }
+
+
+        protected string FirstNotNullOrWhitespace(params string[] values)
+        {
+            for (int i = 0; i < values.Length; i++)
+                if (!string.IsNullOrWhiteSpace(values[i]))
+                    return values[i];
+
+            return null;
+        }
+
+
+        protected void DoLayoutForSingleChild(IWidgetRenderContext renderContext, Size size, IRenderElement child)
+        {
+            child.Display.Region.MarginRect = new Rectangle(Point.Zero, size);
+            child.DoLayout(renderContext, size);
+        }
+
     }
 
     public class RenderElementProps
@@ -391,4 +409,16 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
+    public static class RenderElementExtensions
+    {
+        public static Size CalcIdealMarginSize(this IRenderElement element, IWidgetRenderContext renderContext, Size maxSize)
+        {
+            var contentSize = element.CalcIdealContentSize(renderContext, maxSize);
+
+            var marginSize = element.Display.Region.MarginToContentOffset.Expand(contentSize);
+
+            return marginSize;
+
+        }
+    }
 }

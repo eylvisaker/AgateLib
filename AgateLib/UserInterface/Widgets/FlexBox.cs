@@ -75,8 +75,6 @@ namespace AgateLib.UserInterface.Widgets
                     if (!item.Display.IsVisible)
                         continue;
 
-                    item.Display.ParentFont = style.Font;
-
                     var itemDest = dest;
 
                     CalcItemIdealSize(renderContext, size, item);

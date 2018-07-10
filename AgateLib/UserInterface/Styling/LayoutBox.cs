@@ -105,6 +105,18 @@ namespace AgateLib.UserInterface.Styling
         }
 
         /// <summary>
+        /// Contracts a size by the layout box.
+        /// </summary>
+        /// <param name="targetRect"></param>
+        /// <returns></returns>
+        public Size Contract(Size targetRect)
+        {
+            return new Size(
+                targetRect.Width - Width,
+                targetRect.Height - Height);
+        }
+
+        /// <summary>
         /// Gets a Point representing the bottom right of the LayoutBox.
         /// </summary>
         public Point BottomRight { get => new Point(Right, Bottom); }

@@ -98,16 +98,8 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public Rectangle MarginRect
         {
-            get
-            {
-                var offset = MarginToContentOffset;
-
-                return new Rectangle(
-                    contentRect.X - offset.Left,
-                    contentRect.Y - offset.Right,
-                    contentRect.Width + offset.Left + offset.Right,
-                    contentRect.Height + offset.Top + offset.Bottom);
-            }
+            get => MarginToContentOffset.Expand(contentRect);
+            set => contentRect = MarginToContentOffset.Contract(value);
         }
 
         /// <summary>

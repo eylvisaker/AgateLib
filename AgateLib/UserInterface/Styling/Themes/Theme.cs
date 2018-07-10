@@ -74,13 +74,18 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
+                    Selector = "label",
+                    Padding = new LayoutBox(12, 8, 12, 8)
+                },
+
+                new ThemeStyle
+                {
                     Selector = "menu",
                 },
 
                 new ThemeStyle
                 {
                     Selector = "menuitem",
-                    Padding = new LayoutBox(12, 8, 12, 8)
                 },
 
                 new ThemeStyle
@@ -104,7 +109,6 @@ namespace AgateLib.UserInterface.Styling.Themes
                 new ThemeStyle
                 {
                     Selector = "radiobutton",
-                    Padding = new LayoutBox(12, 8, 12, 8)
                 },
 
                 new ThemeStyle

@@ -48,12 +48,12 @@ namespace AgateLib.UserInterface.Widgets
             StyleId = Props.StyleId,
             StyleTypeId = "window",
             Visible = Props.Visible,
-            Children = Props.Children.ToList<IRenderable>(),
+            Children = Props.Children.ToList(),
         });
     }
 
     public class WindowProps : WidgetProps
     {
-        public IList<IWidget> Children { get; set; } = new List<IWidget>();
+        public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
     }
 }

@@ -125,17 +125,15 @@ namespace AgateLib.UserInterface.Widgets
             Props.OnAccept?.Invoke();
         }
 
-        public override void DoLayout(IWidgetRenderContext renderContext, Size size)
-        {
-            child.DoLayout(renderContext, size);
-        }
-
         public override string StyleTypeId => "menuitem";
 
         public override bool CanHaveFocus => Props.Enabled;
 
+        public override void DoLayout(IWidgetRenderContext renderContext, Size size)
+            => DoLayoutForSingleChild(renderContext, size, child);
+
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
-            => child.CalcIdealContentSize(renderContext, maxSize);
+            => child.CalcIdealMarginSize(renderContext, maxSize);
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
             => renderContext.DrawChild(clientArea, child);
