@@ -94,7 +94,8 @@ namespace AgateLib.UserInterface.Widgets
                 StyleId = props.StyleId,
                 StyleTypeId = string.IsNullOrWhiteSpace(props.StyleTypeId)
                             ? "menu" : props.StyleTypeId,
-                Children = props.Children
+                Children = props.Children,
+                InitialFocusIndex = props.InitialSelectionIndex
             });
 
             Children = new[] { child };
@@ -108,7 +109,7 @@ namespace AgateLib.UserInterface.Widgets
             => selectedIndex < child.Children.Count()
                ? child.Children.Skip(selectedIndex).First() : null;
 
-        public int SelectedIndex => child.SelectedIndex;
+        public int SelectedIndex => child.FocusIndex;
 
         public IEnumerable<MenuItemElement> MenuItems => child.Children.OfType<MenuItemElement>();
 

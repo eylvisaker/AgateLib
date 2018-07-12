@@ -285,7 +285,6 @@ namespace AgateLib.UserInterface.Widgets
 
         private readonly List<IRenderElement> layoutChildren;
         private readonly List<IRenderElement> focusChildren;
-        private int focusIndex;
         private bool currentLayoutIsReversed;
 
         public FlexBox(FlexBoxProps props) : base(props)
@@ -293,11 +292,16 @@ namespace AgateLib.UserInterface.Widgets
             Children = Finalize(props.Children).ToList();
             layoutChildren = Children.Where(x => x.Display.IsInLayout).ToList();
             focusChildren = Children.Where(x => CanChildHaveFocus(x)).ToList();
+
+            FocusIndex = props.InitialFocusIndex;
+
+            if (FocusIndex >= Children.Count)
+                FocusIndex = 0;
         }
 
         public FlexDirection Direction => Style.Flex?.Direction ?? FlexDirection.Column;
 
-        public int SelectedIndex => focusIndex;
+        public int FocusIndex { get; private set; }
 
         public override string StyleTypeId => Props.StyleTypeId ?? "flexbox";
 
@@ -374,7 +378,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void OnFocus()
         {
-            Display.System.SetFocus(focusChildren[focusIndex]);
+            Display.System.SetFocus(focusChildren[FocusIndex]);
         }
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
@@ -403,47 +407,72 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
+        public bool MovePrevious()
+        {
+            var newIndex = FocusIndex;
+
+            do
+            {
+                newIndex--;
+            } while (newIndex >= 0 && !CanChildHaveFocus(focusChildren[newIndex]));
+
+            if (newIndex == FocusIndex || newIndex < 0 || newIndex >= focusChildren.Count)
+                return false;
+
+            FocusIndex = newIndex;
+            Display.System.SetFocus(focusChildren[newIndex]);
+
+            return true;
+        }
+
+        public bool MoveNext()
+        {
+            var newIndex = FocusIndex;
+
+            do
+            {
+                newIndex++;
+            } while (newIndex < focusChildren.Count 
+                     && !CanChildHaveFocus(focusChildren[newIndex]));
+
+            if (newIndex == FocusIndex || newIndex < 0 || newIndex >= focusChildren.Count)
+                return false;
+
+            FocusIndex = newIndex;
+            Display.System.SetFocus(focusChildren[newIndex]);
+
+            return true;
+        }
+
         public override void OnChildNavigate(IRenderElement child, MenuInputButton button)
         {
-            var index = focusChildren.IndexOf(child);
-            var newIndex = index;
+            bool moved = false;
+            var FocusIndex = focusChildren.IndexOf(child);
 
             if (Direction == FlexDirection.Column || Direction == FlexDirection.ColumnReverse)
             {
                 if (button == MenuInputButton.Up)
                 {
-                    do
-                    {
-                        newIndex--;
-                    } while (newIndex >= 0 && !CanChildHaveFocus(focusChildren[newIndex]));
+                    moved = MovePrevious();
                 }
                 if (button == MenuInputButton.Down)
                 {
-                    do
-                    {
-                        newIndex++;
-                    } while (newIndex < focusChildren.Count && !CanChildHaveFocus(focusChildren[newIndex]));
+                    moved = MoveNext();
                 }
             }
             else
             {
                 if (button == MenuInputButton.Left)
                 {
-                    do
-                    {
-                        newIndex--;
-                    } while (newIndex >= 0 && !CanChildHaveFocus(focusChildren[newIndex]));
+                    moved = MovePrevious();
                 }
                 if (button == MenuInputButton.Right)
                 {
-                    do
-                    {
-                        newIndex++;
-                    } while (newIndex < focusChildren.Count && !CanChildHaveFocus(focusChildren[newIndex]));
+                    moved = MoveNext();
                 }
             }
 
-            if (newIndex == index || newIndex < 0 || newIndex >= focusChildren.Count)
+            if (!moved) 
             {
                 if (button == MenuInputButton.Cancel && Props.Cancel != null)
                 {
@@ -453,11 +482,6 @@ namespace AgateLib.UserInterface.Widgets
                 {
                     base.OnChildNavigate(this, button);
                 }
-            }
-            else
-            {
-                focusIndex = newIndex;
-                Display.System.SetFocus(focusChildren[newIndex]);
             }
         }
 
@@ -487,7 +511,11 @@ namespace AgateLib.UserInterface.Widgets
 
         public Action Cancel { get; set; }
 
-        public bool Visible { get; set; } = true;
+        /// <summary>
+        /// Sets the index of the item that receives focus the first time
+        /// this flexbox gets focus.
+        /// </summary>
+        public int InitialFocusIndex { get; set; }
     }
 
     public enum FlexDirection

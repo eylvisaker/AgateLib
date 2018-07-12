@@ -184,7 +184,7 @@ namespace AgateLib.UserInterface.Widgets
         Action<IRenderable> IRenderable.NeedsRender { get => NeedsRender; set => NeedsRender = value; }
         protected Action<IRenderable> NeedsRender { get; private set; }
 
-        protected IRenderElement Parent => Display.System.ParentOf(this);
+        public IRenderElement Parent => Display.System.ParentOf(this);
 
         protected IEnumerable<IRenderElement> Finalize(IEnumerable<IRenderable> renderables)
         {

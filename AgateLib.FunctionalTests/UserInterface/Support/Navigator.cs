@@ -19,69 +19,36 @@ namespace AgateLib.Tests.UserInterface.Support
 
         public Navigator(UIContext context, Instructor instructor)
         {
-            //gotoMethods = new Dictionary<Type, Action<string>>
-            //{
-            //    { typeof(SingleColumnLayout), SingleColumnGoTo },
-            //    { typeof(SingleRowLayout), SingleRowGoTo }
-            //};
             this.context = context;
             this.instructor = instructor;
         }
 
-        public Desktop Desktop => context.Desktop;
+        public Desktop Desktop => context.Scene.Desktop;
 
-        public void GoTo(string menuItem)
+        public void GoTo(string menuItemText)
         {
-            Desktop.ClearAnimations();
-
-            var menu = context.Desktop.ActiveWorkspace.Focus as MenuElement;
-
-            SingleColumnGoTo(menuItem);
-
-            //if (!gotoMethods.ContainsKey(menu.Layout.GetType()))
-            //    throw new InvalidOperationException($"Menu {menu.Name} has unsupported layout type: {menu.Layout.GetType().Name}");
-
-            //var method = gotoMethods[menu.Layout.GetType()];
-
-            //method(menuItem);
-        }
-
-        private void SingleColumnGoTo(string menuItem)
-        {
-            NavigateListLayout(menuItem, MenuInputButton.Down, MenuInputButton.Up);
-        }
-
-        private void SingleRowGoTo(string menuItem)
-        {
-            //NavigateListLayout(menuItem, MenuInputButton.Right, MenuInputButton.Left);
-        }
-
-        private void NavigateListLayout(string menuItem, MenuInputButton nextButton, MenuInputButton prevButton)
-        {
-            var menu = context.Desktop.ActiveWorkspace.Focus as MenuElement;
-
-            var target = menu.MenuItems.SingleOrDefault(
-                w => w.Props.Text.Equals(menuItem, StringComparison.OrdinalIgnoreCase));
+            var menuItem = Desktop.ActiveWorkspace.Focus as MenuItemElement;
+            var parent = menuItem.Parent as FlexBox;
+            
+            var target = parent.Children.OfType<MenuItemElement>()
+                .SingleOrDefault(w => w.Props.Text.Equals(menuItemText, 
+                                          StringComparison.OrdinalIgnoreCase));
 
             if (target == null)
-                throw new InvalidOperationException($"Could not find {menuItem} in {menu.Name}. Active workspace: {context.Desktop.ActiveWorkspace}");
+                throw new InvalidOperationException($"Could not find {menuItemText}. Active workspace: {Desktop.ActiveWorkspace}");
 
-            var targetIndex = menu.MenuItems.ToList().IndexOf(target);
+            var targetIndex = parent.Children.IndexOf(target);
 
             if (targetIndex < 0)
                 throw new InvalidOperationException($"Target index indicates menu item was not found in menu.");
 
-            while (targetIndex > menu.SelectedIndex)
+            while (targetIndex > parent.FocusIndex)
             {
-                Desktop.ClearAnimations();
-
-                instructor.SendButtonPress(nextButton);
+                parent.MoveNext();
             }
-            while (targetIndex < menu.SelectedIndex)
+            while (targetIndex < parent.FocusIndex)
             {
-                Desktop.ClearAnimations();
-
-                instructor.SendButtonPress(prevButton);
+                parent.MovePrevious();
             }
         }
     }
