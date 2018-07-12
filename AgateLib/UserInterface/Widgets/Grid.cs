@@ -14,9 +14,7 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class Grid : RenderElement<GridProps>
     {
-        IRenderElement[,] grid;
-
-        private Size[,] sizeGrid;
+        private Size[] sizeGrid;
 
         private int[] columnWidths;
         private int[] rowHeights;
@@ -25,26 +23,32 @@ namespace AgateLib.UserInterface.Widgets
 
         public Grid(GridProps props) : base(props)
         {
-            sizeGrid = new Size[Columns, Rows];
-            grid = new IRenderElement[Columns, Rows];
+            Children = Finalize(props.Children).ToList();
+
+            sizeGrid = new Size[Children.Count];
+
             columnWidths = new int[Columns];
             rowHeights = new int[Rows];
 
-            for (int y = 0; y < Rows; y++)
-            {
-                for (int x = 0; x < Columns; x++)
-                {
-                    grid[x, y] = Finalize(props[x, y]);
-
-                    if (grid[x, y] != null && focusPoint.X == -1)
-                        focusPoint = new Point(x, y);
-                }
-            }
-
-            var cs = new List<IRenderElement>();
-            cs.AddRange(grid.Cast<IRenderElement>().Where(x => x != null));
-            Children = cs;
+            focusPoint = LocationOf(Children.FirstOrDefault(x => x.CanHaveFocus));
         }
+
+        public Point LocationOf(IRenderElement item)
+        {
+            if (item == null)
+                return new Point(-1, -1);
+
+            var index = Children.IndexOf(item);
+
+            if (index == -1)
+                return new Point(-1, -1);
+
+            return new Point(index % Columns, index / Columns);
+        }
+
+        IRenderElement ChildAt(int x, int y) => Children[y * Columns + x];
+        Size SizeAt(int x, int y) => sizeGrid[y * Columns + x];
+        void SetSizeAt(int x, int y, Size value) => sizeGrid[y * Columns + x] = value;
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
@@ -55,9 +59,9 @@ namespace AgateLib.UserInterface.Widgets
             {
                 for (int x = 0; x < Columns; x++)
                 {
-                    var item = grid[x, y];
+                    var item = ChildAt(x, y);
 
-                    sizeGrid[x, y] = Size.Empty;
+                    SetSizeAt(x, y, Size.Empty);
 
                     if (item == null)
                         continue;
@@ -70,7 +74,7 @@ namespace AgateLib.UserInterface.Widgets
 
                     var itemIdealSize = item.Display.Region.Size.IdealContentSize;
 
-                    sizeGrid[x, y] = itemIdealSize;
+                    SetSizeAt(x, y, itemIdealSize);
 
                     columnWidths[x] = Math.Max(columnWidths[x], itemIdealSize.Width + itemBox.Width);
                     rowHeights[y] = Math.Max(rowHeights[y], itemIdealSize.Height + itemBox.Height);
@@ -99,7 +103,7 @@ namespace AgateLib.UserInterface.Widgets
 
                 for (int x = 0; x < Columns; x++)
                 {
-                    var item = grid[x, y];
+                    var item = ChildAt(x, y);
 
                     if (item == null)
                     {
@@ -110,8 +114,8 @@ namespace AgateLib.UserInterface.Widgets
                     item.Display.ContentRect = new Rectangle(
                         destx + item.Display.Region.MarginToContentOffset.Left,
                         desty + item.Display.Region.MarginToContentOffset.Top,
-                        sizeGrid[x, y].Width,
-                        sizeGrid[x, y].Height);
+                        SizeAt(x, y).Width,
+                        SizeAt(x, y).Height);
 
                     destx += columnWidths[x];
                 }
@@ -139,7 +143,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public IRenderElement this[int x, int y]
         {
-            get { return grid[x, y]; }
+            get { return ChildAt(x, y); }
         }
 
         public IRenderElement this[Point pt]
@@ -149,7 +153,16 @@ namespace AgateLib.UserInterface.Widgets
 
         public int Columns => Props.Columns;
 
-        public int Rows => Props.Rows;
+        public int Rows
+        {
+            get
+            {
+                int fullRows = Children.Count / Columns;
+                int extraKids = Children.Count % Columns;
+
+                return fullRows + (extraKids > 0 ? 1 : 0);
+            }
+        }
 
         /// <summary>
         /// Gets the total width in pixels of the layout.
@@ -338,56 +351,31 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class GridProps : RenderElementProps
     {
-        IRenderable[,] children = new IRenderable[0, 0];
+        IList<IRenderable> children = new List<IRenderable>();
 
-        public int Rows => children.GetUpperBound(1) + 1;
-        public int Columns => children.GetUpperBound(0) + 1;
+        public int Columns { get; set; }
 
         public string StyleTypeId { get; set; }
 
         public GridNavigationWrap GridNavigationWrap { get; set; }
 
-        public IRenderable this[int x, int y]
+        public IList<IRenderable> Children
         {
-            get => children[x, y];
-            private set => children[x, y] = value;
-        }
-
-        /// <summary>
-        /// Resizes the grid props. Existing children are preserved if they are
-        /// within the bounds of the new grid. Works as a fluent interface.
-        /// </summary>
-        /// <param name="columns"></param>
-        /// <param name="rows"></param>
-        /// <returns></returns>
-        public GridProps Resize(int columns, int rows)
-        {
-            var newc = new IRenderable[columns, rows];
-
-            for (int y = 0; y < rows && y < Rows; y++)
-            {
-                for (int x = 0; x < columns && x < Columns; x++)
-                {
-                    newc[x, y] = children[x, y];
-                }
-            }
-
-            children = newc;
-
-            return this;
+            get => children;
+            set => children = value ?? throw new ArgumentNullException(nameof(Children));
         }
 
         /// <summary>
         /// Puts an item at the specified location in the grid.
         /// Works as a fluent interface.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
         /// <param name="child"></param>
+        /// 
+        /// 
         /// <returns></returns>
-        public GridProps Put(int x, int y, IRenderable child)
+        public GridProps Add(IRenderable child)
         {
-            this[x, y] = child;
+            children.Add(child);
             return this;
         }
     }

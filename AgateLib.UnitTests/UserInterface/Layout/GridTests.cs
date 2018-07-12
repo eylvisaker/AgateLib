@@ -330,8 +330,11 @@ namespace AgateLib.UserInterface.Layout
                 line.Length.Should().Be(layoutStrings[0].Length,
                 "All lines in the layout should be the same length");
 
-            var gridProps = new GridProps() { GridNavigationWrap = navigationWrap }
-                .Resize(layoutStrings[0].Length, layoutStrings.Length);
+            var gridProps = new GridProps()
+            {
+                GridNavigationWrap = navigationWrap,
+                Columns = layoutStrings[0].Length
+            };
 
             gridProps.GridNavigationWrap = navigationWrap;
 
@@ -339,12 +342,14 @@ namespace AgateLib.UserInterface.Layout
             {
                 for (int x = 0; x < layoutStrings[y].Length; x++)
                 {
+                    bool canHaveFocus = true;
+
                     if (layoutStrings[y][x] == ' ')
-                        continue;
+                        canHaveFocus = false;    
 
-                    (var widget, var element) = CommonMocks.Widget($"{x},{y}", elementCanHaveFocus: true);
+                    (var widget, var element) = CommonMocks.Widget($"{x},{y}", elementCanHaveFocus: canHaveFocus);
 
-                    gridProps.Put(x, y, widget.Object);
+                    gridProps.Add(widget.Object);
                 }
             }
 
