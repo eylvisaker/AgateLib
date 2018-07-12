@@ -1,21 +1,30 @@
-﻿using AgateLib.Mathematics.Geometry;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AgateLib.Tests.UserInterface.Widgets
 {
     public class FlexBoxTest
     {
-        IWidgetRenderContext renderContext = CommonMocks.RenderContext().Object;
+        private ThemeStyler styleConfigurator;
+        private IWidgetRenderContext renderContext = CommonMocks.RenderContext().Object;
+
+        public FlexBoxTest()
+        {
+            var themes = new ThemeCollection();
+            themes["default"] = new Theme();
+
+            styleConfigurator = new ThemeStyler(themes);
+        }
 
         #region --- Flex Direction Column Tests ---
 
@@ -33,7 +42,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -64,7 +73,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -102,7 +111,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -141,7 +150,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -179,7 +188,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -212,7 +221,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -248,7 +257,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
             var elements = root.Children.ToList();
@@ -281,7 +290,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -315,7 +324,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -349,7 +358,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -386,7 +395,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
             var elements = root.Children.ToList();
@@ -423,7 +432,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
             var elements = root.Children.ToList();
@@ -461,7 +470,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -495,7 +504,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -529,7 +538,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -570,7 +579,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(masterBox);
+            TestUIDriver driver = new TestUIDriver(CreateApp(masterBox), styleConfigurator);
 
             driver.DoLayout();
 
@@ -612,7 +621,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(masterBox);
+            TestUIDriver driver = new TestUIDriver(CreateApp(masterBox), styleConfigurator);
 
             driver.DoLayout();
 
@@ -654,7 +663,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(masterBox);
+            TestUIDriver driver = new TestUIDriver(CreateApp(masterBox), styleConfigurator);
 
             driver.DoLayout();
 
@@ -696,7 +705,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(masterBox);
+            TestUIDriver driver = new TestUIDriver(CreateApp(masterBox), styleConfigurator);
 
             driver.DoLayout();
 
@@ -738,7 +747,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(masterBox);
+            TestUIDriver driver = new TestUIDriver(CreateApp(masterBox), styleConfigurator);
 
             driver.DoLayout();
 
@@ -775,7 +784,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -809,7 +818,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -843,7 +852,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -877,7 +886,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(box);
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -891,6 +900,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
         #endregion
 
+        private IWidget CreateApp(IWidget contents)
+        {
+            return new App(new AppProps { Children = new[] { contents } });
+        }
     }
 
 }

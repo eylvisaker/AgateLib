@@ -133,7 +133,7 @@ namespace AgateLib.UserInterface.Widgets
         public override void OnFocus()
         {
             base.OnFocus();
-            Display.System.Focus = child;
+            Display.System.SetFocus(child);
         }
 
         public override void OnBlur()

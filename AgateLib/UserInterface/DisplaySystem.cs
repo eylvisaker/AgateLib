@@ -30,12 +30,14 @@ namespace AgateLib.UserInterface
 {
     public interface IDisplaySystem
     {
-        IRenderElement Focus { get; set; }
+        IRenderElement Focus { get; }
 
         IFontProvider Fonts { get; }
 
         IInstructions Instructions { get; }
 
         IRenderElement ParentOf(IRenderElement element);
+
+        void SetFocus(IRenderElement newFocus);
     }
 }

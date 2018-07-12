@@ -193,6 +193,9 @@ namespace AgateLib.UserInterface.Widgets
 
         protected IRenderElement Finalize(IRenderable renderable)
         {
+            if (renderable == null)
+                return null;
+
             return renderable.Finalize(e => NeedsRender?.Invoke(e));
         }
 

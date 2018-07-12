@@ -29,6 +29,7 @@ namespace AgateLib.Tests
 
             renderResult.CallBase = true;
             renderResult.Setup(x => x.CanHaveFocus).Returns(elementCanHaveFocus);
+            renderResult.Setup(x => x.Children).Returns(new List<IRenderElement>());
 
             var widgetProps = new WidgetProps { Name = name };
             Mock<Widget<WidgetProps, WidgetState>> widgetResult =

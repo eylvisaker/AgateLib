@@ -374,7 +374,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void OnFocus()
         {
-            Display.System.Focus = focusChildren[focusIndex];
+            Display.System.SetFocus(focusChildren[focusIndex]);
         }
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
@@ -457,7 +457,7 @@ namespace AgateLib.UserInterface.Widgets
             else
             {
                 focusIndex = newIndex;
-                Display.System.Focus = focusChildren[newIndex];
+                Display.System.SetFocus(focusChildren[newIndex]);
             }
         }
 

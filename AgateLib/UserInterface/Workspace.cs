@@ -52,7 +52,11 @@ namespace AgateLib.UserInterface
             public IRenderElement Focus
             {
                 get => workspace.Focus;
-                set => workspace.Focus = value;
+            }
+
+            public void SetFocus(IRenderElement newFocus)
+            {
+                workspace.Focus = newFocus;
             }
 
             public IInstructions Instructions { get; set; }
