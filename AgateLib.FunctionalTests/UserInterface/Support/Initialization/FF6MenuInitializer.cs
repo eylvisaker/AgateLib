@@ -25,7 +25,7 @@ namespace AgateLib.Tests.UserInterface.Support.Initialization
         {
             this.menu = new FF6Menu(m => context.RecordEvent(m), new FF6Model());
 
-            menu.Begin(context.Desktop);
+            context.Desktop.PushWorkspace(menu.InitializeWorkspace());
         }
 
         public void SetInventory(IEnumerable<Item> items)

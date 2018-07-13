@@ -26,7 +26,6 @@ namespace AgateLib.Tests.UserInterface.Support
 
         public UserInterfaceSceneDriver Scene => scene;
 
-        [Obsolete("Use Scene instead.")]
         public Desktop Desktop => scene.Desktop;
 
         public IWidget ActiveWindow => Desktop.ActiveWorkspace.ActiveWindow;

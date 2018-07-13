@@ -63,7 +63,7 @@ namespace AgateLib.Tests.UserInterface.FF6
         private void InitializeComponent()
         {
             mainWorkspace = InitializeMainMenu();
-            //InitializeItemsMenu(itemsWorkspace = new Workspace("items"));
+            itemsWorkspace = InitializeItemsMenu();
             //InitializeSkillsMenu(skillsWorkspace = new Workspace("skills"));
             //InitializeMagicMenu(magicWorkspace = new Workspace("magic"));
             //InitializeEspersMenu(espersWorkspace = new Workspace("espers"));
@@ -247,60 +247,20 @@ namespace AgateLib.Tests.UserInterface.FF6
             var mainMenu = new FF6MainMenu(new FF6MainMenuProps
             {
                 Model = Model,
+                Items = () => desktop.PushWorkspace(itemsWorkspace),
             });
 
             return new Workspace("default", mainMenu);
-
-            //var menu = new Menu("Main");
-
-            //menu.Add("Items", StartItemsMenu);
-            //menu.Add("Skills", StartSkillsMenu);
-            //menu.Add("Equip", StartEquipMenu);
-            //menu.Add("Relic", StartRelicMenu);
-            //menu.Add("Status", () => RecordEvent("Status"));
-            //menu.Add("Config", () => RecordEvent("Config"));
-            //menu.Add("Save", () => RecordEvent("Save"));
-
-            //pcMenu = new Menu("SelectPC");
-
-            //pcMenu.Exit += () => workspace.ActivateWindow(menu);
-
-            //var layout = new FixedGridLayout(8, 8);
-            //workspace.Layout = layout;
-
-            //layout.Add(pcMenu, new Rectangle(0, 0, 8, 8));
-            //layout.Add(menu, new Rectangle(7, 0, 1, 5));
         }
 
-        private void InitializeItemsMenu(Workspace workspace)
+        private Workspace InitializeItemsMenu()
         {
-            throw new NotImplementedException();
+            var itemsMenu = new FF6ItemsMenu(new FF6ItemsMenuProps
+            {
+                Model = Model,
+            });
 
-            //var arrangeWindow = new Menu("ArrangeItems");
-
-            //arrangeWindow.LayoutType = LayoutType.SingleRow;
-            //arrangeWindow.Add("Arrange", () => ArrangeItems());
-            //arrangeWindow.Add("Rare", () => RareItems());
-
-            //itemsList = new Menu("Items");
-            //itemsList.Cancel += cancel =>
-            //{
-            //    workspace.ActivateWindow(arrangeWindow);
-            //    cancel.Cancel = true;
-            //};
-
-            //arrangeWindow.Exit += () => desktop.PopWorkspace();
-
-            //itemTarget = new Menu("ItemTarget");
-            //itemTarget.Display.IsVisible = false;
-
-            //var layout = new FixedGridLayout(1, 8);
-
-            //layout.Add(arrangeWindow, new Rectangle(0, 0, 1, 1));
-            //layout.Add(itemsList, new Rectangle(0, 1, 1, 7));
-            //layout.Add(itemTarget, new Rectangle(0, 3, 1, 1));
-
-            //workspace.Layout = layout;
+            return new Workspace("items", itemsMenu);
         }
 
         private void ArrangeItems()
