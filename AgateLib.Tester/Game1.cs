@@ -29,6 +29,7 @@ namespace AgateLib.Tests
 
         private SpriteBatch spriteBatch;
         private Font font;
+        private int fontHeight;
         private bool escaped;
 
         public Game1()
@@ -62,6 +63,9 @@ namespace AgateLib.Tests
                 activeTest.Exit = ExitTest;
 
                 activeTest.Initialize(resources);
+                activeTest.ScreenArea = new Rectangle(0, 0,
+                    GraphicsDevice.PresentationParameters.BackBufferWidth,
+                    GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight);
             }
         }
 
@@ -99,6 +103,7 @@ namespace AgateLib.Tests
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
             font = new Font(resources.Fonts.Default, FontStyles.Bold);
+            fontHeight = font.MeasureString("M").Height;
         }
 
         private FontProvider LoadFonts()
@@ -173,8 +178,6 @@ namespace AgateLib.Tests
         private void DrawStatusBar()
         {
             spriteBatch.Begin();
-
-            var fontHeight = font.MeasureString("M").Height;
 
             spriteBatch.Draw(resources.WhiteTexture,
                 new Rectangle(0, GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight, GraphicsDevice.PresentationParameters.BackBufferWidth, fontHeight), Color.Black);

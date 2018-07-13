@@ -74,6 +74,11 @@ namespace AgateLib.UserInterface
         /// </summary>
         public bool ExitOnExitButton { get; set; }
 
+        /// <summary>
+        /// Gets or sets the screen area the user interface will draw to.
+        /// </summary>
+        public Rectangle ScreenArea { get; set; }
+
         public void Initialize()
         {
             uiInput.ClearPressedButtons();
@@ -92,7 +97,7 @@ namespace AgateLib.UserInterface
         {
             renderContext.InitializeUpdate(time);
 
-            desktop.Size = renderContext.GraphicsDeviceRenderTargetSize;
+            desktop.ScreenArea = ScreenArea;
 
             desktop.Update(renderContext);
 

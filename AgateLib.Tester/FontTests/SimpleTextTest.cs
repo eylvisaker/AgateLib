@@ -18,7 +18,9 @@ namespace AgateLib.Tests.FontTests
 
         public Action Exit { get; set; }
 
-		public void Draw(GameTime gameTime)
+        public Rectangle ScreenArea { get; set; }
+
+        public void Draw(GameTime gameTime)
 		{
 			spriteBatch.Begin();
 

@@ -32,6 +32,7 @@ using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AgateLib.UserInterface.Rendering.Animations;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.UserInterface
 {
@@ -65,6 +66,7 @@ namespace AgateLib.UserInterface
             UpdateBelow = false;
 
             Animations = animationFactory ?? new AnimationFactory();
+            GraphicsDevice = graphicsDevice;
 
             renderContext = new WidgetRenderContext(
                 graphicsDevice,
@@ -77,12 +79,16 @@ namespace AgateLib.UserInterface
                 null,
                 doubleBuffer);
 
+           
             driver = new UserInterfaceSceneDriver(
-                renderContext, 
-                styleConfigurator, 
+                renderContext,
+                styleConfigurator,
                 fontProvider);
 
-            driver.Desktop.Empty += () => 
+            driver.ScreenArea = new Rectangle(Point.Zero, 
+                GraphicsDeviceRenderTargetSize);
+
+            driver.Desktop.Empty += () =>
             {
                 if (ExitWhenEmpty)
                     IsFinished = true;
@@ -97,7 +103,29 @@ namespace AgateLib.UserInterface
             };
         }
 
+        private Size GraphicsDeviceRenderTargetSize
+        {
+            get
+            {
+                var renderTargets = GraphicsDevice.GetRenderTargets();
+
+                if (renderTargets.Length == 0)
+                {
+                    return new Size(
+                        GraphicsDevice.PresentationParameters.BackBufferWidth,
+                        GraphicsDevice.PresentationParameters.BackBufferHeight);
+                }
+                else
+                {
+                    var renderTarget = (Texture2D)GraphicsDevice.GetRenderTargets()[0].RenderTarget;
+
+                    return new Size(renderTarget.Width, renderTarget.Height);
+                }
+            }
+        }
+
         public IAnimationFactory Animations { get; }
+        public GraphicsDevice GraphicsDevice { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this scene should automatically
@@ -145,6 +173,11 @@ namespace AgateLib.UserInterface
         {
             get => Desktop.DefaultTheme;
             set => Desktop.DefaultTheme = value;
+        }
+        public Rectangle ScreenArea
+        {
+            get => driver.ScreenArea;
+            set => driver.ScreenArea = value;
         }
 
         public void Initialize()

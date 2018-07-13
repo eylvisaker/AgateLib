@@ -16,6 +16,8 @@ namespace AgateLib.Tests
 
         Action Exit { get; set; }
 
+        Rectangle ScreenArea { get; set; }
+
         void Initialize(ITestResources resources);
 
 		void Update(GameTime gameTime);

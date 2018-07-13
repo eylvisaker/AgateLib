@@ -15,15 +15,19 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         public override IRenderable Render()
         {
-            return new FlexBox(new FlexBoxProps
+            return new Menu(new MenuProps
             {
-                Children = Props.Model.Party.Characters.Select(x => new Label(new LabelProps { Text = x.Name })).ToList<IRenderable>(),
+                Enabled = Props.Enabled,
+                MenuItems = Props.Model.Party.Characters.Select(
+                    x => new MenuItem(new MenuItemProps { Text = x.Name })).ToList(),
             });
         }
     }
 
     public class PartyStatusWindowProps : WidgetProps
     {
-        public FF6Model Model { get; internal set; }
+        public FF6Model Model { get; set; }
+
+        public bool Enabled { get; set; } = true;
     }
 }

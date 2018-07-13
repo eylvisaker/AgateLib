@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface
         private readonly IWidgetEventArgsInitialize inputEventArgsInitialize;
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
 
-        private Size size;
+        private Rectangle screenArea;
 
         private IInstructions instructions = new Instructions();
         private IAnimationFactory animationFactory;
@@ -160,15 +160,15 @@ namespace AgateLib.UserInterface
         /// Gets or sets the size of the desktop. Should match the size of the
         /// render area of the graphics device.
         /// </summary>
-        public Size Size
+        public Rectangle ScreenArea
         {
-            get => size;
+            get => screenArea;
             set
             {
-                size = value;
+                screenArea = value;
 
                 foreach (var w in workspaces)
-                    w.Size = size;
+                    w.ScreenArea = screenArea;
             }
         }
 

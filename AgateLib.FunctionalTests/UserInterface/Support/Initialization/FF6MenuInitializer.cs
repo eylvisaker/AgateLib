@@ -23,7 +23,7 @@ namespace AgateLib.Tests.UserInterface.Support.Initialization
 
         public void Initialize()
         {
-            this.menu = new FF6Menu(m => context.RecordEvent(m));
+            this.menu = new FF6Menu(m => context.RecordEvent(m), new FF6Model());
 
             menu.Begin(context.Desktop);
         }

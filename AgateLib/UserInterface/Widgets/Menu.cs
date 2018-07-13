@@ -52,6 +52,7 @@ namespace AgateLib.UserInterface.Widgets
                 StyleId = Props.Name,
                 StyleClass = "menu",
                 Cancel = Props.Cancel,
+                Enabled = Props.Enabled,
                 InitialSelectionIndex = Props.InitialSelectionIndex,
                 Children = Props.MenuItems.ToList<IRenderable>()
             });
@@ -71,6 +72,8 @@ namespace AgateLib.UserInterface.Widgets
         /// Callback to execute if the user presses cancel (usually the B button).
         /// </summary>
         public Action Cancel { get; set; }
+
+        public bool Enabled { get; set; } = true;
     }
 
     public class MenuElement : RenderElement<MenuElementProps>
@@ -104,7 +107,7 @@ namespace AgateLib.UserInterface.Widgets
 
             buttonPress.Press += OnButtonPress;
         }
-
+        
         IRenderElement SelectedMenuItem
             => selectedIndex < child.Children.Count()
                ? child.Children.Skip(selectedIndex).First() : null;
@@ -113,21 +116,19 @@ namespace AgateLib.UserInterface.Widgets
 
         public IEnumerable<MenuItemElement> MenuItems => child.Children.OfType<MenuItemElement>();
 
-        public override bool CanHaveFocus => child.CanHaveFocus;
+        public override bool CanHaveFocus => child.CanHaveFocus && Props.Enabled;
 
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)
-        {
-            child.DoLayout(renderContext, size);
-        }
+            => DoLayoutForSingleChild(renderContext, size, child);
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
-            return child.CalcIdealContentSize(renderContext, maxSize);
+            return child.CalcIdealMarginSize(renderContext, maxSize);
         }
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
-            child.Display.ContentRect = new Rectangle(Point.Zero, clientArea.Size);
+            child.Display.MarginRect = new Rectangle(Point.Zero, clientArea.Size);
             renderContext.DrawChild(clientArea, child);
         }
 

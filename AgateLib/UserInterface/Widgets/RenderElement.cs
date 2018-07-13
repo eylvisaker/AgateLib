@@ -305,12 +305,13 @@ namespace AgateLib.UserInterface.Widgets
         protected void ReceiveRenderElementProps()
         {
             Display.IsVisible = Props.Visible;
+
+            Display.PseudoClasses.SetIf("disabled", !Props.Enabled);
         }
 
         public virtual void OnReconciliationCompleted()
         {
         }
-
 
         protected string FirstNotNullOrWhitespace(params string[] values)
         {
@@ -320,7 +321,6 @@ namespace AgateLib.UserInterface.Widgets
 
             return null;
         }
-
 
         protected void DoLayoutForSingleChild(IWidgetRenderContext renderContext, Size size, IRenderElement child)
         {
@@ -381,6 +381,12 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets or sets whether the element is visible. Defaults to true.
         /// </summary>
         public bool Visible { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets whether the element is enabled for interaction
+        /// with the user. Defaults to true.
+        /// </summary>
+        public bool Enabled { get; set; } = true;
 
         /// <summary>
         /// Compares two props objects to see if their property values are equal.

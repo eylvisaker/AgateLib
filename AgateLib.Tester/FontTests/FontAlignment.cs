@@ -35,6 +35,8 @@ namespace AgateLib.Tests.FontTests
 
         public Action Exit { get; set; }
 
+        public Rectangle ScreenArea { get; set; }
+
         public void Initialize(ITestResources resources)
         {
             fonts = new List<Font>();

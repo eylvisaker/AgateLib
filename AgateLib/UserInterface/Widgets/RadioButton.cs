@@ -79,16 +79,6 @@ namespace AgateLib.UserInterface.Widgets
             Children = new List<IRenderElement> { child };
 
             buttonPress.Press += OnButtonPress;
-
-            SetDisabledPseudoclass();
-        }
-
-        private void SetDisabledPseudoclass()
-        {
-            if (!Props.Enabled)
-                Display.PseudoClasses.Add("disabled");
-            else
-                Display.PseudoClasses.Remove("disabled");
         }
 
         private void OnButtonPress(MenuInputButton btn)
@@ -184,7 +174,5 @@ namespace AgateLib.UserInterface.Widgets
         public Action OnFocus { get; set; }
 
         public bool Checked { get; set; }
-
-        public bool Enabled { get; set; } = true;
     }
 }

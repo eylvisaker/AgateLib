@@ -150,9 +150,9 @@ namespace AgateLib.UserInterface
         }
 
         /// <summary>
-        /// The size of the screen area where the UI controls will be layed out.
+        /// The area of the screen area where the UI controls will be layed out.
         /// </summary>
-        public Size Size { get; set; }
+        public Rectangle ScreenArea { get; set; }
 
         public string Name { get; private set; }
 
@@ -219,7 +219,7 @@ namespace AgateLib.UserInterface
 
         public void Draw(IWidgetRenderContext renderContext)
         {
-            visualTree.Draw(renderContext, new Rectangle(Point.Zero, Size));
+            visualTree.Draw(renderContext, ScreenArea);
         }
 
         /// <summary>

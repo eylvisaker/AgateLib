@@ -31,6 +31,8 @@ namespace AgateLib.Tests.Selector
 
         public Action Exit { get; set; }
 
+        public Rectangle ScreenArea { get; set; }
+
         public void Initialize(ITestResources resources)
         {
             InitializeTests();

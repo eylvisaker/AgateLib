@@ -187,6 +187,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Grid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\PseudoClassCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RadioButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RadioMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Renderable.cs" />

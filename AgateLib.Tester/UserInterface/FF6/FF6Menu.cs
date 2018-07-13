@@ -28,12 +28,16 @@ namespace AgateLib.Tests.UserInterface.FF6
         private Workspace espersWorkspace;
         private Workspace relicWorkspace;
         private Workspace equipWorkspace;
+
+
         private Desktop desktop;
         private readonly Action<string> log;
 
-        public FF6Menu(Action<string> log)
+        public FF6Menu(Action<string> log, FF6Model model)
         {
             this.log = log;
+
+            Model = model;
 
             InitializeComponent();
         }
@@ -47,15 +51,18 @@ namespace AgateLib.Tests.UserInterface.FF6
             this.desktop = desktop;
 
             PartyUpdated();
-
-            desktop.PushWorkspace(mainWorkspace);
         }
 
-        public FF6Model Model { get; set; } = new FF6Model();
+        public Workspace InitializeWorkspace()
+        {
+            return mainWorkspace;
+        }
+
+        public FF6Model Model { get; private set; }
 
         private void InitializeComponent()
         {
-            InitializeMainMenu(mainWorkspace = new Workspace("default"));
+            mainWorkspace = InitializeMainMenu();
             //InitializeItemsMenu(itemsWorkspace = new Workspace("items"));
             //InitializeSkillsMenu(skillsWorkspace = new Workspace("skills"));
             //InitializeMagicMenu(magicWorkspace = new Workspace("magic"));
@@ -235,14 +242,14 @@ namespace AgateLib.Tests.UserInterface.FF6
             //workspace.Add(magicList);
         }
 
-        private void InitializeMainMenu(Workspace workspace)
+        private Workspace InitializeMainMenu()
         {
             var mainMenu = new FF6MainMenu(new FF6MainMenuProps
             {
                 Model = Model,
             });
 
-            workspace.Add(mainMenu);
+            return new Workspace("default", mainMenu);
 
             //var menu = new Menu("Main");
 

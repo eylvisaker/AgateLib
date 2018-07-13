@@ -184,6 +184,6 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the collection of pseudoclases that apply to this element.
         /// </summary>
-        public HashSet<string> PseudoClasses { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public PseudoClassCollection PseudoClasses { get; } = new PseudoClassCollection();
     }
 }

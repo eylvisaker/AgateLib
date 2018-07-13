@@ -13,47 +13,31 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace AgateLib.Tests.UserInterface.FF6
 {
-    public class FF6MenuTest : ITest
+    public class FF6MenuTest : UITest
     {
         private SceneStack stack;
-        private UserInterfaceScene scene;
         private FF6Menu menu;
 
-        public string Name => "FF6 Menu";
+        public override string Name => "FF6 Menu";
 
-        public string Category => "User Interface";
+        public override string Category => "User Interface";
 
-        public Action Exit { get; set; }
-
-        public void Initialize(ITestResources resources)
+        protected override Workspace InitializeWorkspace()
         {
-            scene = new UserInterfaceScene(
-                resources.GraphicsDevice,
-                resources.UserInterfaceRenderer,
-                resources.LocalizedContent,
-                resources.Fonts,
-                resources.StyleConfigurator)
-            {
-                DrawBelow = false,
-                Theme = "FF",
-            };
+            Scene.Theme = "FF";
 
-            menu = new FF6Menu(m => Debug.WriteLine(m));
+            menu = new FF6Menu(m => Debug.WriteLine(m), InitializeTestData());
 
-            InitializeTestData(menu.Model = new FF6Model());
+            //scene.Indicator = new PointerIndicator(
+            //    resources.Content.Load<Texture2D>("UserInterface/Pointer"));
 
-            stack = new SceneStack();
-            stack.Add(scene);
-
-            scene.Initialize();
-            scene.Indicator = new PointerIndicator(
-                resources.Content.Load<Texture2D>("UserInterface/Pointer"));
-
-            menu.Begin(scene.Desktop);
+            return menu.InitializeWorkspace();
         }
 
-        private void InitializeTestData(FF6Model model)
+        private FF6Model InitializeTestData()
         {
+            FF6Model model = new FF6Model();
+
             model.Party.Add(new PlayerCharacter("Tora", 100));
             model.Party.Add(new PlayerCharacter("Unlocke", 120));
             model.Party.Add(new PlayerCharacter("Deadgar", 150));
@@ -68,16 +52,8 @@ namespace AgateLib.Tests.UserInterface.FF6
             model.Inventory.Add(new Item { Name = "Running Shoes", ItemType = "Relic" });
             model.Inventory.Add(new Item { Name = "White Cape", ItemType = "Relic" });
             model.Inventory.Add(new Item { Name = "Dried Meat", ItemType = "Item", Effect = "heal", EffectAmount = 999 });
-        }
 
-        public void Update(GameTime gameTime)
-        {
-            stack.Update(gameTime);
-        }
-
-        public void Draw(GameTime gameTime)
-        {
-            stack.Draw(gameTime);
+            return model;
         }
     }
 }

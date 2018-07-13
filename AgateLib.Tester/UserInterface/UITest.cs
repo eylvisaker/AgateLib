@@ -21,6 +21,14 @@ namespace AgateLib.Tests.UserInterface
 
         public Action Exit { get; set; }
 
+        public Rectangle ScreenArea
+        {
+            get => Scene.ScreenArea;
+            set => Scene.ScreenArea = value;
+        }
+
+        public UserInterfaceScene Scene => scene;
+
         public virtual void Initialize(ITestResources resources)
         {
             scene = new UserInterfaceScene(

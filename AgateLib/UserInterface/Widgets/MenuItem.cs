@@ -82,24 +82,8 @@ namespace AgateLib.UserInterface.Widgets
             Children = new List<IRenderElement> { child };
 
             buttonPress.Press += OnButtonPress;
-
-            SetDisabledPseudoclass();
         }
-
-        protected override void OnReceiveProps()
-        {
-            base.OnReceiveProps();
-            SetDisabledPseudoclass();
-        }
-
-        private void SetDisabledPseudoclass()
-        {
-            if (!Props.Enabled)
-                Display.PseudoClasses.Add("disabled");
-            else
-                Display.PseudoClasses.Remove("disabled");
-        }
-
+        
         private void OnButtonPress(MenuInputButton btn)
         {
             if (btn == MenuInputButton.Accept)
@@ -154,8 +138,6 @@ namespace AgateLib.UserInterface.Widgets
         /// A purely informational property, not used by the MenuItemElement.
         /// </summary>
         public string Text { get; set; }
-
-        public bool Enabled { get; set; } = true;
     }
 
 }

@@ -24,6 +24,8 @@ namespace AgateLib.Tests.Console
 
         public Action Exit { get; set; }
 
+        public Rectangle ScreenArea { get; set; }
+
         public void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
