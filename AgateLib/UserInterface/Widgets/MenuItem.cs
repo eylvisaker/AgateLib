@@ -42,13 +42,16 @@ namespace AgateLib.UserInterface.Widgets
                 Text = Props.Text,
                 OnAccept = Props.OnAccept,
                 Enabled = Props.Enabled,
-                Children = { new Label(new LabelProps { Text = Props.Text }) }
+                Children = (Props.Children?.Count ?? 0) > 0 ? Props.Children : new List<IRenderable>{ new Label(new LabelProps { Text = Props.Text }) } 
             });
         }
     }
 
     public class MenuItemProps : WidgetProps
     {
+        /// <summary>
+        /// Sets text to display in the menu item. This property is ignored if children are explictly added.
+        /// </summary>
         public string Text { get; set; }
 
         public Action OnAccept { get; set; }
@@ -60,6 +63,11 @@ namespace AgateLib.UserInterface.Widgets
         /// Defaults to true.
         /// </summary>
         public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// Adds children to the menu item. If any child components are added, the Text property is ignored.
+        /// </summary>
+        public List<IRenderable> Children { get; set; } = new List<IRenderable>();
     }
 
     public class MenuItemElement : RenderElement<MenuItemElementProps>

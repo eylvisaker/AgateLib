@@ -32,9 +32,9 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
 {
-	public interface ITextRepository
-	{
-		string this[string key] { get; }
-	}
+    public interface ITextRepository
+    {
+        string this[string key] { get; }
+    }
 
 }

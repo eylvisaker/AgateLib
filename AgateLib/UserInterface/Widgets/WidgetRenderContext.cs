@@ -141,7 +141,7 @@ namespace AgateLib.UserInterface.Widgets
 
     public class WidgetRenderContext : IWidgetRenderContext
     {
-        private readonly ILocalizedContentLayoutEngine contentLayoutEngine;
+        private readonly IContentLayoutEngine contentLayoutEngine;
         private readonly IFontProvider fonts;
         private readonly IAnimationFactory animationFactory;
         private IRenderElement lastParentWidget;
@@ -153,7 +153,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public WidgetRenderContext(
             GraphicsDevice graphicsDevice,
-            ILocalizedContentLayoutEngine contentLayoutEngine,
+            IContentLayoutEngine contentLayoutEngine,
             IUserInterfaceRenderer uiRenderer,
             IStyleConfigurator styleConfigurator,
             IFontProvider fonts,

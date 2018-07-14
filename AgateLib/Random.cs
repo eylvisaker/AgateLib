@@ -40,7 +40,6 @@ namespace AgateLib
         /// </summary>
         int NextIntegerMaxValue { get; }
 
-
         /// <summary>
         /// Gets the next random integer in the sequence, between zero and NextIntegerMaxValue.
         /// </summary>

@@ -24,7 +24,7 @@ namespace AgateLib.Tests
 
         IServiceProvider ServiceProvider { get; }
 
-        ILocalizedContentLayoutEngine LocalizedContent { get; }
+        IContentLayoutEngine LocalizedContent { get; }
 
         IStyleConfigurator StyleConfigurator { get; }
 
@@ -49,7 +49,7 @@ namespace AgateLib.Tests
         public Texture2D WhiteTexture { get; set; }
         public ContentLayoutEngine ContentLayoutEngine { get; set; }
 
-        public ILocalizedContentLayoutEngine LocalizedContent { get; set; }
+        public IContentLayoutEngine LocalizedContent { get; set; }
         public ThemeCollection Themes { get; set; }
 
         public UserInterfaceRenderer UserInterfaceRenderer { get; set; }

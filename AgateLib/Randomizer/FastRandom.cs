@@ -52,6 +52,23 @@ namespace AgateLib.Randomizer
         }
 
         /// <summary>
+        /// Produce a new random number generator by pulling a seed value of an existing
+        /// random number generator.
+        /// </summary>
+        /// <param name="random"></param>
+        public FastRandom(IRandom random)
+        {
+            var a = random.NextInteger(Int16.MaxValue);
+            var b = random.NextInteger(Int16.MaxValue);
+            var c = random.NextInteger(1);
+
+            var aa = a << 16;
+            var bb = b << 1;
+
+            Seed = aa | bb | c;
+        }
+
+        /// <summary>
         /// Gets or sets the seed value that will produce the next random number.
         /// </summary>
         public int Seed
@@ -65,8 +82,13 @@ namespace AgateLib.Randomizer
                 _state = value;
             }
         }
+
         long IRandom.Seed => _state;
 
+        /// <summary>
+        /// Gets the next double precision value.
+        /// </summary>
+        /// <returns></returns>
         public double NextDouble() => NextSingle();
 
         public int NextIntegerMaxValue => Int16.MaxValue;

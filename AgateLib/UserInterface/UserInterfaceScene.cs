@@ -55,7 +55,7 @@ namespace AgateLib.UserInterface
 
         public UserInterfaceScene(GraphicsDevice graphicsDevice,
             IUserInterfaceRenderer userInterfaceRenderer,
-            ILocalizedContentLayoutEngine contentLayoutEngine,
+            IContentLayoutEngine contentLayoutEngine,
             IFontProvider fontProvider,
             IStyleConfigurator styleConfigurator,
             IAnimationFactory animationFactory = null,
@@ -222,9 +222,22 @@ namespace AgateLib.UserInterface
         /// <param name="nextAction"></param>
         public void ExitThen(Action nextAction)
         {
-            Desktop.ExitUserInterface();
+            Exit();
 
             SceneEnd += (sender, e) => nextAction();
+        }
+
+        /// <summary>
+        /// Exits the user interface by informing all workspaces to begin their exit transition animation.
+        /// </summary>
+        public void Exit()
+        {
+            Desktop.ExitUserInterface();
+        }
+
+        public void PushWorkspace(Workspace workspace)
+        {
+            Desktop.PushWorkspace(workspace);
         }
     }
 }

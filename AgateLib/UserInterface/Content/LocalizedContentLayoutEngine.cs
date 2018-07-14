@@ -27,31 +27,9 @@ using System.Text;
 namespace AgateLib.UserInterface.Content
 {
     /// <summary>
-    /// Interface for a class which performs localization of text before it is laid 
-    /// out for display on screen.
+    /// Class which decorates an IContentLayoutEngine, using a ITextRepository object to perform localization.
     /// </summary>
-    public interface ILocalizedContentLayoutEngine
-    {
-        /// <summary>
-        /// Creates an IContentLayout object for the specified text.
-        /// </summary>
-        /// <param name="text">The text to layout. If localizeText is true, this text will be used
-        /// as a key in the lookup table for the current language.</param>
-        /// <param name="contentLayoutOptions">Options for content layout.</param>
-        /// <param name="localizeText">If true, the text will be localized. Defaults to true.</param>
-        /// <returns></returns>
-        IContentLayout LayoutContent(
-            string text,
-            ContentLayoutOptions contentLayoutOptions,
-            bool localizeText = true);
-    }
-
-    /// <summary>
-    /// Class which performs localization of text before it is laid out for display
-    /// on screen.
-    /// </summary>
-    [Singleton]
-    public class LocalizedContentLayoutEngine : ILocalizedContentLayoutEngine
+    public class LocalizedContentLayoutEngine : IContentLayoutEngine
     {
         private readonly IContentLayoutEngine baseEngine;
         private readonly ITextRepository textRepo;
@@ -60,6 +38,11 @@ namespace AgateLib.UserInterface.Content
         {
             this.baseEngine = baseEngine;
             this.textRepo = textRepo;
+        }
+
+        public void AddCommand(string name, IContentCommand command)
+        {
+            baseEngine.AddCommand(name, command);
         }
 
         /// <summary>

@@ -30,13 +30,28 @@ using AgateLib.UserInterface.Styling.Themes.Model;
 
 namespace AgateLib.UserInterface.Content
 {
+    /// <summary>
+    /// Interface for a class which layouts out content.
+    /// </summary>
     public interface IContentLayoutEngine
     {
-        IContentLayout LayoutContent(string text, ContentLayoutOptions layoutOptions);
+        /// <summary>
+        /// Creates an IContentLayout object for the specified text.
+        /// </summary>
+        /// <param name="text">The text to layout. If localizeText is true, this text will be used
+        /// as a key in the lookup table for the current language.</param>
+        /// <param name="contentLayoutOptions">Options for content layout.</param>
+        /// <param name="localizeText">If true, the content layout engine may localize the text. Defaults to true.</param>
+        /// <returns></returns>
+        IContentLayout LayoutContent(string text, ContentLayoutOptions layoutOptions, bool localize = true);
 
         void AddCommand(string name, IContentCommand command);
     }
 
+    /// <summary>
+    /// A basic content layout engine, that will layout text and images.
+    /// Does not perform any localization.
+    /// </summary>
     [Singleton]
     public class ContentLayoutEngine : IContentLayoutEngine
     {
@@ -53,7 +68,7 @@ namespace AgateLib.UserInterface.Content
             commands.Add("color", new SetTextColor());
         }
 
-        public IContentLayout LayoutContent(string text, ContentLayoutOptions layoutOptions)
+        public IContentLayout LayoutContent(string text, ContentLayoutOptions layoutOptions, bool _ = true)
         {
             layoutOptions.Font = layoutOptions.Font ?? LookupFont(layoutOptions.FontLookup);
 
