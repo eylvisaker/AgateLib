@@ -30,44 +30,44 @@ using YamlDotNet.Serialization;
 
 namespace AgateLib.Mathematics.TypeConverters
 {
-	public class ColorConverterYaml : IYamlTypeConverter
-	{
-		public bool Accepts(Type type)
-		{
-			return type == typeof(Color) || type == typeof(Color?);
-		}
+    public class ColorConverterYaml : IYamlTypeConverter
+    {
+        public bool Accepts(Type type)
+        {
+            return type == typeof(Color) || type == typeof(Color?);
+        }
 
-		public object ReadYaml(IParser parser, Type type)
-		{
-			var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
-			var value = scalar.Value;
+        public object ReadYaml(IParser parser, Type type)
+        {
+            var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
+            var value = scalar.Value;
 
-			if (string.IsNullOrWhiteSpace(value) && type == typeof(Color?))
-			{
-				parser.MoveNext();
-				return null;
-			}
+            if (string.IsNullOrWhiteSpace(value) && type == typeof(Color?))
+            {
+                parser.MoveNext();
+                return null;
+            }
 
-			Color result;
+            Color result;
 
-			if (!ColorX.TryParseNamedColor(value, out result))
-				result = ColorX.FromArgb(value);
-			
-			parser.MoveNext();
-			return result;
-		}
-		
-		public void WriteYaml(IEmitter emitter, object value, Type type)
-		{
-			var color = (Color)value;
-			emitter.Emit(new YamlDotNet.Core.Events.Scalar(
-				null,
-				null,
-				$"{color.A:x}{color.R:x}{color.G:x}{color.B:x}",
-				ScalarStyle.Plain,
-				true,
-				false
-			));
-		}
-	}
+            if (!ColorX.TryParseNamedColor(value, out result))
+                result = ColorX.FromArgb(value);
+
+            parser.MoveNext();
+            return result;
+        }
+
+        public void WriteYaml(IEmitter emitter, object value, Type type)
+        {
+            var color = (Color)value;
+            emitter.Emit(new YamlDotNet.Core.Events.Scalar(
+                null,
+                null,
+                $"{color.A:x}{color.R:x}{color.G:x}{color.B:x}",
+                ScalarStyle.Plain,
+                true,
+                false
+            ));
+        }
+    }
 }
