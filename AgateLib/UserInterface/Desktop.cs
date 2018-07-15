@@ -180,7 +180,7 @@ namespace AgateLib.UserInterface
         {
             inputEventArgsInitialize.InitializeButtonUp(button);
 
-            ActiveWorkspace.HandleInputEvent(inputEventArgs);
+            ActiveWorkspace?.HandleInputEvent(inputEventArgs);
 
             if (!inputEventArgs.Handled)
                 UnhandledEvent?.Invoke(this, inputEventArgs);
@@ -190,7 +190,7 @@ namespace AgateLib.UserInterface
         {
             inputEventArgsInitialize.InitializeButtonDown(button);
 
-            ActiveWorkspace.HandleInputEvent(inputEventArgs);
+            ActiveWorkspace?.HandleInputEvent(inputEventArgs);
 
             if (!inputEventArgs.Handled)
                 UnhandledEvent?.Invoke(this, inputEventArgs);
