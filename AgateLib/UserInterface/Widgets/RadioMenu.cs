@@ -19,7 +19,7 @@ namespace AgateLib.UserInterface.Widgets
             StyleId = Props.StyleId,
             StyleClass = Props.StyleClass,
             StyleTypeId = "radiomenu",
-            Cancel = Props.Cancel,
+            OnCancel = Props.OnCancel,
             Children = Props.Buttons.ToList<IRenderable>()
         });
     }
@@ -28,6 +28,6 @@ namespace AgateLib.UserInterface.Widgets
     {
         public List<RadioButton> Buttons { get; set; } = new List<RadioButton>();
 
-        public Action Cancel { get; set; }
+        public RenderElementEventHandler OnCancel { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
             var menu = new Menu(new MenuProps
             {
-                Cancel = () => canceled = true,
+                OnCancel = e => canceled = true,
                 MenuItems = { new MenuItem(new MenuItemProps { Text = "Hello" }) }
             });
 

@@ -32,7 +32,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                     new ItemData { Name = "MegaGra", Description = "MegaGra is a nonsense word." },
                     new ItemData { Name = "MegaHoh", Description = "MegaHoh is nothing." },
                 },
-                Cancel = () => Exit?.Invoke()
+                OnCancel = e => OnExit?.Invoke()
             }));
         }
     }

@@ -15,7 +15,7 @@ namespace AgateLib.Tests.UserInterface.FF6
     {
         private Menu pcMenu;
         private PlayerCharacter selectedPC;
-        private Action AfterSelectPC;
+        private RenderElementEventHandler AfterSelectPC;
         private Menu itemsList;
         private Menu magicList;
         private Menu esperList;
@@ -29,8 +29,6 @@ namespace AgateLib.Tests.UserInterface.FF6
         private Workspace relicWorkspace;
         private Workspace equipWorkspace;
 
-
-        private Desktop desktop;
         private readonly Action<string> log;
 
         public FF6Menu(Action<string> log, FF6Model model)
@@ -41,18 +39,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             InitializeComponent();
         }
-
-        /// <summary>
-        /// Begins the menu on the passed desktop.
-        /// </summary>
-        /// <param name="desktop"></param>
-        public void Begin(Desktop desktop)
-        {
-            this.desktop = desktop;
-
-            PartyUpdated();
-        }
-
+        
         public Workspace InitializeWorkspace()
         {
             return mainWorkspace;
@@ -247,7 +234,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             var mainMenu = new FF6MainMenu(new FF6MainMenuProps
             {
                 Model = Model,
-                Items = () => desktop.PushWorkspace(itemsWorkspace),
+                Items = e => e.System.PushWorkspace(itemsWorkspace),
             });
 
             return new Workspace("default", mainMenu);
@@ -302,32 +289,29 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             //layout.Add(menu, Point.Zero);
         }
-
-        private void ReturnToDesktop()
-        {
-            desktop.PopWorkspace();
-            desktop.ActivateWindowInWorkspace("default", "main");
-        }
-
+        
         private void StartEspersMenu()
         {
             UpdateEspers();
 
-            desktop.PushWorkspace(espersWorkspace, "Espers");
+            //desktop.PushWorkspace(espersWorkspace, "Espers");
+            throw new NotImplementedException();
         }
 
         private void StartMagicMenu()
         {
             UpdateMagic();
 
-            desktop.PushWorkspace(magicWorkspace, "Magic");
+            //desktop.PushWorkspace(magicWorkspace, "Magic");
+            throw new NotImplementedException();
         }
 
         private void StartItemsMenu()
         {
             UpdateItems();
 
-            desktop.PushWorkspace(itemsWorkspace, "Items");
+            //desktop.PushWorkspace(itemsWorkspace, "Items");
+            throw new NotImplementedException();
         }
 
         private void UpdateEspers()
@@ -421,9 +405,9 @@ namespace AgateLib.Tests.UserInterface.FF6
         {
             RecordEvent("Skills");
 
-            SelectPC(() =>
+            SelectPC(e =>
             {
-                desktop.PushWorkspace(skillsWorkspace, "SkillType");
+                e.System.PushWorkspace(skillsWorkspace);
             });
         }
 
@@ -431,9 +415,9 @@ namespace AgateLib.Tests.UserInterface.FF6
         {
             RecordEvent("Equip");
 
-            SelectPC(() =>
+            SelectPC(e =>
             {
-                desktop.PushWorkspace(equipWorkspace, "Equip");
+                e.System.PushWorkspace(equipWorkspace);
                 UpdateEquipmentSlots();
             });
         }
@@ -452,7 +436,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             //}
         }
 
-        private void SelectPC(Action afterSelectPc)
+        private void SelectPC(RenderElementEventHandler afterSelectPc)
         {
             mainWorkspace.ActivateWindow("SelectPC", WindowActivationBehaviors.None);
 
@@ -461,9 +445,9 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         private void StartRelicMenu()
         {
-            SelectPC(() =>
+            SelectPC(e =>
             {
-                desktop.PushWorkspace(relicWorkspace, "Relic");
+                e.System.PushWorkspace(relicWorkspace);
             });
         }
 
@@ -479,10 +463,10 @@ namespace AgateLib.Tests.UserInterface.FF6
             //}
         }
 
-        private void OnPCSelected(PlayerCharacter pc)
+        private void OnPCSelected(PlayerCharacter pc, ElementEvent e)
         {
             selectedPC = pc;
-            AfterSelectPC();
+            AfterSelectPC(e);
         }
 
         private void RecordEvent(string v)

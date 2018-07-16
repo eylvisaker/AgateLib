@@ -16,7 +16,7 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
 
         protected override Workspace InitializeWorkspace()
         {
-            return new Workspace("default", new TitleMenuApp(new TitleMenuAppProps { Cancel = () => Exit?.Invoke() }));
+            return new Workspace("default", new TitleMenuApp(new TitleMenuAppProps { OnCancel = e => OnExit?.Invoke() }));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace AgateLib.Tests
 
 		string Category { get; }
 
-        Action Exit { get; set; }
+        Action OnExit { get; set; }
 
         Rectangle ScreenArea { get; set; }
 

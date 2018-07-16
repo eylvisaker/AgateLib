@@ -106,6 +106,7 @@ namespace AgateLib.UserInterface
 
             workspaces.Add(workspace);
 
+            workspace.Desktop = this;
             workspace.Style = Styles;
             workspace.Fonts = Fonts;
             workspace.Instructions = Instructions;

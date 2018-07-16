@@ -39,5 +39,7 @@ namespace AgateLib.UserInterface
         IRenderElement ParentOf(IRenderElement element);
 
         void SetFocus(IRenderElement newFocus);
+
+        void PushWorkspace(Workspace newWorkspace);
     }
 }

@@ -22,7 +22,7 @@ namespace AgateLib.Tests.Console
 
         public string Category => "Console";
 
-        public Action Exit { get; set; }
+        public Action OnExit { get; set; }
 
         public Rectangle ScreenArea { get; set; }
 

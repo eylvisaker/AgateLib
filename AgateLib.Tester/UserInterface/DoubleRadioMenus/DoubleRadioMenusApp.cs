@@ -36,22 +36,22 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                                     new RadioMenu(new RadioMenuProps
                                     {
                                         Buttons = CreateLeftRadioButtons().ToList(),
-                                        Cancel = Props.Cancel,
+                                        OnCancel = Props.OnCancel,
                                     }),
                                     new RadioMenu(new RadioMenuProps
                                     {
                                         Buttons = CreateRightRadioButtons().ToList(),
-                                        Cancel = Props.Cancel,
+                                        OnCancel = Props.OnCancel,
                                     }),
                                 }
                             }),
                             new Menu(new MenuProps{
-                                Cancel = Props.Cancel,
+                                OnCancel = Props.OnCancel,
                                 MenuItems = {
                                     new MenuItem(new MenuItemProps {
                                         Text = "Accept",
                                         Enabled = State.AcceptEnabled,
-                                        OnAccept = () => Props.OnAccept?.Invoke(selectedLeft, selectedRight)
+                                        OnAccept = e => Props.OnAccept?.Invoke(selectedLeft, selectedRight)
                                     })
                                 }
                             }),
@@ -126,7 +126,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
         public IEnumerable<ItemData> LeftItems { get; set; }
         public IEnumerable<ItemData> RightItems { get; set; }
         public Action<ItemData, ItemData> OnAccept { get; set; }
-        public Action Cancel { get; set; }
+        public RenderElementEventHandler OnCancel { get; set; }
     }
 
     public class DoubleRadioMenusState : WidgetState

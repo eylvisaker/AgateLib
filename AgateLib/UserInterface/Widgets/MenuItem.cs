@@ -54,9 +54,9 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public string Text { get; set; }
 
-        public Action OnAccept { get; set; }
+        public RenderElementEventHandler OnAccept { get; set; }
 
-        public Action OnSelect { get; set; }
+        public RenderElementEventHandler OnSelect { get; set; }
 
         /// <summary>
         /// Specifies whether the button should be enabled for the user to interact with.
@@ -114,7 +114,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             base.OnAccept();
 
-            Props.OnAccept?.Invoke();
+            Props.OnAccept?.Invoke(EventData);
         }
 
         public override string StyleTypeId => "menuitem";
@@ -138,7 +138,7 @@ namespace AgateLib.UserInterface.Widgets
 
     public class MenuItemElementProps : RenderElementProps
     {
-        public Action OnAccept { get; set; }
+        public RenderElementEventHandler OnAccept { get; set; }
 
         public List<IRenderable> Children { get; set; } = new List<IRenderable>();
 

@@ -16,7 +16,7 @@ namespace AgateLib.Tests.FontTests
 
 		public string Category => "Font";
 
-        public Action Exit { get; set; }
+        public Action OnExit { get; set; }
 
         public Rectangle ScreenArea { get; set; }
 

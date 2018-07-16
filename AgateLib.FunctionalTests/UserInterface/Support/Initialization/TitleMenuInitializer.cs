@@ -24,9 +24,9 @@ namespace AgateLib.Tests.UserInterface.Support.Initialization
         {
             var app = new TitleMenuApp(new TitleMenuAppProps
             {
-                Start = () => context.RecordEvent("Game Start"),
-                Load = () => context.RecordEvent("Game Load"),
-                Quit = () => context.RecordEvent("Game Quit")
+                Start = e => context.RecordEvent("Game Start"),
+                Load = e => context.RecordEvent("Game Load"),
+                Quit = e => context.RecordEvent("Game Quit")
             });
 
             var workspace = new Workspace("Default");

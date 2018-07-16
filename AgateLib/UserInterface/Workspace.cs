@@ -47,6 +47,8 @@ namespace AgateLib.UserInterface
                 this.workspace = workspace;
             }
 
+            public Desktop Desktop { get; set; }
+
             public IFontProvider Fonts { get; set; }
 
             public IRenderElement Focus
@@ -79,6 +81,11 @@ namespace AgateLib.UserInterface
                 });
 
                 return parent;
+            }
+
+            public void PushWorkspace(Workspace newWorkspace)
+            {
+                Desktop.PushWorkspace(newWorkspace);
             }
         }
 
@@ -174,6 +181,7 @@ namespace AgateLib.UserInterface
             set => visualTree.DefaultTheme = value;
         }
 
+        [Obsolete]
         public void Clear()
         {
             legacyChildren.Clear();
@@ -301,6 +309,12 @@ namespace AgateLib.UserInterface
         }
 
         internal VisualTree VisualTree { get => visualTree; }
+
+        internal Desktop Desktop
+        {
+            get => this.displaySystem.Desktop;
+            set => this.displaySystem.Desktop = value;
+        }
 
         internal void TransitionOut()
         {

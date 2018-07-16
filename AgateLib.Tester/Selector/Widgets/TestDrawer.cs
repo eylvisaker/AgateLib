@@ -45,7 +45,7 @@ namespace AgateLib.Tests.Selector.Widgets
             return new MenuItem(new MenuItemProps
             {
                 Text = test.Name,
-                OnAccept = () => Props.OnAcceptTest?.Invoke(test),
+                OnAccept = e => Props.OnAcceptTest?.Invoke(test),
             });
         }
     }

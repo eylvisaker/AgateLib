@@ -57,10 +57,10 @@ namespace AgateLib.Tests
             set
             {
                 if (activeTest != null)
-                    activeTest.Exit = null;
+                    activeTest.OnExit = null;
 
                 activeTest = value;
-                activeTest.Exit = ExitTest;
+                activeTest.OnExit = ExitTest;
 
                 activeTest.Initialize(resources);
                 activeTest.ScreenArea = new Rectangle(0, 0,

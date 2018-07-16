@@ -32,7 +32,7 @@ namespace AgateLib.Tests.UserInterface.RadioButtons
                         OnSelect = () => Props.OnSelectionSet?.Invoke(x),
                         Text = x,
                     })).ToList(),
-                    Cancel = Props.Cancel
+                    OnCancel = Props.OnCancel
                 })
             }
         });
@@ -46,6 +46,6 @@ namespace AgateLib.Tests.UserInterface.RadioButtons
 
         public List<string> Items { get; set; } = new List<string>();
 
-        public Action Cancel { get; set; }
+        public RenderElementEventHandler OnCancel { get; set; }
     }
 }

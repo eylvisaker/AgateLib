@@ -20,7 +20,7 @@ namespace AgateLib.Tests.UserInterface.RadioButtons
             return new Workspace("default", new RadioButtonApp(new RadioButtonAppProps
             {
                 Items = new List<string> { "Foo", "Bar", "Gra", "San", "Zen" },
-                Cancel = () => Exit?.Invoke()
+                OnCancel = e => OnExit?.Invoke()
             }));
         }
     }

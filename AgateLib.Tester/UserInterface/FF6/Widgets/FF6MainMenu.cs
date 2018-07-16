@@ -42,7 +42,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 {
                     Flex = new FlexStyle
                     {
-                         Direction = FlexDirection.Row,
+                        Direction = FlexDirection.Row,
                     }
                 }
             });
@@ -51,13 +51,13 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
     public class FF6MainMenuProps : WidgetProps
     {
-        public FF6Model Model { get; internal set; }
-        public Action Items { get; internal set; }
-        public Action Skills { get; internal set; }
-        public Action Equip { get; internal set; }
-        public Action Relic { get; internal set; }
-        public Action Status { get; internal set; }
-        public Action Config { get; internal set; }
-        public Action Save { get; internal set; }
+        public FF6Model Model { get; set; }
+        public RenderElementEventHandler Items { get; set; }
+        public RenderElementEventHandler Skills { get; set; }
+        public RenderElementEventHandler Equip { get; set; }
+        public RenderElementEventHandler Relic { get; set; }
+        public RenderElementEventHandler Status { get; set; }
+        public RenderElementEventHandler Config { get; set; }
+        public RenderElementEventHandler Save { get; set; }
     }
 }

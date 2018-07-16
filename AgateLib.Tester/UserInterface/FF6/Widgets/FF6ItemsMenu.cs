@@ -34,7 +34,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                     new Menu(new MenuProps
                     {
                         Name = "Items",
-                        Cancel = null, // Active the arrange items window,
+                        OnCancel = null, // Active the arrange items window,
                         MenuItems = Props.Model.Inventory.Select(item =>
                             new MenuItem(new MenuItemProps{ Name = item.Name })).ToList()
                     })

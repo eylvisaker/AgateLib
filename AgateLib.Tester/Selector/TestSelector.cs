@@ -29,7 +29,7 @@ namespace AgateLib.Tests.Selector
 
         public event EventHandler<TestEventArgs> StartTest;
 
-        public Action Exit { get; set; }
+        public Action OnExit { get; set; }
 
         public Rectangle ScreenArea { get; set; }
 

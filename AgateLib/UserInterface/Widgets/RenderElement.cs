@@ -163,6 +163,8 @@ namespace AgateLib.UserInterface.Widgets
             Display = new RenderElementDisplay(props);
 
             ReceiveRenderElementProps();
+
+            EventData = new ElementEvent(this);
         }
 
         #region --- Props ---
@@ -217,6 +219,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual bool CanHaveFocus => false;
 
+        protected ElementEvent EventData { get; }
+
         public abstract Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
         public abstract void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
@@ -255,12 +259,12 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual void OnBlur()
         {
-            Props.Blur?.Invoke(this, EventArgs.Empty);
+            Props.OnBlur?.Invoke(EventData);
         }
 
         public virtual void OnFocus()
         {
-            Props.Focus?.Invoke(this, EventArgs.Empty);
+            Props.OnFocus?.Invoke(EventData);
         }
 
         public virtual void OnAccept()
@@ -285,12 +289,12 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual void OnWillUnmount()
         {
-            Props.WillUnmount?.Invoke(this, EventArgs.Empty);
+            Props.OnWillUnmount?.Invoke(EventData);
         }
 
         public virtual void OnDidMount()
         {
-            Props.DidMount?.Invoke(this, EventArgs.Empty);
+            Props.OnDidMount?.Invoke(EventData);
         }
 
         public virtual void OnChildrenUpdated()
@@ -327,7 +331,6 @@ namespace AgateLib.UserInterface.Widgets
             child.Display.Region.MarginRect = new Rectangle(Point.Zero, size);
             child.DoLayout(renderContext, size);
         }
-
     }
 
     public class RenderElementProps
@@ -360,22 +363,22 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Event raised when a render element is mounted.
         /// </summary>
-        public EventHandler DidMount { get; set; }
+        public RenderElementEventHandler OnDidMount { get; set; }
 
         /// <summary>
         /// Event raised when a render element is unmounted.
         /// </summary>
-        public EventHandler WillUnmount { get; set; }
+        public RenderElementEventHandler OnWillUnmount { get; set; }
 
         /// <summary>
         /// Event raised when a render element receives the focus.
         /// </summary>
-        public EventHandler Focus { get; set; }
+        public RenderElementEventHandler OnFocus { get; set; }
 
         /// <summary>
         /// Event raised when a render element loses the focus.
         /// </summary>
-        public EventHandler Blur { get; set; }
+        public RenderElementEventHandler OnBlur { get; set; }
 
         /// <summary>
         /// Gets or sets whether the element is visible. Defaults to true.

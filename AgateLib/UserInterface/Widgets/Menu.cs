@@ -51,7 +51,7 @@ namespace AgateLib.UserInterface.Widgets
             {
                 StyleId = Props.Name,
                 StyleClass = "menu",
-                Cancel = Props.Cancel,
+                OnCancel = Props.OnCancel,
                 Enabled = Props.Enabled,
                 InitialSelectionIndex = Props.InitialSelectionIndex,
                 Children = Props.MenuItems.ToList<IRenderable>()
@@ -71,7 +71,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Callback to execute if the user presses cancel (usually the B button).
         /// </summary>
-        public Action Cancel { get; set; }
+        public RenderElementEventHandler OnCancel { get; set; }
 
         public bool Enabled { get; set; } = true;
     }
@@ -147,9 +147,9 @@ namespace AgateLib.UserInterface.Widgets
         
         public override void OnChildNavigate(IRenderElement child, MenuInputButton button)
         {
-            if (button == MenuInputButton.Cancel && Props.Cancel != null)
+            if (button == MenuInputButton.Cancel && Props.OnCancel != null)
             {
-                Props.Cancel();
+                Props.OnCancel?.Invoke(EventData);
                 return;
             }
 
@@ -165,7 +165,7 @@ namespace AgateLib.UserInterface.Widgets
                     break;
 
                 case MenuInputButton.Cancel:
-                    Props.Cancel?.Invoke();
+                    Props.OnCancel?.Invoke(EventData);
                     break;
             }
         }
@@ -175,7 +175,7 @@ namespace AgateLib.UserInterface.Widgets
     {
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
 
-        public Action Cancel { get; set; }
+        public RenderElementEventHandler OnCancel { get; set; }
 
         public string StyleTypeId { get; set; }
 

@@ -19,7 +19,7 @@ namespace AgateLib.Tests.UserInterface
 
         public virtual string Category => "User Interface";
 
-        public Action Exit { get; set; }
+        public Action OnExit { get; set; }
 
         public Rectangle ScreenArea
         {

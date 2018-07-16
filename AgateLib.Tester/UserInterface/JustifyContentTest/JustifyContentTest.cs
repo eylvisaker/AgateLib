@@ -17,7 +17,7 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
         protected override Workspace InitializeWorkspace() => new Workspace("default",
             new JustifyContentApp(new JustifyContentAppProps
             {
-                Cancel = () => Exit?.Invoke()
+                Cancel = e => OnExit?.Invoke()
             }));
     }
 }
