@@ -70,6 +70,8 @@ namespace AgateLib.UserInterface.Widgets
 
         private FontStyleProperties fontProperties = new FontStyleProperties();
         private FontStyleProperties compareFont = new FontStyleProperties();
+        private FontStyleProperties parentFontProperties = new FontStyleProperties();
+        private FontStyleProperties parentCompareFont = new FontStyleProperties();
 
         private Font font;
 
@@ -87,7 +89,12 @@ namespace AgateLib.UserInterface.Widgets
         public void Update()
         {
             if (!FindActiveProperties())
+            {
+                if (ParentFontChanged())
+                    AggregateFont();
+
                 return;
+            }
 
             AggregateFont();
 
@@ -100,18 +107,28 @@ namespace AgateLib.UserInterface.Widgets
             Layout = Aggregate(p => p.Layout);
         }
 
+        private bool ParentFontChanged()
+        {
+            parentCompareFont.Family = display.ParentFont.Name;
+            parentCompareFont.Color = display.ParentFont.Color;
+            parentCompareFont.Size = display.ParentFont.Size;
+            parentCompareFont.Style = display.ParentFont.Style;
+
+            return !parentCompareFont.Equals(parentFontProperties);
+        }
+
         private void AggregateFont()
         {
             compareFont.Family = Aggregate(p => p.FontFace);
             compareFont.Color = Aggregate(p => p.TextColor);
             compareFont.Style = Aggregate(p => p.FontStyle);
             compareFont.Size = Aggregate(p => p.FontSize);
-
+            
             if (compareFont.IsEmpty)
             {
-                font = null;
+                font = new Font(display.ParentFont);
             }
-            else if (!compareFont.Equals(fontProperties))
+            else if (!compareFont.Equals(fontProperties) || ParentFontChanged())
             {
                 Swap(ref fontProperties, ref compareFont);
 

@@ -69,13 +69,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets the active widget style.
         /// </summary>
         public IRenderElementStyle Style => style;
-
-        /// <summary>
-        /// Gets the collection of styles that can be swapped out based on the widget's state.
-        /// </summary>
-        [Obsolete]
-        public WidgetStyleCollection Styles { get; } = new WidgetStyleCollection();
-
+        
         /// <summary>
         /// Gets the font for this widget.
         /// </summary>

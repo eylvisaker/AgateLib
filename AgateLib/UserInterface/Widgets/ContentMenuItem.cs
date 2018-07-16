@@ -39,10 +39,10 @@ namespace AgateLib.UserInterface.Widgets
         public ContentMenuItem()
         {
             Display.IndicatorType = IndicatorType.Standard;
-            Display.Styles.ActiveStyleChanged += (sender, e) =>
-            {
-                content = null;
-            };
+            //Display.Styles.ActiveStyleChanged += (sender, e) =>
+            //{
+            //    content = null;
+            //};
 
             buttonPress.Press += button =>
             {
