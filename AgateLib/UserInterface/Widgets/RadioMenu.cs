@@ -28,6 +28,6 @@ namespace AgateLib.UserInterface.Widgets
     {
         public List<RadioButton> Buttons { get; set; } = new List<RadioButton>();
 
-        public RenderElementEventHandler OnCancel { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
     }
 }

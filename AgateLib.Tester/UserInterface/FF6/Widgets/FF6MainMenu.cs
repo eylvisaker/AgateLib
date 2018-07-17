@@ -52,12 +52,12 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
     public class FF6MainMenuProps : WidgetProps
     {
         public FF6Model Model { get; set; }
-        public RenderElementEventHandler Items { get; set; }
-        public RenderElementEventHandler Skills { get; set; }
-        public RenderElementEventHandler Equip { get; set; }
-        public RenderElementEventHandler Relic { get; set; }
-        public RenderElementEventHandler Status { get; set; }
-        public RenderElementEventHandler Config { get; set; }
-        public RenderElementEventHandler Save { get; set; }
+        public UserInterfaceEventHandler Items { get; set; }
+        public UserInterfaceEventHandler Skills { get; set; }
+        public UserInterfaceEventHandler Equip { get; set; }
+        public UserInterfaceEventHandler Relic { get; set; }
+        public UserInterfaceEventHandler Status { get; set; }
+        public UserInterfaceEventHandler Config { get; set; }
+        public UserInterfaceEventHandler Save { get; set; }
     }
 }

@@ -58,7 +58,6 @@ namespace AgateLib.UserInterface.Widgets
 
     public class WidgetState
     {
-        public bool IsDirty { get; protected set; }
     }
 
     public abstract class Widget<TProps, TState> : IWidget

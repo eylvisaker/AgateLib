@@ -117,11 +117,6 @@ namespace AgateLib.UserInterface
 
             workspace.Render();
 
-            if (!string.IsNullOrWhiteSpace(activateWindow))
-            {
-                workspace.ActivateWindow(activateWindow);
-            }
-
             workspace.TransitionIn();
         }
 
@@ -268,15 +263,6 @@ namespace AgateLib.UserInterface
 
             Instructions.Draw(renderContext);
         }
-
-        public void ActivateWindowInWorkspace(string workspace, string window,
-            WindowActivationBehaviors behavior = WindowActivationBehaviors.Default)
-        {
-            var w = workspaces.First(x => x.Name.Equals(workspace, StringComparison.OrdinalIgnoreCase));
-
-            w.ActivateWindow(window, behavior);
-        }
-
     }
 }
 

@@ -54,9 +54,9 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public string Text { get; set; }
 
-        public RenderElementEventHandler OnAccept { get; set; }
+        public UserInterfaceEventHandler OnAccept { get; set; }
 
-        public RenderElementEventHandler OnSelect { get; set; }
+        public UserInterfaceEventHandler OnSelect { get; set; }
 
         /// <summary>
         /// Specifies whether the button should be enabled for the user to interact with.
@@ -138,7 +138,7 @@ namespace AgateLib.UserInterface.Widgets
 
     public class MenuItemElementProps : RenderElementProps
     {
-        public RenderElementEventHandler OnAccept { get; set; }
+        public UserInterfaceEventHandler OnAccept { get; set; }
 
         public List<IRenderable> Children { get; set; } = new List<IRenderable>();
 

@@ -168,6 +168,7 @@
     <Compile Include="UserInterface\FF6\FF6MenuTest.cs" />
     <Compile Include="UserInterface\FF6\FF6Model.cs" />
     <Compile Include="UserInterface\FF6\PointerIndicator.cs" />
+    <Compile Include="UserInterface\FF6\Widgets\FF6ItemTarget.cs" />
     <Compile Include="UserInterface\FF6\Widgets\FF6MainMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\PartyStatusWindow.cs" />
     <Compile Include="UserInterface\DoubleRadioMenus\DoubleRadioMenusApp.cs" />

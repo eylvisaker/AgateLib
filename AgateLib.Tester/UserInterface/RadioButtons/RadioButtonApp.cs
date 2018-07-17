@@ -46,6 +46,6 @@ namespace AgateLib.Tests.UserInterface.RadioButtons
 
         public List<string> Items { get; set; } = new List<string>();
 
-        public RenderElementEventHandler OnCancel { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
     }
 }

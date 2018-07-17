@@ -31,8 +31,8 @@ namespace AgateLib.Tests.UserInterface.Support
             var parent = menuItem.Parent as FlexBox;
             
             var target = parent.Children.OfType<MenuItemElement>()
-                .SingleOrDefault(w => w.Props.Text.Equals(menuItemText, 
-                                          StringComparison.OrdinalIgnoreCase));
+                .SingleOrDefault(w => w.Props.Text?.Equals(menuItemText, 
+                                          StringComparison.OrdinalIgnoreCase) ?? false);
 
             if (target == null)
                 throw new InvalidOperationException($"Could not find {menuItemText}. Active workspace: {Desktop.ActiveWorkspace}");

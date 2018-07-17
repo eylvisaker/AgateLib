@@ -126,7 +126,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
         public IEnumerable<ItemData> LeftItems { get; set; }
         public IEnumerable<ItemData> RightItems { get; set; }
         public Action<ItemData, ItemData> OnAccept { get; set; }
-        public RenderElementEventHandler OnCancel { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
     }
 
     public class DoubleRadioMenusState : WidgetState

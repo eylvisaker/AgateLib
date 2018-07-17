@@ -15,7 +15,7 @@ namespace AgateLib.Tests.UserInterface.FF6
     {
         private Menu pcMenu;
         private PlayerCharacter selectedPC;
-        private RenderElementEventHandler AfterSelectPC;
+        private UserInterfaceEventHandler AfterSelectPC;
         private Menu itemsList;
         private Menu magicList;
         private Menu esperList;
@@ -245,6 +245,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             var itemsMenu = new FF6ItemsMenu(new FF6ItemsMenuProps
             {
                 Model = Model,
+                OnUseItem = UseItem
             });
 
             return new Workspace("items", itemsMenu);
@@ -367,14 +368,14 @@ namespace AgateLib.Tests.UserInterface.FF6
             //}
         }
 
-        private void UseItem(Item item)
+        private void UseItem(ItemEvent e)
         {
-            switch (item.Effect)
+            switch (e.Data.Effect)
             {
                 case "heal":
-                    SelectItemTarget(targetPc =>
+                    SelectItemTarget(e, targetPc =>
                     {
-                        targetPc.HP += item.EffectAmount;
+                        targetPc.HP += e.Data.EffectAmount;
                         targetPc.HP = Math.Min(targetPc.HP, targetPc.MaxHP);
                     });
 
@@ -382,8 +383,14 @@ namespace AgateLib.Tests.UserInterface.FF6
             }
         }
 
-        private void SelectItemTarget(Action<PlayerCharacter> afterSelection)
+        private void SelectItemTarget(ItemEvent e, Action<PlayerCharacter> afterSelection)
         {
+            e.System.PushWorkspace(new Workspace("itemTarget", 
+                new FF6ItemTarget(new FF6ItemTargetProps
+                {
+                    Characters = Model.Party.Characters.ToList()
+                })));
+
             throw new NotImplementedException();
 
             //itemTarget.Layout.Clear();
@@ -436,9 +443,11 @@ namespace AgateLib.Tests.UserInterface.FF6
             //}
         }
 
-        private void SelectPC(RenderElementEventHandler afterSelectPc)
+        private void SelectPC(UserInterfaceEventHandler afterSelectPc)
         {
-            mainWorkspace.ActivateWindow("SelectPC", WindowActivationBehaviors.None);
+            throw new NotImplementedException();
+
+            //mainWorkspace.ActivateWindow("SelectPC", WindowActivationBehaviors.None);
 
             AfterSelectPC = afterSelectPc;
         }
@@ -463,10 +472,11 @@ namespace AgateLib.Tests.UserInterface.FF6
             //}
         }
 
-        private void OnPCSelected(PlayerCharacter pc, ElementEvent e)
+        private void OnPCSelected(PlayerCharacter pc, UserInterfaceEvent e)
         {
             selectedPC = pc;
-            AfterSelectPC(e);
+            //AfterSelectPC(e);
+            throw new NotImplementedException();
         }
 
         private void RecordEvent(string v)

@@ -36,10 +36,10 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
 
     public class TitleMenuAppProps : WidgetProps
     {
-        public RenderElementEventHandler OnCancel { get; set; }
-        public RenderElementEventHandler Start { get; set; }
-        public RenderElementEventHandler Load { get; set; }
-        public RenderElementEventHandler Quit { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
+        public UserInterfaceEventHandler Start { get; set; }
+        public UserInterfaceEventHandler Load { get; set; }
+        public UserInterfaceEventHandler Quit { get; set; }
     }
 
     public class TitleMenuAppState : WidgetState

@@ -474,9 +474,9 @@ namespace AgateLib.UserInterface.Widgets
 
             if (!moved) 
             {
-                if (button == MenuInputButton.Cancel && Props.Cancel != null)
+                if (button == MenuInputButton.Cancel && Props.OnCancel != null)
                 {
-                    Props.Cancel();
+                    Props.OnCancel(EventData);
                 }
                 else
                 {
@@ -509,7 +509,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public string StyleTypeId { get; set; }
 
-        public Action Cancel { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
 
         /// <summary>
         /// Sets the index of the item that receives focus the first time

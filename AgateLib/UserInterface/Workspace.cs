@@ -250,6 +250,7 @@ namespace AgateLib.UserInterface
         /// <param name="windowName"></param>
         /// <param name="behavior"></param>
         /// <returns></returns>
+        [Obsolete("Dont use this", true)]
         public void ActivateWindow(string windowName, WindowActivationBehaviors behavior = WindowActivationBehaviors.Default)
         {
             IWidget window = FindWindow(w => w.Name.Equals(windowName, StringComparison.OrdinalIgnoreCase));
@@ -264,6 +265,7 @@ namespace AgateLib.UserInterface
         /// Activates the window. 
         /// </summary>
         /// <param name="window"></param>
+        [Obsolete("Dont use this", true)]
         public void ActivateWindow(IWidget window, WindowActivationBehaviors behavior = WindowActivationBehaviors.Default)
         {
             ActiveWindow = window;
@@ -281,6 +283,7 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="selector"></param>
         /// <returns></returns>
+        [Obsolete]
         public IWidget FindWindow(Func<IWidget, bool> selector)
         {
             return legacyChildren.SingleOrDefault(selector);

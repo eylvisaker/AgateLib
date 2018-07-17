@@ -98,7 +98,7 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
 
     public class JustifyContentAppProps : WidgetProps
     {
-        public RenderElementEventHandler Cancel { get; set; }
+        public UserInterfaceEventHandler Cancel { get; set; }
     }
 
     public class JustifyContentAppState : WidgetState

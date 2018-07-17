@@ -71,7 +71,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Callback to execute if the user presses cancel (usually the B button).
         /// </summary>
-        public RenderElementEventHandler OnCancel { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
 
         public bool Enabled { get; set; } = true;
     }
@@ -175,7 +175,7 @@ namespace AgateLib.UserInterface.Widgets
     {
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
 
-        public RenderElementEventHandler OnCancel { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
 
         public string StyleTypeId { get; set; }
 

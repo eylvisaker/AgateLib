@@ -1,12 +1,14 @@
 ﻿using AgateLib.UserInterface.Widgets;
+using System;
 using System.Linq;
 
 namespace AgateLib.Tests.UserInterface.FF6
 {
-    public class FF6ItemsMenu : Widget<FF6ItemsMenuProps>
+    public class FF6ItemsMenu : Widget<FF6ItemsMenuProps, FF6ItemsMenuState>
     {
         public FF6ItemsMenu(FF6ItemsMenuProps props) : base(props)
         {
+            SetState(new FF6ItemsMenuState());
         }
 
         public override IRenderable Render()
@@ -36,7 +38,11 @@ namespace AgateLib.Tests.UserInterface.FF6
                         Name = "Items",
                         OnCancel = null, // Active the arrange items window,
                         MenuItems = Props.Model.Inventory.Select(item =>
-                            new MenuItem(new MenuItemProps{ Name = item.Name })).ToList()
+                            new MenuItem(new MenuItemProps
+                            {
+                                Text = item.Name,
+                                OnAccept = e => SelectItem(e, item)
+                            })).ToList()
                     })
                 },
                 InitialFocusIndex = 1,
@@ -68,10 +74,36 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             //workspace.Layout = layout;
         }
+
+        ItemEvent itemEvent = new ItemEvent();
+
+        private void SelectItem(UserInterfaceEvent e, Item item)
+        {
+            itemEvent.Reset(e, item);
+
+            if (State.SelectedItem == item)
+            {
+                Props.OnUseItem?.Invoke(itemEvent);
+                UpdateState(state => state.SelectedItem = null);
+            }
+            else
+            {
+                UpdateState(state => state.SelectedItem = item);
+            }
+        }
     }
 
     public class FF6ItemsMenuProps : WidgetProps
     {
-        public FF6Model Model { get; internal set; }
+        public FF6Model Model { get; set; }
+
+        public Action<ItemEvent> OnUseItem { get; set; }
     }
+
+    public class FF6ItemsMenuState : WidgetState
+    {
+        public Item SelectedItem { get; set; }
+    }
+
+    public class ItemEvent : UserInterfaceEvent<Item> { }
 }

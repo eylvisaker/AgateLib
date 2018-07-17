@@ -164,7 +164,7 @@ namespace AgateLib.UserInterface.Widgets
 
             ReceiveRenderElementProps();
 
-            EventData = new ElementEvent(this);
+            EventData = new UserInterfaceEvent(this);
         }
 
         #region --- Props ---
@@ -219,7 +219,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual bool CanHaveFocus => false;
 
-        protected ElementEvent EventData { get; }
+        protected UserInterfaceEvent EventData { get; }
 
         public abstract Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
@@ -363,22 +363,22 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Event raised when a render element is mounted.
         /// </summary>
-        public RenderElementEventHandler OnDidMount { get; set; }
+        public UserInterfaceEventHandler OnDidMount { get; set; }
 
         /// <summary>
         /// Event raised when a render element is unmounted.
         /// </summary>
-        public RenderElementEventHandler OnWillUnmount { get; set; }
+        public UserInterfaceEventHandler OnWillUnmount { get; set; }
 
         /// <summary>
         /// Event raised when a render element receives the focus.
         /// </summary>
-        public RenderElementEventHandler OnFocus { get; set; }
+        public UserInterfaceEventHandler OnFocus { get; set; }
 
         /// <summary>
         /// Event raised when a render element loses the focus.
         /// </summary>
-        public RenderElementEventHandler OnBlur { get; set; }
+        public UserInterfaceEventHandler OnBlur { get; set; }
 
         /// <summary>
         /// Gets or sets whether the element is visible. Defaults to true.

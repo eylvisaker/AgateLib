@@ -27,7 +27,7 @@ namespace AgateLib.UserInterface.Widgets
             StyleId = Props.StyleId,
             StyleClass = Props.StyleClass,
             Style = Props.Style,
-            Cancel = Props.Cancel,
+            OnCancel = Props.OnCancel,
             Children = Props.Children,
         });
     }
@@ -38,6 +38,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
 
-        public Action Cancel { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
     }
 }
