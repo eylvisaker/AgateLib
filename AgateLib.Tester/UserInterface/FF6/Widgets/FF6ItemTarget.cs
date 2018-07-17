@@ -9,7 +9,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 {
     public class FF6ItemTarget : Widget<FF6ItemTargetProps>
     {
-        CharacterEvent characterEvent;
+        CharacterEvent characterEvent = new CharacterEvent();
 
         public FF6ItemTarget(FF6ItemTargetProps props) : base(props)
         {

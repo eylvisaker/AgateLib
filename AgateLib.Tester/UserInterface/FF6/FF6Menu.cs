@@ -383,29 +383,22 @@ namespace AgateLib.Tests.UserInterface.FF6
             }
         }
 
-        private void SelectItemTarget(ItemEvent e, Action<PlayerCharacter> afterSelection)
+        private void SelectItemTarget(ItemEvent evt, Action<PlayerCharacter> afterSelection)
         {
-            e.System.PushWorkspace(new Workspace("itemTarget", 
+            Workspace workspace = null;
+
+            workspace = new Workspace("itemTarget", 
                 new FF6ItemTarget(new FF6ItemTargetProps
                 {
-                    Characters = Model.Party.Characters.ToList()
-                })));
+                    Characters = Model.Party.Characters.ToList(),
+                    OnAccept = e => 
+                    {
+                        workspace.TransitionOut();
+                        afterSelection(e.Data);
+                    }
+                }));
 
-            throw new NotImplementedException();
-
-            //itemTarget.Layout.Clear();
-
-            //foreach (var pc in Model.Party.Characters)
-            //{
-            //    itemTarget.Add(pc.Name, () =>
-            //    {
-            //        itemTarget.Display.IsVisible = false;
-            //        AfterItemTarget(pc);
-            //    });
-            //}
-
-            //desktop.ActiveWorkspace.ActivateWindow("ItemTarget");
-            //AfterItemTarget = afterSelection;
+            evt.System.PushWorkspace(workspace);
         }
 
         private void StartSkillsMenu()
