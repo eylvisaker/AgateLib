@@ -43,6 +43,11 @@ namespace AgateLib.UserInterface.Widgets
         IList<IRenderElement> Children { get; }
 
         /// <summary>
+        /// Gets the parent of this element.
+        /// </summary>
+        IRenderElement Parent { get; }
+
+        /// <summary>
         /// Gets the type identifier used to identify this widget type to the styling
         /// engine.
         /// </summary>

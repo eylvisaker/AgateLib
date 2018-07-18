@@ -28,7 +28,20 @@ namespace AgateLib.Tests.UserInterface.Support
 
         public Desktop Desktop => scene.Desktop;
 
-        public IWidget ActiveWindow => Desktop.ActiveWorkspace.ActiveWindow;
+        public IRenderElement ActiveWindow
+        {
+            get
+            {
+                var workspace = Desktop.ActiveWorkspace;
+
+                var item = workspace.Focus;
+
+                while (item.Parent?.Parent != null)
+                    item = item.Parent;
+
+                return item;
+            }
+        }
 
         public Workspace ActiveWorkspace => Desktop.ActiveWorkspace;
 

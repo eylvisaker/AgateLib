@@ -83,10 +83,13 @@ namespace AgateLib.Tests.UserInterface.Steps
         [Then(@"(.*) is the active menu item")]
         public void ThenXIsTheActiveMenuItem(string menuItemName)
         {
-            var menu = context.ActiveWindow as Menu;
+            var focus = context.ActiveWorkspace.Focus as MenuItemElement;
 
-            throw new NotImplementedException();
-            //menu.Layout.Focus.Name.Should().BeEquivalentTo(menuItemName);
+            focus.Props.Text.Should().BeEquivalentTo(menuItemName);
+            //var menu = context.ActiveWindow as Menu;
+
+            //throw new NotImplementedException();
+            ////menu.Layout.Focus.Name.Should().BeEquivalentTo(menuItemName);
         }
 
         [Then(@"(.*) is healed")]

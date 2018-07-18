@@ -202,6 +202,8 @@ namespace AgateLib.UserInterface.Widgets
 
         public RenderElementProps Props => throw new NotImplementedException();
 
+        public IRenderElement Parent => throw new NotImplementedException();
+
         /// <summary>
         /// Compute the ideal size of the content of the widget.
         /// </summary>

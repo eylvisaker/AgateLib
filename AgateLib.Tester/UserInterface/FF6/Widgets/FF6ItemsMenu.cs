@@ -1,14 +1,18 @@
 ﻿using AgateLib.UserInterface.Widgets;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AgateLib.Tests.UserInterface.FF6
 {
     public class FF6ItemsMenu : Widget<FF6ItemsMenuProps, FF6ItemsMenuState>
     {
+        UserInterfaceEvent<Item> itemEvent = new UserInterfaceEvent<Item>();
+        UserInterfaceEvent<IReadOnlyList<Item>> inventoryUpdateEvent = new UserInterfaceEvent<IReadOnlyList<Item>>();
+
         public FF6ItemsMenu(FF6ItemsMenuProps props) : base(props)
         {
-            SetState(new FF6ItemsMenuState());
+            SetState(new FF6ItemsMenuState { Inventory = Props.Inventory.ToList() });
         }
 
         public override IRenderable Render()
@@ -37,7 +41,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                     {
                         Name = "Items",
                         OnCancel = null, // Active the arrange items window,
-                        MenuItems = Props.Model.Inventory.Select(item =>
+                        MenuItems = State.Inventory.Select(item =>
                             new MenuItem(new MenuItemProps
                             {
                                 Text = item.Name,
@@ -75,35 +79,48 @@ namespace AgateLib.Tests.UserInterface.FF6
             //workspace.Layout = layout;
         }
 
-        ItemEvent itemEvent = new ItemEvent();
-
         private void SelectItem(UserInterfaceEvent e, Item item)
         {
-            itemEvent.Reset(e, item);
-
             if (State.SelectedItem == item)
             {
-                Props.OnUseItem?.Invoke(itemEvent);
+                Props.OnUseItem?.Invoke(itemEvent.Reset(e, item));
                 UpdateState(state => state.SelectedItem = null);
+            }
+            else if (State.SelectedItem == null)
+            {
+                UpdateState(state => state.SelectedItem = item);
             }
             else
             {
-                UpdateState(state => state.SelectedItem = item);
+                UpdateState(state =>
+                {
+                    var first = state.Inventory.IndexOf(state.SelectedItem);
+                    var second = state.Inventory.IndexOf(item);
+
+                    state.Inventory[first] = item;
+                    state.Inventory[second] = state.SelectedItem;
+
+                    Props.OnInventoryUpdated?.Invoke(inventoryUpdateEvent.Reset(e, state.Inventory));
+
+                    state.SelectedItem = null;
+                });
             }
         }
     }
 
     public class FF6ItemsMenuProps : WidgetProps
     {
-        public FF6Model Model { get; set; }
+        public List<Item> Inventory { get; set; } = new List<Item>();
 
-        public Action<ItemEvent> OnUseItem { get; set; }
+        public Action<UserInterfaceEvent<Item>> OnUseItem { get; set; }
+
+        public Action<UserInterfaceEvent<IReadOnlyList<Item>>> OnInventoryUpdated { get; set; }
     }
 
     public class FF6ItemsMenuState : WidgetState
     {
         public Item SelectedItem { get; set; }
-    }
 
-    public class ItemEvent : UserInterfaceEvent<Item> { }
+        public List<Item> Inventory { get; set; }
+    }
 }

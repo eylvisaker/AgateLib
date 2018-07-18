@@ -17,6 +17,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             new EquipmentSlot("Relic 1", "relic"),
             new EquipmentSlot("Relic 2", "relic"),
         };
+        private List<Item> _inventory = new List<Item>();
 
         public FF6Model()
         {
@@ -25,7 +26,11 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         public IEnumerable<EquipmentSlot> EquipmentSlots => slots;
 
-        public List<Item> Inventory { get; private set; } = new List<Item>();
+        public List<Item> Inventory
+        {
+            get => _inventory;
+            set => _inventory = value ?? throw new ArgumentNullException(nameof(Inventory));
+        }
 
         public Party Party { get; set; }
 
@@ -53,7 +58,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         public IEnumerable<Item> ItemsForSlot(PlayerCharacter pc, string slot)
         {
-            foreach(var item in Inventory)
+            foreach (var item in Inventory)
             {
                 if (GetValidSlots(item).Any(x => x.Name == slot))
                     yield return item;

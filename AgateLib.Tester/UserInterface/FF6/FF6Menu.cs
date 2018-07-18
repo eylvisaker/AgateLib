@@ -22,7 +22,6 @@ namespace AgateLib.Tests.UserInterface.FF6
         private Action<PlayerCharacter> AfterItemTarget;
         private Menu itemTarget;
         private Workspace mainWorkspace;
-        private Workspace itemsWorkspace;
         private Workspace skillsWorkspace;
         private Workspace magicWorkspace;
         private Workspace espersWorkspace;
@@ -50,7 +49,6 @@ namespace AgateLib.Tests.UserInterface.FF6
         private void InitializeComponent()
         {
             mainWorkspace = InitializeMainMenu();
-            itemsWorkspace = InitializeItemsMenu();
             //InitializeSkillsMenu(skillsWorkspace = new Workspace("skills"));
             //InitializeMagicMenu(magicWorkspace = new Workspace("magic"));
             //InitializeEspersMenu(espersWorkspace = new Workspace("espers"));
@@ -234,7 +232,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             var mainMenu = new FF6MainMenu(new FF6MainMenuProps
             {
                 Model = Model,
-                Items = e => e.System.PushWorkspace(itemsWorkspace),
+                Items = e => e.System.PushWorkspace(InitializeItemsMenu()),
             });
 
             return new Workspace("default", mainMenu);
@@ -244,8 +242,9 @@ namespace AgateLib.Tests.UserInterface.FF6
         {
             var itemsMenu = new FF6ItemsMenu(new FF6ItemsMenuProps
             {
-                Model = Model,
-                OnUseItem = UseItem
+                Inventory = Model.Inventory,
+                OnUseItem = UseItem,
+                OnInventoryUpdated = e => Model.Inventory = e.Data.ToList(),
             });
 
             return new Workspace("items", itemsMenu);
@@ -368,7 +367,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             //}
         }
 
-        private void UseItem(ItemEvent e)
+        private void UseItem(UserInterfaceEvent<Item> e)
         {
             switch (e.Data.Effect)
             {
@@ -383,7 +382,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             }
         }
 
-        private void SelectItemTarget(ItemEvent evt, Action<PlayerCharacter> afterSelection)
+        private void SelectItemTarget(UserInterfaceEvent<Item> evt, Action<PlayerCharacter> afterSelection)
         {
             Workspace workspace = null;
 
