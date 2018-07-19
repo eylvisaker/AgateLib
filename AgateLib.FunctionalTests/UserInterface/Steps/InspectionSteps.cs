@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.Tests.UserInterface.Support;
+using AgateLib.Tests.UserInterface.Support.Systems;
 using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
 using TechTalk.SpecFlow;
@@ -18,6 +19,8 @@ namespace AgateLib.Tests.UserInterface.Steps
         {
             this.context = context;
         }
+
+        public ITestSystem TestSystem => context.TestSystem;
 
         [Then(@"the active window is (.*)/(.*)")]
         public void ThenASpecificWorkspaceAndWindowAreActive(string workspace, string window)
@@ -95,9 +98,7 @@ namespace AgateLib.Tests.UserInterface.Steps
         [Then(@"(.*) is healed")]
         public void ThenPCIsHealed(string pcName)
         {
-            var pc = context.Model.Party.Find(pcName);
-
-            pc.HP.Should().Be(pc.MaxHP);
+            TestSystem.VerifyPCIsHealed(pcName);
         }
 
     }

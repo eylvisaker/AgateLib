@@ -24,7 +24,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                     {
                         Model = Props.Model,
                         Name = "status",
-                        Enabled = false
+                        Enabled = false,
+                        Ref = Props.SelectPCRef,
                     }),
                     new Menu(new MenuProps
                     {
@@ -64,5 +65,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         public UserInterfaceEventHandler Status { get; set; }
         public UserInterfaceEventHandler Config { get; set; }
         public UserInterfaceEventHandler Save { get; set; }
+        public UserInterfaceEventHandler<PlayerCharacter> OnSelectPC { get; set; }
+        public ElementReference SelectPCRef { get; set; }
     }
 }

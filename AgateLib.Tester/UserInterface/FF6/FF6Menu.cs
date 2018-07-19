@@ -15,7 +15,7 @@ namespace AgateLib.Tests.UserInterface.FF6
     {
         private Menu pcMenu;
         private PlayerCharacter selectedPC;
-        private UserInterfaceEventHandler AfterSelectPC;
+        private UserInterfaceEventHandler<PlayerCharacter> AfterSelectPC;
         private Menu itemsList;
         private Menu magicList;
         private Menu esperList;
@@ -28,12 +28,8 @@ namespace AgateLib.Tests.UserInterface.FF6
         private Workspace relicWorkspace;
         private Workspace equipWorkspace;
 
-        private readonly Action<string> log;
-
-        public FF6Menu(Action<string> log, FF6Model model)
+        public FF6Menu(FF6Model model)
         {
-            this.log = log;
-
             Model = model;
 
             InitializeComponent();
@@ -229,15 +225,25 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         private Workspace InitializeMainMenu()
         {
+            var selectPCRef = new ElementReference();
+
             var mainMenu = new FF6MainMenu(new FF6MainMenuProps
             {
                 Name = "main",
                 Model = Model,
+                SelectPCRef = selectPCRef,
+                OnSelectPC = AfterSelectPC,
                 Items = e => e.System.PushWorkspace(InitializeItemsMenu()),
+                Skills = e =>
+                {
+                    e.System.SetFocus(selectPCRef.Current);
+                    AfterSelectPC = y => y.System.PushWorkspace(InitializeSkillsMenu(y.Data));
+                },
             });
 
             return new Workspace("default", mainMenu);
         }
+
 
         private Workspace InitializeItemsMenu()
         {
@@ -250,6 +256,28 @@ namespace AgateLib.Tests.UserInterface.FF6
             });
 
             return new Workspace("items", itemsMenu);
+        }
+
+
+        private Workspace InitializeSkillsMenu(PlayerCharacter data)
+        {
+            throw new NotImplementedException();
+
+            //var layout = new FixedGridLayout(1, 1);
+            //workspace.Layout = layout;
+
+            //var menu = new Menu("SkillType");
+
+            //menu.Add("Magic", StartMagicMenu);
+            //menu.Add("Espers", StartEspersMenu);
+            //menu.Add("Blitz", () => RecordEvent("Blitz"));
+            //menu.Add("SwdTech", () => RecordEvent("SwdTech"));
+            //menu.Add("Blue", () => RecordEvent("Blue"));
+            //menu.Add("Rage", () => RecordEvent("Rage"));
+
+            //menu.Exit += ReturnToDesktop;
+
+            //layout.Add(menu, Point.Zero);
         }
 
         private void ArrangeItems()
@@ -271,27 +299,6 @@ namespace AgateLib.Tests.UserInterface.FF6
             throw new NotImplementedException();
         }
 
-        private void InitializeSkillsMenu(Workspace workspace)
-        {
-            throw new NotImplementedException();
-
-            //var layout = new FixedGridLayout(1, 1);
-            //workspace.Layout = layout;
-
-            //var menu = new Menu("SkillType");
-
-            //menu.Add("Magic", StartMagicMenu);
-            //menu.Add("Espers", StartEspersMenu);
-            //menu.Add("Blitz", () => RecordEvent("Blitz"));
-            //menu.Add("SwdTech", () => RecordEvent("SwdTech"));
-            //menu.Add("Blue", () => RecordEvent("Blue"));
-            //menu.Add("Rage", () => RecordEvent("Rage"));
-
-            //menu.Exit += ReturnToDesktop;
-
-            //layout.Add(menu, Point.Zero);
-        }
-        
         private void StartEspersMenu()
         {
             UpdateEspers();
@@ -443,7 +450,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             //mainWorkspace.ActivateWindow("SelectPC", WindowActivationBehaviors.None);
 
-            AfterSelectPC = afterSelectPc;
+            //AfterSelectPC = afterSelectPc;
         }
 
         private void StartRelicMenu()

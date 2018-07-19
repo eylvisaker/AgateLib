@@ -19,12 +19,13 @@ namespace AgateLib.Tests.UserInterface.Steps
             this.initializer = initializer;
         }
 
-        [Given(@"I have the (.*) menu")]
-        public void GivenIHaveATitleMenu(string menu)
-        {
-            initializer.Initialize(menu);
+        [Given(@"I have the (.*) system")]
+        public void GivenIHaveATestSystem(string system) => initializer.Initialize(system);
 
-            initializer.WaitForAnimations();
+        [Given(@"I open the menu")]
+        public void GivenIOpenTheMenu()
+        {
+            initializer.OpenMenu();
         }
 
         [Given(@"a party of")]

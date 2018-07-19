@@ -1,8 +1,8 @@
 ﻿Feature: FF6Menu
 
 Background:
-	Given I have the FF6 menu
-	And a party of 
+	Given I have the FF6 system
+	Given a party of 
 	| Name    | HP  | MaxHP |
 	| Tora    | 70  | 100   |
 	| Unlocke | 100 | 100   |
@@ -19,6 +19,7 @@ Background:
 	| Running Shoes  | Relic    |          |
 	| White Cape     | Relic    |          |
 	| Dried Meat     | Item     | heal 999 |
+	And I open the menu
 
 Scenario: FF6 - Open Items Menu
 	When I select Items

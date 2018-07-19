@@ -5,6 +5,7 @@ using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
 using AgateLib.Tests.UserInterface.FF6;
 using AgateLib.Tests;
+using AgateLib.Tests.UserInterface.Support.Systems;
 
 namespace AgateLib.Tests.UserInterface.Support
 {
@@ -23,6 +24,8 @@ namespace AgateLib.Tests.UserInterface.Support
                 CommonMocks.StyleConfigurator().Object,
                 CommonMocks.FontProvider().Object);
         }
+
+        public ITestSystem TestSystem { get; set; }
 
         public UserInterfaceSceneDriver Scene => scene;
 

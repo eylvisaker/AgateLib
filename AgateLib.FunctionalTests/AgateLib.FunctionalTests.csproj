@@ -214,6 +214,9 @@
     <Compile Include="UserInterface\Support\Initialization\TitleMenuInitializer.cs" />
     <Compile Include="UserInterface\Support\Instructor.cs" />
     <Compile Include="UserInterface\Support\Navigator.cs" />
+    <Compile Include="UserInterface\Support\Systems\FF6System.cs" />
+    <Compile Include="UserInterface\Support\Systems\TestSystem.cs" />
+    <Compile Include="UserInterface\Support\Systems\TitleSystem.cs" />
     <Compile Include="UserInterface\Support\UIContext.cs" />
     <Compile Include="UserInterface\Steps\UserInterfaceSteps.cs" />
     <Compile Include="UserInterface\Support\UserInterfaceInitializer.cs" />

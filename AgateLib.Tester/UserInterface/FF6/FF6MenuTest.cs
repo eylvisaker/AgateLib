@@ -26,7 +26,7 @@ namespace AgateLib.Tests.UserInterface.FF6
         {
             Scene.Theme = "FF";
 
-            menu = new FF6Menu(m => Debug.WriteLine(m), InitializeTestData());
+            menu = new FF6Menu(InitializeTestData());
 
             //scene.Indicator = new PointerIndicator(
             //    resources.Content.Load<Texture2D>("UserInterface/Pointer"));
