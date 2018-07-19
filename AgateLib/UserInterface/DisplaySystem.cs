@@ -40,6 +40,15 @@ namespace AgateLib.UserInterface
 
         void SetFocus(IRenderElement newFocus);
 
+        /// <summary>
+        /// Adds a workspace to the desktop.
+        /// </summary>
+        /// <param name="newWorkspace"></param>
         void PushWorkspace(Workspace newWorkspace);
+
+        /// <summary>
+        /// Removes the active workspace from the desktop.
+        /// </summary>
+        void PopWorkspace();
     }
 }

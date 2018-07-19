@@ -87,6 +87,11 @@ namespace AgateLib.UserInterface
             {
                 Desktop.PushWorkspace(newWorkspace);
             }
+
+            public void PopWorkspace()
+            {
+                Desktop.PopWorkspace();
+            }
         }
 
         private readonly VisualTree visualTree = new VisualTree();

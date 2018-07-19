@@ -33,7 +33,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
         {
             Window box = new Window(new WindowProps
             {
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "AHe" }),
                     new Label(new LabelProps { Text = "BHel" }),
@@ -64,7 +64,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
             Window box = new Window(new WindowProps
             {
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Style = style, Text = "AHe" }),
                     new Label(new LabelProps { Style = style, Text = "BHel" }),
@@ -102,7 +102,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Start
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "AHe" }),
                     new Label(new LabelProps { Text = "BHel" }),
@@ -141,7 +141,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Start
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Style = style, Text = "AHe" }),
                     new Label(new LabelProps { Style = style, Text = "BHel" }),
@@ -179,7 +179,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Stretch,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "AHe" }),
                     new Label(new LabelProps { Text = "BHel" }),
@@ -212,7 +212,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.End,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "AHe" }),
                     new Label(new LabelProps { Text = "BHel" }),
@@ -248,7 +248,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         Direction = FlexDirection.ColumnReverse
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "AHe" }),
                     new Label(new LabelProps { Text = "BHel" }),
@@ -281,7 +281,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Start
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "AHe" }),
                     new Label(new LabelProps { Text = "BHel" }),
@@ -315,7 +315,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Stretch,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "AHe" }),
                     new Label(new LabelProps { Text = "BHel" }),
@@ -349,7 +349,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.End,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "AHe" }),
                     new Label(new LabelProps { Text = "BHel" }),
@@ -386,7 +386,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         Direction = FlexDirection.Row,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "Abc" }),
                     new Label(new LabelProps { Text = "Defg\nHijk" }),
@@ -423,7 +423,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         Direction = FlexDirection.Row,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Style = style, Text = "Abc" }),
                     new Label(new LabelProps { Style = style, Text = "Defg\nHijk" }),
@@ -461,7 +461,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Start
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "Abc" }),
                     new Label(new LabelProps { Text = "Defg\nHijk" }),
@@ -495,7 +495,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Stretch,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "Abc" }),
                     new Label(new LabelProps { Text = "Defg\nHijk" }),
@@ -529,7 +529,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.End,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "Abc" }),
                     new Label(new LabelProps { Text = "Defg\nHijk" }),
@@ -568,7 +568,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 JustifyContent = JustifyContent.Center
                             }
                         },
-                        StyleId = "thewindow",
+                        Name = "thewindow",
                         Children = {
                             new Label(new LabelProps { Text = "AHe" }),
                             new Label(new LabelProps { Text = "BHel" }),
@@ -610,7 +610,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 JustifyContent = JustifyContent.End
                             }
                         },
-                        StyleId = "thewindow",
+                        Name = "thewindow",
                         Children = {
                             new Label(new LabelProps { Text = "AHe" }),
                             new Label(new LabelProps { Text = "BHel" }),
@@ -652,7 +652,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 JustifyContent = JustifyContent.SpaceBetween
                             }
                         },
-                        StyleId = "thewindow",
+                        Name = "thewindow",
                         Children = {
                             new Label(new LabelProps { Text = "AHe" }),
                             new Label(new LabelProps { Text = "BHel" }),
@@ -694,7 +694,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 JustifyContent = JustifyContent.SpaceAround
                             }
                         },
-                        StyleId = "thewindow",
+                        Name = "thewindow",
                         Children = {
                             new Label(new LabelProps { Text = "AHe" }),
                             new Label(new LabelProps { Text = "BHel" }),
@@ -736,7 +736,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 JustifyContent = JustifyContent.SpaceEvenly
                             }
                         },
-                        StyleId = "thewindow",
+                        Name = "thewindow",
                         Children = {
                             new Label(new LabelProps { Text = "AHe" }),
                             new Label(new LabelProps { Text = "BHel" }),
@@ -775,7 +775,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         Direction = FlexDirection.RowReverse
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "Abc" }),
                     new Label(new LabelProps { Text = "Defg\nHijk" }),
@@ -809,7 +809,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Start
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "Abc" }),
                     new Label(new LabelProps { Text = "Defg\nHijk" }),
@@ -843,7 +843,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.Stretch,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "Abc" }),
                     new Label(new LabelProps { Text = "Defg\nHijk" }),
@@ -877,7 +877,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                         AlignItems = AlignItems.End,
                     }
                 },
-                StyleId = "thewindow",
+                Name = "thewindow",
                 Children = {
                     new Label(new LabelProps { Text = "Abc" }),
                     new Label(new LabelProps { Text = "Defg\nHijk" }),

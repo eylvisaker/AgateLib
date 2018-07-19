@@ -56,7 +56,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                                 }
                             }),
                             new Label(new LabelProps {
-                                StyleId = "description",
+                                Name = "description",
                                 Text = State.DescriptionText
                             })
                         }

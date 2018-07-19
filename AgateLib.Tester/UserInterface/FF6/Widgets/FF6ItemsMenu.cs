@@ -17,13 +17,16 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         public override IRenderable Render()
         {
+            var arrangeItemsRef = new ElementReference();
+            var itemsRef = new ElementReference();
+
             return new FlexBox(new FlexBoxProps
             {
                 Children =
                 {
                     new Menu(new MenuProps
                     {
-                        Name="ArrangeItems",
+                        Name = "ArrangeItems",
                         Style = new InlineElementStyle
                         {
                             Flex = new AgateLib.UserInterface.Styling.FlexStyle
@@ -33,20 +36,28 @@ namespace AgateLib.Tests.UserInterface.FF6
                         },
                         MenuItems =
                         {
+                            new MenuItem(new MenuItemProps{
+                                Text = "items",
+                                OnAccept = e => e.System.SetFocus(itemsRef.Current)
+                            }),
                             new MenuItem(new MenuItemProps{ Text = "Arrange" }),
                             new MenuItem(new MenuItemProps{ Text = "Rare" })
-                        }
+                        },
+                        Ref = arrangeItemsRef,
+                        OnCancel = Props.OnCancel
                     }),
                     new Menu(new MenuProps
                     {
+                        AllowNavigate = false,
                         Name = "Items",
-                        OnCancel = null, // Active the arrange items window,
+                        OnCancel = e => e.System.SetFocus(arrangeItemsRef.Current),
                         MenuItems = State.Inventory.Select(item =>
                             new MenuItem(new MenuItemProps
                             {
                                 Text = item.Name,
                                 OnAccept = e => SelectItem(e, item)
-                            })).ToList()
+                            })).ToList(),
+                        Ref = itemsRef
                     })
                 },
                 InitialFocusIndex = 1,
@@ -115,6 +126,8 @@ namespace AgateLib.Tests.UserInterface.FF6
         public Action<UserInterfaceEvent<Item>> OnUseItem { get; set; }
 
         public Action<UserInterfaceEvent<IReadOnlyList<Item>>> OnInventoryUpdated { get; set; }
+
+        public UserInterfaceEventHandler OnCancel { get; set; }
     }
 
     public class FF6ItemsMenuState : WidgetState

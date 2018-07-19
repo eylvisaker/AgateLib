@@ -478,7 +478,7 @@ namespace AgateLib.UserInterface.Widgets
                 {
                     Props.OnCancel(EventData);
                 }
-                else
+                else if (Props.AllowNavigate)
                 {
                     base.OnChildNavigate(this, button);
                 }
@@ -516,6 +516,12 @@ namespace AgateLib.UserInterface.Widgets
         /// this flexbox gets focus.
         /// </summary>
         public int InitialFocusIndex { get; set; }
+
+        /// <summary>
+        /// Set to false to prevent the user from navigating outside the 
+        /// flexbox.
+        /// </summary>
+        public bool AllowNavigate { get; set; } = true;
     }
 
     public enum FlexDirection

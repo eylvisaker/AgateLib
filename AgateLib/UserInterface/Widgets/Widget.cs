@@ -47,13 +47,17 @@ namespace AgateLib.UserInterface.Widgets
     {
         public string Name { get; set; }
 
-        public string StyleId { get; set; }
-
         public string StyleClass { get; set; }
 
         public InlineElementStyle Style { get; set; }
 
         public bool Visible { get; set; } = true;
+
+        /// <summary>
+        /// Set to an ElementReference to capture a reference to the render element 
+        /// when this widget is rendered.
+        /// </summary>
+        public ElementReference Ref { get; set; }
     }
 
     public class WidgetState
@@ -135,6 +139,12 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual void Update(IWidgetRenderContext renderContext)
         {
+        }
+
+        void IRenderable.OnRenderResult(IRenderElement result)
+        {
+            if (Props.Ref != null)
+                Props.Ref.Current = result;
         }
     }
 
@@ -332,6 +342,11 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public void OnReconciliationCompleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnRenderResult(IRenderElement result)
         {
             throw new NotImplementedException();
         }

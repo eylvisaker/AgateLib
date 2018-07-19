@@ -231,6 +231,7 @@ namespace AgateLib.Tests.UserInterface.FF6
         {
             var mainMenu = new FF6MainMenu(new FF6MainMenuProps
             {
+                Name = "main",
                 Model = Model,
                 Items = e => e.System.PushWorkspace(InitializeItemsMenu()),
             });
@@ -245,6 +246,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                 Inventory = Model.Inventory,
                 OnUseItem = UseItem,
                 OnInventoryUpdated = e => Model.Inventory = e.Data.ToList(),
+                OnCancel = e => e.System.PopWorkspace()
             });
 
             return new Workspace("items", itemsMenu);

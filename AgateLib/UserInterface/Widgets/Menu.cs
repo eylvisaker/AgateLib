@@ -49,6 +49,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             return new MenuElement(new MenuElementProps
             {
+                AllowNavigate = Props.AllowNavigate,
                 StyleId = Props.Name,
                 StyleClass = "menu",
                 OnCancel = Props.OnCancel,
@@ -74,6 +75,11 @@ namespace AgateLib.UserInterface.Widgets
         public UserInterfaceEventHandler OnCancel { get; set; }
 
         public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// Set to false to prevent the user from navigating outside the menu.
+        /// </summary>
+        public bool AllowNavigate { get; set; } = true;
     }
 
     public class MenuElement : RenderElement<MenuElementProps>
@@ -86,6 +92,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             child = new FlexBox(new FlexBoxProps
             {
+                AllowNavigate = Props.AllowNavigate,
                 DefaultStyle = props.DefaultStyle ?? new InlineElementStyle
                 {
                     Flex = new FlexStyle {
@@ -98,7 +105,8 @@ namespace AgateLib.UserInterface.Widgets
                 StyleTypeId = string.IsNullOrWhiteSpace(props.StyleTypeId)
                             ? "menu" : props.StyleTypeId,
                 Children = props.Children,
-                InitialFocusIndex = props.InitialSelectionIndex
+                InitialFocusIndex = props.InitialSelectionIndex,
+                OnCancel = Props.OnCancel
             });
 
             Children = new[] { child };
@@ -180,5 +188,10 @@ namespace AgateLib.UserInterface.Widgets
         public string StyleTypeId { get; set; }
 
         public int InitialSelectionIndex { get; set; }
+
+        /// <summary>
+        /// Set to false to prevent the user from navigating out of the menu.
+        /// </summary>
+        public bool AllowNavigate { get; set; } = true;
     }
 }

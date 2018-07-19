@@ -87,15 +87,6 @@ namespace AgateLib.UserInterface.Widgets
         RenderElementProps Props { get; }
 
         /// <summary>
-        /// Event called by a child component when it receives an input event it cannot handle.
-        /// This is usually a navigation event.
-        /// </summary>
-        /// <param name="menuItemElement"></param>
-        /// <param name="btn"></param>
-        void OnChildNavigate(IRenderElement child, MenuInputButton button);
-        void OnChildrenUpdated();
-
-        /// <summary>
         /// Draws the content of the widget.
         /// To draw children, call <c >renderContext.DrawChildren</c>.
         /// </summary>
@@ -108,8 +99,6 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="renderContext"></param>
         void Update(IWidgetRenderContext renderContext);
-        void OnWillUnmount();
-        void OnDidMount();
 
         /// <summary>
         /// Compute the ideal size of the content of the widget.
@@ -141,6 +130,31 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="widgetEventArgs"></param>
         void OnInputEvent(InputEventArgs input);
+
+        /// <summary>
+        /// Event called by a child component when it receives an input event it cannot handle.
+        /// This is usually a navigation event.
+        /// </summary>
+        /// <param name="menuItemElement"></param>
+        /// <param name="btn"></param>
+        void OnChildNavigate(IRenderElement child, MenuInputButton button);
+
+        /// <summary>
+        /// Called by the rendering system when the collection of children is updated.
+        /// </summary>
+        void OnChildrenUpdated();
+
+        /// <summary>
+        /// Called by the rendering system right before the component is removed from
+        /// the render tree.
+        /// </summary>
+        void OnWillUnmount();
+
+        /// <summary>
+        /// Called by the rendering system right after the component
+        /// is added to the render tree.
+        /// </summary>
+        void OnDidMount();
 
         /// <summary>
         /// Called when the user accepts an item. Accept can be a button press, enter on the keyboard, or a mouse click (not yet supported).
@@ -336,6 +350,10 @@ namespace AgateLib.UserInterface.Widgets
             child.Display.Region.MarginRect = new Rectangle(Point.Zero, size);
             child.DoLayout(renderContext, size);
         }
+
+        void IRenderable.OnRenderResult(IRenderElement result)
+        {
+        }
     }
 
     public class RenderElementProps
@@ -395,7 +413,7 @@ namespace AgateLib.UserInterface.Widgets
         /// with the user. Defaults to true.
         /// </summary>
         public bool Enabled { get; set; } = true;
-
+        
         /// <summary>
         /// Compares two props objects to see if their property values are equal.
         /// By default, this uses reflection to check each individual property, except

@@ -20,12 +20,16 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
             {
                 Children =
                 {
-                    new PartyStatusWindow(new PartyStatusWindowProps{
-                        Model = Props.Model ,
+                    new PartyStatusWindow(new PartyStatusWindowProps
+                    {
+                        Model = Props.Model,
+                        Name = "status",
                         Enabled = false
                     }),
                     new Menu(new MenuProps
                     {
+                        AllowNavigate = false,
+                        Name = "main",
                         MenuItems =
                         {
                             new MenuItem(new MenuItemProps { Text = "Items", OnAccept = Props.Items  }),
@@ -44,7 +48,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                     {
                         Direction = FlexDirection.Row,
                     }
-                }
+                },
+                StyleId = Props.Name,
             });
         }
     }

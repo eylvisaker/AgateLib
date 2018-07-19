@@ -30,7 +30,7 @@ namespace AgateLib.Tests.Selector.Widgets
                 Children = {
                     new Window(new WindowProps
                     {
-                        StyleId = "test-selector-app",
+                        Name = "test-selector-app",
                         Children = { choose, carousel }
                     })
                 }
