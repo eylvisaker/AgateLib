@@ -204,17 +204,26 @@ namespace AgateLib.Tests.UserInterface.FF6
             return items.FirstOrDefault();
         }
 
-        private void InitializeEspersMenu(Workspace workspace)
+        private Workspace InitializeEspersMenu()
         {
-            throw new NotImplementedException();
+            return new Workspace("espers", new FF6EspersMenu(new FF6EspersMenuProps
+                {
+                    OnCancel = e => e.System.PopWorkspace()
+                })
+            );
+
             //esperList = new Menu("Espers");
 
             //workspace.Add(esperList);
         }
 
-        private void InitializeMagicMenu(Workspace workspace)
+        private Workspace InitializeMagicMenu()
         {
-            throw new NotImplementedException();
+            return new Workspace("magic", new FF6MagicMenu(new FF6MagicMenuProps
+                {
+                    OnCancel = e => e.System.PopWorkspace()
+                })
+            );
 
             //magicList = new Menu("Magic");
 
@@ -263,7 +272,9 @@ namespace AgateLib.Tests.UserInterface.FF6
         {
             return new Workspace("skills", new FF6SkillsMenu(new FF6SkillsMenuProps
             {
-                OnCancel = e => e.System.PopWorkspace()
+                OnCancel = e => e.System.PopWorkspace(),
+                OnMagic = e => e.System.PushWorkspace(InitializeMagicMenu()),
+                OnEspers = e => e.System.PushWorkspace(InitializeEspersMenu()),
             }));
         }
 
@@ -280,36 +291,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                 return 0;
             });
         }
-
-        private void RareItems()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void StartEspersMenu()
-        {
-            UpdateEspers();
-
-            //desktop.PushWorkspace(espersWorkspace, "Espers");
-            throw new NotImplementedException();
-        }
-
-        private void StartMagicMenu()
-        {
-            UpdateMagic();
-
-            //desktop.PushWorkspace(magicWorkspace, "Magic");
-            throw new NotImplementedException();
-        }
-
-        private void StartItemsMenu()
-        {
-            UpdateItems();
-
-            //desktop.PushWorkspace(itemsWorkspace, "Items");
-            throw new NotImplementedException();
-        }
-
+        
         private void UpdateEspers()
         {
         }

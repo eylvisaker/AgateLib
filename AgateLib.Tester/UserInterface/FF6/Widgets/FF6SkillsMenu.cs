@@ -15,41 +15,45 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         public override IRenderable Render()
         {
-            return new Menu(new MenuProps
+            return new FlexBox(new FlexBoxProps
             {
-                Name = "skillType",
-                MenuItems =
+                Children =
                 {
-                    new MenuItem(new MenuItemProps{ Text = "Magic",  }),
-                    new MenuItem(new MenuItemProps{ Text = "Espers", }),
-                    new MenuItem(new MenuItemProps{ Text = "Blitz",  }),
-                    new MenuItem(new MenuItemProps{ Text = "SwdTech", }),
-                    new MenuItem(new MenuItemProps{ Text = "Blue",  }),
-                    new MenuItem(new MenuItemProps{ Text = "Rage",  }),
-                },
-                OnCancel = Props.OnCancel
+                    new Menu(new MenuProps
+                    {
+                        Name = "skillType",
+                        MenuItems =
+                        {
+                            new MenuItem(new MenuItemProps{ Text = "Magic", OnAccept = Props.OnMagic }),
+                            new MenuItem(new MenuItemProps{ Text = "Espers",  OnAccept = Props.OnEspers }),
+                        },
+                        OnCancel = Props.OnCancel
+                    }),
+                    new Menu(new MenuProps
+                    {
+                        Name = "skillType2",
+                        MenuItems =
+                        {
+                            new MenuItem(new MenuItemProps{ Text = "Blitz",   OnAccept = Props.OnBlitz}),
+                            new MenuItem(new MenuItemProps{ Text = "SwdTech", OnAccept = Props.OnSwdTech}),
+                            new MenuItem(new MenuItemProps{ Text = "Blue",    OnAccept = Props.OnBlue}),
+                            new MenuItem(new MenuItemProps{ Text = "Rage",    OnAccept = Props.OnRage}),
+                        },
+                        OnCancel = Props.OnCancel
+                    })
+                }
             });
-
-            //var layout = new FixedGridLayout(1, 1);
-            //workspace.Layout = layout;
-
-            //var menu = new Menu("SkillType");
-
-            //menu.Add("Magic", StartMagicMenu);
-            //menu.Add("Espers", StartEspersMenu);
-            //menu.Add("Blitz", () => RecordEvent("Blitz"));
-            //menu.Add("SwdTech", () => RecordEvent("SwdTech"));
-            //menu.Add("Blue", () => RecordEvent("Blue"));
-            //menu.Add("Rage", () => RecordEvent("Rage"));
-
-            //menu.Exit += ReturnToDesktop;
-
-            //layout.Add(menu, Point.Zero);
         }
     }
 
     public class FF6SkillsMenuProps : WidgetProps
     {
         public UserInterfaceEventHandler OnCancel { get; set; }
+        public UserInterfaceEventHandler OnMagic { get; set; }
+        public UserInterfaceEventHandler OnEspers { get; set; }
+        public UserInterfaceEventHandler OnBlitz { get; set; }
+        public UserInterfaceEventHandler OnSwdTech { get; set; }
+        public UserInterfaceEventHandler OnBlue { get; set; }
+        public UserInterfaceEventHandler OnRage { get; set; }
     }
 }

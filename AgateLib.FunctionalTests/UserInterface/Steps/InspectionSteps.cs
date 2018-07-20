@@ -26,6 +26,10 @@ namespace AgateLib.Tests.UserInterface.Steps
         public void ThenASpecificWorkspaceAndWindowAreActive(string workspace, string window)
         {
             context.ActiveWorkspace.Name.ToLowerInvariant().Should().Be(workspace.ToLowerInvariant());
+
+            context.ActiveWindow.Name.Should().NotBeNull($"workspace {workspace} was found to be the " +
+                $"active workspace, but the active window has no name");            
+
             context.ActiveWindow.Name.ToLowerInvariant().Should().Be(window.ToLowerInvariant());
         }
 

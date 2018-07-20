@@ -17,6 +17,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         {
             return new Menu(new MenuProps
             {
+                Name = Props.Name,
                 Enabled = Props.Enabled,
                 MenuItems = Props.Model.Party.Characters.Select(
                     x => new MenuItem(new MenuItemProps
@@ -25,6 +26,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         OnAccept = e => Props.OnSelectPC?.Invoke(
                             new UserInterfaceEvent<PlayerCharacter>().Reset(e, x))
                     })).ToList(),
+                OnCancel = Props.OnCancel
             });
         }
     }
@@ -36,5 +38,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         public FF6Model Model { get; set; }
 
         public bool Enabled { get; set; } = true;
+
+        public UserInterfaceEventHandler OnCancel { get; set; }
     }
 }

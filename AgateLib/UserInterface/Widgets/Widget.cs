@@ -208,8 +208,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public string StyleClass => throw new NotImplementedException();
 
-        public string StyleId => throw new NotImplementedException();
-
         public RenderElementProps Props => throw new NotImplementedException();
 
         public IRenderElement Parent => throw new NotImplementedException();

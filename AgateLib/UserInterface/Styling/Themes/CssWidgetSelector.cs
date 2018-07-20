@@ -340,7 +340,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             foreach(var cls in matcher.Identifiers)
             {
-                if (!cls.Equals(element.StyleId, StringComparison.OrdinalIgnoreCase))
+                if (!cls.Equals(element.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }

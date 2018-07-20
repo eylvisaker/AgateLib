@@ -16,6 +16,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         public override IRenderable Render()
         {
+            var mainRef = new ElementReference();
+
             return new FlexBox(new FlexBoxProps
             {
                 Children =
@@ -26,7 +28,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Name = "status",
                         Enabled = false,
                         Ref = Props.SelectPCRef,
-                        OnSelectPC = Props.OnSelectPC,
+                        OnSelectPC = e => { Props.OnSelectPC(e); e.System.SetFocus(mainRef.Current); },
+                        OnCancel = e => e.System.SetFocus(mainRef.Current),
                     }),
                     new Menu(new MenuProps
                     {
@@ -41,7 +44,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                             new MenuItem(new MenuItemProps { Text = "Status", OnAccept = Props.Status }),
                             new MenuItem(new MenuItemProps { Text = "Config", OnAccept = Props.Config }),
                             new MenuItem(new MenuItemProps { Text = "Save", OnAccept = Props.Save   }),
-                        }
+                        },
+                        Ref = mainRef,
                     }),
                 },
                 Style = new InlineElementStyle

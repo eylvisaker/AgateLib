@@ -163,12 +163,14 @@
     <Compile Include="TestResources.cs" />
     <Compile Include="Selector\TestSelector.cs" />
     <Compile Include="UserInterface\DoubleRadioMenus\DoubleRadioMenusTest.cs" />
+    <Compile Include="UserInterface\FF6\Widgets\FF6EspersMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\FF6ItemsMenu.cs" />
     <Compile Include="UserInterface\FF6\FF6Menu.cs" />
     <Compile Include="UserInterface\FF6\FF6MenuTest.cs" />
     <Compile Include="UserInterface\FF6\FF6Model.cs" />
     <Compile Include="UserInterface\FF6\PointerIndicator.cs" />
     <Compile Include="UserInterface\FF6\Widgets\FF6ItemTarget.cs" />
+    <Compile Include="UserInterface\FF6\Widgets\FF6MagicMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\FF6MainMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\FF6SkillsMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\PartyStatusWindow.cs" />

@@ -435,7 +435,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             result.SetupGet(x => x.StyleTypeId).Returns(typeId);
             result.SetupGet(x => x.StyleClass).Returns(cls);
-            result.SetupGet(x => x.StyleId).Returns(name);
+            result.SetupGet(x => x.Name).Returns(name);
             result.SetupGet(x => x.Children).Returns(children);
 
             return result.Object;
