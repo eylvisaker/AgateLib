@@ -26,6 +26,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Name = "status",
                         Enabled = false,
                         Ref = Props.SelectPCRef,
+                        OnSelectPC = Props.OnSelectPC,
                     }),
                     new Menu(new MenuProps
                     {

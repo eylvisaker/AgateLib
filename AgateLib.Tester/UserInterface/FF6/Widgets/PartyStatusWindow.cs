@@ -19,13 +19,20 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
             {
                 Enabled = Props.Enabled,
                 MenuItems = Props.Model.Party.Characters.Select(
-                    x => new MenuItem(new MenuItemProps { Text = x.Name })).ToList(),
+                    x => new MenuItem(new MenuItemProps
+                    {
+                        Text = x.Name,
+                        OnAccept = e => Props.OnSelectPC?.Invoke(
+                            new UserInterfaceEvent<PlayerCharacter>().Reset(e, x))
+                    })).ToList(),
             });
         }
     }
 
     public class PartyStatusWindowProps : WidgetProps
     {
+        internal UserInterfaceEventHandler<PlayerCharacter> OnSelectPC;
+
         public FF6Model Model { get; set; }
 
         public bool Enabled { get; set; } = true;

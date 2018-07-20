@@ -232,7 +232,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                 Name = "main",
                 Model = Model,
                 SelectPCRef = selectPCRef,
-                OnSelectPC = AfterSelectPC,
+                OnSelectPC = e => AfterSelectPC(e),
                 Items = e => e.System.PushWorkspace(InitializeItemsMenu()),
                 Skills = e =>
                 {
@@ -261,23 +261,10 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         private Workspace InitializeSkillsMenu(PlayerCharacter data)
         {
-            throw new NotImplementedException();
-
-            //var layout = new FixedGridLayout(1, 1);
-            //workspace.Layout = layout;
-
-            //var menu = new Menu("SkillType");
-
-            //menu.Add("Magic", StartMagicMenu);
-            //menu.Add("Espers", StartEspersMenu);
-            //menu.Add("Blitz", () => RecordEvent("Blitz"));
-            //menu.Add("SwdTech", () => RecordEvent("SwdTech"));
-            //menu.Add("Blue", () => RecordEvent("Blue"));
-            //menu.Add("Rage", () => RecordEvent("Rage"));
-
-            //menu.Exit += ReturnToDesktop;
-
-            //layout.Add(menu, Point.Zero);
+            return new Workspace("skills", new FF6SkillsMenu(new FF6SkillsMenuProps
+            {
+                OnCancel = e => e.System.PopWorkspace()
+            }));
         }
 
         private void ArrangeItems()
