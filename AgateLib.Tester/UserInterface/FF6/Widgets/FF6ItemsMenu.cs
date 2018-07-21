@@ -8,7 +8,7 @@ namespace AgateLib.Tests.UserInterface.FF6
     public class FF6ItemsMenu : Widget<FF6ItemsMenuProps, FF6ItemsMenuState>
     {
         UserInterfaceEvent<Item> itemEvent = new UserInterfaceEvent<Item>();
-        UserInterfaceEvent<IReadOnlyList<Item>> inventoryUpdateEvent = new UserInterfaceEvent<IReadOnlyList<Item>>();
+        UserInterfaceEvent<Tuple<int, int>> swapItemsEvent = new UserInterfaceEvent<Tuple<int, int>>();
 
         public FF6ItemsMenu(FF6ItemsMenuProps props) : base(props)
         {
@@ -40,7 +40,10 @@ namespace AgateLib.Tests.UserInterface.FF6
                                 Text = "items",
                                 OnAccept = e => e.System.SetFocus(itemsRef.Current)
                             }),
-                            new MenuItem(new MenuItemProps{ Text = "Arrange" }),
+                            new MenuItem(new MenuItemProps{
+                                Text = "Arrange",
+                                OnAccept = Props.OnArrangeItems
+                            }),
                             new MenuItem(new MenuItemProps{ Text = "Rare" })
                         },
                         Ref = arrangeItemsRef,
@@ -103,18 +106,11 @@ namespace AgateLib.Tests.UserInterface.FF6
             }
             else
             {
-                UpdateState(state =>
-                {
-                    var first = state.Inventory.IndexOf(state.SelectedItem);
-                    var second = state.Inventory.IndexOf(item);
+                var first = State.Inventory.IndexOf(State.SelectedItem);
+                var second = State.Inventory.IndexOf(item);
 
-                    state.Inventory[first] = item;
-                    state.Inventory[second] = state.SelectedItem;
-
-                    Props.OnInventoryUpdated?.Invoke(inventoryUpdateEvent.Reset(e, state.Inventory));
-
-                    state.SelectedItem = null;
-                });
+                Props.OnSwapItems(swapItemsEvent.Reset(e, new Tuple<int, int>(first, second)));
+                UpdateState(state => state.SelectedItem = null);
             }
         }
     }
@@ -125,9 +121,11 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         public Action<UserInterfaceEvent<Item>> OnUseItem { get; set; }
 
-        public Action<UserInterfaceEvent<IReadOnlyList<Item>>> OnInventoryUpdated { get; set; }
+        public Action<UserInterfaceEvent<Tuple<int, int>>> OnSwapItems { get; set; }
 
         public UserInterfaceEventHandler OnCancel { get; set; }
+
+        public UserInterfaceEventHandler OnArrangeItems { get; set; }
     }
 
     public class FF6ItemsMenuState : WidgetState

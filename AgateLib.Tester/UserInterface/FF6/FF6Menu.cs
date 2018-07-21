@@ -15,7 +15,6 @@ namespace AgateLib.Tests.UserInterface.FF6
     {
         private Menu pcMenu;
         private PlayerCharacter selectedPC;
-        private UserInterfaceEventHandler<PlayerCharacter> AfterSelectPC;
         private Menu itemsList;
         private Menu magicList;
         private Menu esperList;
@@ -34,7 +33,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             InitializeComponent();
         }
-        
+
         public Workspace InitializeWorkspace()
         {
             return mainWorkspace;
@@ -204,33 +203,6 @@ namespace AgateLib.Tests.UserInterface.FF6
             return items.FirstOrDefault();
         }
 
-        private Workspace InitializeEspersMenu()
-        {
-            return new Workspace("espers", new FF6EspersMenu(new FF6EspersMenuProps
-                {
-                    OnCancel = e => e.System.PopWorkspace()
-                })
-            );
-
-            //esperList = new Menu("Espers");
-
-            //workspace.Add(esperList);
-        }
-
-        private Workspace InitializeMagicMenu()
-        {
-            return new Workspace("magic", new FF6MagicMenu(new FF6MagicMenuProps
-                {
-                    OnCancel = e => e.System.PopWorkspace()
-                })
-            );
-
-            //magicList = new Menu("Magic");
-
-            //magicList.Exit += () => desktop.PopWorkspace();
-
-            //workspace.Add(magicList);
-        }
 
         private Workspace InitializeMainMenu()
         {
@@ -240,58 +212,23 @@ namespace AgateLib.Tests.UserInterface.FF6
             {
                 Name = "main",
                 Model = Model,
-                SelectPCRef = selectPCRef,
-                OnSelectPC = e => AfterSelectPC(e),
-                Items = e => e.System.PushWorkspace(InitializeItemsMenu()),
-                Skills = e =>
-                {
-                    e.System.SetFocus(selectPCRef.Current);
-                    AfterSelectPC = y => y.System.PushWorkspace(InitializeSkillsMenu(y.Data));
-                },
+                OnArrangeItems = e => ArrangeItems(),
+                OnUseItem = UseItem,
+                OnSwapItems = SwapItems
             });
 
             return new Workspace("default", mainMenu);
         }
 
-
-        private Workspace InitializeItemsMenu()
+        private void SwapItems(UserInterfaceEvent<Tuple<int, int>> e)
         {
-            var itemsMenu = new FF6ItemsMenu(new FF6ItemsMenuProps
-            {
-                Inventory = Model.Inventory,
-                OnUseItem = UseItem,
-                OnInventoryUpdated = e => Model.Inventory = e.Data.ToList(),
-                OnCancel = e => e.System.PopWorkspace()
-            });
+            var a = Model.Inventory[e.Data.Item1];
+            var b = Model.Inventory[e.Data.Item2];
 
-            return new Workspace("items", itemsMenu);
+            Model.Inventory[e.Data.Item2] = a;
+            Model.Inventory[e.Data.Item1] = b;
         }
 
-
-        private Workspace InitializeSkillsMenu(PlayerCharacter data)
-        {
-            return new Workspace("skills", new FF6SkillsMenu(new FF6SkillsMenuProps
-            {
-                OnCancel = e => e.System.PopWorkspace(),
-                OnMagic = e => e.System.PushWorkspace(InitializeMagicMenu()),
-                OnEspers = e => e.System.PushWorkspace(InitializeEspersMenu()),
-            }));
-        }
-
-        private void ArrangeItems()
-        {
-            Model.Inventory.Sort((x, y) =>
-            {
-                int type = x.ItemType.CompareTo(y.ItemType);
-                int name = x.Name.CompareTo(y.Name);
-
-                if (type != 0) return type;
-                if (name != 0) return name;
-
-                return 0;
-            });
-        }
-        
         private void UpdateEspers()
         {
         }
@@ -345,37 +282,33 @@ namespace AgateLib.Tests.UserInterface.FF6
             //}
         }
 
-        private void UseItem(UserInterfaceEvent<Item> e)
+        private void ArrangeItems()
         {
-            switch (e.Data.Effect)
+            Model.Inventory.Sort((x, y) =>
+            {
+                int type = x.ItemType.CompareTo(y.ItemType);
+                int name = x.Name.CompareTo(y.Name);
+
+                if (type != 0) return type;
+                if (name != 0) return name;
+
+                return 0;
+            });
+        }
+
+        private void UseItem(UserInterfaceEvent<Tuple<Item, PlayerCharacter>> e)
+        {
+            var item = e.Data.Item1;
+            var targetPc = e.Data.Item2;
+
+            switch (item.Effect)
             {
                 case "heal":
-                    SelectItemTarget(e, targetPc =>
-                    {
-                        targetPc.HP += e.Data.EffectAmount;
-                        targetPc.HP = Math.Min(targetPc.HP, targetPc.MaxHP);
-                    });
+                    targetPc.HP += item.EffectAmount;
+                    targetPc.HP = Math.Min(targetPc.HP, targetPc.MaxHP);
 
                     break;
             }
-        }
-
-        private void SelectItemTarget(UserInterfaceEvent<Item> evt, Action<PlayerCharacter> afterSelection)
-        {
-            Workspace workspace = null;
-
-            workspace = new Workspace("itemTarget", 
-                new FF6ItemTarget(new FF6ItemTargetProps
-                {
-                    Characters = Model.Party.Characters.ToList(),
-                    OnAccept = e => 
-                    {
-                        workspace.TransitionOut();
-                        afterSelection(e.Data);
-                    }
-                }));
-
-            evt.System.PushWorkspace(workspace);
         }
 
         private void StartSkillsMenu()

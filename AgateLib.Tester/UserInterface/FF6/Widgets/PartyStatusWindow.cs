@@ -19,7 +19,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
             {
                 Name = Props.Name,
                 Enabled = Props.Enabled,
-                MenuItems = Props.Model.Party.Characters.Select(
+                MenuItems = Props.Characters.Select(
                     x => new MenuItem(new MenuItemProps
                     {
                         Text = x.Name,
@@ -35,7 +35,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
     {
         internal UserInterfaceEventHandler<PlayerCharacter> OnSelectPC;
 
-        public FF6Model Model { get; set; }
+        public List<PlayerCharacter> Characters { get; set; } = new List<PlayerCharacter>();
 
         public bool Enabled { get; set; } = true;
 

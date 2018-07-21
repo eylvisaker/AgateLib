@@ -16,5 +16,7 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
         void SetParty(IEnumerable<IDictionary<string, string>> charAttributes);
         Workspace OpenMenu(Action<string> log);
         void VerifyPCIsHealed(string pcName);
+        void VerifyItemsAreArranged();
+        void VerifyItemIsInSlotXInTheInventory(string itemName, int slot);
     }
 }

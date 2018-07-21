@@ -45,5 +45,15 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
         {
             throw new NotImplementedException();
         }
+
+        public void VerifyItemsAreArranged()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void VerifyItemIsInSlotXInTheInventory(string itemName, int slot)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

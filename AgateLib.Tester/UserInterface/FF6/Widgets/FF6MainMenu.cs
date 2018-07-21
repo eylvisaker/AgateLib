@@ -1,4 +1,5 @@
-﻿using AgateLib.UserInterface.Styling;
+﻿using AgateLib.UserInterface;
+using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,23 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.FF6.Widgets
 {
-    public class FF6MainMenu : Widget<FF6MainMenuProps, WidgetState>
+    public class FF6MainMenu : Widget<FF6MainMenuProps, FF6MainMenuState>
     {
+        private UserInterfaceEventHandler<PlayerCharacter> afterSelectPC;
+
         public FF6MainMenu(FF6MainMenuProps props) : base(props)
         {
+            SetState(new FF6MainMenuState
+            {
+                Characters = props.Model.Party.Characters,
+                Inventory = props.Model.Inventory,
+            });
         }
 
         public override IRenderable Render()
         {
             var mainRef = new ElementReference();
+            var selectPcRef = new ElementReference();
 
             return new FlexBox(new FlexBoxProps
             {
@@ -24,11 +33,14 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 {
                     new PartyStatusWindow(new PartyStatusWindowProps
                     {
-                        Model = Props.Model,
+                        Characters = State.Characters.ToList(),
                         Name = "status",
                         Enabled = false,
-                        Ref = Props.SelectPCRef,
-                        OnSelectPC = e => { Props.OnSelectPC(e); e.System.SetFocus(mainRef.Current); },
+                        Ref = selectPcRef,
+                        OnSelectPC = e => {
+                            afterSelectPC(e);
+                            e.System.SetFocus(mainRef.Current);
+                        },
                         OnCancel = e => e.System.SetFocus(mainRef.Current),
                     }),
                     new Menu(new MenuProps
@@ -37,13 +49,21 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Name = "main",
                         MenuItems =
                         {
-                            new MenuItem(new MenuItemProps { Text = "Items", OnAccept = Props.Items  }),
-                            new MenuItem(new MenuItemProps { Text = "Skills", OnAccept = Props.Skills }),
-                            new MenuItem(new MenuItemProps { Text = "Equip", OnAccept = Props.Equip  }),
-                            new MenuItem(new MenuItemProps { Text = "Relic", OnAccept = Props.Relic  }),
-                            new MenuItem(new MenuItemProps { Text = "Status", OnAccept = Props.Status }),
-                            new MenuItem(new MenuItemProps { Text = "Config", OnAccept = Props.Config }),
-                            new MenuItem(new MenuItemProps { Text = "Save", OnAccept = Props.Save   }),
+                            new MenuItem(new MenuItemProps { Text = "Items", OnAccept = RunItemsMenu  }),
+                            new MenuItem(new MenuItemProps
+                            {
+                                Text = "Skills",
+                                OnAccept = e =>
+                                {
+                                    e.System.SetFocus(selectPcRef.Current);
+                                    afterSelectPC = y => y.System.PushWorkspace(RunSkillsMenu(y.Data));
+                                }
+                            }),
+                            new MenuItem(new MenuItemProps { Text = "Equip",  OnAccept = RunEquipMenu }),
+                            new MenuItem(new MenuItemProps { Text = "Relic",  OnAccept = RunRelicMenu  }),
+                            new MenuItem(new MenuItemProps { Text = "Status", OnAccept = RunStatusMenu }),
+                            new MenuItem(new MenuItemProps { Text = "Config", OnAccept = RunConfigMenu }),
+                            new MenuItem(new MenuItemProps { Text = "Save",   OnAccept = RunSaveMenu   }),
                         },
                         Ref = mainRef,
                     }),
@@ -58,19 +78,118 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 StyleId = Props.Name,
             });
         }
+
+        private void RunEquipMenu(UserInterfaceEvent e)
+        {
+        }
+
+        private void RunRelicMenu(UserInterfaceEvent e)
+        {
+        }
+
+        private void RunStatusMenu(UserInterfaceEvent e)
+        {
+        }
+
+        private void RunConfigMenu(UserInterfaceEvent e)
+        {
+        }
+
+        private void RunSaveMenu(UserInterfaceEvent e)
+        {
+        }
+
+        private void RunItemsMenu(UserInterfaceEvent evt)
+        {
+            evt.System.PushWorkspace(new Workspace("items", new FF6ItemsMenu(new FF6ItemsMenuProps
+            {
+                Inventory = Props.Model.Inventory,
+                OnUseItem = UseItem,
+                OnSwapItems = e =>
+                {
+                    Props.OnSwapItems(e);
+                    UpdateState(state => state.Inventory = Props.Model.Inventory);
+                },
+                OnCancel = e => e.System.PopWorkspace(),
+                OnArrangeItems = e =>
+                {
+                    Props.OnArrangeItems(e);
+                    UpdateState(state =>
+                    {
+                        state.Inventory = Props.Model.Inventory;
+                    });
+                },
+            })));
+        }
+
+        private void UseItem(UserInterfaceEvent<Item> e)
+        {
+            switch (e.Data.Effect)
+            {
+                case "heal":
+                    SelectItemTarget(e, targetPc
+                        => Props.OnUseItem?.Invoke(new UserInterfaceEvent<Tuple<Item, PlayerCharacter>>().Reset(e,
+                        new Tuple<Item, PlayerCharacter>(e.Data, targetPc))));
+
+                    break;
+            }
+        }
+
+        private void SelectItemTarget(UserInterfaceEvent<Item> evt, Action<PlayerCharacter> afterSelection)
+        {
+            Workspace workspace = null;
+
+            workspace = new Workspace("itemTarget", new FF6ItemTarget(new FF6ItemTargetProps
+            {
+                Characters = Props.Model.Party.Characters.ToList(),
+                OnAccept = e =>
+                {
+                    workspace.TransitionOut();
+                    afterSelection(e.Data);
+                }
+            }));
+
+            evt.System.PushWorkspace(workspace);
+        }
+
+        private Workspace RunSkillsMenu(PlayerCharacter pc)
+        {
+            return new Workspace("skills", new FF6SkillsMenu(new FF6SkillsMenuProps
+            {
+                OnCancel = e => e.System.PopWorkspace(),
+                OnMagic = e => e.System.PushWorkspace(RunMagicMenu(pc)),
+                OnEspers = e => e.System.PushWorkspace(RunEspersMenu(pc)),
+            }));
+        }
+
+        private Workspace RunEspersMenu(PlayerCharacter pc)
+        {
+            return new Workspace("espers", new FF6EspersMenu(new FF6EspersMenuProps
+            {
+                OnCancel = e => e.System.PopWorkspace()
+            }));
+        }
+
+        private Workspace RunMagicMenu(PlayerCharacter pc)
+        {
+            return new Workspace("magic", new FF6MagicMenu(new FF6MagicMenuProps
+            {
+                OnCancel = e => e.System.PopWorkspace()
+            }));
+        }
     }
 
     public class FF6MainMenuProps : WidgetProps
     {
         public FF6Model Model { get; set; }
-        public UserInterfaceEventHandler Items { get; set; }
-        public UserInterfaceEventHandler Skills { get; set; }
-        public UserInterfaceEventHandler Equip { get; set; }
-        public UserInterfaceEventHandler Relic { get; set; }
-        public UserInterfaceEventHandler Status { get; set; }
-        public UserInterfaceEventHandler Config { get; set; }
-        public UserInterfaceEventHandler Save { get; set; }
-        public UserInterfaceEventHandler<PlayerCharacter> OnSelectPC { get; set; }
-        public ElementReference SelectPCRef { get; set; }
+        public UserInterfaceEventHandler OnArrangeItems { get; set; }
+        public UserInterfaceEventHandler<Tuple<Item, PlayerCharacter>> OnUseItem { get; set; }
+        public UserInterfaceEventHandler<Tuple<int, int>> OnSwapItems { get; set; }
+    }
+
+    public class FF6MainMenuState : WidgetState
+    {
+        public IEnumerable<PlayerCharacter> Characters { get; internal set; }
+        public List<Item> Inventory { get; internal set; }
     }
 }

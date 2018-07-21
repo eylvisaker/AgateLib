@@ -63,28 +63,13 @@ namespace AgateLib.Tests.UserInterface.Steps
         [Then(@"the items are arranged")]
         public void ThenTheItemsAreArranged()
         {
-            var items = context.Model.Inventory.ToList();
-
-            items.Sort((x, y) =>
-            {
-                int type = x.ItemType.CompareTo(y.ItemType);
-                int name = x.Name.CompareTo(y.Name);
-
-                if (type != 0) return type;
-                if (name != 0) return name;
-
-                return 0;
-            });
-
-            context.Model.Inventory.Should().BeEquivalentTo(items, config => config.WithStrictOrdering());
+            TestSystem.VerifyItemsAreArranged();
         }
 
         [Then(@"(.*) is in slot (.*) in the inventory")]
         public void ThenItemIsInSlotXInTheInventory(string itemName, int slot)
         {
-            var existing = context.Model.Inventory[slot];
-
-            existing.Name.Should().BeEquivalentTo(itemName);
+            TestSystem.VerifyItemIsInSlotXInTheInventory(itemName, slot);
         }
 
         [Then(@"(.*) is the active menu item")]
