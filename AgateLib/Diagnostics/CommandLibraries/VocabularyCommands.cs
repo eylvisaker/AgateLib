@@ -30,239 +30,239 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics.CommandLibraries
 {
-	/// <summary>
-	/// A vocabulary is an object that represents several entrypoints - methods which are called by 
-	/// name by the user in the console window. 
-	/// </summary>
-	public class VocabularyCommands : ICommandLibrary
-	{
-		class CommandInfo
-		{
-			public Delegate Delegate { get; set; }
+    /// <summary>
+    /// A vocabulary is an object that represents several entrypoints - methods which are called by 
+    /// name by the user in the console window. 
+    /// </summary>
+    public class VocabularyCommands : ICommandLibrary
+    {
+        class CommandInfo
+        {
+            public Delegate Delegate { get; set; }
 
-			public ConsoleCommandAttribute CommandAttribute { get; set; }
-		}
+            public ConsoleCommandAttribute CommandAttribute { get; set; }
+        }
 
-		private Dictionary<string, CommandInfo> commands;
+        private Dictionary<string, CommandInfo> commands;
 
-		private readonly IVocabulary vocabulary;
-		private IConsoleShell shell;
+        private readonly IVocabulary vocabulary;
+        private IConsoleShell shell;
 
-		/// <summary>
-		/// Constructs a LibraryVocabulary object.
-		/// </summary>
-		/// <param name="vocabulary">The IVocabulary object which has methods
-		/// decorated with the ConsoleCommandAttribute.</param>
-		public VocabularyCommands(IVocabulary vocabulary)
-		{
-			commands = new Dictionary<string, CommandInfo>(StringComparer.OrdinalIgnoreCase);
+        /// <summary>
+        /// Constructs a VocabularyCommands object.
+        /// </summary>
+        /// <param name="vocabulary">The IVocabulary object which has methods
+        /// decorated with the ConsoleCommandAttribute.</param>
+        public VocabularyCommands(IVocabulary vocabulary)
+        {
+            commands = new Dictionary<string, CommandInfo>(StringComparer.OrdinalIgnoreCase);
 
-			this.vocabulary = vocabulary;
+            this.vocabulary = vocabulary;
 
-			BuildCommands();
-		}
+            BuildCommands();
+        }
 
-		public IConsoleShell Shell
-		{
-			get => shell;
-			set
-			{
-				shell = value;
-				vocabulary.Shell = shell;
-			}
-		}
+        public IConsoleShell Shell
+        {
+            get => shell;
+            set
+            {
+                shell = value;
+                vocabulary.Shell = shell;
+            }
+        }
 
-		/// <summary>
-		/// Shows help for this library.
-		/// </summary>
-		public void Help()
-		{
-			StringBuilder builder = new StringBuilder();
+        /// <summary>
+        /// Shows help for this library.
+        /// </summary>
+        public void Help()
+        {
+            StringBuilder builder = new StringBuilder();
 
-			int i = 0;
-			foreach (var key in commands.Keys)
-			{
-				var info = commands[key];
-				if (info.CommandAttribute.Hidden)
-					continue;
+            int i = 0;
+            foreach (var key in commands.Keys)
+            {
+                var info = commands[key];
+                if (info.CommandAttribute.Hidden)
+                    continue;
 
-				builder.Append("    ");
-				i++;
+                builder.Append("    ");
+                i++;
 
-				if (i % 3 == 0)
-				{
-					builder.AppendLine(key);
-				}
-				else
-				{
-					builder.Append((key + new string(' ', 30)).Substring(0, Math.Max(30, key.Length)));
-				}
-			}
+                if (i % 3 == 0)
+                {
+                    builder.AppendLine(key);
+                }
+                else
+                {
+                    builder.Append((key + new string(' ', 30)).Substring(0, Math.Max(30, key.Length)));
+                }
+            }
 
-			if (builder.Length > 0)
-			{
-				Shell.WriteLine(builder.ToString());
-			}
-		}
+            if (builder.Length > 0)
+            {
+                Shell.WriteLine(builder.ToString());
+            }
+        }
 
-		/// <summary>
-		/// Shows help for a command.
-		/// </summary>
-		/// <param name="command"></param>
-		public void Help(string command)
-		{
-			if (commands.ContainsKey(command) == false)
-				return;
+        /// <summary>
+        /// Shows help for a command.
+        /// </summary>
+        /// <param name="command"></param>
+        public void Help(string command)
+        {
+            if (commands.ContainsKey(command) == false)
+                return;
 
-			var methodInfo = commands[command].Delegate.GetMethodInfo();
+            var methodInfo = commands[command].Delegate.GetMethodInfo();
 
-			var commandAttribute = methodInfo?.GetCustomAttribute<ConsoleCommandAttribute>();
+            var commandAttribute = methodInfo?.GetCustomAttribute<ConsoleCommandAttribute>();
 
-			Shell.WriteLine(commandAttribute?.Description ?? "No description found.");
-		}
+            Shell.WriteLine(commandAttribute?.Description ?? "No description found.");
+        }
 
-		/// <summary>
-		/// Executes the command.
-		/// </summary>
-		/// <param name="command"></param>
-		/// <returns></returns>
-		public bool Execute(string command)
-		{
-			string[] tokens = ConsoleTokenizer.Tokenize(command);
+        /// <summary>
+        /// Executes the command.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public bool Execute(string command)
+        {
+            string[] tokens = ConsoleTokenizer.Tokenize(command);
 
-			if (commands.ContainsKey(tokens[0]))
-			{
-				ExecuteDelegate(commands[tokens[0]].Delegate, tokens);
-				return true;
-			}
+            if (commands.ContainsKey(tokens[0]))
+            {
+                ExecuteDelegate(commands[tokens[0]].Delegate, tokens);
+                return true;
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		private void BuildCommands()
-		{
-			commands.Clear();
+        private void BuildCommands()
+        {
+            commands.Clear();
 
-			var methods = vocabulary.GetType().GetTypeInfo().DeclaredMethods
-				.Where(x => x.GetCustomAttribute<ConsoleCommandAttribute>() != null);
+            var methods = vocabulary.GetType().GetTypeInfo().DeclaredMethods
+                .Where(x => x.GetCustomAttribute<ConsoleCommandAttribute>() != null);
 
-			foreach (var method in methods)
-			{
-				var attrib = method.GetCustomAttribute<ConsoleCommandAttribute>();
+            foreach (var method in methods)
+            {
+                var attrib = method.GetCustomAttribute<ConsoleCommandAttribute>();
 
-				var name = ToDashConvention(method.Name);
+                var name = ToDashConvention(method.Name);
 
-				if (!string.IsNullOrWhiteSpace(attrib.Name))
-					name = attrib.Name;
+                if (!string.IsNullOrWhiteSpace(attrib.Name))
+                    name = attrib.Name;
 
-				if (!string.IsNullOrWhiteSpace(vocabulary.Namespace))
-				{
-					name = vocabulary.Namespace.ToLowerInvariant() + "." + name;
-				}
+                if (!string.IsNullOrWhiteSpace(vocabulary.Namespace))
+                {
+                    name = vocabulary.Namespace.ToLowerInvariant() + "." + name;
+                }
 
-				commands.Add(name, new CommandInfo
-				{
-					CommandAttribute = attrib,
-					Delegate = method.CreateDelegate(Expression.GetDelegateType(method.GetParameters()
-						.Select(x => x.ParameterType)
-						.Concat(new[] { method.ReturnType })
-						.ToArray()), vocabulary)
-				});
-			}
-		}
+                commands.Add(name, new CommandInfo
+                {
+                    CommandAttribute = attrib,
+                    Delegate = method.CreateDelegate(Expression.GetDelegateType(method.GetParameters()
+                        .Select(x => x.ParameterType)
+                        .Concat(new[] { method.ReturnType })
+                        .ToArray()), vocabulary)
+                });
+            }
+        }
 
-		public IEnumerable<string> AutoCompleteEntries(string inputString)
-		{
-			foreach (var command in commands.Keys)
-			{
-				if (command.StartsWith(
-					inputString, StringComparison.OrdinalIgnoreCase))
-				{
-					yield return command;
-				}
-			}
-		}
+        public IEnumerable<string> AutoCompleteEntries(string inputString)
+        {
+            foreach (var command in commands.Keys)
+            {
+                if (command.StartsWith(
+                    inputString, StringComparison.OrdinalIgnoreCase))
+                {
+                    yield return command;
+                }
+            }
+        }
 
-		private void ExecuteDelegate(Delegate p, string[] tokens)
-		{
-			var method = p.GetMethodInfo();
-			var parameters = method.GetParameters();
-			object[] args = new object[parameters.Length];
-			bool notEnoughArgs = false;
-			bool badArgs = false;
+        private void ExecuteDelegate(Delegate p, string[] tokens)
+        {
+            var method = p.GetMethodInfo();
+            var parameters = method.GetParameters();
+            object[] args = new object[parameters.Length];
+            bool notEnoughArgs = false;
+            bool badArgs = false;
 
-			for (int i = 0, j = 1; i < parameters.Length || j < tokens.Length; i++, j++)
-			{
-				if (i < parameters.Length &&
-					parameters[i].GetCustomAttribute<JoinArgsAttribute>() != null &&
-					parameters[i].ParameterType == typeof(string))
-				{
-					args[i] = string.Join(" ", tokens.Skip(1));
-				}
-				else if (i < args.Length && j < tokens.Length)
-				{
-					try
-					{
-						args[i] = Convert.ChangeType(tokens[j], parameters[i].ParameterType, System.Globalization.CultureInfo.InvariantCulture);
-					}
-					catch
-					{
-						Shell.WriteLine(
-							$"Argument #{j} invalid: \"{tokens[j]}\" not convertable to {parameters[i].ParameterType.Name}");
-						badArgs = true;
-					}
-				}
-				else if (i < args.Length)
-				{
-					if (parameters[i].IsOptional)
-					{
-						args[i] = Type.Missing;
-					}
-					else
-					{
-						if (notEnoughArgs == false)
-						{
-							Shell.WriteLine($"Insufficient arguments for command: {tokens[0]}");
-						}
-						notEnoughArgs = true;
+            for (int i = 0, j = 1; i < parameters.Length || j < tokens.Length; i++, j++)
+            {
+                if (i < parameters.Length &&
+                    parameters[i].GetCustomAttribute<JoinArgsAttribute>() != null &&
+                    parameters[i].ParameterType == typeof(string))
+                {
+                    args[i] = string.Join(" ", tokens.Skip(1));
+                }
+                else if (i < args.Length && j < tokens.Length)
+                {
+                    try
+                    {
+                        args[i] = Convert.ChangeType(tokens[j], parameters[i].ParameterType, System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    catch
+                    {
+                        Shell.WriteLine(
+                            $"Argument #{j} invalid: \"{tokens[j]}\" not convertable to {parameters[i].ParameterType.Name}");
+                        badArgs = true;
+                    }
+                }
+                else if (i < args.Length)
+                {
+                    if (parameters[i].IsOptional)
+                    {
+                        args[i] = Type.Missing;
+                    }
+                    else
+                    {
+                        if (notEnoughArgs == false)
+                        {
+                            Shell.WriteLine($"Insufficient arguments for command: {tokens[0]}");
+                        }
+                        notEnoughArgs = true;
 
-						Shell.WriteLine($"    missing {parameters[i].ParameterType.Name} argument: {parameters[i].Name}");
-					}
-				}
-				else
-				{
-					Shell.WriteLine($"[Ignoring extra argument: {tokens[j]}]");
-				}
-			}
+                        Shell.WriteLine($"    missing {parameters[i].ParameterType.Name} argument: {parameters[i].Name}");
+                    }
+                }
+                else
+                {
+                    Shell.WriteLine($"[Ignoring extra argument: {tokens[j]}]");
+                }
+            }
 
-			if (badArgs || notEnoughArgs)
-			{
-				Shell.Execute("help " + string.Join(" ", tokens));
-				return;
-			}
+            if (badArgs || notEnoughArgs)
+            {
+                Shell.Execute("help " + string.Join(" ", tokens));
+                return;
+            }
 
-			object result = method.Invoke(p.Target, args);
+            object result = method.Invoke(p.Target, args);
 
-			if (method.ReturnType != typeof(void) && result != null)
-			{
-				Shell.WriteLine(result.ToString());
-			}
-		}
+            if (method.ReturnType != typeof(void) && result != null)
+            {
+                Shell.WriteLine(result.ToString());
+            }
+        }
 
-		private string ToDashConvention(string methodName)
-		{
-			StringBuilder result = new StringBuilder();
-			var lower = methodName.ToLowerInvariant();
+        private string ToDashConvention(string methodName)
+        {
+            StringBuilder result = new StringBuilder();
+            var lower = methodName.ToLowerInvariant();
 
-			for (int i = 0; i < methodName.Length; i++)
-			{
-				if (i > 0 && methodName[i] >= 'A' && methodName[i] <= 'Z')
-					result.Append("-");
+            for (int i = 0; i < methodName.Length; i++)
+            {
+                if (i > 0 && methodName[i] >= 'A' && methodName[i] <= 'Z')
+                    result.Append("-");
 
-				result.Append(lower[i]);
-			}
+                result.Append(lower[i]);
+            }
 
-			return result.ToString();
-		}
-	}
+            return result.ToString();
+        }
+    }
 }

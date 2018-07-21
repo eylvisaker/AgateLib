@@ -43,7 +43,7 @@ namespace AgateLib.Diagnostics
 
         void Draw(GameTime time);
 
-        void AddVocabulary(IVocabulary boxVocabulary);
+        void AddVocabulary(IVocabulary vocabulary);
     }
 
     [Singleton]
@@ -71,9 +71,15 @@ namespace AgateLib.Diagnostics
 
         public bool IsActive { get; set; }
 
-        public void AddVocabulary(IVocabulary boxVocabulary)
+        /// <summary>
+        /// Adds a vocabulary to the console.
+        /// Each method that can be called from a console command should be decorated with a ConsoleCommandAttribute
+        /// </summary>
+        /// <param name="vocabulary">The IVocabulary object which has methods
+        /// decorated with the ConsoleCommandAttribute.</param>
+        public void AddVocabulary(IVocabulary vocab)
         {
-            shell.CommandLibraries.Add(new VocabularyCommands(boxVocabulary));
+            shell.CommandLibraries.Add(new VocabularyCommands(vocab));
         }
 
         public void Draw(GameTime time)
