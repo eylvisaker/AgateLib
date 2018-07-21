@@ -107,7 +107,7 @@ namespace AgateLib.Randomizer
         /// Gets the next random single value.
         /// </summary>
         /// <returns>A random single value between 0 and 1.</returns>
-        public float NextSingle() => NextInteger() / (float)Int16.MaxValue;
+        public float NextSingle() => NextInteger() / (float)(Int16.MaxValue + 1);
 
     }
 }
