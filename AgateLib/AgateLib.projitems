@@ -134,6 +134,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mathematics\TypeConverters\VectorConverterGenericYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mathematics\Vector2X.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mathematics\Vector3X.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parsers\Tmx\PropertyBag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parsers\Tmx\TmxData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parsers\Tmx\TmxLayerData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parsers\Tmx\TmxLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parsers\Tmx\TmxObjectData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parsers\Tmx\TmxTileData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parsers\Tmx\TmxTileSetData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parsers\XmlExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PathX.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\LinearAlgebra\GaussSeidelAlgorithm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\ConstraintDerivative.cs" />
