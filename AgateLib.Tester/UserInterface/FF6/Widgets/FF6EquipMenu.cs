@@ -43,6 +43,13 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 {
                     new Menu(new MenuProps
                     {
+                        Style = new InlineElementStyle
+                        {
+                            Flex = new FlexStyle
+                            {
+                                Direction = FlexDirection.Row,
+                            }
+                        },
                         Name = "equipActionType",
                         MenuItems =
                         {
@@ -73,6 +80,13 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                     {
                         Name = "ItemArea",
                         AllowNavigate = false,
+                        DefaultStyle = new InlineElementStyle
+                        {
+                            Flex = new FlexStyle
+                            {
+                                Direction = FlexDirection.Row,
+                            }
+                        },
                         Children =
                         {
                             new Menu(new MenuProps

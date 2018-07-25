@@ -51,6 +51,8 @@ namespace AgateLib.UserInterface.Widgets
             {
                 AllowNavigate = Props.AllowNavigate,
                 Name = Props.Name,
+                DefaultStyle = Props.DefaultStyle,
+                Style = Props.Style,
                 StyleClass = "menu",
                 OnCancel = Props.OnCancel,
                 Enabled = Props.Enabled,
