@@ -15,6 +15,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderable Render() => new MenuElement(new MenuElementProps
         {
+            AllowNavigate = Props.AllowNavigate,
             Style = Props.Style,
             Name = Props.Name,
             StyleClass = Props.StyleClass,
@@ -26,6 +27,8 @@ namespace AgateLib.UserInterface.Widgets
 
     public class RadioMenuProps : WidgetProps
     {
+        public bool AllowNavigate { get; set; } = true;
+
         public List<RadioButton> Buttons { get; set; } = new List<RadioButton>();
 
         public UserInterfaceEventHandler OnCancel { get; set; }

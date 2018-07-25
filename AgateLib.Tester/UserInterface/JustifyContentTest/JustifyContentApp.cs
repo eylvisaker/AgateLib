@@ -37,17 +37,17 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
                             {
                                 Buttons = {
                                     new RadioButton(new RadioButtonProps {
-                                        Text = "Start", OnAccept = () => Set(JustifyContent.Start),  Checked = true, }),
+                                        Text = "Start", OnAccept = e => Set(JustifyContent.Start),  Checked = true, }),
                                     new RadioButton(new RadioButtonProps {
-                                        Text = "End", OnAccept = () => Set(JustifyContent.End)}),
+                                        Text = "End", OnAccept = e => Set(JustifyContent.End)}),
                                     new RadioButton(new RadioButtonProps {
-                                        Text = "Center", OnAccept = () => Set(JustifyContent.Center)}),
+                                        Text = "Center", OnAccept = e => Set(JustifyContent.Center)}),
                                     new RadioButton(new RadioButtonProps {
-                                        Text = "Space Between", OnAccept = () => Set(JustifyContent.SpaceBetween)}),
+                                        Text = "Space Between", OnAccept = e => Set(JustifyContent.SpaceBetween)}),
                                     new RadioButton(new RadioButtonProps {
-                                        Text = "Space Around", OnAccept = () => Set(JustifyContent.SpaceAround)}),
+                                        Text = "Space Around", OnAccept = e => Set(JustifyContent.SpaceAround)}),
                                     new RadioButton(new RadioButtonProps {
-                                        Text = "Space Evenly", OnAccept = () => Set(JustifyContent.SpaceEvenly)}),
+                                        Text = "Space Evenly", OnAccept = e => Set(JustifyContent.SpaceEvenly)}),
                                 },
                                 OnCancel = Props.Cancel,
                             })

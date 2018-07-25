@@ -43,12 +43,12 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Event raised when the radio button is selected in the menu.
         /// </summary>
-        public Action OnSelect { get; set; }
+        public UserInterfaceEventHandler OnSelect { get; set; }
 
         /// <summary>
         /// Event raised when the radio button is accepted by the user, as in hitting the A button or Enter key.
         /// </summary>
-        public Action OnAccept { get; set; }
+        public UserInterfaceEventHandler OnAccept { get; set; }
 
         /// <summary>
         /// Gets or sets the initial check state of the radio button.
@@ -125,7 +125,7 @@ namespace AgateLib.UserInterface.Widgets
 
             IsChecked = true;
 
-            Props.OnAccept?.Invoke();
+            Props.OnAccept?.Invoke(EventData.Reset(this));
         }
         
         public override void OnBlur()
@@ -159,9 +159,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
 
-        public Action OnAccept { get; set; }
-
-        public Action OnFocus { get; set; }
+        public UserInterfaceEventHandler OnAccept { get; set; }
 
         public bool Checked { get; set; }
     }

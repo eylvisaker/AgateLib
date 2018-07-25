@@ -12,9 +12,10 @@ namespace AgateLib.UserInterface.Widgets
             Reset(sender);
         }
 
-        public void Reset(IRenderElement sender)
+        public UserInterfaceEvent Reset(IRenderElement sender)
         {
             Sender = sender;
+            return this;
         }
 
         public IRenderElement Sender { get; private set; }

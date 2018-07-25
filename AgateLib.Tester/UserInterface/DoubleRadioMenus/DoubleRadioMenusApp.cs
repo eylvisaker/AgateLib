@@ -91,8 +91,8 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                 var result = new RadioButton(new RadioButtonProps
                 {
                     Text = item.Name,
-                    OnSelect = () => SetState(state => state.DescriptionText = item.Description),
-                    OnAccept = () => SetLeft(item),
+                    OnSelect = e => SetState(state => state.DescriptionText = item.Description),
+                    OnAccept = e => SetLeft(item),
                 });
 
                 yield return result;
@@ -106,8 +106,8 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                 var result = new RadioButton(new RadioButtonProps
                 {
                     Text = item.Name,
-                    OnSelect = () => SetState(state => state.DescriptionText = item.Description),
-                    OnAccept = () => SetRight(item),
+                    OnSelect = e => SetState(state => state.DescriptionText = item.Description),
+                    OnAccept = e => SetRight(item),
                 });
 
                 yield return result;

@@ -28,8 +28,8 @@ namespace AgateLib.Tests.UserInterface.RadioButtons
                     },
                     Buttons = Props.Items.Select(x => new RadioButton(new RadioButtonProps
                     {
-                        OnAccept = () => Props.OnValueSet?.Invoke(x),
-                        OnSelect = () => Props.OnSelectionSet?.Invoke(x),
+                        OnAccept = e => Props.OnValueSet?.Invoke(x),
+                        OnSelect = e => Props.OnSelectionSet?.Invoke(x),
                         Text = x,
                     })).ToList(),
                     OnCancel = Props.OnCancel
