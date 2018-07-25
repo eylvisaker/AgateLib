@@ -53,6 +53,31 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
             }
         }
 
+        public void VerifyItemIsEquipped(string itemName, string pcName, string slot)
+        {
+            var pc = model.Party.Characters.FirstOrDefault(x =>
+                x.Name.Equals(pcName, StringComparison.OrdinalIgnoreCase))
+                ?? throw new ArgumentException($"Could not find character named {pcName}");
+
+            var item = pc.Equipment[slot];
+
+            if (itemName == "nothing")
+            {
+                item.Should().BeNull();
+            }
+            else
+            {
+                item.Should().NotBeNull($"{itemName} should be equipped at {slot}");
+                item.Name.Should().Be(itemName);
+            }
+        }
+
+        public void VerifyItemIsInInventory(string itemName)
+        {
+            var item = model.FindInInventory(itemName);
+            item.Should().NotBeNull();
+        }
+
         public void VerifyItemIsInSlotXInTheInventory(string itemName, int slot)
         {
             var existing = model.Inventory[slot];

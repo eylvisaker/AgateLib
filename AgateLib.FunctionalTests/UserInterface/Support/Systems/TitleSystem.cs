@@ -55,5 +55,15 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
         {
             throw new NotImplementedException();
         }
+
+        public void VerifyItemIsInInventory(string itemName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void VerifyItemIsEquipped(string itemName, string pcName, string slot)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

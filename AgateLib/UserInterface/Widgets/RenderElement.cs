@@ -81,6 +81,11 @@ namespace AgateLib.UserInterface.Widgets
         RenderElementProps Props { get; }
 
         /// <summary>
+        /// Used to track references by the display system.
+        /// </summary>
+        ElementReference Ref { get; set; }
+
+        /// <summary>
         /// Draws the content of the widget.
         /// To draw children, call <c >renderContext.DrawChildren</c>.
         /// </summary>
@@ -154,12 +159,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Called when the user accepts an item. Accept can be a button press, enter on the keyboard, or a mouse click (not yet supported).
         /// </summary>
         void OnAccept();
-
-        /// <summary>
-        /// Called when the user selects an item in its parent.
-        /// </summary>
-        void OnSelect();
-
+        
         /// <summary>
         /// Called after reconciliation is complete.
         /// </summary>
@@ -226,11 +226,14 @@ namespace AgateLib.UserInterface.Widgets
 
         public string StyleClass => Props.StyleClass;
 
-        public string Name => Props.StyleId;
+        public string Name => Props.Name;
 
         public virtual bool CanHaveFocus => false;
 
+        public ElementReference Ref { get; set; }
+
         protected UserInterfaceEvent EventData { get; }
+
 
         public abstract Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
@@ -279,10 +282,6 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         public virtual void OnAccept()
-        {
-        }
-
-        public virtual void OnSelect()
         {
         }
 
@@ -353,7 +352,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// The ID value used in matching styles.
         /// </summary>
-        public string StyleId { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// The class value used in matching styles.

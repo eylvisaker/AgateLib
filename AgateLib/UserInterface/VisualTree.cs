@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using AgateLib.UserInterface.Styling;
@@ -41,6 +42,7 @@ namespace AgateLib.UserInterface
             bool anyUpdates = false;
 
             Reconcile(ref root, newRoot, ref anyUpdates);
+
             root.Display.ParentFont = DisplaySystem.Fonts.Default;
 
             if (anyUpdates)
@@ -72,25 +74,31 @@ namespace AgateLib.UserInterface
                 anyUpdates = true;
                 return;
             }
-
-            if (newNode == null)
+            else if (newNode == null)
             {
                 Unmount(oldNode);
                 oldNode = null;
                 anyUpdates = true;
                 return;
             }
-
-            if (oldNode.GetType() != newNode.GetType())
+            else if (oldNode.GetType() != newNode.GetType())
             {
                 Replace(ref oldNode, newNode);
                 anyUpdates = true;
             }
-
-            if (!oldNode.Props.PropertiesEqual(newNode.Props))
+            else if (!oldNode.Props.PropertiesEqual(newNode.Props))
             {
                 oldNode.SetProps(newNode.Props);
                 anyUpdates = true;
+
+                if (newNode.Ref != null)
+                {
+                    newNode.Ref.Current = oldNode;
+                }
+            }
+            else if (newNode.Ref != null)
+            {
+                newNode.Ref.Current = oldNode;
             }
 
             if ((oldNode.Children?.Count ?? 0) == 0 && (newNode.Children?.Count ?? 0) == 0)
@@ -111,10 +119,15 @@ namespace AgateLib.UserInterface
 
                     anyUpdates = true;
 
-                    if (!ReferenceEquals(old, oldNode.Children[i]))
+                    if (old == null)
                     {
+                        oldNode.Children.RemoveAt(i);
                         childrenUpdated = true;
+                    }
+                    else if (!ReferenceEquals(old, oldNode.Children[i]))
+                    {
                         oldNode.Children[i] = old;
+                        childrenUpdated = true;
                     }
                 }
                 else

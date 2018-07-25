@@ -69,7 +69,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
             if (selectedLeft == null || selectedRight == null)
                 return;
 
-            UpdateState(state => state.AcceptEnabled = true);
+            SetState(state => state.AcceptEnabled = true);
         }
 
         void SetLeft(ItemData item)
@@ -91,7 +91,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                 var result = new RadioButton(new RadioButtonProps
                 {
                     Text = item.Name,
-                    OnSelect = () => UpdateState(state => state.DescriptionText = item.Description),
+                    OnSelect = () => SetState(state => state.DescriptionText = item.Description),
                     OnAccept = () => SetLeft(item),
                 });
 
@@ -106,7 +106,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                 var result = new RadioButton(new RadioButtonProps
                 {
                     Text = item.Name,
-                    OnSelect = () => UpdateState(state => state.DescriptionText = item.Description),
+                    OnSelect = () => SetState(state => state.DescriptionText = item.Description),
                     OnAccept = () => SetRight(item),
                 });
 

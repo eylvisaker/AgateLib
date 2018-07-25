@@ -92,7 +92,7 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
 
         private void Set(JustifyContent value)
         {
-            UpdateState(state => state.JustifyContent = value);
+            SetState(state => state.JustifyContent = value);
         }
     }
 

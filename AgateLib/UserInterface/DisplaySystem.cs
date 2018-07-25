@@ -51,4 +51,12 @@ namespace AgateLib.UserInterface
         /// </summary>
         void PopWorkspace();
     }
+
+    public static class DisplaySystemExtensions
+    {
+        public static void SetFocus(this IDisplaySystem displaySystem, ElementReference reference)
+        {
+            displaySystem.SetFocus(reference.Current);
+        }
+    }
 }

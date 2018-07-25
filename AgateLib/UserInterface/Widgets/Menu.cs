@@ -50,7 +50,7 @@ namespace AgateLib.UserInterface.Widgets
             return new MenuElement(new MenuElementProps
             {
                 AllowNavigate = Props.AllowNavigate,
-                StyleId = Props.Name,
+                Name = Props.Name,
                 StyleClass = "menu",
                 OnCancel = Props.OnCancel,
                 Enabled = Props.Enabled,
@@ -101,7 +101,7 @@ namespace AgateLib.UserInterface.Widgets
                 },
                 Style = props.Style,
                 StyleClass = props.StyleClass,
-                StyleId = props.StyleId,
+                Name = props.Name,
                 StyleTypeId = string.IsNullOrWhiteSpace(props.StyleTypeId)
                             ? "menu" : props.StyleTypeId,
                 Children = props.Children,

@@ -127,21 +127,11 @@ namespace AgateLib.UserInterface.Widgets
 
             Props.OnAccept?.Invoke();
         }
-
-        public override void OnFocus()
-        {
-            Props.OnFocus?.Invoke();
-        }
-
+        
         public override void OnBlur()
         {
             base.OnBlur();
             buttonPress.Clear();
-        }
-
-        public override void OnSelect()
-        {
-            Props.OnFocus?.Invoke();
         }
         
         public override string StyleTypeId => "radiobutton";

@@ -24,7 +24,7 @@ namespace AgateLib.UserInterface.Widgets
                 Padding = new LayoutBox(100, 50, 100, 50),
             },
             StyleTypeId = "workspace",
-            StyleId = Props.Name,
+            Name = Props.Name,
             StyleClass = Props.StyleClass,
             Style = Props.Style,
             OnCancel = Props.OnCancel,

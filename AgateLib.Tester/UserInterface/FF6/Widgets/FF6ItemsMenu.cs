@@ -98,11 +98,11 @@ namespace AgateLib.Tests.UserInterface.FF6
             if (State.SelectedItem == item)
             {
                 Props.OnUseItem?.Invoke(itemEvent.Reset(e, item));
-                UpdateState(state => state.SelectedItem = null);
+                SetState(state => state.SelectedItem = null);
             }
             else if (State.SelectedItem == null)
             {
-                UpdateState(state => state.SelectedItem = item);
+                SetState(state => state.SelectedItem = item);
             }
             else
             {
@@ -110,7 +110,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                 var second = State.Inventory.IndexOf(item);
 
                 Props.OnSwapItems(swapItemsEvent.Reset(e, new Tuple<int, int>(first, second)));
-                UpdateState(state => state.SelectedItem = null);
+                SetState(state => state.SelectedItem = null);
             }
         }
     }

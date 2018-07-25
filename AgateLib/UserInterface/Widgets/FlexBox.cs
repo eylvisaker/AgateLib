@@ -378,6 +378,12 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void OnFocus()
         {
+            if (focusChildren.Count == 0)
+                throw new InvalidOperationException("Cannot set focus to FlexBox with no focusable children.");
+
+            if (FocusIndex >= focusChildren.Count)
+                FocusIndex = focusChildren.Count - 1;
+
             Display.System.SetFocus(focusChildren[FocusIndex]);
         }
 

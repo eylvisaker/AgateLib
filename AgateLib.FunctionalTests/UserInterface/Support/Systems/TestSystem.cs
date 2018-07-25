@@ -18,5 +18,7 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
         void VerifyPCIsHealed(string pcName);
         void VerifyItemsAreArranged();
         void VerifyItemIsInSlotXInTheInventory(string itemName, int slot);
+        void VerifyItemIsInInventory(string itemName);
+        void VerifyItemIsEquipped(string itemName, string pcName, string slot);
     }
 }

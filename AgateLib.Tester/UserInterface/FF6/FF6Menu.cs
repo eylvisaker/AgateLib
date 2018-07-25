@@ -214,10 +214,20 @@ namespace AgateLib.Tests.UserInterface.FF6
                 Model = Model,
                 OnArrangeItems = e => ArrangeItems(),
                 OnUseItem = UseItem,
-                OnSwapItems = SwapItems
+                OnSwapItems = SwapItems,
+                OnEquip = EquipItem
             });
 
             return new Workspace("default", mainMenu);
+        }
+
+        private void EquipItem(UserInterfaceEvent<PlayerCharacter, string, Item> e)
+        {
+            var pc = e.Data1;
+            var slot = e.Data2;
+            var item = e.Data3;
+
+            Model.EquipPC(pc, item);
         }
 
         private void SwapItems(UserInterfaceEvent<Tuple<int, int>> e)

@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Widgets
                 Text = Props.Text,
                 Style = Props.Style,
                 StyleClass = Props.StyleClass,
-                StyleId = Props.Name,
+                Name = Props.Name,
             });
         }
 

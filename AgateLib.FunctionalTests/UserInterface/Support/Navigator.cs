@@ -30,9 +30,9 @@ namespace AgateLib.Tests.UserInterface.Support
             var menuItem = Desktop.ActiveWorkspace.Focus as MenuItemElement;
             var parent = menuItem.Parent as FlexBox;
             
-            var target = parent.Children.OfType<MenuItemElement>()
-                .SingleOrDefault(w => w.Props.Text?.Equals(menuItemText, 
-                                          StringComparison.OrdinalIgnoreCase) ?? false);
+            var target = parent.Children.OfType<MenuItemElement>().SingleOrDefault(
+                w => (w.Name?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false)
+                  || (w.Props.Text?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false));
 
             if (target == null)
                 throw new InvalidOperationException($"Could not find {menuItemText}. Active workspace: {Desktop.ActiveWorkspace}");

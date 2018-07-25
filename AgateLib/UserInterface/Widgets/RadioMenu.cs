@@ -16,7 +16,7 @@ namespace AgateLib.UserInterface.Widgets
         public override IRenderable Render() => new MenuElement(new MenuElementProps
         {
             Style = Props.Style,
-            StyleId = Props.Name,
+            Name = Props.Name,
             StyleClass = Props.StyleClass,
             StyleTypeId = "radiomenu",
             OnCancel = Props.OnCancel,

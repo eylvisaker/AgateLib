@@ -41,7 +41,11 @@ namespace AgateLib.UserInterface.Widgets
             {
                 Text = Props.Text,
                 OnAccept = Props.OnAccept,
+                OnFocus = Props.OnSelect,
                 Enabled = Props.Enabled,
+                Style = Props.Style,
+                Name = Props.Name,
+                StyleClass = Props.StyleClass,
                 Children = (Props.Children?.Count ?? 0) > 0 ? Props.Children : new List<IRenderable>{ new Label(new LabelProps { Text = Props.Text }) } 
             });
         }

@@ -36,28 +36,13 @@ namespace AgateLib.Tests.UserInterface.Steps
         [Then(@"(.*) is equipped on (.*) in the (.*) slot")]
         public void ThenAnItemIsEquipped(string itemName, string pcName, string slot)
         {
-            var pc = context.Model.Party.Characters.FirstOrDefault(x =>
-                x.Name.Equals(pcName, StringComparison.OrdinalIgnoreCase))
-                ?? throw new ArgumentException($"Could not find character named {pcName}");
-
-            var item = pc.Equipment[slot];
-
-            if (itemName == "nothing")
-            {
-                item.Should().BeNull();
-            }
-            else
-            {
-                item.Should().NotBeNull($"{itemName} should be equipped at {slot}");
-                item.Name.Should().Be(itemName);
-            }
+            TestSystem.VerifyItemIsEquipped(itemName, pcName, slot);
         }
 
         [Then(@"(.*) is in the inventory")]
         public void ThenAnItemIsInTheInventory(string itemName)
         {
-            var item = context.Model.FindInInventory(itemName);
-            item.Should().NotBeNull();
+            TestSystem.VerifyItemIsInInventory(itemName);
         }
 
         [Then(@"the items are arranged")]

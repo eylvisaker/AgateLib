@@ -12,6 +12,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
     public class FF6MainMenu : Widget<FF6MainMenuProps, FF6MainMenuState>
     {
         private UserInterfaceEventHandler<PlayerCharacter> afterSelectPC;
+        private ElementReference mainRef = new ElementReference();
+        private ElementReference selectPcRef = new ElementReference();
 
         public FF6MainMenu(FF6MainMenuProps props) : base(props)
         {
@@ -24,8 +26,6 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         public override IRenderable Render()
         {
-            var mainRef = new ElementReference();
-            var selectPcRef = new ElementReference();
 
             return new FlexBox(new FlexBoxProps
             {
@@ -50,16 +50,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         MenuItems =
                         {
                             new MenuItem(new MenuItemProps { Text = "Items", OnAccept = RunItemsMenu  }),
-                            new MenuItem(new MenuItemProps
-                            {
-                                Text = "Skills",
-                                OnAccept = e =>
-                                {
-                                    e.System.SetFocus(selectPcRef.Current);
-                                    afterSelectPC = y => y.System.PushWorkspace(RunSkillsMenu(y.Data));
-                                }
-                            }),
-                            new MenuItem(new MenuItemProps { Text = "Equip",  OnAccept = RunEquipMenu }),
+                            new MenuItem(new MenuItemProps { Text = "Skills", OnAccept = e => SelectPCThen(e, RunSkillsMenu) }),
+                            new MenuItem(new MenuItemProps { Text = "Equip",  OnAccept = e => SelectPCThen(e, RunEquipMenu) }),
                             new MenuItem(new MenuItemProps { Text = "Relic",  OnAccept = RunRelicMenu  }),
                             new MenuItem(new MenuItemProps { Text = "Status", OnAccept = RunStatusMenu }),
                             new MenuItem(new MenuItemProps { Text = "Config", OnAccept = RunConfigMenu }),
@@ -75,12 +67,29 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Direction = FlexDirection.Row,
                     }
                 },
-                StyleId = Props.Name,
+                Name = Props.Name,
             });
         }
 
-        private void RunEquipMenu(UserInterfaceEvent e)
+        private void SelectPCThen(UserInterfaceEvent e, Action<UserInterfaceEvent, PlayerCharacter> thenDo)
         {
+            e.System.SetFocus(selectPcRef.Current);
+
+            afterSelectPC = y => thenDo(y, y.Data);
+        }
+
+        private void RunEquipMenu(UserInterfaceEvent evt, PlayerCharacter pc)
+        {
+            evt.System.PushWorkspace(new Workspace("equip", new FF6EquipMenu(new FF6EquipMenuProps
+            {
+                PlayerCharacter = pc,
+                Inventory = Props.Model.Inventory,
+                EquipmentSlots = Props.Model.EquipmentSlots,
+                OnEquip = Props.OnEquip,
+                OnEquipRemove = Props.OnEquipRemove,
+                OnEquipOptimum = Props.OnEquipOptimum,
+                OnEquipEmpty = Props.OnEquipEmpty
+            })));
         }
 
         private void RunRelicMenu(UserInterfaceEvent e)
@@ -108,13 +117,13 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 OnSwapItems = e =>
                 {
                     Props.OnSwapItems(e);
-                    UpdateState(state => state.Inventory = Props.Model.Inventory);
+                    SetState(state => state.Inventory = Props.Model.Inventory);
                 },
                 OnCancel = e => e.System.PopWorkspace(),
                 OnArrangeItems = e =>
                 {
                     Props.OnArrangeItems(e);
-                    UpdateState(state =>
+                    SetState(state =>
                     {
                         state.Inventory = Props.Model.Inventory;
                     });
@@ -152,14 +161,14 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
             evt.System.PushWorkspace(workspace);
         }
 
-        private Workspace RunSkillsMenu(PlayerCharacter pc)
+        private void RunSkillsMenu(UserInterfaceEvent evt, PlayerCharacter pc)
         {
-            return new Workspace("skills", new FF6SkillsMenu(new FF6SkillsMenuProps
+            evt.System.PushWorkspace(new Workspace("skills", new FF6SkillsMenu(new FF6SkillsMenuProps
             {
                 OnCancel = e => e.System.PopWorkspace(),
                 OnMagic = e => e.System.PushWorkspace(RunMagicMenu(pc)),
                 OnEspers = e => e.System.PushWorkspace(RunEspersMenu(pc)),
-            }));
+            })));
         }
 
         private Workspace RunEspersMenu(PlayerCharacter pc)
@@ -185,6 +194,10 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         public UserInterfaceEventHandler OnArrangeItems { get; set; }
         public UserInterfaceEventHandler<Tuple<Item, PlayerCharacter>> OnUseItem { get; set; }
         public UserInterfaceEventHandler<Tuple<int, int>> OnSwapItems { get; set; }
+        public UserInterfaceEventHandler<PlayerCharacter, string, Item> OnEquip { get; set; }
+        public UserInterfaceEventHandler<PlayerCharacter, string> OnEquipRemove { get; set; }
+        public UserInterfaceEventHandler<PlayerCharacter> OnEquipOptimum { get; set; }
+        public UserInterfaceEventHandler<PlayerCharacter> OnEquipEmpty { get; set; }
     }
 
     public class FF6MainMenuState : WidgetState

@@ -65,7 +65,7 @@ namespace AgateLib.UserInterface.Widgets
     }
 
     public abstract class Widget<TProps, TState> : IWidget
-        where TProps : WidgetProps where TState : WidgetState
+        where TProps : WidgetProps
     {
         private TProps props;
 
@@ -111,7 +111,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             SetState(stateMutator(state));
         }
-        protected void UpdateState(Action<TState> stateMutator)
+        protected void SetState(Action<TState> stateMutator)
         {
             stateMutator(state);
 
@@ -144,7 +144,10 @@ namespace AgateLib.UserInterface.Widgets
         void IRenderable.OnRenderResult(IRenderElement result)
         {
             if (Props.Ref != null)
+            {
                 Props.Ref.Current = result;
+                result.Ref = Props.Ref;
+            }
         }
     }
 
@@ -211,6 +214,8 @@ namespace AgateLib.UserInterface.Widgets
         public RenderElementProps Props => throw new NotImplementedException();
 
         public IRenderElement Parent => throw new NotImplementedException();
+
+        public ElementReference Ref { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
         /// Compute the ideal size of the content of the widget.
