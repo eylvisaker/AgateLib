@@ -52,7 +52,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                             new MenuItem(new MenuItemProps { Text = "Items", OnAccept = RunItemsMenu  }),
                             new MenuItem(new MenuItemProps { Text = "Skills", OnAccept = e => SelectPCThen(e, RunSkillsMenu) }),
                             new MenuItem(new MenuItemProps { Text = "Equip",  OnAccept = e => SelectPCThen(e, RunEquipMenu) }),
-                            new MenuItem(new MenuItemProps { Text = "Relic",  OnAccept = RunRelicMenu  }),
+                            new MenuItem(new MenuItemProps { Text = "Relic",  OnAccept = e => SelectPCThen(e, RunRelicMenu) }),
                             new MenuItem(new MenuItemProps { Text = "Status", OnAccept = RunStatusMenu }),
                             new MenuItem(new MenuItemProps { Text = "Config", OnAccept = RunConfigMenu }),
                             new MenuItem(new MenuItemProps { Text = "Save",   OnAccept = RunSaveMenu   }),
@@ -84,16 +84,24 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
             {
                 PlayerCharacter = pc,
                 Inventory = Props.Model.Inventory,
-                EquipmentSlots = Props.Model.EquipmentSlots,
+                EquipmentSlots = Props.Model.EquipmentSlots.Where(x => !x.Name.Contains("Relic")),
                 OnEquip = Props.OnEquip,
                 OnEquipRemove = Props.OnEquipRemove,
                 OnEquipOptimum = Props.OnEquipOptimum,
-                OnEquipEmpty = Props.OnEquipEmpty
+                OnEquipEmpty = Props.OnEquipEmpty,
             })));
         }
 
-        private void RunRelicMenu(UserInterfaceEvent e)
+        private void RunRelicMenu(UserInterfaceEvent evt, PlayerCharacter pc)
         {
+            evt.System.PushWorkspace(new Workspace("relic", new FF6RelicMenu(new FF6RelicMenuProps
+            {
+                PlayerCharacter = pc,
+                Inventory = Props.Model.Inventory,
+                EquipmentSlots = Props.Model.EquipmentSlots.Where(x => x.Name.Contains("Relic")),
+                OnEquip = Props.OnEquip,
+                OnEquipRemove = Props.OnEquipRemove,
+            })));
         }
 
         private void RunStatusMenu(UserInterfaceEvent e)

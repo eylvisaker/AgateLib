@@ -163,6 +163,7 @@
     <Compile Include="TestResources.cs" />
     <Compile Include="Selector\TestSelector.cs" />
     <Compile Include="UserInterface\DoubleRadioMenus\DoubleRadioMenusTest.cs" />
+    <Compile Include="UserInterface\FF6\Widgets\FF6RelicMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\FF6EquipMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\FF6EspersMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\FF6ItemsMenu.cs" />
