@@ -15,7 +15,7 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
 
         public void EmptyInventory()
         {
-            throw new NotImplementedException();
+            model.Inventory.Clear();
         }
 
         public void EquipPC(string pcName, string[] itemNames)

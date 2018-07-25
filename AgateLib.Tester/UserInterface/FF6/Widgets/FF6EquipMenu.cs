@@ -115,7 +115,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         private void EquipItem(UserInterfaceEvent e, Item item)
         {
-            Props.OnEquip(equipEvent.Reset(e, Props.PlayerCharacter, State.SelectedSlot, item));
+            Props.OnEquip?.Invoke(equipEvent.Reset(e, Props.PlayerCharacter, State.SelectedSlot, item));
             e.System.SetFocus(slotsMenuRef);
         }
 
@@ -127,7 +127,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         private void RemoveItem(UserInterfaceEvent e)
         {
-            Props.OnEquipRemove(removeEvent.Reset(e, Props.PlayerCharacter, State.SelectedSlot));
+            Props.OnEquipRemove?.Invoke(removeEvent.Reset(e, Props.PlayerCharacter, State.SelectedSlot));
         }
 
         private void UpdateAvailableItems(UserInterfaceEvent e, string slot)

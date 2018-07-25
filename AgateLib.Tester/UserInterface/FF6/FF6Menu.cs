@@ -215,10 +215,37 @@ namespace AgateLib.Tests.UserInterface.FF6
                 OnArrangeItems = e => ArrangeItems(),
                 OnUseItem = UseItem,
                 OnSwapItems = SwapItems,
-                OnEquip = EquipItem
+                OnEquip = EquipItem,
+                OnEquipRemove = UnequipItem,
+                OnEquipEmpty = EmptyEquipment,
+                OnEquipOptimum = EquipOptimum,
             });
 
             return new Workspace("default", mainMenu);
+        }
+
+        private void EquipOptimum(UserInterfaceEvent<PlayerCharacter> e)
+        {
+            Model.EquipPC(e.Data, BestItem("L-Hand"), "L-Hand");
+            Model.EquipPC(e.Data, BestItem("R-Hand"), "R-Hand");
+            Model.EquipPC(e.Data, BestItem("Head"), "Head");
+            Model.EquipPC(e.Data, BestItem("Body"), "Body");
+        }
+
+        private void EmptyEquipment(UserInterfaceEvent<PlayerCharacter> e)
+        {
+            Model.EquipPC(e.Data, null, "L-Hand");
+            Model.EquipPC(e.Data, null, "R-Hand");
+            Model.EquipPC(e.Data, null, "Head");
+            Model.EquipPC(e.Data, null, "Body");
+        }
+
+        private void UnequipItem(UserInterfaceEvent<PlayerCharacter, string> e)
+        {
+            var pc = e.Data1;
+            var slot = e.Data2;
+
+            Model.EquipPC(pc, null, slot);
         }
 
         private void EquipItem(UserInterfaceEvent<PlayerCharacter, string, Item> e)
