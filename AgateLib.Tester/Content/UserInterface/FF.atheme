@@ -1,4 +1,4 @@
-- selector: menu
+- selector: menu, window
   animation:
     entry: fade
     exit: fade

@@ -13,6 +13,30 @@ namespace AgateLib.UserInterface.Styling.Themes
     public class CssSelectorTests
     {
         [Fact]
+        public void MatchesWithComma()
+        {
+            var tree = Element(
+                children: new[]
+                {
+                    Element(cls: "menu"),
+                    Element(cls: "window"),
+                    Element(),
+                    Element(),
+                });
+
+            var selector = ".menu, .window";
+
+            // Top level
+            DoesNotMatch(tree, selector, tree);
+
+            // First level
+            Matches(tree, selector, tree.Children.First());
+            Matches(tree, selector, tree.Children.Skip(1).First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(2).First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(3).First());
+        }
+
+        [Fact]
         public void MatchesFirstChildWildCard()
         {
             var tree = Element(cls: "workspace",
@@ -385,9 +409,15 @@ namespace AgateLib.UserInterface.Styling.Themes
             IRenderElement renderElement, bool expectedResult = true)
         {
             var ex = new CssWidgetSelector(selector);
+            var result = ex.FindMatch(renderElement, GetStack(tree, renderElement));
 
-            ex.Matches(renderElement, GetStack(tree, renderElement))
-                .Should().Be(expectedResult);
+            if (!expectedResult)
+            {
+                result.Should().Be(null);
+                return;
+            }
+
+            result.Should().NotBe(null);
         }
 
         private RenderElementStack GetStack(IRenderElement tree, IRenderElement renderElement)

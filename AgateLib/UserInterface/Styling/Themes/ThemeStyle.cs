@@ -54,10 +54,6 @@ namespace AgateLib.UserInterface.Styling.Themes
         [Obsolete("Use a pseudoclass in the selector property instead.", true)]
         public string WidgetState { get; set; }
 
-        public IReadOnlyCollection<string> PseudoClasses => MatchExecutor.PseudoClasses;
-
-        public int Specificity => MatchExecutor.Specificity;
-
         #endregion
 
         #region --- Properties to apply ---
@@ -93,6 +89,17 @@ namespace AgateLib.UserInterface.Styling.Themes
             b.Add(nameof(Margin), Margin);
 
             return b.ToString();
+        }
+
+        public IEnumerable<IRenderElementStyleProperties> MatchElementStyle(
+            IRenderElement element, RenderElementStack stack)
+        {
+            var match = MatchExecutor.FindMatch(element, stack);
+
+            if (match != null)
+            {
+                yield return new ThemeRenderElementStyle(this, match);
+            }
         }
 
         #endregion

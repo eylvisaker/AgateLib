@@ -31,23 +31,20 @@ namespace AgateLib.UserInterface.Styling.Themes
 {
     public interface IWidgetSelector
     {
-        IReadOnlyCollection<string> PseudoClasses { get; }
-
-        int Specificity { get; }
-
-        bool Matches(IRenderElement element, RenderElementStack stack);
+        SelectorMatch FindMatch(IRenderElement element, RenderElementStack stack);
     }
 
     /// <summary>
     /// CSS style element matcher.
     /// </summary>
     /// <remarks>
-    /// Currently only supports the following CSS selectors:
+    /// Currently only supports the following CSS-style selectors:
     /// * Chains: parent child
     /// * Classes: .parent .child
     /// * Identifiers: #parent #child
     /// * First decendent: .parent > .child
     /// * Wild cards: .parent * (matches all ancestors of a parent), or .parent * .child (matches all grandchildren and further descendents of a parent)
+    /// * Comma: allows multiple distinct patterns to match a widget.
     /// </remarks>
     public class CssWidgetSelector : IWidgetSelector
     {
@@ -59,6 +56,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             @"(?<pseudoclass>:[a-zA-Z_][a-zA-Z0-9_\-]*)|" +
             @"(?<child>\>)|" +
             @"(?<wildcard>\*)|" +
+            @"(?<separator>,)|" + 
             @"(?<invalid>[^\s]+)");
 
         enum TokenType
@@ -70,6 +68,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             Pseudoclass,
             Child,
             Wildcard,
+            Separator,
 
             Invalid,
         }
@@ -89,8 +88,13 @@ namespace AgateLib.UserInterface.Styling.Themes
             Parent,
             Ancestor
         }
+        
+        class Matcher : List<ItemMatcher>
+        {
 
-        class Matcher
+        }
+
+        class ItemMatcher
         {
             public MatcherType MatchType { get; set; }
 
@@ -122,90 +126,104 @@ namespace AgateLib.UserInterface.Styling.Themes
             set
             {
                 selector = value;
+
                 TokenizeSelector(selector);
+
                 BuildMatchers();
+
                 IsValid = ValidateTokens();
-                CalcSpecificity();
             }
         }
-
-        public IReadOnlyCollection<string> PseudoClasses => matchers.First()?.PseudoClasses;
-
-        public int Specificity { get; private set; }
-
-        private void CalcSpecificity()
+        
+        private int CalcSpecificity(Matcher matcher)
         {
             int result = 0;
 
-            foreach(var matcher in matchers)
+            foreach(var itemMatcher in matcher)
             {
-                if (!string.IsNullOrWhiteSpace(matcher.TypeId) && matcher.TypeId != "*")
+                if (!string.IsNullOrWhiteSpace(itemMatcher.TypeId) && itemMatcher.TypeId != "*")
                     result += 1;
 
-                result += matcher.ClassNames.Count * 10;
-                result += matcher.PseudoClasses.Count * 10;
-                result += matcher.Identifiers.Count * 100;
+                result += itemMatcher.ClassNames.Count * 10;
+                result += itemMatcher.PseudoClasses.Count * 10;
+                result += itemMatcher.Identifiers.Count * 100;
             }
 
-            Specificity = result;
+            return result;
         }
 
         private void BuildMatchers()
         {
             Matcher matcher = new Matcher();
+
+            ItemMatcher itemMatcher = new ItemMatcher();
             bool hasValue = false;
+
+            void PushItemMatcher()
+            {
+                if (!hasValue)
+                    return;
+
+                matcher.Add(itemMatcher);
+                itemMatcher = new ItemMatcher { MatchType = MatcherType.Ancestor };
+                hasValue = false;
+            }
 
             void PushMatcher()
             {
+                if (hasValue)
+                    PushItemMatcher();
+
                 matchers.Add(matcher);
-                matcher = new Matcher { MatchType = MatcherType.Ancestor };
-                hasValue = false;
+                matcher = new Matcher();
             }
+            
 
             foreach (var token in tokens)
             {
                 switch (token.Type)
                 {
                     case TokenType.Wildcard:
-                        matcher.TypeId = "*";
+                        itemMatcher.TypeId = "*";
                         hasValue = true;
                         break;
 
                     case TokenType.TypeId:
-                        matcher.TypeId = token.Value;
+                        itemMatcher.TypeId = token.Value;
                         hasValue = true;
                         break;
 
                     case TokenType.Class:
-                        matcher.ClassNames.Add(token.Value.Substring(1).ToLowerInvariant());
+                        itemMatcher.ClassNames.Add(token.Value.Substring(1).ToLowerInvariant());
                         hasValue = true;
                         break;
 
                     case TokenType.Id:
-                        matcher.Identifiers.Add(token.Value.Substring(1).ToLowerInvariant());
+                        itemMatcher.Identifiers.Add(token.Value.Substring(1).ToLowerInvariant());
                         hasValue = true;
                         break;
 
                     case TokenType.Pseudoclass:
-                        matcher.PseudoClasses.Add(token.Value.Substring(1).ToLowerInvariant());
+                        itemMatcher.PseudoClasses.Add(token.Value.Substring(1).ToLowerInvariant());
                         hasValue = true;
                         break;
 
                     case TokenType.Whitespace:
-                        if (hasValue)
-                            PushMatcher();
+                        PushItemMatcher();
+                        break;
+
+                    case TokenType.Separator:
+                        PushMatcher();
                         break;
 
                     case TokenType.Child:
-                        if (hasValue)
-                            PushMatcher();
-
-                        matcher.MatchType = MatcherType.Parent;
+                        PushItemMatcher();
+                        itemMatcher.MatchType = MatcherType.Parent;
                         break;
                 }
             }
 
-            matchers.Add(matcher);
+            PushMatcher();
         }
 
         private bool ValidateTokens()
@@ -281,27 +299,40 @@ namespace AgateLib.UserInterface.Styling.Themes
             tokens.Reverse();
         }
 
-        public bool Matches(IRenderElement element, RenderElementStack stack)
+        public SelectorMatch FindMatch(IRenderElement element, RenderElementStack stack)
+        {
+            foreach(var matcher in matchers)
+            {
+                if (Matches(matcher, element, stack))
+                {
+                    return new SelectorMatch(CalcSpecificity(matcher), matcher.First().PseudoClasses);
+                }
+            }
+
+            return null;
+        }
+
+        private bool Matches(Matcher matcher, IRenderElement element, RenderElementStack stack)
         {
             if (!IsValid)
                 return false;
 
             // first check if the final token is a potential match to the actual element.
-            if (!IsMatch(matchers.First(), element))
+            if (!IsMatch(matcher.First(), element))
                 return false;
 
             int stackPtr = stack.ParentStack.Count - 1;
 
-            for (int i = 1; i < matchers.Count; i++)
+            for (int i = 1; i < matcher.Count; i++)
             {
-                var matcher = matchers[i];
+                var itemMatcher = matcher[i];
 
                 if (stackPtr < 0)
                     return false;
 
-                while (!IsMatch(matcher, stack.ParentStack[stackPtr]))
+                while (!IsMatch(itemMatcher, stack.ParentStack[stackPtr]))
                 {
-                    if (matcher.MatchType == MatcherType.Ancestor)
+                    if (itemMatcher.MatchType == MatcherType.Ancestor)
                     {
                         stackPtr--;
 
@@ -318,7 +349,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             return true;
         }
 
-        private bool IsMatch(Matcher matcher, IRenderElement element)
+        private bool IsMatch(ItemMatcher matcher, IRenderElement element)
         {
             if (matcher.TypeId == "*")
                 return true;
@@ -348,5 +379,20 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             return true;
         }
+
+    }
+
+    public class SelectorMatch
+    {
+        public SelectorMatch(int specificity, IEnumerable<string> pseudoClasses)
+        {
+            Specificity = specificity;
+            PseudoClasses = pseudoClasses.ToList();
+        }
+
+        public int Specificity { get; }
+
+        public IReadOnlyCollection<string> PseudoClasses { get; }
+
     }
 }

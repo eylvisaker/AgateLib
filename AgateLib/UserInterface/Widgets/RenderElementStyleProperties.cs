@@ -62,11 +62,6 @@ namespace AgateLib.UserInterface.Widgets
 
     public static class RenderElementStyleExtensions
     {
-        public static IRenderElementStyleProperties ToElementStyle(this ThemeStyle themeStyle)
-        {
-            return new ThemeRenderElementStyle(themeStyle);
-        }
-
         public static LayoutBox ToLayoutBox(this BorderStyle borderStyle)
         {
             if (borderStyle == null)
@@ -79,41 +74,6 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public class ThemeRenderElementStyle : IRenderElementStyleProperties
-    {
-        private ThemeStyle themeStyle;
-
-        public ThemeRenderElementStyle(ThemeStyle themeStyle)
-        {
-            this.themeStyle = themeStyle;
-        }
-
-        public IReadOnlyCollection<string> PseudoClasses => themeStyle.PseudoClasses;
-
-        public string FontFace => themeStyle.Font?.Family;
-
-        public Color? TextColor => themeStyle.Font?.Color;
-
-        public int? FontSize => themeStyle.Font?.Size;
-
-        public FontStyles? FontStyle => themeStyle.Font?.Style;
-
-        public BackgroundStyle Background => themeStyle.Background;
-
-        public BorderStyle Border => themeStyle.Border;
-
-        public AnimationStyle Animation => themeStyle.Animation;
-
-        public FlexStyle Flex => themeStyle.Flex;
-
-        public LayoutBox? Margin => themeStyle.Margin;
-
-        public LayoutBox? Padding => themeStyle.Padding;
-
-        public LayoutStyle Layout => themeStyle.Layout;
-
-        public int Specificity => themeStyle.Specificity;
-    }
 
     public class InlineElementStyle : IRenderElementStyleProperties
     {

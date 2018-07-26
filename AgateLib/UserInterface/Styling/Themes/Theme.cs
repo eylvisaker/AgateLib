@@ -188,8 +188,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             element.Display.ElementStyles.Clear();
 
             element.Display.ElementStyles.AddRange(
-                data.Where(x => x.MatchExecutor.Matches(element, stack))
-                    .Select(x => x.ToElementStyle()));
+                data.SelectMany(x => x.MatchElementStyle(element, stack)));
         }
 
         private void InitializeSelectors()
