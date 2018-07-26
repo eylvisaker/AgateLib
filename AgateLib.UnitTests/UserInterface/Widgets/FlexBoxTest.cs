@@ -900,6 +900,42 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
         #endregion
 
+        [Fact]
+        public void DolayoutForSingleChildTest()
+        {
+            ElementReference item0 = new ElementReference();
+            ElementReference item1 = new ElementReference();
+            ElementReference item2 = new ElementReference();
+            ElementReference item3 = new ElementReference();
+            ElementReference menu = new ElementReference();
+
+            Menu box = new Menu(new MenuProps
+            {
+                Name = "thewindow",
+                Style = new InlineElementStyle
+                {
+                    Padding = new LayoutBox(12, 6, 12, 6),
+                },
+                MenuItems = {
+                    new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
+                    new MenuItem(new MenuItemProps { Text = "BHel"   , Ref = item1 }),
+                    new MenuItem(new MenuItemProps { Text = "CHell"  , Ref = item2 }),
+                    new MenuItem(new MenuItemProps { Text = "DHello" , Ref = item3 }),
+                }, 
+            });
+
+            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
+            driver.DoLayout();
+
+            var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
+            var elements = root.Children.ToList();
+
+            item0.Current.Display.ContentRect.Should().Be(new Rectangle(0, 0, 30, 10));
+            item1.Current.Display.ContentRect.Should().Be(new Rectangle(0, 10, 30, 10));
+            item2.Current.Display.ContentRect.Should().Be(new Rectangle(0, 20, 30, 10));
+            item3.Current.Display.ContentRect.Should().Be(new Rectangle(0, 30, 30, 10));
+        }
+
         private IWidget CreateApp(IWidget contents)
         {
             return new App(new AppProps { Children = new[] { contents } });

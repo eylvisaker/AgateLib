@@ -144,7 +144,6 @@ namespace AgateLib.UserInterface.Widgets
         private readonly IContentLayoutEngine contentLayoutEngine;
         private readonly IFontProvider fonts;
         private readonly IAnimationFactory animationFactory;
-        private IRenderElement lastParentWidget;
 
         private WidgetRenderContext parentRenderContext;
         bool workspaceIsActive;
@@ -186,7 +185,6 @@ namespace AgateLib.UserInterface.Widgets
             this.UserInterfaceRenderer = parent.UserInterfaceRenderer;
             this.DoubleBuffer = parent.DoubleBuffer;
 
-            this.lastParentWidget = parent.lastParentWidget;
             this.WorkspaceIsActive = parent.WorkspaceIsActive;
 
             this.parentRenderContext = parent;
@@ -310,16 +308,11 @@ namespace AgateLib.UserInterface.Widgets
 
         public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderElement> items)
         {
-            var oldParent = lastParentWidget;
-
             foreach (var child in items.Where(x => x.Display.IsVisible)
                 .OrderBy(x => x.Display.StackOrder))
             {
-                lastParentWidget = child;
                 DrawChild(contentDest, child);
             }
-
-            lastParentWidget = oldParent;
         }
 
         public IContentLayout CreateContentLayout(
