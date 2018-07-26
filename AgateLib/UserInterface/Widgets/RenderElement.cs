@@ -111,8 +111,8 @@ namespace AgateLib.UserInterface.Widgets
         /// Instructs the element to prepare its layout.
         /// </summary>
         /// <param name="renderContext"></param>
-        /// <param name="clientArea"></param>
-        void DoLayout(IWidgetRenderContext renderContext, Size size);
+        /// <param name="contentAreaSize"></param>
+        void DoLayout(IWidgetRenderContext renderContext, Size contentAreaSize);
 
         /// <summary>
         /// Called when the element loses focus.

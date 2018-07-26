@@ -44,6 +44,8 @@ namespace AgateLib.UserInterface.Rendering.Animations
         /// <returns></returns>
         public IWidgetAnimation Create(string name, IReadOnlyList<string> args)
         {
+            name = name ?? "default";
+
             if (!activators.ContainsKey(name))
             {
                 Log.Warn($"Animation named {name} not found.");
@@ -96,6 +98,45 @@ namespace AgateLib.UserInterface.Rendering.Animations
                 display.Animation.StaticType = display.Style.Animation.StaticName;
                 display.Animation.Static = animationFactory.Create(display.Style.Animation.StaticName, display.Style.Animation.StaticArgs);
             }
+
+            //if (display.Style.Animation != null)
+            //{
+            //    // Currently, we don't support updating animators when the style changes unless the name of the
+            //    // animator type has changed. I don't see a good use case for supporting this at the moment. -EY
+            //    if (display.Animation.InType != display.Style.Animation.EntryName)
+            //    {
+            //        display.Animation.InType = display.Style.Animation.EntryName;
+            //        display.Animation.In = animationFactory.Create(display.Style.Animation.EntryName, display.Style.Animation.EntryArgs);
+            //    }
+
+            //    if (display.Animation.OutType != display.Style.Animation.ExitName)
+            //    {
+            //        display.Animation.OutType = display.Style.Animation.ExitName;
+            //        display.Animation.Out = animationFactory.Create(display.Style.Animation.ExitName, display.Style.Animation.ExitArgs);
+            //    }
+
+            //    if (display.Animation.StaticType != display.Style.Animation.StaticName)
+            //    {
+            //        display.Animation.StaticType = display.Style.Animation.StaticName;
+            //        display.Animation.Static = animationFactory.Create(display.Style.Animation.StaticName, display.Style.Animation.StaticArgs);
+            //    }
+            //}
+
+            //if (display.Animation.In == null)
+            //{
+            //    display.Animation.In = animationFactory.Create("default", null);
+            //    display.Animation.InType = "default";
+            //}
+            //if (display.Animation.Out == null)
+            //{
+            //    display.Animation.Out = animationFactory.Create("default", null);
+            //    display.Animation.OutType = "default";
+            //}
+            //if (display.Animation.Static == null)
+            //{
+            //    display.Animation.Static = animationFactory.Create("default", null);
+            //    display.Animation.StaticType = "default";
+            //}
         }
     }
 }

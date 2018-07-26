@@ -130,6 +130,12 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         private void EquipItem(UserInterfaceEvent e, Item item)
         {
             Props.OnEquip?.Invoke(equipEvent.Reset(e, Props.PlayerCharacter, State.SelectedSlot, item));
+
+            SetState(state =>
+            {
+                state.SelectedItem = null;
+            });
+
             e.System.SetFocus(slotsMenuRef);
         }
 
