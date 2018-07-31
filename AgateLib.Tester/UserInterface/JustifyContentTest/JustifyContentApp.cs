@@ -49,7 +49,7 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
                                     new RadioButton(new RadioButtonProps {
                                         Text = "Space Evenly", OnAccept = e => Set(JustifyContent.SpaceEvenly)}),
                                 },
-                                OnCancel = Props.Cancel,
+                                OnCancel = Props.OnCancel,
                             })
 
                         }
@@ -98,7 +98,7 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
 
     public class JustifyContentAppProps : WidgetProps
     {
-        public UserInterfaceEventHandler Cancel { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
     }
 
     public class JustifyContentAppState : WidgetState

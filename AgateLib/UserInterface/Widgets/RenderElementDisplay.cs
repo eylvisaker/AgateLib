@@ -98,14 +98,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets or sets whether the widget should be displayed and participate in layout.
         /// </summary>
         public bool IsVisible { get; set; } = true;
-
-
-        /// <summary>
-        /// Order of this window for drawing. Higher values mean the window is drawn 
-        /// in front of windows with lower values.
-        /// </summary>
-        public int StackOrder { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the name of the theme the styling engine should 
         /// use to style the owning widget.

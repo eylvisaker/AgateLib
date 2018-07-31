@@ -35,9 +35,9 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
         {
             return new Workspace("default", new TitleMenuApp(new TitleMenuAppProps
             {
-                Start = e => log("Game Start"),
-                Load = e => log("Game Load"),
-                Quit = e => log("Game Quit")
+                OnStart = e => log("Game Start"),
+                OnLoad = e => log("Game Load"),
+                OnQuit = e => log("Game Quit")
             }));
         }
 

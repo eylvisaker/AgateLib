@@ -116,6 +116,9 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void OnAccept()
         {
+            if (!Props.Enabled)
+                return;
+
             base.OnAccept();
 
             Props.OnAccept?.Invoke(EventData);

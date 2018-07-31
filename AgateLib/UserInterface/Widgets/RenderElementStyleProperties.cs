@@ -92,6 +92,7 @@ namespace AgateLib.UserInterface.Widgets
             if (!BorderStyle.Equals(a.Border, b.Border)) return false;
             if (!AnimationStyle.Equals(a.Animation, b.Animation)) return false;
             if (!FlexStyle.Equals(a.Flex, b.Flex)) return false;
+            if (!FlexItemStyle.Equals(a.FlexItem, b.FlexItem)) return false;
             if (!Nullable.Equals(a.Padding, b.Padding)) return false;
             if (!Nullable.Equals(a.Margin, b.Margin)) return false;
             if (!LayoutStyle.Equals(a.Layout, b.Layout)) return false;

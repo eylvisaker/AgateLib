@@ -24,9 +24,9 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
                         OnCancel = Props.OnCancel,
                         MenuItems =
                         {
-                            new MenuItem(new MenuItemProps { Text = "Start", OnAccept = Props.Start }),
-                            new MenuItem(new MenuItemProps { Text = "Load", OnAccept = Props.Load }),
-                            new MenuItem(new MenuItemProps { Text = "Quit", OnAccept = Props.Quit })
+                            new MenuItem(new MenuItemProps { Text = "Start", OnAccept = Props.OnStart }),
+                            new MenuItem(new MenuItemProps { Text = "Load", OnAccept = Props.OnLoad }),
+                            new MenuItem(new MenuItemProps { Text = "Quit", OnAccept = Props.OnQuit })
                         }
                     })
                 }
@@ -37,9 +37,9 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
     public class TitleMenuAppProps : WidgetProps
     {
         public UserInterfaceEventHandler OnCancel { get; set; }
-        public UserInterfaceEventHandler Start { get; set; }
-        public UserInterfaceEventHandler Load { get; set; }
-        public UserInterfaceEventHandler Quit { get; set; }
+        public UserInterfaceEventHandler OnStart { get; set; }
+        public UserInterfaceEventHandler OnLoad { get; set; }
+        public UserInterfaceEventHandler OnQuit { get; set; }
     }
 
     public class TitleMenuAppState : WidgetState

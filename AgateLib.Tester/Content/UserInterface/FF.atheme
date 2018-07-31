@@ -19,9 +19,10 @@
   padding: 10
 
 - selector: menuitem:focus
-  widget-state: selected
   background: 
     image: MessageBoxes:rect(13 173 285 51)
     repeat: both
   padding: 10
   
+- selector: menuitem:disabled
+  font: gray

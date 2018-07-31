@@ -177,6 +177,8 @@
     <Compile Include="UserInterface\FF6\Widgets\FF6SkillsMenu.cs" />
     <Compile Include="UserInterface\FF6\Widgets\PartyStatusWindow.cs" />
     <Compile Include="UserInterface\DoubleRadioMenus\DoubleRadioMenusApp.cs" />
+    <Compile Include="UserInterface\FlexFiddler\FlexFiddlerApp.cs" />
+    <Compile Include="UserInterface\FlexFiddler\FlexFiddlerTest.cs" />
     <Compile Include="UserInterface\JustifyContentTest\JustifyContentApp.cs" />
     <Compile Include="UserInterface\JustifyContentTest\JustifyContentTest.cs" />
     <Compile Include="UserInterface\RadioButtons\RadioButtonApp.cs" />

@@ -308,8 +308,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderElement> items)
         {
-            foreach (var child in items.Where(x => x.Display.IsVisible)
-                .OrderBy(x => x.Display.StackOrder))
+            foreach (var child in items.Where(x => x.Display.IsVisible))
             {
                 DrawChild(contentDest, child);
             }
