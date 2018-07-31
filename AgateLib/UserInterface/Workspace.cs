@@ -258,7 +258,7 @@ namespace AgateLib.UserInterface
         [Obsolete("Dont use this", true)]
         public void ActivateWindow(string windowName, WindowActivationBehaviors behavior = WindowActivationBehaviors.Default)
         {
-            IWidget window = FindWindow(w => w.Name.Equals(windowName, StringComparison.OrdinalIgnoreCase));
+            IWidget window = FindWindow(w => w.Id.Equals(windowName, StringComparison.OrdinalIgnoreCase));
 
             if (window == null)
                 throw new InvalidOperationException($"Could not find window {windowName}");

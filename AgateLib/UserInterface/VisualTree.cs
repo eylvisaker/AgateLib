@@ -292,7 +292,7 @@ namespace AgateLib.UserInterface
             {
                 var id = selector.Substring(1);
 
-                matcher = e => e.Name == id;
+                matcher = e => e.Id == id;
             }
 
             Walk(e =>

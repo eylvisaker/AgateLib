@@ -26,15 +26,23 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         public override IRenderable Render()
         {
-
             return new FlexBox(new FlexBoxProps
             {
+                Style = new InlineElementStyle
+                {
+                    Flex = new FlexStyle
+                    {
+                        Direction = FlexDirection.Row,
+                    }
+                },
+                Name = Props.Name,
+                InitialFocusIndex = 1,
                 Children =
                 {
                     new PartyStatusWindow(new PartyStatusWindowProps
                     {
                         Characters = State.Characters.ToList(),
-                        Name = "status",
+                        Name = "partystatus",
                         Enabled = false,
                         Ref = selectPcRef,
                         OnSelectPC = e => {
@@ -60,14 +68,6 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Ref = mainRef,
                     }),
                 },
-                Style = new InlineElementStyle
-                {
-                    Flex = new FlexStyle
-                    {
-                        Direction = FlexDirection.Row,
-                    }
-                },
-                Name = Props.Name,
             });
         }
 

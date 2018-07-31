@@ -91,6 +91,13 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         {
                             new Menu(new MenuProps
                             {
+                                DefaultStyle = new InlineElementStyle
+                                {
+                                    FlexItem = new FlexItemStyle
+                                    {
+                                        Grow = 1,
+                                    }
+                                },
                                 Name = "AvailableItems",
                                 MenuItems = State.AvailableItems.Select(item =>
                                     new MenuItem(new MenuItemProps
@@ -112,6 +119,13 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                             }),
                             new Window(new WindowProps
                             {
+                                DefaultStyle = new InlineElementStyle
+                                {
+                                    FlexItem = new FlexItemStyle
+                                    {
+                                        Grow = 1,
+                                    }
+                                },
                                 Name = "ItemDescription",
                                 Children =
                                 {

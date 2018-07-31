@@ -72,9 +72,6 @@ namespace AgateLib.UserInterface.Widgets
 
                 foreach (var item in children)
                 {
-                    if (!item.Display.IsVisible)
-                        continue;
-
                     var itemDest = dest;
 
                     CalcItemIdealSize(renderContext, size, item);
@@ -99,40 +96,80 @@ namespace AgateLib.UserInterface.Widgets
                     }
 
                     item.Display.MarginRect = new Rectangle(itemDest, marginSize);
-                    item.DoLayout(renderContext, item.Display.ContentRect.Size);
-
+                    
                     dest = IncMain(dest, MainAxis((Size)item.Display.MarginRect.Size));
                 }
 
-                var extraSpace = MainAxis(size) - MainAxis(dest);
+                int extraSpace = MainAxis(size) - MainAxis(dest);
+                int totalFlexGrow = children.Sum(x => x.Style.FlexItem?.Grow ?? 0);
 
-                switch (style.Flex?.JustifyContent ?? JustifyContent.Default)
+                if (totalFlexGrow > 0)
                 {
-                    case JustifyContent.Center:
-                        foreach (var item in children)
+                    float fExtraSpace = extraSpace;
+
+                    for (int index = 0; index < children.Count; index++)
+                    {
+                        IRenderElement item = children[index];
+                        int flexGrow = item.Style.FlexItem?.Grow ?? 0;
+
+                        if (flexGrow == 0)
+                            continue;
+
+                        float flexGrowFactor = flexGrow / (float)totalFlexGrow;
+                        float expand = fExtraSpace * flexGrowFactor;
+
+                        Size currentSize = item.Display.MarginRect.Size;
+                        Size newSize = SetSize(MainAxis(currentSize) + (int)expand, CrossAxis(currentSize));
+
+                        fExtraSpace -= expand;
+
+                        item.Display.MarginRect = new Rectangle(item.Display.MarginRect.Location, newSize);
+
+                        for (int moveIndex = index + 1; moveIndex < children.Count; moveIndex++)
                         {
-                            item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace / 2);
+                            IRenderElement moveItem = children[moveIndex];
+
+                            Point currentLoc = moveItem.Display.MarginRect.Location;
+
+                            Point newLoc = IncMain(currentLoc, (int)expand);
+
+                            moveItem.Display.MarginRect = new Rectangle(newLoc, moveItem.Display.MarginRect.Size);
                         }
-                        break;
+                    }
 
-                    case JustifyContent.End:
-                        foreach (var item in children)
-                        {
-                            item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace);
-                        }
-                        break;
+                    extraSpace = (int)fExtraSpace;
+                }
 
-                    case JustifyContent.SpaceBetween:
-                        DistributeSpaceBetween(children, extraSpace);
-                        break;
+                if (extraSpace > 0)
+                {
+                    switch (style.Flex?.JustifyContent ?? JustifyContent.Default)
+                    {
+                        case JustifyContent.Center:
+                            foreach (var item in children)
+                            {
+                                item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace / 2);
+                            }
+                            break;
 
-                    case JustifyContent.SpaceAround:
-                        DistributeSpaceAround(children, extraSpace);
-                        break;
+                        case JustifyContent.End:
+                            foreach (var item in children)
+                            {
+                                item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace);
+                            }
+                            break;
 
-                    case JustifyContent.SpaceEvenly:
-                        DistributeSpaceEvenly(children, extraSpace);
-                        break;
+                        case JustifyContent.SpaceBetween:
+                            DistributeSpaceBetween(children, extraSpace);
+                            break;
+
+                        case JustifyContent.SpaceAround:
+                            DistributeSpaceAround(children, extraSpace);
+                            break;
+
+                        case JustifyContent.SpaceEvenly:
+                            DistributeSpaceEvenly(children, extraSpace);
+                            break;
+                    }
                 }
             }
 
@@ -310,6 +347,11 @@ namespace AgateLib.UserInterface.Widgets
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)
         {
             PerformLayout(renderContext, size);
+
+            foreach (var item in Children.Where(x => x.Display.IsVisible))
+            {
+                item.DoLayout(renderContext, item.Display.ContentRect.Size);
+            }
         }
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
@@ -518,7 +560,7 @@ namespace AgateLib.UserInterface.Widgets
         public UserInterfaceEventHandler OnCancel { get; set; }
 
         /// <summary>
-        /// Sets the index of the item that receives focus the first time
+        /// Sets the zero-based index of the item that receives focus the first time
         /// this flexbox gets focus.
         /// </summary>
         public int InitialFocusIndex { get; set; }

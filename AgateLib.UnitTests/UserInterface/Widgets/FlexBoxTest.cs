@@ -901,13 +901,12 @@ namespace AgateLib.Tests.UserInterface.Widgets
         #endregion
 
         [Fact]
-        public void DolayoutForSingleChildTest()
+        public void DoLayoutForSingleChildTest()
         {
             ElementReference item0 = new ElementReference();
             ElementReference item1 = new ElementReference();
             ElementReference item2 = new ElementReference();
             ElementReference item3 = new ElementReference();
-            ElementReference menu = new ElementReference();
 
             Menu box = new Menu(new MenuProps
             {
@@ -926,14 +925,81 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
             TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
-
-            var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
-            var elements = root.Children.ToList();
-
+            
             item0.Current.Display.ContentRect.Should().Be(new Rectangle(0, 0, 30, 10));
             item1.Current.Display.ContentRect.Should().Be(new Rectangle(0, 10, 30, 10));
             item2.Current.Display.ContentRect.Should().Be(new Rectangle(0, 20, 30, 10));
             item3.Current.Display.ContentRect.Should().Be(new Rectangle(0, 30, 30, 10));
+        }
+
+        [Fact]
+        public void SingleFlexGrowOnFirstItem()
+        {
+            ElementReference menu0 = new ElementReference();
+            ElementReference menu1 = new ElementReference();
+            ElementReference item0 = new ElementReference();
+            ElementReference item1 = new ElementReference();
+
+            Window window = new Window(new WindowProps
+            {
+                Style = new InlineElementStyle
+                {
+                    Flex = new FlexStyle
+                    {
+                        Direction = FlexDirection.Row,
+                        AlignItems = AlignItems.Stretch,
+                    }
+                },
+                Children =
+                {
+                    new Menu(new MenuProps
+                    {
+                        Name = "growWindow",
+                        Style = new InlineElementStyle
+                        {
+                            Padding = new LayoutBox(24, 12, 24, 12),
+                            FlexItem = new FlexItemStyle
+                            {
+                                Grow = 1,
+                            }
+                        },
+                        MenuItems = {
+                            new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
+                            new MenuItem(new MenuItemProps { Text = "BHel"   }),
+                            new MenuItem(new MenuItemProps { Text = "CHell"  }),
+                            new MenuItem(new MenuItemProps { Text = "DHello" }),
+                        },
+                        Ref = menu0,
+                    }),
+                    new Menu(new MenuProps
+                    {
+                        Name = "fixedWindow",
+                        Style = new InlineElementStyle
+                        {
+                            Padding = new LayoutBox(12, 6, 12, 6),
+                        },
+                        MenuItems = {
+                            new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item1 }),
+                            new MenuItem(new MenuItemProps { Text = "BHel"   }),
+                            new MenuItem(new MenuItemProps { Text = "CHell"  }),
+                            new MenuItem(new MenuItemProps { Text = "DHello" }),
+                        },
+                        Ref = menu1,
+                    }),
+                }
+            });
+
+            TestUIDriver driver = new TestUIDriver(window, styleConfigurator);
+            driver.DoLayout();
+
+            menu0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1202, 720));
+            menu1.Current.Display.MarginRect.Should().Be(new Rectangle(1202, 0, 78, 720));
+
+            menu0.Current.Display.ContentRect.Should().Be(new Rectangle(24, 12, 1154, 696));
+            menu1.Current.Display.ContentRect.Should().Be(new Rectangle(1214, 6, 54, 708));
+
+            item0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1106, 10));
+            item1.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 30, 10));
         }
 
         private IWidget CreateApp(IWidget contents)

@@ -43,6 +43,8 @@ namespace AgateLib.UserInterface.Widgets
 
         FlexStyle Flex { get; }
 
+        FlexItemStyle FlexItem { get; }
+
         LayoutStyle Layout { get; }
 
         LayoutBox Padding { get; }
@@ -104,6 +106,7 @@ namespace AgateLib.UserInterface.Widgets
             Padding = Aggregate(p => p.Padding) ?? default(LayoutBox);
             Animation = Aggregate(p => p.Animation);
             Flex = Aggregate(p => p.Flex);
+            FlexItem = Aggregate(p => p.FlexItem);
             Layout = Aggregate(p => p.Layout);
         }
 
@@ -290,6 +293,9 @@ namespace AgateLib.UserInterface.Widgets
 
         public FlexStyle Flex { get; private set; }
 
+        public FlexItemStyle FlexItem { get; private set; }
+
         public LayoutStyle Layout { get; private set; }
+
     }
 }

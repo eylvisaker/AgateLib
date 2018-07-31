@@ -27,10 +27,10 @@ namespace AgateLib.Tests.UserInterface.Steps
         {
             context.ActiveWorkspace.Name.ToLowerInvariant().Should().Be(workspace.ToLowerInvariant());
 
-            context.ActiveWindow.Name.Should().NotBeNull($"workspace {workspace} was found to be the " +
+            context.ActiveWindow.Id.Should().NotBeNull($"workspace {workspace} was found to be the " +
                 $"active workspace, but the active window has no name");            
 
-            context.ActiveWindow.Name.ToLowerInvariant().Should().Be(window.ToLowerInvariant());
+            context.ActiveWindow.Id.ToLowerInvariant().Should().Be(window.ToLowerInvariant());
         }
 
         [Then(@"(.*) is equipped on (.*) in the (.*) slot")]

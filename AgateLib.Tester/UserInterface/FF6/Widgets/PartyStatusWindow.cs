@@ -1,4 +1,5 @@
-﻿using AgateLib.UserInterface.Widgets;
+﻿using AgateLib.UserInterface.Styling;
+using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,10 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         {
             return new Menu(new MenuProps
             {
+                DefaultStyle = new InlineElementStyle
+                {
+                    FlexItem = new FlexItemStyle { Grow = 1 }
+                },
                 Name = Props.Name,
                 Enabled = Props.Enabled,
                 MenuItems = Props.Characters.Select(

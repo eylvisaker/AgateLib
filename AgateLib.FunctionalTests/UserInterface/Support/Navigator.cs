@@ -31,7 +31,7 @@ namespace AgateLib.Tests.UserInterface.Support
             var parent = menuItem.Parent as FlexBox;
             
             var target = parent.Children.OfType<MenuItemElement>().SingleOrDefault(
-                w => (w.Name?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false)
+                w => (w.Id?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false)
                   || (w.Props.Text?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false));
 
             if (target == null)

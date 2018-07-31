@@ -371,7 +371,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             foreach(var cls in matcher.Identifiers)
             {
-                if (!cls.Equals(element.Name, StringComparison.OrdinalIgnoreCase))
+                if (!cls.Equals(element.Id, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }

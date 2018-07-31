@@ -53,7 +53,7 @@ namespace AgateLib.UserInterface.Widgets
                 Name = Props.Name,
                 DefaultStyle = Props.DefaultStyle,
                 Style = Props.Style,
-                StyleClass = "menu",
+                StyleTypeId = Props.StyleTypeId,
                 OnCancel = Props.OnCancel,
                 Enabled = Props.Enabled,
                 InitialSelectionIndex = Props.InitialSelectionIndex,
@@ -76,7 +76,15 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public UserInterfaceEventHandler OnCancel { get; set; }
 
+        /// <summary>
+        /// Set to true to disable. If disabled, the menu will refuse focus.
+        /// </summary>
         public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// Set the StyleTypeId of the resulting render element. If this is not set, the StyleTypeId will default to "menu".
+        /// </summary>
+        public string StyleTypeId { get; set; }
 
         /// <summary>
         /// Set to false to prevent the user from navigating outside the menu.
@@ -94,6 +102,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             child = new FlexBox(new FlexBoxProps
             {
+                Name = props.Name,
                 AllowNavigate = Props.AllowNavigate,
                 DefaultStyle = props.DefaultStyle ?? new InlineElementStyle
                 {
@@ -103,9 +112,6 @@ namespace AgateLib.UserInterface.Widgets
                 },
                 Style = props.Style,
                 StyleClass = props.StyleClass,
-                Name = props.Name,
-                StyleTypeId = string.IsNullOrWhiteSpace(props.StyleTypeId)
-                            ? "menu" : props.StyleTypeId,
                 Children = props.Children,
                 InitialFocusIndex = props.InitialSelectionIndex,
                 OnCancel = Props.OnCancel
@@ -121,6 +127,8 @@ namespace AgateLib.UserInterface.Widgets
         IRenderElement SelectedMenuItem
             => selectedIndex < child.Children.Count()
                ? child.Children.Skip(selectedIndex).First() : null;
+
+        public override string StyleTypeId => string.IsNullOrWhiteSpace(Props.StyleTypeId) ? "menu" : Props.StyleTypeId;
 
         public int SelectedIndex => child.FocusIndex;
 

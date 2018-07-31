@@ -50,6 +50,8 @@ namespace AgateLib.UserInterface.Widgets
 
         FlexStyle Flex { get; }
 
+        FlexItemStyle FlexItem { get; }
+
         LayoutStyle Layout { get; }
 
         /// <summary>
@@ -112,6 +114,8 @@ namespace AgateLib.UserInterface.Widgets
         public AnimationStyle Animation { get; set; }
 
         public FlexStyle Flex { get; set; }
+
+        public FlexItemStyle FlexItem { get; set; }
 
         public LayoutStyle Layout { get; set; }
 

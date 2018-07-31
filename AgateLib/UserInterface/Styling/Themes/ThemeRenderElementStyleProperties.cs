@@ -34,6 +34,8 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public FlexStyle Flex => themeStyle.Flex;
 
+        public FlexItemStyle FlexItem => themeStyle.FlexItem;
+
         public LayoutBox? Margin => themeStyle.Margin;
 
         public LayoutBox? Padding => themeStyle.Padding;
@@ -43,6 +45,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         public int Specificity => match.Specificity;
 
         public IReadOnlyCollection<string> PseudoClasses => match.PseudoClasses;
+
     }
 
 }

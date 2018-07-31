@@ -61,7 +61,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the name of the widget. This is used as the StyleId of the rendered element.
         /// </summary>
-        string Name { get; }
+        string Id { get; }
 
         void SetProps(RenderElementProps props);
 
@@ -226,7 +226,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public string StyleClass => Props.StyleClass;
 
-        public string Name => Props.Name;
+        public string Id => Props.Name;
 
         public virtual bool CanHaveFocus => false;
 
@@ -263,8 +263,8 @@ namespace AgateLib.UserInterface.Widgets
             if (!string.IsNullOrWhiteSpace(StyleClass))
                 result.Append($".{StyleClass}");
 
-            if (!string.IsNullOrWhiteSpace(Name))
-                result.Append($"#{Name}");
+            if (!string.IsNullOrWhiteSpace(Id))
+                result.Append($"#{Id}");
 
             return result.ToString();
         }

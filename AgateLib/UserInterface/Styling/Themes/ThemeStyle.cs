@@ -70,9 +70,14 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public LayoutBox? Margin { get; set; }
 
+        // TODO: Implement some respect for this property.
         public ThemeWidgetSize Size { get; set; }
+
         public FlexStyle Flex { get; set; }
-        public LayoutStyle Layout { get; internal set; }
+
+        public FlexItemStyle FlexItem { get; set; }
+
+        public LayoutStyle Layout { get; set; }
 
         #endregion
 

@@ -190,6 +190,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\AnimationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\FadeAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\NullAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexItemStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\LayoutStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeRenderElementStyleProperties.cs" />
