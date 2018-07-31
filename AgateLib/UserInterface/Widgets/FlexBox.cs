@@ -116,7 +116,7 @@ namespace AgateLib.UserInterface.Widgets
                             continue;
 
                         float flexGrowFactor = flexGrow / (float)totalFlexGrow;
-                        float expand = fExtraSpace * flexGrowFactor;
+                        float expand = extraSpace * flexGrowFactor;
 
                         Size currentSize = item.Display.MarginRect.Size;
                         Size newSize = SetSize(MainAxis(currentSize) + (int)expand, CrossAxis(currentSize));
