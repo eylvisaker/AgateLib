@@ -20,13 +20,17 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
             {
                 DefaultStyle = new InlineElementStyle
                 {
-                    FlexItem = new FlexItemStyle { Grow = 1 }
+                    FlexItem = new FlexItemStyle { Grow = 1 },
                 },
                 Name = Props.Name,
                 Enabled = Props.Enabled,
                 MenuItems = Props.Characters.Select(
                     x => new MenuItem(new MenuItemProps
                     {
+                        Style = new InlineElementStyle
+                        {
+                            FlexItem = new FlexItemStyle { Grow = 1 },
+                        },
                         Text = x.Name,
                         OnAccept = e => Props.OnSelectPC?.Invoke(
                             new UserInterfaceEvent<PlayerCharacter>().Reset(e, x))

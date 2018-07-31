@@ -85,7 +85,11 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                             Flex = new FlexStyle
                             {
                                 Direction = FlexDirection.Row,
-                            }
+                            },
+                            FlexItem = new FlexItemStyle
+                            {
+                                Grow = 1,
+                            },
                         },
                         Children =
                         {
