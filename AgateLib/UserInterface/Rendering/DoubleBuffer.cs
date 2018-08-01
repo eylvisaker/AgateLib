@@ -99,7 +99,6 @@ namespace AgateLib.UserInterface.Rendering
             newRenderContext.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
             newRenderContext.GraphicsDevice.BlendState = blendState;
 
-            newRenderContext.Indicator = renderContext.Indicator;
             newRenderContext.SpriteBatch.Begin();
 
             widget.Display.Animation.Buffer.ContentDestination = new Rectangle(

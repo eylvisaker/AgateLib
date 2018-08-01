@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace AgateLib.Tests.UserInterface.FF6
 {
-    public class PointerIndicator : MenuIndicatorRenderer
+    public class PointerIndicator : IFocusIndicator
     {
         private Texture2D texture;
         
@@ -17,23 +17,30 @@ namespace AgateLib.Tests.UserInterface.FF6
         {
             this.texture = texture;
         }
-        
-        public override void TheDrawFocus(IWidgetRenderContext renderContext, IRenderWidget widget, Rectangle destRect)
+
+
+        /// <summary>
+        /// Draws the focus indicator.
+        /// </summary>
+        /// <param name="renderContext">Render Context (is this really necessary?)</param>
+        /// <param name="focusElement">The element that has focus.</param>
+        /// <param name="focusContentRect">The screen coordinates of the content area of the focus element.</param>
+        public void DrawFocus(SpriteBatch spriteBatch, IRenderElement focusElement, Rectangle focusContentRect)
         {
             const int overlap = 1;
 
             Rectangle pointerDest = new Rectangle(
-                destRect.Left - texture.Width + overlap,
-                (destRect.Top + destRect.Bottom - texture.Height) / 2,
+                focusContentRect.Left - texture.Width + overlap,
+                (focusContentRect.Top + focusContentRect.Bottom - texture.Height) / 2,
                 texture.Width,
                 texture.Height);
 
-            DrawPointer(renderContext, pointerDest);
+            DrawPointer(spriteBatch, pointerDest);
         }
         
-        protected virtual void DrawPointer(IWidgetRenderContext renderContext, Rectangle pointerDest)
+        protected virtual void DrawPointer(SpriteBatch spriteBatch, Rectangle pointerDest)
         {
-            renderContext.SpriteBatch.Draw(texture, pointerDest, Color.White);
+            spriteBatch.Draw(texture, pointerDest, Color.White);
         }
     }
 }

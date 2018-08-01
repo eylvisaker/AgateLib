@@ -85,12 +85,6 @@ namespace AgateLib.UserInterface.Widgets
         Size GraphicsDeviceRenderTargetSize { get; }
 
         /// <summary>
-        /// Gets the object which handles rendering of the menu indicator.
-        /// </summary>
-        [Obsolete("This shouldn't be public")]
-        IMenuIndicatorRenderer Indicator { get; }
-
-        /// <summary>
         /// Creates an IContentLayout object for the specified text.
         /// </summary>
         /// <param name="text">The text to layout. If localizeText is true, this text will be used
@@ -210,9 +204,7 @@ namespace AgateLib.UserInterface.Widgets
         public IDoubleBuffer DoubleBuffer { get; set; }
 
         public GameTime GameTime { get; set; }
-
-        public IMenuIndicatorRenderer Indicator { get; set; }
-
+        
         public Rectangle Area
         {
             get
@@ -332,14 +324,6 @@ namespace AgateLib.UserInterface.Widgets
             GameTime = time;
             SpriteBatch = spriteBatch;
             RenderTarget = renderTarget;
-        }
-        
-        public void EndWorkspace(Workspace workspace)
-        {
-            if (WorkspaceIsActive)
-            {
-                Indicator?.DrawFocus(this, workspace);
-            }
         }
     }
 }

@@ -160,10 +160,10 @@ namespace AgateLib.UserInterface
 
         public WidgetRenderContext RenderContext => renderContext;
 
-        public IMenuIndicatorRenderer Indicator
+        public IFocusIndicator Indicator
         {
-            get => renderContext.Indicator;
-            set => renderContext.Indicator = value;
+            get => driver.Indicator;
+            set => driver.Indicator = value;
         }
 
         /// <summary>

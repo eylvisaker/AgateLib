@@ -31,7 +31,7 @@ namespace AgateLib.Tests.Fakes
 
         public GameTime GameTime { get; set; }
 
-        public IMenuIndicatorRenderer Indicator => null;
+        public IFocusIndicator Indicator => null;
 
         public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 

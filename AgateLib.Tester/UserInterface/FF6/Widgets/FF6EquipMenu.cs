@@ -89,7 +89,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                             FlexItem = new FlexItemStyle
                             {
                                 Grow = 1,
-                            },
+                            }
                         },
                         Children =
                         {

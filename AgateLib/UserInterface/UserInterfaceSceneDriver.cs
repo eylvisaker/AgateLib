@@ -22,6 +22,7 @@
 
 using System;
 using AgateLib.Input;
+using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
@@ -69,6 +70,11 @@ namespace AgateLib.UserInterface
         }
 
         /// <summary>
+        /// Gets the object which handles rendering of the indicator.
+        /// </summary>
+        public IFocusIndicator Indicator { get; set; }
+
+        /// <summary>
         /// If true, the Exit event will be raised when the user
         /// presses the back button on the controller.
         /// </summary>
@@ -112,6 +118,34 @@ namespace AgateLib.UserInterface
             renderContext.BeginDraw(time, spriteBatch, renderTarget);
 
             desktop.Draw(renderContext);
+
+            if (desktop.ActiveWorkspace.Focus != null && Indicator != null)
+            {
+                Indicator.DrawFocus(renderContext.SpriteBatch, 
+                                    desktop.ActiveWorkspace.Focus,
+                                    ScreenAreaOf(desktop.ActiveWorkspace.Focus));
+            }
+        }
+
+        private Rectangle ScreenAreaOf(IRenderElement focus)
+        {
+            Rectangle result = new Rectangle(Point.Zero, focus.Display.Animation.AnimatedContentRect.Size);
+
+            IRenderElement current = focus;
+
+            while(current != null)
+            {
+                var currentLoc = result.Location;
+
+                currentLoc.X += current.Display.Animation.AnimatedContentRect.X;
+                currentLoc.Y += current.Display.Animation.AnimatedContentRect.Y;
+
+                result.Location = currentLoc;
+
+                current = current.Parent;
+            }
+
+            return result;
         }
 
         private void Desktop_UnhandledEvent(object sender, InputEventArgs e)

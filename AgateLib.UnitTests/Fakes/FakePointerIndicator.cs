@@ -7,20 +7,19 @@ using AgateLib.UserInterface.Widgets;
 using AgateLib.Tests.UserInterface.FF6;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.Tests.Fakes
 {
-    public class FakePointerIndicator : PointerIndicator
+    public class FakeFocusIndicator : IFocusIndicator
     {
         List<Rectangle> draws = new List<Rectangle>();
 
-        public FakePointerIndicator(Texture2D texture) : base(texture) { }
-
         public List<Rectangle> Draws => Draws;
 
-        protected override void DrawPointer(IWidgetRenderContext renderContext, Rectangle pointerDest)
+        public void DrawFocus(SpriteBatch spriteBatch, IRenderElement focusElement, Rectangle focusContentArea)
         {
-            draws.Add(pointerDest);
+            draws.Add(focusContentArea);
         }
     }
 }

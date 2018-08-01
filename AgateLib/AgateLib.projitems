@@ -240,7 +240,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\MenuInputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\ComponentStyleRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\DoubleBuffer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\MenuIndicatorRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\FocusIndicator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\WidgetAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceImageProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceRenderer.cs" />

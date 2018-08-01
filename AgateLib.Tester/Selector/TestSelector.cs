@@ -98,42 +98,4 @@ namespace AgateLib.Tests.Selector
 
         public ITest Test { get; }
     }
-
-    public class TestSelectorIndicator : IMenuIndicatorRenderer
-    {
-        Texture2D texture;
-
-        public TestSelectorIndicator(ITextureBuilder textureBuilder)
-        {
-            texture = textureBuilder.SolidColor(10, 10, Color.White);
-        }
-
-        public void BeginDraw(IWidgetRenderContext renderContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawFocus(IWidgetRenderContext renderContext, Rectangle destRect)
-        {
-            var alpha = 0.3f;
-
-            // Color is yellow but we are premultiplying the alpha.
-            renderContext.SpriteBatch.Draw(texture, destRect, new Color(alpha, alpha, 0, alpha));
-        }
-
-        public void DrawFocus(IWidgetRenderContext renderContext, Workspace workspace)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndDraw(IWidgetRenderContext renderContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RegisterChildren(IRenderWidget parent, IEnumerable<IRenderWidget> children)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

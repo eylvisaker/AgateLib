@@ -29,6 +29,8 @@ namespace AgateLib.Tests.UserInterface
 
         public UserInterfaceScene Scene => scene;
 
+        protected IContentProvider Content { get; private set; }
+
         public virtual void Initialize(ITestResources resources)
         {
             scene = new UserInterfaceScene(
@@ -40,6 +42,8 @@ namespace AgateLib.Tests.UserInterface
             {
                 DrawBelow = false,
             };
+
+            Content = resources.Content;
 
             stack = new SceneStack();
             stack.Add(scene);

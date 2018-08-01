@@ -201,7 +201,9 @@ namespace AgateLib.UserInterface.Widgets
                     break;
 
                 default:
-                    base.OnChildNavigate(child, button);
+                    if (Props.AllowNavigate)
+                        base.OnChildNavigate(child, button);
+
                     break;
             }
         }
@@ -218,7 +220,9 @@ namespace AgateLib.UserInterface.Widgets
                 {
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
-                        Parent?.OnChildNavigate(this, MenuInputButton.Down);
+                        if (Props.AllowNavigate)
+                            Parent?.OnChildNavigate(this, MenuInputButton.Down);
+
                         return;
                     }
 
@@ -251,7 +255,8 @@ namespace AgateLib.UserInterface.Widgets
 
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
-                        Parent?.OnChildNavigate(this, MenuInputButton.Up);
+                        if (Props.AllowNavigate)
+                            Parent?.OnChildNavigate(this, MenuInputButton.Up);
                         return;
                     }
                     if (NavigationWrap == GridNavigationWrap.Sparse)
@@ -280,7 +285,9 @@ namespace AgateLib.UserInterface.Widgets
 
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
-                        Parent?.OnChildNavigate(this, MenuInputButton.Left);
+                        if (Props.AllowNavigate)
+                            Parent?.OnChildNavigate(this, MenuInputButton.Left);
+
                         return;
                     }
 
@@ -310,7 +317,9 @@ namespace AgateLib.UserInterface.Widgets
                 {
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
-                        Parent?.OnChildNavigate(this, MenuInputButton.Right);
+                        if (Props.AllowNavigate)
+                            Parent?.OnChildNavigate(this, MenuInputButton.Right);
+
                         return;
                     }
 
@@ -364,6 +373,8 @@ namespace AgateLib.UserInterface.Widgets
             get => children;
             set => children = value ?? throw new ArgumentNullException(nameof(Children));
         }
+
+        public bool AllowNavigate { get; set; } = true;
 
         /// <summary>
         /// Puts an item at the specified location in the grid.
