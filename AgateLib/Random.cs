@@ -24,6 +24,7 @@ using AgateLib.Mathematics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AgateLib
@@ -136,6 +137,31 @@ namespace AgateLib
         /// <param name="items"></param>
         /// <returns></returns>
         public static T PickOne<T>(this IRandom random, IReadOnlyList<T> items) => items[random.NextInteger(items.Count)];
+
+        /// <summary>
+        /// Picks a random item from a list. Items weighted more heavily are more likely to be picked.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="random"></param>
+        /// <param name="items"></param>
+        /// <param name="weightFunc">A function that when called for each object in the list returns its weight.</param>
+        /// <returns></returns>
+        public static T PickOneWeighted<T>(this IRandom random, IReadOnlyList<T> items, Func<T, int> weightFunc)
+        {
+            int max = items.Sum(x => weightFunc(x));
+            int initialVal = random.NextInteger(max);
+            int val = initialVal;
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                val -= weightFunc(items[i]);
+
+                if (val < 0)
+                    return items[i];
+            }
+
+            return default(T);
+        }
     }
 }
 

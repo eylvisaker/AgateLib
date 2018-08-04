@@ -218,6 +218,7 @@
     <Compile Include="PhysicsTests\ConstraintTests\PointTouchConstraintTests.cs" />
     <Compile Include="PhysicsTests\IntegratorTests.cs" />
     <Compile Include="PhysicsTests\LinearAlgebraTests\GaussSeidelTests.cs" />
+    <Compile Include="RandomExtensionsTest.cs" />
     <Compile Include="Scenes\SceneStackTest.cs" />
     <Compile Include="CommonMocks.cs" />
     <Compile Include="UserInterface\Content\LayoutTest.cs" />
