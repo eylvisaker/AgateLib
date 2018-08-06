@@ -19,10 +19,10 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
             {
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         OnCancel = Props.OnCancel,
-                        MenuItems =
+                        Children =
                         {
                             new MenuItem(new MenuItemProps { Text = "Start", OnAccept = Props.OnStart }),
                             new MenuItem(new MenuItemProps { Text = "Load", OnAccept = Props.OnLoad }),

@@ -59,6 +59,9 @@ namespace AgateLib.Tests.UserInterface
 
         public void Update(GameTime gameTime)
         {
+            if (stack.Count == 0)
+                OnExit?.Invoke();
+
             stack.Update(gameTime);
         }
 

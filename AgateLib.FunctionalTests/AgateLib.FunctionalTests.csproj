@@ -208,10 +208,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterface\Steps\InitializerSteps.cs" />
     <Compile Include="UserInterface\Steps\InspectionSteps.cs" />
-    <Compile Include="UserInterface\Support\Initialization\FF6MenuInitializer.cs" />
     <Compile Include="UserInterface\Support\Initialization\IninitializerExtensions.cs" />
-    <Compile Include="UserInterface\Support\Initialization\MenuInitializer.cs" />
-    <Compile Include="UserInterface\Support\Initialization\TitleMenuInitializer.cs" />
     <Compile Include="UserInterface\Support\Instructor.cs" />
     <Compile Include="UserInterface\Support\Navigator.cs" />
     <Compile Include="UserInterface\Support\Systems\FF6System.cs" />

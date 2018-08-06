@@ -78,6 +78,7 @@ namespace AgateLib.UserInterface
                             [Keys.Enter] = MenuInputButton.Accept,
                             [Keys.Space] = MenuInputButton.Accept,
                             [Keys.Back] = MenuInputButton.Cancel,
+                            [Keys.LeftAlt] = MenuInputButton.Cancel,
                             [Keys.Z] = MenuInputButton.Cancel,
                             [Keys.Escape] = MenuInputButton.Exit,
 

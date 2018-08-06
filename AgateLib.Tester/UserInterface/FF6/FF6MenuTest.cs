@@ -28,6 +28,8 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             menu = new FF6Menu(InitializeTestData());
 
+            menu.ExitMenu += () => Scene.Exit();
+
             Scene.Indicator = new PointerIndicator(Content.Load<Texture2D>("UserInterface/Pointer"));
 
             return menu.InitializeWorkspace();

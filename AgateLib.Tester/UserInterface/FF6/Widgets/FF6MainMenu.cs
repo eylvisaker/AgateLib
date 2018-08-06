@@ -51,11 +51,13 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         },
                         OnCancel = e => e.System.SetFocus(mainRef.Current),
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         AllowNavigate = false,
                         Name = "main",
-                        MenuItems =
+                        OnCancel = Props.OnExit,
+                        Ref = mainRef,
+                        Children =
                         {
                             new MenuItem(new MenuItemProps { Text = "Items", OnAccept = RunItemsMenu  }),
                             new MenuItem(new MenuItemProps { Text = "Skills", OnAccept = e => SelectPCThen(e, RunSkillsMenu) }),
@@ -65,7 +67,6 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                             new MenuItem(new MenuItemProps { Text = "Config", OnAccept = RunConfigMenu }),
                             new MenuItem(new MenuItemProps { Text = "Save",   OnAccept = RunSaveMenu   }),
                         },
-                        Ref = mainRef,
                     }),
                 },
             });
@@ -206,11 +207,12 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         public UserInterfaceEventHandler<PlayerCharacter, string> OnEquipRemove { get; set; }
         public UserInterfaceEventHandler<PlayerCharacter> OnEquipOptimum { get; set; }
         public UserInterfaceEventHandler<PlayerCharacter> OnEquipEmpty { get; set; }
+        public UserInterfaceEventHandler OnExit { get; set; }
     }
 
     public class FF6MainMenuState : WidgetState
     {
-        public IEnumerable<PlayerCharacter> Characters { get; internal set; }
-        public List<Item> Inventory { get; internal set; }
+        public IEnumerable<PlayerCharacter> Characters { get; set; }
+        public List<Item> Inventory { get; set; }
     }
 }

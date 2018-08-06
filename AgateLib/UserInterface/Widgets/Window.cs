@@ -43,17 +43,22 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderable Render() => new FlexBox(new FlexBoxProps
         {
+            Name = Props.Name,
+            AllowNavigate = Props.AllowNavigate,
+            DefaultStyle = Props.DefaultStyle,
             Style = Props.Style,
             StyleClass = Props.StyleClass,
-            Name = Props.Name,
             StyleTypeId = "window",
             Visible = Props.Visible,
             Children = Props.Children.ToList(),
+            OnCancel = Props.OnCancel,
         });
     }
 
     public class WindowProps : WidgetProps
     {
+        public bool AllowNavigate { get; set; } = true;
+
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
         public UserInterfaceEventHandler OnCancel { get; set; }
     }

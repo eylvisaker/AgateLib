@@ -119,7 +119,7 @@ namespace AgateLib.UserInterface
 
             desktop.Draw(renderContext);
 
-            if (desktop.ActiveWorkspace.Focus != null && Indicator != null)
+            if (desktop.ActiveWorkspace?.Focus != null && Indicator != null)
             {
                 Indicator.DrawFocus(renderContext.SpriteBatch, 
                                     desktop.ActiveWorkspace.Focus,
