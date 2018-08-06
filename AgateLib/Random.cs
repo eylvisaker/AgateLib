@@ -139,6 +139,20 @@ namespace AgateLib
         public static T PickOne<T>(this IRandom random, IReadOnlyList<T> items) => items[random.NextInteger(items.Count)];
 
         /// <summary>
+        /// Picks a random point within the specified rectangle.
+        /// </summary>
+        /// <param name="random">The IRandom object which provides random numbers</param>
+        /// <param name="rect">The bounding rectangle.</param>
+        /// <returns></returns>
+        public static Vector2 NextVector2InRect(this IRandom random, Rectangle rect)
+        {
+            return new Vector2(
+                random.NextSingle(rect.Left, rect.Right),
+                random.NextSingle(rect.Top, rect.Bottom)
+                );
+        }
+
+        /// <summary>
         /// Picks a random item from a list. Items weighted more heavily are more likely to be picked.
         /// </summary>
         /// <typeparam name="T"></typeparam>

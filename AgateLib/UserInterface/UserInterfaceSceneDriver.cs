@@ -121,6 +121,8 @@ namespace AgateLib.UserInterface
 
             if (desktop.ActiveWorkspace?.Focus != null && Indicator != null)
             {
+                Indicator.UserInterfaceRenderer = renderContext.UserInterfaceRenderer;
+
                 Indicator.DrawFocus(renderContext.SpriteBatch, 
                                     desktop.ActiveWorkspace.Focus,
                                     ScreenAreaOf(desktop.ActiveWorkspace.Focus));
