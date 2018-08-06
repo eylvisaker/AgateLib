@@ -30,9 +30,7 @@ namespace AgateLib.Tests.Fakes
         public IFontProvider Fonts { get; set; }
 
         public GameTime GameTime { get; set; }
-
-        public IFocusIndicator Indicator => null;
-
+        
         public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 
         public IInstructions Instructions { get; set; }

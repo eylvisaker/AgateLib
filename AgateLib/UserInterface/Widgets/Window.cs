@@ -55,5 +55,6 @@ namespace AgateLib.UserInterface.Widgets
     public class WindowProps : WidgetProps
     {
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
+        public UserInterfaceEventHandler OnCancel { get; set; }
     }
 }

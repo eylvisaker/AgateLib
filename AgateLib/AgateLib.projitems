@@ -197,6 +197,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ElementReference.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\TextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\UserInterfaceEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Grid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\PseudoClassCollection.cs" />

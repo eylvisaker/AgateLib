@@ -95,7 +95,7 @@ namespace AgateLib.UserInterface.Widgets
             NeedsRender?.Invoke(this);
         }
 
-        public void UpdateProps(Action<TProps> propsUpdater)
+        public void SetProps(Action<TProps> propsUpdater)
         {
             propsUpdater(props);
 
