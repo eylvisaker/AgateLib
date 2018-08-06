@@ -52,6 +52,7 @@ namespace AgateLib.UserInterface.Widgets
             Visible = Props.Visible,
             Children = Props.Children.ToList(),
             OnCancel = Props.OnCancel,
+            Enabled = Props.Enabled,
         });
     }
 
@@ -61,5 +62,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
         public UserInterfaceEventHandler OnCancel { get; set; }
+
+        public bool Enabled { get; set; } = true;
     }
 }

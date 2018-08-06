@@ -24,7 +24,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             {
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "ArrangeItems",
                         Style = new InlineElementStyle
@@ -34,7 +34,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                                 Direction =  FlexDirection.Row
                             }
                         },
-                        MenuItems =
+                        Children =
                         {
                             new MenuItem(new MenuItemProps{
                                 Text = "items",
@@ -49,48 +49,22 @@ namespace AgateLib.Tests.UserInterface.FF6
                         Ref = arrangeItemsRef,
                         OnCancel = Props.OnCancel
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         AllowNavigate = false,
                         Name = "Items",
                         OnCancel = e => e.System.SetFocus(arrangeItemsRef.Current),
-                        MenuItems = State.Inventory.Select(item =>
+                        Children = State.Inventory.Select(item =>
                             new MenuItem(new MenuItemProps
                             {
                                 Text = item.Name,
                                 OnAccept = e => SelectItem(e, item)
-                            })).ToList(),
+                            })).ToList<IRenderable>(),
                         Ref = itemsRef
                     })
                 },
                 InitialFocusIndex = 1,
             });
-
-            //var arrangeWindow = new Menu("ArrangeItems");
-
-            //arrangeWindow.LayoutType = LayoutType.SingleRow;
-            //arrangeWindow.Add("Arrange", () => ArrangeItems());
-            //arrangeWindow.Add("Rare", () => RareItems());
-
-            //itemsList = new Menu("Items");
-            //itemsList.Cancel += cancel =>
-            //{
-            //    workspace.ActivateWindow(arrangeWindow);
-            //    cancel.Cancel = true;
-            //};
-
-            //arrangeWindow.Exit += () => desktop.PopWorkspace();
-
-            //itemTarget = new Menu("ItemTarget");
-            //itemTarget.Display.IsVisible = false;
-
-            //var layout = new FixedGridLayout(1, 8);
-
-            //layout.Add(arrangeWindow, new Rectangle(0, 0, 1, 1));
-            //layout.Add(itemsList, new Rectangle(0, 1, 1, 7));
-            //layout.Add(itemTarget, new Rectangle(0, 3, 1, 1));
-
-            //workspace.Layout = layout;
         }
 
         private void SelectItem(UserInterfaceEvent e, Item item)

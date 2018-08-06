@@ -15,11 +15,13 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         public override IRenderable Render()
         {
-            return new Menu(new MenuProps
+            return new Window(new WindowProps
             {
                 Name = "Espers",
                 OnCancel = Props.OnCancel,
-                MenuItems = { new MenuItem(new MenuItemProps { Text = "Does nothing" }) }
+                Children = {
+                    new MenuItem(new MenuItemProps { Text = "Does nothing" })
+                }
             });
         }
     }

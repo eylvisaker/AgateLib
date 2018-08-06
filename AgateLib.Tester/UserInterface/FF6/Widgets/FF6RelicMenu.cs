@@ -41,7 +41,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 },
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Style = new InlineElementStyle
                         {
@@ -50,8 +50,9 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                                 Direction = FlexDirection.Row,
                             }
                         },
+                        OnCancel = Props.OnCancel,
                         Name = "equipActionType",
-                        MenuItems =
+                        Children  =
                         {
                             new MenuItem(new MenuItemProps{ Text = "Equip", OnAccept = e => SelectSlotThen(e, EquipRelic)}),
                             new MenuItem(new MenuItemProps{ Text = "Remove", OnAccept = e => SelectSlotThen(e, RemoveRelic)}),
@@ -59,10 +60,10 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Ref = actionMenuRef,
                         AllowNavigate = false,
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "slots",
-                        MenuItems = Props.EquipmentSlots.Select(eq =>
+                        Children = Props.EquipmentSlots.Select(eq =>
                             new MenuItem(new MenuItemProps
                             {
                                 Name = eq.Name,
@@ -70,7 +71,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                                 OnSelect = e => UpdateAvailableItems(e, eq.Name),
                                 OnAccept = e => slotsAction(e),
                             })
-                        ).ToList(),
+                        ).ToList<IRenderable>(),
+                        OnCancel = e => e.System.SetFocus(actionMenuRef),
                         Ref = slotsMenuRef,
                         AllowNavigate = false,
                     }),
@@ -80,10 +82,11 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         AllowNavigate = false,
                         Children =
                         {
-                            new Menu(new MenuProps
+                            new Window(new WindowProps
                             {
                                 Name = "AvailableItems",
-                                MenuItems = State.AvailableItems.Select(item =>
+                                OnCancel = e => e.System.SetFocus(slotsMenuRef),
+                                Children = State.AvailableItems.Select(item =>
                                     new MenuItem(new MenuItemProps
                                     {
                                         Text = item.Name,
@@ -98,7 +101,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                                             EquipItem(e, item);
                                         },
                                     }
-                                )).ToList(),
+                                )).ToList<IRenderable>(),
                                 Ref = itemsMenuRef,
                             }),
                             new Window(new WindowProps
@@ -171,6 +174,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         public UserInterfaceEventHandler<PlayerCharacter, string> OnEquipRemove { get; set; }
         public UserInterfaceEventHandler<PlayerCharacter> OnEquipOptimum { get; set; }
         public UserInterfaceEventHandler<PlayerCharacter> OnEquipEmpty { get; set; }
+        public UserInterfaceEventHandler OnCancel { get; set; }
+
         public IEnumerable<EquipmentSlot> EquipmentSlots { get; set; }
     }
 }

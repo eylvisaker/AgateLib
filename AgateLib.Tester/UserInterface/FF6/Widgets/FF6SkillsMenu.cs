@@ -19,20 +19,20 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
             {
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "skillType",
-                        MenuItems =
+                        Children =
                         {
                             new MenuItem(new MenuItemProps{ Text = "Magic", OnAccept = Props.OnMagic }),
                             new MenuItem(new MenuItemProps{ Text = "Espers",  OnAccept = Props.OnEspers }),
                         },
                         OnCancel = Props.OnCancel
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "skillType2",
-                        MenuItems =
+                        Children =
                         {
                             new MenuItem(new MenuItemProps{ Text = "Blitz",   OnAccept = Props.OnBlitz}),
                             new MenuItem(new MenuItemProps{ Text = "SwdTech", OnAccept = Props.OnSwdTech}),

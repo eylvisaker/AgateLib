@@ -16,7 +16,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
 
         public override IRenderable Render()
         {
-            return new Menu(new MenuProps
+            return new Window(new WindowProps
             {
                 DefaultStyle = new InlineElementStyle
                 {
@@ -24,7 +24,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 },
                 Name = Props.Name,
                 Enabled = Props.Enabled,
-                MenuItems = Props.Characters.Select(
+                Children = Props.Characters.Select(
                     x => new MenuItem(new MenuItemProps
                     {
                         Style = new InlineElementStyle
@@ -34,7 +34,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Text = x.Name,
                         OnAccept = e => Props.OnSelectPC?.Invoke(
                             new UserInterfaceEvent<PlayerCharacter>().Reset(e, x))
-                    })).ToList(),
+                    })).ToList<IRenderable>(),
                 OnCancel = Props.OnCancel
             });
         }

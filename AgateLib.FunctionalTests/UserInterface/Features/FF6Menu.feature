@@ -25,11 +25,6 @@ Scenario: FF6 - Open Items Menu
 	When I select Items
 	Then the active window is items/items
 
-Scenario: FF6 - Cancel PC selection after equip
-	When I select Equip
-	And I press the cancel button
-	Then the active window is default/main
-
 Scenario: FF6 - Use Item
 	When I select Items, Dried Meat, Dried Meat, Tora
 	Then Tora is healed
@@ -91,6 +86,20 @@ Scenario Outline: FF6 - Equip Items
 	| Head   | Leather Helm   |
 	| Body   | Leather Armor  |
 	
+Scenario: FF6 - Cancel PC selection after equip
+	When I select Equip
+	And I press the cancel button
+	Then the active window is default/main
+
+Scenario: FF6 - Exit equip menus
+	When I select Equip, Tora, Equip, R-hand
+	And I press the cancel button
+	Then the active window is equip/slots
+	When I press the cancel button
+	Then the active window is equip/equipActionType
+	When I press the cancel button
+	Then the active window is default/main
+
 Scenario: FF6 - Equip multiple items in succession
 	When I select Equip, Tora, Equip, R-hand, Short Sword, L-hand, Leather Shield, Head, Leather Helm, Body, Leather Armor
 	Then Short Sword is equipped on Tora in the R-hand slot
@@ -140,6 +149,15 @@ Scenario Outline: FF6 - Empty Items
 Scenario: FF6 - Equip relic
 	When I select relic, Tora, Equip, Relic 1, Sprint Shoes
 	Then Sprint Shoes is equipped on Tora in the relic 1 slot
+
+Scenario: FF6 - Exit relic menus
+	When I select Relic, Tora, Equip, Relic 1
+	And I press the cancel button
+	Then the active window is relic/slots
+	When I press the cancel button
+	Then the active window is relic/equipActionType
+	When I press the cancel button
+	Then the active window is default/main
 
 Scenario Outline: FF6 - Remove relic
 	Given Tora is equipped with Sprint Shoes, Running Shoes

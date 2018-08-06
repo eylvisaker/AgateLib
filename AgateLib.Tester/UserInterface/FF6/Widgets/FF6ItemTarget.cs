@@ -22,14 +22,14 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 OnCancel = Props.OnCancel,
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
-                        MenuItems = Props.Characters.Select(c =>
+                        Children = Props.Characters.Select(c =>
                             new MenuItem(new MenuItemProps
                             {
                                 Text = c.Name,
                                 OnAccept = e => Props.OnAccept?.Invoke(characterEvent.Reset(e, c))
-                            })).ToList()
+                            })).ToList<IRenderable>()
                     })
                 }
             });

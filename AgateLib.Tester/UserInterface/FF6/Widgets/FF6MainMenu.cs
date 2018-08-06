@@ -90,6 +90,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 OnEquipRemove = Props.OnEquipRemove,
                 OnEquipOptimum = Props.OnEquipOptimum,
                 OnEquipEmpty = Props.OnEquipEmpty,
+                OnCancel = e => e.System.PopWorkspace(),
             })));
         }
 
@@ -102,6 +103,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 EquipmentSlots = Props.Model.EquipmentSlots.Where(x => x.Name.Contains("Relic")),
                 OnEquip = Props.OnEquip,
                 OnEquipRemove = Props.OnEquipRemove,
+                OnCancel = e => e.System.PopWorkspace(),
             })));
         }
 
