@@ -918,10 +918,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
                     Padding = new LayoutBox(12, 6, 12, 6),
                 },
                 Children = {
-                    new Button(new ButtonProps { Text = "AHe"    , Ref = item0 }),
-                    new Button(new ButtonProps { Text = "BHel"   , Ref = item1 }),
-                    new Button(new ButtonProps { Text = "CHell"  , Ref = item2 }),
-                    new Button(new ButtonProps { Text = "DHello" , Ref = item3 }),
+                    new Button(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
+                    new Button(new MenuItemProps { Text = "BHel"   , Ref = item1 }),
+                    new Button(new MenuItemProps { Text = "CHell"  , Ref = item2 }),
+                    new Button(new MenuItemProps { Text = "DHello" , Ref = item3 }),
                 }, 
             });
 
@@ -966,10 +966,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
                             }
                         },
                         Children = {
-                            new Button(new ButtonProps { Text = "AHe"    , Ref = item0 }),
-                            new Button(new ButtonProps { Text = "BHel"   }),
-                            new Button(new ButtonProps { Text = "CHell"  }),
-                            new Button(new ButtonProps { Text = "DHello" }),
+                            new Button(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
+                            new Button(new MenuItemProps { Text = "BHel"   }),
+                            new Button(new MenuItemProps { Text = "CHell"  }),
+                            new Button(new MenuItemProps { Text = "DHello" }),
                         },
                         Ref = menu0,
                     }),
@@ -981,10 +981,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
                             Padding = new LayoutBox(12, 6, 12, 6),
                         },
                         Children = {
-                            new Button(new ButtonProps { Text = "AHe"    , Ref = item1 }),
-                            new Button(new ButtonProps { Text = "BHel"   }),
-                            new Button(new ButtonProps { Text = "CHell"  }),
-                            new Button(new ButtonProps { Text = "DHello" }),
+                            new Button(new MenuItemProps { Text = "AHe"    , Ref = item1 }),
+                            new Button(new MenuItemProps { Text = "BHel"   }),
+                            new Button(new MenuItemProps { Text = "CHell"  }),
+                            new Button(new MenuItemProps { Text = "DHello" }),
                         },
                         Ref = menu1,
                     }),
@@ -1032,10 +1032,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
                             Padding = new LayoutBox(24, 12, 24, 12),
                         },
                         Children = {
-                            new Button(new ButtonProps { Text = "AHe"    , Ref = item0 }),
-                            new Button(new ButtonProps { Text = "BHel"   }),
-                            new Button(new ButtonProps { Text = "CHell"  }),
-                            new Button(new ButtonProps { Text = "DHello" }),
+                            new Button(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
+                            new Button(new MenuItemProps { Text = "BHel"   }),
+                            new Button(new MenuItemProps { Text = "CHell"  }),
+                            new Button(new MenuItemProps { Text = "DHello" }),
                         },
                         Ref = menu0,
                     }),
@@ -1055,10 +1055,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
                             }
                         },
                         Children = {
-                            new Button(new ButtonProps { Text = "AHe"    , Ref = item1 }),
-                            new Button(new ButtonProps { Text = "BHel"   }),
-                            new Button(new ButtonProps { Text = "CHell"  }),
-                            new Button(new ButtonProps { Text = "DHello" }),
+                            new Button(new MenuItemProps { Text = "AHe"    , Ref = item1 }),
+                            new Button(new MenuItemProps { Text = "BHel"   }),
+                            new Button(new MenuItemProps { Text = "CHell"  }),
+                            new Button(new MenuItemProps { Text = "DHello" }),
                         },
                         Ref = menu1,
                     }),
@@ -1077,6 +1077,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
             item0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 30, 10));
             item1.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1106, 10));
         }
+
         [Fact]
         public void SingleFlexGrowOnBothItemsRow()
         {
@@ -1109,10 +1110,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
                             },
                         },
                         Children = {
-                            new Button(new ButtonProps { Text = "AHe"    , Ref = item0 }),
-                            new Button(new ButtonProps { Text = "BHel"   }),
-                            new Button(new ButtonProps { Text = "CHell"  }),
-                            new Button(new ButtonProps { Text = "DHello" }),
+                            new Button(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
+                            new Button(new MenuItemProps { Text = "BHel"   }),
+                            new Button(new MenuItemProps { Text = "CHell"  }),
+                            new Button(new MenuItemProps { Text = "DHello" }),
                         },
                         Ref = menu0,
                     }),
@@ -1132,10 +1133,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
                             }
                         },
                         Children = {
-                            new Button(new ButtonProps { Text = "AHe"    , Ref = item1 }),
-                            new Button(new ButtonProps { Text = "BHel"   }),
-                            new Button(new ButtonProps { Text = "CHell"  }),
-                            new Button(new ButtonProps { Text = "DHello" }),
+                            new Button(new MenuItemProps { Text = "AHe"    , Ref = item1 }),
+                            new Button(new MenuItemProps { Text = "BHel"   }),
+                            new Button(new MenuItemProps { Text = "CHell"  }),
+                            new Button(new MenuItemProps { Text = "DHello" }),
                         },
                         Ref = menu1,
                     }),

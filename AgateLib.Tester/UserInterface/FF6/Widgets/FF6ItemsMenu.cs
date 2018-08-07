@@ -36,15 +36,15 @@ namespace AgateLib.Tests.UserInterface.FF6
                         },
                         Children =
                         {
-                            new Button(new ButtonProps{
+                            new Button(new MenuItemProps{
                                 Text = "items",
                                 OnAccept = e => e.System.SetFocus(itemsRef.Current)
                             }),
-                            new Button(new ButtonProps{
+                            new Button(new MenuItemProps{
                                 Text = "Arrange",
                                 OnAccept = Props.OnArrangeItems
                             }),
-                            new Button(new ButtonProps{ Text = "Rare" })
+                            new Button(new MenuItemProps{ Text = "Rare" })
                         },
                         Ref = arrangeItemsRef,
                         OnCancel = Props.OnCancel
@@ -55,7 +55,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                         Name = "Items",
                         OnCancel = e => e.System.SetFocus(arrangeItemsRef.Current),
                         Children = State.Inventory.Select(item =>
-                            new Button(new ButtonProps
+                            new Button(new MenuItemProps
                             {
                                 Text = item.Name,
                                 OnAccept = e => SelectItem(e, item)

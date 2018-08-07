@@ -54,8 +54,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Name = "equipActionType",
                         Children  =
                         {
-                            new Button(new ButtonProps{ Text = "Equip", OnAccept = e => SelectSlotThen(e, EquipRelic)}),
-                            new Button(new ButtonProps{ Text = "Remove", OnAccept = e => SelectSlotThen(e, RemoveRelic)}),
+                            new Button(new MenuItemProps{ Text = "Equip", OnAccept = e => SelectSlotThen(e, EquipRelic)}),
+                            new Button(new MenuItemProps{ Text = "Remove", OnAccept = e => SelectSlotThen(e, RemoveRelic)}),
                         },
                         Ref = actionMenuRef,
                         AllowNavigate = false,
@@ -64,11 +64,11 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                     {
                         Name = "slots",
                         Children = Props.EquipmentSlots.Select(eq =>
-                            new Button(new ButtonProps
+                            new Button(new MenuItemProps
                             {
                                 Name = eq.Name,
                                 Text = $"{eq.Name}: {Props.PlayerCharacter.Equipment[eq.Name]?.Name}",
-                                OnSelect = e => UpdateAvailableItems(e, eq.Name),
+                                OnFocus = e => UpdateAvailableItems(e, eq.Name),
                                 OnAccept = e => slotsAction(e),
                             })
                         ).ToList<IRenderable>(),
@@ -87,10 +87,10 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                                 Name = "AvailableItems",
                                 OnCancel = e => e.System.SetFocus(slotsMenuRef),
                                 Children = State.AvailableItems.Select(item =>
-                                    new Button(new ButtonProps
+                                    new Button(new MenuItemProps
                                     {
                                         Text = item.Name,
-                                        OnSelect = e =>
+                                        OnFocus = e =>
                                         {
                                             SetState(state => {
                                                 state.SelectedItem = item;

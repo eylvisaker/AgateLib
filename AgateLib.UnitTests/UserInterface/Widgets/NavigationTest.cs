@@ -82,7 +82,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
             app.SelectedLeft.Name.Should().Be("Foo");
             app.SelectedRight.Name.Should().Be("MegaGra");
 
-            driver.Focus.Should().BeOfType(typeof(ButtonElement));
+            driver.Focus.Should().BeOfType(typeof(MenuItemElement));
         }
 
         [Fact]

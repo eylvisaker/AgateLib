@@ -29,19 +29,19 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class Button : Widget<ButtonProps>
+    public class Button : Widget<MenuItemProps>
     {
-        public Button(ButtonProps props) : base(props)
+        public Button(MenuItemProps props) : base(props)
         {
         }
 
         public override IRenderable Render()
         {
-            return new ButtonElement(new ButtonElementProps
+            return new MenuItemElement(new MenuItemElementProps
             {
                 Text = Props.Text,
                 OnAccept = Props.OnAccept,
-                OnFocus = Props.OnSelect,
+                OnFocus = Props.OnFocus,
                 Enabled = Props.Enabled,
                 Style = Props.Style,
                 Name = Props.Name,
@@ -51,7 +51,7 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public class ButtonProps : WidgetProps
+    public class MenuItemProps : WidgetProps
     {
         /// <summary>
         /// Sets text to display in the menu item. This property is ignored if children are explictly added.
@@ -60,7 +60,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public UserInterfaceEventHandler OnAccept { get; set; }
 
-        public UserInterfaceEventHandler OnSelect { get; set; }
+        public UserInterfaceEventHandler OnFocus { get; set; }
 
         /// <summary>
         /// Specifies whether the button should be enabled for the user to interact with.
@@ -74,13 +74,13 @@ namespace AgateLib.UserInterface.Widgets
         public List<IRenderable> Children { get; set; } = new List<IRenderable>();
     }
 
-    public class ButtonElement : RenderElement<ButtonElementProps>
+    public class MenuItemElement : RenderElement<MenuItemElementProps>
     {
         IRenderElement child;
 
         private ButtonPress<MenuInputButton> buttonPress = new ButtonPress<MenuInputButton>();
 
-        public ButtonElement(ButtonElementProps props) : base(props)
+        public MenuItemElement(MenuItemElementProps props) : base(props)
         {
             if (props.Children.Count == 1)
             {
@@ -143,7 +143,7 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public class ButtonElementProps : RenderElementProps
+    public class MenuItemElementProps : RenderElementProps
     {
         public UserInterfaceEventHandler OnAccept { get; set; }
 

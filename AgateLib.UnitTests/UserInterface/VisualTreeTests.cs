@@ -37,7 +37,7 @@ namespace AgateLib.Tests.UserInterface
                             Ref = MenuA,
                             Children =
                             {
-                                new Button(new ButtonProps {
+                                new Button(new MenuItemProps {
                                     Text = "Go directly to jail.",
                                     OnAccept = e =>{ SetState(state => state.Switches++); e.System.SetFocus(MenuB); },
                                 }),
@@ -48,7 +48,7 @@ namespace AgateLib.Tests.UserInterface
                             Ref = MenuB,
                             Children =
                             {
-                                new Button(new ButtonProps {
+                                new Button(new MenuItemProps {
                                     Text = "Do not collect $200.",
                                     OnAccept = e =>{ SetState(state => state.Switches++); e.System.SetFocus(MenuA); },
                                 }),

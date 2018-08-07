@@ -60,7 +60,7 @@ namespace AgateLib.Tests.UserInterface.Steps
         [Then(@"(.*) is the active menu item")]
         public void ThenXIsTheActiveMenuItem(string menuItemName)
         {
-            var focus = context.ActiveWorkspace.Focus as ButtonElement;
+            var focus = context.ActiveWorkspace.Focus as MenuItemElement;
 
             focus.Props.Text.Should().BeEquivalentTo(menuItemName);
             //var menu = context.ActiveWindow as Menu;

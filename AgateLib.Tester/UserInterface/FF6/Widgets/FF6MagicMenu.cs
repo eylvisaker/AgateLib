@@ -20,7 +20,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 Name = "Magic",
                 OnCancel = Props.OnCancel,
                 Children = {
-                    new Button(new ButtonProps { Text = "Does nothing" })
+                    new Button(new MenuItemProps { Text = "Does nothing" })
                 }
             });
         }

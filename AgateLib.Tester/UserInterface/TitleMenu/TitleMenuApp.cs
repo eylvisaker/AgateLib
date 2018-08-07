@@ -24,9 +24,9 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
                         OnCancel = Props.OnCancel,
                         Children =
                         {
-                            new Button(new ButtonProps { Text = "Start", OnAccept = Props.OnStart }),
-                            new Button(new ButtonProps { Text = "Load", OnAccept = Props.OnLoad }),
-                            new Button(new ButtonProps { Text = "Quit", OnAccept = Props.OnQuit })
+                            new Button(new MenuItemProps { Text = "Start", OnAccept = Props.OnStart }),
+                            new Button(new MenuItemProps { Text = "Load", OnAccept = Props.OnLoad }),
+                            new Button(new MenuItemProps { Text = "Quit", OnAccept = Props.OnQuit })
                         }
                     })
                 }
