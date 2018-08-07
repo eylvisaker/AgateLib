@@ -37,7 +37,7 @@ namespace AgateLib.Tests.UserInterface.FlexFiddler
                         Children =
                         {
                             new Label(new LabelProps { Text = $"Window Flex Grow: {State.FirstWindowGrow}"}),
-                            new Window(new WindowProps
+                            new Panel(new PanelProps
                             {
                                 OnCancel = Props.OnCancel,
                                 Name = "growWindow",
@@ -78,7 +78,7 @@ namespace AgateLib.Tests.UserInterface.FlexFiddler
                         Children =
                         {
                             new Label(new LabelProps { Text = $"Window Flex Grow: {State.SecondWindowGrow}"}),
-                            new Window(new WindowProps
+                            new Panel(new PanelProps
                             {
                                 Name = "growWindow",
                                 Style = new InlineElementStyle
