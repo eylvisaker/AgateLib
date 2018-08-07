@@ -994,13 +994,13 @@ namespace AgateLib.Tests.UserInterface.Widgets
             TestUIDriver driver = new TestUIDriver(window, styleConfigurator);
             driver.DoLayout();
 
-            menu0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1202, 720));
-            menu1.Current.Display.MarginRect.Should().Be(new Rectangle(1202, 0, 78, 720));
+            menu0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1226, 720));
+            menu1.Current.Display.MarginRect.Should().Be(new Rectangle(1226, 0, 54, 720));
 
-            menu0.Current.Display.ContentRect.Should().Be(new Rectangle(24, 12, 1154, 696));
-            menu1.Current.Display.ContentRect.Should().Be(new Rectangle(1214, 6, 54, 708));
+            menu0.Current.Display.ContentRect.Should().Be(new Rectangle(24, 12, 1178, 696));
+            menu1.Current.Display.ContentRect.Should().Be(new Rectangle(1238, 6, 30, 708));
 
-            item0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1106, 10));
+            item0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1178, 10));
             item1.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 30, 10));
         }
 
@@ -1068,14 +1068,14 @@ namespace AgateLib.Tests.UserInterface.Widgets
             TestUIDriver driver = new TestUIDriver(window, styleConfigurator);
             driver.DoLayout();
 
-            menu0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 126, 720));
-            menu1.Current.Display.MarginRect.Should().Be(new Rectangle(126, 0, 1154, 720));
+            menu0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 78, 720));
+            menu1.Current.Display.MarginRect.Should().Be(new Rectangle(78, 0, 1202, 720));
 
-            menu0.Current.Display.ContentRect.Should().Be(new Rectangle(24, 12, 78, 696));
-            menu1.Current.Display.ContentRect.Should().Be(new Rectangle(138, 6, 1130, 708));
+            menu0.Current.Display.ContentRect.Should().Be(new Rectangle(24, 12, 30, 696));
+            menu1.Current.Display.ContentRect.Should().Be(new Rectangle(90, 6, 1178, 708));
 
             item0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 30, 10));
-            item1.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1106, 10));
+            item1.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1178, 10));
         }
 
         [Fact]
@@ -1146,14 +1146,14 @@ namespace AgateLib.Tests.UserInterface.Widgets
             TestUIDriver driver = new TestUIDriver(window, styleConfigurator);
             driver.DoLayout();
 
-            menu0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 664, 720));
-            menu1.Current.Display.MarginRect.Should().Be(new Rectangle(664, 0, 616, 720));
+            menu0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 652, 720));
+            menu1.Current.Display.MarginRect.Should().Be(new Rectangle(652, 0, 628, 720));
 
-            menu0.Current.Display.ContentRect.Should().Be(new Rectangle(24, 12, 616, 696));
-            menu1.Current.Display.ContentRect.Should().Be(new Rectangle(676, 6, 592, 708));
+            menu0.Current.Display.ContentRect.Should().Be(new Rectangle(24, 12, 604, 696));
+            menu1.Current.Display.ContentRect.Should().Be(new Rectangle(664, 6, 604, 708));
 
-            item0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 568, 10));
-            item1.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 568, 10));
+            item0.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 604, 10));
+            item1.Current.Display.MarginRect.Should().Be(new Rectangle(0, 0, 604, 10));
         }
 
         #endregion
