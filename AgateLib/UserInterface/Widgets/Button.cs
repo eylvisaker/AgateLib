@@ -29,15 +29,15 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class MenuItem : Widget<MenuItemProps>
+    public class Button : Widget<ButtonProps>
     {
-        public MenuItem(MenuItemProps props) : base(props)
+        public Button(ButtonProps props) : base(props)
         {
         }
 
         public override IRenderable Render()
         {
-            return new MenuItemElement(new MenuItemElementProps
+            return new ButtonElement(new ButtonElementProps
             {
                 Text = Props.Text,
                 OnAccept = Props.OnAccept,
@@ -51,7 +51,7 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public class MenuItemProps : WidgetProps
+    public class ButtonProps : WidgetProps
     {
         /// <summary>
         /// Sets text to display in the menu item. This property is ignored if children are explictly added.
@@ -74,13 +74,13 @@ namespace AgateLib.UserInterface.Widgets
         public List<IRenderable> Children { get; set; } = new List<IRenderable>();
     }
 
-    public class MenuItemElement : RenderElement<MenuItemElementProps>
+    public class ButtonElement : RenderElement<ButtonElementProps>
     {
         IRenderElement child;
 
         private ButtonPress<MenuInputButton> buttonPress = new ButtonPress<MenuInputButton>();
 
-        public MenuItemElement(MenuItemElementProps props) : base(props)
+        public ButtonElement(ButtonElementProps props) : base(props)
         {
             if (props.Children.Count == 1)
             {
@@ -143,7 +143,7 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public class MenuItemElementProps : RenderElementProps
+    public class ButtonElementProps : RenderElementProps
     {
         public UserInterfaceEventHandler OnAccept { get; set; }
 

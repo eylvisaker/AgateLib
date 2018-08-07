@@ -37,7 +37,7 @@ namespace AgateLib.Tests.UserInterface.FlexFiddler
                         Children =
                         {
                             new Label(new LabelProps { Text = $"Window Flex Grow: {State.FirstWindowGrow}"}),
-                            new Menu(new MenuProps
+                            new Window(new WindowProps
                             {
                                 OnCancel = Props.OnCancel,
                                 Name = "growWindow",
@@ -45,15 +45,15 @@ namespace AgateLib.Tests.UserInterface.FlexFiddler
                                 {
                                     Padding = new LayoutBox(24, 12, 24, 12),
                                 },
-                                MenuItems = {
-                                    new MenuItem(new MenuItemProps {
+                                Children = {
+                                    new Button(new ButtonProps {
                                         Text = "Increase Grow",
                                         OnAccept = e =>
                                         {
                                             SetState(state => state.FirstWindowGrow ++);
                                         },
                                     }),
-                                    new MenuItem(new MenuItemProps {
+                                    new Button(new ButtonProps {
                                         Text = "Decrease Grow",
                                         OnAccept = e =>
                                         {
@@ -78,23 +78,23 @@ namespace AgateLib.Tests.UserInterface.FlexFiddler
                         Children =
                         {
                             new Label(new LabelProps { Text = $"Window Flex Grow: {State.SecondWindowGrow}"}),
-                            new Menu(new MenuProps
+                            new Window(new WindowProps
                             {
                                 Name = "growWindow",
                                 Style = new InlineElementStyle
                                 {
                                     Padding = new LayoutBox(12, 6, 12, 6),
                                 },
-                                MenuItems =
+                                Children =
                                 {
-                                    new MenuItem(new MenuItemProps {
+                                    new Button(new ButtonProps {
                                         Text = "Increase Grow",
                                         OnAccept = e =>
                                         {
                                             SetState(state => state.SecondWindowGrow ++);
                                         },
                                     }),
-                                    new MenuItem(new MenuItemProps {
+                                    new Button(new ButtonProps {
                                         Text = "Decrease Grow",
                                         OnAccept = e =>
                                         {

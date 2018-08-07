@@ -25,7 +25,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                     new Window(new WindowProps
                     {
                         Children = Props.Characters.Select(c =>
-                            new MenuItem(new MenuItemProps
+                            new Button(new ButtonProps
                             {
                                 Text = c.Name,
                                 OnAccept = e => Props.OnAccept?.Invoke(characterEvent.Reset(e, c))

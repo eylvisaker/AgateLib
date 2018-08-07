@@ -222,7 +222,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ButtonPress.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ContentLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ContentMenuItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\MenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyle.cs" />
@@ -237,7 +237,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\SingleRowLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\SizeMetrics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\WidgetLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Menu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\MenuInputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\ComponentStyleRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\DoubleBuffer.cs" />

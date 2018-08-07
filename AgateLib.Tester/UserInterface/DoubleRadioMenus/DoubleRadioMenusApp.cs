@@ -45,10 +45,10 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                                     }),
                                 }
                             }),
-                            new Menu(new MenuProps{
+                            new Window(new WindowProps{
                                 OnCancel = Props.OnCancel,
-                                MenuItems = {
-                                    new MenuItem(new MenuItemProps {
+                                Children = {
+                                    new Button(new ButtonProps {
                                         Text = "Accept",
                                         Enabled = State.AcceptEnabled,
                                         OnAccept = e => Props.OnAccept?.Invoke(selectedLeft, selectedRight)

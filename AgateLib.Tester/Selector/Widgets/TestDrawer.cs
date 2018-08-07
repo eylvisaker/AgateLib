@@ -18,9 +18,9 @@ namespace AgateLib.Tests.Selector.Widgets
 
         public override IRenderable Render()
         {
-            return new Menu(new MenuProps
+            return new Window(new WindowProps
             {
-                MenuItems = Props.Tests.Select(CreateMenuItem).ToList()
+                Children = Props.Tests.Select(CreateButton).ToList()
             });
 
             //return new FlexBox(new FlexBoxProps
@@ -32,17 +32,17 @@ namespace AgateLib.Tests.Selector.Widgets
             //});
         }
 
-        private Menu CreateMenu(ITest[] value)
+        private Window CreateMenu(ITest[] value)
         {
-            return new Menu(new MenuProps
+            return new Window(new WindowProps
             {
-                MenuItems = value.Select(CreateMenuItem).ToList(),
+                Children = value.Select(CreateButton).ToList(),
             });
         }
 
-        private MenuItem CreateMenuItem(ITest test)
+        private IRenderable CreateButton(ITest test)
         {
-            return new MenuItem(new MenuItemProps
+            return new Button(new ButtonProps
             {
                 Text = test.Name,
                 OnAccept = e => Props.OnAcceptTest?.Invoke(test),

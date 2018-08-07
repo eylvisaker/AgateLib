@@ -910,18 +910,18 @@ namespace AgateLib.Tests.UserInterface.Widgets
             ElementReference item2 = new ElementReference();
             ElementReference item3 = new ElementReference();
 
-            Menu box = new Menu(new MenuProps
+            Window box = new Window(new WindowProps
             {
                 Name = "thewindow",
                 Style = new InlineElementStyle
                 {
                     Padding = new LayoutBox(12, 6, 12, 6),
                 },
-                MenuItems = {
-                    new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
-                    new MenuItem(new MenuItemProps { Text = "BHel"   , Ref = item1 }),
-                    new MenuItem(new MenuItemProps { Text = "CHell"  , Ref = item2 }),
-                    new MenuItem(new MenuItemProps { Text = "DHello" , Ref = item3 }),
+                Children = {
+                    new Button(new ButtonProps { Text = "AHe"    , Ref = item0 }),
+                    new Button(new ButtonProps { Text = "BHel"   , Ref = item1 }),
+                    new Button(new ButtonProps { Text = "CHell"  , Ref = item2 }),
+                    new Button(new ButtonProps { Text = "DHello" , Ref = item3 }),
                 }, 
             });
 
@@ -954,7 +954,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 },
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "growWindow",
                         Style = new InlineElementStyle
@@ -965,26 +965,26 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 Grow = 1,
                             }
                         },
-                        MenuItems = {
-                            new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
-                            new MenuItem(new MenuItemProps { Text = "BHel"   }),
-                            new MenuItem(new MenuItemProps { Text = "CHell"  }),
-                            new MenuItem(new MenuItemProps { Text = "DHello" }),
+                        Children = {
+                            new Button(new ButtonProps { Text = "AHe"    , Ref = item0 }),
+                            new Button(new ButtonProps { Text = "BHel"   }),
+                            new Button(new ButtonProps { Text = "CHell"  }),
+                            new Button(new ButtonProps { Text = "DHello" }),
                         },
                         Ref = menu0,
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "fixedWindow",
                         Style = new InlineElementStyle
                         {
                             Padding = new LayoutBox(12, 6, 12, 6),
                         },
-                        MenuItems = {
-                            new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item1 }),
-                            new MenuItem(new MenuItemProps { Text = "BHel"   }),
-                            new MenuItem(new MenuItemProps { Text = "CHell"  }),
-                            new MenuItem(new MenuItemProps { Text = "DHello" }),
+                        Children = {
+                            new Button(new ButtonProps { Text = "AHe"    , Ref = item1 }),
+                            new Button(new ButtonProps { Text = "BHel"   }),
+                            new Button(new ButtonProps { Text = "CHell"  }),
+                            new Button(new ButtonProps { Text = "DHello" }),
                         },
                         Ref = menu1,
                     }),
@@ -1024,22 +1024,22 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 },
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "growWindow",
                         Style = new InlineElementStyle
                         {
                             Padding = new LayoutBox(24, 12, 24, 12),
                         },
-                        MenuItems = {
-                            new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
-                            new MenuItem(new MenuItemProps { Text = "BHel"   }),
-                            new MenuItem(new MenuItemProps { Text = "CHell"  }),
-                            new MenuItem(new MenuItemProps { Text = "DHello" }),
+                        Children = {
+                            new Button(new ButtonProps { Text = "AHe"    , Ref = item0 }),
+                            new Button(new ButtonProps { Text = "BHel"   }),
+                            new Button(new ButtonProps { Text = "CHell"  }),
+                            new Button(new ButtonProps { Text = "DHello" }),
                         },
                         Ref = menu0,
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "fixedWindow",
                         Style = new InlineElementStyle
@@ -1054,11 +1054,11 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 AlignItems = AlignItems.Stretch,
                             }
                         },
-                        MenuItems = {
-                            new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item1 }),
-                            new MenuItem(new MenuItemProps { Text = "BHel"   }),
-                            new MenuItem(new MenuItemProps { Text = "CHell"  }),
-                            new MenuItem(new MenuItemProps { Text = "DHello" }),
+                        Children = {
+                            new Button(new ButtonProps { Text = "AHe"    , Ref = item1 }),
+                            new Button(new ButtonProps { Text = "BHel"   }),
+                            new Button(new ButtonProps { Text = "CHell"  }),
+                            new Button(new ButtonProps { Text = "DHello" }),
                         },
                         Ref = menu1,
                     }),
@@ -1097,7 +1097,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 },
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "growWindow",
                         Style = new InlineElementStyle
@@ -1108,15 +1108,15 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 Grow = 1,
                             },
                         },
-                        MenuItems = {
-                            new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item0 }),
-                            new MenuItem(new MenuItemProps { Text = "BHel"   }),
-                            new MenuItem(new MenuItemProps { Text = "CHell"  }),
-                            new MenuItem(new MenuItemProps { Text = "DHello" }),
+                        Children = {
+                            new Button(new ButtonProps { Text = "AHe"    , Ref = item0 }),
+                            new Button(new ButtonProps { Text = "BHel"   }),
+                            new Button(new ButtonProps { Text = "CHell"  }),
+                            new Button(new ButtonProps { Text = "DHello" }),
                         },
                         Ref = menu0,
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
                         Name = "fixedWindow",
                         Style = new InlineElementStyle
@@ -1131,11 +1131,11 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 AlignItems = AlignItems.Stretch,
                             }
                         },
-                        MenuItems = {
-                            new MenuItem(new MenuItemProps { Text = "AHe"    , Ref = item1 }),
-                            new MenuItem(new MenuItemProps { Text = "BHel"   }),
-                            new MenuItem(new MenuItemProps { Text = "CHell"  }),
-                            new MenuItem(new MenuItemProps { Text = "DHello" }),
+                        Children = {
+                            new Button(new ButtonProps { Text = "AHe"    , Ref = item1 }),
+                            new Button(new ButtonProps { Text = "BHel"   }),
+                            new Button(new ButtonProps { Text = "CHell"  }),
+                            new Button(new ButtonProps { Text = "DHello" }),
                         },
                         Ref = menu1,
                     }),

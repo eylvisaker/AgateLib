@@ -54,8 +54,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Name = "equipActionType",
                         Children  =
                         {
-                            new MenuItem(new MenuItemProps{ Text = "Equip", OnAccept = e => SelectSlotThen(e, EquipRelic)}),
-                            new MenuItem(new MenuItemProps{ Text = "Remove", OnAccept = e => SelectSlotThen(e, RemoveRelic)}),
+                            new Button(new ButtonProps{ Text = "Equip", OnAccept = e => SelectSlotThen(e, EquipRelic)}),
+                            new Button(new ButtonProps{ Text = "Remove", OnAccept = e => SelectSlotThen(e, RemoveRelic)}),
                         },
                         Ref = actionMenuRef,
                         AllowNavigate = false,
@@ -64,7 +64,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                     {
                         Name = "slots",
                         Children = Props.EquipmentSlots.Select(eq =>
-                            new MenuItem(new MenuItemProps
+                            new Button(new ButtonProps
                             {
                                 Name = eq.Name,
                                 Text = $"{eq.Name}: {Props.PlayerCharacter.Equipment[eq.Name]?.Name}",
@@ -87,7 +87,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                                 Name = "AvailableItems",
                                 OnCancel = e => e.System.SetFocus(slotsMenuRef),
                                 Children = State.AvailableItems.Select(item =>
-                                    new MenuItem(new MenuItemProps
+                                    new Button(new ButtonProps
                                     {
                                         Text = item.Name,
                                         OnSelect = e =>

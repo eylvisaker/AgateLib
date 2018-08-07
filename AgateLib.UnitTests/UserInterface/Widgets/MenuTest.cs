@@ -17,10 +17,10 @@ namespace AgateLib.Tests.UserInterface.Widgets
         {
             bool canceled = false;
 
-            var menu = new Menu(new MenuProps
+            var menu = new Window(new WindowProps
             {
                 OnCancel = e => canceled = true,
-                MenuItems = { new MenuItem(new MenuItemProps { Text = "Hello" }) }
+                Children = { new Button(new ButtonProps { Text = "Hello" }) }
             });
 
             TestUIDriver driver = new TestUIDriver(menu);
@@ -37,25 +37,25 @@ namespace AgateLib.Tests.UserInterface.Widgets
             {
                 Children =
                 {
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
-                        MenuItems =
+                        Children =
                         {
-                            new MenuItem(new MenuItemProps { Text = "Hello" }),
-                            new MenuItem(new MenuItemProps { Text = "Some" }),
-                            new MenuItem(new MenuItemProps { Text = "Items", Enabled = false, }),
-                            new MenuItem(new MenuItemProps { Text = "Are" }),
-                            new MenuItem(new MenuItemProps { Text = "Disabled", Enabled = false }),
+                            new Button(new ButtonProps { Text = "Hello" }),
+                            new Button(new ButtonProps { Text = "Some" }),
+                            new Button(new ButtonProps { Text = "Items", Enabled = false, }),
+                            new Button(new ButtonProps { Text = "Are" }),
+                            new Button(new ButtonProps { Text = "Disabled", Enabled = false }),
                         }
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
-                        MenuItems =
+                        Children =
                         {
-                            new MenuItem(new MenuItemProps { Text = "Testing if we" }),
-                            new MenuItem(new MenuItemProps { Text = "Can navigate out" }),
-                            new MenuItem(new MenuItemProps { Text = "of a menu who's last" }),
-                            new MenuItem(new MenuItemProps { Text = "item is disabled." }),
+                            new Button(new ButtonProps { Text = "Testing if we" }),
+                            new Button(new ButtonProps { Text = "Can navigate out" }),
+                            new Button(new ButtonProps { Text = "of a menu who's last" }),
+                            new Button(new ButtonProps { Text = "item is disabled." }),
                         }
                     })
                 }
@@ -84,11 +84,11 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
             public override IRenderable Render()
             {
-                return new Menu(new MenuProps
+                return new Window(new WindowProps
                 {
-                    MenuItems =
+                    Children =
                     {
-                        new MenuItem(new MenuItemProps
+                        new Button(new ButtonProps
                         {
                             Text = "DisableMe",
                             Enabled = State.MenuItemEnabled,
@@ -101,7 +101,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                                 });
                             },
                         }),
-                        new MenuItem(new MenuItemProps { Text = "I don't do anything."})
+                        new Button(new ButtonProps { Text = "I don't do anything."})
                     }
                 });
             }
@@ -136,14 +136,14 @@ namespace AgateLib.Tests.UserInterface.Widgets
                             disabledCount++;
                         },
                     }),
-                    new Menu(new MenuProps
+                    new Window(new WindowProps
                     {
-                        MenuItems =
+                        Children =
                         {
-                            new MenuItem(new MenuItemProps { Text = "Testing if we" }),
-                            new MenuItem(new MenuItemProps { Text = "Can navigate out" }),
-                            new MenuItem(new MenuItemProps { Text = "of a menu who's last" }),
-                            new MenuItem(new MenuItemProps { Text = "item is disabled." }),
+                            new Button(new ButtonProps { Text = "Testing if we" }),
+                            new Button(new ButtonProps { Text = "Can navigate out" }),
+                            new Button(new ButtonProps { Text = "of a menu who's last" }),
+                            new Button(new ButtonProps { Text = "item is disabled." }),
                         }
                     })
                 }
@@ -161,8 +161,8 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
         private static void FocusItemHasText(TestUIDriver driver, string text)
         {
-            driver.Focus.Props.Should().BeOfType(typeof(MenuItemElementProps));
-            (driver.Focus.Props as MenuItemElementProps).Text.Should().Be(text);
+            driver.Focus.Props.Should().BeOfType(typeof(ButtonElementProps));
+            (driver.Focus.Props as ButtonElementProps).Text.Should().Be(text);
         }
     }
 

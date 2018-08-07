@@ -25,7 +25,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                 Name = Props.Name,
                 Enabled = Props.Enabled,
                 Children = Props.Characters.Select(
-                    x => new MenuItem(new MenuItemProps
+                    x => new Button(new ButtonProps
                     {
                         Style = new InlineElementStyle
                         {

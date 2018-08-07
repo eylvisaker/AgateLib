@@ -32,23 +32,23 @@ namespace AgateLib.Tests.UserInterface
                     Children =
                     {
                         new Label(new LabelProps { Text = State.Switches.ToString() }),
-                        new Menu(new MenuProps
+                        new Window(new WindowProps
                         {
                             Ref = MenuA,
-                            MenuItems =
+                            Children =
                             {
-                                new MenuItem(new MenuItemProps {
+                                new Button(new ButtonProps {
                                     Text = "Go directly to jail.",
                                     OnAccept = e =>{ SetState(state => state.Switches++); e.System.SetFocus(MenuB); },
                                 }),
                             }
                         }),
-                        new Menu(new MenuProps
+                        new Window(new WindowProps
                         {
                             Ref = MenuB,
-                            MenuItems =
+                            Children =
                             {
-                                new MenuItem(new MenuItemProps {
+                                new Button(new ButtonProps {
                                     Text = "Do not collect $200.",
                                     OnAccept = e =>{ SetState(state => state.Switches++); e.System.SetFocus(MenuA); },
                                 }),

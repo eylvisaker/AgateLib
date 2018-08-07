@@ -13,7 +13,7 @@ namespace AgateLib.UserInterface.Widgets
         {
         }
 
-        public override IRenderable Render() => new MenuElement(new MenuElementProps
+        public override IRenderable Render() => new FlexBox(new FlexBoxProps
         {
             AllowNavigate = Props.AllowNavigate,
             Style = Props.Style,

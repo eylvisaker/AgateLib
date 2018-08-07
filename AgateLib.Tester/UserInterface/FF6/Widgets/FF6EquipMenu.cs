@@ -56,17 +56,17 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         OnCancel = Props.OnCancel,
                         Children =
                         {
-                            new MenuItem(new MenuItemProps{ Text = "Equip", OnAccept = e => SelectSlotThen(e, EquipItem)}),
-                            new MenuItem(new MenuItemProps{ Text = "Remove", OnAccept = e => SelectSlotThen(e, RemoveItem)}),
-                            new MenuItem(new MenuItemProps{ Text = "Optimum", OnAccept = e => Props.OnEquipOptimum?.Invoke(charEvent.Reset(e, Props.PlayerCharacter))}),
-                            new MenuItem(new MenuItemProps{ Text = "Empty", OnAccept = e => Props.OnEquipEmpty?.Invoke(charEvent.Reset(e, Props.PlayerCharacter))}),
+                            new Button(new ButtonProps{ Text = "Equip", OnAccept = e => SelectSlotThen(e, EquipItem)}),
+                            new Button(new ButtonProps{ Text = "Remove", OnAccept = e => SelectSlotThen(e, RemoveItem)}),
+                            new Button(new ButtonProps{ Text = "Optimum", OnAccept = e => Props.OnEquipOptimum?.Invoke(charEvent.Reset(e, Props.PlayerCharacter))}),
+                            new Button(new ButtonProps{ Text = "Empty", OnAccept = e => Props.OnEquipEmpty?.Invoke(charEvent.Reset(e, Props.PlayerCharacter))}),
                         },
                     }),
                     new Window(new WindowProps
                     {
                         Name = "slots",
                         Children = Props.EquipmentSlots.Select(eq =>
-                            new MenuItem(new MenuItemProps
+                            new Button(new ButtonProps
                             {
                                 Name = eq.Name,
                                 Text = $"{eq.Name}: {Props.PlayerCharacter.Equipment[eq.Name]?.Name}",
@@ -107,7 +107,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                                 },
                                 Name = "AvailableItems",
                                 Children = State.AvailableItems.Select(item =>
-                                    new MenuItem(new MenuItemProps
+                                    new Button(new ButtonProps
                                     {
                                         Text = item.Name,
                                         OnSelect = e =>
