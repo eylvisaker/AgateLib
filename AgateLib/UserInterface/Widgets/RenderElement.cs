@@ -243,6 +243,18 @@ namespace AgateLib.UserInterface.Widgets
 
         public virtual void OnInputEvent(InputEventArgs input)
         {
+            if (input.EventType == WidgetEventType.ButtonDown)
+                OnButtonDown(input.Button);
+            else if (input.EventType == WidgetEventType.ButtonUp)
+                OnButtonUp(input.Button);
+        }
+
+        protected virtual void OnButtonDown(MenuInputButton button)
+        {
+        }
+
+        protected virtual void OnButtonUp(MenuInputButton button)
+        {
         }
 
         public virtual void Update(IWidgetRenderContext renderContext)
