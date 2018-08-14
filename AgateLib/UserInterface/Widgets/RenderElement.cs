@@ -48,21 +48,25 @@ namespace AgateLib.UserInterface.Widgets
         IRenderElement Parent { get; }
 
         /// <summary>
-        /// Gets the type identifier used to identify this widget type to the styling
+        /// Gets the type identifier used to identify this render element type to the styling
         /// engine.
         /// </summary>
         string StyleTypeId { get; }
 
         /// <summary>
-        /// Gets the class name used to identify this widget to the styling
+        /// Gets the class name used to identify this render element to the styling
         /// </summary>
         string StyleClass { get; }
-        
-        /// <summary>
-        /// Gets the name of the widget. This is used as the StyleId of the rendered element.
-        /// </summary>
-        string Id { get; }
 
+        /// <summary>
+        /// Gets the name of the render element. This is used as the StyleId of the rendered element.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// Sets the props of the render element. This must match the props type used by the render element.
+        /// </summary>
+        /// <param name="props"></param>
         void SetProps(RenderElementProps props);
 
         /// <summary>
@@ -226,7 +230,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public string StyleClass => Props.StyleClass;
 
-        public string Id => Props.Name;
+        public string Name => Props.Name;
 
         public virtual bool CanHaveFocus => false;
 
@@ -275,8 +279,8 @@ namespace AgateLib.UserInterface.Widgets
             if (!string.IsNullOrWhiteSpace(StyleClass))
                 result.Append($".{StyleClass}");
 
-            if (!string.IsNullOrWhiteSpace(Id))
-                result.Append($"#{Id}");
+            if (!string.IsNullOrWhiteSpace(Name))
+                result.Append($"#{Name}");
 
             return result.ToString();
         }

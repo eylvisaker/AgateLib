@@ -13,7 +13,7 @@ namespace AgateLib.Tests.UserInterface.Support.Initialization
         public static void AddMenuItem(this IWidgetLayout layout, 
             string text, Action method)
         {
-            var item = new ContentMenuItem { Text = text, Id = text };
+            var item = new ContentMenuItem { Text = text, Name = text };
             item.PressAccept += (sender, e) => method();
 
             throw new NotImplementedException();

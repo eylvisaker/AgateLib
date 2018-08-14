@@ -31,7 +31,7 @@ namespace AgateLib.UserInterface.Widgets
 {
     public interface IWidget : IRenderable
     {
-        string Id { get; }
+        string Name { get; }
 
         void Initialize();
 
@@ -46,6 +46,8 @@ namespace AgateLib.UserInterface.Widgets
     public class WidgetProps
     {
         public string Name { get; set; }
+
+        public string Theme { get; set; }
 
         public string StyleClass { get; set; }
 
@@ -131,7 +133,7 @@ namespace AgateLib.UserInterface.Widgets
 
         #endregion
 
-        public string Id => props.Name;
+        public string Name => props.Name;
 
         public virtual void Initialize()
         {
@@ -162,7 +164,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="name">If name is null, it is replaced by the empty string.</param>
         protected RenderWidget(string name = "")
         {
-            Id = name ?? "";
+            Name = name ?? "";
         }
 
 
@@ -177,7 +179,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets or sets the name of the widget.
         /// </summary>
-        public string Id { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets the WidgetDisplay object that controls how the widget is
@@ -288,7 +290,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override string ToString()
         {
-            return $"{GetType().Name}: {Id}";
+            return $"{GetType().Name}: {Name}";
         }
 
         public virtual IRenderable Render()

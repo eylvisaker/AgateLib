@@ -22,11 +22,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 using AgateLib.Display;
 using AgateLib.UserInterface.Content.Commands;
-using AgateLib.UserInterface.Styling.Themes.Model;
 
 namespace AgateLib.UserInterface.Content
 {
@@ -52,7 +49,6 @@ namespace AgateLib.UserInterface.Content
     /// A basic content layout engine, that will layout text and images.
     /// Does not perform any localization.
     /// </summary>
-    [Singleton]
     public class ContentLayoutEngine : IContentLayoutEngine
     {
         private readonly IFontProvider fonts;

@@ -24,8 +24,8 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Name = "skillType",
                         Children =
                         {
-                            new Button(new MenuItemProps{ Text = "Magic", OnAccept = Props.OnMagic }),
-                            new Button(new MenuItemProps{ Text = "Espers",  OnAccept = Props.OnEspers }),
+                            new Button(new ButtonProps{ Text = "Magic", OnAccept = Props.OnMagic }),
+                            new Button(new ButtonProps{ Text = "Espers",  OnAccept = Props.OnEspers }),
                         },
                         OnCancel = Props.OnCancel
                     }),
@@ -34,10 +34,10 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
                         Name = "skillType2",
                         Children =
                         {
-                            new Button(new MenuItemProps{ Text = "Blitz",   OnAccept = Props.OnBlitz}),
-                            new Button(new MenuItemProps{ Text = "SwdTech", OnAccept = Props.OnSwdTech}),
-                            new Button(new MenuItemProps{ Text = "Blue",    OnAccept = Props.OnBlue}),
-                            new Button(new MenuItemProps{ Text = "Rage",    OnAccept = Props.OnRage}),
+                            new Button(new ButtonProps{ Text = "Blitz",   OnAccept = Props.OnBlitz}),
+                            new Button(new ButtonProps{ Text = "SwdTech", OnAccept = Props.OnSwdTech}),
+                            new Button(new ButtonProps{ Text = "Blue",    OnAccept = Props.OnBlue}),
+                            new Button(new ButtonProps{ Text = "Rage",    OnAccept = Props.OnRage}),
                         },
                         OnCancel = Props.OnCancel
                     })

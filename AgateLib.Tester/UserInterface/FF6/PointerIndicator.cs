@@ -18,6 +18,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             this.texture = texture;
         }
 
+        public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 
         /// <summary>
         /// Draws the focus indicator.

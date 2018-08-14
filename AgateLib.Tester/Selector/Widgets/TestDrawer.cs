@@ -42,7 +42,7 @@ namespace AgateLib.Tests.Selector.Widgets
 
         private IRenderable CreateButton(ITest test)
         {
-            return new Button(new MenuItemProps
+            return new Button(new ButtonProps
             {
                 Text = test.Name,
                 OnAccept = e => Props.OnAcceptTest?.Invoke(test),

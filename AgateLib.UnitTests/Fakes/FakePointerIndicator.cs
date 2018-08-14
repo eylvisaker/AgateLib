@@ -17,6 +17,8 @@ namespace AgateLib.Tests.Fakes
 
         public List<Rectangle> Draws => Draws;
 
+        public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
+
         public void DrawFocus(SpriteBatch spriteBatch, IRenderElement focusElement, Rectangle focusContentArea)
         {
             draws.Add(focusContentArea);

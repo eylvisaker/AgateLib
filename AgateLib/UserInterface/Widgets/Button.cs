@@ -29,9 +29,9 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public class Button : Widget<MenuItemProps>
+    public class Button : Widget<ButtonProps>
     {
-        public Button(MenuItemProps props) : base(props)
+        public Button(ButtonProps props) : base(props)
         {
         }
 
@@ -51,7 +51,7 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public class MenuItemProps : WidgetProps
+    public class ButtonProps : WidgetProps
     {
         /// <summary>
         /// Sets text to display in the menu item. This property is ignored if children are explictly added.

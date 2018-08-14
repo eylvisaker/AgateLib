@@ -46,14 +46,14 @@ namespace AgateLib.Tests.UserInterface.FlexFiddler
                                     Padding = new LayoutBox(24, 12, 24, 12),
                                 },
                                 Children = {
-                                    new Button(new MenuItemProps {
+                                    new Button(new ButtonProps {
                                         Text = "Increase Grow",
                                         OnAccept = e =>
                                         {
                                             SetState(state => state.FirstWindowGrow ++);
                                         },
                                     }),
-                                    new Button(new MenuItemProps {
+                                    new Button(new ButtonProps {
                                         Text = "Decrease Grow",
                                         OnAccept = e =>
                                         {
@@ -87,14 +87,14 @@ namespace AgateLib.Tests.UserInterface.FlexFiddler
                                 },
                                 Children =
                                 {
-                                    new Button(new MenuItemProps {
+                                    new Button(new ButtonProps {
                                         Text = "Increase Grow",
                                         OnAccept = e =>
                                         {
                                             SetState(state => state.SecondWindowGrow ++);
                                         },
                                     }),
-                                    new Button(new MenuItemProps {
+                                    new Button(new ButtonProps {
                                         Text = "Decrease Grow",
                                         OnAccept = e =>
                                         {

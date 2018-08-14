@@ -123,11 +123,19 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public Theme LoadTheme(IContentProvider content, string filename)
         {
-            return new Theme
+            try
             {
-                Data = LoadThemeData(content, filename),
-                Fonts = fonts
-            };
+                return new Theme
+                {
+                    Data = LoadThemeData(content, filename),
+                    Fonts = fonts
+                };
+            }
+            catch (Exception e)
+            {
+                throw new UserInterfaceLoadException($"Loading '{filename}' failed with {e.GetType().Name}",
+                    e);
+            }
         }
     }
 }

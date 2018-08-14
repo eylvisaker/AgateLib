@@ -194,6 +194,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\LayoutStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeRenderElementStyleProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceLoadException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ElementReference.cs" />
@@ -252,8 +253,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetRegion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetRenderContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetStyleCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Panel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Window.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\_Enums.cs" />

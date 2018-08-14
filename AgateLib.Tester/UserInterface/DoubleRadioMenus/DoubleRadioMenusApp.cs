@@ -48,7 +48,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                             new Window(new WindowProps{
                                 OnCancel = Props.OnCancel,
                                 Children = {
-                                    new Button(new MenuItemProps {
+                                    new Button(new ButtonProps {
                                         Text = "Accept",
                                         Enabled = State.AcceptEnabled,
                                         OnAccept = e => Props.OnAccept?.Invoke(selectedLeft, selectedRight)

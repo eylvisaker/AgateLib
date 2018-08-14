@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Mathematics;
+using AgateLib.Randomizer;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace AgateLib
         double NextDouble();
     }
 
-    public static class RandomExtensions
+    public static class RandomX
     {
         /// <summary>
         /// Gets a seed value from the system clock.
@@ -176,6 +177,32 @@ namespace AgateLib
 
             return default(T);
         }
+
+        /// <summary>
+        /// Creates a new IRandom object with a seed set by the system clock.
+        /// </summary>
+        /// <returns></returns>
+        public static IRandom Create()
+        {
+            return Create(GetSeedFromSystemClock());
+        }
+
+        /// <summary>
+        /// Creates a new IRandom object with a specified seed.
+        /// </summary>
+        /// <returns></returns>
+        public static IRandom Create(long seed)
+        {
+            if (RandomFactory == null)
+                return new FastRandom((int)seed);
+
+            return RandomFactory(seed);
+        }
+
+        /// <summary>
+        /// Set to specify a custom random factory method.
+        /// </summary>
+        public static Func<long, IRandom> RandomFactory { get; set; }
     }
 }
 

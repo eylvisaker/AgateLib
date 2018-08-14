@@ -115,7 +115,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public CssWidgetSelector(string selector)
         {
-            Selector = selector.Trim();
+            Selector = selector?.Trim() ?? throw new ArgumentNullException("Selector should not be null");
         }
 
         public bool IsValid { get; private set; }
@@ -371,7 +371,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
             foreach(var cls in matcher.Identifiers)
             {
-                if (!cls.Equals(element.Id, StringComparison.OrdinalIgnoreCase))
+                if (!cls.Equals(element.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }

@@ -34,7 +34,7 @@ namespace AgateLib.UserInterface.Rendering
 {
     public interface IFocusIndicator
     {
-        UserInterfaceRenderer UserInterfaceRenderer { get; set; }
+        IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 
         /// <summary>
         /// Draws the focus indicator.
