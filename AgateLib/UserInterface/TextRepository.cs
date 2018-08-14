@@ -34,7 +34,11 @@ namespace AgateLib.UserInterface
 {
     public interface ITextRepository
     {
-        string this[string key] { get; }
+        /// <summary>
+        /// Looks up an item in the text repository by its key, and return its value.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        string Lookup(string key);
     }
-
 }

@@ -126,7 +126,7 @@ namespace AgateLib.UserInterface.Widgets
             compareFont.Color = Aggregate(p => p.TextColor);
             compareFont.Style = Aggregate(p => p.FontStyle);
             compareFont.Size = Aggregate(p => p.FontSize);
-            
+
             if (compareFont.IsEmpty)
             {
                 font = new Font(display.ParentFont);

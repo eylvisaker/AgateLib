@@ -20,169 +20,170 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Mathematics.Geometry;
+using AgateLib.Quality;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using AgateLib.Mathematics.Geometry;
-using AgateLib.Quality;
 
 namespace AgateLib.Display.BitmapFont
 {
-	public interface IFontCore
-	{
-		string Name { get; }
+    public interface IFontCore
+    {
+        string Name { get; }
 
-		IReadOnlyDictionary<FontSettings, IFontTexture> FontItems { get; }
+        IReadOnlyDictionary<FontSettings, IFontTexture> FontItems { get; }
 
-		int FontHeight(FontState state);
-		
-		void DrawText(FontState state, SpriteBatch spriteBatch, Vector2 dest, string text);
+        int FontHeight(FontState state);
 
-		Size MeasureString(FontState state, string text);
+        void DrawText(FontState state, SpriteBatch spriteBatch, Vector2 dest, string text);
 
-		void AddFontSurface(FontSettings settings, IFontTexture fontSurface);
+        Size MeasureString(FontState state, string text);
 
-		FontSettings GetClosestFontSettings(FontSettings settings);
+        [Obsolete("This should not be part of the interface.")]
+        void AddFontSurface(FontSettings settings, IFontTexture fontSurface);
 
-		IFontTexture FontSurface(FontState fontState);
-	}
+        FontSettings GetClosestFontSettings(FontSettings settings);
 
-	internal class FontCore : IFontCore
-	{
-		Dictionary<FontSettings, IFontTexture> fontTextures = new Dictionary<FontSettings, IFontTexture>();
+        IFontTexture FontSurface(FontState fontState);
+    }
 
-		public FontCore(string name)
-		{
-			Name = name;
-		}
+    internal class FontCore : IFontCore
+    {
+        private Dictionary<FontSettings, IFontTexture> fontTextures = new Dictionary<FontSettings, IFontTexture>();
 
-		public string Name { get; set; }
+        public FontCore(string name)
+        {
+            Name = name;
+        }
 
-		public IReadOnlyDictionary<FontSettings, IFontTexture> FontItems => fontTextures;
+        public string Name { get; set; }
 
-		public void AddFontSurface(FontSettings settings, IFontTexture fontSurface)
-		{
-			Require.ArgumentNotNull(fontSurface, nameof(fontSurface));
+        public IReadOnlyDictionary<FontSettings, IFontTexture> FontItems => fontTextures;
 
-			fontTextures[settings] = fontSurface;
-		}
+        public void AddFontSurface(FontSettings settings, IFontTexture fontSurface)
+        {
+            Require.ArgumentNotNull(fontSurface, nameof(fontSurface));
 
-		public IFontTexture GetFontSurface(int size, FontStyles fontStyles)
-		{
-			return GetFontSurface(new FontSettings(size, fontStyles));
-		}
-		public IFontTexture GetFontSurface(FontSettings settings)
-		{
-			return fontTextures[settings];
-		}
+            fontTextures[settings] = fontSurface;
+        }
 
-		public int FontHeight(FontState state)
-		{
-			var surface = FontSurface(state);
-			return surface.FontHeight(state);
-		}
+        public IFontTexture GetFontSurface(int size, FontStyles fontStyles)
+        {
+            return GetFontSurface(new FontSettings(size, fontStyles));
+        }
+        public IFontTexture GetFontSurface(FontSettings settings)
+        {
+            return fontTextures[settings];
+        }
 
-		int MaxSize(FontStyles style)
-		{
-			var keys = fontTextures.Keys.Where(x => x.Style == style);
-			if (keys.Any())
-				return keys.Max(x => x.Size);
-			else
-				return -1;
-		}
+        public int FontHeight(FontState state)
+        {
+            var surface = FontSurface(state);
+            return surface.FontHeight(state);
+        }
 
-		#region --- Finding correctly sized font ---
+        private int MaxSize(FontStyles style)
+        {
+            var keys = fontTextures.Keys.Where(x => x.Style == style);
+            if (keys.Any())
+                return keys.Max(x => x.Size);
+            else
+                return -1;
+        }
 
-		public IFontTexture FontSurface(FontState state)
-		{
-			var settings = GetClosestFontSettings(state.Settings);
-			var result = fontTextures[settings];
+        #region --- Finding correctly sized font ---
 
-			var ratio = state.Settings.Size / (double)settings.Size;
+        public IFontTexture FontSurface(FontState state)
+        {
+            var settings = GetClosestFontSettings(state.Settings);
+            var result = fontTextures[settings];
 
-			state.ScaleHeight = ratio;
-			state.ScaleWidth = ratio;
+            var ratio = state.Settings.Size / (double)settings.Size;
 
-			return result;
-		}
+            state.ScaleHeight = ratio;
+            state.ScaleWidth = ratio;
 
-		internal FontSettings GetClosestFontSettings(int size, FontStyles style)
-		{
-			return GetClosestFontSettings(new FontSettings(size, style));
-		}
-		public FontSettings GetClosestFontSettings(FontSettings settings)
-		{
-			if (fontTextures.ContainsKey(settings))
-				return settings;
+            return result;
+        }
 
-			int maxSize = MaxSize(settings.Style);
+        internal FontSettings GetClosestFontSettings(int size, FontStyles style)
+        {
+            return GetClosestFontSettings(new FontSettings(size, style));
+        }
+        public FontSettings GetClosestFontSettings(FontSettings settings)
+        {
+            if (fontTextures.ContainsKey(settings))
+                return settings;
 
-			// this happens if we have no font surfaces of this style.
-			if (maxSize <= 0)
-			{
-				FontStyles newStyle;
+            int maxSize = MaxSize(settings.Style);
 
-				// OK remove styles until we find an actual font.
-				if (TryRemoveStyle(settings.Style, FontStyles.Strikeout, out newStyle))
-					return GetClosestFontSettings(settings.Size, newStyle);
-				if (TryRemoveStyle(settings.Style, FontStyles.Italic, out newStyle))
-					return GetClosestFontSettings(settings.Size, newStyle);
-				if (TryRemoveStyle(settings.Style, FontStyles.Underline, out newStyle))
-					return GetClosestFontSettings(settings.Size, newStyle);
-				if (TryRemoveStyle(settings.Style, FontStyles.Bold, out newStyle))
-					return GetClosestFontSettings(settings.Size, newStyle);
-				else
-				{
-					Debug.Assert(fontTextures.Count == 0);
-					throw new InvalidOperationException("There are no font styles defined.");
-				}
-			}
+            // this happens if we have no font surfaces of this style.
+            if (maxSize <= 0)
+            {
+                FontStyles newStyle;
 
-			if (settings.Size > maxSize)
-				return GetClosestFontSettings(maxSize, settings.Style);
+                // OK remove styles until we find an actual font.
+                if (TryRemoveStyle(settings.Style, FontStyles.Strikeout, out newStyle))
+                    return GetClosestFontSettings(settings.Size, newStyle);
+                if (TryRemoveStyle(settings.Style, FontStyles.Italic, out newStyle))
+                    return GetClosestFontSettings(settings.Size, newStyle);
+                if (TryRemoveStyle(settings.Style, FontStyles.Underline, out newStyle))
+                    return GetClosestFontSettings(settings.Size, newStyle);
+                if (TryRemoveStyle(settings.Style, FontStyles.Bold, out newStyle))
+                    return GetClosestFontSettings(settings.Size, newStyle);
+                else
+                {
+                    Debug.Assert(fontTextures.Count == 0);
+                    throw new InvalidOperationException("There are no font styles defined.");
+                }
+            }
 
-			for (int i = settings.Size; i <= maxSize; i++)
-			{
-				settings.Size = i;
+            if (settings.Size > maxSize)
+                return GetClosestFontSettings(maxSize, settings.Style);
 
-				if (fontTextures.ContainsKey(settings))
-					return settings;
-			}
+            for (int i = settings.Size; i <= maxSize; i++)
+            {
+                settings.Size = i;
 
-			throw new InvalidOperationException("Could not find a valid font.");
-		}
+                if (fontTextures.ContainsKey(settings))
+                    return settings;
+            }
+
+            throw new InvalidOperationException("Could not find a valid font.");
+        }
 
 
-		#endregion
+        #endregion
 
-		private bool TryRemoveStyle(FontStyles value, FontStyles remove, out FontStyles result)
-		{
-			if ((value & remove) == remove)
-			{
-				result = ~(~value | remove);
-				return true;
-			}
-			else
-			{
-				result = 0;
-				return false;
-			}
-		}
-		
-		public void DrawText(FontState state, SpriteBatch spriteBatch, Vector2 dest, string text)
-		{
-			state.Location = dest;
-			state.Text = text;
+        private bool TryRemoveStyle(FontStyles value, FontStyles remove, out FontStyles result)
+        {
+            if ((value & remove) == remove)
+            {
+                result = ~(~value | remove);
+                return true;
+            }
+            else
+            {
+                result = 0;
+                return false;
+            }
+        }
 
-			FontSurface(state).DrawText(state, spriteBatch);
-		}
+        public void DrawText(FontState state, SpriteBatch spriteBatch, Vector2 dest, string text)
+        {
+            state.Location = dest;
+            state.Text = text;
 
-		public Size MeasureString(FontState state, string text)
-		{
-			return FontSurface(state).MeasureString(state, text);
-		}
-	}
+            FontSurface(state).DrawText(state, spriteBatch);
+        }
+
+        public Size MeasureString(FontState state, string text)
+        {
+            return FontSurface(state).MeasureString(state, text);
+        }
+    }
 }

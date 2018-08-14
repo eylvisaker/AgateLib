@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Display;
+﻿using AgateLib.Display;
 using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
+using Microsoft.Xna.Framework;
 using Moq;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.Tests
 {
@@ -21,7 +20,7 @@ namespace AgateLib.Tests
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static (Mock<Widget<WidgetProps, WidgetState>>, Mock<RenderElement<RenderElementProps>>) 
+        public static (Mock<Widget<WidgetProps, WidgetState>>, Mock<RenderElement<RenderElementProps>>)
             Widget(string name, bool elementCanHaveFocus = false)
         {
             var elementProps = new RenderElementProps();
@@ -37,10 +36,10 @@ namespace AgateLib.Tests
 
             widgetResult.CallBase = true;
             widgetResult.Setup(x => x.Render()).Returns(renderResult.Object);
-            
+
             return (widgetResult, renderResult);
         }
-        
+
 
         /// <summary>
         /// Constructs a font provider, with an optional list of available fake fonts.
@@ -71,7 +70,7 @@ namespace AgateLib.Tests
             return fontProvider;
         }
 
-        public static Mock<IWidgetRenderContext> RenderContext()
+        public static Mock<IWidgetRenderContext> RenderContext(IContentLayoutEngine contentLayoutEngine = null)
         {
             var styleRenderer = new Mock<IComponentStyleRenderer>();
             var uiRenderer = new UserInterfaceRenderer(styleRenderer.Object);
@@ -80,6 +79,27 @@ namespace AgateLib.Tests
 
             result.SetupGet(x => x.UserInterfaceRenderer)
                 .Returns(uiRenderer);
+
+            if (contentLayoutEngine != null)
+            {
+                result
+                    .Setup(x => x.CreateContentLayout(It.IsAny<string>(), It.IsAny<ContentLayoutOptions>(), It.IsAny<bool>()))
+                    .Returns<string, ContentLayoutOptions, bool>((text, options, localize) => contentLayoutEngine.LayoutContent(text, options, localize));
+            }
+            else
+            {
+                result
+                    .Setup(x => x.CreateContentLayout(It.IsAny<string>(), It.IsAny<ContentLayoutOptions>(), It.IsAny<bool>()))
+                    .Returns<string, ContentLayoutOptions, bool>((text, options, localize) =>
+                    {
+                        return new ContentLayout(new[] 
+                        {
+                            new ContentText(text, new Font(new FakeFontCore("default")), Vector2.Zero)
+                        });
+                    });
+            }
+
+            result.SetupGet(x => x.GameTime).Returns(new GameTime());
 
             return result;
         }

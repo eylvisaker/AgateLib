@@ -112,7 +112,7 @@ namespace AgateLib.UserInterface.Widgets
             if (item.ButtonContent == null)
             {
                 item.ButtonContent = renderContext.CreateContentLayout(
-                    "{Button " + key + "} ", contentLayoutOptions, localizeText: false);
+                    "{Button " + key + "} ", contentLayoutOptions, performLocalization: false);
             }
 
             if (item.Content == null)

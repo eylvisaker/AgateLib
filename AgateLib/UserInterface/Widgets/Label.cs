@@ -20,11 +20,10 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -42,6 +41,9 @@ namespace AgateLib.UserInterface.Widgets
                 Style = Props.Style,
                 StyleClass = Props.StyleClass,
                 Name = Props.Name,
+                PerformLocalization = Props.LocalizeContent,
+                ReadSlowly = Props.ReadSlowly,
+                AnimationComplete = Props.AnimationComplete,
             });
         }
 
@@ -54,12 +56,40 @@ namespace AgateLib.UserInterface.Widgets
     public class LabelProps : WidgetProps
     {
         public string Text { get; set; }
+
+        /// <summary>
+        /// Defaults to true. Set to false to bypass content localization.
+        /// </summary>
+        public bool LocalizeContent { get; set; } = true;
+
+        /// <summary>
+        /// Defaults to false. Set to true to have characters printed out one at a time.
+        /// </summary>
+        public bool ReadSlowly { get; set; }
+
+        /// <summary>
+        /// Callback which is executed when the animation completes.
+        /// </summary>
+        public UserInterfaceEventHandler AnimationComplete { get; set; }
     }
 
     public class LabelElement : RenderElement<LabelElementProps>
     {
+        private IContentLayout content;
+        private bool dirty;
+        private int lastContentMaxWidth;
+        private ContentLayoutOptions layoutOptions = new ContentLayoutOptions();
+        private UserInterfaceEvent evt = new UserInterfaceEvent();
+
         public LabelElement(LabelElementProps props) : base(props)
         {
+        }
+
+        protected override void OnReceiveProps()
+        {
+            base.OnReceiveProps();
+
+            dirty = true;
         }
 
         public override void DoLayout(IWidgetRenderContext renderContext, Size size)
@@ -70,34 +100,65 @@ namespace AgateLib.UserInterface.Widgets
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
-            if (string.IsNullOrEmpty(Props.Text))
-            {
-                return Style.Font.MeasureString("M");
-            }
-            else
-            {
-                return Style.Font.MeasureString(Props.Text);
-            }
+            RefreshContent(renderContext, maxSize.Width);
+
+            return content?.Size ?? Size.Empty;
         }
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
         {
-            Style.Font.DrawText(renderContext.SpriteBatch,
-                clientArea.Location.ToVector2(), Props.Text);
+            content?.Draw(clientArea.Location.ToVector2(), renderContext.SpriteBatch);
+        }
+
+        public override void Update(IWidgetRenderContext renderContext)
+        {
+            content?.Update(renderContext.GameTime);
         }
 
         public override string ToString()
         {
             return $"LabelElement: {Props.Text?.Substring(0, Math.Min(20, Props.Text.Length)) ?? "null"}";
         }
+
+        private void RefreshContent(IWidgetRenderContext renderContext, int maxWidth)
+        {
+            if (!dirty && content != null)
+            {
+                if (maxWidth > content.Size.Width)
+                    return;
+            }
+
+            if (dirty || lastContentMaxWidth != maxWidth)
+            {
+                if (Props.Text == null)
+                {
+                    content = null;
+                }
+                else
+                {
+                    layoutOptions.Font = Style.Font;
+                    layoutOptions.MaxWidth = maxWidth;
+
+                    content = renderContext.CreateContentLayout(Props.Text, layoutOptions, Props.PerformLocalization);
+                    content.Options.ReadSlowly = Props.ReadSlowly;
+
+                    content.AnimationComplete += () => Props.AnimationComplete?.Invoke(evt.Reset(this));
+                }
+
+                lastContentMaxWidth = maxWidth;
+                dirty = false;
+            }
+        }
     }
 
     public class LabelElementProps : RenderElementProps
     {
-        public LabelElementProps()
-        {
-        }
-
         public string Text { get; set; }
+
+        public bool PerformLocalization { get; set; }
+
+        public bool ReadSlowly { get; set; }
+
+        public UserInterfaceEventHandler AnimationComplete { get; set; }
     }
 }

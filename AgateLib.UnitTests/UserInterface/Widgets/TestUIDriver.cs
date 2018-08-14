@@ -1,6 +1,7 @@
 ﻿using AgateLib.Input;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Widgets;
@@ -20,10 +21,15 @@ namespace AgateLib.Tests.UserInterface.Widgets
         private readonly Workspace defaultWorkspace;
         private readonly ManualInputState input;
 
-        public TestUIDriver(IWidget app, IStyleConfigurator styleConfigurator = null, IFontProvider fontProvider = null)
+        public TestUIDriver(IWidget app, 
+                            IStyleConfigurator styleConfigurator = null, 
+                            IFontProvider fontProvider = null, 
+                            IContentLayoutEngine contentLayoutEngine = null)
         {
+            var renderContext = CommonMocks.RenderContext(contentLayoutEngine).Object;
+
             uiDriver = new UserInterfaceSceneDriver(
-                CommonMocks.RenderContext().Object,
+                renderContext,
                 styleConfigurator ?? new ThemeStyler(new ThemeCollection { ["default"] = Theme.CreateDefaultTheme() }),
                 fontProvider ?? CommonMocks.FontProvider().Object);
 

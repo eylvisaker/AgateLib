@@ -38,7 +38,7 @@ namespace AgateLib.UserInterface
 
         public void Render(IRenderable rootRenderable)
         {
-            var newRoot = rootRenderable.Finalize(_ => Render(rootRenderable));
+            var newRoot = rootRenderable.FinalizeRendering(_ => Render(rootRenderable));
             bool anyUpdates = false;
 
             Reconcile(ref root, newRoot, ref anyUpdates);

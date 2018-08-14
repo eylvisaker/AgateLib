@@ -90,12 +90,12 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="text">The text to layout. If localizeText is true, this text will be used
         /// as a key in the lookup table for the current language.</param>
         /// <param name="contentLayoutOptions">Options for content layout.</param>
-        /// <param name="localizeText">If true, the text will be localized. Defaults to true.</param>
+        /// <param name="performLocalization">If true, the text will be localized. Defaults to true.</param>
         /// <returns></returns>
         IContentLayout CreateContentLayout(
             string text,
             ContentLayoutOptions contentLayoutOptions,
-            bool localizeText = true);
+            bool performLocalization = true);
         
         /// <summary>
         /// Draws a child widget of the current widget.
@@ -309,9 +309,9 @@ namespace AgateLib.UserInterface.Widgets
         public IContentLayout CreateContentLayout(
             string text,
             ContentLayoutOptions contentLayoutOptions,
-            bool localizeText = true)
+            bool performLocalization = true)
         {
-            return contentLayoutEngine.LayoutContent(text, contentLayoutOptions, localizeText);
+            return contentLayoutEngine.LayoutContent(text, contentLayoutOptions, performLocalization);
         }
 
         public void InitializeUpdate(GameTime time)

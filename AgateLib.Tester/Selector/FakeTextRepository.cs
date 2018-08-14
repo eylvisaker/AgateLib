@@ -9,6 +9,6 @@ namespace AgateLib.Tests.Selector
 {
     class FakeTextRepository : ITextRepository
     {
-        public string this[string key] => key;
+        public string Lookup(string key) => key;
     }
 }

@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Tests.UserInterface.Support.Initialization;
-using AgateLib.UserInterface.Widgets;
-using AgateLib.UserInterface.Layout;
-using FluentAssertions;
-using TechTalk.SpecFlow;
-using AgateLib.Tests.UserInterface.FF6;
+﻿using AgateLib.Tests.UserInterface.FF6;
 using AgateLib.Tests.UserInterface.Support.Systems;
+using FluentAssertions;
+using System;
+using System.Collections.Generic;
 
 namespace AgateLib.Tests.UserInterface.Support
 {

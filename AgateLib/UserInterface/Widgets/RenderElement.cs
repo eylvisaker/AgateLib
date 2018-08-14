@@ -215,7 +215,7 @@ namespace AgateLib.UserInterface.Widgets
             if (renderable == null)
                 return null;
 
-            return renderable.Finalize(e => NeedsRender?.Invoke(e));
+            return renderable.FinalizeRendering(e => NeedsRender?.Invoke(e));
         }
 
         #endregion

@@ -60,7 +60,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="renderable">The IRenderable object to finalize.</param>
         /// <param name="needsRenderSubscriber">A handler to subscribe to the NeedsRender event.</param>
         /// <returns></returns>
-        public static IRenderElement Finalize(this IRenderable renderable, Action<IRenderable> needsRenderSubscriber)
+        public static IRenderElement FinalizeRendering(this IRenderable renderable, Action<IRenderable> needsRenderSubscriber)
         {
             IRenderable item = renderable;
             int count = 0;

@@ -40,6 +40,11 @@ namespace AgateLib.Tests.Fakes
             Name = name;
         }
 
+        /// <summary>
+        /// Gets the list of arguments passed for each call to IFontCore.DrawText.
+        /// </summary>
+        public List<FontDrawCall> DrawCalls { get; } = new List<FontDrawCall>();
+
         public string Name { get; set; }
 
         public int FontHeight { get; set; } = 10;
@@ -120,11 +125,19 @@ namespace AgateLib.Tests.Fakes
             return new Size(fontHeight / 2 * longestLine, fontHeight * lineCount);
         }
 
-        private void LogDrawText(Vector2 dest, Color color, string text, params object[] Parameters)
+        private void LogDrawText(Vector2 dest, Color color, string text, params object[] parameters)
         {
+            DrawCalls.Add(new FontDrawCall
+            {
+                Dest = dest,
+                Color = color,
+                Text = text,
+                Parameters = parameters
+            });
+
             System.Console.WriteLine($"{Name} draw to ({dest}): {color}");
             System.Console.WriteLine(text);
-            LogParameters(Parameters);
+            LogParameters(parameters);
         }
 
         private void LogParameters(object[] parameters)
@@ -134,5 +147,13 @@ namespace AgateLib.Tests.Fakes
                 System.Console.WriteLine("    " + p);
             }
         }
+    }
+
+    public class FontDrawCall
+    {
+        public Vector2 Dest { get; set; }
+        public Color Color { get; set; }
+        public string Text { get; set; }
+        public object[] Parameters { get; set; }
     }
 }

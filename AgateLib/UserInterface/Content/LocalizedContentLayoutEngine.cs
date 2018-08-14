@@ -59,7 +59,7 @@ namespace AgateLib.UserInterface.Content
             bool localizeText = true)
         {
             if (localizeText)
-                text = textRepo[text];
+                text = textRepo.Lookup(text);
 
             return baseEngine.LayoutContent(text, contentLayoutOptions);
         }
