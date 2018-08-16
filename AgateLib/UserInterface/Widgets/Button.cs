@@ -37,7 +37,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderable Render()
         {
-            return new MenuItemElement(new MenuItemElementProps
+            return new ButtonElement(new ButtonElementProps
             {
                 Text = Props.Text,
                 OnAccept = Props.OnAccept,
@@ -74,13 +74,13 @@ namespace AgateLib.UserInterface.Widgets
         public List<IRenderable> Children { get; set; } = new List<IRenderable>();
     }
 
-    public class MenuItemElement : RenderElement<MenuItemElementProps>
+    public class ButtonElement : RenderElement<ButtonElementProps>
     {
         IRenderElement child;
 
         private ButtonPress<MenuInputButton> buttonPress = new ButtonPress<MenuInputButton>();
 
-        public MenuItemElement(MenuItemElementProps props) : base(props)
+        public ButtonElement(ButtonElementProps props) : base(props)
         {
             if (props.Children.Count == 1)
             {
@@ -143,14 +143,14 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public class MenuItemElementProps : RenderElementProps
+    public class ButtonElementProps : RenderElementProps
     {
         public UserInterfaceEventHandler OnAccept { get; set; }
 
         public List<IRenderable> Children { get; set; } = new List<IRenderable>();
 
         /// <summary>
-        /// A purely informational property, not used by the MenuItemElement.
+        /// A purely informational property, not used by the ButtonElement.
         /// </summary>
         public string Text { get; set; }
     }

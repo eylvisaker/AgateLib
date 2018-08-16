@@ -27,10 +27,10 @@ namespace AgateLib.Tests.UserInterface.Support
 
         public void GoTo(string menuItemText)
         {
-            var menuItem = Desktop.ActiveWorkspace.Focus as MenuItemElement;
+            var menuItem = Desktop.ActiveWorkspace.Focus as ButtonElement;
             var parent = menuItem.Parent as FlexBox;
             
-            var target = parent.Children.OfType<MenuItemElement>().SingleOrDefault(
+            var target = parent.Children.OfType<ButtonElement>().SingleOrDefault(
                 w => (w.Name?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false)
                   || (w.Props.Text?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false));
 

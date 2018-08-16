@@ -7,6 +7,7 @@ using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Moq;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -14,9 +15,18 @@ namespace AgateLib.Tests.UserInterface.Widgets
 {
     public class LabelWithLocalizationTest
     {
-        class TextRepository : ITextRepository
+        private class TextRepository : ITextRepository
         {
-            public string Lookup(string key) => key;
+            public Dictionary<string, string> LookupValues { get; set; }
+                = new Dictionary<string, string>();
+
+            public string Lookup(string key)
+            {
+                if (LookupValues.TryGetValue(key, out string value))
+                    return value;
+
+                return key;
+            }
         }
 
         private readonly FakeFontCore fontCore;
@@ -47,10 +57,13 @@ namespace AgateLib.Tests.UserInterface.Widgets
         public void LabelBasicTextNoWrap()
         {
             string text = "These aren't the droids you're looking for.";
+            string textKey = "droids";
+            textRepo.LookupValues.Add(textKey, text);
+
             int expectedWidth = 215;
             int expectedHeight = 10;
 
-            var label = new Label(new LabelProps { Text = text });
+            var label = new Label(new LabelProps { Text = textKey });
             var labelElement = (LabelElement)label.FinalizeRendering(null);
 
             labelElement.Display.ParentFont = new Font(font);
@@ -59,7 +72,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
             Size idealSize = labelElement.CalcIdealContentSize(context.Object, new Size(1000, 1000));
             labelElement.Draw(context.Object, new Rectangle(40, 60, 1000, 1000));
 
-            labelElement.Props.Text.Should().Be(text);
+            labelElement.Props.Text.Should().Be(textKey);
 
             idealSize.Width.Should().Be(expectedWidth);
             idealSize.Height.Should().Be(expectedHeight);
@@ -77,10 +90,13 @@ namespace AgateLib.Tests.UserInterface.Widgets
         public void LabelBasicTextWithCarriageReturn()
         {
             string text = "This has a carriage\nreturn.";
+            string textKey = "ret";
+            textRepo.LookupValues.Add(textKey, text);
+
             int expectedWidth = 95;
             int expectedHeight = 20;
 
-            var label = new Label(new LabelProps { Text = text });
+            var label = new Label(new LabelProps { Text = textKey });
             var labelElement = (LabelElement)label.FinalizeRendering(null);
             labelElement.Display.ParentFont = font;
             labelElement.Style.Update();
@@ -88,7 +104,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
             Size idealSize = labelElement.CalcIdealContentSize(context.Object, new Size(1000, 1000));
             labelElement.Draw(context.Object, new Rectangle(40, 60, 1000, 1000));
 
-            labelElement.Props.Text.Should().Be(text);
+            labelElement.Props.Text.Should().Be(textKey);
 
             idealSize.Width.Should().Be(expectedWidth);
             idealSize.Height.Should().Be(expectedHeight);

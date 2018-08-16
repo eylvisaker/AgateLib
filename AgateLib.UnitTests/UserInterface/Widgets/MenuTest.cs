@@ -161,8 +161,8 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
         private static void FocusItemHasText(TestUIDriver driver, string text)
         {
-            driver.Focus.Props.Should().BeOfType(typeof(MenuItemElementProps));
-            (driver.Focus.Props as MenuItemElementProps).Text.Should().Be(text);
+            driver.Focus.Props.Should().BeOfType(typeof(ButtonElementProps));
+            (driver.Focus.Props as ButtonElementProps).Text.Should().Be(text);
         }
     }
 
