@@ -82,29 +82,6 @@ namespace AgateLib.UserInterface.Styling.Themes
             public override string ToString() => $"{Type}: {Value}";
         }
 
-        enum MatcherType
-        {
-            Self,
-            Parent,
-            Ancestor
-        }
-        
-        class Matcher : List<ItemMatcher>
-        {
-
-        }
-
-        class ItemMatcher
-        {
-            public MatcherType MatchType { get; set; }
-
-            public string TypeId { get; set; }
-
-            public List<string> ClassNames { get; set; } = new List<string>();
-            public List<string> Identifiers { get; set; } = new List<string>();
-            public List<string> PseudoClasses { get; set; } = new List<string>();
-        }
-
         /// <summary>
         /// Stores tokens in REVERSE order.
         /// </summary>
@@ -305,7 +282,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             {
                 if (Matches(matcher, element, stack))
                 {
-                    return new SelectorMatch(CalcSpecificity(matcher), matcher.First().PseudoClasses);
+                    return new SelectorMatch(matcher, CalcSpecificity(matcher), matcher.First().PseudoClasses);
                 }
             }
 
@@ -384,8 +361,11 @@ namespace AgateLib.UserInterface.Styling.Themes
 
     public class SelectorMatch
     {
-        public SelectorMatch(int specificity, IEnumerable<string> pseudoClasses)
+        private readonly Matcher matcher;
+
+        public SelectorMatch(Matcher matcher, int specificity, IEnumerable<string> pseudoClasses)
         {
+            this.matcher = matcher;
             Specificity = specificity;
             PseudoClasses = pseudoClasses.ToList();
         }
@@ -394,5 +374,80 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public IReadOnlyCollection<string> PseudoClasses { get; }
 
+        public override string ToString() => matcher.ToString();
     }
+
+
+    public class Matcher : List<ItemMatcher>
+    {
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            foreach(var item in this)
+            {
+                switch(item.MatchType)
+                {
+                    case MatcherType.Self:
+                    case MatcherType.Ancestor:
+                        result.Append(item.ToString());
+                        result.Append(" ");
+                        break;
+
+                    case MatcherType.Parent:
+                        result.Append(" > ");
+                        result.Append(item.ToString());
+                        break;
+                }
+            }
+
+            return result.ToString();
+        }
+    }
+
+    public class ItemMatcher
+    {
+        public MatcherType MatchType { get; set; }
+
+        public string TypeId { get; set; }
+
+        public List<string> ClassNames { get; set; } = new List<string>();
+        public List<string> Identifiers { get; set; } = new List<string>();
+        public List<string> PseudoClasses { get; set; } = new List<string>();
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append(TypeId);
+
+            if (ClassNames.Count > 0)
+            {
+                result.Append(".");
+                result.Append(string.Join(".", ClassNames));
+            }
+
+            if (Identifiers.Count > 0)
+            {
+                result.Append("#");
+                result.Append(string.Join("#", Identifiers));
+            }
+
+            if (PseudoClasses.Count > 0)
+            {
+                result.Append(":");
+                result.Append(string.Join(":", PseudoClasses));
+            }
+
+            return result.ToString();
+        }
+    }
+
+    public enum MatcherType
+    {
+        Self,
+        Parent,
+        Ancestor
+    }
+
 }

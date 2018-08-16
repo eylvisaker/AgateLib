@@ -182,10 +182,6 @@ namespace AgateLib.UserInterface.Rendering
                 case AnimationState.TransitionOut:
                     animator.State = AnimationState.Dead;
                     break;
-
-                case AnimationState.Dead:
-                    animator.State = AnimationState.TransitionIn;
-                    break;
             }
         }
     }

@@ -83,6 +83,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public LabelElement(LabelElementProps props) : base(props)
         {
+            Style.FontChanged += () => dirty = true;
         }
 
         protected override void OnReceiveProps()
@@ -117,7 +118,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override string ToString()
         {
-            return $"LabelElement: {Props.Text?.Substring(0, Math.Min(20, Props.Text.Length)) ?? "null"}";
+            return $"label: {Props.Text?.Substring(0, Math.Min(20, Props.Text.Length)) ?? "null"}";
         }
 
         private void RefreshContent(IWidgetRenderContext renderContext, int maxWidth)

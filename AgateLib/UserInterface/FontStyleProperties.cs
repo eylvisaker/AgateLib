@@ -55,5 +55,13 @@ namespace AgateLib.UserInterface
             && Size == null
             && Style == null
             && Color == null;
+
+        public void CopyFrom(Font source)
+        {
+            Family = source.Name;
+            Color  = source.Color;
+            Size   = source.Size;
+            Style  = source.Style;
+        }
     }
 }

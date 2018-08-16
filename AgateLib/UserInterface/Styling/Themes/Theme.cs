@@ -75,23 +75,18 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
-                    Selector = "menu",
+                    Selector = "button",
                 },
 
                 new ThemeStyle
                 {
-                    Selector = "menuitem",
-                },
-
-                new ThemeStyle
-                {
-                    Selector = "menuitem:disabled",
+                    Selector = "button:disabled",
                     Font = new FontStyleProperties { Color = Color.Gray }
                 },
 
                 new ThemeStyle
                 {
-                    Selector = "menuitem:focus",
+                    Selector = "button:focus",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
                 },

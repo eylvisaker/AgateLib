@@ -46,6 +46,14 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public IReadOnlyCollection<string> PseudoClasses => match.PseudoClasses;
 
-    }
+        public override string ToString()
+        {
+            return $"Theme Style: {BuildDescription()}";
+        }
 
+        private string BuildDescription()
+        {
+            return match.ToString();
+        }
+    }
 }

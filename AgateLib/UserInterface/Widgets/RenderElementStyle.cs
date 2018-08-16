@@ -31,6 +31,8 @@ namespace AgateLib.UserInterface.Widgets
 {
     public interface IRenderElementStyle
     {
+        event Action FontChanged;
+
         Font Font { get; }
 
         BorderStyle Border { get; }
@@ -83,6 +85,8 @@ namespace AgateLib.UserInterface.Widgets
             this.props = props;
         }
 
+        public event Action FontChanged;
+
         public void SetProps(RenderElementProps props)
         {
             this.props = props;
@@ -112,10 +116,7 @@ namespace AgateLib.UserInterface.Widgets
 
         private bool ParentFontChanged()
         {
-            parentCompareFont.Family = display.ParentFont.Name;
-            parentCompareFont.Color = display.ParentFont.Color;
-            parentCompareFont.Size = display.ParentFont.Size;
-            parentCompareFont.Style = display.ParentFont.Style;
+            parentCompareFont.CopyFrom(display.ParentFont);
 
             return !parentCompareFont.Equals(parentFontProperties);
         }
@@ -153,6 +154,10 @@ namespace AgateLib.UserInterface.Widgets
                 font.Style = fontProperties.Style ?? display.ParentFont?.Style ?? Font.Style;
                 font.Size = fontProperties.Size ?? display.ParentFont?.Size ?? Font.Size;
             }
+
+            parentFontProperties.CopyFrom(display.ParentFont);
+
+            FontChanged?.Invoke();
         }
 
         private void Swap<T>(ref T a, ref T b)

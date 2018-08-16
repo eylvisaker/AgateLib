@@ -124,7 +124,7 @@ namespace AgateLib.UserInterface.Widgets
             Props.OnAccept?.Invoke(EventData);
         }
 
-        public override string StyleTypeId => "menuitem";
+        public override string StyleTypeId => "button";
 
         public override bool CanHaveFocus => Props.Enabled;
 
@@ -140,6 +140,11 @@ namespace AgateLib.UserInterface.Widgets
         public override void OnInputEvent(InputEventArgs input)
         {
             buttonPress.HandleInputEvent(input);
+        }
+
+        public override string ToString()
+        {
+            return $"button:{Props.Text}";
         }
     }
 

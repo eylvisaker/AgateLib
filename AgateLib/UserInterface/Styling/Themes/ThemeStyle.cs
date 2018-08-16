@@ -38,22 +38,6 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// </summary>
         public string Selector { get; set; }
 
-        /// <summary>
-        /// Matches widgets with a pattern.
-        /// "type" matches all widgets of that type.
-        /// "*" matches all widgets.
-        /// "type.*" matches all widgets that are children of widgets which match type.
-        /// </summary>
-        [Obsolete("Use Selector instead.", true)]
-        public string Pattern { get; set; }
-
-        /// <summary>
-        /// Indicates a pattern should only apply for a particular state of a widget.
-        /// Right now, only "selected" is used for menu items.
-        /// </summary>
-        [Obsolete("Use a pseudoclass in the selector property instead.", true)]
-        public string WidgetState { get; set; }
-
         #endregion
 
         #region --- Properties to apply ---

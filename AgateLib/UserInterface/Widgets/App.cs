@@ -18,7 +18,7 @@ namespace AgateLib.UserInterface.Widgets
                 Flex = new FlexStyle
                 {
                     Direction = FlexDirection.Row,
-                    AlignItems = AlignItems.Start,
+                    AlignItems = AlignItems.Center,
                     JustifyContent = JustifyContent.SpaceEvenly,
                 },
                 Padding = new LayoutBox(100, 50, 100, 50),
@@ -34,8 +34,6 @@ namespace AgateLib.UserInterface.Widgets
 
     public class AppProps : WidgetProps
     {
-        public InlineElementStyle DefaultStyle { get; set; }
-
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
 
         public UserInterfaceEventHandler OnCancel { get; set; }

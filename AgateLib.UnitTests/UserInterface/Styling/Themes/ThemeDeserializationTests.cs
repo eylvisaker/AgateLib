@@ -31,7 +31,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         public void TD_BorderBackgroundSimpleImage()
         {
             var theme = Parse(@"---
-- pattern: Menu
+- selector: window
   border:
     image: imageFile
   background: 
@@ -51,7 +51,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         public void TD_BorderBackgroundImageWithSourceRect()
         {
             var theme = Parse(@"---
-- pattern: Menu
+- selector: window
   border:
     image: imageFile:rect(2 4 8 6)
   background: 

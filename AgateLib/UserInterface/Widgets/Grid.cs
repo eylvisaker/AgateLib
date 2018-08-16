@@ -25,7 +25,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             Children = Finalize(props.Children).ToList();
 
-            sizeGrid = new Size[Children.Count];
+            sizeGrid = new Size[Columns * Rows];
 
             columnWidths = new int[Columns];
             rowHeights = new int[Rows];
@@ -46,7 +46,16 @@ namespace AgateLib.UserInterface.Widgets
             return new Point(index % Columns, index / Columns);
         }
 
-        IRenderElement ChildAt(int x, int y) => Children[y * Columns + x];
+        IRenderElement ChildAt(int x, int y)
+        {
+            var index = y * Columns + x;
+
+            if (index >= Children.Count)
+                return null;
+
+            return Children[index];
+        }
+
         Size SizeAt(int x, int y) => sizeGrid[y * Columns + x];
         void SetSizeAt(int x, int y, Size value) => sizeGrid[y * Columns + x] = value;
 

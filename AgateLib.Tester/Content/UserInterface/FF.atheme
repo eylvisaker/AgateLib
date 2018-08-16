@@ -15,14 +15,14 @@
     repeat: both
   padding: 10
  
-- selector: menuitem
+- selector: button
   padding: 10
 
-- selector: menuitem:focus
+- selector: button:focus
   background: 
     image: MessageBoxes:rect(13 173 285 51)
     repeat: both
   padding: 10
   
-- selector: menuitem:disabled
+- selector: button:disabled
   font: gray

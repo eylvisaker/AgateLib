@@ -135,6 +135,73 @@ namespace AgateLib.UserInterface.Widgets
 
             return Equals(this, other);
         }
+
+        public override string ToString() => $"Inline Style: {BuildStyleDescription()}";
+
+        private string BuildStyleDescription()
+        {
+            List<string> results = new List<string>();
+
+            BuildFontDescription(results);
+
+            Describe(results, "background", Background);
+            Describe(results, "border", Border);
+            Describe(results, "animation", Animation);
+            Describe(results, "flex", Flex);
+            Describe(results, "flexitem", FlexItem);
+            Describe(results, "layout", Layout);
+            Describe(results, "padding", Padding);
+            Describe(results, "margin", Margin);
+
+            return string.Join(" ", results);
+        }
+
+        private void BuildFontDescription(List<string> results)
+        {
+            List<string> fontDesc = new List<string>();
+
+            DescribeValue(fontDesc, FontFace);
+            DescribeValue(fontDesc, TextColor);
+            DescribeValue(fontDesc, FontSize);
+            DescribeValue(fontDesc, FontStyle);
+
+            if (fontDesc.Count > 0)
+            {
+                results.Add($"font: {{ {string.Join(" ", fontDesc)} }}");
+            }
+        }
+
+        private void Describe<T>(List<string> results, string name, T value) where T : class
+        {
+            if (value != null)
+            {
+                results.Add($"{name} {{ {value} }}");
+            }
+        }
+
+        private void Describe<T>(List<string> results, string name, T? value) where T : struct
+        {
+            if (value != null)
+            {
+                results.Add($"{name} {{ {value} }}");
+            }
+        }
+
+        private void DescribeValue<T>(List<string> results, T value) where T : class
+        {
+            if (value != null)
+            {
+                results.Add(value.ToString());
+            }
+        }
+
+        private void DescribeValue<T>(List<string> results, T? value) where T : struct
+        {
+            if (value != null)
+            {
+                results.Add(value.ToString());
+            }
+        }
     }
 
 }
