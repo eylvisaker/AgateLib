@@ -209,12 +209,6 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public void Initialize()
-        {
-            foreach (var w in workspaces)
-                w.Initialize();
-        }
-
         public void Update(IWidgetRenderContext renderContext)
         {
             foreach (var workspace in workspaces)

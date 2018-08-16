@@ -88,8 +88,6 @@ namespace AgateLib.UserInterface
         public void Initialize()
         {
             uiInput.ClearPressedButtons();
-
-            desktop.Initialize();
         }
 
         public void UpdateInput(IInputState input)

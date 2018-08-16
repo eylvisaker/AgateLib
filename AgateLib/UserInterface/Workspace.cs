@@ -173,23 +173,10 @@ namespace AgateLib.UserInterface
         /// </summary>
         public bool IsActive { get; internal set; }
 
-        [Obsolete]
-        public IWidget ActiveWindow
-        {
-            get => activeWindow;
-            set => throw new NotImplementedException();
-        }
-
         public string DefaultTheme
         {
             get => visualTree.DefaultTheme;
             set => visualTree.DefaultTheme = value;
-        }
-
-        [Obsolete]
-        public void Clear()
-        {
-            legacyChildren.Clear();
         }
 
         public void HandleInputEvent(InputEventArgs args)
@@ -242,56 +229,6 @@ namespace AgateLib.UserInterface
         public void Explore(Action<IRenderElement> explorer)
         {
             visualTree.Walk(element => { explorer(element); return true; });
-        }
-
-        public void Initialize()
-        {
-        }
-
-        /// <summary>
-        /// Activates the window with the specified name.
-        /// Throws an InvalidOperationException if unsuccessful.
-        /// </summary>
-        /// <param name="windowName"></param>
-        /// <param name="behavior"></param>
-        /// <returns></returns>
-        [Obsolete("Dont use this", true)]
-        public void ActivateWindow(string windowName, WindowActivationBehaviors behavior = WindowActivationBehaviors.Default)
-        {
-            IWidget window = FindWindow(w => w.Name.Equals(windowName, StringComparison.OrdinalIgnoreCase));
-
-            if (window == null)
-                throw new InvalidOperationException($"Could not find window {windowName}");
-
-            ActivateWindow(window, behavior);
-        }
-
-        /// <summary>
-        /// Activates the window. 
-        /// </summary>
-        /// <param name="window"></param>
-        [Obsolete("Dont use this", true)]
-        public void ActivateWindow(IWidget window, WindowActivationBehaviors behavior = WindowActivationBehaviors.Default)
-        {
-            ActiveWindow = window;
-
-            //Layout.Focus = window;
-
-            //if (behavior.HasFlag(WindowActivationBehaviors.BringToFront))
-            //{
-            //    window.Display.StackOrder = Layout.Items.Max(x => x.Display.StackOrder) + 1;
-            //}
-        }
-
-        /// <summary>
-        /// Finds a window that matches a user specified criteria.
-        /// </summary>
-        /// <param name="selector"></param>
-        /// <returns></returns>
-        [Obsolete]
-        public IWidget FindWindow(Func<IWidget, bool> selector)
-        {
-            return legacyChildren.SingleOrDefault(selector);
         }
 
         public override string ToString()
