@@ -22,11 +22,8 @@ namespace AgateLib.Tests.UserInterface
             (var w1, var e1) = CommonMocks.Widget("w1", elementCanHaveFocus: true);
             (var w2, var e2) = CommonMocks.Widget("w2", elementCanHaveFocus: true);
 
-            var workspace1 = new Workspace("a");
-            var workspace2 = new Workspace("b");
-
-            workspace1.Add(w1.Object);
-            workspace2.Add(w2.Object);
+            var workspace1 = new Workspace("a", w1.Object);
+            var workspace2 = new Workspace("b", w2.Object);
 
             desktop.PushWorkspace(workspace2);
             desktop.PushWorkspace(workspace1);
@@ -35,16 +32,15 @@ namespace AgateLib.Tests.UserInterface
             int goodCalls = 0;
             int badCalls = 0;
 
-            e1.Setup(x => x.OnInputEvent(It.IsAny<InputEventArgs>()))
-                .Callback<InputEventArgs>(e => ++goodCalls);
+            e1.Setup(x => x.OnUserInterfaceAction(It.IsAny<UserInterfaceActionEventArgs>()))
+                .Callback<UserInterfaceActionEventArgs>(e => ++goodCalls);
 
-            e2.Setup(x => x.OnInputEvent(It.IsAny<InputEventArgs>()))
-                .Callback<InputEventArgs>(e => ++badCalls);
+            e2.Setup(x => x.OnUserInterfaceAction(It.IsAny<UserInterfaceActionEventArgs>()))
+                .Callback<UserInterfaceActionEventArgs>(e => ++badCalls);
 
-            desktop.ButtonDown(MenuInputButton.Down);
-            desktop.ButtonUp(MenuInputButton.Down);
+            desktop.OnUserInterfaceAction(new UserInterfaceActionEventArgs().Reset(UserInterfaceAction.Down));
 
-            goodCalls.Should().Be(2);
+            goodCalls.Should().Be(1);
             badCalls.Should().Be(0);
         }
 

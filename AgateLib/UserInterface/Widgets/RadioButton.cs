@@ -61,8 +61,6 @@ namespace AgateLib.UserInterface.Widgets
         private IRenderElement child;
         private bool isChecked;
 
-        private ButtonPress<MenuInputButton> buttonPress = new ButtonPress<MenuInputButton>();
-
         public RadioButtonElement(RadioButtonElementProps props) : base(props)
         {
             if (props.Children.Count == 1)
@@ -77,20 +75,10 @@ namespace AgateLib.UserInterface.Widgets
             IsChecked = Props.Checked;
 
             Children = new List<IRenderElement> { child };
-
-            buttonPress.Press += OnButtonPress;
         }
 
-        private void OnButtonPress(MenuInputButton btn)
+        private void OnButtonPress(UserInterfaceAction btn)
         {
-            if (btn == MenuInputButton.Accept)
-            {
-                OnAccept();
-            }
-            else
-            {
-                Parent.OnChildNavigate(this, btn);
-            }
         }
 
         public bool IsChecked
@@ -127,13 +115,7 @@ namespace AgateLib.UserInterface.Widgets
 
             Props.OnAccept?.Invoke(EventData.Reset(this));
         }
-        
-        public override void OnBlur()
-        {
-            base.OnBlur();
-            buttonPress.Clear();
-        }
-        
+
         public override string StyleTypeId => "radiobutton";
 
         public override bool CanHaveFocus => Props.Enabled;
@@ -147,9 +129,16 @@ namespace AgateLib.UserInterface.Widgets
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
             => renderContext.DrawChild(clientArea, child);
 
-        public override void OnInputEvent(InputEventArgs input)
+        public override void OnUserInterfaceAction(UserInterfaceActionEventArgs input)
         {
-            buttonPress.HandleInputEvent(input);
+            if (input.Action == UserInterfaceAction.Accept)
+            {
+                OnAccept();
+            }
+            else
+            {
+                Parent.OnChildAction(this, input);
+            }
         }
     }
 

@@ -492,46 +492,52 @@ namespace AgateLib.UserInterface.Widgets
             return true;
         }
 
-        public override void OnChildNavigate(IRenderElement child, MenuInputButton button)
+        public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action)
         {
             bool moved = false;
-            var FocusIndex = focusChildren.IndexOf(child);
+            int FocusIndex = focusChildren.IndexOf(child);
+            var button = action.Action;
 
             if (Direction == FlexDirection.Column || Direction == FlexDirection.ColumnReverse)
             {
-                if (button == MenuInputButton.Up)
+                if (button == UserInterfaceAction.Up)
                 {
                     moved = MovePrevious();
                 }
-                if (button == MenuInputButton.Down)
+                if (button == UserInterfaceAction.Down)
                 {
                     moved = MoveNext();
                 }
             }
             else
             {
-                if (button == MenuInputButton.Left)
+                if (button == UserInterfaceAction.Left)
                 {
                     moved = MovePrevious();
                 }
-                if (button == MenuInputButton.Right)
+                if (button == UserInterfaceAction.Right)
                 {
                     moved = MoveNext();
                 }
             }
 
+            action.Handled = moved;
+
             if (!moved) 
             {
-                if (button == MenuInputButton.Cancel && Props.OnCancel != null)
+                if (button == UserInterfaceAction.Cancel && Props.OnCancel != null)
                 {
                     Props.OnCancel(EventData);
-                }
-                else if (Props.AllowNavigate)
-                {
-                    base.OnChildNavigate(this, button);
+                    action.Handled = moved;
                 }
             }
+
+            if (!Props.AllowNavigate)
+                action.Handled = true;
+
+            base.OnChildAction(this, action);
         }
+
 
         private bool CanChildHaveFocus(IRenderElement renderElement)
         {

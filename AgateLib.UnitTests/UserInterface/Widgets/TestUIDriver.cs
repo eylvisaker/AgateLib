@@ -72,7 +72,9 @@ namespace AgateLib.Tests.UserInterface.Widgets
         public void ButtonUp()
         {
             input.Reset();
+
             uiDriver.UpdateInput(input);
+            uiDriver.Update(new GameTime());
         }
 
         private void ButtonDown(Buttons buttons, PlayerIndex playerIndex)
@@ -87,6 +89,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 buttons);
 
             uiDriver.UpdateInput(input);
+            uiDriver.Update(new GameTime());
         }
     }
 }

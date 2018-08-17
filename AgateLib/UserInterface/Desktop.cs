@@ -37,8 +37,9 @@ namespace AgateLib.UserInterface
     {
         private readonly List<Workspace> workspaces = new List<Workspace>();
 
+        [Obsolete("If this is not reused in inplementing keyboard/gamepad raw events, then dump it.")]
         private readonly InputEventArgs inputEventArgs = new InputEventArgs();
-        private readonly IWidgetEventArgsInitialize inputEventArgsInitialize;
+
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
 
         private Rectangle screenArea;
@@ -50,7 +51,6 @@ namespace AgateLib.UserInterface
 
         public Desktop(IFontProvider fonts, IStyleConfigurator styles)
         {
-            inputEventArgsInitialize = inputEventArgs;
             Styles = styles;
             Fonts = fonts;
         }
@@ -75,7 +75,7 @@ namespace AgateLib.UserInterface
         /// Event raised when the desktop is empty.
         /// </summary>
         public event Action Empty;
-        public event EventHandler<InputEventArgs> UnhandledEvent;
+        public event Action<UserInterfaceActionEventArgs> UnhandledEvent;
 
         public string DefaultTheme { get; set; } = "default";
 
@@ -171,25 +171,13 @@ namespace AgateLib.UserInterface
         public Workspace ActiveWorkspace => workspaces.LastOrDefault();
 
         public IReadOnlyList<Workspace> Workspaces => workspaces;
-
-        public void ButtonUp(MenuInputButton button)
+        
+        public void OnUserInterfaceAction(UserInterfaceActionEventArgs args)
         {
-            inputEventArgsInitialize.InitializeButtonUp(button);
-
-            ActiveWorkspace?.HandleInputEvent(inputEventArgs);
+            ActiveWorkspace?.HandleUIAction(args);
 
             if (!inputEventArgs.Handled)
-                UnhandledEvent?.Invoke(this, inputEventArgs);
-        }
-
-        public void ButtonDown(MenuInputButton button)
-        {
-            inputEventArgsInitialize.InitializeButtonDown(button);
-
-            ActiveWorkspace?.HandleInputEvent(inputEventArgs);
-
-            if (!inputEventArgs.Handled)
-                UnhandledEvent?.Invoke(this, inputEventArgs);
+                UnhandledEvent?.Invoke(args);
         }
 
 

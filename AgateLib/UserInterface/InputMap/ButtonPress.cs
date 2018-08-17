@@ -24,8 +24,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface.InputMap
 {
+    [Obsolete("I don't think this is needed anymore? Double check after keyboard and general joystick input is handled.")]
     public class ButtonPress<T> where T : struct
     {
         HashSet<T> buttonsDown = new HashSet<T>();
@@ -55,14 +56,14 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
-    public static class ButtonPressExtensions
-    {
-        public static void HandleInputEvent(this ButtonPress<MenuInputButton> buttonPress, InputEventArgs input)
-        {
-            if (input.EventType == WidgetEventType.ButtonDown)
-                buttonPress.ButtonDown(input.Button);
-            if (input.EventType == WidgetEventType.ButtonUp)
-                buttonPress.ButtonUp(input.Button);
-        }
-    }
+    //public static class ButtonPressExtensions
+    //{
+    //    public static void HandleInputEvent(this ButtonPress<UserInterfaceAction> buttonPress, InputEventArgs input)
+    //    {
+    //        if (input.EventType == WidgetEventType.ButtonDown)
+    //            buttonPress.ButtonDown(input.Button);
+    //        if (input.EventType == WidgetEventType.ButtonUp)
+    //            buttonPress.ButtonUp(input.Button);
+    //    }
+    //}
 }

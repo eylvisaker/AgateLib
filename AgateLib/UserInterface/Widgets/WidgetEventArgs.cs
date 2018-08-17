@@ -27,16 +27,17 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
+    [Obsolete]
     public class InputEventArgs : EventArgs, IWidgetEventArgsInitialize
     {
-        public static InputEventArgs ButtonDown(MenuInputButton button)
+        public static InputEventArgs ButtonDown(UserInterfaceAction button)
         {
             var result = new InputEventArgs();
             result.InitializeButtonDown(button);
             return result;
         }
 
-        public static InputEventArgs ButtonUp(MenuInputButton button)
+        public static InputEventArgs ButtonUp(UserInterfaceAction button)
         {
             var result = new InputEventArgs();
             result.InitializeButtonUp(button);
@@ -45,32 +46,32 @@ namespace AgateLib.UserInterface.Widgets
 
         public WidgetEventType EventType { get; private set; }
 
-        public MenuInputButton Button { get; private set; }
+        public UserInterfaceAction Button { get; private set; }
 
         public bool Handled { get; set; }
 
         public Rectangle Area { get; internal set; }
 
-        private void InitializeButtonDown(MenuInputButton button)
+        private void InitializeButtonDown(UserInterfaceAction button)
         {
             EventType = WidgetEventType.ButtonDown;
             Button = button;
             Handled = false;
         }
 
-        private void InitializeButtonUp(MenuInputButton button)
+        private void InitializeButtonUp(UserInterfaceAction button)
         {
             EventType = WidgetEventType.ButtonUp;
             Button = button;
             Handled = false;
         }
 
-        void IWidgetEventArgsInitialize.InitializeButtonDown(MenuInputButton button)
+        void IWidgetEventArgsInitialize.InitializeButtonDown(UserInterfaceAction button)
         {
             InitializeButtonDown(button);
         }
 
-        void IWidgetEventArgsInitialize.InitializeButtonUp(MenuInputButton button)
+        void IWidgetEventArgsInitialize.InitializeButtonUp(UserInterfaceAction button)
         {
             InitializeButtonUp(button);
         }
@@ -89,6 +90,7 @@ namespace AgateLib.UserInterface.Widgets
         }
     }
 
+    [Obsolete]
     public enum WidgetEventType
     {
         ButtonDown,
@@ -96,13 +98,12 @@ namespace AgateLib.UserInterface.Widgets
 
         FocusGained,
         FocusLost,
-        DrawComplete,
     }
 
     internal interface IWidgetEventArgsInitialize
     {
-        void InitializeButtonDown(MenuInputButton button);
+        void InitializeButtonDown(UserInterfaceAction button);
 
-        void InitializeButtonUp(MenuInputButton button);
+        void InitializeButtonUp(UserInterfaceAction button);
     }
 }

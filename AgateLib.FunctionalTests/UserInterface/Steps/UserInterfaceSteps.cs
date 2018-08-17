@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Tests.UserInterface.Support;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
 using TechTalk.SpecFlow;
@@ -32,18 +33,18 @@ namespace AgateLib.Tests.UserInterface.Steps
             foreach (var item in items)
             {
                 navigator.GoTo(item);
-                instructor.SendButtonPress(MenuInputButton.Accept);
+                instructor.SendButtonPress(UserInterfaceAction.Accept);
             }
         }
 
         [When(@"I press the (.*) button")]
-        public void WhenIPressAButton(MenuInputButton input)
+        public void WhenIPressAButton(UserInterfaceAction input)
         {
             instructor.SendButtonPress(input);
         }
 
         [When(@"I press the (.*) button ([0-9]+) times")]
-        public void WhenIPressAButton(MenuInputButton input, int times)
+        public void WhenIPressAButton(UserInterfaceAction input, int times)
         {
             for (int i = 0; i < times; i++)
             {

@@ -30,12 +30,12 @@ namespace AgateLib.UserInterface.Layout
                 " x x  ",
                 "      ");
 
-            MenuInputButton? parentNavigate = null;
+            UserInterfaceAction? parentNavigate = null;
 
-            parent.Setup(x => x.OnChildNavigate(grid, It.IsAny<MenuInputButton>()))
-                .Callback<IRenderElement, MenuInputButton>((_, button) =>
+            parent.Setup(x => x.OnChildAction(grid, It.IsAny<UserInterfaceActionEventArgs>()))
+                .Callback<IRenderElement, UserInterfaceActionEventArgs>((_, args) =>
                 {
-                    parentNavigate = button;
+                    parentNavigate = args.Action;
                 });
 
             grid.FocusPoint.Should().Be(Point.Zero);
@@ -49,7 +49,7 @@ namespace AgateLib.UserInterface.Layout
 
             grid.MoveRight();
             grid.FocusPoint.Should().Be(new Point(4, 0));
-            parentNavigate.Should().Be(MenuInputButton.Right);
+            parentNavigate.Should().Be(UserInterfaceAction.Right);
         }
 
         [Fact]
@@ -64,12 +64,12 @@ namespace AgateLib.UserInterface.Layout
                 " x x  ",
                 "      ");
 
-            MenuInputButton? parentNavigate = null;
+            UserInterfaceAction? parentNavigate = null;
 
-            parent.Setup(x => x.OnChildNavigate(grid, It.IsAny<MenuInputButton>()))
-                .Callback<IRenderElement, MenuInputButton>((_, button) =>
+            parent.Setup(x => x.OnChildAction(grid, It.IsAny<UserInterfaceActionEventArgs>()))
+                .Callback<IRenderElement, UserInterfaceActionEventArgs>((_, args) =>
                 {
-                    parentNavigate = button;
+                    parentNavigate = args.Action;
                 });
 
             grid.FocusPoint.Should().Be(Point.Zero);
@@ -83,7 +83,7 @@ namespace AgateLib.UserInterface.Layout
 
             grid.MoveLeft();
             grid.FocusPoint.Should().Be(new Point(0, 0));
-            parentNavigate.Should().Be(MenuInputButton.Left);
+            parentNavigate.Should().Be(UserInterfaceAction.Left);
         }
 
         [Fact]
@@ -98,12 +98,12 @@ namespace AgateLib.UserInterface.Layout
                 " x x  ",
                 "      ");
 
-            MenuInputButton? parentNavigate = null;
+            UserInterfaceAction? parentNavigate = null;
 
-            parent.Setup(x => x.OnChildNavigate(grid, It.IsAny<MenuInputButton>()))
-                .Callback<IRenderElement, MenuInputButton>((_, button) =>
+            parent.Setup(x => x.OnChildAction(grid, It.IsAny<UserInterfaceActionEventArgs>()))
+                .Callback<IRenderElement, UserInterfaceActionEventArgs>((_, args) =>
                 {
-                    parentNavigate = button;
+                    parentNavigate = args.Action;
                 });
 
             grid.FocusPoint.Should().Be(Point.Zero);
@@ -117,7 +117,7 @@ namespace AgateLib.UserInterface.Layout
 
             grid.MoveUp();
             grid.FocusPoint.Should().Be(new Point(0, 0));
-            parentNavigate.Should().Be(MenuInputButton.Up);
+            parentNavigate.Should().Be(UserInterfaceAction.Up);
         }
 
         [Fact]
@@ -132,12 +132,12 @@ namespace AgateLib.UserInterface.Layout
                 " x x  ",
                 "      ");
 
-            MenuInputButton? parentNavigate = null;
+            UserInterfaceAction? parentNavigate = null;
 
-            parent.Setup(x => x.OnChildNavigate(grid, It.IsAny<MenuInputButton>()))
-                .Callback<IRenderElement, MenuInputButton>((_, button) =>
+            parent.Setup(x => x.OnChildAction(grid, It.IsAny<UserInterfaceActionEventArgs>()))
+                .Callback<IRenderElement, UserInterfaceActionEventArgs>((_, args) =>
                 {
-                    parentNavigate = button;
+                    parentNavigate = args.Action;
                 });
 
             grid.FocusPoint.Should().Be(Point.Zero);
@@ -148,7 +148,7 @@ namespace AgateLib.UserInterface.Layout
 
             grid.MoveDown();
             grid.FocusPoint.Should().Be(new Point(0, 2));
-            parentNavigate.Should().Be(MenuInputButton.Down);
+            parentNavigate.Should().Be(UserInterfaceAction.Down);
         }
 
         [Fact]

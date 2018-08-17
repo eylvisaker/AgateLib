@@ -132,7 +132,7 @@ namespace AgateLib.UserInterface
             set => visualTree.Focus = value;
         }
 
-        public event EventHandler<InputEventArgs> UnhandledEvent;
+        public event Action<UserInterfaceActionEventArgs> UnhandledEvent;
 
 
         public IStyleConfigurator Style
@@ -179,12 +179,12 @@ namespace AgateLib.UserInterface
             set => visualTree.DefaultTheme = value;
         }
 
-        public void HandleInputEvent(InputEventArgs args)
+        public void HandleUIAction(UserInterfaceActionEventArgs args)
         {
-            Focus?.OnInputEvent(args);
+            Focus?.OnUserInterfaceAction(args);
 
             if (!args.Handled)
-                UnhandledEvent?.Invoke(this, args);
+                UnhandledEvent?.Invoke(args);
         }
 
         public void Update(IWidgetRenderContext renderContext)

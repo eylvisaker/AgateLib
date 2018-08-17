@@ -22,8 +22,8 @@
 
 using System;
 using AgateLib.Input;
+using AgateLib.UserInterface.InputMap;
 using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
@@ -49,8 +49,7 @@ namespace AgateLib.UserInterface
 
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
 
-            uiInput.ButtonDown += desktop.ButtonDown;
-            uiInput.ButtonUp += desktop.ButtonUp;
+            uiInput.UIAction += desktop.OnUserInterfaceAction;
         }
 
         public event Action ExitPressed;
@@ -93,12 +92,12 @@ namespace AgateLib.UserInterface
         public void UpdateInput(IInputState input)
         {
             uiInput.UpdateState(input);
-
-            uiInput.TriggerEvents();
         }
 
         public void Update(GameTime time)
         {
+            uiInput.TriggerEvents(time);
+
             renderContext.InitializeUpdate(time);
 
             desktop.ScreenArea = ScreenArea;
@@ -148,10 +147,9 @@ namespace AgateLib.UserInterface
             return result;
         }
 
-        private void Desktop_UnhandledEvent(object sender, InputEventArgs e)
+        private void Desktop_UnhandledEvent(UserInterfaceActionEventArgs args)
         {
-            if (e.EventType == WidgetEventType.ButtonUp
-                && e.Button == MenuInputButton.Exit)
+            if (args.Action == UserInterfaceAction.Exit)
             {
                 if (ExitOnExitButton)
                 {

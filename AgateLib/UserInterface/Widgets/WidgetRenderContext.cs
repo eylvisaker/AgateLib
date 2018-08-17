@@ -286,10 +286,10 @@ namespace AgateLib.UserInterface.Widgets
                 element.Draw(this, dest);
             }
 
-            eventArgs.Initialize(WidgetEventType.DrawComplete);
-            eventArgs.Area = parentContentDest;
+            //eventArgs.Initialize(WidgetEventType.DrawComplete);
+            //eventArgs.Area = parentContentDest;
 
-            element.OnInputEvent(eventArgs);
+            //element.OnUserInterfaceAction(eventArgs);
         }
         
 

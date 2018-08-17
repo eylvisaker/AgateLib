@@ -26,13 +26,20 @@ using System.Text;
 
 namespace AgateLib.UserInterface
 {
-    [Flags]
-    public enum WindowActivationBehaviors
+    public enum UserInterfaceAction
     {
-        None = 0,
-        BringToFront = 1,
+        Accept,
+        Cancel,
 
+        Up,
+        Down,
+        Left,
+        Right,
 
-        Default = BringToFront,
+        Exit,
+
+        PageDown,
+        PageUp,
     }
+
 }

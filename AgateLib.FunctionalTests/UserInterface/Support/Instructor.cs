@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.Tests.UserInterface.Support
@@ -16,10 +17,9 @@ namespace AgateLib.Tests.UserInterface.Support
             this.context = context;
         }
 
-        public void SendButtonPress(MenuInputButton btn)
+        public void SendButtonPress(UserInterfaceAction btn)
         {
-            context.Desktop.ButtonDown(btn);
-            context.Desktop.ButtonUp(btn);
+            context.Desktop.OnUserInterfaceAction(new UserInterfaceActionEventArgs(btn));
 
             context.WaitForAnimations();
         }

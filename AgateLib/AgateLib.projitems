@@ -194,6 +194,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\LayoutStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeRenderElementStyleProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceActionEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceLoadException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\App.cs" />
@@ -220,7 +221,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\AnimationStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Audio\MenuSounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\BufferState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\ButtonPress.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\ButtonPress.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElement.cs" />
@@ -236,7 +237,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\SingleRowLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\SizeMetrics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\WidgetLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\MenuInputState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\UserInterfaceInputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\ComponentStyleRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\DoubleBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\FocusIndicator.cs" />
@@ -245,7 +246,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\RenderElementAnimator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\TabMenu.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\UserInterfaceInputEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\UserInterfaceInputEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Widget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementDisplay.cs" />
@@ -270,7 +271,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeStyler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\TypeConverters\LayoutBoxConverterYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\TextRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceInputMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\UserInterfaceInputMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceSceneDriver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\WorkspaceExitEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\_Enums.cs" />
@@ -285,5 +286,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\" />
   </ItemGroup>
 </Project>

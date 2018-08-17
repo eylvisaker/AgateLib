@@ -132,7 +132,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Called when the widget receives an input event.
         /// </summary>
         /// <param name="widgetEventArgs"></param>
-        void OnInputEvent(InputEventArgs input);
+        void OnUserInterfaceAction(UserInterfaceActionEventArgs action);
 
         /// <summary>
         /// Event called by a child component when it receives an input event it cannot handle.
@@ -140,7 +140,7 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="menuItemElement"></param>
         /// <param name="btn"></param>
-        void OnChildNavigate(IRenderElement child, MenuInputButton button);
+        void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action);
 
         /// <summary>
         /// Called by the rendering system when the collection of children is updated.
@@ -245,20 +245,12 @@ namespace AgateLib.UserInterface.Widgets
 
         public abstract void DoLayout(IWidgetRenderContext renderContext, Size size);
 
-        public virtual void OnInputEvent(InputEventArgs input)
+        public virtual void OnUserInterfaceAction(UserInterfaceActionEventArgs input)
         {
-            if (input.EventType == WidgetEventType.ButtonDown)
-                OnButtonDown(input.Button);
-            else if (input.EventType == WidgetEventType.ButtonUp)
-                OnButtonUp(input.Button);
-        }
-
-        protected virtual void OnButtonDown(MenuInputButton button)
-        {
-        }
-
-        protected virtual void OnButtonUp(MenuInputButton button)
-        {
+            if (!input.Handled)
+            {
+                Parent.OnChildAction(this, input);
+            }
         }
 
         public virtual void Update(IWidgetRenderContext renderContext)
@@ -308,9 +300,12 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         /// <param name="child"></param>
         /// <param name="button"></param>
-        public virtual void OnChildNavigate(IRenderElement child, MenuInputButton button)
+        public virtual void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action)
         {
-            Parent?.OnChildNavigate(this, button);
+            if (!action.Handled)
+            {
+                Parent?.OnChildAction(this, action);
+            }
         }
 
         public virtual void OnWillUnmount()

@@ -78,8 +78,6 @@ namespace AgateLib.UserInterface.Widgets
     {
         IRenderElement child;
 
-        private ButtonPress<MenuInputButton> buttonPress = new ButtonPress<MenuInputButton>();
-
         public ButtonElement(ButtonElementProps props) : base(props)
         {
             if (props.Children.Count == 1)
@@ -92,27 +90,7 @@ namespace AgateLib.UserInterface.Widgets
             }
 
             Children = new List<IRenderElement> { child };
-
-            buttonPress.Press += OnButtonPress;
-        }
-        
-        private void OnButtonPress(MenuInputButton btn)
-        {
-            if (btn == MenuInputButton.Accept)
-            {
-                OnAccept();
-            }
-            else
-            {
-                Parent.OnChildNavigate(this, btn);
-            }
-        }
-
-        public override void OnBlur()
-        {
-            base.OnBlur();
-            buttonPress.Clear();
-        }
+        }        
 
         public override void OnAccept()
         {
@@ -137,9 +115,15 @@ namespace AgateLib.UserInterface.Widgets
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
             => renderContext.DrawChild(clientArea, child);
 
-        public override void OnInputEvent(InputEventArgs input)
+        public override void OnUserInterfaceAction(UserInterfaceActionEventArgs action)
         {
-            buttonPress.HandleInputEvent(input);
+            if (action.Action == UserInterfaceAction.Accept)
+            {
+                OnAccept();
+                action.Handled = true;
+            }
+
+            base.OnUserInterfaceAction(action);
         }
 
         public override string ToString()

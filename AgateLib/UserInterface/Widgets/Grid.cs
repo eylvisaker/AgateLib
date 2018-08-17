@@ -21,6 +21,8 @@ namespace AgateLib.UserInterface.Widgets
 
         private Point focusPoint = new Point(-1, -1);
 
+        private UserInterfaceActionEventArgs navigateEvent = new UserInterfaceActionEventArgs();
+
         public Grid(GridProps props) : base(props)
         {
             Children = Finalize(props.Children).ToList();
@@ -189,29 +191,29 @@ namespace AgateLib.UserInterface.Widgets
 
         public override bool CanHaveFocus => base.CanHaveFocus;
 
-        public override void OnChildNavigate(IRenderElement child, MenuInputButton button)
+        public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs args)
         {
-            switch (button)
+            switch (args.Action)
             {
-                case MenuInputButton.Right:
+                case UserInterfaceAction.Right:
                     MoveRight();
                     break;
 
-                case MenuInputButton.Left:
+                case UserInterfaceAction.Left:
                     MoveLeft();
                     break;
 
-                case MenuInputButton.Up:
+                case UserInterfaceAction.Up:
                     MoveUp();
                     break;
 
-                case MenuInputButton.Down:
+                case UserInterfaceAction.Down:
                     MoveDown();
                     break;
 
                 default:
                     if (Props.AllowNavigate)
-                        base.OnChildNavigate(child, button);
+                        base.OnChildAction(child, args);
 
                     break;
             }
@@ -230,7 +232,7 @@ namespace AgateLib.UserInterface.Widgets
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
                         if (Props.AllowNavigate)
-                            Parent?.OnChildNavigate(this, MenuInputButton.Down);
+                            Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Down));
 
                         return;
                     }
@@ -265,7 +267,7 @@ namespace AgateLib.UserInterface.Widgets
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
                         if (Props.AllowNavigate)
-                            Parent?.OnChildNavigate(this, MenuInputButton.Up);
+                            Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Up));
                         return;
                     }
                     if (NavigationWrap == GridNavigationWrap.Sparse)
@@ -295,7 +297,7 @@ namespace AgateLib.UserInterface.Widgets
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
                         if (Props.AllowNavigate)
-                            Parent?.OnChildNavigate(this, MenuInputButton.Left);
+                            Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Left));
 
                         return;
                     }
@@ -327,7 +329,7 @@ namespace AgateLib.UserInterface.Widgets
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
                         if (Props.AllowNavigate)
-                            Parent?.OnChildNavigate(this, MenuInputButton.Right);
+                            Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Right));
 
                         return;
                     }
