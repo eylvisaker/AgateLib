@@ -90,16 +90,18 @@ namespace AgateLib.UserInterface.Widgets
             }
 
             Children = new List<IRenderElement> { child };
-        }        
+        }
 
-        public override void OnAccept()
-        {
+        public override void OnAccept(UserInterfaceActionEventArgs args)
+        { 
             if (!Props.Enabled)
                 return;
 
-            base.OnAccept();
-
-            Props.OnAccept?.Invoke(EventData);
+            if (Props.OnAccept != null)
+            {
+                Props.OnAccept.Invoke(EventData);
+                args.Handled = true;
+            }
         }
 
         public override string StyleTypeId => "button";
@@ -114,17 +116,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
             => renderContext.DrawChild(clientArea, child);
-
-        public override void OnUserInterfaceAction(UserInterfaceActionEventArgs action)
-        {
-            if (action.Action == UserInterfaceAction.Accept)
-            {
-                OnAccept();
-                action.Handled = true;
-            }
-
-            base.OnUserInterfaceAction(action);
-        }
 
         public override string ToString()
         {

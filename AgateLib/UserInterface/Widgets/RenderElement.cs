@@ -158,11 +158,6 @@ namespace AgateLib.UserInterface.Widgets
         /// is added to the render tree.
         /// </summary>
         void OnDidMount();
-
-        /// <summary>
-        /// Called when the user accepts an item. Accept can be a button press, enter on the keyboard, or a mouse click (not yet supported).
-        /// </summary>
-        void OnAccept();
         
         /// <summary>
         /// Called after reconciliation is complete.
@@ -238,20 +233,12 @@ namespace AgateLib.UserInterface.Widgets
 
         protected UserInterfaceEvent EventData { get; }
 
-
         public abstract Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize);
 
         public abstract void Draw(IWidgetRenderContext renderContext, Rectangle clientArea);
 
         public abstract void DoLayout(IWidgetRenderContext renderContext, Size size);
 
-        public virtual void OnUserInterfaceAction(UserInterfaceActionEventArgs input)
-        {
-            if (!input.Handled)
-            {
-                Parent.OnChildAction(this, input);
-            }
-        }
 
         public virtual void Update(IWidgetRenderContext renderContext)
         {
@@ -279,6 +266,31 @@ namespace AgateLib.UserInterface.Widgets
 
         IRenderable IRenderable.Render() => this;
 
+        public virtual void OnUserInterfaceAction(UserInterfaceActionEventArgs args)
+        {
+            if (args.Action == UserInterfaceAction.Accept)
+            {
+                OnAccept(args);
+            }
+            else if (args.Action == UserInterfaceAction.Cancel)
+            {
+                OnCancel(args);
+            }
+
+            if (!args.Handled)
+            {
+                Parent.OnChildAction(this, args);
+            }
+        }
+
+        public virtual void OnAccept(UserInterfaceActionEventArgs args)
+        {
+        }
+
+        public virtual void OnCancel(UserInterfaceActionEventArgs args)
+        {
+        }
+
         public virtual void OnBlur()
         {
             Props.OnBlur?.Invoke(EventData);
@@ -287,10 +299,6 @@ namespace AgateLib.UserInterface.Widgets
         public virtual void OnFocus()
         {
             Props.OnFocus?.Invoke(EventData);
-        }
-
-        public virtual void OnAccept()
-        {
         }
 
         /// <summary>

@@ -99,10 +99,8 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        public override void OnAccept()
+        public override void OnAccept(UserInterfaceActionEventArgs args)
         {
-            base.OnAccept();
-
             var parent = Display.System.ParentOf(this);
 
             if (parent == null)
@@ -112,6 +110,7 @@ namespace AgateLib.UserInterface.Widgets
                 child.IsChecked = false;
 
             IsChecked = true;
+            args.Handled = true;
 
             Props.OnAccept?.Invoke(EventData.Reset(this));
         }
@@ -128,18 +127,6 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
             => renderContext.DrawChild(clientArea, child);
-
-        public override void OnUserInterfaceAction(UserInterfaceActionEventArgs input)
-        {
-            if (input.Action == UserInterfaceAction.Accept)
-            {
-                OnAccept();
-            }
-            else
-            {
-                Parent.OnChildAction(this, input);
-            }
-        }
     }
 
     public class RadioButtonElementProps : RenderElementProps
