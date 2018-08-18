@@ -122,12 +122,12 @@ namespace AgateLib.UserInterface.Rendering
 
 
             if (animation.RenderTarget == null ||
-                animation.RenderTarget.Width != display.Region.MarginRect.Width ||
-                animation.RenderTarget.Height != display.Region.MarginRect.Height)
+                animation.RenderTarget.Width != display.MarginRect.Width ||
+                animation.RenderTarget.Height != display.MarginRect.Height)
             {
                 animation.RenderTarget?.Dispose();
 
-                var size = display.Region.MarginRect;
+                var size = display.MarginRect;
 
                 if (size.Width < 1) size.Width = 1;
                 if (size.Height < 1) size.Height = 1;

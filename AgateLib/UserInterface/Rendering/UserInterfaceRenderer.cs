@@ -138,7 +138,7 @@ namespace AgateLib.UserInterface.Rendering
                 new Rectangle(
                     new Point(clientDest.X - display.Region.BorderToContentOffset.Left,
                               clientDest.Y - display.Region.BorderToContentOffset.Top),
-                    display.Region.BorderRect.Size));
+                    display.BorderRect.Size));
         }
 
         public void DrawFrame(SpriteBatch spriteBatch, BorderStyle border, Rectangle borderRect)

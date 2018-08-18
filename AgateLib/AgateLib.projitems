@@ -243,11 +243,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Widget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementDisplay.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetRegion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementRegion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetRenderContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Panel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Window.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\_Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Workspace.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\BackgroundStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\BorderSideStyle.cs" />

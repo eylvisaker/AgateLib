@@ -12,8 +12,8 @@ namespace AgateLib.UserInterface.Rendering.Animations
 
         public void ContentRectUpdated(RenderElementDisplay display)
         {
-            display.Animation.AnimatedContentRect = display.Region.ContentRect;
-            display.Animation.AnimatedBorderRect = display.Region.BorderRect;
+            display.Animation.AnimatedContentRect = display.ContentRect;
+            display.Animation.AnimatedBorderRect = display.BorderRect;
         }
 
         public void Initialize(RenderElementDisplay display)
@@ -25,8 +25,8 @@ namespace AgateLib.UserInterface.Rendering.Animations
             var animator = display.Animation;
 
             animator.IsVisible = display.IsVisible;
-            animator.AnimatedContentRect = display.Region.ContentRect;
-            animator.AnimatedBorderRect = display.Region.BorderRect;
+            animator.AnimatedContentRect = display.ContentRect;
+            animator.AnimatedBorderRect = display.BorderRect;
             animator.Alpha = 1;
 
             return true;

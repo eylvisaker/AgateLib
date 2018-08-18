@@ -357,7 +357,7 @@ namespace AgateLib.UserInterface.Widgets
 
         protected void DoLayoutForSingleChild(IWidgetRenderContext renderContext, Size size, IRenderElement child)
         {
-            child.Display.Region.MarginRect = new Rectangle(Point.Zero, size);
+            child.Display.MarginRect = new Rectangle(Point.Zero, size);
 
             var contentSize = child.Display.ContentRect.Size;
 

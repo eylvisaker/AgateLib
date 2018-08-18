@@ -31,7 +31,7 @@ namespace AgateLib.UserInterface.Widgets
     /// <summary>
     /// Structure for holding information about the widget's layout within its parent's content area.
     /// </summary>
-    public class WidgetRegion
+    public class RenderElementRegion
     {
         IRenderElementStyle style;
         Rectangle contentRect;
@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Widgets
         /// The WidgetStyle can be switched to any other WidgetStyle at-will without any deterimental effect to the behavior of the WidgetLayout.
         /// Because of these facts, we can freely change the style for a widget at will.
         /// </remarks>
-        public WidgetRegion(IRenderElementStyle activeStyle)
+        public RenderElementRegion(IRenderElementStyle activeStyle)
         {
             this.Style = activeStyle;
         }

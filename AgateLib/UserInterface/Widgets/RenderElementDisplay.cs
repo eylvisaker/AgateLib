@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Widgets
         public RenderElementDisplay(RenderElementProps props)
         {
             style = new RenderElementStyle(this, props);
-            Region = new WidgetRegion(Style);
+            Region = new RenderElementRegion(Style);
 
             Animation = new RenderElementAnimator(this);
         }
@@ -63,19 +63,13 @@ namespace AgateLib.UserInterface.Widgets
         /// <summary>
         /// Gets the layout state.
         /// </summary>
-        public WidgetRegion Region { get; }
+        public RenderElementRegion Region { get; }
 
         /// <summary>
         /// Gets the active widget style.
         /// </summary>
         public IRenderElementStyle Style => style;
         
-        /// <summary>
-        /// Gets the font for this widget.
-        /// </summary>
-        [Obsolete("Elements should use Style.Font instead.")]
-        public Font Font => (Font)Style.Font;
-
         /// <summary>
         /// Gets a value indicating whether this widget is participating in the layout flow.
         /// </summary>
@@ -104,8 +98,6 @@ namespace AgateLib.UserInterface.Widgets
         /// use to style the owning widget.
         /// </summary>
         public string Theme { get; set; }
-
-        public IndicatorType IndicatorType { get; internal set; }
 
         public List<IRenderElementStyleProperties> ElementStyles { get; }
             = new List<IRenderElementStyleProperties>();
