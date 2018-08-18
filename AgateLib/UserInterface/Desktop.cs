@@ -37,9 +37,6 @@ namespace AgateLib.UserInterface
     {
         private readonly List<Workspace> workspaces = new List<Workspace>();
 
-        [Obsolete("If this is not reused in inplementing keyboard/gamepad raw events, then dump it.")]
-        private readonly InputEventArgs inputEventArgs = new InputEventArgs();
-
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
 
         private Rectangle screenArea;
@@ -176,7 +173,7 @@ namespace AgateLib.UserInterface
         {
             ActiveWorkspace?.HandleUIAction(args);
 
-            if (!inputEventArgs.Handled)
+            if (!args.Handled)
                 UnhandledEvent?.Invoke(args);
         }
 

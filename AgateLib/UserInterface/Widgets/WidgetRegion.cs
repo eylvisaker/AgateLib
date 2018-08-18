@@ -103,25 +103,6 @@ namespace AgateLib.UserInterface.Widgets
         }
 
         /// <summary>
-        /// Gets or sets the position of the content for this widget.
-        /// This is in the parent's client space.
-        /// </summary>
-        [Obsolete]
-        public Point Position
-        {
-            get => contentRect.Location;
-        }
-
-        /// <summary>
-        /// Gets or sets the size of the client area for this widget.
-        /// </summary>
-        [Obsolete]
-        public Size ContentSize
-        {
-            get => new Size(contentRect.Size.X, contentRect.Size.Y);
-        }
-
-        /// <summary>
         /// Gets the border rectangle for this widget.
         /// This includes border + padding.
         /// Position is in parent-client coordinates.

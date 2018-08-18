@@ -186,7 +186,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\Tokenizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\DisplaySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\FixedGridLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\AnimationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\FadeAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\NullAnimation.cs" />
@@ -229,14 +228,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyleProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Instructions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\AnchoredLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\LayoutMath.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\ListLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\SimpleGridLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\SingleColumnLayout.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\SingleRowLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\SizeMetrics.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\WidgetLayout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\UserInterfaceInputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\ComponentStyleRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\DoubleBuffer.cs" />

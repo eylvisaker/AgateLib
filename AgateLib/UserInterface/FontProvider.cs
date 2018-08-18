@@ -22,82 +22,81 @@
 
 using AgateLib.Display;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace AgateLib.UserInterface
 {
-	public interface IFontProvider : IEnumerable<Font>
-	{
+    public interface IFontProvider : IEnumerable<Font>
+    {
         /// <summary>
         /// Gets the default font.
         /// </summary>
 		Font Default { get; }
 
         /// <summary>
-        /// Creates a font object for the specified font face.
-        /// Returns the default font if the specified font face is not found.
+        /// Creates a font object for the specified font family.
+        /// Returns the default font if the specified font family is not found.
         /// </summary>
         /// <param name="family"></param>
-        Font GetOrDefault(string fontFace);
+        Font GetOrDefault(string family);
 
         /// <summary>
         /// Gets a font by font face name. Throws an exception if the font is not present.
         /// </summary>
-        /// <param name="fontFace"></param>
+        /// <param name="family"></param>
         /// <returns></returns>
-        Font this[string fontFace] { get; }
+        Font this[string family] { get; }
 
-		/// <summary>
-		/// Returns true if the specified font is available.
-		/// </summary>
-		/// <param name="fontFace"></param>
-		/// <returns></returns>
-		bool HasFont(string fontFace);
-	}
+        /// <summary>
+        /// Returns true if the specified font is available.
+        /// </summary>
+        /// <param name="family"></param>
+        /// <returns></returns>
+        bool HasFont(string family);
+    }
 
-	[Singleton]
-	public class FontProvider : IFontProvider
-	{
-		private readonly Dictionary<string, Font> fonts 
-			= new Dictionary<string, Font>(StringComparer.OrdinalIgnoreCase);
-		
-		public Font this[string fontFace] 
-			=> string.IsNullOrWhiteSpace(fontFace) ? Default : fonts[fontFace];
+    [Singleton]
+    public class FontProvider : IFontProvider
+    {
+        private readonly Dictionary<string, Font> fonts
+            = new Dictionary<string, Font>(StringComparer.OrdinalIgnoreCase);
 
-		public Font Default { get; set; }
+        public Font this[string fontFace]
+            => string.IsNullOrWhiteSpace(fontFace) ? Default : fonts[fontFace];
 
-		public bool HasFont(string fontFace)
-		{
-            if (fontFace == null)
+        public Font Default { get; set; }
+
+        public bool HasFont(string family)
+        {
+            if (family == null)
                 return false;
 
-			return fonts.ContainsKey(fontFace);
-		}
+            return fonts.ContainsKey(family);
+        }
 
-		public void Add(string fontFace, Font font)
-		{
-			fonts.Add(fontFace, font);
-
-			if (Default == null)
-				Default = font;
-		}
-
-		public IEnumerator<Font> GetEnumerator()
-		{
-			return fonts.Values.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-
-        public Font GetOrDefault(string fontFace)
+        public void Add(string family, Font font)
         {
-            if (HasFont(fontFace))
-                return this[fontFace];
+            fonts.Add(family, font);
+
+            if (Default == null)
+                Default = font;
+        }
+
+        public IEnumerator<Font> GetEnumerator()
+        {
+            return fonts.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public Font GetOrDefault(string family)
+        {
+            if (HasFont(family))
+                return this[family];
 
             return new Font(Default);
         }

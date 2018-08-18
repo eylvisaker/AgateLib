@@ -32,5 +32,10 @@ namespace AgateLib.UserInterface.Styling.Themes.Model
         public Size Min { get; set; }
 
         public Size Max { get; set; } = new Size(int.MaxValue, int.MaxValue);
+
+        public int? MinWidth { get; set; }
+        public int? MinHeight { get; set; }
+        public int? MaxWidth { get; set; }
+        public int? MaxHeight { get; set; }
     }
 }
