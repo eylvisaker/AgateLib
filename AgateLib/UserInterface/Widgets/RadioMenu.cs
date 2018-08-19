@@ -15,9 +15,10 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderable Render() => new FlexBox(new FlexBoxProps
         {
+            Name = Props.Name,
+            Theme = Props.Theme,
             AllowNavigate = Props.AllowNavigate,
             Style = Props.Style,
-            Name = Props.Name,
             StyleClass = Props.StyleClass,
             StyleTypeId = "radiomenu",
             OnCancel = Props.OnCancel,

@@ -357,6 +357,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             return true;
         }
 
+        public override string ToString() => Selector;
     }
 
     public class SelectorMatch

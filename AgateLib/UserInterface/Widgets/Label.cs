@@ -37,10 +37,11 @@ namespace AgateLib.UserInterface.Widgets
         {
             return new LabelElement(new LabelElementProps
             {
+                Name = Props.Name,
+                Theme = Props.Theme,
                 Text = Props.Text,
                 Style = Props.Style,
                 StyleClass = Props.StyleClass,
-                Name = Props.Name,
                 PerformLocalization = Props.LocalizeContent,
                 ReadSlowly = Props.ReadSlowly,
                 AnimationComplete = Props.AnimationComplete,

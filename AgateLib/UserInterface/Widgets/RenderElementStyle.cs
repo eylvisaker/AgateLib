@@ -25,6 +25,7 @@ using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AgateLib.UserInterface.Widgets
@@ -41,7 +42,7 @@ namespace AgateLib.UserInterface.Widgets
 
         AnimationStyle Animation { get; }
 
-        ThemeWidgetSize Size { get; }
+        SizeConstraints Size { get; }
 
         FlexStyle Flex { get; }
 
@@ -112,6 +113,7 @@ namespace AgateLib.UserInterface.Widgets
             Flex = Aggregate(p => p.Flex);
             FlexItem = Aggregate(p => p.FlexItem);
             Layout = Aggregate(p => p.Layout);
+            Size = Aggregate(p => p.Size);
         }
 
         private bool ParentFontChanged()
@@ -174,7 +176,7 @@ namespace AgateLib.UserInterface.Widgets
 
             foreach (var prop in activeProperties)
             {
-                var thisProp = property(prop);
+                T thisProp = property(prop);
 
                 if (thisProp == null)
                     continue;
@@ -290,7 +292,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public AnimationStyle Animation { get; private set; }
 
-        public ThemeWidgetSize Size { get; } = new ThemeWidgetSize();
+        public SizeConstraints Size { get; private set; }
 
         public LayoutBox Padding { get; private set; }
 

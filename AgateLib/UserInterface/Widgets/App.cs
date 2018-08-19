@@ -25,6 +25,7 @@ namespace AgateLib.UserInterface.Widgets
             },
             StyleTypeId = "workspace",
             Name = Props.Name,
+            Theme = Props.Theme,
             StyleClass = Props.StyleClass,
             Style = Props.Style,
             OnCancel = Props.OnCancel,

@@ -20,11 +20,10 @@
 //    SOFTWARE.
 //
 
-using System;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -33,25 +32,21 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class RenderElementRegion
     {
-        IRenderElementStyle style;
-        Rectangle contentRect;
+        private Rectangle contentRect;
 
         /// <summary>
         /// Constructs a WidgetLayout structure.
         /// </summary>
         /// <param name="activeStyle"></param>
-        /// <remarks>
-        /// The dependency on WidgetStyle is something I'm calling a "perfect" dependency.
-        /// WidgetLayout needs a WidgetStyle object to function and avoid the null reference checks everywhere for situations which would be unrecoverable anyway if it was null.
-        /// WidgetLayout interacts with WidgetStyle in a completely read-only manner. Nothing is written to WidgetStyle.
-        /// WidgetLayout caches nothing from WidgetStyle.
-        /// The WidgetStyle can be switched to any other WidgetStyle at-will without any deterimental effect to the behavior of the WidgetLayout.
-        /// Because of these facts, we can freely change the style for a widget at will.
-        /// </remarks>
         public RenderElementRegion(IRenderElementStyle activeStyle)
         {
             this.Style = activeStyle;
         }
+
+        /// <summary>
+        /// A reference to the active style for this widget.
+        /// </summary>
+        public IRenderElementStyle Style { get; private set; }
 
         /// <summary>
         /// Gets a LayoutBox for the border to content distance.
@@ -132,24 +127,45 @@ namespace AgateLib.UserInterface.Widgets
 
         internal void SetContentRect(Rectangle newContentRect) => contentRect = newContentRect;
 
-        /// <summary>
-        /// A reference to the active style for this widget.
-        /// </summary>
-        public IRenderElementStyle Style
-        {
-            get => style;
-            private set
-            {
-                style = value ?? throw new ArgumentNullException(nameof(Style));
 
-                Size.MinimumSize = style.Size.Min;
-                Size.MaximumSize = style.Size.Max;
+        /// <summary>
+        /// Output of the the ComputeSizeMetrics method.
+        /// Gets the ideal content size given the constraints.
+        /// </summary>
+        public Size IdealContentSize { get; set; }
+
+        /// <summary>
+        /// Computes the constrained content size of the widget, given the constraints and its ideal 
+        /// content size.
+        /// </summary>
+        /// <returns></returns>
+        public Size CalcConstrainedContentSize(Size parentMaxSize)
+        {
+            Size result = new Size(
+                Style.Size?.Width ?? IdealContentSize.Width,
+                Style.Size?.Height ?? IdealContentSize.Height);
+
+            if (Style.Size != null)
+            {
+                result.Width = Maybe(Math.Max, result.Width, Style.Size.MinWidth);
+                result.Width = Maybe(Math.Min, result.Width, Style.Size.MaxWidth);
+
+                result.Height = Maybe(Math.Max, result.Height, Style.Size.MinHeight);
+                result.Height = Maybe(Math.Min, result.Height, Style.Size.MaxHeight);
             }
+
+            result.Width = Math.Min(result.Width, parentMaxSize.Width);
+            result.Height = Math.Min(result.Height, parentMaxSize.Height);
+
+            return result;
         }
 
-        /// <summary>
-        /// Gets the SizeMetrics object for this widget.
-        /// </summary>
-        public SizeMetrics Size { get; } = new SizeMetrics();
+        private int Maybe(Func<int, int, int> func, int a, int? b)
+        {
+            if (b == null)
+                return a;
+
+            return func(a, b.Value);
+        }
     }
 }

@@ -72,13 +72,13 @@ namespace AgateLib.UserInterface.Widgets
 
                 foreach (var item in children)
                 {
-                    var itemDest = dest;
+                    Point itemDest = dest;
 
                     CalcItemIdealSize(renderContext, size, item);
 
-                    var contentSize = item.Display.Region.Size.ComputeContentSize();
-                    var marginSize = new Size(contentSize.Width + item.Display.Region.MarginToContentOffset.Width,
-                                              contentSize.Height + item.Display.Region.MarginToContentOffset.Height);
+                    Size contentSize = item.Display.Region.CalcConstrainedContentSize(size);
+                    Size marginSize = new Size(contentSize.Width + item.Display.Region.MarginToContentOffset.Width,
+                                               contentSize.Height + item.Display.Region.MarginToContentOffset.Height);
 
                     switch (style.Flex?.AlignItems ?? AlignItems.Default)
                     {
@@ -225,12 +225,10 @@ namespace AgateLib.UserInterface.Widgets
 
                     var itemMaxSize = LayoutMath.ItemContentMaxSize(itemBox, maxSize);
 
-                    item.Display.Region.Size.ParentMaxSize = maxSize;
-
-                    item.Display.Region.Size.IdealContentSize
+                    item.Display.Region.IdealContentSize
                         = item.CalcIdealContentSize(renderContext, maxSize);
 
-                    var itemIdealContentSize = item.Display.Region.Size.IdealContentSize;
+                    var itemIdealContentSize = item.Display.Region.CalcConstrainedContentSize(maxSize);
                     var itemIdealMarginSize = itemBox.Expand(itemIdealContentSize);
 
                     idealCrossSize = Math.Max(idealCrossSize, CrossAxis(itemIdealMarginSize));
@@ -243,7 +241,7 @@ namespace AgateLib.UserInterface.Widgets
             private static void CalcItemIdealSize(IWidgetRenderContext renderContext, Size maxSize, IRenderElement item)
             {
                 var idealSize = item.CalcIdealContentSize(renderContext, maxSize);
-                item.Display.Region.Size.IdealContentSize = idealSize;
+                item.Display.Region.IdealContentSize = idealSize;
             }
         }
 

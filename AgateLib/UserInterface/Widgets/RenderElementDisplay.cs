@@ -93,12 +93,6 @@ namespace AgateLib.UserInterface.Widgets
         /// </summary>
         public bool IsVisible { get; set; } = true;
         
-        /// <summary>
-        /// Gets or sets the name of the theme the styling engine should 
-        /// use to style the owning widget.
-        /// </summary>
-        public string Theme { get; set; }
-
         public List<IRenderElementStyleProperties> ElementStyles { get; }
             = new List<IRenderElementStyleProperties>();
 

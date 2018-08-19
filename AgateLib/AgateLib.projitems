@@ -211,13 +211,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\TypeConverters\ImageSourceYamlConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\ThemeData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\ThemeWidgetAnimation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\ThemeWidgetSize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\SizeConstraints.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\CssWidgetSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\TypeConverters\BorderSideStyleYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Desktop.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\AnimationStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\AnimationStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Audio\MenuSounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\BufferState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\ButtonPress.cs" />
@@ -229,7 +228,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Instructions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\LayoutMath.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\SizeMetrics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\UserInterfaceInputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\ComponentStyleRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\DoubleBuffer.cs" />
@@ -256,8 +254,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\StyleEnums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontStyleProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\PropertyDebugStringBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\ThemeWidgetBackground.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Model\ThemeWidgetBorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\Theme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeStyler.cs" />

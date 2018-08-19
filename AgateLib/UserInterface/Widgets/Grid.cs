@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AgateLib.Mathematics.Geometry;
+﻿using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -48,7 +47,7 @@ namespace AgateLib.UserInterface.Widgets
             return new Point(index % Columns, index / Columns);
         }
 
-        IRenderElement ChildAt(int x, int y)
+        private IRenderElement ChildAt(int x, int y)
         {
             var index = y * Columns + x;
 
@@ -58,8 +57,8 @@ namespace AgateLib.UserInterface.Widgets
             return Children[index];
         }
 
-        Size SizeAt(int x, int y) => sizeGrid[y * Columns + x];
-        void SetSizeAt(int x, int y, Size value) => sizeGrid[y * Columns + x] = value;
+        private Size SizeAt(int x, int y) => sizeGrid[y * Columns + x];
+        private void SetSizeAt(int x, int y, Size value) => sizeGrid[y * Columns + x] = value;
 
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
@@ -81,9 +80,10 @@ namespace AgateLib.UserInterface.Widgets
 
                     var itemMaxSize = LayoutMath.ItemContentMaxSize(itemBox, maxSize);
 
-                    item.RecalculateSize(renderContext, maxSize);
+                    item.Display.Region.IdealContentSize
+                        = item.CalcIdealContentSize(renderContext, maxSize);
 
-                    var itemIdealSize = item.Display.Region.Size.IdealContentSize;
+                    var itemIdealSize = item.Display.Region.CalcConstrainedContentSize(maxSize);
 
                     SetSizeAt(x, y, itemIdealSize);
 
@@ -371,7 +371,7 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class GridProps : RenderElementProps
     {
-        IList<IRenderable> children = new List<IRenderable>();
+        private IList<IRenderable> children = new List<IRenderable>();
 
         public int Columns { get; set; }
 

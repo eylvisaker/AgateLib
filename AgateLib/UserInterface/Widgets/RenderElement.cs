@@ -372,6 +372,12 @@ namespace AgateLib.UserInterface.Widgets
     public class RenderElementProps
     {
         /// <summary>
+        /// Gets or sets the name of the theme the styling engine should 
+        /// use to style the owning widget.
+        /// </summary>
+        public string Theme { get; set; }
+
+        /// <summary>
         /// The ID value used in matching styles.
         /// </summary>
         public string Name { get; set; }

@@ -54,6 +54,8 @@ namespace AgateLib.UserInterface.Widgets
 
         LayoutStyle Layout { get; }
 
+        SizeConstraints Size { get; }
+
         /// <summary>
         /// The pseudoclasses this property set applies to.
         /// </summary>
@@ -96,6 +98,7 @@ namespace AgateLib.UserInterface.Widgets
             if (!Nullable.Equals(a.Padding, b.Padding)) return false;
             if (!Nullable.Equals(a.Margin, b.Margin)) return false;
             if (!LayoutStyle.Equals(a.Layout, b.Layout)) return false;
+            if (!SizeConstraints.Equals(a.Size, b.Size)) return false;
 
             return true;
         }
@@ -119,6 +122,8 @@ namespace AgateLib.UserInterface.Widgets
         public FlexItemStyle FlexItem { get; set; }
 
         public LayoutStyle Layout { get; set; }
+
+        public SizeConstraints Size { get; set; }
 
         public LayoutBox? Padding { get; set; }
 

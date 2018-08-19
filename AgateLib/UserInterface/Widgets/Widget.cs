@@ -161,24 +161,4 @@ namespace AgateLib.UserInterface.Widgets
         {
         }
     }
-
-    public static class WidgetExtensions
-    {
-        /// <summary>
-        /// Recalculates the size of a child widget.
-        /// </summary>
-        /// <param name="element"></param>
-        /// <param name="renderContext"></param>
-        /// <param name="parentMaxSize"></param>
-        [Obsolete("This should be moved somewhere else.")]
-        public static Size RecalculateSize(this IRenderElement element, IWidgetRenderContext renderContext, Size parentMaxSize)
-        {
-            element.Display.Region.Size.ParentMaxSize = parentMaxSize;
-
-            element.Display.Region.Size.IdealContentSize
-                = element.CalcIdealContentSize(renderContext, parentMaxSize);
-
-            return element.Display.Region.Size.IdealContentSize;
-        }
-    }
 }

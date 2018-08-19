@@ -38,24 +38,24 @@ namespace AgateLib.UserInterface.Styling.Themes
             this.themes = themes;
         }
 
-        public void Apply(IRenderElement rootWidget, string defaultTheme)
+        public void Apply(IRenderElement rootElement, string defaultTheme)
         {
             RenderElementStack parentStack = new RenderElementStack();
 
-            void ApplyRecurse(IRenderElement widget, ITheme theme)
+            void ApplyRecurse(IRenderElement element, ITheme theme)
             {
-                theme = ThemeOf(widget, theme);
+                theme = ThemeOf(element, theme);
 
-                theme.Apply(widget, parentStack);
+                theme.Apply(element, parentStack);
 
-                if (widget.Children == null)
+                if (element.Children == null)
                     return;
 
                 try
                 {
-                    parentStack.PushParent(widget);
+                    parentStack.PushParent(element);
 
-                    foreach (var child in widget.Children)
+                    foreach (var child in element.Children)
                     {
                         ApplyRecurse(child, theme);
                     }
@@ -66,17 +66,17 @@ namespace AgateLib.UserInterface.Styling.Themes
                 }
             }
 
-            var initialTheme = ThemeOf(rootWidget, themes[defaultTheme]);
+            var initialTheme = ThemeOf(rootElement, themes[defaultTheme]);
 
-            ApplyRecurse(rootWidget, initialTheme);
+            ApplyRecurse(rootElement, initialTheme);
         }
 
-        private ITheme ThemeOf(IRenderElement widget, ITheme theme)
+        private ITheme ThemeOf(IRenderElement element, ITheme theme)
         {
-            if (!string.IsNullOrWhiteSpace(widget.Display.Theme)
-                && themes.ContainsKey(widget.Display.Theme))
+            if (!string.IsNullOrWhiteSpace(element.Props.Theme)
+                && themes.ContainsKey(element.Props.Theme))
             {
-                return themes[widget.Display.Theme];
+                return themes[element.Props.Theme];
             }
 
             return theme;

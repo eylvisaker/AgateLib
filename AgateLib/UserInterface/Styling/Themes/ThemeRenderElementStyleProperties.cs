@@ -36,6 +36,8 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public FlexItemStyle FlexItem => themeStyle.FlexItem;
 
+        public SizeConstraints Size => themeStyle.Size;
+
         public LayoutBox? Margin => themeStyle.Margin;
 
         public LayoutBox? Padding => themeStyle.Padding;

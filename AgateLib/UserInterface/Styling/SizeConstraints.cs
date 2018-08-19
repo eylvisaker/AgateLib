@@ -21,31 +21,35 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Text;
-using Microsoft.Xna.Framework;
+using AgateLib.Mathematics.Geometry;
 
-namespace AgateLib.UserInterface.Styling.Themes.Model
+namespace AgateLib.UserInterface.Styling
 {
-    [Obsolete]
-    public class ThemeWidgetBackground
+    public class SizeConstraints
     {
-        public ImageSource Image { get; set; }
-        public Color? Color { get; set; }
-        public BackgroundRepeat? Repeat { get; set; }
-        public BackgroundClip? Clip { get; set; }
-        public Point? Position { get; set; }
-
-        public override string ToString()
+        public static bool Equals(SizeConstraints a, SizeConstraints b)
         {
-            var b = new PropertyDebugStringBuilder { Delimiter = " " };
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
 
-            b.Add(nameof(Image), Image);
-            b.Add(nameof(Color), Color);
-            b.Add(nameof(Repeat), Repeat);
-            b.Add(nameof(Clip), Clip);
-            b.Add(nameof(Position), Position);
+            if (a.Width != b.Width) return false;
+            if (a.MinWidth != b.MinWidth) return false;
+            if (a.MaxWidth != b.MaxWidth) return false;
+            if (a.Height != b.Height) return false;
+            if (a.MinHeight != b.MinHeight) return false;
+            if (a.MaxHeight != b.MaxHeight) return false;
 
-            return b.ToString();
+            return true;
         }
+
+        public int? Width { get; set; }
+        public int? Height { get; set; }
+
+        public int? MinWidth { get; set; }
+        public int? MinHeight { get; set; }
+        public int? MaxWidth { get; set; }
+        public int? MaxHeight { get; set; }
     }
 }
