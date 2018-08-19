@@ -63,6 +63,8 @@ namespace AgateLib.UserInterface
 
             public IInstructions Instructions { get; set; }
 
+            public IUserInterfaceAudio Audio { get; set; }
+
             public IRenderElement ParentOf(IRenderElement element)
             {
                 IRenderElement parent = null;
@@ -91,6 +93,11 @@ namespace AgateLib.UserInterface
             public void PopWorkspace()
             {
                 Desktop.PopWorkspace();
+            }
+
+            public void PlaySound(object originator, UserInterfaceSound sound)
+            {
+                Audio?.PlaySound(originator, sound);
             }
         }
 
@@ -151,6 +158,12 @@ namespace AgateLib.UserInterface
         {
             get => displaySystem.Instructions;
             set => displaySystem.Instructions = value ?? throw new ArgumentNullException(nameof(Instructions));
+        }
+
+        public IUserInterfaceAudio Audio
+        {
+            get => displaySystem.Audio;
+            set => displaySystem.Audio = value;
         }
 
         [Obsolete("Use overload which sets root render element .")]

@@ -59,6 +59,7 @@ namespace AgateLib.UserInterface
             IFontProvider fontProvider,
             IStyleConfigurator styleConfigurator,
             IAnimationFactory animationFactory = null,
+            IUserInterfaceAudio audio = null,
             IDoubleBuffer doubleBuffer = null,
             RenderTarget2D renderTarget = null)
         {
@@ -83,7 +84,8 @@ namespace AgateLib.UserInterface
             driver = new UserInterfaceSceneDriver(
                 renderContext,
                 styleConfigurator,
-                fontProvider);
+                fontProvider,
+                audio);
 
             driver.ScreenArea = new Rectangle(Point.Zero, 
                 GraphicsDeviceRenderTargetSize);
@@ -125,6 +127,7 @@ namespace AgateLib.UserInterface
         }
 
         public IAnimationFactory Animations { get; }
+
         public GraphicsDevice GraphicsDevice { get; }
 
         /// <summary>

@@ -466,6 +466,8 @@ namespace AgateLib.UserInterface.Widgets
                 return false;
 
             FocusIndex = newIndex;
+
+            Display.System.PlaySound(this, UserInterfaceSound.Navigate);
             Display.System.SetFocus(focusChildren[newIndex]);
 
             return true;
@@ -485,6 +487,8 @@ namespace AgateLib.UserInterface.Widgets
                 return false;
 
             FocusIndex = newIndex;
+
+            Display.System.PlaySound(this, UserInterfaceSound.Navigate);
             Display.System.SetFocus(focusChildren[newIndex]);
 
             return true;

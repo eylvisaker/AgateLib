@@ -56,6 +56,8 @@ namespace AgateLib.UserInterface
 
         public IFontProvider Fonts { get; }
 
+        public IUserInterfaceAudio Audio { get; set; }
+
         /// <summary>
         /// Explores all the elements in the visual tree on the desktop using a depth-first search.
         /// </summary>
@@ -107,6 +109,7 @@ namespace AgateLib.UserInterface
             workspace.Style = Styles;
             workspace.Fonts = Fonts;
             workspace.Instructions = Instructions;
+            workspace.Audio = Audio;
 
             // TODO: find a better way to do this.
             if (string.IsNullOrWhiteSpace(workspace.DefaultTheme))

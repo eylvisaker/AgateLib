@@ -194,6 +194,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\LayoutStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeRenderElementStyleProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceActionEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceAudio.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceLoadException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\App.cs" />
@@ -217,7 +218,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\TypeConverters\BorderSideStyleYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Desktop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\AnimationStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Audio\MenuSounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\BufferState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\ButtonPress.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Button.cs" />

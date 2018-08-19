@@ -193,35 +193,42 @@ namespace AgateLib.UserInterface.Widgets
 
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs args)
         {
+            bool moved = false;
             switch (args.Action)
             {
                 case UserInterfaceAction.Right:
-                    MoveRight();
+                    moved = MoveRight();
                     break;
 
                 case UserInterfaceAction.Left:
-                    MoveLeft();
+                    moved = MoveLeft();
                     break;
 
                 case UserInterfaceAction.Up:
-                    MoveUp();
+                    moved = MoveUp();
                     break;
 
                 case UserInterfaceAction.Down:
-                    MoveDown();
+                    moved = MoveDown();
                     break;
 
                 default:
                     if (Props.AllowNavigate)
+                    {
                         base.OnChildAction(child, args);
+                        return;
+                    }
 
                     break;
             }
+
+            if (moved)
+                Display.System.PlaySound(this, UserInterfaceSound.Navigate);
         }
 
-        public void MoveDown()
+        public bool MoveDown()
         {
-            var newFocus = this.focusPoint;
+            Point newFocus = this.focusPoint;
 
             do
             {
@@ -234,7 +241,7 @@ namespace AgateLib.UserInterface.Widgets
                         if (Props.AllowNavigate)
                             Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Down));
 
-                        return;
+                        return false;
                     }
 
                     newFocus.Y = 0;
@@ -249,12 +256,16 @@ namespace AgateLib.UserInterface.Widgets
 
             } while (this[newFocus] == null || !this[newFocus].CanHaveFocus);
 
+            bool result = newFocus != this.focusPoint;
+
             SetFocus(newFocus);
+
+            return result;
         }
 
-        public void MoveUp()
+        public bool MoveUp()
         {
-            var newFocus = this.focusPoint;
+            Point newFocus = this.focusPoint;
 
             do
             {
@@ -268,7 +279,7 @@ namespace AgateLib.UserInterface.Widgets
                     {
                         if (Props.AllowNavigate)
                             Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Up));
-                        return;
+                        return false;
                     }
                     if (NavigationWrap == GridNavigationWrap.Sparse)
                     {
@@ -279,12 +290,16 @@ namespace AgateLib.UserInterface.Widgets
                 }
             } while (this[newFocus] == null || !this[newFocus].CanHaveFocus);
 
+            bool result = newFocus != this.focusPoint;
+
             SetFocus(newFocus);
+
+            return result;
         }
 
-        public void MoveLeft()
+        public bool MoveLeft()
         {
-            var newFocus = this.focusPoint;
+            Point newFocus = this.focusPoint;
 
             do
             {
@@ -299,7 +314,7 @@ namespace AgateLib.UserInterface.Widgets
                         if (Props.AllowNavigate)
                             Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Left));
 
-                        return;
+                        return false;
                     }
 
                     if (NavigationWrap == GridNavigationWrap.Sparse)
@@ -313,12 +328,16 @@ namespace AgateLib.UserInterface.Widgets
 
             } while (this[newFocus] == null || !this[newFocus].CanHaveFocus);
 
+            bool result = newFocus != this.focusPoint;
+
             SetFocus(newFocus);
+
+            return result;
         }
 
-        public void MoveRight()
+        public bool MoveRight()
         {
-            var newFocus = this.focusPoint;
+            Point newFocus = this.focusPoint;
 
             do
             {
@@ -331,7 +350,7 @@ namespace AgateLib.UserInterface.Widgets
                         if (Props.AllowNavigate)
                             Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Right));
 
-                        return;
+                        return false;
                     }
 
                     newFocus.X = 0;
@@ -347,7 +366,11 @@ namespace AgateLib.UserInterface.Widgets
 
             } while (this[newFocus] == null || !this[newFocus].CanHaveFocus);
 
+            bool result = newFocus != this.focusPoint;
+
             SetFocus(newFocus);
+
+            return result;
         }
 
         private void SetFocus(Point newFocus)

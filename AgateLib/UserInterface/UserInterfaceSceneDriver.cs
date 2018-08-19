@@ -41,11 +41,14 @@ namespace AgateLib.UserInterface
         public UserInterfaceSceneDriver(
             IWidgetRenderContext renderContext, 
             IStyleConfigurator styles, 
-            IFontProvider fonts)
+            IFontProvider fonts,
+            IUserInterfaceAudio audio = null)
         {
             this.renderContext = renderContext;
 
             desktop = new Desktop(fonts, styles);
+
+            desktop.Audio = audio;
 
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
 

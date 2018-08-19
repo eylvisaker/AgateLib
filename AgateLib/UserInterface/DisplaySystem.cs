@@ -50,6 +50,8 @@ namespace AgateLib.UserInterface
         /// Removes the active workspace from the desktop.
         /// </summary>
         void PopWorkspace();
+
+        void PlaySound(object originator, UserInterfaceSound sound);
     }
 
     public static class DisplaySystemExtensions
