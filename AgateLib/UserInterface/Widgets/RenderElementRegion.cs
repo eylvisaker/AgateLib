@@ -94,7 +94,6 @@ namespace AgateLib.UserInterface.Widgets
         public Rectangle MarginRect
         {
             get => MarginToContentOffset.Expand(contentRect);
-            set => contentRect = MarginToContentOffset.Contract(value);
         }
 
         /// <summary>
@@ -102,19 +101,7 @@ namespace AgateLib.UserInterface.Widgets
         /// This includes border + padding.
         /// Position is in parent-client coordinates.
         /// </summary>
-        public Rectangle BorderRect
-        {
-            get
-            {
-                var offset = BorderToContentOffset;
-
-                return new Rectangle(
-                    contentRect.X - offset.Left,
-                    contentRect.Y - offset.Top,
-                    contentRect.Width + offset.Left + offset.Right,
-                    contentRect.Height + offset.Top + offset.Bottom);
-            }
-        }
+        public Rectangle BorderRect => BorderToContentOffset.Expand(contentRect);
 
         /// <summary>
         /// Gets the content rectangle in client coordinates of this
@@ -125,14 +112,40 @@ namespace AgateLib.UserInterface.Widgets
             get => contentRect;
         }
 
-        internal void SetContentRect(Rectangle newContentRect) => contentRect = newContentRect;
+        /// <summary>
+        /// Gets the size of the margin rectangle.
+        /// </summary>
+        public Size MarginSize => MarginRect.Size;
 
+        public void SetContentRect(Rectangle newContentRect) => contentRect = newContentRect;
+
+        public void SetContentSize(Size newContentSize) => contentRect.Size = newContentSize;
+
+        public void SetMarginPosition(Point position)
+        {
+            var contentPos = new Point(position.X + MarginToContentOffset.Left,
+                                       position.Y + MarginToContentOffset.Top);
+
+            contentRect.Location = contentPos;
+        }
+
+        public void SetMarginSize(Size newMarginSize)
+        {
+            contentRect.Size = new Size(newMarginSize.Width - MarginToContentOffset.Width,
+                                        newMarginSize.Height - MarginToContentOffset.Height);
+        }
 
         /// <summary>
-        /// Output of the the ComputeSizeMetrics method.
-        /// Gets the ideal content size given the constraints.
+        /// Gets or sets the ideal content size of this item given its size constraints.
         /// </summary>
         public Size IdealContentSize { get; set; }
+
+        /// <summary>
+        /// Gets the ideal margin size by combining MarginToContentOffset with IdealContentSize.
+        /// </summary>
+        public Size IdealMarginSize => MarginToContentOffset.Expand(IdealContentSize);
+
+        public Point ContentSize => contentRect.Size;
 
         /// <summary>
         /// Computes the constrained content size of the widget, given the constraints and its ideal 
@@ -142,8 +155,8 @@ namespace AgateLib.UserInterface.Widgets
         public Size CalcConstrainedContentSize(Size parentMaxSize)
         {
             Size result = new Size(
-                Style.Size?.Width ?? IdealContentSize.Width,
-                Style.Size?.Height ?? IdealContentSize.Height);
+                /*Style.Size?.Width ?? */IdealContentSize.Width,
+                /*Style.Size?.Height ??*/ IdealContentSize.Height);
 
             if (Style.Size != null)
             {

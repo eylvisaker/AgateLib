@@ -23,12 +23,10 @@
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -40,7 +38,7 @@ namespace AgateLib.UserInterface.Widgets
     {
         #region --- Axis Interfaces ---
 
-        abstract class AxisSpace
+        private abstract class AxisSpace
         {
             protected abstract int MainAxis(Point itemSize);
             protected abstract int CrossAxis(Point itemSize);
@@ -64,114 +62,197 @@ namespace AgateLib.UserInterface.Widgets
 
             public void PerformLayout(
                 IWidgetRenderContext renderContext,
-                Size size,
-                IRenderElementStyle style,
+                Size mySize,
+                IRenderElementStyle myStyle,
                 IList<IRenderElement> children)
             {
+                int idealSizeOfAllChildren = CalcChildrenIdealSizes(renderContext, mySize, children);
+
+                int extraSpace = MainAxis(mySize) - idealSizeOfAllChildren;
+
+                GrowFlexItems(children, ref extraSpace);
+                ContractItems(children, mySize, ref extraSpace);
+
+                PositionChildren(mySize, myStyle, children);
+                ApplyAlignment(mySize, myStyle, children);
+
+                DistributeExtraSpace(myStyle, children, ref extraSpace);
+
+            }
+
+            private void DistributeExtraSpace(IRenderElementStyle myStyle,
+                                              IList<IRenderElement> children,
+                                              ref int extraSpace)
+            {
+                if (extraSpace <= 0)
+                    return;
+
+                switch (myStyle.Flex?.JustifyContent ?? JustifyContent.Default)
+                {
+                    case JustifyContent.Center:
+                        foreach (var item in children)
+                        {
+                            item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace / 2);
+                        }
+                        break;
+
+                    case JustifyContent.End:
+                        foreach (var item in children)
+                        {
+                            item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace);
+                        }
+                        break;
+
+                    case JustifyContent.SpaceBetween:
+                        DistributeSpaceBetween(children, extraSpace);
+                        break;
+
+                    case JustifyContent.SpaceAround:
+                        DistributeSpaceAround(children, extraSpace);
+                        break;
+
+                    case JustifyContent.SpaceEvenly:
+                        DistributeSpaceEvenly(children, extraSpace);
+                        break;
+                }
+
+                extraSpace = 0;
+            }
+
+            private void ContractItems(IList<IRenderElement> children,
+                                       Size mySize,
+                                       ref int extraSpace)
+            {
+                if (extraSpace >= 0)
+                    return;
+
+                float fExtraSpace = extraSpace;
+                int iter = 0;
+
+                while (Math.Abs(fExtraSpace) > 1e-6 && iter < 5)
+                {
+                    float shrinkAmount = fExtraSpace / children.Count(
+                        x => MainAxis(x.Display.Region.ContentSize)
+                           - MainAxis(x.Style.Size?.ToMinSize() ?? Size.Empty) 
+                           > 0);
+
+                    foreach (var item in children)
+                    {
+                        Size currentSize = item.Display.Region.ContentRect.Size;
+                        Size newSize = SetSize(MainAxis(currentSize) + (int)shrinkAmount,
+                                               CrossAxis(currentSize));
+
+                        newSize = LayoutMath.ConstrainSize(newSize, item.Style.Size);
+
+                        item.Display.Region.SetContentSize(newSize);
+
+                        int diff = MainAxis(new Size(newSize.Width - currentSize.Width,
+                                                     newSize.Height - currentSize.Height));
+
+                        fExtraSpace -= diff;
+                    }
+
+                    iter++;
+                }
+
+                extraSpace = (int)fExtraSpace;
+            }
+
+            private void GrowFlexItems(IList<IRenderElement> children, ref int extraSpace)
+            {
+                int totalFlexGrow = children.Sum(x => x.Style.FlexItem?.Grow ?? 0);
+
+                if (extraSpace <= 0 || totalFlexGrow <= 0)
+                    return;
+
+                float fExtraSpace = extraSpace;
+
+                for (int index = 0; index < children.Count; index++)
+                {
+                    IRenderElement item = children[index];
+                    int flexGrow = item.Style.FlexItem?.Grow ?? 0;
+
+                    if (flexGrow == 0)
+                        continue;
+
+                    float flexGrowFactor = flexGrow / (float)totalFlexGrow;
+                    float expand = extraSpace * flexGrowFactor;
+
+                    Size currentSize = item.Display.Region.ContentRect.Size;
+                    Size newSize = SetSize(MainAxis(currentSize) + (int)expand, CrossAxis(currentSize));
+
+                    item.Display.Region.SetContentSize(newSize);
+
+                    fExtraSpace -= expand;
+                }
+
+                extraSpace = (int)fExtraSpace;
+            }
+
+            private void ApplyAlignment(Size mySize, IRenderElementStyle myStyle, IList<IRenderElement> children)
+            {
+                foreach (var item in children)
+                {
+                    Point itemPos = item.Display.Region.MarginRect.Location;
+                    Size marginSize = item.Display.Region.MarginSize;
+
+                    switch (myStyle.Flex?.AlignItems ?? AlignItems.Default)
+                    {
+                        case AlignItems.End:
+                            itemPos = IncCross(itemPos, CrossAxis(mySize) - CrossAxis(marginSize));
+                            break;
+
+                        case AlignItems.Center:
+                            itemPos = IncCross(itemPos, (CrossAxis(mySize) - CrossAxis(marginSize)) / 2);
+                            break;
+
+                        case AlignItems.Stretch:
+                            marginSize = SetCrossSize(marginSize, CrossAxis(mySize));
+                            break;
+                    }
+
+                    item.Display.Region.SetMarginPosition(itemPos);
+                    item.Display.Region.SetMarginSize(marginSize);
+                }
+            }
+
+            private void PositionChildren(Size mySize,
+                                          IRenderElementStyle myStyle,
+                                          IList<IRenderElement> children)
+            {
+
                 Point dest = new Point(0, 0);
 
                 foreach (var item in children)
                 {
-                    Point itemDest = dest;
+                    item.Display.Region.SetMarginPosition(dest);
 
-                    CalcItemIdealSize(renderContext, size, item);
-
-                    Size contentSize = item.Display.Region.CalcConstrainedContentSize(size);
-                    Size marginSize = new Size(contentSize.Width + item.Display.Region.MarginToContentOffset.Width,
-                                               contentSize.Height + item.Display.Region.MarginToContentOffset.Height);
-
-                    switch (style.Flex?.AlignItems ?? AlignItems.Default)
-                    {
-                        case AlignItems.End:
-                            itemDest = IncCross(itemDest, CrossAxis(size) - CrossAxis(marginSize));
-                            break;
-
-                        case AlignItems.Center:
-                            itemDest = IncCross(itemDest, (CrossAxis(size) - CrossAxis(marginSize)) / 2);
-                            break;
-
-                        case AlignItems.Stretch:
-                            marginSize = SetCrossSize(marginSize, CrossAxis(size));
-                            break;
-                    }
-
-                    item.Display.MarginRect = new Rectangle(itemDest, marginSize);
-                    
-                    dest = IncMain(dest, MainAxis((Size)item.Display.MarginRect.Size));
-                }
-
-                int extraSpace = MainAxis(size) - MainAxis(dest);
-                int totalFlexGrow = children.Sum(x => x.Style.FlexItem?.Grow ?? 0);
-
-                if (totalFlexGrow > 0)
-                {
-                    float fExtraSpace = extraSpace;
-
-                    for (int index = 0; index < children.Count; index++)
-                    {
-                        IRenderElement item = children[index];
-                        int flexGrow = item.Style.FlexItem?.Grow ?? 0;
-
-                        if (flexGrow == 0)
-                            continue;
-
-                        float flexGrowFactor = flexGrow / (float)totalFlexGrow;
-                        float expand = extraSpace * flexGrowFactor;
-
-                        Size currentSize = item.Display.MarginRect.Size;
-                        Size newSize = SetSize(MainAxis(currentSize) + (int)expand, CrossAxis(currentSize));
-
-                        fExtraSpace -= expand;
-
-                        item.Display.MarginRect = new Rectangle(item.Display.MarginRect.Location, newSize);
-
-                        for (int moveIndex = index + 1; moveIndex < children.Count; moveIndex++)
-                        {
-                            IRenderElement moveItem = children[moveIndex];
-
-                            Point currentLoc = moveItem.Display.MarginRect.Location;
-
-                            Point newLoc = IncMain(currentLoc, (int)expand);
-
-                            moveItem.Display.MarginRect = new Rectangle(newLoc, moveItem.Display.MarginRect.Size);
-                        }
-                    }
-
-                    extraSpace = (int)fExtraSpace;
-                }
-
-                if (extraSpace > 0)
-                {
-                    switch (style.Flex?.JustifyContent ?? JustifyContent.Default)
-                    {
-                        case JustifyContent.Center:
-                            foreach (var item in children)
-                            {
-                                item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace / 2);
-                            }
-                            break;
-
-                        case JustifyContent.End:
-                            foreach (var item in children)
-                            {
-                                item.Display.MarginRect = IncMain(item.Display.MarginRect, extraSpace);
-                            }
-                            break;
-
-                        case JustifyContent.SpaceBetween:
-                            DistributeSpaceBetween(children, extraSpace);
-                            break;
-
-                        case JustifyContent.SpaceAround:
-                            DistributeSpaceAround(children, extraSpace);
-                            break;
-
-                        case JustifyContent.SpaceEvenly:
-                            DistributeSpaceEvenly(children, extraSpace);
-                            break;
-                    }
+                    dest = IncMain(dest, MainAxis(item.Display.Region.MarginSize));
                 }
             }
+
+            /// <summary>
+            /// Updates the ideal size property for each child.
+            /// Returns the total ideal margin size along the main axis.
+            /// </summary>
+            /// <param name="renderContext"></param>
+            /// <param name="mySize"></param>
+            /// <param name="children"></param>
+            /// <returns></returns>
+            private int CalcChildrenIdealSizes(IWidgetRenderContext renderContext,
+                                               Size mySize,
+                                               IList<IRenderElement> children)
+            {
+                foreach (var item in children)
+                {
+                    LayoutMath.CalcIdealSize(item, renderContext, mySize);
+
+                    item.Display.Region.SetContentSize(item.Display.Region.IdealContentSize);
+                }
+
+                return children.Sum(x => MainAxis(x.Display.Region.IdealMarginSize));
+            }
+
 
             private void DistributeSpaceBetween(IEnumerable<IRenderElement> children, int extraSpace)
             {
@@ -211,6 +292,7 @@ namespace AgateLib.UserInterface.Widgets
                     index++;
                 }
             }
+
             public Size CalcIdealSize(IWidgetRenderContext renderContext, Size maxSize, IList<IRenderElement> children)
             {
                 int idealCrossSize = 0;
@@ -237,15 +319,9 @@ namespace AgateLib.UserInterface.Widgets
 
                 return SetSize(idealAxisSize, idealCrossSize);
             }
-
-            private static void CalcItemIdealSize(IWidgetRenderContext renderContext, Size maxSize, IRenderElement item)
-            {
-                var idealSize = item.CalcIdealContentSize(renderContext, maxSize);
-                item.Display.Region.IdealContentSize = idealSize;
-            }
         }
 
-        class HorizontalAxisSpace : AxisSpace
+        private class HorizontalAxisSpace : AxisSpace
         {
             protected override Size SetSize(int axisSize, int crossSize)
             {
@@ -279,7 +355,7 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        class VerticalAxisSpace : AxisSpace
+        private class VerticalAxisSpace : AxisSpace
         {
             protected override Size SetSize(int axisSize, int crossSize)
             {
@@ -313,8 +389,8 @@ namespace AgateLib.UserInterface.Widgets
             }
         }
 
-        static AxisSpace horizontal = new HorizontalAxisSpace();
-        static AxisSpace vertical = new VerticalAxisSpace();
+        private static AxisSpace horizontal = new HorizontalAxisSpace();
+        private static AxisSpace vertical = new VerticalAxisSpace();
 
         #endregion
 
@@ -355,6 +431,8 @@ namespace AgateLib.UserInterface.Widgets
         public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
         {
             UpdateChildLists();
+
+            maxSize = LayoutMath.ConstrainMaxSize(maxSize, Style.Size);
 
             switch (Direction)
             {
@@ -480,7 +558,7 @@ namespace AgateLib.UserInterface.Widgets
             do
             {
                 newIndex++;
-            } while (newIndex < focusChildren.Count 
+            } while (newIndex < focusChildren.Count
                      && !CanChildHaveFocus(focusChildren[newIndex]));
 
             if (newIndex == FocusIndex || newIndex < 0 || newIndex >= focusChildren.Count)
@@ -525,7 +603,7 @@ namespace AgateLib.UserInterface.Widgets
 
             action.Handled = moved;
 
-            if (!moved) 
+            if (!moved)
             {
                 if (button == UserInterfaceAction.Cancel && Props.OnCancel != null)
                 {

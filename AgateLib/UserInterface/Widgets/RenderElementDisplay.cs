@@ -158,5 +158,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets the collection of pseudoclases that apply to this element.
         /// </summary>
         public PseudoClassCollection PseudoClasses { get; } = new PseudoClassCollection();
+
+        public override string ToString() => $"Margin: {MarginRect}, Content: {ContentRect}";
     }
 }

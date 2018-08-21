@@ -20,10 +20,10 @@
 //    SOFTWARE.
 //
 
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using AgateLib.Mathematics.Geometry;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Styling
 {
@@ -34,22 +34,31 @@ namespace AgateLib.UserInterface.Styling
             if (a == null && b == null) return true;
             if (a == null || b == null) return false;
 
-            if (a.Width != b.Width) return false;
+            // TODO: Implement these as percentages of parent size.
+            //if (a.Width != b.Width) return false;
+            //if (a.Height != b.Height) return false;
+
             if (a.MinWidth != b.MinWidth) return false;
             if (a.MaxWidth != b.MaxWidth) return false;
-            if (a.Height != b.Height) return false;
+
             if (a.MinHeight != b.MinHeight) return false;
             if (a.MaxHeight != b.MaxHeight) return false;
 
             return true;
         }
 
-        public int? Width { get; set; }
-        public int? Height { get; set; }
+        //public int? Width { get; set; }
+        //public int? Height { get; set; }
 
-        public int? MinWidth { get; set; }
-        public int? MinHeight { get; set; }
+        public int MinWidth { get; set; }
         public int? MaxWidth { get; set; }
+
+        public int MinHeight { get; set; }
         public int? MaxHeight { get; set; }
+
+        public Size ToMinSize()
+        {
+            return new Size(MinWidth, MinHeight);
+        }
     }
 }

@@ -13,7 +13,7 @@ using AgateLib.UserInterface.Content;
 
 namespace AgateLib.Tests.UserInterface.Content
 {
-    public class LayoutTest
+    public class ContentLayoutTest
     {
         [Fact]
         public void LayoutText()

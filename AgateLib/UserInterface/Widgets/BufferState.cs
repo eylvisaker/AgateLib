@@ -20,17 +20,14 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class BufferState
-	{
-		public Rectangle ContentDestination { get; internal set; }
+    public class BufferState
+    {
+        public Rectangle ContentDestination { get; internal set; }
 
-		public WidgetRenderContext RenderContext { get; internal set; }
-	}
+        public WidgetRenderContext RenderContext { get; internal set; }
+    }
 }

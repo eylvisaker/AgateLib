@@ -119,7 +119,7 @@ namespace AgateLib.UserInterface.Widgets
 
         public override string ToString()
         {
-            return $"label: {Props.Text?.Substring(0, Math.Min(20, Props.Text.Length)) ?? "null"}";
+            return $"label: {Props.Text?.Substring(0, Math.Min(200, Props.Text.Length)) ?? "null"}";
         }
 
         private void RefreshContent(IWidgetRenderContext renderContext, int maxWidth)
@@ -128,6 +128,8 @@ namespace AgateLib.UserInterface.Widgets
             {
                 if (maxWidth > content.Size.Width)
                     return;
+
+                dirty = true;
             }
 
             if (dirty || lastContentMaxWidth != maxWidth)

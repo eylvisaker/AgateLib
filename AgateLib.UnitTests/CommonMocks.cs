@@ -80,24 +80,12 @@ namespace AgateLib.Tests
             result.SetupGet(x => x.UserInterfaceRenderer)
                 .Returns(uiRenderer);
 
-            if (contentLayoutEngine != null)
-            {
-                result
-                    .Setup(x => x.CreateContentLayout(It.IsAny<string>(), It.IsAny<ContentLayoutOptions>(), It.IsAny<bool>()))
-                    .Returns<string, ContentLayoutOptions, bool>((text, options, localize) => contentLayoutEngine.LayoutContent(text, options, localize));
-            }
-            else
-            {
-                result
-                    .Setup(x => x.CreateContentLayout(It.IsAny<string>(), It.IsAny<ContentLayoutOptions>(), It.IsAny<bool>()))
-                    .Returns<string, ContentLayoutOptions, bool>((text, options, localize) =>
-                    {
-                        return new ContentLayout(new[] 
-                        {
-                            new ContentText(text, new Font(new FakeFontCore("default")), Vector2.Zero)
-                        });
-                    });
-            }
+            contentLayoutEngine = contentLayoutEngine ??
+                new ContentLayoutEngine(FontProvider().Object);
+
+            result
+                .Setup(x => x.CreateContentLayout(It.IsAny<string>(), It.IsAny<ContentLayoutOptions>(), It.IsAny<bool>()))
+                .Returns<string, ContentLayoutOptions, bool>((text, options, localize) => contentLayoutEngine.LayoutContent(text, options, localize));
 
             result.SetupGet(x => x.GameTime).Returns(new GameTime());
 
