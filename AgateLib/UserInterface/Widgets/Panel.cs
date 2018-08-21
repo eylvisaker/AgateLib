@@ -43,18 +43,12 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderable Render() => new FlexBox(new FlexBoxProps
         {
-            Name = Props.Name,
-            Theme = Props.Theme,
             AllowNavigate = Props.AllowNavigate,
-            DefaultStyle = Props.DefaultStyle,
-            Style = Props.Style,
-            StyleClass = Props.StyleClass,
             StyleTypeId = "panel",
-            Visible = Props.Visible,
             Children = Props.Children.ToList(),
             OnCancel = Props.OnCancel,
             Enabled = Props.Enabled,
-        });
+        }.CopyFromWidgetProps(Props));
     }
 
     public class PanelProps : WidgetProps

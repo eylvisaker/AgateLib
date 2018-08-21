@@ -39,16 +39,12 @@ namespace AgateLib.UserInterface.Widgets
         {
             return new ButtonElement(new ButtonElementProps
             {
-                Name = Props.Name,
-                Theme = Props.Theme,
-                StyleClass = Props.StyleClass,
-                Style = Props.Style,
                 Text = Props.Text,
                 OnAccept = Props.OnAccept,
                 OnFocus = Props.OnFocus,
                 Enabled = Props.Enabled,
                 Children = (Props.Children?.Count ?? 0) > 0 ? Props.Children : new List<IRenderable>{ new Label(new LabelProps { Text = Props.Text }) } 
-            });
+            }.CopyFromWidgetProps(Props));
         }
     }
 

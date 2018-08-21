@@ -23,7 +23,7 @@ namespace AgateLib.UserInterface.Widgets
                 Checked = Props.Checked,
                 Enabled = Props.Enabled,
                 Children = { new Label(new LabelProps { Text = Props.Text }) }
-            });
+            }.CopyFromWidgetProps(Props));
         }
     }
 

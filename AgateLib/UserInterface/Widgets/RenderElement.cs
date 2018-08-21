@@ -158,7 +158,7 @@ namespace AgateLib.UserInterface.Widgets
         /// is added to the render tree.
         /// </summary>
         void OnDidMount();
-        
+
         /// <summary>
         /// Called after reconciliation is complete.
         /// </summary>
@@ -432,7 +432,7 @@ namespace AgateLib.UserInterface.Widgets
         /// with the user. Defaults to true.
         /// </summary>
         public bool Enabled { get; set; } = true;
-        
+
         /// <summary>
         /// Compares two props objects to see if their property values are equal.
         /// By default, this uses reflection to check each individual property, except
@@ -473,6 +473,26 @@ namespace AgateLib.UserInterface.Widgets
 
             return marginSize;
 
+        }
+
+        /// <summary>
+        /// Copies standard WidgetProps members to the RenderElementProps structure.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="elementProps"></param>
+        /// <param name="props"></param>
+        /// <returns></returns>
+        public static T CopyFromWidgetProps<T>(this T elementProps, WidgetProps props)
+            where T : RenderElementProps
+        {
+            elementProps.Name = props.Name;
+            elementProps.Theme = props.Theme;
+            elementProps.Style = props.Style;
+            elementProps.StyleClass = props.StyleClass;
+            elementProps.DefaultStyle = props.DefaultStyle;
+            elementProps.Visible = props.Visible;
+            
+            return elementProps;
         }
     }
 }

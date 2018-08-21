@@ -13,6 +13,10 @@ namespace AgateLib.UserInterface.Widgets
 
         public override IRenderable Render() => new FlexBox(new FlexBoxProps
         {
+            Name = Props.Name,
+            Theme = Props.Theme,
+            Style = Props.Style,
+            StyleClass = Props.StyleClass,
             DefaultStyle = Props.DefaultStyle ?? new InlineElementStyle
             {
                 Flex = new FlexStyle
@@ -23,11 +27,8 @@ namespace AgateLib.UserInterface.Widgets
                 },
                 Padding = new LayoutBox(100, 50, 100, 50),
             },
+            Visible = Props.Visible,
             StyleTypeId = "workspace",
-            Name = Props.Name,
-            Theme = Props.Theme,
-            StyleClass = Props.StyleClass,
-            Style = Props.Style,
             OnCancel = Props.OnCancel,
             Children = Props.Children,
         });
