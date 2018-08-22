@@ -19,24 +19,24 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
-#define __DEBUG_RENDER
 
+//#define __DEBUG_RENDER
+
+using AgateLib.UserInterface.Styling;
+using AgateLib.UserInterface.Widgets;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
-using Microsoft.Xna.Framework;
 
 
 namespace AgateLib.UserInterface
 {
     public class VisualTree
     {
-        IRenderElement root;
-        IRenderElement focus;
+        private IRenderElement root;
+        private IRenderElement focus;
 
         public void Render(IRenderable rootRenderable)
         {
@@ -230,7 +230,7 @@ namespace AgateLib.UserInterface
                 element.Update(renderContext);
                 element.Style.Update();
 
-                foreach(var child in element.Children ?? Enumerable.Empty<IRenderElement>())
+                foreach (var child in element.Children ?? Enumerable.Empty<IRenderElement>())
                     child.Display.ParentFont = element.Style.Font;
 
                 renderContext.UpdateAnimation(element);
@@ -275,6 +275,12 @@ namespace AgateLib.UserInterface
             DebugMsg("Drawing all widgets", ifDebugFlagAtLeast: 1, setDebugFlag: 0);
 
             DoLayout(renderContext, area);
+
+            Walk(element =>
+            {
+                renderContext.UpdateAnimation(element);
+                return true;
+            });
 
             renderContext.DrawChild(area, TreeRoot);
         }
@@ -327,7 +333,7 @@ namespace AgateLib.UserInterface
                 debugFlag = setDebugFlag.Value;
         }
 
-        int debugFlag;
+        private int debugFlag;
 
     }
 }
