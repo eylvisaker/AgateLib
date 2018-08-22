@@ -4,7 +4,6 @@ using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Moq;
 using System.Collections.Generic;
@@ -70,12 +69,12 @@ namespace AgateLib.Tests
             return fontProvider;
         }
 
-        public static Mock<IWidgetRenderContext> RenderContext(IContentLayoutEngine contentLayoutEngine = null)
+        public static Mock<IUserInterfaceRenderContext> RenderContext(IContentLayoutEngine contentLayoutEngine = null)
         {
             var styleRenderer = new Mock<IComponentStyleRenderer>();
             var uiRenderer = new UserInterfaceRenderer(styleRenderer.Object);
 
-            var result = new Mock<IWidgetRenderContext>();
+            var result = new Mock<IUserInterfaceRenderContext>();
 
             result.SetupGet(x => x.UserInterfaceRenderer)
                 .Returns(uiRenderer);

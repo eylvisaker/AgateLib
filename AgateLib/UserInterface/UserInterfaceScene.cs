@@ -52,7 +52,7 @@ namespace AgateLib.UserInterface
     [Transient]
     public class UserInterfaceScene : Scene, IUserInterfaceScene
     {
-        private readonly WidgetRenderContext renderContext;
+        private readonly UserInterfaceRenderContext renderContext;
         private readonly UserInterfaceSceneDriver driver;
 
         public UserInterfaceScene(GraphicsDevice graphicsDevice,
@@ -71,7 +71,7 @@ namespace AgateLib.UserInterface
             Animations = animationFactory ?? new AnimationFactory();
             GraphicsDevice = graphicsDevice;
 
-            renderContext = new WidgetRenderContext(
+            renderContext = new UserInterfaceRenderContext(
                 graphicsDevice,
                 contentLayoutEngine,
                 userInterfaceRenderer,

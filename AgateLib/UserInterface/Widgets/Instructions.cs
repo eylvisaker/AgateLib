@@ -33,7 +33,7 @@ namespace AgateLib.UserInterface
 {
     public interface IInstructions
     {
-        void Draw(IWidgetRenderContext renderContext);
+        void Draw(IUserInterfaceRenderContext renderContext);
 
         void Set(Buttons button, string text);
 
@@ -73,7 +73,7 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public void Draw(IWidgetRenderContext renderContext)
+        public void Draw(IUserInterfaceRenderContext renderContext)
         {
             contentLayoutOptions.Font = Font;
             contentLayoutOptions.MaxWidth = renderContext.Area.Width;
@@ -107,7 +107,7 @@ namespace AgateLib.UserInterface
             }
         }
 
-        private void InitializeContent(IWidgetRenderContext renderContext, Buttons key, InstructionItem item)
+        private void InitializeContent(IUserInterfaceRenderContext renderContext, Buttons key, InstructionItem item)
         {
             if (item.ButtonContent == null)
             {
@@ -121,7 +121,7 @@ namespace AgateLib.UserInterface
             }
         }
         
-        private static void DrawContent(IWidgetRenderContext renderContext, IContentLayout content, ref int x)
+        private static void DrawContent(IUserInterfaceRenderContext renderContext, IContentLayout content, ref int x)
         {
             content.Draw(
                 new Vector2(x, renderContext.Area.Height - content.Size.Height),

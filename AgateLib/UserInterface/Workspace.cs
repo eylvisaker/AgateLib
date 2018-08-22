@@ -183,7 +183,7 @@ namespace AgateLib.UserInterface
                 UnhandledEvent?.Invoke(args);
         }
 
-        public void Update(IWidgetRenderContext renderContext)
+        public void Update(IUserInterfaceRenderContext renderContext)
         {
             visualTree.Update(renderContext);
         }
@@ -210,7 +210,7 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public void Draw(IWidgetRenderContext renderContext)
+        public void Draw(IUserInterfaceRenderContext renderContext)
         {
             visualTree.Draw(renderContext, ScreenArea);
         }

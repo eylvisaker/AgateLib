@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AgateLib.UserInterface;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.Layout;
-using AgateLib.Tests;
 
 namespace AgateLib.Tests.UserInterface.Support
 {
@@ -14,8 +8,6 @@ namespace AgateLib.Tests.UserInterface.Support
     {
         private readonly UIContext context;
         private readonly Instructor instructor;
-
-        private Dictionary<Type, Action<string>> gotoMethods;
 
         public Navigator(UIContext context, Instructor instructor)
         {
@@ -29,7 +21,7 @@ namespace AgateLib.Tests.UserInterface.Support
         {
             var menuItem = Desktop.ActiveWorkspace.Focus as ButtonElement;
             var parent = menuItem.Parent as FlexBox;
-            
+
             var target = parent.Children.OfType<ButtonElement>().SingleOrDefault(
                 w => (w.Name?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false)
                   || (w.Props.Text?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false));

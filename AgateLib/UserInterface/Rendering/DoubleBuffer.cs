@@ -28,9 +28,9 @@ namespace AgateLib.UserInterface.Rendering
 {
     public interface IDoubleBuffer
     {
-        IWidgetRenderContext PrepRenderState(IRenderElement widget, IWidgetRenderContext renderContext);
+        IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, IUserInterfaceRenderContext renderContext);
 
-        void CompleteRendering(Rectangle parentContentDest, IWidgetRenderContext renderContext, IRenderElement widget);
+        void CompleteRendering(Rectangle parentContentDest, IUserInterfaceRenderContext renderContext, IRenderElement widget);
     }
 
     [Transient]
@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Rendering
         };
 
         public void CompleteRendering(Rectangle parentContentDest,
-            IWidgetRenderContext renderContext, IRenderElement widget)
+            IUserInterfaceRenderContext renderContext, IRenderElement widget)
         {
             var animation = widget.Display.Animation;
             var display = widget.Display;
@@ -73,7 +73,7 @@ namespace AgateLib.UserInterface.Rendering
                 animation.LayerDepth);
         }
 
-        public IWidgetRenderContext PrepRenderState(IRenderElement widget, IWidgetRenderContext renderContext)
+        public IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, IUserInterfaceRenderContext renderContext)
         {
             var animation = widget.Display.Animation;
             var display = widget.Display;
@@ -82,8 +82,8 @@ namespace AgateLib.UserInterface.Rendering
             {
                 if (display.Animation.Buffer.RenderContext == null)
                 {
-                    display.Animation.Buffer.RenderContext = new WidgetRenderContext(
-                        (WidgetRenderContext)renderContext,
+                    display.Animation.Buffer.RenderContext = new UserInterfaceRenderContext(
+                        (UserInterfaceRenderContext)renderContext,
                         new SpriteBatch(renderContext.GraphicsDevice),
                         animation.RenderTarget);
                 }

@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Rendering
         /// </summary>
         /// <param name="renderContext"></param>
         /// <param name="widget"></param>
-        void UpdateAnimation(IWidgetRenderContext renderContext, IRenderElement widget);
+        void UpdateAnimation(IUserInterfaceRenderContext renderContext, IRenderElement widget);
 
         /// <summary>
         /// Draws the background of a widget.
@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Rendering
         /// <param name="renderContext"></param>
         /// <param name="display"></param>
         /// <param name="dest"></param>
-        void DrawBackground(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest);
+        void DrawBackground(IUserInterfaceRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest);
 
         /// <summary>
         /// Draws the border of a widget.
@@ -56,7 +56,7 @@ namespace AgateLib.UserInterface.Rendering
         /// <param name="renderContext"></param>
         /// <param name="display"></param>
         /// <param name="dest"></param>
-        void DrawFrame(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest);
+        void DrawFrame(IUserInterfaceRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest);
 
 
         void DrawBackground(SpriteBatch spriteBatch, BackgroundStyle background, Rectangle backgroundRect);
@@ -97,7 +97,7 @@ namespace AgateLib.UserInterface.Rendering
         {
         }
 
-        public void DrawBackground(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
+        public void DrawBackground(IUserInterfaceRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
         {
             if (display.Style.Background == null)
                 return;
@@ -130,7 +130,7 @@ namespace AgateLib.UserInterface.Rendering
             styleRenderer.DrawBackground(spriteBatch, background, backgroundRect);
         }
 
-        public void DrawFrame(IWidgetRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
+        public void DrawFrame(IUserInterfaceRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
         {
             styleRenderer.DrawFrame(
                 renderContext.SpriteBatch,
@@ -157,7 +157,7 @@ namespace AgateLib.UserInterface.Rendering
                 borderScale);
         }
 
-        public void UpdateAnimation(IWidgetRenderContext renderContext, IRenderElement element)
+        public void UpdateAnimation(IUserInterfaceRenderContext renderContext, IRenderElement element)
         {
             var animator = element.Display.Animation;
 

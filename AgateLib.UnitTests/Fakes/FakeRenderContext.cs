@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Display;
-using AgateLib.Mathematics.Geometry;
+﻿using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace AgateLib.Tests.Fakes
 {
-    public class FakeRenderContext : IWidgetRenderContext
+    public class FakeRenderContext : IUserInterfaceRenderContext
     {
         public FakeRenderContext()
         {
@@ -30,7 +24,7 @@ namespace AgateLib.Tests.Fakes
         public IFontProvider Fonts { get; set; }
 
         public GameTime GameTime { get; set; }
-        
+
         public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 
         public IInstructions Instructions { get; set; }
@@ -39,8 +33,6 @@ namespace AgateLib.Tests.Fakes
 
         public Size GraphicsDeviceRenderTargetSize { get; set; }
 
-        public event Action<IRenderElement> BeforeUpdate;
-        
         public IContentLayout CreateContentLayout(string text, ContentLayoutOptions contentLayoutOptions, bool localizeText = true)
         {
 

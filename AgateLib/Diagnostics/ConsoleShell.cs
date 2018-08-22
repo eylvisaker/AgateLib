@@ -75,11 +75,6 @@ namespace AgateLib.Diagnostics
         }
 
         /// <summary>
-        /// Event raised when the visibility is changed.
-        /// </summary>
-        public event EventHandler VisibleChanged;
-
-        /// <summary>
         /// Event raised after processing a user keystroke.
         /// </summary>
         public event EventHandler KeyProcessed;

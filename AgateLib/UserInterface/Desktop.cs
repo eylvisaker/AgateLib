@@ -42,7 +42,6 @@ namespace AgateLib.UserInterface
         private Rectangle screenArea;
 
         private IInstructions instructions = new Instructions();
-        private IAnimationFactory animationFactory;
 
         private bool inDraw;
 
@@ -197,7 +196,7 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public void Update(IWidgetRenderContext renderContext)
+        public void Update(IUserInterfaceRenderContext renderContext)
         {
             foreach (var workspace in workspaces)
                 workspace.IsActive = workspace == ActiveWorkspace;
@@ -227,7 +226,7 @@ namespace AgateLib.UserInterface
             } while (activeWorkspace != ActiveWorkspace);
         }
 
-        public void Draw(IWidgetRenderContext renderContext)
+        public void Draw(IUserInterfaceRenderContext renderContext)
         {
             try
             {

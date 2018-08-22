@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Scenes;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface;
 using AgateLib.Tests;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +14,6 @@ namespace AgateLib.Tests.UserInterface.FF6
 {
     public class FF6MenuTest : UITest
     {
-        private SceneStack stack;
         private FF6Menu menu;
 
         public override string Name => "FF6 Menu";

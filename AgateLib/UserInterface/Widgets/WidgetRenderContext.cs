@@ -37,13 +37,8 @@ namespace AgateLib.UserInterface
     /// Interface for a render context which provides functions needed to 
     /// render an entire GUI.
     /// </summary>
-    public interface IWidgetRenderContext
+    public interface IUserInterfaceRenderContext
     {
-        /// <summary>
-        /// Event which is raised before each widget is updated.
-        /// </summary>
-        event Action<IRenderElement> BeforeUpdate;
-
         /// <summary>
         /// Gets the graphics device.
         /// </summary>
@@ -133,16 +128,16 @@ namespace AgateLib.UserInterface
         void UpdateAnimation(IRenderElement element);
     }
 
-    public class WidgetRenderContext : IWidgetRenderContext
+    public class UserInterfaceRenderContext : IUserInterfaceRenderContext
     {
         private readonly IContentLayoutEngine contentLayoutEngine;
         private readonly IFontProvider fonts;
         private readonly IAnimationFactory animationFactory;
 
-        private WidgetRenderContext parentRenderContext;
+        private UserInterfaceRenderContext parentRenderContext;
         private bool workspaceIsActive;
 
-        public WidgetRenderContext(
+        public UserInterfaceRenderContext(
             GraphicsDevice graphicsDevice,
             IContentLayoutEngine contentLayoutEngine,
             IUserInterfaceRenderer uiRenderer,
@@ -163,7 +158,7 @@ namespace AgateLib.UserInterface
             this.DoubleBuffer = doubleBuffer ?? new DoubleBuffer();
         }
 
-        public WidgetRenderContext(WidgetRenderContext parent,
+        public UserInterfaceRenderContext(UserInterfaceRenderContext parent,
             SpriteBatch spriteBatch,
             RenderTarget2D renderTarget)
         {
@@ -180,11 +175,6 @@ namespace AgateLib.UserInterface
 
             this.parentRenderContext = parent;
         }
-
-        /// <summary>
-        /// Event that is raised before a widget is updated.
-        /// </summary>
-        public event Action<IRenderElement> BeforeUpdate;
 
         public GraphicsDevice GraphicsDevice { get; }
 

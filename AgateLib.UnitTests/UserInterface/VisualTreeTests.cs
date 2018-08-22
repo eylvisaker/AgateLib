@@ -1,18 +1,12 @@
 ﻿using AgateLib.Tests.UserInterface.Widgets;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AgateLib.Tests.UserInterface
 {
     public class VisualTreeTests
     {
-        class TestApp : Widget<TestAppProps, TestAppState>
+        private class TestApp : Widget<TestAppProps, TestAppState>
         {
             public TestApp(TestAppProps props) : base(props)
             {

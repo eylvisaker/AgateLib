@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using AgateLib.UserInterface;
+﻿using AgateLib.Tests.UserInterface.FF6;
+using AgateLib.Tests.UserInterface.Support.Systems;
 using AgateLib.UserInterface;
 using FluentAssertions;
-using AgateLib.Tests.UserInterface.FF6;
-using AgateLib.Tests;
-using AgateLib.Tests.UserInterface.Support.Systems;
+using System.Collections.Generic;
 
 namespace AgateLib.Tests.UserInterface.Support
 {
@@ -13,7 +10,7 @@ namespace AgateLib.Tests.UserInterface.Support
     {
         private readonly UserInterfaceSceneDriver scene;
         private readonly List<string> events = new List<string>();
-        private readonly IWidgetRenderContext renderContext;
+        private readonly IUserInterfaceRenderContext renderContext;
 
         public UIContext()
         {

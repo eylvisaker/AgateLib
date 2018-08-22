@@ -102,12 +102,6 @@ namespace AgateLib.Display
             return FontLoader.Load(content, filename);
         }
 
-        [Obsolete("Use Font.Load(IContentProvider) overload instead.")]
-        public static Font Load(ContentManager content, string filename)
-        {
-            return FontLoader.Load(new ContentProvider(content), filename);
-        }
-
         private IFontCore core;
         private FontState state = new FontState();
 

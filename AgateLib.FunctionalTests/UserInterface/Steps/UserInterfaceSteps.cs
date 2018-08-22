@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Tests.UserInterface.Support;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 

@@ -1,21 +1,18 @@
-﻿using System;
-using System.Linq;
-using AgateLib.Display;
+﻿using AgateLib.Display;
+using AgateLib.Scenes;
 using AgateLib.Tests.FontTests;
+using AgateLib.Tests.Selector.Widgets;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AgateLib.Scenes;
-using System.Collections.Generic;
-using AgateLib.Tests.Selector.Widgets;
+using System;
+using System.Linq;
 
 namespace AgateLib.Tests.Selector
 {
     public class TestSelector : ITest
     {
-        static ITest[] tests;
+        private static ITest[] tests;
 
         private ITest activeTest = new SimpleTextTest();
         private SceneStack sceneStack;
@@ -48,7 +45,7 @@ namespace AgateLib.Tests.Selector
                 resources.LocalizedContent,
                 resources.Fonts,
                 resources.StyleConfigurator);
-            
+
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);
 
             var app = new TestSelectorApp(new TestSelectorProps

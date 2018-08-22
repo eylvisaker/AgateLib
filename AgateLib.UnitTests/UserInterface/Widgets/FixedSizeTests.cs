@@ -14,7 +14,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
     {
         private ThemeStyler styleConfigurator;
         private ContentLayoutEngineLogger contentLayoutEngine;
-        private IWidgetRenderContext renderContext;
+        private IUserInterfaceRenderContext renderContext;
 
         public FixedSizeTests()
         {

@@ -57,7 +57,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
             display.Animation.Alpha = 0;
         }
 
-        public bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext)
+        public bool Update(RenderElementDisplay display, IUserInterfaceRenderContext renderContext)
         {
             var animation = display.Animation;
             animation.IsVisible = true;
@@ -74,7 +74,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
             return true;
         }
 
-        private bool AnimateEntry(RenderElementDisplay display, IWidgetRenderContext renderContext, RenderElementAnimator animation)
+        private bool AnimateEntry(RenderElementDisplay display, IUserInterfaceRenderContext renderContext, RenderElementAnimator animation)
         {
             animation.Alpha +=
                 (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds
@@ -105,7 +105,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
             return false;
         }
 
-        private bool AnimateExit(RenderElementDisplay display, IWidgetRenderContext renderContext, RenderElementAnimator animation)
+        private bool AnimateExit(RenderElementDisplay display, IUserInterfaceRenderContext renderContext, RenderElementAnimator animation)
         {
             animation.Alpha -=
                                 (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds

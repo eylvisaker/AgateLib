@@ -90,25 +90,25 @@ namespace AgateLib.UserInterface
             dirty = true;
         }
 
-        public override void DoLayout(IWidgetRenderContext renderContext, Size size)
+        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
         }
 
         public override string StyleTypeId => "label";
 
-        public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
         {
             RefreshContent(renderContext, maxSize.Width);
 
             return content?.Size ?? Size.Empty;
         }
 
-        public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
+        public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
             content?.Draw(clientArea.Location.ToVector2(), renderContext.SpriteBatch);
         }
 
-        public override void Update(IWidgetRenderContext renderContext)
+        public override void Update(IUserInterfaceRenderContext renderContext)
         {
             content?.Update(renderContext.GameTime);
         }
@@ -118,7 +118,7 @@ namespace AgateLib.UserInterface
             return $"label: {Props.Text?.Substring(0, Math.Min(200, Props.Text.Length)) ?? "null"}";
         }
 
-        private void RefreshContent(IWidgetRenderContext renderContext, int maxWidth)
+        private void RefreshContent(IUserInterfaceRenderContext renderContext, int maxWidth)
         {
             if (!dirty && content != null)
             {

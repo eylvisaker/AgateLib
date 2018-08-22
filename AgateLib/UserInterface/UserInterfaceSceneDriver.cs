@@ -33,7 +33,7 @@ namespace AgateLib.UserInterface
 {
     public class UserInterfaceSceneDriver
     {
-        private IWidgetRenderContext renderContext;
+        private IUserInterfaceRenderContext renderContext;
         private Desktop desktop;
 
         private UserInterfaceInputEvents uiInput = new UserInterfaceInputEvents();
@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface
         private bool setIgnoreInput;
 
         public UserInterfaceSceneDriver(
-            IWidgetRenderContext renderContext, 
+            IUserInterfaceRenderContext renderContext, 
             IStyleConfigurator styles, 
             IFontProvider fonts,
             IUserInterfaceAudio audio = null)
@@ -59,7 +59,7 @@ namespace AgateLib.UserInterface
 
         public event Action ExitPressed;
 
-        public IWidgetRenderContext RenderContext
+        public IUserInterfaceRenderContext RenderContext
         {
             get => renderContext;
             set => renderContext = value;

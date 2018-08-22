@@ -82,7 +82,7 @@ namespace AgateLib.UserInterface
         private Size SizeAt(int x, int y) => sizeGrid[y * Columns + x];
         private void SetSizeAt(int x, int y, Size value) => sizeGrid[y * Columns + x] = value;
 
-        public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
         {
             Array.Clear(columnWidths, 0, columnWidths.Length);
             Array.Clear(rowHeights, 0, rowHeights.Length);
@@ -126,7 +126,7 @@ namespace AgateLib.UserInterface
             return new Size(idealWidth, idealHeight);
         }
 
-        public override void DoLayout(IWidgetRenderContext renderContext, Size size)
+        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
             int desty = 0;
 
@@ -160,7 +160,7 @@ namespace AgateLib.UserInterface
             Height = rowHeights.Sum();
         }
 
-        public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
+        public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
             renderContext.DrawChildren(clientArea, Children);
         }

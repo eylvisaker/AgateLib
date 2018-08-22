@@ -56,6 +56,7 @@ namespace AgateLib.Diagnostics.Rendering
         private int entryHeight;
         private long timeOffset;
         private double viewShiftPixels;
+
         private BlendState renderTargetBlendState = new BlendState
         {
             AlphaBlendFunction = BlendFunction.Add,

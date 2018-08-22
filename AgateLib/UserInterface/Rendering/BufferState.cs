@@ -29,6 +29,6 @@ namespace AgateLib.UserInterface.Rendering
     {
         public Rectangle ContentDestination { get; internal set; }
 
-        public WidgetRenderContext RenderContext { get; internal set; }
+        public UserInterfaceRenderContext RenderContext { get; internal set; }
     }
 }

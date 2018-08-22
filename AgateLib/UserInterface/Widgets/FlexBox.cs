@@ -61,7 +61,7 @@ namespace AgateLib.UserInterface
             }
 
             public void PerformLayout(
-                IWidgetRenderContext renderContext,
+                IUserInterfaceRenderContext renderContext,
                 Size mySize,
                 IRenderElementStyle myStyle,
                 IList<IRenderElement> children)
@@ -239,7 +239,7 @@ namespace AgateLib.UserInterface
             /// <param name="mySize"></param>
             /// <param name="children"></param>
             /// <returns></returns>
-            private int CalcChildrenIdealSizes(IWidgetRenderContext renderContext,
+            private int CalcChildrenIdealSizes(IUserInterfaceRenderContext renderContext,
                                                Size mySize,
                                                IList<IRenderElement> children)
             {
@@ -293,7 +293,7 @@ namespace AgateLib.UserInterface
                 }
             }
 
-            public Size CalcIdealSize(IWidgetRenderContext renderContext, Size maxSize, IList<IRenderElement> children)
+            public Size CalcIdealSize(IUserInterfaceRenderContext renderContext, Size maxSize, IList<IRenderElement> children)
             {
                 int idealCrossSize = 0;
                 int idealAxisSize = 0;
@@ -418,7 +418,7 @@ namespace AgateLib.UserInterface
 
         public override bool CanHaveFocus => focusChildren.Any();
 
-        public override void DoLayout(IWidgetRenderContext renderContext, Size size)
+        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
             PerformLayout(renderContext, size);
 
@@ -428,7 +428,7 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public override Size CalcIdealContentSize(IWidgetRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
         {
             UpdateChildLists();
 
@@ -505,12 +505,12 @@ namespace AgateLib.UserInterface
             Display.System.SetFocus(focusChildren[FocusIndex]);
         }
 
-        public override void Draw(IWidgetRenderContext renderContext, Rectangle clientArea)
+        public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
             DrawChildren(renderContext, clientArea);
         }
 
-        private void PerformLayout(IWidgetRenderContext renderContext, Size size)
+        private void PerformLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
             UpdateChildLists();
 

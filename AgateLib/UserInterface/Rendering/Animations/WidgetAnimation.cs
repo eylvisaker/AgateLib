@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
         /// <param name="display"></param>
         /// <param name="renderContext"></param>
         /// <returns></returns>
-        bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext);
+        bool Update(RenderElementDisplay display, IUserInterfaceRenderContext renderContext);
 
         void Initialize(RenderElementDisplay display);
 

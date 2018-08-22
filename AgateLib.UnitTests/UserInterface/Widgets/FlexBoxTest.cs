@@ -16,7 +16,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
     public class FlexBoxTest
     {
         private ThemeStyler styleConfigurator;
-        private IWidgetRenderContext renderContext = CommonMocks.RenderContext().Object;
+        private IUserInterfaceRenderContext renderContext = CommonMocks.RenderContext().Object;
 
         public FlexBoxTest()
         {

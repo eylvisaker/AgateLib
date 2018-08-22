@@ -99,7 +99,7 @@ namespace AgateLib
             {
                 return content.Open(filename);
             }
-            catch(FileNotFoundException e)
+            catch(FileNotFoundException)
             {
                 return null;
             }

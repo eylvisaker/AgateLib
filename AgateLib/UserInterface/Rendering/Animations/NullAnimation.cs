@@ -20,7 +20,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
         {
         }
 
-        public bool Update(RenderElementDisplay display, IWidgetRenderContext renderContext)
+        public bool Update(RenderElementDisplay display, IUserInterfaceRenderContext renderContext)
         {
             var animator = display.Animation;
 

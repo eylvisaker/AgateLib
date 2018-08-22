@@ -221,7 +221,7 @@ namespace AgateLib.UserInterface
 
         public string DefaultTheme { get; set; }
 
-        public void Update(IWidgetRenderContext renderContext)
+        public void Update(IUserInterfaceRenderContext renderContext)
         {
             DebugMsg("Updating all widgets", ifDebugFlagAtLeast: 1);
 
@@ -270,7 +270,7 @@ namespace AgateLib.UserInterface
             return true;
         }
 
-        public void Draw(IWidgetRenderContext renderContext, Rectangle area)
+        public void Draw(IUserInterfaceRenderContext renderContext, Rectangle area)
         {
             DebugMsg("Drawing all widgets", ifDebugFlagAtLeast: 1, setDebugFlag: 0);
 
@@ -285,7 +285,7 @@ namespace AgateLib.UserInterface
             renderContext.DrawChild(area, TreeRoot);
         }
 
-        public void DoLayout(IWidgetRenderContext renderContext, Rectangle area)
+        public void DoLayout(IUserInterfaceRenderContext renderContext, Rectangle area)
         {
             TreeRoot.Display.MarginRect = area;
             TreeRoot.DoLayout(renderContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);

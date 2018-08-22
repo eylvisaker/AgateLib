@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AgateLib.Tests.UserInterface.FF6.Widgets;
+using AgateLib.UserInterface;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface;
-using AgateLib.Tests.UserInterface.FF6.Widgets;
 
 namespace AgateLib.Tests.UserInterface.FF6
 {
@@ -33,7 +29,7 @@ namespace AgateLib.Tests.UserInterface.FF6
         {
             mainWorkspace = InitializeMainMenu();
         }
-        
+
         private Item BestItem(string slotName)
         {
             var slot = Model.EquipmentSlots.First(x => x.Name.Equals(slotName, StringComparison.OrdinalIgnoreCase));

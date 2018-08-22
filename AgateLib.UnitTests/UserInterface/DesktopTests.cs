@@ -1,6 +1,5 @@
 ﻿using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface;
 using FluentAssertions;
 using Moq;
 using System.Linq;
@@ -91,7 +90,7 @@ namespace AgateLib.Tests.UserInterface
             var renderContext = new FakeRenderContext();
 
             Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
-            
+
             (var widget, var element) = CommonMocks.Widget("happy");
 
             Workspace workspace = new Workspace("default", widget.Object);

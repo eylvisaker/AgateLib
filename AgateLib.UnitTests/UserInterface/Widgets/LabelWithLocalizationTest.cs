@@ -3,7 +3,6 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Moq;
@@ -35,7 +34,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
         private readonly TextRepository textRepo;
 
         private readonly IContentLayoutEngine contentLayout;
-        private readonly Mock<IWidgetRenderContext> context;
+        private readonly Mock<IUserInterfaceRenderContext> context;
 
         public LabelWithLocalizationTest()
         {
