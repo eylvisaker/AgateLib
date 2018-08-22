@@ -1,4 +1,4 @@
-﻿using AgateLib.UserInterface.Widgets;
+﻿using AgateLib.UserInterface;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;

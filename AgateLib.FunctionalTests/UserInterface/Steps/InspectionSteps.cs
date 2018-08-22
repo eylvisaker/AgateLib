@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Tests.UserInterface.Support;
 using AgateLib.Tests.UserInterface.Support.Systems;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 

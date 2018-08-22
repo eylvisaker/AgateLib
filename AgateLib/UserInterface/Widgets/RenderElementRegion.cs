@@ -25,7 +25,7 @@ using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using System;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     /// <summary>
     /// Structure for holding information about the widget's layout within its parent's content area.

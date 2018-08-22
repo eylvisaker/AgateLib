@@ -25,7 +25,7 @@ using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
 using System;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     public class Label : Widget<LabelProps, WidgetState>
     {

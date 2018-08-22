@@ -4,7 +4,7 @@ using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Moq;
 using System.Collections.Generic;

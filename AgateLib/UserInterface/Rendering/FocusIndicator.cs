@@ -26,7 +26,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Collections.Generic;
 using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

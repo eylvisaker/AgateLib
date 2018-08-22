@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using AgateLib.UserInterface.Styling;

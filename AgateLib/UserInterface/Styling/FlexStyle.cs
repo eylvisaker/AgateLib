@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 
 namespace AgateLib.UserInterface.Styling
 {

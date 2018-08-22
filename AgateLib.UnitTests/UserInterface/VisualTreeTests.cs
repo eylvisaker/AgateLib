@@ -1,6 +1,6 @@
 ﻿using AgateLib.Tests.UserInterface.Widgets;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;

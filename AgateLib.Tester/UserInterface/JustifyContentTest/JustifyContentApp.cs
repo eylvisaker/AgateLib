@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Display;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.Tests.UserInterface.JustifyContentTest

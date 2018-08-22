@@ -1,6 +1,6 @@
 ﻿using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using FluentAssertions;
 using Moq;
 using System.Linq;

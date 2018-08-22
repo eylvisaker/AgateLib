@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using AgateLib.Tests.UserInterface.FF6;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

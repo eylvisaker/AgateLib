@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

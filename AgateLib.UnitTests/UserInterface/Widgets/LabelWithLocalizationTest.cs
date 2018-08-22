@@ -3,7 +3,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Moq;

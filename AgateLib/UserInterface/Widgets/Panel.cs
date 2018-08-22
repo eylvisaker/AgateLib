@@ -28,7 +28,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     /// <summary>
     /// Widget that contains other widgets in a layout.

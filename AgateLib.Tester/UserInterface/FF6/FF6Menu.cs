@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using AgateLib.Tests.UserInterface.FF6.Widgets;
 
 namespace AgateLib.Tests.UserInterface.FF6

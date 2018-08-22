@@ -25,7 +25,7 @@ using AgateLib.Input;
 using AgateLib.UserInterface.InputMap;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AgateLib.UserInterface.Rendering.Animations;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 
 namespace AgateLib.UserInterface.Rendering
 {

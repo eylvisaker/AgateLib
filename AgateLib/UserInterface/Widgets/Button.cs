@@ -27,7 +27,7 @@ using System.Text;
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     public class Button : Widget<ButtonProps>
     {

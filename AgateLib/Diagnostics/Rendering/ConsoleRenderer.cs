@@ -20,346 +20,339 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Diagnostics.ConsoleAppearance;
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
-using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace AgateLib.Diagnostics.Rendering
 {
-	public interface IConsoleRenderer
-	{
-		IConsoleTheme Theme { get; set; }
+    public interface IConsoleRenderer
+    {
+        IConsoleTheme Theme { get; set; }
 
-		ConsoleState State { get; set; }
+        ConsoleState State { get; set; }
+
+        void Draw(GameTime time);
 
-		void Draw(GameTime time);
+        void Update(GameTime time);
+    }
 
-		void Update(GameTime time);
-	}
+    [Transient]
+    public class ConsoleRenderer : IConsoleRenderer
+    {
+        private const double heightCoverage = 5 / 12.0;
 
-	[Transient]
-	public class ConsoleRenderer : IConsoleRenderer
-	{
-		private const double heightCoverage = 5 / 12.0;
+        private readonly GraphicsDevice graphicsDevice;
+        private readonly IConsoleTextEngine textEngine;
+        private readonly SpriteBatch spriteBatch;
+        private readonly Texture2D whiteTexture;
 
-		private readonly GraphicsDevice graphicsDevice;
-		private readonly IConsoleTextEngine textEngine;
-		private readonly SpriteBatch spriteBatch;
-		private readonly Texture2D whiteTexture;
+        private Size size;
+        private int entryHeight;
+        private long timeOffset;
+        private double viewShiftPixels;
+        private BlendState renderTargetBlendState = new BlendState
+        {
+            AlphaBlendFunction = BlendFunction.Add,
+            AlphaDestinationBlend = Blend.InverseSourceAlpha,
+            AlphaSourceBlend = Blend.SourceAlpha,
 
-		private Size size;
-		private int entryHeight;
-		private long timeOffset;
-		private double viewShiftPixels;
+            ColorBlendFunction = BlendFunction.Add,
+            ColorDestinationBlend = Blend.InverseSourceAlpha,
+            ColorSourceBlend = Blend.SourceAlpha,
+        };
 
-		BlendState renderTargetBlendState = new BlendState
-		{
-			AlphaBlendFunction = BlendFunction.Add,
-			AlphaDestinationBlend = Blend.InverseSourceAlpha,
-			AlphaSourceBlend = Blend.SourceAlpha,
+        [Obsolete("Use State.Theme instead")]
+        private IConsoleTheme theme { get => State.Theme; set => State.Theme = value; }
 
-			ColorBlendFunction = BlendFunction.Add,
-			ColorDestinationBlend = Blend.InverseSourceAlpha,
-			ColorSourceBlend = Blend.SourceAlpha,
-		};
+        private RenderTarget2D renderTarget;
+        private Size displaySize;
+        private long CurrentTime;
 
-		[Obsolete("Use State.Theme instead")]
-		private IConsoleTheme theme { get => State.Theme; set => State.Theme = value; }
+        public ConsoleRenderer(GraphicsDevice graphicsDevice,
+            IConsoleTextEngine textEngine,
+            ITextureBuilder textureBuilder = null)
+        {
+            this.graphicsDevice = graphicsDevice;
+            this.textEngine = textEngine;
 
-		RenderTarget2D renderTarget;
+            textureBuilder = textureBuilder ?? new TextureBuilder(graphicsDevice);
 
-		Size displaySize;
+            spriteBatch = new SpriteBatch(graphicsDevice);
+            whiteTexture = textureBuilder.SolidColor(10, 10, Color.White);
 
-		long CurrentTime;
+            ResizeRenderTarget();
+            //console.KeyProcessed += (sender, e) => { timeOffset = CurrentTime; };
+        }
 
-		public ConsoleRenderer(GraphicsDevice graphicsDevice, 
-			IConsoleTextEngine textEngine,
-			ITextureBuilder textureBuilder = null)
-		{
-			this.graphicsDevice = graphicsDevice;
-			this.textEngine = textEngine;
+        private IReadOnlyList<ConsoleMessage> Messages => State.Messages;
 
-			textureBuilder = textureBuilder ?? new TextureBuilder(graphicsDevice);
+        public IConsoleTheme Theme
+        {
+            get => State.Theme;
+            set
+            {
+                Require.ArgumentNotNull(value, nameof(Theme));
+                State.Theme = value;
 
-			spriteBatch = new SpriteBatch(graphicsDevice);
-			whiteTexture = textureBuilder.SolidColor(10, 10, Color.White);
+                foreach (var message in State.Messages)
+                    message.ClearCache();
+            }
+        }
 
-			ResizeRenderTarget();
-			//console.KeyProcessed += (sender, e) => { timeOffset = CurrentTime; };
-		}
+        public double Alpha { get; set; } = 0.95;
 
-		private IReadOnlyList<ConsoleMessage> Messages => State.Messages;
+        public Font Font => textEngine.Font;
 
-		public IConsoleTheme Theme
-		{
-			get => theme;
-			set
-			{
-				Require.ArgumentNotNull(value, nameof(Theme));
-				theme = value;
+        public ConsoleState State { get; set; }
 
-				foreach (var message in State.Messages)
-					message.ClearCache();
-			}
-		}
+        private Rectangle ConsoleWindowDestRect => new Rectangle(0, 0,
+                    graphicsDevice.PresentationParameters.BackBufferWidth,
+                    (int)(graphicsDevice.PresentationParameters.BackBufferHeight * heightCoverage));
 
-		public double Alpha { get; set; } = 0.95;
+        public void Draw(GameTime time)
+        {
+            CurrentTime = (long)time.TotalGameTime.TotalMilliseconds;
 
-		public Font Font => textEngine.Font;
+            if (State.DisplayMode == ConsoleDisplayMode.None)
+                return;
 
-		public ConsoleState State { get; set; }
+            if (State.DisplayMode == ConsoleDisplayMode.RecentMessagesOnly)
+            {
+                DrawRecentMessages();
+                return;
+            }
 
-		private Rectangle ConsoleWindowDestRect => new Rectangle(0, 0,
-					graphicsDevice.PresentationParameters.BackBufferWidth,
-					(int)(graphicsDevice.PresentationParameters.BackBufferHeight * heightCoverage));
+            Redraw(renderTarget);
 
-		public void Draw(GameTime time)
-		{
-			CurrentTime = (long)time.TotalGameTime.TotalMilliseconds;
+            graphicsDevice.SetRenderTarget(null);
+            BlitToScreen();
+        }
 
-			if (State.DisplayMode == ConsoleDisplayMode.None)
-				return;
+        private void BlitToScreen()
+        {
+            spriteBatch.Begin(blendState: BlendState.NonPremultiplied);
 
-			if (State.DisplayMode == ConsoleDisplayMode.RecentMessagesOnly)
-			{
-				DrawRecentMessages();
-				return;
-			}
+            spriteBatch.Draw(renderTarget, ConsoleWindowDestRect, new Color(Color.White, Theme.Opacity));
 
-			Redraw(renderTarget);
+            spriteBatch.End();
+        }
 
-			graphicsDevice.SetRenderTarget(null);
-			BlitToScreen();
-		}
+        public void Update(GameTime time)
+        {
+            CurrentTime = (long)time.TotalGameTime.TotalMilliseconds;
 
-		private void BlitToScreen()
-		{
-			spriteBatch.Begin(blendState: BlendState.NonPremultiplied);
+            if (State.Theme == null)
+                State.Theme = ConsoleThemes.Default;
 
-			spriteBatch.Draw(renderTarget, ConsoleWindowDestRect, new Color(Color.White, Theme.Opacity));
+            UpdateViewShift(time.ElapsedGameTime.TotalSeconds);
 
-			spriteBatch.End();
-		}
+            ResizeRenderTarget();
+        }
 
-		public void Update(GameTime time)
-		{
-			CurrentTime = (long)time.TotalGameTime.TotalMilliseconds;
+        private void UpdateViewShift(double elapsedSeconds)
+        {
+            const int maxDelta = 100;
+            const int viewShiftSpeed = 75;
 
-			if (State.Theme == null)
-				State.Theme = ConsoleThemes.Default;
+            int targetViewShift = Font.FontHeight * State.ViewShift;
+            double delta = targetViewShift - viewShiftPixels;
 
-			UpdateViewShift(time.ElapsedGameTime.TotalSeconds);
+            if (Math.Abs(delta) > 0.001)
+            {
+                delta = Math.Sign(delta) * Math.Min(Math.Abs(delta), maxDelta);
 
-			ResizeRenderTarget();
-		}
+                double amount = delta * viewShiftSpeed * elapsedSeconds;
 
-		private void UpdateViewShift(double elapsedSeconds)
-		{
-			const int maxDelta = 100;
-			const int viewShiftSpeed = 75;
+                //if (Math.Abs(amount) > maxAmount)
+                //	amount = Math.Sign(amount) * maxAmount;
 
-			int targetViewShift = Font.FontHeight * State.ViewShift;
-			double delta = targetViewShift - viewShiftPixels;
+                viewShiftPixels += amount;
 
-			if (Math.Abs(delta) > 0.001)
-			{
-				delta = Math.Sign(delta) * Math.Min(Math.Abs(delta), maxDelta);
+                if ((viewShiftPixels - targetViewShift) * delta > 0)
+                {
+                    viewShiftPixels = targetViewShift;
+                }
+            }
+        }
 
-				double amount = delta * viewShiftSpeed * elapsedSeconds;
+        private void ResizeRenderTarget()
+        {
+            displaySize = new Size(
+                graphicsDevice.PresentationParameters.BackBufferWidth,
+                graphicsDevice.PresentationParameters.BackBufferHeight);
 
-				//if (Math.Abs(amount) > maxAmount)
-				//	amount = Math.Sign(amount) * maxAmount;
+            int width = displaySize.Width;
+            int height = (int)(displaySize.Height * heightCoverage);
 
-				viewShiftPixels += amount;
+            if (width > 1920)
+                width = 1920;
+            if (height > 1080 * heightCoverage)
+                height = (int)(1080 * heightCoverage);
 
-				if ((viewShiftPixels - targetViewShift) * delta > 0)
-				{
-					viewShiftPixels = targetViewShift;
-				}
-			}
-		}
+            var newSize = new Size(width, height);
 
-		private void ResizeRenderTarget()
-		{
-			displaySize = new Size(
-				graphicsDevice.PresentationParameters.BackBufferWidth,
-				graphicsDevice.PresentationParameters.BackBufferHeight);
+            if (renderTarget == null || newSize != size)
+            {
+                renderTarget?.Dispose();
+                renderTarget = new RenderTarget2D(graphicsDevice, width, height);
+                size = newSize;
+            }
+        }
 
-			int width = displaySize.Width;
-			int height = (int)(displaySize.Height * heightCoverage);
+        private void Redraw(RenderTarget2D renderTarget)
+        {
+            graphicsDevice.SetRenderTarget(renderTarget);
+            graphicsDevice.Clear(Theme.BackgroundColor);
 
-			if (width > 1920)
-				width = 1920;
-			if (height > 1080 * heightCoverage)
-				height = (int)(1080 * heightCoverage);
+            spriteBatch.Begin(blendState: renderTargetBlendState);
 
-			var newSize = new Size(width, height);
+            DrawConsoleWindow();
 
-			if (renderTarget == null || newSize != size)
-			{
-				renderTarget?.Dispose();
-				renderTarget = new RenderTarget2D(graphicsDevice, width, height);
-				size = newSize;
-			}
-		}
+            spriteBatch.End();
+        }
 
-		private void Redraw(RenderTarget2D renderTarget)
-		{
-			graphicsDevice.SetRenderTarget(renderTarget);
-			graphicsDevice.Clear(Theme.BackgroundColor);
+        private void DrawRecentMessages()
+        {
+            spriteBatch.Begin(blendState: BlendState.NonPremultiplied);
 
-			spriteBatch.Begin(blendState: renderTargetBlendState);
+            long time = CurrentTime;
+            int y = 0;
+            Font.TextAlignment = OriginAlignment.TopLeft;
+            Font.Color = Theme.RecentMessageColor;
 
-			DrawConsoleWindow();
+            for (int i = 0; i < Messages.Count; i++)
+            {
+                if (time - Messages[i].Time > 5000)
+                    continue;
+                if (Messages[i].MessageType != ConsoleMessageType.Text)
+                    continue;
 
-			spriteBatch.End();
-		}
+                Font.DrawText(spriteBatch, new Vector2(0, y), Messages[i].Text);
+                y += Font.FontHeight;
+            }
 
-		private void DrawRecentMessages()
-		{
-			spriteBatch.Begin(blendState: BlendState.NonPremultiplied);
+            spriteBatch.End();
+        }
 
-			long time = CurrentTime;
-			int y = 0;
-			Font.TextAlignment = OriginAlignment.TopLeft;
-			Font.Color = Theme.RecentMessageColor;
+        private void DrawConsoleWindow()
+        {
+            DrawUserEntry();
 
-			for (int i = 0; i < Messages.Count; i++)
-			{
-				if (time - Messages[i].Time > 5000)
-					continue;
-				if (Messages[i].MessageType != ConsoleMessageType.Text)
-					continue;
+            DrawHistory();
+        }
 
-				Font.DrawText(spriteBatch, new Vector2(0, y), Messages[i].Text);
-				y += Font.FontHeight;
-			}
+        private void DrawHistory()
+        {
+            var y = size.Height - entryHeight;
 
-			spriteBatch.End();
-		}
+            //Display.PushClipRect(new Rectangle(0, 0, size.Width, y));
 
-		private void DrawConsoleWindow()
-		{
-			DrawUserEntry();
+            y += (int)viewShiftPixels;
 
-			DrawHistory();
-		}
+            for (int i = Messages.Count - 1; i >= 0; i--)
+            {
+                var message = Messages[i];
+                var messageTheme = Theme.MessageTheme(message);
 
-		private void DrawHistory()
-		{
-			var y = size.Height - entryHeight;
+                if (message.Layout == null)
+                {
+                    var text = message.Text;
 
-			//Display.PushClipRect(new Rectangle(0, 0, size.Width, y));
+                    if (message.MessageType == ConsoleMessageType.UserInput)
+                    {
+                        text = Theme.EntryPrefix + message.Text;
+                    }
 
-			y += (int)viewShiftPixels;
-
-			for (int i = Messages.Count - 1; i >= 0; i--)
-			{
-				var message = Messages[i];
-				var messageTheme = Theme.MessageTheme(message);
-
-				if (message.Layout == null)
-				{
-					var text = message.Text;
-
-					if (message.MessageType == ConsoleMessageType.UserInput)
-					{
-						text = Theme.EntryPrefix + message.Text;
-					}
-
-					Font.Color = messageTheme.ForeColor;
-					message.Layout = textEngine.LayoutContent(
-						text, size.Width);
-				}
-
-				y -= message.Layout.Size.Height;
-
-				if (messageTheme.BackColor.A > 0)
-				{
-					FillRect(messageTheme.BackColor,
-						new Rectangle(0, y, size.Width, message.Layout.Size.Height));
-				}
-
-				message.Layout.Draw(new Vector2(0, y), spriteBatch);
-
-				if (y < 0)
-					break;
-			}
-		}
-
-		private void DrawUserEntry()
-		{
-			int y = size.Height;
-			Font.TextAlignment = OriginAlignment.BottomLeft;
-
-			string currentLineText = Theme.EntryPrefix;
-
-			currentLineText += EscapeText(State.InputText);
-
-			entryHeight = Font.FontHeight;
-
-			if (Theme.EntryBackgroundColor.A > 0)
-			{
-				FillRect(Theme.EntryBackgroundColor,
-					new Rectangle(0, size.Height - entryHeight, size.Width, entryHeight));
-			}
-
-			Font.Color = Theme.EntryColor;
-			Font.DrawText(spriteBatch, 0, y, currentLineText);
-
-			// draw insertion point
-			if ((CurrentTime - timeOffset) % 1000 < 500)
-			{
-				int x = Font.MeasureString(currentLineText.Substring(0, Theme.EntryPrefix.Length + State.InsertionPoint)).Width;
-
-				DrawLine(Theme.EntryColor,
-					new Vector2(x, y - Font.FontHeight),
-					new Vector2(x, y));
-			}
-
-			Font.TextAlignment = OriginAlignment.TopLeft;
-		}
-
-		private void DrawLine(Color color, Vector2 start, Vector2 end)
-		{
-			Vector2 edge = end - start;
-
-			// calculate angle to rotate line
-			float angle =
-				(float)Math.Atan2(edge.Y, edge.X);
-
-			spriteBatch.Draw(whiteTexture,
-				new Rectangle(// rectangle defines shape of line and position of start of line
-					(int)start.X,
-					(int)start.Y,
-					(int)edge.Length(), //sb will stretch the texture to fill this rectangle
-					1), //width of line, change this to make thicker line
-				null,
-				Color.Red, //colour of line
-				angle,     //angle of line (calulated above)
-				new Vector2(0, 0), // point in line about which to rotate
-				SpriteEffects.None,
-				0);
-		}
-
-		private void FillRect(Color color, Rectangle rectangle)
-		{
-			
-			spriteBatch.Draw(whiteTexture, rectangle, color);
-		}
-
-		private string EscapeText(string p)
-		{
-			return p?.Replace("{", "{{}");
-		}
-	}
+                    Font.Color = messageTheme.ForeColor;
+                    message.Layout = textEngine.LayoutContent(
+                        text, size.Width);
+                }
+
+                y -= message.Layout.Size.Height;
+
+                if (messageTheme.BackColor.A > 0)
+                {
+                    FillRect(messageTheme.BackColor,
+                        new Rectangle(0, y, size.Width, message.Layout.Size.Height));
+                }
+
+                message.Layout.Draw(new Vector2(0, y), spriteBatch);
+
+                if (y < 0)
+                    break;
+            }
+        }
+
+        private void DrawUserEntry()
+        {
+            int y = size.Height;
+            Font.TextAlignment = OriginAlignment.BottomLeft;
+
+            string currentLineText = Theme.EntryPrefix;
+
+            currentLineText += EscapeText(State.InputText);
+
+            entryHeight = Font.FontHeight;
+
+            if (Theme.EntryBackgroundColor.A > 0)
+            {
+                FillRect(Theme.EntryBackgroundColor,
+                    new Rectangle(0, size.Height - entryHeight, size.Width, entryHeight));
+            }
+
+            Font.Color = Theme.EntryColor;
+            Font.DrawText(spriteBatch, 0, y, currentLineText);
+
+            // draw insertion point
+            if ((CurrentTime - timeOffset) % 1000 < 500)
+            {
+                int x = Font.MeasureString(currentLineText.Substring(0, Theme.EntryPrefix.Length + State.InsertionPoint)).Width;
+
+                DrawLine(Theme.EntryColor,
+                    new Vector2(x, y - Font.FontHeight),
+                    new Vector2(x, y));
+            }
+
+            Font.TextAlignment = OriginAlignment.TopLeft;
+        }
+
+        private void DrawLine(Color color, Vector2 start, Vector2 end)
+        {
+            Vector2 edge = end - start;
+
+            // calculate angle to rotate line
+            float angle =
+                (float)Math.Atan2(edge.Y, edge.X);
+
+            spriteBatch.Draw(whiteTexture,
+                new Rectangle(// rectangle defines shape of line and position of start of line
+                    (int)start.X,
+                    (int)start.Y,
+                    (int)edge.Length(), //sb will stretch the texture to fill this rectangle
+                    1), //width of line, change this to make thicker line
+                null,
+                Color.Red, //colour of line
+                angle,     //angle of line (calulated above)
+                new Vector2(0, 0), // point in line about which to rotate
+                SpriteEffects.None,
+                0);
+        }
+
+        private void FillRect(Color color, Rectangle rectangle)
+        {
+
+            spriteBatch.Draw(whiteTexture, rectangle, color);
+        }
+
+        private string EscapeText(string p)
+        {
+            return p?.Replace("{", "{{}");
+        }
+    }
 }

@@ -28,7 +28,7 @@ using System.Text;
 using AgateLib.Diagnostics.CommandLibraries;
 using AgateLib.Input;
 using AgateLib.Quality;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 

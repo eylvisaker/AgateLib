@@ -29,7 +29,7 @@ using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     public interface IInstructions
     {

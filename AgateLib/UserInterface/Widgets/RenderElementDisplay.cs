@@ -26,7 +26,7 @@ using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     /// <summary>
     /// An object which contains all information that the rendering system

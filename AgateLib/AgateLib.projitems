@@ -225,7 +225,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyleProperties.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Instructions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\LayoutMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\UserInterfaceInputState.cs" />

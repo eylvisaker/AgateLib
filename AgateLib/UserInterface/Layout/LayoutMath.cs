@@ -22,7 +22,7 @@
 
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using System;
 
 namespace AgateLib.UserInterface.Layout

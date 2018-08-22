@@ -7,7 +7,7 @@ using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

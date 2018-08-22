@@ -23,7 +23,7 @@
 //#define __DEBUG_RENDER
 
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

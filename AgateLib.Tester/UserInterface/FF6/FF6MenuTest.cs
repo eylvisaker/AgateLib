@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Scenes;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using AgateLib.Tests;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

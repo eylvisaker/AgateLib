@@ -21,7 +21,7 @@
 //
 
 using AgateLib.Mathematics;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

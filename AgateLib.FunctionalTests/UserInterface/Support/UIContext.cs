@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using FluentAssertions;
 using AgateLib.Tests.UserInterface.FF6;
 using AgateLib.Tests;

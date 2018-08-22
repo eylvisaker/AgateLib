@@ -1,5 +1,5 @@
 ﻿using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;

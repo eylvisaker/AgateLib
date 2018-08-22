@@ -27,7 +27,7 @@
 //using Microsoft.Xna.Framework;
 //using AgateLib.UserInterface.Layout;
 
-//namespace AgateLib.UserInterface.Widgets
+//namespace AgateLib.UserInterface
 //{
 //    public class TabMenu : RenderWidget
 //    {

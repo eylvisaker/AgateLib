@@ -20,18 +20,18 @@
 //    SOFTWARE.
 //
 
-using System.Collections.Generic;
+using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.Content;
+using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Rendering.Animations;
+using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Content;
-using System.Linq;
-using AgateLib.Mathematics.Geometry;
 using System;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Rendering.Animations;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     /// <summary>
     /// Interface for a render context which provides functions needed to 
@@ -96,7 +96,7 @@ namespace AgateLib.UserInterface.Widgets
             string text,
             ContentLayoutOptions contentLayoutOptions,
             bool performLocalization = true);
-        
+
         /// <summary>
         /// Draws a child widget of the current widget.
         /// </summary>
@@ -140,7 +140,7 @@ namespace AgateLib.UserInterface.Widgets
         private readonly IAnimationFactory animationFactory;
 
         private WidgetRenderContext parentRenderContext;
-        bool workspaceIsActive;
+        private bool workspaceIsActive;
 
         public WidgetRenderContext(
             GraphicsDevice graphicsDevice,
@@ -199,7 +199,7 @@ namespace AgateLib.UserInterface.Widgets
         public IDoubleBuffer DoubleBuffer { get; set; }
 
         public GameTime GameTime { get; set; }
-        
+
         public Rectangle Area
         {
             get
@@ -251,7 +251,7 @@ namespace AgateLib.UserInterface.Widgets
             animationFactory.Configure(element.Display);
             UserInterfaceRenderer.UpdateAnimation(this, element);
         }
-        
+
         public void DrawChild(Rectangle parentContentDest, IRenderElement element)
         {
             if (element.Display.Animation.IsDoubleBuffered)
@@ -286,7 +286,7 @@ namespace AgateLib.UserInterface.Widgets
 
             //element.OnUserInterfaceAction(eventArgs);
         }
-        
+
         public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderElement> items)
         {
             foreach (var child in items.Where(x => x.Display.IsVisible))

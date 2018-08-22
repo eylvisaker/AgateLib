@@ -21,10 +21,8 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     public interface IRenderable
     {
@@ -67,7 +65,7 @@ namespace AgateLib.UserInterface.Widgets
             const int max = 200;
 
             renderable.NeedsRender = needsRenderSubscriber;
-            
+
             do
             {
                 if (item == null)
@@ -85,7 +83,7 @@ namespace AgateLib.UserInterface.Widgets
 
             renderable.OnRenderResult(result);
 
-            return (IRenderElement)result;
+            return result;
         }
     }
 }

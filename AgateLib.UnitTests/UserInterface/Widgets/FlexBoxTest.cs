@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;

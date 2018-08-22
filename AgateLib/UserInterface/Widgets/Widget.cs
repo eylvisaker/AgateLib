@@ -20,14 +20,9 @@
 //    SOFTWARE.
 //
 
-using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface.Layout;
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
     public abstract class Widget<TProps, TState> : IRenderable
         where TProps : WidgetProps

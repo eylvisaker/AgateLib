@@ -4,7 +4,6 @@ using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
-using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;

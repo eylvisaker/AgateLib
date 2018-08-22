@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 using Microsoft.Xna.Framework;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using AgateLib.Tests;
 using Moq;
 

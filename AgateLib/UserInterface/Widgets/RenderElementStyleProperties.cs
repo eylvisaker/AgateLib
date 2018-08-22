@@ -28,7 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface
 {
 
     public interface IRenderElementStyleProperties

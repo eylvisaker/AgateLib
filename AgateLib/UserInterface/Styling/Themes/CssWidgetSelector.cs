@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {

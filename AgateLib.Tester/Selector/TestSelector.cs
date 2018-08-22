@@ -3,7 +3,7 @@ using System.Linq;
 using AgateLib.Display;
 using AgateLib.Tests.FontTests;
 using AgateLib.UserInterface;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
