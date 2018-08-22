@@ -74,12 +74,12 @@ namespace AgateLib.Tests.UserInterface
             exited.Should().BeTrue();
         }
 
-        private Workspace CreateWorkspace(string workspaceName, params IWidget[] contents)
+        private Workspace CreateWorkspace(string workspaceName, params IRenderable[] contents)
         {
             var result = new Workspace(workspaceName, new App(
                 new AppProps
                 {
-                    Children = contents.ToList<IRenderable>()
+                    Children = contents.ToList()
                 }));
 
             return result;

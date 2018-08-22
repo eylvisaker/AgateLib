@@ -35,8 +35,6 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class Window : Widget<WindowProps>
     {
-        private List<IWidget> children = new List<IWidget>();
-
         public Window(WindowProps props) : base(props)
         {
         }

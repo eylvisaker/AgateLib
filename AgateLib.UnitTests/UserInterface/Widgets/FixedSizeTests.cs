@@ -121,7 +121,8 @@ namespace AgateLib.Tests.UserInterface.Widgets
             fixedLabel.Current.Display.ContentRect.Should().Be(new Rectangle(0, 0, leftWidth, 400));
             fillLabel.Current.Display.ContentRect.Should().Be(new Rectangle(leftWidth, 0, mainWidth - leftWidth, 400));
         }
-        private IWidget CreateApp(IWidget contents)
+
+        private IRenderable CreateApp(IRenderable contents)
         {
             return new App(new AppProps { Children = new[] { contents } });
         }

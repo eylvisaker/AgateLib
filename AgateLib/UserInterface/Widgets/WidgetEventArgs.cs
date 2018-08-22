@@ -30,20 +30,6 @@ namespace AgateLib.UserInterface.Widgets
     [Obsolete]
     public class InputEventArgs : EventArgs, IWidgetEventArgsInitialize
     {
-        public static InputEventArgs ButtonDown(UserInterfaceAction button)
-        {
-            var result = new InputEventArgs();
-            result.InitializeButtonDown(button);
-            return result;
-        }
-
-        public static InputEventArgs ButtonUp(UserInterfaceAction button)
-        {
-            var result = new InputEventArgs();
-            result.InitializeButtonUp(button);
-            return result;
-        }
-
         public WidgetEventType EventType { get; private set; }
 
         public UserInterfaceAction Button { get; private set; }
@@ -79,14 +65,6 @@ namespace AgateLib.UserInterface.Widgets
         public override string ToString()
         {
             return $"{Button} {EventType} (Handled: {Handled})";
-        }
-
-        internal InputEventArgs Initialize(WidgetEventType eventType)
-        {
-            Area = new Rectangle();
-            EventType = eventType;
-
-            return this;
         }
     }
 

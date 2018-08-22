@@ -20,9 +20,10 @@
 //    SOFTWARE.
 //
 
+using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UserInterface.Widgets
+namespace AgateLib.UserInterface.Rendering
 {
     public class BufferState
     {

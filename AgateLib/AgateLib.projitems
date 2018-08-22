@@ -218,7 +218,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\TypeConverters\BorderSideStyleYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Desktop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\AnimationStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\BufferState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\BufferState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\ButtonPress.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Label.cs" />

@@ -21,7 +21,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
         private readonly Workspace defaultWorkspace;
         private readonly ManualInputState input;
 
-        public TestUIDriver(IWidget app, 
+        public TestUIDriver(IRenderable app, 
                             IStyleConfigurator styleConfigurator = null, 
                             IFontProvider fontProvider = null, 
                             IContentLayoutEngine contentLayoutEngine = null)

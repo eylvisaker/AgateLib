@@ -35,8 +35,6 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class Panel : Widget<PanelProps>
     {
-        private List<IWidget> children = new List<IWidget>();
-
         public Panel(PanelProps props) : base(props)
         {
         }

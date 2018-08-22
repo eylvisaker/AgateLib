@@ -29,49 +29,11 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
-    public interface IWidget : IRenderable
-    {
-        string Name { get; }
-
-        void Initialize();
-
-        void Update(IWidgetRenderContext renderContext);
-    }
-
-    [Obsolete]
-    public interface IRenderWidget : IWidget, IRenderElement
-    {
-    }
-
-    public class WidgetProps
-    {
-        public string Name { get; set; }
-
-        public string Theme { get; set; }
-
-        public string StyleClass { get; set; }
-
-        public InlineElementStyle DefaultStyle { get; set; }
-
-        public InlineElementStyle Style { get; set; }
-
-        public bool Visible { get; set; } = true;
-
-        /// <summary>
-        /// Set to an ElementReference to capture a reference to the render element 
-        /// when this widget is rendered.
-        /// </summary>
-        public ElementReference Ref { get; set; }
-    }
-
-    public class WidgetState
-    {
-    }
-
-    public abstract class Widget<TProps, TState> : IWidget
+    public abstract class Widget<TProps, TState> : IRenderable
         where TProps : WidgetProps
     {
         private TProps props;
+        private TState state;
 
         public Widget(TProps props)
         {
@@ -107,8 +69,6 @@ namespace AgateLib.UserInterface.Widgets
         #endregion
         #region --- State Management ---
 
-        private TState state;
-
         protected TState State => state;
 
         protected void ReplaceState(Func<TState, TState> stateMutator)
@@ -133,17 +93,7 @@ namespace AgateLib.UserInterface.Widgets
 
         #endregion
 
-        public string Name => props.Name;
-
-        public virtual void Initialize()
-        {
-        }
-
         public abstract IRenderable Render();
-
-        public virtual void Update(IWidgetRenderContext renderContext)
-        {
-        }
 
         void IRenderable.OnRenderResult(IRenderElement result)
         {
@@ -160,5 +110,30 @@ namespace AgateLib.UserInterface.Widgets
         public Widget(TProps props) : base(props)
         {
         }
+    }
+
+    public class WidgetProps
+    {
+        public string Name { get; set; }
+
+        public string Theme { get; set; }
+
+        public string StyleClass { get; set; }
+
+        public InlineElementStyle DefaultStyle { get; set; }
+
+        public InlineElementStyle Style { get; set; }
+
+        public bool Visible { get; set; } = true;
+
+        /// <summary>
+        /// Set to an ElementReference to capture a reference to the render element 
+        /// when this widget is rendered.
+        /// </summary>
+        public ElementReference Ref { get; set; }
+    }
+
+    public class WidgetState
+    {
     }
 }

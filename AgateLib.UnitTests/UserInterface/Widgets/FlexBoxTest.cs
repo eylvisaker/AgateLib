@@ -1158,7 +1158,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
         #endregion
 
-        private IWidget CreateApp(IWidget contents)
+        private IRenderable CreateApp(IRenderable contents)
         {
             return new App(new AppProps { Children = new[] { contents } });
         }
