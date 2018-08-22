@@ -20,7 +20,9 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Input;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.InputMap
@@ -33,18 +35,39 @@ namespace AgateLib.UserInterface.InputMap
         private HashSet<UserInterfaceAction> pressedActions = new HashSet<UserInterfaceAction>();
         private HashSet<UserInterfaceAction> releasedActions = new HashSet<UserInterfaceAction>();
 
+        private HashSet<Buttons> ignoredButtons = new HashSet<Buttons>();
+        private HashSet<Keys> ignoredKeys = new HashSet<Keys>();
+
+        public void IgnoreNextButtonPress(Buttons button)
+        {
+            ignoredButtons.Add(button);
+        }
+
+        public void IgnoreNextKeyPress(Keys key)
+        {
+            ignoredKeys.Add(key);
+        }
+
         public void UpdateGamePadButtonState(Buttons button, UserInterfaceAction action, bool value)
         {
             if (value)
             {
-                pressedButtons.Add(button);
-                pressedActions.Add(action);
+                if (!ignoredButtons.Contains(button))
+                {
+                    pressedButtons.Add(button);
+                    pressedActions.Add(action);
+                }
             }
-            if (!value && pressedButtons.Contains(button))
+            if (!value)
             {
-                pressedButtons.Remove(button);
-                pressedActions.Remove(action);
-                releasedActions.Add(action);
+                ignoredButtons.Remove(button);
+
+                if (pressedButtons.Contains(button))
+                {
+                    pressedButtons.Remove(button);
+                    pressedActions.Remove(action);
+                    releasedActions.Add(action);
+                }
             }
         }
 
@@ -52,15 +75,23 @@ namespace AgateLib.UserInterface.InputMap
         {
             if (value)
             {
-                pressedKeys.Add(key);
-                pressedActions.Add(action);
+                if (!ignoredKeys.Contains(key))
+                {
+                    pressedKeys.Add(key);
+                    pressedActions.Add(action);
+                }
             }
-            if (!value && pressedKeys.Contains(key))
+            if (!value)
             {
-                pressedKeys.Remove(key);
+                ignoredKeys.Remove(key);
 
-                pressedActions.Remove(action);
-                releasedActions.Add(action);
+                if (pressedKeys.Contains(key))
+                {
+                    pressedKeys.Remove(key);
+
+                    pressedActions.Remove(action);
+                    releasedActions.Add(action);
+                }
             }
         }
 

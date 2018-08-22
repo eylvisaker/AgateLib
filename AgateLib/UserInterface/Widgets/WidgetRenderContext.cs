@@ -124,7 +124,7 @@ namespace AgateLib.UserInterface.Widgets
         /// <param name="time"></param>
         /// <param name="spriteBatch"></param>
         /// <param name="renderTarget"></param>
-        void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget);
+        void PrepDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget);
 
         /// <summary>
         /// Updates the animation state for the specified element.
@@ -142,8 +142,6 @@ namespace AgateLib.UserInterface.Widgets
         private WidgetRenderContext parentRenderContext;
         bool workspaceIsActive;
 
-        private InputEventArgs eventArgs = new InputEventArgs();
-
         public WidgetRenderContext(
             GraphicsDevice graphicsDevice,
             IContentLayoutEngine contentLayoutEngine,
@@ -158,7 +156,6 @@ namespace AgateLib.UserInterface.Widgets
             this.GraphicsDevice = graphicsDevice;
             this.contentLayoutEngine = contentLayoutEngine;
             this.UserInterfaceRenderer = uiRenderer;
-            this.StyleConfigurator = styleConfigurator;
             this.fonts = fonts;
             this.animationFactory = animation;
             this.RenderTarget = renderTarget;
@@ -198,8 +195,6 @@ namespace AgateLib.UserInterface.Widgets
         public IFontProvider Fonts => fonts;
 
         public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
-
-        public IStyleConfigurator StyleConfigurator { get; }
 
         public IDoubleBuffer DoubleBuffer { get; set; }
 
@@ -292,12 +287,6 @@ namespace AgateLib.UserInterface.Widgets
             //element.OnUserInterfaceAction(eventArgs);
         }
         
-
-        public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderWidget> children)
-        {
-            DrawChildren(contentDest, children.Cast<IRenderElement>());
-        }
-
         public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderElement> items)
         {
             foreach (var child in items.Where(x => x.Display.IsVisible))
@@ -319,7 +308,7 @@ namespace AgateLib.UserInterface.Widgets
             GameTime = time;
         }
 
-        public void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
+        public void PrepDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
         {
             GameTime = time;
             SpriteBatch = spriteBatch;

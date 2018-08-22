@@ -38,6 +38,8 @@ namespace AgateLib.UserInterface
 
         private UserInterfaceInputEvents uiInput = new UserInterfaceInputEvents();
 
+        private bool setIgnoreInput;
+
         public UserInterfaceSceneDriver(
             IWidgetRenderContext renderContext, 
             IStyleConfigurator styles, 
@@ -65,7 +67,7 @@ namespace AgateLib.UserInterface
 
         public Desktop Desktop => desktop;
 
-        public IUserInterfaceInputMap InputMap
+        public UserInterfaceInputMap InputMap
         {
             get => uiInput.InputMap;
             set => uiInput.InputMap = value;
@@ -89,11 +91,19 @@ namespace AgateLib.UserInterface
 
         public void Initialize()
         {
+            setIgnoreInput = true;
+
             uiInput.ClearPressedButtons();
         }
 
         public void UpdateInput(IInputState input)
         {
+            if (setIgnoreInput)
+            {
+                uiInput.IgnoreCurrentInput(input);
+                setIgnoreInput = false;
+            }
+
             uiInput.UpdateState(input);
         }
 
@@ -115,7 +125,7 @@ namespace AgateLib.UserInterface
 
         public void Draw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget = null)
         {
-            renderContext.BeginDraw(time, spriteBatch, renderTarget);
+            renderContext.PrepDraw(time, spriteBatch, renderTarget);
 
             desktop.Draw(renderContext);
 

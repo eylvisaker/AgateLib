@@ -20,13 +20,11 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
 using AgateLib.Display;
-using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -36,7 +34,7 @@ namespace AgateLib.UserInterface.Widgets
     /// </summary>
     public class RenderElementDisplay
     {
-        RenderElementStyle style;
+        private RenderElementStyle style;
 
         public RenderElementDisplay(RenderElementProps props)
         {
@@ -69,7 +67,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets the active widget style.
         /// </summary>
         public IRenderElementStyle Style => style;
-        
+
         /// <summary>
         /// Gets a value indicating whether this widget is participating in the layout flow.
         /// </summary>
@@ -92,7 +90,7 @@ namespace AgateLib.UserInterface.Widgets
         /// Gets or sets whether the widget should be displayed and participate in layout.
         /// </summary>
         public bool IsVisible { get; set; } = true;
-        
+
         public List<IRenderElementStyleProperties> ElementStyles { get; }
             = new List<IRenderElementStyleProperties>();
 

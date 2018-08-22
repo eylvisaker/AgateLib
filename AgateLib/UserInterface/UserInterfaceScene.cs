@@ -33,6 +33,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.InputMap;
+using Microsoft.Xna.Framework.Input;
 
 namespace AgateLib.UserInterface
 {
@@ -80,7 +82,6 @@ namespace AgateLib.UserInterface
                 null,
                 doubleBuffer);
 
-           
             driver = new UserInterfaceSceneDriver(
                 renderContext,
                 styleConfigurator,
@@ -126,8 +127,41 @@ namespace AgateLib.UserInterface
             }
         }
 
+        /// <summary>
+        /// Gets or sets the input map object. 
+        /// </summary>
+        public UserInterfaceInputMap InputMap
+        {
+            get => driver.InputMap;
+            set => driver.InputMap = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the button mapping. This is equivalent to InputMap.ButtonMap.
+        /// </summary>
+        public Dictionary<Buttons, UserInterfaceAction> ButtonMap
+        {
+            get => InputMap.ButtonMap;
+            set => InputMap.ButtonMap = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the keyboard mapping. This is equivalent to InputMap.KeyMap.
+        /// </summary>
+        public Dictionary<Keys, UserInterfaceAction> KeyMap
+        {
+            get => InputMap.KeyMap;
+            set => InputMap.KeyMap = value;
+        }
+
+        /// <summary>
+        /// Gets the animation factory for this user interface scene.
+        /// </summary>
         public IAnimationFactory Animations { get; }
 
+        /// <summary>
+        /// Gets the graphics device.
+        /// </summary>
         public GraphicsDevice GraphicsDevice { get; }
 
         /// <summary>
@@ -147,7 +181,6 @@ namespace AgateLib.UserInterface
             set => driver.ExitOnExitButton = value;
         }
 
-
         /// <summary>
         /// Event raised when the user requests to exit the UI.
         /// </summary>
@@ -157,11 +190,20 @@ namespace AgateLib.UserInterface
             remove => driver.ExitPressed -= value;
         }
 
+        /// <summary>
+        /// Gets the desktop object.
+        /// </summary>
         public Desktop Desktop => driver.Desktop;
 
+        /// <summary>
+        /// Gets or sets the blend state used for the sprite batch object.
+        /// </summary>
         public BlendState BlendState { get; set; }
 
-        public WidgetRenderContext RenderContext => renderContext;
+        /// <summary>
+        /// Gets the boundary of the viewport.
+        /// </summary>
+        public Rectangle GraphicsDeviceViewportBounds => GraphicsDevice.Viewport.Bounds;
 
         public IFocusIndicator Indicator
         {
@@ -177,11 +219,17 @@ namespace AgateLib.UserInterface
             get => Desktop.DefaultTheme;
             set => Desktop.DefaultTheme = value;
         }
+
+        /// <summary>
+        /// Gets or sets the area of the screen that is available for the UI to render into.
+        /// </summary>
         public Rectangle ScreenArea
         {
             get => driver.ScreenArea;
             set => driver.ScreenArea = value;
         }
+
+        public IInstructions Instructions => Desktop.Instructions;
 
         protected override void OnSceneStart()
         {

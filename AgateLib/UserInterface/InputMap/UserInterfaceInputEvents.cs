@@ -33,7 +33,7 @@ namespace AgateLib.UserInterface.InputMap
         private HashSet<UserInterfaceAction> downEventFired = new HashSet<UserInterfaceAction>();
         private HashSet<UserInterfaceAction> upEventsNeeded = new HashSet<UserInterfaceAction>();
         private HashSet<UserInterfaceAction> ignoredDownButtons = new HashSet<UserInterfaceAction>();
-        private IUserInterfaceInputMap inputMap = UserInterfaceInputMap.Default;
+        private UserInterfaceInputMap inputMap = new UserInterfaceInputMap();
         private UserInterfaceActionEventArgs eventArgs = new UserInterfaceActionEventArgs();
         private const float timeToFirstRepeat = 0.5f;
         private const float timeToNextRepeat = 0.1f;
@@ -49,7 +49,7 @@ namespace AgateLib.UserInterface.InputMap
 
         public event Action<UserInterfaceActionEventArgs> UIAction;
 
-        public IUserInterfaceInputMap InputMap
+        public UserInterfaceInputMap InputMap
         {
             get => inputMap;
             set => inputMap = value ?? throw new ArgumentNullException(nameof(InputMap));
@@ -61,9 +61,14 @@ namespace AgateLib.UserInterface.InputMap
             || inputState.PressedActions.Contains(UserInterfaceAction.Left)
             || inputState.PressedActions.Contains(UserInterfaceAction.Right);
 
-        internal void UpdateState(IInputState input)
+        public void UpdateState(IInputState input)
         {
             inputMap.UpdateInputState(inputState, PlayerIndex.One, input);
+        }
+
+        public void IgnoreCurrentInput(IInputState input)
+        {
+            inputMap.IgnoreCurrentInput(inputState, PlayerIndex.One, input);
         }
 
         public void TriggerEvents(GameTime time)

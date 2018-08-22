@@ -57,7 +57,7 @@ namespace AgateLib.Tests.Fakes
         {
         }
 
-        public void BeginDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
+        public void PrepDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
         {
         }
 

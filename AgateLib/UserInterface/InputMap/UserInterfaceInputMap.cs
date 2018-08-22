@@ -25,85 +25,71 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.UserInterface.InputMap
 {
-    public interface IUserInterfaceInputMap
-    {
-        void UpdateInputState(UserInterfaceInputState inputState, PlayerIndex playerIndex, IInputState input);
-    }
-
-    public class UserInterfaceInputMap : IUserInterfaceInputMap
+    public class UserInterfaceInputMap
     {
         #region --- Static Members ---
 
-        private static UserInterfaceInputMap defaultMap;
+        /// <summary>
+        /// Gets or sets the default button map.
+        /// </summary>
+        public static IReadOnlyDictionary<Buttons, UserInterfaceAction> DefaultButtonMap { get; set; }
+            = new Dictionary<Buttons, UserInterfaceAction>
+            {
+                [Buttons.A] = UserInterfaceAction.Accept,
+                [Buttons.B] = UserInterfaceAction.Cancel,
+                [Buttons.Back] = UserInterfaceAction.Exit,
+
+                [Buttons.LeftThumbstickUp] = UserInterfaceAction.Up,
+                [Buttons.LeftThumbstickDown] = UserInterfaceAction.Down,
+                [Buttons.LeftThumbstickLeft] = UserInterfaceAction.Left,
+                [Buttons.LeftThumbstickRight] = UserInterfaceAction.Right,
+
+                [Buttons.DPadUp] = UserInterfaceAction.Up,
+                [Buttons.DPadDown] = UserInterfaceAction.Down,
+                [Buttons.DPadLeft] = UserInterfaceAction.Left,
+                [Buttons.DPadRight] = UserInterfaceAction.Right,
+
+                [Buttons.LeftShoulder] = UserInterfaceAction.PageUp,
+                [Buttons.RightShoulder] = UserInterfaceAction.PageDown,
+            };
 
         /// <summary>
-        /// Gets or sets the default input map.
+        /// Gets or sets the default key map for keyboards.
         /// </summary>
-        public static UserInterfaceInputMap Default
-        {
-            get
+        public static IReadOnlyDictionary<Keys, UserInterfaceAction> DefaultKeyMap { get; set; }
+            = new Dictionary<Keys, UserInterfaceAction>
             {
-                if (defaultMap == null)
-                {
-                    defaultMap = new UserInterfaceInputMap
-                    {
-                        ButtonMap = new Dictionary<Buttons, UserInterfaceAction>
-                        {
-                            [Buttons.A] = UserInterfaceAction.Accept,
-                            [Buttons.B] = UserInterfaceAction.Cancel,
-                            [Buttons.Start] = UserInterfaceAction.Accept,
-                            [Buttons.Back] = UserInterfaceAction.Exit,
+                [Keys.Enter] = UserInterfaceAction.Accept,
+                [Keys.Space] = UserInterfaceAction.Accept,
+                [Keys.Back] = UserInterfaceAction.Cancel,
+                [Keys.LeftAlt] = UserInterfaceAction.Cancel,
+                [Keys.Z] = UserInterfaceAction.Cancel,
+                [Keys.Escape] = UserInterfaceAction.Exit,
 
-                            [Buttons.LeftThumbstickUp] = UserInterfaceAction.Up,
-                            [Buttons.LeftThumbstickDown] = UserInterfaceAction.Down,
-                            [Buttons.LeftThumbstickLeft] = UserInterfaceAction.Left,
-                            [Buttons.LeftThumbstickRight] = UserInterfaceAction.Right,
+                [Keys.Up] = UserInterfaceAction.Up,
+                [Keys.Left] = UserInterfaceAction.Left,
+                [Keys.Right] = UserInterfaceAction.Right,
+                [Keys.Down] = UserInterfaceAction.Down,
 
-                            [Buttons.DPadUp] = UserInterfaceAction.Up,
-                            [Buttons.DPadDown] = UserInterfaceAction.Down,
-                            [Buttons.DPadLeft] = UserInterfaceAction.Left,
-                            [Buttons.DPadRight] = UserInterfaceAction.Right,
-
-                            [Buttons.LeftShoulder] = UserInterfaceAction.PageUp,
-                            [Buttons.RightShoulder] = UserInterfaceAction.PageDown,
-                        },
-
-                        KeyMap = new Dictionary<Keys, UserInterfaceAction>
-                        {
-                            [Keys.Enter] = UserInterfaceAction.Accept,
-                            [Keys.Space] = UserInterfaceAction.Accept,
-                            [Keys.Back] = UserInterfaceAction.Cancel,
-                            [Keys.LeftAlt] = UserInterfaceAction.Cancel,
-                            [Keys.Z] = UserInterfaceAction.Cancel,
-                            [Keys.Escape] = UserInterfaceAction.Exit,
-
-                            [Keys.Up] = UserInterfaceAction.Up,
-                            [Keys.Left] = UserInterfaceAction.Left,
-                            [Keys.Right] = UserInterfaceAction.Right,
-                            [Keys.Down] = UserInterfaceAction.Down,
-
-                            [Keys.PageDown] = UserInterfaceAction.PageDown,
-                            [Keys.PageUp] = UserInterfaceAction.PageUp,
-                        },
-                    };
-                }
-
-                return defaultMap;
-            }
-            set
-            {
-                defaultMap = value ?? throw new ArgumentNullException(nameof(Default));
-            }
-        }
-
+                [Keys.PageDown] = UserInterfaceAction.PageDown,
+                [Keys.PageUp] = UserInterfaceAction.PageUp,
+            };
 
         #endregion
 
         private Dictionary<Buttons, UserInterfaceAction> buttonMap = new Dictionary<Buttons, UserInterfaceAction>();
         private Dictionary<Keys, UserInterfaceAction> keyMap = new Dictionary<Keys, UserInterfaceAction>();
+
+        public UserInterfaceInputMap(IReadOnlyDictionary<Buttons, UserInterfaceAction> buttonMap = null,
+                                     IReadOnlyDictionary<Keys, UserInterfaceAction> keyMap = null)
+        {
+            this.buttonMap = (buttonMap ?? DefaultButtonMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            this.keyMap = (keyMap ?? DefaultKeyMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
 
         public Dictionary<Buttons, UserInterfaceAction> ButtonMap
         {
@@ -114,7 +100,7 @@ namespace AgateLib.UserInterface.InputMap
         public Dictionary<Keys, UserInterfaceAction> KeyMap
         {
             get => keyMap;
-            set => keyMap = value ?? throw new ArgumentNullException(nameof(ButtonMap));
+            set => keyMap = value ?? throw new ArgumentNullException(nameof(KeyMap));
         }
 
         public UserInterfaceInputMap Clone()
@@ -126,7 +112,9 @@ namespace AgateLib.UserInterface.InputMap
             };
         }
 
-        public void UpdateInputState(UserInterfaceInputState inputState, PlayerIndex playerIndex, IInputState input)
+        public void UpdateInputState(UserInterfaceInputState inputState, 
+                                     PlayerIndex playerIndex, 
+                                     IInputState input)
         {
             GamePadState gamePad = input.GamePadStateOf(playerIndex);
 
@@ -143,5 +131,24 @@ namespace AgateLib.UserInterface.InputMap
             }
         }
 
+        public void IgnoreCurrentInput(UserInterfaceInputState inputState, 
+                                       PlayerIndex playerIndex, 
+                                       IInputState input)
+        {
+            GamePadState gamePad = input.GamePadStateOf(playerIndex);
+            KeyboardState keyboard = input.KeyboardState;
+
+            foreach (var button in buttonMap.Keys)
+            {
+                if (gamePad.IsButtonDown(button))
+                    inputState.IgnoreNextButtonPress(button);
+            }
+
+            foreach (var key in keyMap.Keys)
+            {
+                if (keyboard.IsKeyDown(key))
+                    inputState.IgnoreNextKeyPress(key);
+            }
+        }
     }
 }
