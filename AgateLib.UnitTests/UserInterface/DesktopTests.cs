@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AgateLib.Tests.Fakes;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
-using Xunit;
 using Moq;
-using AgateLib.UserInterface;
-using AgateLib.Tests.Fakes;
+using System.Linq;
+using Xunit;
 
 namespace AgateLib.Tests.UserInterface
 {
@@ -60,7 +56,7 @@ namespace AgateLib.Tests.UserInterface
             var workspace2 = CreateWorkspace("other", window2.Object);
 
             desktop.PushWorkspace(workspace1);
-            desktop.PushWorkspace(workspace2); 
+            desktop.PushWorkspace(workspace2);
 
             desktop.ActiveWorkspace.Should().BeSameAs(workspace2);
             desktop.WaitForAnimations();
@@ -80,10 +76,11 @@ namespace AgateLib.Tests.UserInterface
 
         private Workspace CreateWorkspace(string workspaceName, params IWidget[] contents)
         {
-            var result = new Workspace(workspaceName);
-
-            foreach (var w in contents)
-                result.Add(w);
+            var result = new Workspace(workspaceName, new App(
+                new AppProps
+                {
+                    Children = contents.ToList<IRenderable>()
+                }));
 
             return result;
         }
@@ -94,10 +91,10 @@ namespace AgateLib.Tests.UserInterface
             var renderContext = new FakeRenderContext();
 
             Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object);
-            Workspace workspace = new Workspace("");
-
+            
             (var widget, var element) = CommonMocks.Widget("happy");
-            workspace.Add(widget.Object);
+
+            Workspace workspace = new Workspace("default", widget.Object);
 
             desktop.PushWorkspace(workspace);
 

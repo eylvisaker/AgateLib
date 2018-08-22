@@ -28,6 +28,8 @@ namespace AgateLib.UserInterface
 {
     public enum UserInterfaceAction
     {
+        None,
+
         Accept,
         Cancel,
 

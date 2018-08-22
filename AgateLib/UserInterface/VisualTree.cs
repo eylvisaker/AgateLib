@@ -19,6 +19,7 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
+#define __DEBUG_RENDER
 
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.Xna.Framework;
 
+
 namespace AgateLib.UserInterface
 {
     public class VisualTree
@@ -38,6 +40,8 @@ namespace AgateLib.UserInterface
 
         public void Render(IRenderable rootRenderable)
         {
+            DebugMsg($"Rendering from {rootRenderable}", setDebugFlag: 1);
+
             var newRoot = rootRenderable.FinalizeRendering(_ => Render(rootRenderable));
             bool anyUpdates = false;
 
@@ -219,6 +223,8 @@ namespace AgateLib.UserInterface
 
         public void Update(IWidgetRenderContext renderContext)
         {
+            DebugMsg("Updating all widgets", ifDebugFlagAtLeast: 1);
+
             Walk(element =>
             {
                 element.Update(renderContext);
@@ -266,6 +272,8 @@ namespace AgateLib.UserInterface
 
         public void Draw(IWidgetRenderContext renderContext, Rectangle area)
         {
+            DebugMsg("Drawing all widgets", ifDebugFlagAtLeast: 1, setDebugFlag: 0);
+
             DoLayout(renderContext, area);
 
             renderContext.DrawChild(area, TreeRoot);
@@ -305,5 +313,21 @@ namespace AgateLib.UserInterface
             return results;
 
         }
+
+
+        [Conditional("__DEBUG_RENDER")]
+        private void DebugMsg(string message, int ifDebugFlagAtLeast = 0, int? setDebugFlag = null)
+        {
+            if (debugFlag >= ifDebugFlagAtLeast)
+            {
+                Log.Debug(message);
+            }
+
+            if (setDebugFlag != null)
+                debugFlag = setDebugFlag.Value;
+        }
+
+        int debugFlag;
+
     }
 }

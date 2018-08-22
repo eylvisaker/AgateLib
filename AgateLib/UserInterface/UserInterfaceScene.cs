@@ -183,10 +183,11 @@ namespace AgateLib.UserInterface
             set => driver.ScreenArea = value;
         }
 
-        public void Initialize()
+        protected override void OnSceneStart()
         {
+            base.OnSceneStart();
+
             driver.Initialize();
-            IsFinished = false;
         }
 
         protected override void OnUpdateInput(IInputState input)
@@ -227,7 +228,11 @@ namespace AgateLib.UserInterface
         {
             Exit();
 
-            SceneEnd += (sender, e) => nextAction();
+            EventHandler next = null;
+
+            next = (sender, e) => { nextAction(); SceneEnd -= next; };
+
+            SceneEnd += next;
         }
 
         /// <summary>

@@ -190,6 +190,7 @@ namespace AgateLib.Scenes
         /// </summary>
         protected virtual void OnSceneStart()
         {
+            IsFinished = false;
             SceneStart?.Invoke(this, EventArgs.Empty);
         }
 

@@ -48,7 +48,6 @@ namespace AgateLib.Tests.UserInterface
             stack = new SceneStack();
             stack.Add(scene);
 
-            scene.Initialize();
             scene.Indicator = new PointerIndicator(
                 resources.Content.Load<Texture2D>("UserInterface/Pointer"));
 

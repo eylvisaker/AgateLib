@@ -40,6 +40,7 @@ namespace AgateLib.UserInterface.InputMap
 
         private bool repeating = false;
         private float timeToNavigateAction = 0;
+        private HashSet<UserInterfaceAction> activeNavActions = new HashSet<UserInterfaceAction>();
 
         public UserInterfaceInputEvents()
         {
@@ -107,7 +108,7 @@ namespace AgateLib.UserInterface.InputMap
 
         private void TriggerPressedAction(UserInterfaceAction action)
         {
-            if (timeToNavigateAction > 0)
+            if (timeToNavigateAction > 0 && activeNavActions.Contains(action))
                 return;
 
             switch (action)
@@ -117,6 +118,7 @@ namespace AgateLib.UserInterface.InputMap
                 case UserInterfaceAction.Left:
                 case UserInterfaceAction.Right:
                     TriggerActionEvent(action);
+                    activeNavActions.Add(action);
                     break;
             }
         }
@@ -131,6 +133,10 @@ namespace AgateLib.UserInterface.InputMap
                 case UserInterfaceAction.PageUp:
                 case UserInterfaceAction.PageDown:
                     TriggerActionEvent(action);
+                    break;
+
+                default:
+                    activeNavActions.Remove(action);
                     break;
             }
         }

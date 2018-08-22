@@ -19,8 +19,11 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
+#define __DEBUG_WORKSPACE
+
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
@@ -102,23 +105,8 @@ namespace AgateLib.UserInterface
         }
 
         private readonly VisualTree visualTree = new VisualTree();
-
         private readonly WorkspaceDisplaySystem displaySystem;
-
-        private List<IWidget> legacyChildren = new List<IWidget>();
-        private App legacyApp;
-
-        private IRenderable app;
-        private IWidget activeWindow;
-
-        [Obsolete("Use overload which supplies root element instead.")]
-        public Workspace(string name)
-        {
-            Name = name;
-            displaySystem = new WorkspaceDisplaySystem(this);
-
-            visualTree.DisplaySystem = displaySystem;
-        }
+        private readonly IRenderable app;
 
         /// <summary>
         /// Initializes a workspace object.
@@ -127,10 +115,11 @@ namespace AgateLib.UserInterface
         public Workspace(string name, IRenderable root)
         {
             Name = name;
-            displaySystem = new WorkspaceDisplaySystem(this);
-            this.app = root;
 
+            displaySystem = new WorkspaceDisplaySystem(this);
             visualTree.DisplaySystem = displaySystem;
+
+            this.app = root;
         }
 
         public IRenderElement Focus
@@ -166,14 +155,6 @@ namespace AgateLib.UserInterface
             set => displaySystem.Audio = value;
         }
 
-        [Obsolete("Use overload which sets root render element .")]
-        public void Add(IWidget child)
-        {
-            legacyChildren.Add(child);
-            legacyApp = new App(new AppProps { Children = legacyChildren.ToList<IRenderable>() });
-            Render();
-        }
-
         /// <summary>
         /// The area of the screen area where the UI controls will be layed out.
         /// </summary>
@@ -194,6 +175,8 @@ namespace AgateLib.UserInterface
 
         public void HandleUIAction(UserInterfaceActionEventArgs args)
         {
+            DebugMsg($"Handling UI action {args.Action}...");
+
             Focus?.OnUserInterfaceAction(args);
 
             if (!args.Handled)
@@ -202,9 +185,6 @@ namespace AgateLib.UserInterface
 
         public void Update(IWidgetRenderContext renderContext)
         {
-            foreach (var item in legacyChildren)
-                item.Update(renderContext);
-
             visualTree.Update(renderContext);
         }
 
@@ -213,7 +193,7 @@ namespace AgateLib.UserInterface
             if (displaySystem.Fonts == null)
                 return;
 
-            visualTree.Render(app ?? legacyApp);
+            visualTree.Render(app);
 
             if (Focus == null)
             {
@@ -288,6 +268,12 @@ namespace AgateLib.UserInterface
             {
                 window.Display.Animation.State = AnimationState.TransitionIn;
             }
+        }
+
+        [Conditional("__DEBUG_WORKSPACE")]
+        private void DebugMsg(string message)
+        {
+            Log.Debug(message);
         }
     }
 }
