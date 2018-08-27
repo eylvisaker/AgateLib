@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.UserInterface.Styling
+namespace AgateLib.UserInterface
 {
     public class AnimationStyle
     {

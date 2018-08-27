@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UserInterface.Styling
+namespace AgateLib.UserInterface
 {
     public struct LayoutBox
     {

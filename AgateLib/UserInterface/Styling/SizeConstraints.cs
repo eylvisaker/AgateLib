@@ -25,7 +25,7 @@ using System;
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UserInterface.Styling
+namespace AgateLib.UserInterface
 {
     public class SizeConstraints
     {

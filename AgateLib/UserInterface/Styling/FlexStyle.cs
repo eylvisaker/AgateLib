@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.UserInterface;
 
-namespace AgateLib.UserInterface.Styling
+namespace AgateLib.UserInterface
 {
     public class FlexStyle
     {

@@ -129,7 +129,7 @@ namespace AgateLib.UserInterface
         }
 
         public event Action<UserInterfaceActionEventArgs> UnhandledEvent;
-
+        public event Action BeforeTransitionOut;
 
         public IStyleConfigurator Style
         {
@@ -256,6 +256,8 @@ namespace AgateLib.UserInterface
 
         internal void TransitionOut()
         {
+            BeforeTransitionOut?.Invoke();
+
             foreach (var window in visualTree.TreeRoot.Children)
             {
                 window.Display.Animation.State = AnimationState.TransitionOut;

@@ -22,7 +22,7 @@
 
 using System;
 
-namespace AgateLib.UserInterface.Styling
+namespace AgateLib.UserInterface
 {
     public class BorderStyle
     {
