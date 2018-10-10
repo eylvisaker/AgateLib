@@ -74,6 +74,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Display\OriginAlignment.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\CollisionRegion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\FrameList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\IFrameList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\_EnumsAndDelegates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\ISpriteContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\SpriteBatchExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\SpriteContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\SpriteFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\TextureBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\_Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\GamepadButtonEventArgs.cs" />

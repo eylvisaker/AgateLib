@@ -90,6 +90,7 @@ namespace AgateLib.UserInterface.Content
 
             font.Size = fontStyle.Size ?? font.Size;
             font.Style = fontStyle.Style ?? font.Style;
+            font.Color = fontStyle.Color ?? font.Color;
 
             return font;
         }
