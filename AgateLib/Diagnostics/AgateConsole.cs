@@ -51,8 +51,8 @@ namespace AgateLib.Diagnostics
     {
         private readonly IConsoleRenderer renderer;
         private readonly ConsoleShell shell = new ConsoleShell();
-        private readonly AgateLib.Input.KeyboardInput keyboardInput 
-            = new AgateLib.Input.KeyboardInput();
+        private readonly AgateLib.Input.KeyboardEvents keyboardInput 
+            = new AgateLib.Input.KeyboardEvents();
 
         private bool suppressToggleKey;
 

@@ -13,7 +13,7 @@ namespace AgateLib.Tests.FontTests
 {
     class FontAlignment : ITest
     {
-        private readonly KeyboardInput keyboard = new KeyboardInput();
+        private readonly KeyboardEvents keyboard = new KeyboardEvents();
 
         private readonly int[] numbers = 
             { 0, 0, 1, 11, 22, 33, 44, 99, 100, 111, 222, 333, 444, 555, 666, 777, 888, 999 };

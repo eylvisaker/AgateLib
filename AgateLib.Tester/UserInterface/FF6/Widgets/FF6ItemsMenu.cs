@@ -29,7 +29,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                         Name = "ArrangeItems",
                         Style = new InlineElementStyle
                         {
-                            Flex = new AgateLib.UserInterface.Styling.FlexStyle
+                            Flex = new AgateLib.UserInterface.FlexStyle
                             {
                                 Direction =  FlexDirection.Row
                             }

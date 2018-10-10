@@ -1,6 +1,6 @@
 ﻿using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface.Styling;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;

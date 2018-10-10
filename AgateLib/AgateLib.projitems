@@ -80,9 +80,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\GamePadInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardGamepadMap.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\KeyMapItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\ManualInputState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\MouseEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\_Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mathematics\Geometry\Algorithms\CollisionDetection\CollisionDetector.cs" />
