@@ -19,25 +19,27 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
-using System;
-using System.Collections.Generic;
-using AgateLib.Mathematics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace AgateLib.Display.Sprites
 {
-	public interface ISpriteContainer
-	{
-		Sprite CurrentSprite { get; }
+    public interface ISpriteContainer
+    {
+        Sprite CurrentSprite { get; }
 
-		void Draw(Vector2 screenPosition);
-		void Update(double seconds);
+        IEnumerable<Sprite> AllSprites { get; }
 
-		IEnumerable<Sprite> AllSprites { get; }
+        bool FlipHorizontal { get; set; }
 
-		bool FlipHorizontal { get; set; }
-		bool FlipVertical { get; set;  }
+        bool FlipVertical { get; set; }
 
-		bool Locked { get; set; }
-	}
+        bool Locked { get; set; }
+
+        void Draw(SpriteBatch spriteBatch, Vector2 position);
+
+        void Update(GameTime time);
+
+    }
 }

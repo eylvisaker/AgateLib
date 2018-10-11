@@ -19,7 +19,6 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
-using AgateLib.Display;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
@@ -33,7 +32,7 @@ namespace AgateLib.Display.Sprites
 { /// <summary>
   /// Basic interface implemented by different sprite classes.
   /// </summary>
-    public interface ISprite : IDisposable
+    public interface ISprite
     {
         /// <summary>
         /// Draws the sprite at the specified position.
@@ -67,6 +66,7 @@ namespace AgateLib.Display.Sprites
         /// Gets the currently displaying frame.
         /// </summary>
         ISpriteFrame CurrentFrame { get; }
+
         /// <summary>
         /// The index of the current frame.
         /// </summary>
@@ -111,7 +111,7 @@ namespace AgateLib.Display.Sprites
         /// <summary>
         /// The amount of time each frame should display, in milliseconds.
         /// </summary>
-        TimeSpan TimePerFrame { get; set; }
+        TimeSpan FrameTime { get; set; }
 
         /// <summary>
         /// If Visible is set to false, all calls to Draw overloads are ignored.
@@ -156,8 +156,6 @@ namespace AgateLib.Display.Sprites
         /// in the PingPong type.
         /// </summary>
         event SpriteEventHandler PlayDirectionChanged;
-
-        void SetScale(double scaleX, double scaleY);
     }
 
     /// <summary>
@@ -170,27 +168,26 @@ namespace AgateLib.Display.Sprites
         /// </summary>
         public const int DEFAULT_FRAME_TIME_MS = 60;
 
-        private FrameList<SpriteFrame> frames = new FrameList<SpriteFrame>();
-        private Size spriteSize;
-
-        private double mTimePerFrame = 60;
-        private int mCurrentFrameIndex = 0;
+        private List<SpriteFrame> frames = new List<SpriteFrame>();
+        private int currentFrameIndex = 0;
         private double frameTime = 0;
-        private AnimationType mAnimType = AnimationType.Looping;
         private bool mPlayReverse = false;
-        private bool mIsAnimating = true;
-        private bool mVisible = true;
+        private bool isAnimating = true;
 
-
-        #region --- Construction / Destruction ---
+        #region --- Construction ---
 
         public void AddFrame(SpriteFrame frame)
         {
-            frame.SpriteSize = SpriteSize;
+            if (SpriteSize.IsZero)
+                SpriteSize = frame.DisplaySize;
+
             frame.DisplaySize = DisplaySize;
 
             frames.Add(frame);
         }
+
+        #endregion
+        #region --- Working with Frames ---
 
         /// <summary>
         /// Adds a surface as a frame to the sprite.
@@ -222,35 +219,6 @@ namespace AgateLib.Display.Sprites
         }
 
         /// <summary>
-        /// Makes a copy of this sprite and returns it.
-        /// </summary>
-        /// <returns></returns>
-        public Sprite Clone()
-        {
-            // TODO: Update this method to cover owned surfaces.
-            Sprite result = new Sprite(spriteSize.Width, spriteSize.Height);
-
-            result.mTimePerFrame = mTimePerFrame;
-            result.mCurrentFrameIndex = mCurrentFrameIndex;
-            result.frameTime = frameTime;
-            result.mAnimType = mAnimType;
-            result.mPlayReverse = mPlayReverse;
-            result.mIsAnimating = mIsAnimating;
-
-            result.mState = mState.Clone();
-
-            foreach (SpriteFrame frame in frames)
-            {
-                result.frames.Add(frame.Clone());
-            }
-
-            return result;
-        }
-
-        #endregion
-        #region --- Working with Frames ---
-
-        /// <summary>
         /// Slices and dices the image passed into frames and adds them.
         /// Frames are taken from the surface from left to right.
         /// </summary>
@@ -270,7 +238,6 @@ namespace AgateLib.Display.Sprites
                 bool skip = false;
 
                 currentFrame.SourceRect = currentRect;
-                currentFrame.SpriteSize = SpriteSize;
 
                 if (currentFrame.SourceRect.Right > texture.Width) skip = true;
                 if (currentFrame.SourceRect.Bottom > texture.Height) skip = true;
@@ -291,100 +258,32 @@ namespace AgateLib.Display.Sprites
 
         #endregion
 
-        #region --- Drawing the sprite to the screen ---
-
-        /// <summary>
-        /// Draws the sprite at the specified position on screen.
-        /// </summary>
-        /// <param name="destX"></param>
-        /// <param name="destY"></param>
-        public void Draw(int destX, int destY)
-        {
-            Draw(destX, (float)destY);
-        }
-        /// <summary>
-        /// Draws the sprite at the specified position on screen.
-        /// </summary>
-        /// <param name="destX"></param>
-        /// <param name="destY"></param>
-        public void Draw(float destX, float destY)
-        {
-            DrawImpl(destX, destY);
-        }
-
-        private void DrawImpl(float destX, float destY)
-        {
-            if (frames.Count == 0)
-                return;
-            if (mVisible == false)
-                return;
-
-            SpriteFrame currentFrame = CurrentFrame;
-            Texture2D texture = currentFrame.Texture;
-
-            texture.InterpolationHint = InterpolationHint;
-            currentFrame.DisplaySize = DisplaySize;
-
-            Vector2 alignment = Origin.CalcF(DisplayAlignment, DisplaySize);
-            Vector2 rotation = new Vector2();// Origin.CalcF(RotationCenter, DisplaySize);
-
-            texture.Alpha = Alpha;
-            texture.DisplayAlignment = OriginAlignment.TopLeft;
-            texture.RotationAngle = RotationAngle;
-            texture.Color = Color;
-
-            currentFrame.FlipHorizontal = FlipHorizontal;
-            currentFrame.FlipVertical = FlipVertical;
-
-            currentFrame.Draw(destX - alignment.X, destY - alignment.Y,
-                                  rotation.X, rotation.Y);
-        }
-        /// <summary>
-        /// Draws the sprite at the specified position on screen.
-        /// </summary>
-        /// <param name="destPt"></param>
-        public void Draw(Point destPt)
-        {
-            Draw(destPt.X, (float)destPt.Y);
-        }
-        /// <summary>
-        /// Draws the sprite at the specified position on screen.
-        /// </summary>
-        /// <param name="destPt"></param>
-        public void Draw(Vector2 destPt)
-        {
-            Draw(destPt.X, destPt.Y);
-        }
-
-        #endregion
-        #region --- Queueing rects to draw to the screen ---
-
-        #endregion
-
         #region --- Sprite properties ---
 
         /// <summary>
         /// Gets width of the sprite.
         /// </summary>
-        public int SpriteWidth => spriteSize.Width;
+        public int SpriteWidth => SpriteSize.Width;
+
         /// <summary>
         /// Gets height of the sprite.
         /// </summary>
-        public int SpriteHeight => spriteSize.Height;
+        public int SpriteHeight => SpriteSize.Height;
+
         /// <summary>
         /// Gets the size of the sprite.
         /// </summary>
-        public Size SpriteSize => spriteSize;
+        public Size SpriteSize { get; set; }
 
         /// <summary>
         /// Gets or sets the amount the width is scaled.
         /// </summary>
-        public float ScaleWidth { get; set; }
+        public float ScaleWidth { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets the amount the height is scaled.
         /// </summary>
-        public float ScaleHeight { get; set; }
+        public float ScaleHeight { get; set; } = 1;
 
         /// <summary>
         /// Gets the width of the sprite when displayed.
@@ -474,16 +373,12 @@ namespace AgateLib.Display.Sprites
         /// <summary>
         /// Gets or sets the color of the sprite.
         /// </summary>
-        public Color Color { get; set; }
+        public Color Color { get; set; } = Color.White;
 
         /// <summary>
         /// Gets or sets whether or not the sprite should be drawn when Draw is called.
         /// </summary>
-        public bool Visible
-        {
-            get { return mVisible; }
-            set { mVisible = value; }
-        }
+        public bool Visible { get; set; } = true;
 
         public Point Anchor { get; set; }
 
@@ -508,7 +403,7 @@ namespace AgateLib.Display.Sprites
             {
                 AdvanceFrame();
 
-                frameTime += (CurrentFrame.Time ?? TimePerFrame).TotalMilliseconds;
+                frameTime += (CurrentFrame.Time ?? FrameTime).TotalMilliseconds;
             }
         }
 
@@ -553,12 +448,12 @@ namespace AgateLib.Display.Sprites
                     if (PlayReverse && newFrameIndex == -1)
                     {
                         newFrameIndex = frames.Count - 1;
-                        mAnimType = AnimationType.Once;
+                        AnimationType = AnimationType.Once;
                     }
                     else if (PlayReverse == false && newFrameIndex == frames.Count)
                     {
                         newFrameIndex = 0;
-                        mAnimType = AnimationType.Once;
+                        AnimationType = AnimationType.Once;
                     }
 
                     break;
@@ -612,30 +507,30 @@ namespace AgateLib.Display.Sprites
                     if (PlayReverse && newFrameIndex == -1)
                     {
                         newFrameIndex = 0;
-                        mVisible = false;
+                        Visible = false;
                     }
                     else if (PlayReverse == false && newFrameIndex == frames.Count)
                     {
                         newFrameIndex = frames.Count - 1;
-                        mVisible = false;
+                        Visible = false;
                     }
 
                     break;
 
                 default:
-                    throw new AgateException("Error: AnimationType not valid!");
+                    throw new SpriteException("Error: AnimationType not valid!");
             }
 
             CurrentFrameIndex = newFrameIndex;
 
-            if (mCurrentFrameIndex < 0 || mCurrentFrameIndex >= frames.Count)
-                throw new AgateException("Error: Frame Index is in the wrong place!");
+            if (currentFrameIndex < 0 || currentFrameIndex >= frames.Count)
+                throw new SpriteException("Error: Frame Index is in the wrong place!");
         }
 
         /// <summary>
         /// The amount of time each frame should display, in milliseconds.
         /// </summary>
-        public TimeSpan TimePerFrame { get; set; } = TimeSpan.FromMilliseconds(DEFAULT_FRAME_TIME);
+        public TimeSpan FrameTime { get; set; } = TimeSpan.FromMilliseconds(DEFAULT_FRAME_TIME_MS);
 
         /// <summary>
         /// The index of the current frame.
@@ -644,7 +539,7 @@ namespace AgateLib.Display.Sprites
         {
             get
             {
-                return mCurrentFrameIndex;
+                return currentFrameIndex;
             }
             set
             {
@@ -653,11 +548,11 @@ namespace AgateLib.Display.Sprites
 
                 if (Frames.Count <= 1)
                 {
-                    mCurrentFrameIndex = 0;
+                    currentFrameIndex = 0;
                     return;
                 }
 
-                mCurrentFrameIndex = value;
+                currentFrameIndex = value;
             }
         }
         /// <summary>
@@ -667,7 +562,7 @@ namespace AgateLib.Display.Sprites
         {
             get { return frames[CurrentFrameIndex]; }
         }
-        
+
 
         ISpriteFrame ISprite.CurrentFrame
         {
@@ -702,11 +597,7 @@ namespace AgateLib.Display.Sprites
         /// Once - The animation plays once, and then shows its first frame.
         /// OnceHoldLast - The animation plays once, and leaves the last frame on.
         /// </summary>
-        public AnimationType AnimationType
-        {
-            get { return mAnimType; }
-            set { mAnimType = value; }
-        }
+        public AnimationType AnimationType { get; set; } = AnimationType.Looping;
         /// <summary>
         /// Gets or sets a flag which indicates:
         /// True if the animation is running.
@@ -714,33 +605,33 @@ namespace AgateLib.Display.Sprites
         /// </summary>
         public bool IsAnimating
         {
-            get { return mIsAnimating; }
+            get => isAnimating;
             set
             {
                 bool doEvent = false;
 
-                if (value != mIsAnimating)
+                if (value != isAnimating)
                     doEvent = true;
 
-                mIsAnimating = value;
+                isAnimating = value;
 
-                if (value &&
-                    (AnimationType == AnimationType.Once || AnimationType == AnimationType.OnceDisappear ||
-                     AnimationType == AnimationType.OnceHoldLast))
+                if (value && (AnimationType == AnimationType.Once
+                           || AnimationType == AnimationType.OnceDisappear
+                           || AnimationType == AnimationType.OnceHoldLast))
                 {
 
-                    if (this.PlayReverse && mCurrentFrameIndex == 0)
-                        mCurrentFrameIndex = frames.Count - 1;
-                    else if (mCurrentFrameIndex == frames.Count - 1)
-                        mCurrentFrameIndex = 0;
+                    if (this.PlayReverse && currentFrameIndex == 0)
+                        currentFrameIndex = frames.Count - 1;
+                    else if (currentFrameIndex == frames.Count - 1)
+                        currentFrameIndex = 0;
 
                 }
 
                 if (doEvent)
                 {
-                    if (mIsAnimating == true && AnimationStarted != null)
+                    if (isAnimating == true && AnimationStarted != null)
                         AnimationStarted(this);
-                    else if (mIsAnimating == false && AnimationStopped != null)
+                    else if (isAnimating == false && AnimationStopped != null)
                         AnimationStopped(this);
                 }
             }
@@ -749,7 +640,7 @@ namespace AgateLib.Display.Sprites
         /// <summary>
         /// Gets the list of frames in this sprite.
         /// </summary>
-        public FrameList<SpriteFrame> Frames => frames;
+        public IReadOnlyList<SpriteFrame> Frames => frames;
         IReadOnlyList<ISpriteFrame> ISprite.Frames => Frames;
 
         /// <summary>
@@ -762,8 +653,8 @@ namespace AgateLib.Display.Sprites
             else
                 CurrentFrameIndex = 0;
 
-            mIsAnimating = true;
-            mVisible = true;
+            isAnimating = true;
+            Visible = true;
         }
 
         #endregion
@@ -813,6 +704,11 @@ namespace AgateLib.Display.Sprites
         public TimeSpan TotalAnimationTime
         {
             get => TimeSpan.FromSeconds(Frames.Sum(x => (x.Time ?? TimeSpan.FromMilliseconds(DEFAULT_FRAME_TIME_MS)).TotalSeconds));
+        }
+
+        public void SetRotationCenter(OriginAlignment alignment)
+        {
+            RotationCenter = Origin.CalcF(alignment, SpriteSize);
         }
     }
 

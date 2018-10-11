@@ -40,10 +40,10 @@ namespace AgateLib.Display.Sprites
         /// <summary>
         /// Gets the source rectangle on the surface the frame is drawn from.
         /// </summary>
-        Rectangle? SourceRect { get; }
+        Rectangle SourceRect { get; }
 
         /// <summary>
-        /// Draws the sprite frame.
+        /// Draws the sprite frame at the specified location rotated around the specified point.
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="dest"></param>
@@ -51,7 +51,7 @@ namespace AgateLib.Display.Sprites
         /// <param name="color"></param>
         /// <param name="rotationAngle"></param>
         /// <param name="layerDepth"></param>
-        void Draw(SpriteBatch spriteBatch, Vector2 dest, Vector2 rotationCenter, Color color, float rotationAngle, float layerDepth);
+        void Draw(SpriteBatch spriteBatch, Vector2 dest, Vector2 rotationCenter, Vector2 scale, Color color, float rotationAngle, float layerDepth);
     }
 
     /// <summary>
@@ -68,90 +68,76 @@ namespace AgateLib.Display.Sprites
     public class SpriteFrame : ISpriteFrame
     {
         private Texture2D texture;
-        private Point mOffset = new Point(0, 0);
 
-        private Rectangle sourceRect;
-        private Size mDisplaySize;
-        private Size mSpriteSize;
         private Dictionary<string, CollisionRegion> mRegions = new Dictionary<string, CollisionRegion>();
 
-        public SpriteFrame(Texture2D texture)
+        public SpriteFrame(Texture2D texture, Rectangle? sourceRect = null)
         {
             this.texture = texture;
+            this.SourceRect = sourceRect ?? new Rectangle(0, 0, texture.Width, texture.Height);
+
+            DisplaySize = SourceRect.Size;
         }
+        
+        /// <summary>
+        /// Gets the texture
+        /// </summary>
+        public Texture2D Texture => texture;
 
         /// <summary>
         /// Gets or sets the source rectangle for this frame.
         /// </summary>
-        public Rectangle SourceRect
-        {
-            get { return sourceRect; }
-            set { sourceRect = value; }
-        }
+        public Rectangle SourceRect { get; set; }
 
         /// <summary>
         /// Gets or sets the offset for drawing this frame.
         /// </summary>
-        public Point Anchor
-        {
-            get { return mOffset; }
-            set { mOffset = value; }
-        }
-
-        internal Size SpriteSize
-        {
-            get { return mSpriteSize; }
-            set { mSpriteSize = value; }
-        }
+        public Point Anchor { get; set; }
 
         /// <summary>
         /// Gets or sets the display size.
         /// </summary>
-        public Size DisplaySize
-        {
-            get { return mDisplaySize; }
-            set { mDisplaySize = value; }
-        }
+        public Size DisplaySize { get; set; }
 
         /// <summary>
         /// Draws the sprite frame at the specified location rotated around the specified point.
         /// </summary>
         public void Draw(SpriteBatch spriteBatch, Vector2 dest, Vector2 rotationCenter, Vector2 scale, Color color, float rotationAngle, float layerDepth)
         {
-            if (FlipHorizontal)
-            {
-                dest.X -= (SourceRect.Width - mOffset.X) * scaleX;
+            Rectangle sourceRect = SourceRect;
+            Vector2 anchor = Anchor.ToVector2();
 
-                scaleX *= -1;
-            }
-            else
-            {
-                dest.X -= mOffset.X * scaleX;
-            }
-            if (FlipVertical)
-            {
-                dest.Y -= (SourceRect.Height - mOffset.Y) * scaleY;
+            // TODO: Reimplement/test the FlipHorizontal/Vertical properties, or replace them with SpriteEffects
+            //if (FlipHorizontal)
+            //{
+            //    dest.X -= (sourceRect.Width - anchor.X) * scale.X;
 
-                scaleY *= -1;
-            }
-            else
-                dest.Y -= mOffset.Y * scaleY;
+            //    scale.X *= -1;
+            //}
+            //else
+            //{
+            //    dest.X -= anchor.X * scale.X;
+            //}
+            //if (FlipVertical)
+            //{
+            //    dest.Y -= (sourceRect.Height - anchor.Y) * scale.Y;
+
+            //    scale.Y *= -1;
+            //}
+            //else
+                dest.Y -= anchor.Y * scale.Y;
 
 
-            texture.SetScale(scaleX, scaleY);
-
-            var actualRotationCenter = new Vector2(rotationCenter.X + (mOffset.X * Math.Abs(scaleX)),
-                                             rotationCenter.Y + (mOffset.Y * Math.Abs(scaleY)));
-
-            texture.Draw(sourceRect, dest, actualRotationCenter);
+            var actualRotationCenter = new Vector2(rotationCenter.X + (anchor.X * Math.Abs(scale.X)),
+                                                   rotationCenter.Y + (anchor.Y * Math.Abs(scale.Y)));
 
             spriteBatch.Draw(texture,
                              dest,
-                             (Rectangle?)sourceRect,
+                             sourceRect,
                              color,
                              rotationAngle,
                              actualRotationCenter,
-                             new Vector2(scaleX, scaleY),
+                             scale,
                              SpriteEffects.None,
                              layerDepth);
         }
@@ -163,14 +149,6 @@ namespace AgateLib.Display.Sprites
         public override string ToString()
         {
             return "SpriteFrame: " + SourceRect.ToString() + " Anchor: " + Anchor.ToString();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Texture2D Texture
-        {
-            get { return texture; }
         }
 
         public bool FlipVertical { get; set; }

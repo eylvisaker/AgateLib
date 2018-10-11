@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 
 namespace AgateLib.Input
 {
@@ -11,18 +13,29 @@ namespace AgateLib.Input
         private MouseState lastMouseState;
         private MouseState mouseState;
 
+        private readonly GraphicsDevice device;
+        private readonly GameWindow window;
+
         public event EventHandler<MouseButtonEventArgs> MouseDown;
         public event EventHandler<MouseButtonEventArgs> MouseUp;
         public event EventHandler<MouseEventArgs> MouseMove;
+
+        public MouseEvents(GraphicsDevice device, GameWindow window)
+        {
+            this.device = device;
+            this.window = window;
+        }
 
         public void Update(GameTime time)
         {
             lastMouseState = mouseState;
             mouseState = Mouse.GetState();
 
-            buttonEventArgs.MousePosition = mouseState.Position;
+            eventArgs.MousePosition = ConstrainMousePosition(mouseState.Position);
+            buttonEventArgs.MousePosition = ConstrainMousePosition(mouseState.Position);
 
             CheckMouseMove();
+
             CheckButtonState(MouseButton.Left, mouseState.LeftButton, lastMouseState.LeftButton);
             CheckButtonState(MouseButton.Right, mouseState.RightButton, lastMouseState.RightButton);
             CheckButtonState(MouseButton.Middle, mouseState.MiddleButton, lastMouseState.MiddleButton);
@@ -30,10 +43,47 @@ namespace AgateLib.Input
 
         private void CheckMouseMove()
         {
-            if (mouseState.Position != lastMouseState.Position)
+            if (mouseState.Position == lastMouseState.Position)
+                return;
+
+            Debug.Print($"Mouse Position {mouseState.Position}");
+
+            if (!IsInWindow(lastMouseState.Position) && !IsInWindow(mouseState.Position))
+                return;
+
+            Point lastPosition = ConstrainMousePosition(lastMouseState.Position);
+            Point currentPosition = ConstrainMousePosition(mouseState.Position);
+
+            if (currentPosition != lastPosition)
             {
                 MouseMove?.Invoke(this, eventArgs);
             }
+        }
+
+        private bool IsInWindow(Point position)
+        {
+            Rectangle localBounds = window.ClientBounds;
+            localBounds.Location = Point.Zero;
+
+            return localBounds.Contains(position);
+        }
+
+        private Point ConstrainMousePosition(Point position)
+        {
+            Point result = position;
+
+            if (result.X > window.ClientBounds.Width)
+            {
+                result.X = window.ClientBounds.Width;
+            }
+            if (result.Y > window.ClientBounds.Height)
+            {
+                result.Y = window.ClientBounds.Height;
+            }
+            if (result.X < 0) result.X = 0;
+            if (result.Y < 0) result.Y = 0;
+
+            return result;
         }
 
         private void CheckButtonState(MouseButton button, ButtonState newState, ButtonState oldState)

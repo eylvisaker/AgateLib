@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -32,50 +33,17 @@ namespace AgateLib.Display.Sprites
 
         public bool Locked { get; set; }
 
-        public OriginAlignment DisplayAlignment
-        {
-            get { return mSprites[mCurrent].DisplayAlignment; }
-            set
-            {
-                foreach (var val in mSprites.Values)
-                {
-                    val.DisplayAlignment = value;
-                }
-            }
-        }
-
-        internal void SetScale(double x, double y)
-        {
-            foreach (var val in mSprites.Values)
-            {
-                val.SetScale(x, y);
-            }
-        }
-
         public bool FlipHorizontal { get; set; }
         public bool FlipVertical { get; set; }
 
-        public void Update(double deltaTime)
+        public void Update(GameTime time)
         {
-            //foreach (var val in mSprites.Values)
-            //{
-            //	val.Update(deltaTime);
-            //}
-
-            CurrentSprite.Update(deltaTime);
+            CurrentSprite.Update(time);
         }
 
         public Sprite this[TKey key]
         {
             get { return mSprites[key]; }
-        }
-
-        internal void DisposeAllSprites()
-        {
-            foreach (var val in mSprites.Values)
-            {
-                val.Dispose();
-            }
         }
 
         internal void Add(TKey key, Sprite sprite)
@@ -98,16 +66,12 @@ namespace AgateLib.Display.Sprites
 
         public event EventHandler AnimationStopped;
 
-        public void Draw(double screenX, double screenY)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
             mSprites[mCurrent].FlipHorizontal = FlipHorizontal;
             mSprites[mCurrent].FlipVertical = FlipVertical;
 
-            mSprites[mCurrent].Draw((int)screenX, (int)screenY);
-        }
-        public void Draw(Vector2 screenPosition)
-        {
-            Draw(screenPosition.X, screenPosition.Y);
+            mSprites[mCurrent].Draw(spriteBatch, position);
         }
 
         internal void Clear()
