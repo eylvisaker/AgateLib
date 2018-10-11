@@ -6,7 +6,16 @@ using System.Diagnostics;
 
 namespace AgateLib.Input
 {
-    public class MouseEvents
+    public interface IMouseEvents
+    {
+        event EventHandler<MouseButtonEventArgs> MouseDown;
+        event EventHandler<MouseButtonEventArgs> MouseUp;
+        event EventHandler<MouseEventArgs> MouseMove;
+
+        void Update(GameTime time);
+    }
+
+    public class MouseEvents : IMouseEvents
     {
         private MouseEventArgs eventArgs = new MouseEventArgs(new Point(0, 0));
         private MouseButtonEventArgs buttonEventArgs = new MouseButtonEventArgs(new Point(0, 0), MouseButton.Left);
