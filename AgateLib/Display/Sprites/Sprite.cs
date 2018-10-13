@@ -691,7 +691,7 @@ namespace AgateLib.Display.Sprites
             actualScale.X *= ScaleWidth;
             actualScale.Y *= ScaleHeight;
 
-            CurrentFrame.Draw(spriteBatch, position, RotationCenter, actualScale, Color, RotationAngle, layerDepth);
+            CurrentFrame.Draw(spriteBatch, position, RotationCenter, actualScale, PremultipliedColor, RotationAngle, layerDepth);
         }
 
         public bool FlipHorizontal { get; set; }
@@ -706,10 +706,23 @@ namespace AgateLib.Display.Sprites
             get => TimeSpan.FromSeconds(Frames.Sum(x => (x.Time ?? TimeSpan.FromMilliseconds(DEFAULT_FRAME_TIME_MS)).TotalSeconds));
         }
 
-        public void SetRotationCenter(OriginAlignment alignment)
+        public Color PremultipliedColor
         {
-            RotationCenter = Origin.CalcF(alignment, SpriteSize);
-        }
-    }
+            get
+            {
+                float a = Alpha / 255.0f;
+                float r = Color.R / 255.0f * a;
+                float g = Color.G / 255.0f * a;
+                float b = Color.B / 255.0f * a;
 
-}
+                return new Color(r, g, b, a);
+            }
+        }
+
+        public void SetRotationCenter(OriginAlignment alignment)
+                {
+                    RotationCenter = Origin.CalcF(alignment, SpriteSize);
+                }
+            }
+
+        }
