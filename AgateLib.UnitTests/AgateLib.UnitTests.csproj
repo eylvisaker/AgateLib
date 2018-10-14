@@ -198,6 +198,7 @@
     <Compile Include="Algorithms\PathFinding\AStarTest.cs" />
     <Compile Include="Collections\Generic\ListSortingTests.cs" />
     <Compile Include="Collections\Generic\PoolTest.cs" />
+    <Compile Include="Display\ColorXTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Fakes\FakeFontCore.cs" />
     <Compile Include="Fakes\FakePointerIndicator.cs" />

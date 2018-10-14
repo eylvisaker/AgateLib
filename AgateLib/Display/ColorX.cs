@@ -146,6 +146,16 @@ namespace AgateLib.Display
 		}
 
         /// <summary>
+        /// Convert a color to ARGB hex representation.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static string ToArgb(this Color color)
+        {
+            return $"{color.A:x2}{color.R:x2}{color.G:x2}{color.B:x2}";
+        }
+
+        /// <summary>
         /// Converts a string to an Microsoft.Xna.Framework.Color structure.
         /// </summary>
         /// <param name="str">The string to convert.  It must be in one of the following formats
