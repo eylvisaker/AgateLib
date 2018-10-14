@@ -10,9 +10,9 @@ namespace AgateLib.Tests.Display
         [Fact]
         public void ToArgb()
         {
-            var clr = new Color(0x12, 0x34, 0x56, 0x78);
+            var clr = new Color(0x12, 0x34, 0x56, 078);
 
-            clr.ToArgb().Should().Be("78123456");
+            clr.ToArgb().Should().Be("12345678");
         }
     }
 }
