@@ -55,8 +55,6 @@ namespace AgateLib.Input
             if (mouseState.Position == lastMouseState.Position)
                 return;
 
-            Debug.Print($"Mouse Position {mouseState.Position}");
-
             if (!IsInWindow(lastMouseState.Position) && !IsInWindow(mouseState.Position))
                 return;
 
