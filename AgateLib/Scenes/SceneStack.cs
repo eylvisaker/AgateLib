@@ -311,6 +311,8 @@ namespace AgateLib.Scenes
                 Remove(scene);
         }
 
+        public override string ToString() => $"SceneStack: {Count} scenes";
+
         private IEnumerable<IScene> ScenesAbove(Func<IScene, bool> pred)
         {
             if (scenes.Count == 0)
