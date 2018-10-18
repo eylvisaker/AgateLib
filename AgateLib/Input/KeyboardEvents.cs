@@ -111,10 +111,21 @@ namespace AgateLib.Input
         /// </summary>
         public int RepeatTime { get; set; } = 25;
 
+        public void Update(IInputState inputState)
+        {
+            Update(inputState.KeyboardState, inputState.GameTime);
+        }
+
         public void Update(GameTime time)
         {
             KeyboardState state = Keyboard.GetState();
-            currentTime = (long)time.TotalGameTime.TotalMilliseconds;
+
+            Update(state, time);
+        }
+
+        public void Update(KeyboardState state, GameTime gameTime)
+        {
+            currentTime = (long)gameTime.TotalGameTime.TotalMilliseconds;
 
             var newKeys = state.GetPressedKeys();
 
@@ -123,7 +134,7 @@ namespace AgateLib.Input
                 if (pressedKeys.Contains(key))
                     continue;
 
-                OnKeyDown(key);
+                OnKeyDown(key, gameTime);
 
                 if (CanRepeat(key))
                 {
@@ -137,7 +148,7 @@ namespace AgateLib.Input
                 if (newKeys.Contains(key))
                     continue;
 
-                OnKeyUp(key);
+                OnKeyUp(key, gameTime);
 
                 if (repeatKey == key)
                 {
@@ -155,33 +166,33 @@ namespace AgateLib.Input
 
                 if (repeating && dt > RepeatTime)
                 {
-                    OnKeyPress(repeatKey.Value);
+                    OnKeyPress(repeatKey.Value, gameTime);
                 }
                 else if (!repeating && dt > InitialRepeatTime)
                 {
-                    OnKeyPress(repeatKey.Value);
+                    OnKeyPress(repeatKey.Value, gameTime);
                     repeating = true;
                 }
             }
         }
 
-        private void OnKeyUp(Keys key)
+        private void OnKeyUp(Keys key, GameTime gameTime)
         {
             modifiers.KeyUp(key);
 
-            KeyUp?.Invoke(this, new KeyEventArgs(key));
+            KeyUp?.Invoke(this, new KeyEventArgs(key, gameTime));
         }
 
-        private void OnKeyDown(Keys key)
+        private void OnKeyDown(Keys key, GameTime gameTime)
         {
             modifiers.KeyDown(key);
 
-            KeyDown?.Invoke(this, new KeyEventArgs(key));
+            KeyDown?.Invoke(this, new KeyEventArgs(key, gameTime));
 
-            OnKeyPress(key);
+            OnKeyPress(key, gameTime);
         }
 
-        private void OnKeyPress(Keys key)
+        private void OnKeyPress(Keys key, GameTime gameTime)
         {
             if (KeyModifiers.ModifierKeys.Contains(key))
                 return;
@@ -189,7 +200,7 @@ namespace AgateLib.Input
             var str = KeyString(key);
 
             lastKeyPress = currentTime;
-            KeyPress?.Invoke(this, new KeyPressEventArgs(key, str, modifiers));
+            KeyPress?.Invoke(this, new KeyPressEventArgs(key, str, modifiers, gameTime));
         }
 
         private bool CanRepeat(Keys key)
@@ -210,26 +221,31 @@ namespace AgateLib.Input
 
     public class KeyEventArgs : EventArgs
     {
-        public KeyEventArgs(Keys key)
+        public KeyEventArgs(Keys key, GameTime gameTime)
         {
             Key = key;
+            GameTime = gameTime;
         }
 
         public Keys Key { get; }
+
+        public GameTime GameTime { get; }
     }
 
     public class KeyPressEventArgs : EventArgs
     {
-        public KeyPressEventArgs(Keys key, string keyString, IKeyModifiers modifiers)
+        public KeyPressEventArgs(Keys key, string keyString, IKeyModifiers modifiers, GameTime gameTime)
         {
             Key = key;
             KeyString = keyString;
             Modifiers = modifiers;
+            GameTime = gameTime;
         }
 
         public Keys Key { get; }
         public string KeyString { get; }
         public IKeyModifiers Modifiers { get; }
+        public GameTime GameTime { get; }
     }
 
     public interface IKeyModifiers

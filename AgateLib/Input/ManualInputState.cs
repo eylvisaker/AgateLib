@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 namespace AgateLib.Input
 {
     /// <summary>
-    /// An object implement IInputState that can be configured to simulate any input.
+    /// An object that implements IInputState that can be configured to simulate any input.
     /// </summary>
     public class ManualInputState : IInputState
     {
