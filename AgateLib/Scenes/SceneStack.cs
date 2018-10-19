@@ -105,6 +105,7 @@ namespace AgateLib.Scenes
         private readonly Dictionary<IScene, SceneData> sceneData = new Dictionary<IScene, SceneData>();
 
         private bool updating = false;
+        private object updateLock = new object();
 
         /// <summary>
         /// Provides caching for the UpdateScenes property.
@@ -185,12 +186,15 @@ namespace AgateLib.Scenes
             Require.That<InvalidOperationException>(scene.SceneStack == null,
                 "Scene already belongs to a SceneStack!");
 
-            scenes.Add(scene);
+            lock (updateLock)
+            {
+                scenes.Add(scene);
+                
+                sceneData.Add(scene, dataPool.GetOrDefault());
+            }
+
             scene.SceneStack = this;
-
             scene.SceneStart();
-
-            sceneData.Add(scene, dataPool.GetOrDefault());
 
             if (updating)
             {
@@ -256,19 +260,22 @@ namespace AgateLib.Scenes
                 updating = true;
                 bool processedInput = false;
 
-                foreach (var sc in UpdateScenes)
+                lock (updateLock)
                 {
-                    if (sc.HandleInput && !processedInput)
+                    foreach (var sc in UpdateScenes)
                     {
-                        var inputState = sceneData[sc];
+                        if (sc.HandleInput && !processedInput)
+                        {
+                            var inputState = sceneData[sc];
 
-                        inputState.NewFrame(time);
+                            inputState.NewFrame(time);
 
-                        sc.UpdateInput(sceneData[sc].InputState);
-                        processedInput = true;
+                            sc.UpdateInput(sceneData[sc].InputState);
+                            processedInput = true;
+                        }
+
+                        sc.Update(time);
                     }
-
-                    sc.Update(time);
                 }
 
                 int missedUpdateCount = 0;
