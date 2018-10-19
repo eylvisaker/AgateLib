@@ -59,9 +59,11 @@ namespace AgateLib.UserInterface.Content.Commands
 			}
 		}
 
-		public void Add(string name, Texture2D texture)
+		public DrawTextureCommand Add(string name, Texture2D texture)
 		{
 			Images.Add(name, texture);
+
+            return this;
 		}
 	}
 }

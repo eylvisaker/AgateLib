@@ -62,11 +62,14 @@ namespace AgateLib.UserInterface.Content
             this.fonts = fonts;
 
             commands.Add("color", new SetTextColor());
+            commands.Add("scale", new SetTextScale());
+            commands.Add("reset", new ResetFont());
         }
 
         public IContentLayout LayoutContent(string text, ContentLayoutOptions layoutOptions, bool _ = true)
         {
             layoutOptions.Font = layoutOptions.Font ?? LookupFont(layoutOptions.FontLookup);
+            layoutOptions.DefaultFont = new Font(layoutOptions.Font);
 
             var tokens = tokenizer.Tokenize(text);
             var context = new LayoutContext(tokens, layoutOptions);

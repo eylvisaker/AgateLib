@@ -20,31 +20,24 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using AgateLib.Display;
-using AgateLib.UserInterface.Styling.Themes.Model;
+using Microsoft.Xna.Framework;
 
-namespace AgateLib.UserInterface.Content
+namespace AgateLib.UserInterface.Content.Commands
 {
-    public class ContentLayoutOptions
+    public class SetTextScale : IContentCommand
     {
-        public int MaxWidth { get; set; }
+        public void Execute(LayoutContext context, string arg)
+        {
+            Color newColor;
 
-        public Font Font { get; set; }
-
-        /// <summary>
-        /// If Font is null, then the content layout engine will look up a font described by 
-        /// the FontLookup property, if it is not null.
-        /// </summary>
-        public FontStyleProperties FontLookup { get; set; }
-
-        /// <summary>
-        /// Defaults to true. Set this to false to prevent images from being scaled
-        /// to match the height of the text.
-        /// </summary>
-        public bool ScaleImages { get; set; } = true;
-        public Font DefaultFont { get; internal set; }
+            if (float.TryParse(arg, out float scale))
+            {
+                context.Font.Size = (int)(context.Options.DefaultFont.Size * scale);
+            }
+            else
+            {
+                context.Font.Size = context.Options.DefaultFont.Size;
+            }
+        }
     }
 }

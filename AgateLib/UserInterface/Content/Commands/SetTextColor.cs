@@ -20,28 +20,25 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
 using AgateLib.Display;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Content.Commands
 {
-	public class SetTextColor : IContentCommand
-	{
-		public void Execute(LayoutContext context, string arg)
-		{
-			Color newColor;
+    public class SetTextColor : IContentCommand
+    {
+        public void Execute(LayoutContext context, string arg)
+        {
+            Color newColor;
 
-			if (ColorX.TryParse(arg, out newColor))
-			{
-				context.Font.Color = newColor;
-			}
-			else
-			{
-				context.Font.Color = Color.White;
-			}
-		}
-	}
+            if (ColorX.TryParse(arg, out newColor))
+            {
+                context.Font.Color = newColor;
+            }
+            else
+            {
+                context.Font.Color = Color.White;
+            }
+        }
+    }
 }
