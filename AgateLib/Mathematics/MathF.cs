@@ -47,12 +47,22 @@ namespace AgateLib.Mathematics
 			return (float)Math.Sin(angle);
 		}
 
-		/// <summary>
-		/// Single precision cosine.
-		/// </summary>
-		/// <param name="angle"></param>
-		/// <returns></returns>
-		public static float Cos(float angle)
+        /// <summary>
+        /// Hyperbolic Tangent function.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static float Tanh(float x)
+        {
+            return (float)Math.Tanh((float)x);
+        }
+
+        /// <summary>
+        /// Single precision cosine.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static float Cos(float angle)
 		{
 			return (float)Math.Cos(angle);
 		}
