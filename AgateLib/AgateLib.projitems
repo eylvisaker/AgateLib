@@ -152,27 +152,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Parsers\Tmx\TmxTileSetData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Parsers\XmlExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PathX.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\LinearAlgebra\GaussSeidelAlgorithm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\ConstraintDerivative.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Constraints\CirclePerimeterConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Constraints\CirclePerimeterOffcenterConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Constraints\CollisionConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Constraints\IPairConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Constraints\JointConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Constraints\RectangleBoundaryConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Constraints\TwoBodyConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Forces\ConstantGravityField.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\IConstraintSolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\IForce.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\IParticlePairSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\IPhysicalConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\KinematicsIntegrator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\KinematicsSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\PhysicalParticle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Solvers\AppliedConstraint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Solvers\ImpulseConstraintSolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\TwoDimensions\Solvers\ProjectedGaussSeidelConstraintSolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\VectorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Quality\Require.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Random.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer\FastRandom.cs" />
@@ -282,6 +261,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Physics\" />
     <Folder Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\" />
   </ItemGroup>
 </Project>

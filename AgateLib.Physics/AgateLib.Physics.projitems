@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>062658fa-ca79-41c2-b4a5-ad9b2a88beba</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AgateLib.Physics</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)LinearAlgebra\GaussSeidelAlgorithm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\ConstraintDerivative.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Constraints\CirclePerimeterConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Constraints\CirclePerimeterOffcenterConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Constraints\CollisionConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Constraints\IPairConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Constraints\JointConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Constraints\RectangleBoundaryConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Constraints\TwoBodyConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Forces\ConstantGravityField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\IConstraintSolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\IForce.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\IParticlePairSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\IPhysicalConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\KinematicsIntegrator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\KinematicsSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\PhysicalParticle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Solvers\AppliedConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Solvers\ImpulseConstraintSolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwoDimensions\Solvers\ProjectedGaussSeidelConstraintSolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VectorExtensions.cs" />
+  </ItemGroup>
+</Project>
