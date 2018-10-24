@@ -263,7 +263,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Physics\" />
     <Folder Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\" />
   </ItemGroup>
 </Project>
