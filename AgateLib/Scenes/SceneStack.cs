@@ -212,12 +212,14 @@ namespace AgateLib.Scenes
                 "Cannot remove a scene if it does not belong to the stack.");
 
             scene.SceneEnd();
-
-            scenes.Remove(scene);
-            sceneData[scene].Dispose();
-            sceneData.Remove(scene);
-
             scene.SceneStack = null;
+
+            lock (updateLock)
+            {
+                scenes.Remove(scene);
+                sceneData[scene].Dispose();
+                sceneData.Remove(scene);
+            }
         }
 
         /// <summary>
