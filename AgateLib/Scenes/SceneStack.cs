@@ -318,7 +318,7 @@ namespace AgateLib.Scenes
                 Remove(scene);
         }
 
-        public override string ToString() => $"SceneStack: {Count} scenes";
+        public override string ToString() => $"SceneStack: {Count} scene{(Count != 1 ? "s": "")}";
 
         private IEnumerable<IScene> ScenesAbove(Func<IScene, bool> pred)
         {
@@ -327,33 +327,39 @@ namespace AgateLib.Scenes
 
             int bottomIndex = 0;
 
-            for (int i = scenes.Count - 1; i >= 0; i--)
+            lock (updateLock)
             {
-                if (pred(scenes[i]))
+                for (int i = scenes.Count - 1; i >= 0; i--)
                 {
-                    bottomIndex = i;
-                    break;
+                    if (pred(scenes[i]))
+                    {
+                        bottomIndex = i;
+                        break;
+                    }
                 }
-            }
 
-            for (int i = bottomIndex; i < scenes.Count; i++)
-                yield return scenes[i];
+                for (int i = bottomIndex; i < scenes.Count; i++)
+                    yield return scenes[i];
+            }
         }
 
         private void CheckForFinishedScenes()
         {
             bool activate = false;
 
-            foreach (var scene in UpdateScenes.Where(s => s.IsFinished))
+            lock (updateLock)
             {
-                if (scene is IDisposable disposable)
+                foreach (var scene in UpdateScenes.Where(s => s.IsFinished))
                 {
-                    disposable.Dispose();
+                    if (scene is IDisposable disposable)
+                    {
+                        disposable.Dispose();
+                    }
+
+                    activate |= scene == TopScene;
+
+                    Remove(scene);
                 }
-
-                activate |= scene == TopScene;
-
-                Remove(scene);
             }
 
             if (activate)
