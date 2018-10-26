@@ -54,6 +54,13 @@ namespace AgateLib.Scenes
         /// </summary>
         /// <param name="scene"></param>
         void Remove(IScene scene);
+        
+        /// <summary>
+        /// Adds a scene if it is not part of the scene stack, or brings it to the top of the scene stack
+        /// if it is.
+        /// </summary>
+        /// <param name="waitScene"></param>
+        void AddOrBringToTop(IScene waitScene);
 
         /// <summary>
         /// Removes all scenes from the scene stack which match a condition.
@@ -199,6 +206,23 @@ namespace AgateLib.Scenes
             if (updating)
             {
                 missedUpdates.Add(scene);
+            }
+        }
+
+        /// <summary>
+        /// Adds a scene to the stack, unless it exists, in which case it is brought to the top of the stack.
+        /// </summary>
+        /// <param name="scene"></param>
+        public void AddOrBringToTop(IScene scene)
+        {
+            Require.ArgumentNotNull(scene, nameof(scene));
+
+            lock (updateLock)
+            {
+                if (Contains(scene))
+                    Remove(scene);
+
+                Add(scene);
             }
         }
 
