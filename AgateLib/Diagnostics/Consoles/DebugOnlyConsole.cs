@@ -30,7 +30,7 @@ namespace AgateLib.Diagnostics.Consoles
 {
     public class DebugOnlyConsole : IConsoleSetup
     {
-        public bool IsActive => true;
+        public bool IsOpen => true;
 
         public void AddVocabulary(IVocabulary boxVocabulary)
         {

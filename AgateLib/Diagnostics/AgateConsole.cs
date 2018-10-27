@@ -20,13 +20,12 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
 using AgateLib.Diagnostics.CommandLibraries;
 using AgateLib.Diagnostics.Rendering;
 using AgateLib.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace AgateLib.Diagnostics
 {
@@ -37,7 +36,7 @@ namespace AgateLib.Diagnostics
 
     public interface IConsoleSetup : IConsole
     {
-        bool IsActive { get; }
+        bool IsOpen { get; }
 
         void Update(GameTime time);
 
@@ -51,10 +50,10 @@ namespace AgateLib.Diagnostics
     {
         private readonly IConsoleRenderer renderer;
         private readonly ConsoleShell shell = new ConsoleShell();
-        private readonly AgateLib.Input.KeyboardEvents keyboardInput 
-            = new AgateLib.Input.KeyboardEvents();
+        private readonly KeyboardEvents keyboardInput = new KeyboardEvents();
 
-        private bool suppressToggleKey;
+        private bool suppressToggleKey = true;
+        private bool ignoreNextToggleKey;
 
         public AgateConsole(IConsoleRenderer renderer)
         {
@@ -63,13 +62,16 @@ namespace AgateLib.Diagnostics
             renderer.State = shell.State;
 
             keyboardInput.KeyPress += KeyboardInput_KeyPress;
+            keyboardInput.KeyUp += KeyboardInput_KeyUp;
         }
+
+        public event Action ConsoleClosed;
 
         public ConsoleState State => shell.State;
 
         public Keys ToggleKey { get; set; } = Keys.OemTilde;
 
-        public bool IsActive { get; set; }
+        public bool IsOpen { get; private set; }
 
         /// <summary>
         /// Adds a vocabulary to the console.
@@ -89,17 +91,18 @@ namespace AgateLib.Diagnostics
 
         public void Update(GameTime time)
         {
-            CheckToggleKey();
+            //CheckToggleKey();
 
             shell.Update(time);
 
-            if (IsActive)
+            if (IsOpen)
             {
                 keyboardInput.Update(time);
             }
 
             renderer.Update(time);
         }
+
 
         public void WriteLine(string text)
         {
@@ -108,7 +111,7 @@ namespace AgateLib.Diagnostics
 
         private void KeyboardInput_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (IsActive)
+            if (IsOpen)
             {
                 if (e.Key == ToggleKey && suppressToggleKey)
                     return;
@@ -117,11 +120,45 @@ namespace AgateLib.Diagnostics
             }
         }
 
+        private void KeyboardInput_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == ToggleKey || e.Key == Keys.Escape)
+            {
+                if (ignoreNextToggleKey)
+                {
+                    ignoreNextToggleKey = false;
+                }
+                else
+                {
+                    Close();
+                }
+            }
+        }
+
+        public void Open(bool ignoreNextToggleKey = true)
+        {
+            this.ignoreNextToggleKey = ignoreNextToggleKey;
+            IsOpen = true;
+            State.DisplayMode = ConsoleDisplayMode.Full;
+        }
+
+        public void Close()
+        {
+            if (IsOpen)
+            {
+                IsOpen = false;
+                State.DisplayMode = ConsoleDisplayMode.RecentMessagesOnly;
+
+                ConsoleClosed?.Invoke();
+            }
+        }
+
         private void CheckToggleKey()
         {
             // We avoid using the keyboardInput events here to avoid generating garbage when the 
             // console window is closed.
             var keyState = Keyboard.GetState();
+
             bool toggleKeyPressed = keyState.IsKeyDown(ToggleKey);
             bool escapeKeyPressed = keyState.IsKeyDown(Keys.Escape);
 
@@ -129,21 +166,20 @@ namespace AgateLib.Diagnostics
             {
                 suppressToggleKey = true;
 
-                IsActive = !IsActive;
+                IsOpen = !IsOpen;
             }
             else if (!toggleKeyPressed && suppressToggleKey)
             {
                 suppressToggleKey = false;
             }
 
-            if (escapeKeyPressed && IsActive)
+            if (escapeKeyPressed)
             {
-                IsActive = false;
+                IsOpen = false;
             }
 
-            if (IsActive)
+            if (IsOpen)
             {
-                State.DisplayMode = ConsoleDisplayMode.Full;
             }
             else
             {

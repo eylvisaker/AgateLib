@@ -68,9 +68,6 @@ namespace AgateLib.Diagnostics.Rendering
             ColorSourceBlend = Blend.SourceAlpha,
         };
 
-        [Obsolete("Use State.Theme instead")]
-        private IConsoleTheme theme { get => State.Theme; set => State.Theme = value; }
-
         private RenderTarget2D renderTarget;
         private Size displaySize;
         private long CurrentTime;
@@ -129,9 +126,6 @@ namespace AgateLib.Diagnostics.Rendering
                 return;
             }
 
-            Redraw(renderTarget);
-
-            graphicsDevice.SetRenderTarget(null);
             BlitToScreen();
         }
 
@@ -154,6 +148,8 @@ namespace AgateLib.Diagnostics.Rendering
             UpdateViewShift(time.ElapsedGameTime.TotalSeconds);
 
             ResizeRenderTarget();
+
+            Redraw(renderTarget);
         }
 
         private void UpdateViewShift(double elapsedSeconds)
@@ -216,6 +212,8 @@ namespace AgateLib.Diagnostics.Rendering
             DrawConsoleWindow();
 
             spriteBatch.End();
+
+            graphicsDevice.SetRenderTarget(null);
         }
 
         private void DrawRecentMessages()

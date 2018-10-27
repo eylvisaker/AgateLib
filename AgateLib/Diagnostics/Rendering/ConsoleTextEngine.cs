@@ -44,12 +44,9 @@ namespace AgateLib.Diagnostics.Rendering
     {
         private class ConsoleFontProvider : IFontProvider
         {
-            public ConsoleFontProvider(IServiceProvider serviceProvider)
+            public ConsoleFontProvider(IContentProvider contentProvider)
             {
-                var contentManager = new ContentManager(serviceProvider, "Content/AgateLib");
-                var contentProvider = new ContentProvider(contentManager);
-
-                Default = Font.Load(contentProvider, "AgateMono");
+                Default = Font.Load(contentProvider, "AgateLib/AgateMono");
             }
 
             public ConsoleFontProvider(Font font)
@@ -82,7 +79,13 @@ namespace AgateLib.Diagnostics.Rendering
         private readonly IFontProvider consoleFontProvider;
         private readonly IContentLayoutEngine contentLayoutEngine;
 
-        public ConsoleTextEngine(IFontProvider fontProvider)
+        public ConsoleTextEngine(IContentProvider contentProvider)
+        {
+            consoleFontProvider = new ConsoleFontProvider(contentProvider);
+            contentLayoutEngine = new ContentLayoutEngine(consoleFontProvider);
+        }
+
+        internal ConsoleTextEngine(IFontProvider fontProvider)
         {
             consoleFontProvider = fontProvider;
             contentLayoutEngine = new ContentLayoutEngine(consoleFontProvider);
