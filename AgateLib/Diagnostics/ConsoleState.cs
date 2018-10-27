@@ -20,31 +20,69 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Diagnostics.ConsoleAppearance;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using AgateLib.Diagnostics.ConsoleAppearance;
 
 namespace AgateLib.Diagnostics
 {
-	public class ConsoleState
-	{
-		public IConsoleTheme Theme { get; set; }
+    public class ConsoleState
+    {
+        Stack<string> pathStack = new Stack<string>();
 
-		public List<ConsoleMessage> Messages { get; } = new List<ConsoleMessage>();
+        public ConsoleState()
+        {
+            pathStack.Push("/");
+        }
 
-		public ConsoleDisplayMode DisplayMode { get; set; }
+        public event Action PathChanged;
 
-		public int ViewShift { get; set; }
+        public Action Quit { get; set; }
 
-		public bool Debug { get; set; }
+        public IConsoleTheme Theme { get; set; }
 
-		public string InputText { get; set; } = "";
+        public List<ConsoleMessage> Messages { get; } = new List<ConsoleMessage>();
 
-		public int InsertionPoint { get; set; }
+        public ConsoleDisplayMode DisplayMode { get; set; }
 
-		public void WriteLine(string text)
-		{
-		}
-	}
+        public int ViewShift { get; set; }
+
+        public bool Debug { get; set; }
+
+        public string InputText { get; set; } = "";
+
+        public int InsertionPoint { get; set; }
+
+        public void WriteLine(string text)
+        {
+        }
+
+        public string CurrentPath
+        {
+            get => pathStack.Peek();
+            set
+            {
+                pathStack.Pop();
+                pathStack.Push(value);
+
+                PathChanged?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Event to validate paths when set. 
+        /// Throw an exception to disallow the path.
+        /// </summary>
+        internal event Func<string, string> PathValidate;
+
+        public void SetCurrentPath(string path)
+        {
+            if (PathValidate != null)
+            {
+                path = PathValidate(path);
+            }
+
+            CurrentPath = path;
+        }
+    }
 }

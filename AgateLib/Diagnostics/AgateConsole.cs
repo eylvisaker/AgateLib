@@ -42,7 +42,7 @@ namespace AgateLib.Diagnostics
 
         void Draw(GameTime time);
 
-        void AddVocabulary(IVocabulary vocabulary);
+        void AddCommands(IVocabulary vocabulary);
     }
 
     [Singleton]
@@ -79,9 +79,20 @@ namespace AgateLib.Diagnostics
         /// </summary>
         /// <param name="vocabulary">The IVocabulary object which has methods
         /// decorated with the ConsoleCommandAttribute.</param>
-        public void AddVocabulary(IVocabulary vocab)
+        public void AddCommands(IVocabulary vocab)
         {
-            shell.CommandLibraries.Add(new VocabularyCommands(vocab));
+            AddCommands(new VocabularyCommands(vocab));
+        }
+
+        /// <summary>
+        /// Adds a command library to the console.
+        /// An ICommandLibrary object provides full flexibility for the processing of user entered commands,
+        /// but is more complex to implement than an IVocabulary object.
+        /// </summary>
+        /// <param name="commands"></param>
+        public void AddCommands(ICommandLibrary commands)
+        {
+            shell.AddCommands(commands);
         }
 
         public void Draw(GameTime time)
@@ -91,8 +102,6 @@ namespace AgateLib.Diagnostics
 
         public void Update(GameTime time)
         {
-            //CheckToggleKey();
-
             shell.Update(time);
 
             if (IsOpen)
@@ -150,40 +159,6 @@ namespace AgateLib.Diagnostics
                 State.DisplayMode = ConsoleDisplayMode.RecentMessagesOnly;
 
                 ConsoleClosed?.Invoke();
-            }
-        }
-
-        private void CheckToggleKey()
-        {
-            // We avoid using the keyboardInput events here to avoid generating garbage when the 
-            // console window is closed.
-            var keyState = Keyboard.GetState();
-
-            bool toggleKeyPressed = keyState.IsKeyDown(ToggleKey);
-            bool escapeKeyPressed = keyState.IsKeyDown(Keys.Escape);
-
-            if (toggleKeyPressed && !suppressToggleKey)
-            {
-                suppressToggleKey = true;
-
-                IsOpen = !IsOpen;
-            }
-            else if (!toggleKeyPressed && suppressToggleKey)
-            {
-                suppressToggleKey = false;
-            }
-
-            if (escapeKeyPressed)
-            {
-                IsOpen = false;
-            }
-
-            if (IsOpen)
-            {
-            }
-            else
-            {
-                State.DisplayMode = ConsoleDisplayMode.RecentMessagesOnly;
             }
         }
     }

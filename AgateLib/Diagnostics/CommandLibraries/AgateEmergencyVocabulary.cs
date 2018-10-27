@@ -21,14 +21,11 @@
 //
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics.CommandLibraries
 {
-    class AgateEmergencyVocabulary : IVocabulary
+    internal class AgateEmergencyVocabulary : Vocabulary
     {
         private readonly ConsoleShell agateConsoleCore;
 
@@ -37,55 +34,120 @@ namespace AgateLib.Diagnostics.CommandLibraries
             this.agateConsoleCore = agateConsoleCore;
         }
 
-        public string Namespace => "";
+        public override string Path => "";
 
-        public IConsoleShell Shell { get; set; }
+        [Alias("dir")]
+        [ConsoleCommand("Lists commands and subdirectories.")]
+        public void Ls(/*string path = "" */)
+        {
+            ListDirectoryContents();
+        }
+
+        private bool ListDirectoryContents()
+        {
+            var paths = agateConsoleCore.AvailableSubPaths;
+            bool result = false;
+
+            if (paths.Any())
+            {
+                WriteLine("Available Paths:");
+
+                foreach (var path in paths)
+                {
+                    WriteLine($"{path}/");
+                }
+
+                WriteLine();
+
+                result = true;
+            }
+
+            var commandLibraries = agateConsoleCore.AvailableCommandLibraries.ToList();
+
+            if (commandLibraries.Any())
+            {
+                WriteLine("Available Commands:");
+
+                foreach (var commandLibrary in commandLibraries)
+                {
+                    commandLibrary.Shell = Shell;
+                    commandLibrary.Help();
+                }
+
+                result = true;
+            }
+
+            return result;
+        }
+
+        [Alias("cd")]
+        [ConsoleCommand("Changes the current path for commands.")]
+        public void Cd(string path)
+        {
+            Shell.State.SetCurrentPath(path);
+        }
+
+        [ConsoleCommand("Prints the current working directory.")]
+        public void Pwd()
+        {
+            Shell.WriteLine(Shell.State.CurrentPath);
+        }
 
         [ConsoleCommand("Provides help for commands. You can type 'help' or 'help <command>' to get more information.", Hidden = true)]
         public void Help([JoinArgs] string command = null)
         {
-            var commandLibraries = agateConsoleCore.CommandLibrarySet.ToList();
+            var commandLibraries = agateConsoleCore.AvailableCommandLibraries.ToList();
 
-            if (commandLibraries.Any())
+            if (!commandLibraries.Any())
             {
-                if (string.IsNullOrEmpty(command))
-                {
-                    WriteLine("Available Commands:");
-
-                    foreach (var commandProcessor in commandLibraries)
-                    {
-                        commandProcessor.Shell = Shell;
-                        commandProcessor.Help();
-                    }
-                }
-                else
-                {
-                    foreach (var commandProcessor in commandLibraries)
-                    {
-                        commandProcessor.Shell = Shell;
-                        commandProcessor.Help(command);
-                    }
-
-                    return;
-                }
+                WriteLine("No command libraries installed.");
+                WriteLine("Available Commands:");
+                WriteLine("    cd - Set current path     pwd - Show current path");
+                WriteLine("    debug [on|off]");
+                WriteLine("    quit");
+                WriteLine("Use up / down arrow keys to navigate input history.");
+                WriteLine("Use shift+up / shift+down to view output history.");
             }
-            else
+
+            if (!string.IsNullOrEmpty(command))
             {
-                WriteLine("No command processors installed.");
+                bool helped = false;
+
+                foreach (var commandLibrary in commandLibraries)
+                {
+                    commandLibrary.Shell = Shell;
+                    helped |= commandLibrary.Help(command);
+                }
+
+                if (!helped)
+                {
+                    WriteLine("Command not found.");
+                    if (agateConsoleCore.State.CurrentPath.Length > 1)
+                    {
+                        WriteLine("Perhaps ");
+                    }
+                }
+                return;
+            }
+
+            if (!ListDirectoryContents())
+            {
+                WriteLine("No commands at this path.");
                 WriteLine("Available Commands:");
             }
-
-            WriteLine("    debug [on|off]");
-            WriteLine("    quit");
-            WriteLine("Use up / down arrow keys to navigate input history.");
-            WriteLine("Use shift+up / shift+down to view output history.");
         }
 
         [ConsoleCommand("Quits the application. No option to save is given.", Hidden = true)]
         public void Quit()
         {
-            // TODO: Implement or remove this.
-            throw new NotImplementedException();
+            Action quit = Shell.State.Quit;
+
+            if (quit == null)
+            {
+                WriteLine("Sorry, no quit handler is installed.");
+            }
+
+            quit?.Invoke();
         }
 
         [ConsoleCommand("Enable or disable debug info with 'debug on' or 'debug off'", Hidden = true)]
@@ -107,11 +169,5 @@ namespace AgateLib.Diagnostics.CommandLibraries
             Shell.WriteLine("Type 'debug on' to enable debug information.");
             Shell.WriteLine("Type 'debug off' to disable debug information.");
         }
-
-        private void WriteLine(string message)
-        {
-            Shell.WriteLine(message);
-        }
-
     }
 }

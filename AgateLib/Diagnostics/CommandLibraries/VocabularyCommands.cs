@@ -72,6 +72,10 @@ namespace AgateLib.Diagnostics.CommandLibraries
             }
         }
 
+        public string Path => vocabulary.Path;
+
+        public bool IsGlobal => vocabulary.IsGlobal;
+
         /// <summary>
         /// Shows help for this library.
         /// </summary>
@@ -109,16 +113,18 @@ namespace AgateLib.Diagnostics.CommandLibraries
         /// Shows help for a command.
         /// </summary>
         /// <param name="command"></param>
-        public void Help(string command)
+        public bool Help(string command)
         {
             if (commands.ContainsKey(command) == false)
-                return;
+                return false;
 
             var methodInfo = commands[command].Delegate.GetMethodInfo();
 
             var commandAttribute = methodInfo?.GetCustomAttribute<ConsoleCommandAttribute>();
 
             Shell.WriteLine(commandAttribute?.Description ?? "No description found.");
+
+            return true;
         }
 
         /// <summary>
@@ -154,11 +160,6 @@ namespace AgateLib.Diagnostics.CommandLibraries
 
                 if (!string.IsNullOrWhiteSpace(attrib.Name))
                     name = attrib.Name;
-
-                if (!string.IsNullOrWhiteSpace(vocabulary.Namespace))
-                {
-                    name = vocabulary.Namespace.ToLowerInvariant() + "." + name;
-                }
 
                 commands.Add(name, new CommandInfo
                 {
@@ -264,5 +265,7 @@ namespace AgateLib.Diagnostics.CommandLibraries
 
             return result.ToString();
         }
+
+        public override string ToString() => $"Commands: <{vocabulary.GetType().Name}>";
     }
 }

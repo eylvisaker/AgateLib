@@ -62,10 +62,13 @@ namespace AgateLib.UserInterface.Content
         {
             this.items = items.ToList();
 
-            var width = (int)this.items.Select(x => x.Location.X + x.Size.Width).Max();
-            var height = (int)this.items.Select(x => x.Location.Y + x.Size.Height).Max();
+            if (this.items.Count > 0)
+            {
+                var width = (int)this.items.Select(x => x.Location.X + x.Size.Width).Max();
+                var height = (int)this.items.Select(x => x.Location.Y + x.Size.Height).Max();
 
-            Size = new Size(width, height);
+                Size = new Size(width, height);
+            }
         }
 
         public event Action AnimationComplete;

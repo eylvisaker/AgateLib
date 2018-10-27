@@ -63,7 +63,7 @@ namespace AgateLib.Tests.Console
 
             font = new Font(resources.Fonts.Default);
 
-            console.AddVocabulary(new BoxVocabulary(points));
+            console.AddCommands(new BoxVocabulary(points));
         }
 
         public void Update(GameTime gameTime)

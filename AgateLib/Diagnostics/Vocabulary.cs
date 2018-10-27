@@ -20,27 +20,57 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics
 {
-	/// <summary>
-	/// Interface for a class which provides commands to a LibraryVocabulary object.
-	/// </summary>
-	public interface IVocabulary
-	{
-		/// <summary>
-		/// If this value is not empty, then commands must be prefixed by "namespace."
-		/// </summary>
-		string Namespace { get; }
+    /// <summary>
+    /// Interface for a class which provides commands to a LibraryVocabulary object.
+    /// </summary>
+    public interface IVocabulary
+    {
+        /// <summary>
+        /// If this value is not empty, then commands must be prefixed by "namespace."
+        /// </summary>
+        string Path { get; }
 
-		/// <summary>
-		/// Provides a means to interact with the console.
-		/// </summary>
-		IConsoleShell Shell { get; set; }
-	}
+        /// <summary>
+        /// Gets whether this vocabulary should be available regardless of the current path.
+        /// </summary>
+        bool IsGlobal { get; }
+
+        /// <summary>
+        /// If false, none of the commands in this vocabulary will be available to
+        /// the user.
+        /// </summary>
+        bool IsValid { get; }
+
+        /// <summary>
+        /// This allows that game to enable and disable vocabularies based on context.
+        /// </summary>
+        bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// Provides a means to interact with the console.
+        /// </summary>
+        IConsoleShell Shell { get; set; }
+    }
+
+    public abstract class Vocabulary : IVocabulary
+    {
+        public abstract string Path { get; }
+
+        public IConsoleShell Shell { get; set; }
+
+        public virtual bool IsValid => true;
+
+        public virtual bool IsGlobal => false;
+
+        public bool IsEnabled { get; set; }
+
+
+        protected void WriteLine(string message = "")
+        {
+            Shell.WriteLine(message);
+        }
+    }
 }

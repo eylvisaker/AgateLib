@@ -20,59 +20,56 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Diagnostics.ConsoleAppearance;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Diagnostics.ConsoleAppearance;
 
 namespace AgateLib.Diagnostics.CommandLibraries
 {
-	class AgateConsoleVocabulary : IVocabulary
-	{
-		public string Namespace => "console";
+    public class AgateConsoleVocabulary : Vocabulary
+    {
+        public override string Path => "Agate";
 
-		public IConsoleShell Shell { get; set; }
+        public override bool IsValid => true;
 
-		[ConsoleCommand("Lists or sets the console theme.")]
-		private void Theme(string themeName = null)
-		{
-			if (themeName == null)
-			{
-				ListThemes();
-			}
-			else
-			{
-				SetTheme(themeName);
-			}
-		}
+        [ConsoleCommand("Lists or sets the console theme.")]
+        private void Theme(string themeName = null)
+        {
+            if (themeName == null)
+            {
+                ListThemes();
+            }
+            else
+            {
+                SetTheme(themeName);
+            }
+        }
 
-		private void ListThemes()
-		{
-			var type = typeof(ConsoleThemes).GetTypeInfo();
+        private void ListThemes()
+        {
+            var type = typeof(ConsoleThemes).GetTypeInfo();
 
-			Shell.WriteLine("The following themes are available:");
-			foreach (var theme in type.DeclaredProperties.Where(prop => prop.PropertyType == typeof(IConsoleTheme)))
-			{
-				Shell.WriteLine($"    {theme.Name}");
-			}
+            Shell.WriteLine("The following themes are available:");
+            foreach (var theme in type.DeclaredProperties.Where(prop => prop.PropertyType == typeof(IConsoleTheme)))
+            {
+                Shell.WriteLine($"    {theme.Name}");
+            }
 
-			Shell.WriteLine("Use 'theme [name]' to set the theme.");
-		}
+            Shell.WriteLine("Use 'theme [name]' to set the theme.");
+        }
 
-		private void SetTheme(string themeName)
-		{
-			var type = typeof(ConsoleThemes).GetTypeInfo();
+        private void SetTheme(string themeName)
+        {
+            var type = typeof(ConsoleThemes).GetTypeInfo();
 
-			var themeProp =
-				type.DeclaredProperties.Single(prop => prop.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase));
-			var theme = (IConsoleTheme) themeProp.GetValue(null);
+            var themeProp =
+                type.DeclaredProperties.Single(prop => prop.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase));
+            var theme = (IConsoleTheme)themeProp.GetValue(null);
 
-			Shell.State.Theme = theme;
+            Shell.State.Theme = theme;
 
-			Shell.WriteLine($"Theme set to {themeName}.");
-		}
-	}
+            Shell.WriteLine($"Theme set to {themeName}.");
+        }
+    }
 }

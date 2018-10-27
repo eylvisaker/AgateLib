@@ -32,7 +32,7 @@ namespace AgateLib.Diagnostics.Consoles
     {
         public bool IsOpen => true;
 
-        public void AddVocabulary(IVocabulary boxVocabulary)
+        public void AddCommands(IVocabulary boxVocabulary)
         {
             throw new NotImplementedException();
         }
