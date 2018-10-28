@@ -28,13 +28,13 @@ using System.Threading.Tasks;
 
 namespace AgateLib
 {
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 	public class SingletonAttribute : Attribute
 	{
 		public string Name { get; set; }
 	}
 
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 	public class TransientAttribute : Attribute
 	{
 		public TransientAttribute()
@@ -49,13 +49,18 @@ namespace AgateLib
 		public string Name { get; }
 	}
 
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 	public class ScopedTransientAttribute : Attribute
 	{
 		
 	}
 
-	[AttributeUsage(AttributeTargets.Class)]
+    /// <summary>
+    /// Indicates to the type resolution system that properties which
+    /// refer to types that can be resolved should have their values 
+    /// set with the resolved services. This attribute is inherited.
+    /// </summary>
+	[AttributeUsage(AttributeTargets.Class, Inherited = true)]
 	public class InjectPropertiesAttribute : Attribute
 	{
 	}
