@@ -20,13 +20,13 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AgateLib.Collections.Generic;
 using AgateLib.Input;
 using AgateLib.Quality;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.Scenes
 {
@@ -54,7 +54,7 @@ namespace AgateLib.Scenes
         /// </summary>
         /// <param name="scene"></param>
         void Remove(IScene scene);
-        
+
         /// <summary>
         /// Adds a scene if it is not part of the scene stack, or brings it to the top of the scene stack
         /// if it is.
@@ -83,7 +83,7 @@ namespace AgateLib.Scenes
     /// </summary>
     public class SceneStack : ISceneStack
     {
-        class SceneData : IPoolResource
+        private class SceneData : IPoolResource
         {
             public InputState InputState { get; set; } = new InputState();
 
@@ -105,7 +105,7 @@ namespace AgateLib.Scenes
             }
         }
 
-        Pool<SceneData> dataPool = new Pool<SceneData>(() => new SceneData());
+        private Pool<SceneData> dataPool = new Pool<SceneData>(() => new SceneData());
 
         private readonly List<IScene> scenes = new List<IScene>();
         private readonly List<IScene> missedUpdates = new List<IScene>();
@@ -197,7 +197,7 @@ namespace AgateLib.Scenes
             lock (updateLock)
             {
                 scenes.Add(scene);
-                
+
                 sceneData.Add(scene, dataPool.GetOrDefault());
             }
 
@@ -345,7 +345,7 @@ namespace AgateLib.Scenes
                 Remove(scene);
         }
 
-        public override string ToString() => $"SceneStack: {Count} scene{(Count != 1 ? "s": "")}";
+        public override string ToString() => $"SceneStack: {Count} scene{(Count != 1 ? "s" : "")}";
 
         private IEnumerable<IScene> ScenesAbove(Func<IScene, bool> pred)
         {
@@ -375,24 +375,21 @@ namespace AgateLib.Scenes
             bool activate = false;
 
             lock (updateLock)
-	    {
-		    finishedScenes.Clear();
-	            finishedScenes.AddRange(scenes.Where(s => s.IsFinished));
-	}
+            {
+                finishedScenes.Clear();
+                finishedScenes.AddRange(scenes.Where(s => s.IsFinished));
+            }
 
             foreach (var scene in finishedScenes)
             {
-                foreach (var scene in UpdateScenes.Where(s => s.IsFinished))
+                if (scene is IDisposable disposable)
                 {
-                    if (scene is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-
-                    activate |= scene == TopScene;
-
-                    Remove(scene);
+                    disposable.Dispose();
                 }
+
+                activate |= scene == TopScene;
+
+                Remove(scene);
             }
 
             if (activate)
