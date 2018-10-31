@@ -21,6 +21,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Pool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ContentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\AgateConsoleException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\AgateConsoleManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\AgateConsoleScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\CommandLibraries\VocabularyCommands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ConsoleState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Consoles\DebugOnlyConsole.cs" />
