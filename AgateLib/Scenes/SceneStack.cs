@@ -109,6 +109,7 @@ namespace AgateLib.Scenes
 
         private readonly List<IScene> scenes = new List<IScene>();
         private readonly List<IScene> missedUpdates = new List<IScene>();
+        private readonly List<IScene> finishedScenes = new List<IScene>();
         private readonly Dictionary<IScene, SceneData> sceneData = new Dictionary<IScene, SceneData>();
 
         private bool updating = false;
@@ -373,7 +374,10 @@ namespace AgateLib.Scenes
         {
             bool activate = false;
 
-            lock (updateLock)
+            finishedScenes.Clear();
+            finishedScenes.AddRange(scenes.Where(s => s.IsFinished));
+
+            foreach (var scene in finishedScenes)
             {
                 foreach (var scene in UpdateScenes.Where(s => s.IsFinished))
                 {
