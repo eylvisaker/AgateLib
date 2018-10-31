@@ -158,6 +158,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\SceneStack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\_EventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\UserStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\Commands\DrawTexture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\Commands\ResetFont.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\Commands\SetTextScale.cs" />
