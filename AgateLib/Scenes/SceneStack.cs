@@ -374,8 +374,11 @@ namespace AgateLib.Scenes
         {
             bool activate = false;
 
-            finishedScenes.Clear();
-            finishedScenes.AddRange(scenes.Where(s => s.IsFinished));
+            lock (updateLock)
+	    {
+		    finishedScenes.Clear();
+	            finishedScenes.AddRange(scenes.Where(s => s.IsFinished));
+	}
 
             foreach (var scene in finishedScenes)
             {
