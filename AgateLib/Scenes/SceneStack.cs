@@ -128,7 +128,7 @@ namespace AgateLib.Scenes
         /// <summary>
         /// Gets the top scene on the stack.
         /// </summary>
-        public IScene TopScene => scenes.Count > 0 ? scenes[scenes.Count - 1] : null;
+        public IScene TopScene => scenes.LastOrDefault();
 
         /// <summary>
         /// Gets the collection of scenes that will be updated each frame.
@@ -237,10 +237,10 @@ namespace AgateLib.Scenes
                 "Cannot remove a scene if it does not belong to the stack.");
 
             scene.SceneEnd();
-            scene.SceneStack = null;
-
+            
             lock (updateLock)
             {
+                scene.SceneStack = null;
                 scenes.Remove(scene);
                 sceneData[scene].Dispose();
                 sceneData.Remove(scene);
