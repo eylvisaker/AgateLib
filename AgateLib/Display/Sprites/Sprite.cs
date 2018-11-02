@@ -176,12 +176,36 @@ namespace AgateLib.Display.Sprites
 
         #region --- Construction ---
 
+        public Sprite() { }
+
+        public Sprite(Sprite copyFrom)
+        {
+            SpriteSize = copyFrom.SpriteSize;
+            ScaleWidth = copyFrom.ScaleWidth;
+            ScaleHeight = copyFrom.ScaleHeight;
+            Color = copyFrom.Color;
+            RotationAngle = copyFrom.RotationAngle;
+            RotationCenter = copyFrom.RotationCenter;
+            DisplayAlignment = copyFrom.DisplayAlignment;
+            Visible = copyFrom.Visible;
+
+            foreach(var frame in copyFrom.Frames)
+            {
+                AddFrame(frame);
+            }
+        }
+
+        public Sprite Clone()
+        {
+            return new Sprite(this);
+        }
+
         public void AddFrame(SpriteFrame frame)
         {
             if (SpriteSize.IsZero)
-                SpriteSize = frame.DisplaySize;
+                SpriteSize = frame.SpriteSize;
 
-            frame.DisplaySize = DisplaySize;
+            frame.SpriteSize = SpriteSize;
 
             frames.Add(frame);
         }
@@ -330,7 +354,7 @@ namespace AgateLib.Display.Sprites
         /// </summary>
         public float Alpha
         {
-            get => Color.A;
+            get => Color.A / 255.0f;
             set => Color = new Color(Color, value);
         }
 
@@ -379,10 +403,6 @@ namespace AgateLib.Display.Sprites
         /// Gets or sets whether or not the sprite should be drawn when Draw is called.
         /// </summary>
         public bool Visible { get; set; } = true;
-
-        public Point Anchor { get; set; }
-
-        public Rectangle InnerRect { get; set; }
 
         #endregion
 
@@ -685,8 +705,8 @@ namespace AgateLib.Display.Sprites
         {
             var frame = CurrentFrame;
 
-            Vector2 actualScale = new Vector2(frame.DisplaySize.Width / (float)SpriteSize.Width,
-                                              frame.DisplaySize.Height / (float)SpriteSize.Height);
+            Vector2 actualScale = new Vector2(frame.SpriteSize.Width / (float)SpriteSize.Width,
+                                              frame.SpriteSize.Height / (float)SpriteSize.Height);
 
             actualScale.X *= ScaleWidth;
             actualScale.Y *= ScaleHeight;
@@ -710,7 +730,7 @@ namespace AgateLib.Display.Sprites
         {
             get
             {
-                float a = Alpha / 255.0f;
+                float a = Color.A / 255.0f;
                 float r = Color.R / 255.0f * a;
                 float g = Color.G / 255.0f * a;
                 float b = Color.B / 255.0f * a;

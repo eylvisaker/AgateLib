@@ -76,7 +76,7 @@ namespace AgateLib.Display.Sprites
             this.texture = texture;
             this.SourceRect = sourceRect ?? new Rectangle(0, 0, texture.Width, texture.Height);
 
-            DisplaySize = SourceRect.Size;
+            SpriteSize = SourceRect.Size;
         }
         
         /// <summary>
@@ -97,7 +97,7 @@ namespace AgateLib.Display.Sprites
         /// <summary>
         /// Gets or sets the display size.
         /// </summary>
-        public Size DisplaySize { get; set; }
+        public Size SpriteSize { get; set; }
 
         /// <summary>
         /// Draws the sprite frame at the specified location rotated around the specified point.
