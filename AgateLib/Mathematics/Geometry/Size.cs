@@ -93,8 +93,7 @@ namespace AgateLib.Mathematics.Geometry
         /// Returns true if width and height are zero.
         /// </summary>
         [YamlIgnore]
-        [Obsolete("Use IsZero instead.")]
-        public bool IsEmpty
+        public bool IsZero
         {
             [DebuggerStepThrough]
             get { return width == 0 && height == 0; }
@@ -104,7 +103,8 @@ namespace AgateLib.Mathematics.Geometry
         /// Returns true if width and height are zero.
         /// </summary>
         [YamlIgnore]
-        public bool IsZero => IsEmpty;
+        [Obsolete("Use IsZero instead.")]
+        public bool IsEmpty => IsZero;
 
         /// <summary>
         /// Gets the aspect ratio (width / height) of this Size object.
