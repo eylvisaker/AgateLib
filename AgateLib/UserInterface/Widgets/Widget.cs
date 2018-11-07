@@ -128,6 +128,7 @@ namespace AgateLib.UserInterface
         public ElementReference Ref { get; set; }
     }
 
+    [Obsolete("This class serves no purpose.")]
     public class WidgetState
     {
     }

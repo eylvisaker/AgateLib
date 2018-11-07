@@ -27,7 +27,7 @@ using System;
 
 namespace AgateLib.UserInterface
 {
-    public class Label : Widget<LabelProps, WidgetState>
+    public class Label : Widget<LabelProps>
     {
         public Label(LabelProps props) : base(props)
         {

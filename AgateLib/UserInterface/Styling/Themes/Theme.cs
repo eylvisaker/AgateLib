@@ -91,6 +91,13 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
+                    Selector = "textbox",
+                    Border = BorderStyle.Create(Color.White, 1),
+                    Padding = new LayoutBox(4, 2, 4, 2),
+                },
+
+                new ThemeStyle
+                {
                     Selector = "button",
                 },
 

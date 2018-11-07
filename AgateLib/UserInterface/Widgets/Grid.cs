@@ -80,6 +80,7 @@ namespace AgateLib.UserInterface
         }
 
         private Size SizeAt(int x, int y) => sizeGrid[y * Columns + x];
+
         private void SetSizeAt(int x, int y, Size value) => sizeGrid[y * Columns + x] = value;
 
         public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
@@ -144,11 +145,19 @@ namespace AgateLib.UserInterface
                         continue;
                     }
 
-                    item.Display.ContentRect = new Rectangle(
+                    item.Display.MarginRect = new Rectangle(
                         destx + item.Display.Region.MarginToContentOffset.Left,
                         desty + item.Display.Region.MarginToContentOffset.Top,
-                        SizeAt(x, y).Width,
-                        SizeAt(x, y).Height);
+                        columnWidths[x],
+                        rowHeights[y]);
+
+                    //item.Display.ContentRect = new Rectangle(
+                    //    destx + item.Display.Region.MarginToContentOffset.Left,
+                    //    desty + item.Display.Region.MarginToContentOffset.Top,
+                    //    SizeAt(x, y).Width,
+                    //    SizeAt(x, y).Height);
+
+                    item.DoLayout(renderContext, item.Display.ContentRect.Size);
 
                     destx += columnWidths[x];
                 }
@@ -211,7 +220,14 @@ namespace AgateLib.UserInterface
 
         public override string StyleTypeId => FirstNotNullOrWhitespace(Props.StyleTypeId, "grid");
 
-        public override bool CanHaveFocus => base.CanHaveFocus;
+        public override bool CanHaveFocus => Children.Any(x => x.CanHaveFocus);
+
+        public override void OnFocus()
+        {
+            SetGlobalFocus();
+
+            base.OnFocus();
+        }
 
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs args)
         {

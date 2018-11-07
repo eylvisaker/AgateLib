@@ -21,6 +21,8 @@
 //
 
 using System;
+using AgateLib.Mathematics.Geometry;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
 {
@@ -32,17 +34,56 @@ namespace AgateLib.UserInterface
 
         public override IRenderable Render()
         {
-            throw new NotImplementedException();
+            return new TextBoxElement(new TextBoxElementProps
+            {
+                Value = Props.Value,
+                OnChange = Props.OnChange,
+            });
         }
     }
 
     public class TextBoxProps : WidgetProps
     {
-        public string Value { get; internal set; }
-        public UserInterfaceEventHandler<string> OnChange { get; internal set; }
+        public string Value { get; set; }
+
+        public UserInterfaceEventHandler<string> OnChange { get; set; }
     }
 
     public class TextBoxState
     {
+    }
+
+
+    public class TextBoxElement : RenderElement<TextBoxElementProps>
+    {
+        public TextBoxElement(TextBoxElementProps props) : base(props)
+        {
+        }
+
+        public override string StyleTypeId => "textbox";
+
+        public override bool CanHaveFocus => Props.Enabled;
+
+        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
+        {
+            return new Size(80, Style.Font.FontHeight);
+        }
+
+        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
+        {
+
+        }
+
+        public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
+        {
+            Style.Font.DrawText(renderContext.SpriteBatch, clientArea.Location.ToVector2(), Props.Value);
+        }
+    }
+
+    public class TextBoxElementProps : RenderElementProps
+    {
+        public string Value { get; set; }
+
+        public UserInterfaceEventHandler<string> OnChange { get; set; }
     }
 }

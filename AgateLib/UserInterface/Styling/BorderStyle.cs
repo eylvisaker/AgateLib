@@ -21,11 +21,33 @@
 //
 
 using System;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
 {
+    /// <summary>
+    /// Class which describes how a border for a render element should be drawn.
+    /// </summary>
     public class BorderStyle
     {
+        /// <summary>
+        /// Creates a border style object that is the same color and width 
+        /// for all four sides.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public static BorderStyle Create(Color color, int width)
+        {
+            return new BorderStyle
+            {
+                Top = new BorderSideStyle { Color = color, Width = width },
+                Left = new BorderSideStyle { Color = color, Width = width },
+                Right = new BorderSideStyle { Color = color, Width = width },
+                Bottom = new BorderSideStyle { Color = color, Width = width },
+            };
+        }
+
         public ImageSource Image { get; set; }
 
         public LayoutBox ImageSlice { get; set; }

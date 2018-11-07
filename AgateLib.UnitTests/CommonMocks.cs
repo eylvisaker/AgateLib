@@ -19,7 +19,7 @@ namespace AgateLib.Tests
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static (Mock<Widget<WidgetProps, WidgetState>>, Mock<RenderElement<RenderElementProps>>)
+        public static (Mock<Widget<WidgetProps>>, Mock<RenderElement<RenderElementProps>>)
             Widget(string name, bool elementCanHaveFocus = false)
         {
             var elementProps = new RenderElementProps();
@@ -30,8 +30,8 @@ namespace AgateLib.Tests
             renderResult.Setup(x => x.Children).Returns(new List<IRenderElement>());
 
             var widgetProps = new WidgetProps { Name = name };
-            Mock<Widget<WidgetProps, WidgetState>> widgetResult =
-                new Mock<Widget<WidgetProps, WidgetState>>(widgetProps);
+            Mock<Widget<WidgetProps>> widgetResult =
+                new Mock<Widget<WidgetProps>>(widgetProps);
 
             widgetResult.CallBase = true;
             widgetResult.Setup(x => x.Render()).Returns(renderResult.Object);
