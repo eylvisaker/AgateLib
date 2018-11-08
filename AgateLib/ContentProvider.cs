@@ -79,13 +79,6 @@ namespace AgateLib
 
     public static class ContentProviderExtensions
     {
-        public static string ReadAllText(this IContentProvider content, string filename)
-        {
-            using (var s = new StreamReader(content.Open(filename)))
-            {
-                return s.ReadToEnd();
-            }
-        }
 
         /// <summary>
         /// Opens a file if it exists, or returns null.
@@ -99,12 +92,34 @@ namespace AgateLib
             {
                 return content.Open(filename);
             }
-            catch(FileNotFoundException)
+            catch (FileNotFoundException)
             {
                 return null;
             }
         }
 
+        /// <summary>
+        /// Reads the entire contents of a text file and returns it as a string.
+        /// Throws an exception if the file does not exist.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string ReadAllText(this IContentProvider content, string filename)
+        {
+            using (var s = new StreamReader(content.Open(filename)))
+            {
+                return s.ReadToEnd();
+            }
+        }
+
+        /// <summary>
+        /// Reads the entire contents of a text file and returns it as a string.
+        /// Returns null if the file does not exist.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static string ReadAllTextOrNull(this IContentProvider content, string filename)
         {
             var stream = content.OpenOrNull(filename);
@@ -117,5 +132,26 @@ namespace AgateLib
             }
         }
 
+        /// <summary>
+        /// Reads the entire contents of a text file and returns it as an array of strings,
+        /// one for each line. Throws an exception if the file does not exist.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static List<string> ReadAllLines(this IContentProvider content, string filename)
+        {
+            var result = new List<string>();
+
+            using (var s = new StreamReader(content.Open(filename)))
+            {
+                while (!s.EndOfStream)
+                {
+                    result.Add(s.ReadLine());
+                }
+            }
+
+            return result;
+        }
     }
 }
