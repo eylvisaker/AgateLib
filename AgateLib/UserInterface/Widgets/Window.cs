@@ -46,6 +46,7 @@ namespace AgateLib.UserInterface
             Children = Props.Children.ToList(),
             OnCancel = Props.OnCancel,
             Enabled = Props.Enabled,
+            InitialFocusIndex = Props.InitialFocusIndex,
         }.CopyFromWidgetProps(Props));
     }
 
@@ -57,5 +58,6 @@ namespace AgateLib.UserInterface
         public UserInterfaceEventHandler OnCancel { get; set; }
 
         public bool Enabled { get; set; } = true;
+        public int InitialFocusIndex { get; set; }
     }
 }
