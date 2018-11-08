@@ -6,8 +6,22 @@ using System.Text;
 
 namespace AgateLib.Storage
 {
+    /// <summary>
+    /// Interface that provides storage on a per-user basis.
+    /// </summary>
+    public interface IUserStorage
+    {
+        bool FileExists(string path);
+        Stream OpenFile(string path, FileMode fileMode);
+        Stream OpenFile(string path, FileMode fileMode, FileAccess fileAccess);
+        Stream OpenFile(string path, FileMode fileMode, FileAccess fileAccess, FileShare fileShare);
+    }
+
+    /// <summary>
+    /// Class that provides storage on a per-user basis.
+    /// </summary>
     [Singleton]
-    public class UserStorage
+    public class UserStorage : IUserStorage
     {
         private IsolatedStorageFile iso;
 
@@ -15,6 +29,11 @@ namespace AgateLib.Storage
         {
             //iso = IsolatedStorageFile.GetUserStoreForApplication();
             iso = IsolatedStorageFile.GetUserStoreForDomain();
+        }
+
+        public bool FileExists(string path)
+        {
+            return iso.FileExists(path);
         }
 
         public Stream OpenFile(string path, FileMode fileMode)
