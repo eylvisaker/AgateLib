@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Styling.Themes
     public class Theme : ITheme
     {
         /// <summary>
-        /// Creates the default theme which requires no assets.
+        /// Creates the default AgateLib theme which requires no assets.
         /// </summary>
         /// <returns></returns>
         public static Theme CreateDefaultTheme()

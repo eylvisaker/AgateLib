@@ -20,26 +20,28 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using AgateLib.Input;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Scenes;
 using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
+using AgateLib.UserInterface.InputMap;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Rendering.Animations;
+using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AgateLib.UserInterface.Rendering.Animations;
-using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface.InputMap;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.UserInterface
 {
     public interface IUserInterfaceScene : IScene
     {
+        /// <summary>
+        /// Gets the desktop object for the UI scene.
+        /// </summary>
         Desktop Desktop { get; }
 
         /// <summary>
@@ -47,6 +49,13 @@ namespace AgateLib.UserInterface
         /// exit when there are no workspaces left in the desktop.
         /// </summary>
         bool ExitWhenEmpty { get; set; }
+
+        /// <summary>
+        /// Creates a workspace for the specified widget or render element and
+        /// adds it to the scene.
+        /// </summary>
+        /// <param name="root"></param>
+        void Add(IRenderable root);
     }
 
     [Transient]
@@ -88,7 +97,7 @@ namespace AgateLib.UserInterface
                 fontProvider,
                 audio);
 
-            driver.ScreenArea = new Rectangle(Point.Zero, 
+            driver.ScreenArea = new Rectangle(Point.Zero,
                 GraphicsDeviceRenderTargetSize);
 
             driver.Desktop.Empty += () =>
@@ -294,6 +303,23 @@ namespace AgateLib.UserInterface
         public void PushWorkspace(Workspace workspace)
         {
             Desktop.PushWorkspace(workspace);
+        }
+
+        public void Add(IRenderable root)
+        {
+            bool validName = false;
+
+            for (int i = 0; !validName; i++)
+            {
+                var name = $"workspace-{i:00}";
+
+                if (!Desktop.Workspaces.Any(x => x.Name == name))
+                {
+                    validName = true;
+
+                    PushWorkspace(new Workspace(name, root));
+                }
+            }
         }
     }
 }

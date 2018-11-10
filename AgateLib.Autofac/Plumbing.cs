@@ -57,10 +57,10 @@ namespace AgateLib.Foundation
         /// <summary>
         /// Registers a singleton instance of an object.
         /// </summary>
-        /// <param name="obj"></param>
-        public void Register(object obj)
+        /// <param name="serviceInstance"></param>
+        public void Register(object serviceInstance)
         {
-            builder.RegisterInstance(obj)
+            builder.RegisterInstance(serviceInstance)
                 .AsSelf()
                 .AsImplementedInterfaces();
         }
