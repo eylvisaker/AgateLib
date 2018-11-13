@@ -50,6 +50,13 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 new ContentLayoutEngine(fontProvider), textRepo);
 
             context = CommonMocks.RenderContext(contentLayout);
+
+            context.Setup(x => x.Draw(It.IsAny<IContentLayout>(), It.IsAny<Rectangle>()))
+                .Callback<IContentLayout, Rectangle>((content, dest) =>
+                {
+                    content.Draw(dest.Location.ToVector2());
+                });
+
         }
 
         [Fact]

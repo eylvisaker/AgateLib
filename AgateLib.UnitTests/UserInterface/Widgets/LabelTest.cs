@@ -6,6 +6,7 @@ using AgateLib.UserInterface.Content;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Moq;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -30,6 +31,12 @@ namespace AgateLib.Tests.UserInterface.Widgets
             contentLayout = new ContentLayoutEngine(fontProvider);
 
             context = CommonMocks.RenderContext(contentLayout);
+
+            context.Setup(x => x.Draw(It.IsAny<IContentLayout>(), It.IsAny<Rectangle>()))
+                .Callback<IContentLayout, Rectangle>((content, dest) =>
+                {
+                    content.Draw(dest.Location.ToVector2());
+                });
         }
 
         [Fact]
@@ -46,6 +53,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
             labelElement.Style.Update();
 
             Size idealSize = labelElement.CalcIdealContentSize(context.Object, new Size(1000, 1000));
+
             labelElement.Draw(context.Object, new Rectangle(40, 60, 1000, 1000));
 
             labelElement.Props.Text.Should().Be(text);

@@ -324,7 +324,7 @@ namespace AgateLib.UserInterface
 
         public void Draw(Texture2D image, Rectangle destRect, Rectangle sourceRect, Color color)
         {
-            SpriteBatch.Draw(image, destRect, color);
+            SpriteBatch.Draw(image, destRect, sourceRect, color);
         }
 
         public void DrawText(Font font, Vector2 destination, string text)
