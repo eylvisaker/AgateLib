@@ -48,6 +48,22 @@ namespace AgateLib.UserInterface.Styling.Themes
     public class Theme : ITheme
     {
         /// <summary>
+        /// Loads a theme. If you're loading
+        /// multiple themes, it is more efficient
+        /// to create a ThemeLoader object and reuse it.
+        /// </summary>
+        /// <param name="fonts"></param>
+        /// <param name="content"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static ITheme Load(IFontProvider fonts, IContentProvider content, string path)
+        {
+            ThemeLoader themeLoader = new ThemeLoader(fonts);
+
+            return themeLoader.LoadTheme(content, path);
+        }
+
+        /// <summary>
         /// Creates the default AgateLib theme which requires no assets.
         /// </summary>
         /// <returns></returns>
@@ -188,5 +204,6 @@ namespace AgateLib.UserInterface.Styling.Themes
                 item.MatchExecutor = new CssWidgetSelector(item.Selector);
             }
         }
+
     }
 }
