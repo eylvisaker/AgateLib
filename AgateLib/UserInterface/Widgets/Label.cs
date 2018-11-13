@@ -105,7 +105,7 @@ namespace AgateLib.UserInterface
 
         public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
-            content?.Draw(clientArea.Location.ToVector2(), renderContext.SpriteBatch);
+            renderContext.Draw(content, clientArea);
         }
 
         public override void Update(IUserInterfaceRenderContext renderContext)

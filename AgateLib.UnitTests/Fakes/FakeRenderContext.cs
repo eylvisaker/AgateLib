@@ -1,4 +1,5 @@
-﻿using AgateLib.Mathematics.Geometry;
+﻿using AgateLib.Display;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
@@ -65,5 +66,18 @@ namespace AgateLib.Tests.Fakes
             if (element.Display.Animation.State == AnimationState.TransitionOut)
                 element.Display.Animation.State = AnimationState.Dead;
         }
+
+        public void Draw(Texture2D image, Rectangle destRect, Color color) { }
+        public void Draw(Texture2D image, Rectangle destRect, Rectangle sourceRect, Color color)
+        { }
+
+        public void DrawText(Font font, Vector2 destination, string text)
+        { }
+
+        public void Draw(IContentLayout content, Vector2 destination)
+        { }
+
+        public void Draw(IContentLayout content, Rectangle destinationArea)
+        { }
     }
 }

@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
@@ -43,6 +44,7 @@ namespace AgateLib.UserInterface
         /// Gets the graphics device.
         /// </summary>
         GraphicsDevice GraphicsDevice { get; }
+
 
         /// <summary>
         /// Gets the sprite batch object being used.
@@ -126,6 +128,16 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="element"></param>
         void UpdateAnimation(IRenderElement element);
+
+        void Draw(Texture2D image, Rectangle destRect, Color color);
+
+        void Draw(Texture2D image, Rectangle destRect, Rectangle sourceRect, Color color);
+
+        void Draw(IContentLayout content, Vector2 destination);
+
+        void Draw(IContentLayout content, Rectangle destinationArea);
+
+        void DrawText(Font font, Vector2 destination, string text);
     }
 
     public class UserInterfaceRenderContext : IUserInterfaceRenderContext
@@ -303,6 +315,31 @@ namespace AgateLib.UserInterface
             GameTime = time;
             SpriteBatch = spriteBatch;
             RenderTarget = renderTarget;
+        }
+
+        public void Draw(Texture2D image, Rectangle destRect, Color color)
+        {
+            SpriteBatch.Draw(image, destRect, color);
+        }
+
+        public void Draw(Texture2D image, Rectangle destRect, Rectangle sourceRect, Color color)
+        {
+            SpriteBatch.Draw(image, destRect, color);
+        }
+
+        public void DrawText(Font font, Vector2 destination, string text)
+        {
+            font.DrawText(SpriteBatch, destination, text);
+        }
+
+        public void Draw(IContentLayout content, Vector2 destination)
+        {
+            content.Draw(destination, SpriteBatch);
+        }
+
+        public void Draw(IContentLayout content, Rectangle destinationArea)
+        {
+            content.Draw(destinationArea.Location.ToVector2(), SpriteBatch);
         }
     }
 }
