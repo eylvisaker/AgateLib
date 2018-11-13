@@ -257,6 +257,10 @@ namespace AgateLib.UserInterface
             private void DistributeSpaceBetween(IEnumerable<IRenderElement> children, int extraSpace)
             {
                 int betweenSpaces = children.Count() - 1;
+
+                if (betweenSpaces == 0)
+                    return;
+
                 float step = extraSpace / (float)betweenSpaces;
                 int index = 0;
 
@@ -661,22 +665,22 @@ namespace AgateLib.UserInterface
     public enum FlexDirection
     {
         /// <summary>
-        /// Top to Bottom
+        /// Items are laid out top to bottom.
         /// </summary>
         Column,
 
         /// <summary>
-        /// Left to Right 
+        /// Items are laid out left to right.
         /// </summary>
         Row,
 
         /// <summary>
-        /// Bottom to Top
+        /// Items are laid out bottom to top.
         /// </summary>
         ColumnReverse,
 
         /// <summary>
-        /// Right to Left
+        /// Items are laid out right to left.
         /// </summary>
         RowReverse,
     }

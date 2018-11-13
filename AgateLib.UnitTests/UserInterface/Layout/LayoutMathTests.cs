@@ -2,11 +2,6 @@
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Layout;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AgateLib.Tests.UserInterface.Layout
@@ -18,8 +13,8 @@ namespace AgateLib.Tests.UserInterface.Layout
         [InlineData(200, 100, 180, 150, 180, 100)]
         [InlineData(200, 100, 220, 90, 200, 90)]
         public void ConstrainMaxSizeWithMaxSizeConstraintTest(
-            int initialWidth, 
-            int initialHeight, 
+            int initialWidth,
+            int initialHeight,
             int maxWidth,
             int maxHeight,
             int expectedMaxWidth,

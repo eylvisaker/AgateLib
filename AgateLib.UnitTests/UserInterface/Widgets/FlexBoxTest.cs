@@ -635,6 +635,42 @@ namespace AgateLib.Tests.UserInterface.Widgets
         }
 
         [Fact]
+        public void FlexRowSpaceBetweenDoesNothingIfOnlyOneChild()
+        {
+            Window masterBox = new Window(new WindowProps
+            {
+                Children =
+                {
+                    new Label(new LabelProps { Text = "Long label to create additional horizontal space"}),
+                    new Window(new WindowProps
+                    {
+                        Style = new InlineElementStyle
+                        {
+                            Flex = new FlexStyle
+                            {
+                                Direction = FlexDirection.Row,
+                                JustifyContent = JustifyContent.SpaceBetween
+                            }
+                        },
+                        Name = "thewindow",
+                        Children = {
+                            new Label(new LabelProps { Text = "AHe" }),
+                        }
+                    })
+                }
+            });
+
+            TestUIDriver driver = new TestUIDriver(CreateApp(masterBox), styleConfigurator);
+
+            driver.DoLayout();
+
+            var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
+            var elements = root.Children.ToList();
+
+            elements[0].Display.ContentRect.Should().Be(new Rectangle(0, 0, 15, 10));
+        }
+
+        [Fact]
         public void FlexRowJustifyContentSpaceBetween()
         {
             Window masterBox = new Window(new WindowProps
