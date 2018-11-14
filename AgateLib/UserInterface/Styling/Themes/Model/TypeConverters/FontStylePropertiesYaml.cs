@@ -71,7 +71,7 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
                 });
             FontStyles? fontStyle = TryParseEachAndRemove(values,
                 x => {
-                    bool success = Enum.TryParse<FontStyles>(x, out FontStyles fs);
+                    bool success = Enum.TryParse<FontStyles>(x, true, out FontStyles fs);
                     if (!success) return (false, null);
                     return (success, (FontStyles?) fs);
                 });
@@ -114,7 +114,7 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
             emitter.Emit(new YamlDotNet.Core.Events.Scalar(
                 null,
                 null,
-                $"{font.Family} {font.Size} {font.Style} {font.Color}",
+                $"{font.Size} {font.Style} {font.Color} {font.Family}",
                 ScalarStyle.Plain,
                 true,
                 false

@@ -70,6 +70,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             var b = new PropertyDebugStringBuilder();
 
+            b.Add(Selector + " -- ");
             b.Add(nameof(MatchExecutor), MatchExecutor);
             b.Add(nameof(Font), Font);
             b.Add(nameof(Background), Background);

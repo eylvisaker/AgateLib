@@ -56,11 +56,11 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// <param name="content"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static ITheme Load(IFontProvider fonts, IContentProvider content, string path)
+        public static ITheme Load(IFontProvider fonts, IContentProvider content, params string[] paths)
         {
             ThemeLoader themeLoader = new ThemeLoader(fonts);
 
-            return themeLoader.LoadTheme(content, path);
+            return themeLoader.LoadTheme(content, paths);
         }
 
         /// <summary>

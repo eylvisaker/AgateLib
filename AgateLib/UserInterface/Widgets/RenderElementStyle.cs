@@ -145,7 +145,7 @@ namespace AgateLib.UserInterface
                 {
                     font = new Font(display.Fonts[fontProperties.Family]);
                 }
-                else if (Font == null)
+                else if (font == null)
                 {
                     font = new Font(display.ParentFont);
                 }

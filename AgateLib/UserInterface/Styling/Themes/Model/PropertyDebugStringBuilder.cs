@@ -32,6 +32,12 @@ namespace AgateLib.UserInterface.Styling.Themes.Model
 
         public string Delimiter { get; set; } = "\n";
 
+        public void Add(string text)
+        {
+            builder.Append(text);
+            builder.Append(Delimiter);
+        }
+
         public void Add(string name, object value)
         {
             if (value == null)

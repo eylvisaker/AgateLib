@@ -20,24 +20,28 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using AgateLib.UserInterface.Styling.Themes.Model.TypeConverters;
+using System;
+using System.IO;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {
+    /// <summary>
+    /// Interface for an object which loads themes from a content provider.
+    /// </summary>
     public interface IThemeLoader
     {
-        ThemeData LoadThemeData(IContentProvider content, string filename);
+        ThemeData LoadThemeData(IContentProvider content, params string[] filenames);
 
-        Theme LoadTheme(IContentProvider content, string filename);
+        Theme LoadTheme(IContentProvider content, params string[] filenames);
     }
 
+    /// <summary>
+    /// Object which loads theams from a content provider.
+    /// </summary>
     [Singleton]
     public class ThemeLoader : IThemeLoader
     {
@@ -59,23 +63,34 @@ namespace AgateLib.UserInterface.Styling.Themes
             this.fonts = fonts;
         }
 
-        public ThemeData LoadThemeData(IContentProvider content, string filename)
+        public ThemeData LoadThemeData(IContentProvider content, params string[] filenames)
         {
-            string filecontent = null;
+            if (filenames.Length == 0)
+                throw new ArgumentException("Must pass at least one filename to load.");
 
-            if (!filename.EndsWith(".atheme"))
+            ThemeData result = new ThemeData();
+
+            foreach (string filename in filenames)
             {
-                filecontent = filecontent ?? content.ReadAllTextOrNull(filename + Extension);
+                string filecontent = null;
+
+                if (!filename.EndsWith(".atheme"))
+                {
+                    filecontent = filecontent ?? content.ReadAllTextOrNull(filename + Extension);
+                }
+
+                filecontent = filecontent ?? content.ReadAllTextOrNull(filename);
+
+                if (filecontent == null)
+                    throw new FileNotFoundException(filename);
+
+                var items = deserializer.Deserialize<ThemeData>(filecontent);
+
+                NormalizePaths(items, filename);
+
+                foreach (var item in items)
+                    result.Add(item);
             }
-
-            filecontent = filecontent ?? content.ReadAllTextOrNull(filename);
-
-            if (filecontent == null)
-                throw new FileNotFoundException(filename);
-
-            var result = deserializer.Deserialize<ThemeData>(filecontent);
-
-            NormalizePaths(result, filename);
 
             return result;
         }
@@ -121,19 +136,19 @@ namespace AgateLib.UserInterface.Styling.Themes
             return a + "/" + b;
         }
 
-        public Theme LoadTheme(IContentProvider content, string filename)
+        public Theme LoadTheme(IContentProvider content, params string[] filenames)
         {
             try
             {
                 return new Theme
                 {
-                    Data = LoadThemeData(content, filename),
+                    Data = LoadThemeData(content, filenames),
                     Fonts = fonts
                 };
             }
             catch (Exception e)
             {
-                throw new UserInterfaceLoadException($"Loading '{filename}' failed with {e.GetType().Name}",
+                throw new UserInterfaceLoadException($"Loading '{string.Join(",", filenames)}' failed with {e.GetType().Name}",
                     e);
             }
         }
