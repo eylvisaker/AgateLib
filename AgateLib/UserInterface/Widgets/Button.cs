@@ -20,12 +20,10 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.UserInterface
 {
@@ -43,7 +41,7 @@ namespace AgateLib.UserInterface
                 OnAccept = Props.OnAccept,
                 OnFocus = Props.OnFocus,
                 Enabled = Props.Enabled,
-                Children = (Props.Children?.Count ?? 0) > 0 ? Props.Children : new List<IRenderable>{ new Label(new LabelProps { Text = Props.Text }) } 
+                Children = (Props.Children?.Count ?? 0) > 0 ? Props.Children : new List<IRenderable> { new Label(new LabelProps { Text = Props.Text }) }
             }.CopyFromWidgetProps(Props));
         }
     }
@@ -73,7 +71,7 @@ namespace AgateLib.UserInterface
 
     public class ButtonElement : RenderElement<ButtonElementProps>
     {
-        IRenderElement child;
+        private IRenderElement child;
 
         public ButtonElement(ButtonElementProps props) : base(props)
         {
@@ -83,14 +81,19 @@ namespace AgateLib.UserInterface
             }
             else
             {
-                child = new FlexBox(new FlexBoxProps { Children = props.Children });
+                child = new FlexBox(new FlexBoxProps
+                {
+                    DefaultStyle = props.DefaultStyle,
+                    Style = props.Style,
+                    Children = props.Children
+                });
             }
 
             Children = new List<IRenderElement> { child };
         }
 
         public override void OnAccept(UserInterfaceActionEventArgs args)
-        { 
+        {
             if (!Props.Enabled)
                 return;
 
