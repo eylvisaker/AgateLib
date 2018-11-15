@@ -252,10 +252,7 @@ namespace AgateLib.UserInterface
         {
             animationFactory.Configure(element.Display);
             UserInterfaceRenderer.UpdateAnimation(this, element);
-        }
 
-        public void DrawChild(Rectangle parentContentDest, IRenderElement element)
-        {
             if (element.Display.Animation.IsDoubleBuffered)
             {
                 var newContext = DoubleBuffer.PrepRenderState(element, this);
@@ -267,7 +264,39 @@ namespace AgateLib.UserInterface
 
                 element.Draw(newContext, rtClientDest);
 
-                DoubleBuffer.CompleteRendering(parentContentDest, this, element);
+                DoubleBuffer.CompleteRendering(this, element);
+            }
+        }
+
+        public void DrawChild(Rectangle parentContentDest, IRenderElement element)
+        {
+            if (element.Display.Animation.IsDoubleBuffered)
+            {
+                //var newContext = DoubleBuffer.PrepRenderState(element, this);
+
+                //var rtClientDest = element.Display.Animation.Buffer.ContentDestination;
+
+                //UserInterfaceRenderer.DrawBackground(newContext, element.Display, rtClientDest);
+                //UserInterfaceRenderer.DrawFrame(newContext, element.Display, rtClientDest);
+
+                //element.Draw(newContext, rtClientDest);
+
+                //DoubleBuffer.CompleteRendering(parentContentDest, this, element);
+
+                var animation = element.Display.Animation;
+                var screenRect = animation.AnimatedMarginRect;
+                screenRect.X += parentContentDest.X;
+                screenRect.Y += parentContentDest.Y;
+
+                SpriteBatch.Draw(
+                    animation.RenderTarget,
+                    screenRect,
+                    null,
+                    animation.Color,
+                    0,
+                    Vector2.Zero,
+                    SpriteEffects.None,
+                    animation.LayerDepth);
             }
             else
             {

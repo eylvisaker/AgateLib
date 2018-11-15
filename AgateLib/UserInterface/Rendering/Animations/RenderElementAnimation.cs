@@ -29,8 +29,10 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Rendering.Animations
 {
-
-    public interface IWidgetAnimation
+    /// <summary>
+    /// Interface for an object which handles animation of render elements.
+    /// </summary>
+    public interface IRenderElementAnimation
     {
         bool IsDoubleBuffered { get; }
 
@@ -47,6 +49,4 @@ namespace AgateLib.UserInterface.Rendering.Animations
 
         void ContentRectUpdated(RenderElementDisplay display);
     }
-
-
 }

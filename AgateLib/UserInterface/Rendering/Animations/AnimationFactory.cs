@@ -18,7 +18,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
         /// <param name="name"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        IWidgetAnimation Create(string name, IReadOnlyList<string> args);
+        IRenderElementAnimation Create(string name, IReadOnlyList<string> args);
     }
 
     /// <summary>
@@ -27,13 +27,14 @@ namespace AgateLib.UserInterface.Rendering.Animations
     [Singleton]
     public class AnimationFactory : IAnimationFactory
     {
-        Dictionary<string, Func<IReadOnlyList<string>, IWidgetAnimation>> activators
-            = new Dictionary<string, Func<IReadOnlyList<string>, IWidgetAnimation>>(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>> activators
+            = new Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>>(StringComparer.OrdinalIgnoreCase);
 
         public AnimationFactory()
         {
             AddAnimationActivator("default", _ => new NullAnimation());
             AddAnimationActivator("fade", args => new FadeAnimation(args));
+            AddAnimationActivator("slide", args => new SlideAnimation(args));
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
         /// <param name="name"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public IWidgetAnimation Create(string name, IReadOnlyList<string> args)
+        public IRenderElementAnimation Create(string name, IReadOnlyList<string> args)
         {
             name = name ?? "default";
 
@@ -60,7 +61,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
         /// </summary>
         /// <param name="name"></param>
         /// <param name="activator"></param>
-        public void AddAnimationActivator(string name, Func<IReadOnlyList<string>, IWidgetAnimation> activator)
+        public void AddAnimationActivator(string name, Func<IReadOnlyList<string>, IRenderElementAnimation> activator)
         {
             activators[name] = activator;
         }

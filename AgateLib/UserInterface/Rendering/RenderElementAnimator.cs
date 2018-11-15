@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface.Rendering
 
         public RenderTarget2D RenderTarget { get; set; }
 
-        public IWidgetAnimation Transition
+        public IRenderElementAnimation Transition
         {
             get
             {
@@ -66,6 +66,14 @@ namespace AgateLib.UserInterface.Rendering
                         return Static;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the margin rect in the widget's parent's client space.
+        /// </summary>
+        public Rectangle AnimatedMarginRect
+        {
+            get => display.Region.MarginToContentOffset.Expand(animatedContentRect);
         }
 
         /// <summary>
@@ -91,7 +99,7 @@ namespace AgateLib.UserInterface.Rendering
 
         public AnimationState State { get; set; }
 
-        public float Alpha { get; set; }
+        public float Alpha { get; set; } = 1;
 
         public float LayerDepth { get; set; }
 
@@ -110,17 +118,17 @@ namespace AgateLib.UserInterface.Rendering
         /// <summary>
         /// Gets or sets the animator used when the element is transitioning in.
         /// </summary>
-        public IWidgetAnimation In { get; set; }
+        public IRenderElementAnimation In { get; set; }
 
         /// <summary>
         /// Gets or sets the animator used when the element is transitioning out.
         /// </summary>
-        public IWidgetAnimation Out { get; set; }
+        public IRenderElementAnimation Out { get; set; }
 
         /// <summary>
         /// Gets or sets the animator used when the element is visible.
         /// </summary>
-        public IWidgetAnimation Static { get; set; }
+        public IRenderElementAnimation Static { get; set; }
         public string InType { get; internal set; }
         public string OutType { get; internal set; }
         public string StaticType { get; internal set; }

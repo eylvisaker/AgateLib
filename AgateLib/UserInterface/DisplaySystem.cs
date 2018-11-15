@@ -20,11 +20,7 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using AgateLib.UserInterface.Rendering.Animations;
-using AgateLib.UserInterface;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
 {
@@ -35,6 +31,8 @@ namespace AgateLib.UserInterface
         IFontProvider Fonts { get; }
 
         IInstructions Instructions { get; }
+
+        Rectangle ScreenArea { get; }
 
         IRenderElement ParentOf(IRenderElement element);
 

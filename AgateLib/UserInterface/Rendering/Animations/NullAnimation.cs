@@ -6,7 +6,7 @@ using System.Text;
 namespace AgateLib.UserInterface.Rendering.Animations
 {
 
-    public class NullAnimation : IWidgetAnimation
+    public class NullAnimation : IRenderElementAnimation
     {
         public bool IsDoubleBuffered => false;
 

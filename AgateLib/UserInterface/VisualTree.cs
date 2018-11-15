@@ -221,7 +221,7 @@ namespace AgateLib.UserInterface
 
         public string DefaultTheme { get; set; }
 
-        public void Update(IUserInterfaceRenderContext renderContext)
+        public void Update(IUserInterfaceRenderContext renderContext, Rectangle area)
         {
             DebugMsg("Updating all widgets", ifDebugFlagAtLeast: 1);
 
@@ -233,6 +233,13 @@ namespace AgateLib.UserInterface
                 foreach (var child in element.Children ?? Enumerable.Empty<IRenderElement>())
                     child.Display.ParentFont = element.Style.Font;
 
+                return true;
+            });
+
+            DoLayout(renderContext, area);
+
+            Walk(element =>
+            { 
                 renderContext.UpdateAnimation(element);
                 return true;
             });
@@ -273,15 +280,7 @@ namespace AgateLib.UserInterface
         public void Draw(IUserInterfaceRenderContext renderContext, Rectangle area)
         {
             DebugMsg("Drawing all widgets", ifDebugFlagAtLeast: 1, setDebugFlag: 0);
-
-            DoLayout(renderContext, area);
-
-            Walk(element =>
-            {
-                renderContext.UpdateAnimation(element);
-                return true;
-            });
-
+            
             renderContext.DrawChild(area, TreeRoot);
         }
 

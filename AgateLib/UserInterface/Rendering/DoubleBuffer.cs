@@ -30,7 +30,7 @@ namespace AgateLib.UserInterface.Rendering
     {
         IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, IUserInterfaceRenderContext renderContext);
 
-        void CompleteRendering(Rectangle parentContentDest, IUserInterfaceRenderContext renderContext, IRenderElement widget);
+        void CompleteRendering(IUserInterfaceRenderContext renderContext, IRenderElement widget);
     }
 
     [Transient]
@@ -47,8 +47,8 @@ namespace AgateLib.UserInterface.Rendering
             ColorDestinationBlend = Blend.InverseSourceAlpha,
         };
 
-        public void CompleteRendering(Rectangle parentContentDest,
-            IUserInterfaceRenderContext renderContext, IRenderElement widget)
+        public void CompleteRendering(IUserInterfaceRenderContext renderContext,
+            IRenderElement widget)
         {
             var animation = widget.Display.Animation;
             var display = widget.Display;
@@ -58,19 +58,19 @@ namespace AgateLib.UserInterface.Rendering
             // Now use the parent render target.
             renderContext.GraphicsDevice.SetRenderTarget(renderContext.RenderTarget);
 
-            var screenRect = animation.AnimatedBorderRect;
-            screenRect.X += parentContentDest.X;
-            screenRect.Y += parentContentDest.Y;
+            //var screenRect = animation.AnimatedBorderRect;
+            //screenRect.X += parentContentDest.X;
+            //screenRect.Y += parentContentDest.Y;
 
-            renderContext.SpriteBatch.Draw(
-                animation.RenderTarget,
-                screenRect,
-                null,
-                animation.Color,
-                0,
-                Vector2.Zero,
-                SpriteEffects.None,
-                animation.LayerDepth);
+            //renderContext.SpriteBatch.Draw(
+            //    animation.RenderTarget,
+            //    screenRect,
+            //    null,
+            //    animation.Color,
+            //    0,
+            //    Vector2.Zero,
+            //    SpriteEffects.None,
+            //    animation.LayerDepth);
         }
 
         public IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, IUserInterfaceRenderContext renderContext)

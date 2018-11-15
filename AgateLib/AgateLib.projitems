@@ -183,6 +183,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\AnimationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\FadeAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\NullAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\SlideAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexItemStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\LayoutStyle.cs" />
@@ -225,7 +226,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\ComponentStyleRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\DoubleBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\FocusIndicator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\WidgetAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\RenderElementAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceImageProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\UserInterfaceRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\RenderElementAnimator.cs" />
@@ -235,7 +236,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Widget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementDisplay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementRegion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\WidgetRenderContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceRenderContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Panel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Window.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Workspace.cs" />

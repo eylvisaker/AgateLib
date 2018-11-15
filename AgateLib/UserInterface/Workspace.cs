@@ -21,27 +21,20 @@
 //
 #define __DEBUG_WORKSPACE
 
+using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Styling;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using AgateLib.Display;
-using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Rendering.Animations;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 
 namespace AgateLib.UserInterface
 {
     public class Workspace
     {
-        class WorkspaceDisplaySystem : IDisplaySystem
+        private class WorkspaceDisplaySystem : IDisplaySystem
         {
             private readonly Workspace workspace;
 
@@ -59,14 +52,16 @@ namespace AgateLib.UserInterface
                 get => workspace.Focus;
             }
 
+            public IInstructions Instructions { get; set; }
+
+            public IUserInterfaceAudio Audio { get; set; }
+
+            public Rectangle ScreenArea => Desktop.ScreenArea;
+
             public void SetFocus(IRenderElement newFocus)
             {
                 workspace.Focus = newFocus;
             }
-
-            public IInstructions Instructions { get; set; }
-
-            public IUserInterfaceAudio Audio { get; set; }
 
             public IRenderElement ParentOf(IRenderElement element)
             {
@@ -185,7 +180,7 @@ namespace AgateLib.UserInterface
 
         public void Update(IUserInterfaceRenderContext renderContext)
         {
-            visualTree.Update(renderContext);
+            visualTree.Update(renderContext, ScreenArea);
         }
 
         public void Render()
@@ -258,9 +253,20 @@ namespace AgateLib.UserInterface
         {
             BeforeTransitionOut?.Invoke();
 
-            foreach (var window in visualTree.TreeRoot.Children)
+            TransitionOut(visualTree.TreeRoot.Children);
+            
+        }
+
+        private void TransitionOut(IList<IRenderElement> children)
+        {
+            foreach (IRenderElement window in children)
             {
                 window.Display.Animation.State = AnimationState.TransitionOut;
+
+                if (window.Style.Animation?.Exit == null)
+                {
+                    TransitionOut(window.Children);
+                }
             }
         }
 

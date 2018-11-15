@@ -110,6 +110,7 @@ namespace AgateLib.UserInterface
 
         public override void Update(IUserInterfaceRenderContext renderContext)
         {
+
             content?.Update(renderContext.GameTime);
         }
 

@@ -30,8 +30,7 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Rendering.Animations
 {
-
-    public class FadeAnimation : IWidgetAnimation
+    public class FadeAnimation : IRenderElementAnimation
     {
         float transitionTime = 0.35f;
 
