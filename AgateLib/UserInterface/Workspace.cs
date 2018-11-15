@@ -259,6 +259,8 @@ namespace AgateLib.UserInterface
 
         private void TransitionOut(IList<IRenderElement> children)
         {
+            displaySystem.Audio.PlaySound(this, UserInterfaceSound.WorkspaceRemoved);
+
             foreach (IRenderElement window in children)
             {
                 window.Display.Animation.State = AnimationState.TransitionOut;
@@ -272,6 +274,8 @@ namespace AgateLib.UserInterface
 
         internal void TransitionIn()
         {
+            displaySystem.Audio.PlaySound(this, UserInterfaceSound.WorkspaceAdded);
+
             foreach (var window in visualTree.TreeRoot.Children)
             {
                 window.Display.Animation.State = AnimationState.TransitionIn;

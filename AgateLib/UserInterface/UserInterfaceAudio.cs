@@ -42,5 +42,15 @@ namespace AgateLib.UserInterface
         /// Sound effect when the user attempts to perfom an invalid action.
         /// </summary>
         Invalid,
+
+        /// <summary>
+        /// Sound effect played when a workspace is added.
+        /// </summary>
+        WorkspaceAdded,
+
+        /// <summary>
+        /// Sound effect played when a workspace receives the signal to transition out.
+        /// </summary>
+        WorkspaceRemoved,
     }
 }
