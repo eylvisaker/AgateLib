@@ -173,7 +173,10 @@ namespace AgateLib.UserInterface
         
         public void OnUserInterfaceAction(UserInterfaceActionEventArgs args)
         {
-            ActiveWorkspace?.HandleUIAction(args);
+            if (ActiveWorkspace.AnimationState == AnimationState.Static)
+            {
+                ActiveWorkspace?.HandleUIAction(args);
+            }
 
             if (!args.Handled)
                 UnhandledEvent?.Invoke(args);

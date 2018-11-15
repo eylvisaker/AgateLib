@@ -33,7 +33,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
         {
             if (args.Count > 0)
             {
-                Enum.TryParse(args[0], out slideFrom);
+                Enum.TryParse(args[0], true, out slideFrom);
             }
         }
 
@@ -143,7 +143,12 @@ namespace AgateLib.UserInterface.Rendering.Animations
             display.Animation.AnimatedBorderRect = new Rectangle(
                 position.ToPoint(), display.BorderRect.Size);
 
-            return (_x - 0.5f) * timeSign >= 0.5f;
+            if (t <= 0 && timeSign < 0)
+                return true;
+            if (t >= 1 && timeSign > 0)
+                return true;
+
+            return false;
         }
     }
 }
