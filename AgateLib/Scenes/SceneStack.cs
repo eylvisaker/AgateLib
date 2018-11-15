@@ -311,6 +311,8 @@ namespace AgateLib.Scenes
                     }
                 }
 
+                CheckForFinishedScenes();
+
                 int missedUpdateCount = 0;
 
                 while (missedUpdates.Count > 0 && missedUpdateCount < missedUpdateLimit)
@@ -321,14 +323,14 @@ namespace AgateLib.Scenes
                     sc.Update(time);
 
                     missedUpdateCount++;
+
+                    CheckForFinishedScenes();
                 }
 
                 if (missedUpdateCount > missedUpdateLimit)
                 {
                     Log.WriteLine(LogLevel.Performance, $"{missedUpdateCount} scenes added during update.");
                 }
-
-                CheckForFinishedScenes();
             }
             finally
             {

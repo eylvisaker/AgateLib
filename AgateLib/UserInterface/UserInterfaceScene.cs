@@ -56,6 +56,13 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="root"></param>
         void Add(IRenderable root);
+
+        /// <summary>
+        /// Tells the UI to transition out, and when the animation is complete
+        /// calls the callback function.
+        /// </summary>
+        /// <param name="p"></param>
+        void ExitThen(Action callback);
     }
 
     [Transient]
