@@ -2,6 +2,7 @@
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
+using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
@@ -39,6 +40,18 @@ namespace AgateLib.Tests.UserInterface.Widgets
             uiDriver.Desktop.PushWorkspace(defaultWorkspace);
 
             DoLayout();
+
+            WaitForAnimations();
+        }
+
+        private void WaitForAnimations()
+        {
+            while (uiDriver.Desktop.ActiveWorkspace.AnimationState == AnimationState.TransitionIn || 
+                   uiDriver.Desktop.ActiveWorkspace.AnimationState == AnimationState.TransitionOut)
+            {
+                uiDriver.Update(new GameTime(TimeSpan.FromSeconds(10),
+                                             TimeSpan.FromSeconds(10)));
+            }
         }
 
         public Size Size { get; set; } = new Size(1280, 720);
@@ -66,6 +79,8 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
             // Button up
             ButtonUp();
+
+            WaitForAnimations();
         }
 
         public void ButtonUp()

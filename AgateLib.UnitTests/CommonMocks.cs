@@ -88,6 +88,15 @@ namespace AgateLib.Tests
 
             result.SetupGet(x => x.GameTime).Returns(new GameTime());
 
+            result.Setup(x => x.UpdateAnimation(It.IsAny<IRenderElement>()))
+                  .Callback<IRenderElement>(element =>
+                  {
+                      if (element.Display.Animation.State == AnimationState.TransitionIn)
+                          element.Display.Animation.State = AnimationState.Static;
+                      if (element.Display.Animation.State == AnimationState.TransitionOut)
+                          element.Display.Animation.State = AnimationState.Dead;
+                  });
+
             return result;
         }
 
