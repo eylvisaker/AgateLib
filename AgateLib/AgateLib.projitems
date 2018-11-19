@@ -156,7 +156,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Parsers\XmlExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PathX.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Quality\Require.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Random.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Randomizer\Random.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer\FastRandom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\SceneStack.cs" />
