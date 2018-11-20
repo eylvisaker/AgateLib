@@ -26,38 +26,17 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
 {
-    public class TextBox : Widget<TextBoxProps, TextBoxState>
+    public class TextBox : RenderElement<TextBoxProps>
     {
+        private string text;
+        private int insertionPoint;
+
+        private const float flashTime = 0.5f;
+        private float flashCycle = 0;
+
         public TextBox(TextBoxProps props) : base(props)
         {
-        }
-
-        public override IRenderable Render()
-        {
-            return new TextBoxElement(new TextBoxElementProps
-            {
-                Value = Props.Value,
-                OnChange = Props.OnChange,
-            });
-        }
-    }
-
-    public class TextBoxProps : WidgetProps
-    {
-        public string Value { get; set; }
-
-        public UserInterfaceEventHandler<string> OnChange { get; set; }
-    }
-
-    public class TextBoxState
-    {
-    }
-
-
-    public class TextBoxElement : RenderElement<TextBoxElementProps>
-    {
-        public TextBoxElement(TextBoxElementProps props) : base(props)
-        {
+            text = props.Text;
         }
 
         public override string StyleTypeId => "textbox";
@@ -69,6 +48,14 @@ namespace AgateLib.UserInterface
             return new Size(80, Style.Font.FontHeight);
         }
 
+        public override void Update(IUserInterfaceRenderContext renderContext)
+        {
+            flashCycle += (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds;
+
+            if (flashCycle > flashTime)
+                flashCycle %= flashTime;
+        }
+
         public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
 
@@ -76,14 +63,38 @@ namespace AgateLib.UserInterface
 
         public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
-            Style.Font.DrawText(renderContext.SpriteBatch, clientArea.Location.ToVector2(), Props.Value);
+            Vector2 screenDest = clientArea.Location.ToVector2();
+
+            Style.Font.DrawText(renderContext.SpriteBatch, screenDest, text);
+
+            Vector2 insertionPointLoc = new Vector2(Style.Font.MeasureString(text.Substring(0, insertionPoint)).Width, 0);
+
+            if (flashCycle < flashTime / 2)
+            {
+                //renderContext.DrawLine(insertionPointLoc, insertionPointLoc + Vector2.UnitY * Style.Font.FontHeight);
+            }
         }
     }
 
-    public class TextBoxElementProps : RenderElementProps
+    public class TextBoxProps : RenderElementProps
     {
-        public string Value { get; set; }
+        public TextBoxProps()
+        {
+            DefaultStyle = new InlineElementStyle
+            {
+                Border = new BorderStyle
+                {
+                    Top = new BorderSideStyle { Width = 1, Color = Color.White, },
+                    Left = new BorderSideStyle { Width = 1, Color = Color.White, },
+                    Right = new BorderSideStyle { Width = 1, Color = Color.White, },
+                    Bottom = new BorderSideStyle { Width = 1, Color = Color.White, },
+                },
+                Padding = new LayoutBox { Top = 2, Bottom = 2, Left = 4, Right = 4 },
+                Margin = LayoutBox.SameAllAround(2),
+            };
+        }
 
         public UserInterfaceEventHandler<string> OnChange { get; set; }
+        public string Text { get; set; }
     }
 }
