@@ -253,32 +253,50 @@ namespace AgateLib.UserInterface
         {
             BeforeTransitionOut?.Invoke();
 
-            TransitionOut(visualTree.TreeRoot.Children);
-            
-        }
-
-        private void TransitionOut(IList<IRenderElement> children)
-        {
             displaySystem.Audio?.PlaySound(this, UserInterfaceSound.WorkspaceRemoved);
 
-            foreach (IRenderElement window in children)
-            {
-                window.Display.Animation.State = AnimationState.TransitionOut;
-
-                if (window.Style.Animation?.Exit == null)
-                {
-                    TransitionOut(window.Children);
-                }
-            }
+            BeginTopLevelTransition(AnimationState.TransitionOut, 
+                                    visualTree.TreeRoot);            
         }
 
         internal void TransitionIn()
         {
             displaySystem.Audio?.PlaySound(this, UserInterfaceSound.WorkspaceAdded);
 
-            foreach (var window in visualTree.TreeRoot.Children)
+            BeginTopLevelTransition(AnimationState.TransitionIn,
+                                    visualTree.TreeRoot);
+        }
+
+        private void BeginTopLevelTransition(AnimationState state,
+                                             IRenderElement element)
+        {
+            element.Display.Animation.State = state;
+
+            if (state == AnimationState.TransitionOut)
             {
-                window.Display.Animation.State = AnimationState.TransitionIn;
+                if (element.Style.Animation?.Exit == null)
+                {
+                    BeginTopLevelTransition(state, element.Children);
+                }
+            }
+            else if (state == AnimationState.TransitionIn)
+            {
+                if (element.Style.Animation?.Entry == null)
+                {
+                    BeginTopLevelTransition(state, element.Children);
+                }
+            }
+        }
+
+        private void BeginTopLevelTransition(AnimationState state,
+                                             IEnumerable<IRenderElement> children)
+        {
+            if (children == null)
+                return;
+
+            foreach (IRenderElement element in children)
+            {
+                BeginTopLevelTransition(state, element);
             }
         }
 

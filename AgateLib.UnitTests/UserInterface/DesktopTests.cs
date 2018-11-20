@@ -17,8 +17,8 @@ namespace AgateLib.Tests.UserInterface
             (var w1, var e1) = CommonMocks.Widget("w1", elementCanHaveFocus: true);
             (var w2, var e2) = CommonMocks.Widget("w2", elementCanHaveFocus: true);
 
-            var workspace1 = new Workspace("a", w1.Object);
-            var workspace2 = new Workspace("b", w2.Object);
+            var workspace1 = new Workspace("a", new App(new AppProps { Children = { w1.Object } } ));
+            var workspace2 = new Workspace("b", new App(new AppProps { Children = { w2.Object } } ));
 
             desktop.PushWorkspace(workspace2);
             desktop.PushWorkspace(workspace1);

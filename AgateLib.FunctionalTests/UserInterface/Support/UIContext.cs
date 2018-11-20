@@ -2,6 +2,7 @@
 using AgateLib.Tests.UserInterface.Support.Systems;
 using AgateLib.UserInterface;
 using FluentAssertions;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace AgateLib.Tests.UserInterface.Support
@@ -20,6 +21,8 @@ namespace AgateLib.Tests.UserInterface.Support
                 renderContext,
                 CommonMocks.StyleConfigurator().Object,
                 CommonMocks.FontProvider().Object);
+
+            scene.ScreenArea = new Rectangle(0, 0, 1280, 720);
         }
 
         public ITestSystem TestSystem { get; set; }

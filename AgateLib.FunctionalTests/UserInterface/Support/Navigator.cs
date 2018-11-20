@@ -21,13 +21,24 @@ namespace AgateLib.Tests.UserInterface.Support
         {
             var menuItem = Desktop.ActiveWorkspace.Focus as ButtonElement;
             var parent = menuItem.Parent as FlexBox;
+            var items = parent.Children.OfType<ButtonElement>();
 
-            var target = parent.Children.OfType<ButtonElement>().SingleOrDefault(
-                w => (w.Name?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false)
-                  || (w.Props.Text?.Equals(menuItemText, StringComparison.OrdinalIgnoreCase) ?? false));
+            var target = items.SingleOrDefault(
+                w => (w.Name?.Equals(menuItemText,
+                            StringComparison.OrdinalIgnoreCase) ?? false)
+                  || (w.Props.Text?.Equals(menuItemText, 
+                            StringComparison.OrdinalIgnoreCase) ?? false));
 
             if (target == null)
-                throw new InvalidOperationException($"Could not find {menuItemText}. Active workspace: {Desktop.ActiveWorkspace}");
+            {
+                var availableItems = string.Join(",", items.Select(
+                    x => x.Props.Text ?? x.Name));
+
+                throw new InvalidOperationException(
+                    $"Could not find {menuItemText}. " +
+                    $"Active workspace: {Desktop.ActiveWorkspace}." +
+                    $"Available items: {availableItems}");
+            }
 
             var targetIndex = parent.Children.IndexOf(target);
 

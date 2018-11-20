@@ -27,6 +27,8 @@ namespace AgateLib.Tests.UserInterface.Steps
         [When(@"I select (.*)")]
         public void WhenISelectAMenuItem(string menuItem)
         {
+            context.WaitForAnimations();
+
             var items = menuItem.Split(',').Select(x => x.Trim());
 
             foreach (var item in items)

@@ -40,8 +40,6 @@ namespace AgateLib.Tests.UserInterface.Widgets
             uiDriver.Desktop.PushWorkspace(defaultWorkspace);
 
             DoLayout();
-
-            WaitForAnimations();
         }
 
         private void WaitForAnimations()
@@ -52,6 +50,8 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 uiDriver.Update(new GameTime(TimeSpan.FromSeconds(10),
                                              TimeSpan.FromSeconds(10)));
             }
+
+            uiDriver.Update(new GameTime());
         }
 
         public Size Size { get; set; } = new Size(1280, 720);
@@ -62,7 +62,9 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
         public void DoLayout()
         {
-            uiDriver.Update(new GameTime());
+            uiDriver.ScreenArea = new Rectangle(Point.Zero, Size);
+
+            WaitForAnimations();
 
             foreach (var workspace in Desktop.Workspaces)
             {
