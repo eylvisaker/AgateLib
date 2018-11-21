@@ -157,8 +157,8 @@ namespace AgateLib.Randomizer
         /// Picks a random item from a list. Items weighted more heavily are more likely to be picked.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="random"></param>
-        /// <param name="items"></param>
+        /// <param name="random">The IRandom object to use as a source of random numbers.</param>
+        /// <param name="items">The list of items to pick from.</param>
         /// <param name="weightFunc">A function that when called for each object in the list returns its weight.</param>
         /// <returns></returns>
         public static T PickOneWeighted<T>(this IRandom random, IReadOnlyList<T> items, Func<T, int> weightFunc)
