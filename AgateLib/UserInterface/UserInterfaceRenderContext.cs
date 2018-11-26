@@ -28,7 +28,6 @@ using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -270,33 +269,26 @@ namespace AgateLib.UserInterface
 
         public void DrawChild(Rectangle parentContentDest, IRenderElement element)
         {
-            if (element.Display.Animation.IsDoubleBuffered)
+            var animation = element.Display.Animation;
+
+            if (animation.IsDoubleBuffered)
             {
-                //var newContext = DoubleBuffer.PrepRenderState(element, this);
+                if (animation.RenderTarget != null)
+                {
+                    var screenRect = animation.AnimatedMarginRect;
+                    screenRect.X += parentContentDest.X;
+                    screenRect.Y += parentContentDest.Y;
 
-                //var rtClientDest = element.Display.Animation.Buffer.ContentDestination;
-
-                //UserInterfaceRenderer.DrawBackground(newContext, element.Display, rtClientDest);
-                //UserInterfaceRenderer.DrawFrame(newContext, element.Display, rtClientDest);
-
-                //element.Draw(newContext, rtClientDest);
-
-                //DoubleBuffer.CompleteRendering(parentContentDest, this, element);
-
-                var animation = element.Display.Animation;
-                var screenRect = animation.AnimatedMarginRect;
-                screenRect.X += parentContentDest.X;
-                screenRect.Y += parentContentDest.Y;
-
-                SpriteBatch.Draw(
-                    animation.RenderTarget,
-                    screenRect,
-                    null,
-                    animation.Color,
-                    0,
-                    Vector2.Zero,
-                    SpriteEffects.None,
-                    animation.LayerDepth);
+                    SpriteBatch.Draw(
+                        animation.RenderTarget,
+                        screenRect,
+                        null,
+                        animation.Color,
+                        0,
+                        Vector2.Zero,
+                        SpriteEffects.None,
+                        animation.LayerDepth);
+                }
             }
             else
             {
@@ -311,11 +303,6 @@ namespace AgateLib.UserInterface
 
                 element.Draw(this, dest);
             }
-
-            //eventArgs.Initialize(WidgetEventType.DrawComplete);
-            //eventArgs.Area = parentContentDest;
-
-            //element.OnUserInterfaceAction(eventArgs);
         }
 
         public void DrawChildren(Rectangle contentDest, IEnumerable<IRenderElement> items)
