@@ -75,6 +75,11 @@ namespace AgateLib.Scenes
         /// <param name="scene"></param>
         /// <returns></returns>
         bool Contains(IScene scene);
+
+        /// <summary>
+        /// Removes all scenes from the ISceneStack object.
+        /// </summary>
+        void Clear();
     }
 
     /// <summary>
