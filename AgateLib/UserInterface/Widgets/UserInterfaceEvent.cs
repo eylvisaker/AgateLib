@@ -128,4 +128,7 @@ namespace AgateLib.UserInterface
     public delegate void UserInterfaceEventHandler<T>(UserInterfaceEvent<T> e);
     public delegate void UserInterfaceEventHandler<T1, T2>(UserInterfaceEvent<T1, T2> e);
     public delegate void UserInterfaceEventHandler<T1, T2, T3>(UserInterfaceEvent<T1, T2, T3> e);
+
+    public delegate void UserInterfaceEventHandler2<T>(UserInterfaceEvent e, T arg);
+
 }
