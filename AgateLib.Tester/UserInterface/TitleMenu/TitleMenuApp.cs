@@ -1,13 +1,8 @@
 ﻿using AgateLib.UserInterface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.TitleMenu
 {
-    public class TitleMenuApp : Widget<TitleMenuAppProps, TitleMenuAppState>
+    public class TitleMenuApp : Widget<TitleMenuAppProps>
     {
         public TitleMenuApp(TitleMenuAppProps props) : base(props)
         {
@@ -40,9 +35,5 @@ namespace AgateLib.Tests.UserInterface.TitleMenu
         public UserInterfaceEventHandler OnStart { get; set; }
         public UserInterfaceEventHandler OnLoad { get; set; }
         public UserInterfaceEventHandler OnQuit { get; set; }
-    }
-
-    public class TitleMenuAppState : WidgetState
-    {
     }
 }

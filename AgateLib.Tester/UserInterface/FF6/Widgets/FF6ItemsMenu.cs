@@ -7,8 +7,8 @@ namespace AgateLib.Tests.UserInterface.FF6
 {
     public class FF6ItemsMenu : Widget<FF6ItemsMenuProps, FF6ItemsMenuState>
     {
-        UserInterfaceEvent<Item> itemEvent = new UserInterfaceEvent<Item>();
-        UserInterfaceEvent<Tuple<int, int>> swapItemsEvent = new UserInterfaceEvent<Tuple<int, int>>();
+        private UserInterfaceEvent<Item> itemEvent = new UserInterfaceEvent<Item>();
+        private UserInterfaceEvent<Tuple<int, int>> swapItemsEvent = new UserInterfaceEvent<Tuple<int, int>>();
 
         public FF6ItemsMenu(FF6ItemsMenuProps props) : base(props)
         {
@@ -102,7 +102,7 @@ namespace AgateLib.Tests.UserInterface.FF6
         public UserInterfaceEventHandler OnArrangeItems { get; set; }
     }
 
-    public class FF6ItemsMenuState : WidgetState
+    public class FF6ItemsMenuState
     {
         public Item SelectedItem { get; set; }
 

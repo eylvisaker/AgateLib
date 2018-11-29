@@ -57,7 +57,7 @@ namespace AgateLib.Tests.Selector.Widgets
         public Action<ITest> OnAcceptTest { get; set; }
     }
 
-    public class TestDrawerState : WidgetState
+    public class TestDrawerState
     {
     }
 }

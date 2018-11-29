@@ -196,7 +196,7 @@ namespace AgateLib.UserInterface
                     Point itemPos = item.Display.Region.MarginRect.Location;
                     Size marginSize = item.Display.Region.MarginSize;
 
-                    switch (myStyle.Flex?.AlignItems ?? AlignItems.Default)
+                    switch (item.Style.FlexItem?.Align ?? myStyle.Flex?.AlignItems ?? AlignItems.Default)
                     {
                         case AlignItems.End:
                             itemPos = IncCross(itemPos, CrossAxis(mySize) - CrossAxis(marginSize));

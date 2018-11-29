@@ -34,10 +34,20 @@ namespace AgateLib.UserInterface
             if (a == null || b == null) return false;
 
             if (a.Grow != b.Grow) return false;
+            if (a.Align != b.Align) return false;
 
             return true;
         }
 
+        /// <summary>
+        /// Gets or sets the grow value for this flex item.
+        /// Must not be negative.
+        /// </summary>
         public int Grow { get; set; }
+
+        /// <summary>
+        /// Gets or sets the align value for this item.
+        /// </summary>
+        public AlignItems? Align { get; set; }
     }
 }

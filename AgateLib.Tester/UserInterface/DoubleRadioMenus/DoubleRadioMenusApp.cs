@@ -1,9 +1,7 @@
-﻿using System;
+﻿using AgateLib.UserInterface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
 
 namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
 {
@@ -72,13 +70,13 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
             SetState(state => state.AcceptEnabled = true);
         }
 
-        void SetLeft(ItemData item)
+        private void SetLeft(ItemData item)
         {
             selectedLeft = item;
             UpdateFlags();
         }
 
-        void SetRight(ItemData item)
+        private void SetRight(ItemData item)
         {
             selectedRight = item;
             UpdateFlags();
@@ -129,7 +127,7 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
         public UserInterfaceEventHandler OnCancel { get; set; }
     }
 
-    public class DoubleRadioMenusState : WidgetState
+    public class DoubleRadioMenusState
     {
         public string DescriptionText { get; set; }
         public bool AcceptEnabled { get; set; }

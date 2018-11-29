@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AgateLib.Display;
-using AgateLib.UserInterface.Styling;
+﻿using AgateLib.Display;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 
@@ -101,7 +96,7 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
         public UserInterfaceEventHandler OnCancel { get; set; }
     }
 
-    public class JustifyContentAppState : WidgetState
+    public class JustifyContentAppState
     {
         public JustifyContent JustifyContent { get; set; }
     }

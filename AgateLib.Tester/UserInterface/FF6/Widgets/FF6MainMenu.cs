@@ -1,10 +1,7 @@
 ﻿using AgateLib.UserInterface;
-using AgateLib.UserInterface.Styling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.FF6.Widgets
 {
@@ -211,7 +208,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         public UserInterfaceEventHandler OnExit { get; set; }
     }
 
-    public class FF6MainMenuState : WidgetState
+    public class FF6MainMenuState
     {
         public IEnumerable<PlayerCharacter> Characters { get; set; }
         public List<Item> Inventory { get; set; }

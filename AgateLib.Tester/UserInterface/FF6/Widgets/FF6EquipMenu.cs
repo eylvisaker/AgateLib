@@ -1,10 +1,7 @@
 ﻿using AgateLib.UserInterface;
-using AgateLib.UserInterface.Styling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.FF6.Widgets
 {
@@ -190,7 +187,7 @@ namespace AgateLib.Tests.UserInterface.FF6.Widgets
         }
     }
 
-    public class FF6EquipMenuState : WidgetState
+    public class FF6EquipMenuState
     {
         public List<Item> AvailableItems { get; set; } = new List<Item>();
 

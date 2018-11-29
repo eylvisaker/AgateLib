@@ -100,7 +100,7 @@ namespace AgateLib.UserInterface
         }
     }
 
-    public abstract class Widget<TProps> : Widget<TProps, WidgetState> where TProps : WidgetProps
+    public abstract class Widget<TProps> : Widget<TProps, object> where TProps : WidgetProps
     {
         public Widget(TProps props) : base(props)
         {
@@ -131,5 +131,28 @@ namespace AgateLib.UserInterface
     [Obsolete("This class serves no purpose.")]
     public class WidgetState
     {
+    }
+
+    public static class WidgetExtensions
+    {
+        /// <summary>
+        /// Copies standard WidgetProps members from another WidgetProps structure.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="widgetProps"></param>
+        /// <param name="props"></param>
+        /// <returns></returns>
+        public static T CopyFrom<T>(this T widgetProps, WidgetProps props)
+            where T : WidgetProps
+        {
+            widgetProps.Name = props.Name;
+            widgetProps.Theme = props.Theme;
+            widgetProps.Style = props.Style;
+            widgetProps.StyleClass = props.StyleClass;
+            widgetProps.DefaultStyle = props.DefaultStyle;
+            widgetProps.Visible = props.Visible;
+
+            return widgetProps;
+        }
     }
 }

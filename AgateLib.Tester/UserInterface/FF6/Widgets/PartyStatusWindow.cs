@@ -1,14 +1,10 @@
-﻿using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
-using System;
+﻿using AgateLib.UserInterface;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.FF6.Widgets
 {
-    public class PartyStatusWindow : Widget<PartyStatusWindowProps, WidgetState>
+    public class PartyStatusWindow : Widget<PartyStatusWindowProps>
     {
         public PartyStatusWindow(PartyStatusWindowProps props) : base(props)
         {

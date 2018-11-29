@@ -1,10 +1,5 @@
-﻿using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface;
+﻿using AgateLib.UserInterface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.Selector.Widgets
 {
@@ -38,7 +33,7 @@ namespace AgateLib.Tests.Selector.Widgets
         }
     }
 
-    public class TestSelectorState : WidgetState
+    public class TestSelectorState
     {
     }
 
