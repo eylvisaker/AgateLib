@@ -180,6 +180,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\Tokenizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\DisplaySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Image.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\AnimationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\FadeAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\NullAnimation.cs" />

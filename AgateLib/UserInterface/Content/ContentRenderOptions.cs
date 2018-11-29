@@ -22,18 +22,18 @@
 
 namespace AgateLib.UserInterface.Content
 {
-	public class ContentRenderOptions
-	{
-		public const float DefaultSlowReadRate = 30;
-	
-		/// <summary>
-		/// Set to true to show the characters slowly.
-		/// </summary>
-		public bool ReadSlowly { get; set; }
+    public class ContentRenderOptions
+    {
+        public const float DefaultSlowReadRate = 30;
 
-		/// <summary>
-		/// How many characters to reveal per second.
-		/// </summary>
-		public float SlowReadRate { get; set; } = DefaultSlowReadRate;
-	}
+        /// <summary>
+        /// Set to true to show the characters slowly.
+        /// </summary>
+        public bool ReadSlowly { get; set; }
+
+        /// <summary>
+        /// How many characters to reveal per second.
+        /// </summary>
+        public float SlowReadRate { get; set; } = DefaultSlowReadRate;
+    }
 }

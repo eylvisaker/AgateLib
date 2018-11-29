@@ -21,6 +21,7 @@
 //
 
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.UserInterface
 {
@@ -54,9 +55,25 @@ namespace AgateLib.UserInterface
 
     public static class DisplaySystemExtensions
     {
+        /// <summary>
+        /// Sets the focus element to the element referred to by the ElementReference object.
+        /// </summary>
+        /// <param name="displaySystem"></param>
+        /// <param name="reference"></param>
         public static void SetFocus(this IDisplaySystem displaySystem, ElementReference reference)
         {
             displaySystem.SetFocus(reference.Current);
+        }
+
+        /// <summary>
+        /// Automatically creates a workspace for the specified root object and pushes it 
+        /// onto the desktop. The workspace will have a randomly generated name.
+        /// </summary>
+        /// <param name="displaySystem"></param>
+        /// <param name="root"></param>
+        public static void PushWorkspace(this IDisplaySystem displaySystem, IRenderable root)
+        {
+            displaySystem.PushWorkspace(new Workspace($"unnamed-{new Guid()}", root));
         }
     }
 }

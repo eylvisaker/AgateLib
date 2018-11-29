@@ -30,9 +30,20 @@ namespace AgateLib.UserInterface.Content
 {
     public class ContentLayoutOptions
     {
+        /// <summary>
+        /// Maximum width for the content layout
+        /// </summary>
         public int MaxWidth { get; set; }
 
+        /// <summary>
+        /// Font to use for text.
+        /// </summary>
         public Font Font { get; set; }
+
+        /// <summary>
+        /// Default font to use for text.
+        /// </summary>
+        public Font DefaultFont { get; set; }
 
         /// <summary>
         /// If Font is null, then the content layout engine will look up a font described by 
@@ -45,6 +56,6 @@ namespace AgateLib.UserInterface.Content
         /// to match the height of the text.
         /// </summary>
         public bool ScaleImages { get; set; } = true;
-        public Font DefaultFont { get; internal set; }
+
     }
 }

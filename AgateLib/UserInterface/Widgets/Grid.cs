@@ -490,4 +490,26 @@ namespace AgateLib.UserInterface
         /// </summary>
         Dense,
     }
+
+    public static class GridExtensions
+    {
+        /// <summary>
+        /// Adds a label element to the next grid cell.
+        /// </summary>
+        /// <param name="props"></param>
+        /// <param name="text"></param>
+        /// <param name="labelPropsEditor">An optional method to modify the label props.</param>
+        /// <returns></returns>
+        public static GridProps Add(this GridProps props, 
+                                    string text, 
+                                    Action<LabelProps> labelPropsEditor = null,
+                                    string styleClass = null)
+        {
+            var labelProps = new LabelProps { Text = text, StyleClass = styleClass };
+
+            labelPropsEditor?.Invoke(labelProps);
+
+            return props.Add(new Label(labelProps));
+        }
+    }
 }
