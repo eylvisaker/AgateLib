@@ -28,8 +28,6 @@ namespace AgateLib.UserInterface.Content.Commands
     {
         public void Execute(LayoutContext context, string arg)
         {
-            Color newColor;
-
             if (float.TryParse(arg, out float scale))
             {
                 context.Font.Size = (int)(context.Options.DefaultFont.Size * scale);
