@@ -44,6 +44,8 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public LayoutStyle Layout => themeStyle.Layout;
 
+        public TextAlign? TextAlign => themeStyle.TextAlign;
+
         public int Specificity => match.Specificity;
 
         public IReadOnlyCollection<string> PseudoClasses => match.PseudoClasses;

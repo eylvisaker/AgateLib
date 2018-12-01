@@ -52,6 +52,7 @@ namespace AgateLib.UserInterface
 
         LayoutBox Margin { get; }
 
+        TextAlign TextAlign { get; }
 
         /// <summary>
         /// Called by the rendering engine before each frame to ensure that the style
@@ -107,6 +108,7 @@ namespace AgateLib.UserInterface
             Border = Aggregate(p => p.Border);
             Margin = Aggregate(p => p.Margin) ?? default(LayoutBox);
             Padding = Aggregate(p => p.Padding) ?? default(LayoutBox);
+            TextAlign = Aggregate(p => p.TextAlign) ?? TextAlign.Left;
             Animation = Aggregate(p => p.Animation);
             Flex = Aggregate(p => p.Flex);
             FlexItem = Aggregate(p => p.FlexItem);
@@ -295,6 +297,8 @@ namespace AgateLib.UserInterface
         public LayoutBox Padding { get; private set; }
 
         public LayoutBox Margin { get; private set; }
+
+        public TextAlign TextAlign { get; private set; }
 
         public FlexStyle Flex { get; private set; }
 

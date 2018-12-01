@@ -62,6 +62,8 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public LayoutStyle Layout { get; set; }
 
+        public TextAlign? TextAlign { get; set; }
+
         #endregion
 
         #region --- Debug Info ---

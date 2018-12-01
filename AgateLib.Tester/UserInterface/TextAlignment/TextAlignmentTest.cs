@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,17 +8,16 @@ using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AgateLib.Tests.UserInterface.RadioButtons
+namespace AgateLib.Tests.UserInterface.TextAlignment
 {
-    public class RadioButtonTest : UITest
+    public class DoubleRadioMenusTest : UITest
     {
-        public override string Name => "Radio Buttons";
+        public override string Name => "Text Alignment";
 
         protected override IRenderable CreateUIRoot()
         {
-            return new RadioButtonApp(new RadioButtonAppProps
+            return new TextAlignmentApp(new TextAlignmentAppProps
             {
-                Items = new List<string> { "Foo", "Bar", "Gra", "San", "Zen" },
                 OnCancel = e => ExitTest(),
             });
         }

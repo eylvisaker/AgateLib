@@ -104,9 +104,9 @@ namespace AgateLib.UserInterface
                     var itemMaxSize = LayoutMath.ItemContentMaxSize(itemBox, maxSize);
 
                     item.Display.Region.IdealContentSize
-                        = item.CalcIdealContentSize(renderContext, maxSize);
+                        = item.CalcIdealContentSize(renderContext, itemMaxSize);
 
-                    var itemIdealSize = item.Display.Region.CalcConstrainedContentSize(maxSize);
+                    var itemIdealSize = item.Display.Region.CalcConstrainedContentSize(itemMaxSize);
 
                     SetSizeAt(x, y, itemIdealSize);
 
@@ -146,16 +146,10 @@ namespace AgateLib.UserInterface
                     }
 
                     item.Display.MarginRect = new Rectangle(
-                        destx + item.Display.Region.MarginToContentOffset.Left,
-                        desty + item.Display.Region.MarginToContentOffset.Top,
+                        destx,
+                        desty,
                         columnWidths[x],
                         rowHeights[y]);
-
-                    //item.Display.ContentRect = new Rectangle(
-                    //    destx + item.Display.Region.MarginToContentOffset.Left,
-                    //    desty + item.Display.Region.MarginToContentOffset.Top,
-                    //    SizeAt(x, y).Width,
-                    //    SizeAt(x, y).Height);
 
                     item.DoLayout(renderContext, item.Display.ContentRect.Size);
 

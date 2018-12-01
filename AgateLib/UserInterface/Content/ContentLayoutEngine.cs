@@ -79,6 +79,8 @@ namespace AgateLib.UserInterface.Content
                 ProcessToken(context, context.ReadNextToken());
             }
 
+            context.ApplyAlignment();
+
             return context.Layout;
         }
 

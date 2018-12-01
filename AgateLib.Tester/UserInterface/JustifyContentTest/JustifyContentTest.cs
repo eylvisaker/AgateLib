@@ -14,10 +14,10 @@ namespace AgateLib.Tests.UserInterface.JustifyContentTest
     {
         public override string Name => "Justify Content";
 
-        protected override Workspace InitializeWorkspace() => new Workspace("default",
-            new JustifyContentApp(new JustifyContentAppProps
+        protected override IRenderable CreateUIRoot()
+            => new JustifyContentApp(new JustifyContentAppProps
             {
-                OnCancel = e => OnExit?.Invoke()
-            }));
+                OnCancel = e => ExitTest(),
+            });
     }
 }

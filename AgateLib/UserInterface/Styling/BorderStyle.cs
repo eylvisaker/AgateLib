@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework;
 
@@ -31,20 +32,19 @@ namespace AgateLib.UserInterface
     public class BorderStyle
     {
         /// <summary>
-        /// Creates a border style object that is the same color and width 
-        /// for all four sides.
+        /// Returns a BorderStyle object which has a solid color on all sides.
         /// </summary>
         /// <param name="color"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public static BorderStyle Create(Color color, int width)
+        public static BorderStyle Solid(Color color, int width)
         {
             return new BorderStyle
             {
                 Top = new BorderSideStyle { Color = color, Width = width },
-                Left = new BorderSideStyle { Color = color, Width = width },
-                Right = new BorderSideStyle { Color = color, Width = width },
-                Bottom = new BorderSideStyle { Color = color, Width = width },
+                Left = new BorderSideStyle {  Color = color, Width = width },
+                Right = new BorderSideStyle {  Color = color, Width = width },
+                Bottom = new BorderSideStyle {  Color = color, Width = width },
             };
         }
 

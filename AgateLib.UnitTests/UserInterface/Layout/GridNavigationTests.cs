@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AgateLib.Tests;
 using FluentAssertions;
-using Xunit;
 using Microsoft.Xna.Framework;
-using AgateLib.UserInterface;
-using AgateLib.Tests;
 using Moq;
+using System;
+using Xunit;
 
 namespace AgateLib.UserInterface.Layout
 {
-    public class GridTests
+    public class GridNavigationTests
     {
         private Mock<RenderElement<RenderElementProps>> parent;
         private Grid grid;
@@ -345,7 +340,7 @@ namespace AgateLib.UserInterface.Layout
                     bool canHaveFocus = true;
 
                     if (layoutStrings[y][x] == ' ')
-                        canHaveFocus = false;    
+                        canHaveFocus = false;
 
                     (var widget, var element) = CommonMocks.Widget($"{x},{y}", elementCanHaveFocus: canHaveFocus);
 

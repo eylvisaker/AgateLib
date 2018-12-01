@@ -28,13 +28,11 @@ namespace AgateLib.UserInterface.Content
 {
     public class ContentText : IContentLayoutItem
     {
-        Vector2 destination;
-
         public ContentText(string text, Font font, Vector2 dest)
         {
             Text = text;
             Font = font;
-            destination = dest;
+            Location = dest;
 
             Size = Font.MeasureString(text);
         }
@@ -46,7 +44,7 @@ namespace AgateLib.UserInterface.Content
 
         public int Count => Text.Length;
 
-        public Vector2 Location => destination;
+        public Vector2 Location { get; set; }
 
         public string Text { get; }
 
@@ -56,7 +54,7 @@ namespace AgateLib.UserInterface.Content
 
         public void Draw(Vector2 origin, ContentRenderContext renderContext)
         {
-            Vector2 destPt = destination + origin;
+            Vector2 destPt = Location + origin;
 
             if (renderContext.RemainingItemsToDisplay > Text.Length)
             {

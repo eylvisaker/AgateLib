@@ -33,7 +33,7 @@ namespace AgateLib.Tests.FontTests
 
         public string Category => "Fonts";
 
-        public Action OnExit { get; set; }
+        public event Action OnExit;
 
         public Rectangle ScreenArea { get; set; }
 

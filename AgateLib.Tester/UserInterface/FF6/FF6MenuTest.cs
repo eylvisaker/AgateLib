@@ -20,7 +20,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         public override string Category => "User Interface";
 
-        protected override Workspace InitializeWorkspace()
+        protected override IRenderable CreateUIRoot()
         {
             Scene.Theme = "FF";
 
@@ -30,7 +30,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             Scene.Indicator = new PointerIndicator(Content.Load<Texture2D>("UserInterface/Pointer"));
 
-            return menu.InitializeWorkspace();
+            return menu.InitializeUIRoot();
         }
 
         private FF6Model InitializeTestData()

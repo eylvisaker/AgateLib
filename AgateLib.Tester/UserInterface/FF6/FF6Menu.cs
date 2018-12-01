@@ -7,7 +7,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 {
     public class FF6Menu
     {
-        private Workspace mainWorkspace;
+        private FF6MainMenu mainMenu;
 
         public FF6Menu(FF6Model model)
         {
@@ -18,16 +18,16 @@ namespace AgateLib.Tests.UserInterface.FF6
 
         public event Action ExitMenu;
 
-        public Workspace InitializeWorkspace()
+        public IRenderable InitializeUIRoot()
         {
-            return mainWorkspace;
+            return mainMenu;
         }
 
         public FF6Model Model { get; private set; }
 
         private void InitializeComponent()
         {
-            mainWorkspace = InitializeMainMenu();
+            mainMenu = InitializeMainMenu();
         }
 
         private Item BestItem(string slotName)
@@ -39,7 +39,7 @@ namespace AgateLib.Tests.UserInterface.FF6
             return items.FirstOrDefault();
         }
 
-        private Workspace InitializeMainMenu()
+        private FF6MainMenu InitializeMainMenu()
         {
             var mainMenu = new FF6MainMenu(new FF6MainMenuProps
             {
@@ -55,7 +55,7 @@ namespace AgateLib.Tests.UserInterface.FF6
                 OnEquipOptimum = EquipOptimum,
             });
 
-            return new Workspace("default", mainMenu);
+            return mainMenu;
         }
 
         private void EquipOptimum(UserInterfaceEvent<PlayerCharacter> e)

@@ -57,5 +57,9 @@ namespace AgateLib.UserInterface.Content
         /// </summary>
         public bool ScaleImages { get; set; } = true;
 
+        /// <summary>
+        /// How to align the text when laid out.
+        /// </summary>
+        public TextAlign TextAlign { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
         }
 
         public Workspace OpenMenu(Action<string> log)
-            => new FF6Menu(model).InitializeWorkspace();
+            => new Workspace("default", new FF6Menu(model).InitializeUIRoot());
         
         public void SetInventory(IEnumerable<Item> items)
         {

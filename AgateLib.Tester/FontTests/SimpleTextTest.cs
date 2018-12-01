@@ -5,48 +5,48 @@ using System;
 
 namespace AgateLib.Tests.FontTests
 {
-	public class SimpleTextTest : ITest
+    public class SimpleTextTest : ITest
 
-	{
-		private PaletteC64 palette = new PaletteC64();
-		private SpriteBatch spriteBatch;
-		private Font font;
+    {
+        private PaletteC64 palette = new PaletteC64();
+        private SpriteBatch spriteBatch;
+        private Font font;
 
-		public string Name => "Simple Text";
+        public string Name => "Simple Text";
 
-		public string Category => "Font";
+        public string Category => "Font";
 
-        public Action OnExit { get; set; }
+        public event Action OnExit;
 
         public Rectangle ScreenArea { get; set; }
 
         public void Draw(GameTime gameTime)
-		{
-			spriteBatch.Begin();
+        {
+            spriteBatch.Begin();
 
-			Vector2 dest = new Vector2();
+            Vector2 dest = new Vector2();
 
-			foreach(var color in palette)
-			{
-				font.Color = color;
+            foreach (var color in palette)
+            {
+                font.Color = color;
 
-				font.DrawText(spriteBatch, dest, "This is a test!");
+                font.DrawText(spriteBatch, dest, "This is a test!");
 
-				dest.X += font.FontHeight;
-				dest.Y += font.FontHeight;
-			}
+                dest.X += font.FontHeight;
+                dest.Y += font.FontHeight;
+            }
 
-			spriteBatch.End();
-		}
+            spriteBatch.End();
+        }
 
-		public void Initialize(ITestResources resources)
-		{
-			spriteBatch = new SpriteBatch(resources.GraphicsDevice);
-			font = new Font(resources.Fonts.Default);
-		}
+        public void Initialize(ITestResources resources)
+        {
+            spriteBatch = new SpriteBatch(resources.GraphicsDevice);
+            font = new Font(resources.Fonts.Default);
+        }
 
-		public void Update(GameTime gameTime)
-		{
-		}
-	}
+        public void Update(GameTime gameTime)
+        {
+        }
+    }
 }

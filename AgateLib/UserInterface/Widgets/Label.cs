@@ -92,6 +92,7 @@ namespace AgateLib.UserInterface
 
         public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
+            RefreshContent(renderContext, size.Width);
         }
 
         public override string StyleTypeId => "label";
@@ -105,12 +106,14 @@ namespace AgateLib.UserInterface
 
         public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
-            renderContext.Draw(content, clientArea);
+            if (content != null)
+            {
+                renderContext.Draw(content, clientArea);
+            }
         }
 
         public override void Update(IUserInterfaceRenderContext renderContext)
         {
-
             content?.Update(renderContext.GameTime);
         }
 
@@ -138,6 +141,7 @@ namespace AgateLib.UserInterface
                 else
                 {
                     layoutOptions.Font = Style.Font;
+                    layoutOptions.TextAlign = Style.TextAlign;
                     layoutOptions.MaxWidth = maxWidth;
 
                     content = renderContext.CreateContentLayout(Props.Text, layoutOptions, Props.PerformLocalization);

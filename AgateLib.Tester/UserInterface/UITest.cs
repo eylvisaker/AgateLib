@@ -19,7 +19,12 @@ namespace AgateLib.Tests.UserInterface
 
         public virtual string Category => "User Interface";
 
-        public Action OnExit { get; set; }
+        public event Action OnExit;
+
+        protected void ExitTest()
+        {
+            scene.ExitThen(() => OnExit?.Invoke());
+        }
 
         public Rectangle ScreenArea
         {
@@ -54,8 +59,13 @@ namespace AgateLib.Tests.UserInterface
             scene.Desktop.PushWorkspace(InitializeWorkspace());
         }
 
-        protected abstract Workspace InitializeWorkspace();
+        private Workspace InitializeWorkspace()
+        {
+            return new Workspace("default", CreateUIRoot());
+        }
 
+        protected abstract IRenderable CreateUIRoot();
+        
         public void Update(GameTime gameTime)
         {
             if (stack.Count == 0)

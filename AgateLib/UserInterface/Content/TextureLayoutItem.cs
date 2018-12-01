@@ -43,7 +43,7 @@ namespace AgateLib.UserInterface.Content
 
         public int Count => 1;
 
-        public Vector2 Location { get; }
+        public Vector2 Location { get; set; }
 
         public Size Size { get; }
 

@@ -29,7 +29,7 @@ namespace AgateLib.UserInterface.Content
 {
     public interface IContentLayoutItem
     {
-        Vector2 Location { get; }
+        Vector2 Location { get; set; }
 
         Size Size { get; }
 

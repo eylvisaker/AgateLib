@@ -14,9 +14,9 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
     {
         public override string Name => "Double Radio Buttons";
 
-        protected override Workspace InitializeWorkspace()
+        protected override IRenderable CreateUIRoot()
         {
-            return new Workspace("default", new DoubleRadioMenusApp(new DoubleRadioMenusProps
+            return new DoubleRadioMenusApp(new DoubleRadioMenusProps
             {
                 LeftItems = new[]
                 {
@@ -32,8 +32,8 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
                     new ItemData { Name = "MegaGra", Description = "MegaGra is a nonsense word." },
                     new ItemData { Name = "MegaHoh", Description = "MegaHoh is nothing." },
                 },
-                OnCancel = e => OnExit?.Invoke()
-            }));
+                OnCancel = e => ExitTest(),
+            });
         }
     }
 }

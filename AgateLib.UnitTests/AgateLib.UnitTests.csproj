@@ -234,7 +234,8 @@
     <Compile Include="UserInterface\Content\TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterface\DesktopTests.cs" />
-    <Compile Include="UserInterface\Layout\GridTests.cs" />
+    <Compile Include="UserInterface\Layout\GridLayoutTests.cs" />
+    <Compile Include="UserInterface\Layout\GridNavigationTests.cs" />
     <Compile Include="UserInterface\Layout\LayoutMathTests.cs" />
     <Compile Include="UserInterface\Styling\AnimationStyleTest.cs" />
     <Compile Include="UserInterface\Styling\Themes\CssSelectorTests.cs" />
