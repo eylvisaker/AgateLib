@@ -104,10 +104,26 @@ namespace AgateLib.UserInterface
             return content?.Size ?? Size.Empty;
         }
 
-        public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
+        public override void Draw(IUserInterfaceRenderContext renderContext, 
+                                  Rectangle clientArea)
         {
             if (content != null)
             {
+                int extraHorizontalSpace = clientArea.Width - content.Size.Width;
+
+                switch (Style.TextAlign)
+                {
+                    case TextAlign.Right:
+                        clientArea.X += extraHorizontalSpace;
+                        clientArea.Width -= extraHorizontalSpace;
+                        break;
+
+                    case TextAlign.Center:
+                        clientArea.X += extraHorizontalSpace / 2;
+                        clientArea.Width -= extraHorizontalSpace;
+                        break;
+                }
+
                 renderContext.Draw(content, clientArea);
             }
         }

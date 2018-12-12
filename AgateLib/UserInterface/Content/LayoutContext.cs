@@ -104,21 +104,37 @@ namespace AgateLib.UserInterface.Content
         {
             if (options.TextAlign == TextAlign.Left)
                 return;
-            if (options.MaxWidth == int.MaxValue)
-                return;
 
-            int FindEndOfLine(int startIndex)
+            int maxLineWidth = FindMaxLineWidth();
+
+            ApplyAlignment(maxLineWidth);
+        }
+
+        private int FindMaxLineWidth()
+        {
+            int index = 0;
+
+            float result = 0;
+
+            while (index < layoutItems.Count)
             {
-                float startY = layoutItems[startIndex].Location.Y;
+                int endOfLine = FindEndOfLine(index);
+                IContentLayoutItem lastItem = layoutItems[endOfLine];
 
-                for(int i = startIndex; i < layoutItems.Count; i++)
-                {
-                    if (layoutItems[i].Location.Y > startY)
-                        return i - 1;
-                }
+                float right = lastItem.Location.X + lastItem.Size.Width;
 
-                return layoutItems.Count - 1;
+                result = Math.Max(result, right);
+
+                index = endOfLine + 1;
             }
+
+            return (int)Math.Ceiling(result);
+        }
+
+        private void ApplyAlignment(int maxLineWidth)
+        {
+            if (options.TextAlign == TextAlign.Left)
+                return;
 
             int index = 0;
 
@@ -128,18 +144,31 @@ namespace AgateLib.UserInterface.Content
                 IContentLayoutItem lastItem = layoutItems[endOfLine];
 
                 float right = lastItem.Location.X + lastItem.Size.Width;
-                float space = options.MaxWidth - right;
+                float space = maxLineWidth - right;
 
                 if (options.TextAlign == TextAlign.Center)
                     space /= 2;
 
                 Vector2 displacement = new Vector2(space, 0);
 
-                for (int i = index; i <= endOfLine; i++) 
+                for (int i = index; i <= endOfLine; i++)
                     layoutItems[i].Location += displacement;
 
                 index = endOfLine + 1;
             }
+        }
+
+        int FindEndOfLine(int startIndex)
+        {
+            float startY = layoutItems[startIndex].Location.Y;
+
+            for (int i = startIndex; i < layoutItems.Count; i++)
+            {
+                if (layoutItems[i].Location.Y > startY)
+                    return i - 1;
+            }
+
+            return layoutItems.Count - 1;
         }
 
         public void AppendText(string text, int recursion = 0)
