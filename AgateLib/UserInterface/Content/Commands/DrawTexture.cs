@@ -20,50 +20,49 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Mathematics.Geometry;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib.UserInterface.Content.Commands
 {
-	public class DrawTextureCommand : IContentCommand
-	{
-		public Dictionary<string, Texture2D> Images { get; }
-			= new Dictionary<string, Texture2D>(StringComparer.OrdinalIgnoreCase);
+    public class DrawTextureCommand : IContentCommand
+    {
+        public Dictionary<string, Texture2D> Images { get; }
+            = new Dictionary<string, Texture2D>(StringComparer.OrdinalIgnoreCase);
 
-		public void Execute(LayoutContext context, string arg)
-		{
-			Texture2D image;
+        public void Execute(LayoutContext context, string arg)
+        {
+            Texture2D image;
 
-			if (Images.TryGetValue(arg, out image))
-			{
-				var size = new Size(image.Width, image.Height);
+            if (Images.TryGetValue(arg, out image))
+            {
+                var size = new Size(image.Width, image.Height);
 
-				if (context.Options.ScaleImages)
-				{
-					var ratio = context.Font.FontHeight / (float)image.Height;
+                if (context.Options.ScaleImages)
+                {
+                    var ratio = context.Font.FontHeight / (float)image.Height;
 
-					size = new Size((int)(image.Width * ratio), (int)(image.Height * ratio));
-				}
+                    size = new Size((int)(image.Width * ratio), (int)(image.Height * ratio));
+                }
 
-				Vector2 insertionPoint = context.ReserveSpace(size);
+                Vector2 insertionPoint = context.ReserveSpace(size);
 
-				var item = new TextureLayoutItem(image,
-					insertionPoint, 
-					size);
+                var item = new TextureLayoutItem(image,
+                    insertionPoint,
+                    size);
 
-				context.Add(item);
-			}
-		}
+                context.Add(item);
+            }
+        }
 
-		public DrawTextureCommand Add(string name, Texture2D texture)
-		{
-			Images.Add(name, texture);
+        public DrawTextureCommand Add(string name, Texture2D texture)
+        {
+            Images.Add(name, texture);
 
             return this;
-		}
-	}
+        }
+    }
 }
