@@ -52,7 +52,7 @@ namespace AgateLib.UserInterface.Content.Commands
 
                 var item = new TextureLayoutItem(image,
                     insertionPoint,
-                    size);
+                    new Rectangle(Point.Zero, size));
 
                 context.Add(item);
             }

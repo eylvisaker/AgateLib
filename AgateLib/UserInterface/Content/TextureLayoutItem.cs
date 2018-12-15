@@ -33,25 +33,27 @@ namespace AgateLib.UserInterface.Content
     {
         private readonly Texture2D image;
 
-        public TextureLayoutItem(Texture2D image, Vector2 dest, Size size)
+        public TextureLayoutItem(Texture2D image, Vector2 dest, Rectangle sourceRect)
         {
             this.image = image;
 
             Location = dest;
-            Size = size;
+            SourceRect = sourceRect;
         }
 
         public int Count => 1;
 
         public Vector2 Location { get; set; }
 
-        public Size Size { get; }
+        public Rectangle SourceRect { get; }
+
+        public Size Size => SourceRect.Size;
 
         public void Draw(Vector2 origin, ContentRenderContext renderContext)
         {
             var destRect = new Rectangle((origin + Location).ToPoint(), new Point(Size.Width, Size.Height));
 
-            renderContext.Draw(image, destRect, Color.White);
+            renderContext.Draw(image, destRect, SourceRect, Color.White);
 
             renderContext.ItemsDisplayed++;
         }
