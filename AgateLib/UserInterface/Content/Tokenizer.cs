@@ -24,82 +24,95 @@ using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.Content
 {
-	public class Tokenizer
-	{
-		private static readonly TokenizerContext textContext = new TokenizerContext('{');
-		private static readonly TokenizerContext commandContext = new TokenizerContext('}') { IncludeBreak = true};
+    public class Tokenizer
+    {
+        private TokenizerContext textContext;
+        private TokenizerContext commandContext;
 
-		public List<string> Tokenize(string text)
-		{
-			List<string> result = new List<string>();
+        public Tokenizer(char commandStart, char commandEnd)
+        {
+            CommandStart = commandStart;
+            CommandEnd = commandEnd;
 
-			int start = 0;
-			var context = textContext;
+            textContext = new TokenizerContext(commandStart);
+            commandContext = new TokenizerContext(commandEnd) { IncludeBreak = true };
+        }
 
-			while (start < text.Length) 
-			{
-				if (text[start] == '{')
-					context = commandContext;
-				else
-				{
-					context = textContext;
-				}
+        public char CommandStart { get; }
 
-				var nextTokenStart = NextTokenStart(text, start+1, context);
-				
-				result.Add(text.Substring(start, nextTokenStart - start));
+        public char CommandEnd { get; }
 
-				start = nextTokenStart;
-			}
+        public List<string> Tokenize(string text)
+        {
+            List<string> result = new List<string>();
 
-			return result;
-		}
+            int start = 0;
+            var context = textContext;
 
-		private int NextTokenStart(string text, int startIndex, TokenizerContext context)
-		{
-			int min = int.MaxValue;
+            while (start < text.Length)
+            {
+                if (textContext.TokenBreaks.Contains(text[start]))
+                    context = commandContext;
+                else
+                {
+                    context = textContext;
+                }
 
-			foreach (char x in context.TokenBreaks)
-			{
-				var dist = Find(text, x, startIndex);
+                var nextTokenStart = NextTokenStart(text, start + 1, context);
 
-				if (min > dist)
-					min = dist;
-			}
+                result.Add(text.Substring(start, nextTokenStart - start));
 
-			if (context.IncludeBreak)
-				min++;
+                start = nextTokenStart;
+            }
 
-			return min;
-		}
+            return result;
+        }
 
-		private int Find(string text, char search, int startIndex)
-		{
-			var result = text.IndexOf(search, startIndex);
+        private int NextTokenStart(string text, int startIndex, TokenizerContext context)
+        {
+            int min = int.MaxValue;
 
-			if (result == -1)
-				return text.Length;
+            foreach (char x in context.TokenBreaks)
+            {
+                var dist = Find(text, x, startIndex);
 
-			return result;
-		}
-	}
+                if (min > dist)
+                    min = dist;
+            }
 
-	public class TokenizerContext
-	{
-		public TokenizerContext()
-		{
-		}
+            if (context.IncludeBreak)
+                min++;
 
-		public TokenizerContext(params char[] tokenBreaks)
-		{
-			TokenBreaks.AddRange(tokenBreaks);
-		}
+            return min;
+        }
 
-		public List<char> TokenBreaks { get; } = new List<char>();
+        private int Find(string text, char search, int startIndex)
+        {
+            var result = text.IndexOf(search, startIndex);
 
-		/// <summary>
-		/// Set to true to include the breaking token as part of the current token.
-		/// </summary>
-		public bool IncludeBreak { get; set; }
-	}
+            if (result == -1)
+                return text.Length;
+
+            return result;
+        }
+    }
+
+    public class TokenizerContext
+    {
+        public TokenizerContext()
+        {
+        }
+
+        public TokenizerContext(params char[] tokenBreaks)
+        {
+            TokenBreaks.AddRange(tokenBreaks);
+        }
+
+        public List<char> TokenBreaks { get; } = new List<char>();
+
+        /// <summary>
+        /// Set to true to include the breaking token as part of the current token.
+        /// </summary>
+        public bool IncludeBreak { get; set; }
+    }
 }

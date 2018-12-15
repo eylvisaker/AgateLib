@@ -20,10 +20,10 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
 using AgateLib.Display;
 using AgateLib.UserInterface.Content.Commands;
+using System;
+using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.Content
 {
@@ -52,9 +52,8 @@ namespace AgateLib.UserInterface.Content
     public class ContentLayoutEngine : IContentLayoutEngine
     {
         private readonly IFontProvider fonts;
-        private readonly Tokenizer tokenizer = new Tokenizer();
-
-        Dictionary<string, IContentCommand> commands
+        private Tokenizer tokenizer;
+        private Dictionary<string, IContentCommand> commands
             = new Dictionary<string, IContentCommand>(StringComparer.OrdinalIgnoreCase);
 
         public ContentLayoutEngine(IFontProvider fonts)
@@ -66,8 +65,18 @@ namespace AgateLib.UserInterface.Content
             commands.Add("reset", new ResetFont());
         }
 
+        public char CommandStart { get; set; } = '`';
+        public char CommandEnd { get; set; } = '`';
+
         public IContentLayout LayoutContent(string text, ContentLayoutOptions layoutOptions, bool _ = true)
         {
+            if (tokenizer == null ||
+                tokenizer.CommandStart != CommandStart ||
+                tokenizer.CommandEnd != CommandEnd)
+            {
+                tokenizer = new Tokenizer(CommandStart, CommandEnd);
+            }
+
             layoutOptions.Font = layoutOptions.Font ?? LookupFont(layoutOptions.FontLookup);
             layoutOptions.DefaultFont = new Font(layoutOptions.Font);
 
@@ -122,7 +131,7 @@ namespace AgateLib.UserInterface.Content
             }
         }
 
-        (string command, string arg) SplitCommand(string token)
+        private (string command, string arg) SplitCommand(string token)
         {
             int space = token.IndexOf(' ');
             if (space == -1)
@@ -144,7 +153,7 @@ namespace AgateLib.UserInterface.Content
             if (token == null)
                 return false;
 
-            return token.StartsWith("{") && token.EndsWith("}");
+            return token[0] == CommandStart && token[token.Length-1] == CommandEnd;
         }
 
         public void AddCommand(string name, IContentCommand command)
