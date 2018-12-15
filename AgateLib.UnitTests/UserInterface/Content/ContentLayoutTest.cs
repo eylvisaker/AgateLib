@@ -10,7 +10,35 @@ namespace AgateLib.UserInterface.Content
     public class ContentLayoutTest
     {
         [Fact]
-        public void LayoutTextDefaults()
+        public void LayoutTextWithBackTicks()
+        {
+            var text = @"Enemies with shields can block your attacks.
+Try crouching with `Color Yellow`Down`Color White` and slashing with `Color Yellow`Sword`Color White` to beat enemies with shields.
+Be careful! Some enemies may anticipate this!";
+
+            var fontProvider = CommonMocks.FontProvider("temp");
+
+            ContentLayoutEngine layoutEngine = new ContentLayoutEngine(fontProvider.Object)
+            {
+                CommandStart = '`',
+                CommandEnd = '`',
+            };
+
+            var result = (ContentLayout)layoutEngine.LayoutContent(text, 200);
+
+            result.Draw(Vector2.Zero);
+
+            var items = result.Items.Cast<ContentText>().ToList();
+
+            ValidateItem(items, 0, new Vector2(0, 0), "Enemies with shields can block your");
+            ValidateItem(items, 1, new Vector2(0, 10), "attacks.");
+            ValidateItem(items, 2, new Vector2(0, 20), "Try crouching with ");
+            ValidateItem(items, 3, new Vector2(95, 20), "Down");
+            ValidateItem(items, 4, new Vector2(115, 20), " and slashing");
+        }
+
+        [Fact]
+        public void LayoutTextWithBraces()
         {
             var text = @"Enemies with shields can block your attacks.
 Try crouching with {Color Yellow}Down{Color White} and slashing with {Color Yellow}Sword{Color White} to beat enemies with shields.
@@ -18,7 +46,11 @@ Be careful! Some enemies may anticipate this!";
 
             var fontProvider = CommonMocks.FontProvider("temp");
 
-            ContentLayoutEngine layoutEngine = new ContentLayoutEngine(fontProvider.Object);
+            ContentLayoutEngine layoutEngine = new ContentLayoutEngine(fontProvider.Object)
+            {
+                CommandStart = '{',
+                CommandEnd = '}',
+            };
 
             var result = (ContentLayout)layoutEngine.LayoutContent(text, 200);
 
