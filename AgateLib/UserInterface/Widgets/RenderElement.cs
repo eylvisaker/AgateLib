@@ -202,7 +202,7 @@ namespace AgateLib.UserInterface
 
         protected IEnumerable<IRenderElement> Finalize(IEnumerable<IRenderable> renderables)
         {
-            return renderables.Select(Finalize);
+            return renderables.Where(x => x != null).Select(Finalize);
         }
 
         protected IRenderElement Finalize(IRenderable renderable)
