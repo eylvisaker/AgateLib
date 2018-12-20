@@ -69,7 +69,7 @@ Be careful! Some enemies may anticipate this!";
         public void LayoutTextAlignRight()
         {
             var text = @"Enemies with shields can block your attacks.
-Try crouching with {Color Yellow}Down{Color White} and slashing with {Color Yellow}Sword{Color White} to beat enemies with shields.
+Try crouching with `Color Yellow`Down`Color White` and slashing with `Color Yellow`Sword`Color White` to beat enemies with shields.
 Be careful! Some enemies may anticipate this!";
 
             var fontProvider = CommonMocks.FontProvider("temp");
