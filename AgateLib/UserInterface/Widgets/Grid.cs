@@ -150,8 +150,8 @@ namespace AgateLib.UserInterface
                         desty,
                         columnWidths[x],
                         rowHeights[y]);
-
-                    item.DoLayout(renderContext, item.Display.ContentRect.Size);
+                    
+		    item.DoLayout(renderContext, item.Display.ContentRect.Size);
 
                     destx += columnWidths[x];
                 }

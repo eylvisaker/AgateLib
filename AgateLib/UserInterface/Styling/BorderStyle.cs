@@ -42,9 +42,9 @@ namespace AgateLib.UserInterface
             return new BorderStyle
             {
                 Top = new BorderSideStyle { Color = color, Width = width },
-                Left = new BorderSideStyle {  Color = color, Width = width },
-                Right = new BorderSideStyle {  Color = color, Width = width },
-                Bottom = new BorderSideStyle {  Color = color, Width = width },
+                Left = new BorderSideStyle { Color = color, Width = width },
+                Right = new BorderSideStyle { Color = color, Width = width },
+                Bottom = new BorderSideStyle { Color = color, Width = width },
             };
         }
 
