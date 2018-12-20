@@ -32,7 +32,8 @@ namespace AgateLib.UserInterface.Content
     public class LayoutContext
     {
         private List<string> tokens;
-        private int currentToken = -1;
+        private int currentTokenIndex = -1;
+        private int lineStartIndex = 0;
         private List<IContentLayoutItem> layoutItems = new List<IContentLayoutItem>();
         private readonly ContentLayoutOptions options;
 
@@ -45,9 +46,9 @@ namespace AgateLib.UserInterface.Content
             this.options = layoutOptions;
         }
 
-        public bool AnyTokensLeft => currentToken < tokens.Count - 1;
+        public bool AnyTokensLeft => currentTokenIndex < tokens.Count - 1;
 
-        public string CurrentToken => currentToken < tokens.Count ? tokens[currentToken] : null;
+        public string CurrentToken => currentTokenIndex < tokens.Count ? tokens[currentTokenIndex] : null;
 
         public IContentLayout Layout => new ContentLayout(layoutItems);
 
@@ -63,7 +64,7 @@ namespace AgateLib.UserInterface.Content
 
         public string ReadNextToken()
         {
-            currentToken++;
+            currentTokenIndex++;
 
             return CurrentToken;
         }
@@ -96,6 +97,78 @@ namespace AgateLib.UserInterface.Content
             InsertionPoint.X = 0;
             InsertionPoint.Y += Math.Max(LineHeight, Font.FontHeight);
             LineHeight = 0;
+            lineStartIndex = currentTokenIndex;
+        }
+
+        public void ApplyAlignment()
+        {
+            if (options.TextAlign == TextAlign.Left)
+                return;
+
+            int maxLineWidth = FindMaxLineWidth();
+
+            ApplyAlignment(maxLineWidth);
+        }
+
+        private int FindMaxLineWidth()
+        {
+            int index = 0;
+
+            float result = 0;
+
+            while (index < layoutItems.Count)
+            {
+                int endOfLine = FindEndOfLine(index);
+                IContentLayoutItem lastItem = layoutItems[endOfLine];
+
+                float right = lastItem.Location.X + lastItem.Size.Width;
+
+                result = Math.Max(result, right);
+
+                index = endOfLine + 1;
+            }
+
+            return (int)Math.Ceiling(result);
+        }
+
+        private void ApplyAlignment(int maxLineWidth)
+        {
+            if (options.TextAlign == TextAlign.Left)
+                return;
+
+            int index = 0;
+
+            while (index < layoutItems.Count)
+            {
+                int endOfLine = FindEndOfLine(index);
+                IContentLayoutItem lastItem = layoutItems[endOfLine];
+
+                float right = lastItem.Location.X + lastItem.Size.Width;
+                float space = maxLineWidth - right;
+
+                if (options.TextAlign == TextAlign.Center)
+                    space /= 2;
+
+                Vector2 displacement = new Vector2(space, 0);
+
+                for (int i = index; i <= endOfLine; i++)
+                    layoutItems[i].Location += displacement;
+
+                index = endOfLine + 1;
+            }
+        }
+
+        int FindEndOfLine(int startIndex)
+        {
+            float startY = layoutItems[startIndex].Location.Y;
+
+            for (int i = startIndex; i < layoutItems.Count; i++)
+            {
+                if (layoutItems[i].Location.Y > startY)
+                    return i - 1;
+            }
+
+            return layoutItems.Count - 1;
         }
 
         public void AppendText(string text, int recursion = 0)
