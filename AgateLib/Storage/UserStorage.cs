@@ -27,8 +27,11 @@ namespace AgateLib.Storage
 
         public UserStorage()
         {
-            //iso = IsolatedStorageFile.GetUserStoreForApplication();
+#if XBOX
+            iso = IsolatedStorageFile.GetUserStoreForApplication();
+#else
             iso = IsolatedStorageFile.GetUserStoreForDomain();
+#endif
         }
 
         public bool FileExists(string path)
@@ -38,17 +41,33 @@ namespace AgateLib.Storage
 
         public Stream OpenFile(string path, FileMode fileMode)
         {
+            CreateDirectoryIfApplicable(path, fileMode);
+
             return iso.OpenFile(path, fileMode);
         }
-
+        
         public Stream OpenFile(string path, FileMode fileMode, FileAccess fileAccess)
         {
+            CreateDirectoryIfApplicable(path, fileMode);
+
             return iso.OpenFile(path, fileMode, fileAccess);
         }
 
         public Stream OpenFile(string path, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
         {
+            CreateDirectoryIfApplicable(path, fileMode);
+
             return iso.OpenFile(path, fileMode, fileAccess, fileShare);
+        }
+
+        private void CreateDirectoryIfApplicable(string path, FileMode fileMode)
+        {
+            if (fileMode == FileMode.Create ||
+                            fileMode == FileMode.CreateNew ||
+                            fileMode == FileMode.OpenOrCreate)
+            {
+                iso.CreateDirectory(Path.GetDirectoryName(path));
+            }
         }
     }
 }

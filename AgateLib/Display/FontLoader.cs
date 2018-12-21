@@ -37,9 +37,9 @@ namespace AgateLib.Display
 {
     public static class FontLoader
     {
-        static Deserializer deserializer;
+        static IDeserializer deserializer;
 
-        private static Deserializer CreateDeserializer()
+        private static IDeserializer CreateDeserializer()
         {
             return new DeserializerBuilder()
                 .WithNamingConvention(new HyphenatedNamingConvention())

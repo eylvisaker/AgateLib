@@ -11,8 +11,8 @@ namespace AgateLib.Tests.MathematicsTests.Geometry.TypeConverters
 {
     public class GeometryConverterTests
     {
-        Deserializer deser;
-        Serializer ser;
+        IDeserializer deser;
+        ISerializer ser;
 
         public class Something
         {

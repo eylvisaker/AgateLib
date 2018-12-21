@@ -14,8 +14,8 @@ namespace AgateLib.Tests.MathematicsTests
 {
 	public class VectorTypeConverterTests
 	{
-		private Deserializer deserializer;
-		private Serializer serializer;
+		private IDeserializer deserializer;
+		private ISerializer serializer;
 
 		public VectorTypeConverterTests()
 		{

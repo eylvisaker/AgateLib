@@ -50,7 +50,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// </summary>
         public const string Extension = ".atheme";
 
-        private readonly Deserializer deserializer;
+        private readonly IDeserializer deserializer;
         private readonly IFontProvider fonts;
 
         public ThemeLoader(IFontProvider fonts)
