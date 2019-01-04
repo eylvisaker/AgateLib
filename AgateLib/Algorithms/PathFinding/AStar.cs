@@ -97,7 +97,6 @@ namespace AgateLib.Algorithms.PathFinding
             {
                 state.SearchingPath = true;
                 await Task.Run(() => FindPathExec(state)).ConfigureAwait(false);
-
             }
             finally
             {
