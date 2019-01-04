@@ -53,7 +53,26 @@ namespace AgateLib.UserInterface
             columnWidths = new int[Columns];
             rowHeights = new int[Rows];
 
-            focusPoint = LocationOf(Children.FirstOrDefault(x => x.CanHaveFocus));
+            focusPoint = LocationOf(Children[Props.InitialFocusIndex]);
+
+            var initialFocus = focusPoint;
+
+            while (!ChildAt(focusPoint).CanHaveFocus)
+            {
+                focusPoint.X++;
+                
+                if (focusPoint.X >= Columns)
+                {
+                    focusPoint.X = 0;
+                    focusPoint.Y++;
+                }
+                if (focusPoint.Y >= Rows)
+                {
+                    focusPoint.Y = 0;
+                }
+                if (focusPoint == initialFocus)
+                    break;
+            }
         }
 
         public Point LocationOf(IRenderElement item)
@@ -67,6 +86,11 @@ namespace AgateLib.UserInterface
                 return new Point(-1, -1);
 
             return new Point(index % Columns, index / Columns);
+        }
+
+        private IRenderElement ChildAt(Point gridPt)
+        {
+            return ChildAt(gridPt.X, gridPt.Y);
         }
 
         private IRenderElement ChildAt(int x, int y)
@@ -441,6 +465,11 @@ namespace AgateLib.UserInterface
         }
 
         public bool AllowNavigate { get; set; } = true;
+
+        /// <summary>
+        /// The grid cell index that should initially contain focus.
+        /// </summary>
+        public int InitialFocusIndex { get; set; }
 
         /// <summary>
         /// Puts an item at the specified location in the grid.
