@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AgateLib.Algorithms.PathFinding;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
@@ -79,7 +80,7 @@ namespace AgateLib.Tests.Algorithms.PathFinding
 
             var astar = new AStar<Point>(new FakeMap());
 
-            astar.FindPathSync(state);
+            astar.FindPath(state);
 
             // two steps to the left to get to (2, 2)
             // 13 steps down to get to (2, 15)
@@ -89,7 +90,7 @@ namespace AgateLib.Tests.Algorithms.PathFinding
         }
 
         [Fact]
-        public void AStarPath()
+        public async Task AStarPath()
         {
             AStarState<Point> state = new AStarState<Point>();
             state.Start = new Point(4, 2);
@@ -97,9 +98,7 @@ namespace AgateLib.Tests.Algorithms.PathFinding
 
             var astar = new AStar<Point>(new FakeMap());
 
-            var task = astar.FindPath(state);
-
-            task.Wait();
+            await astar.FindPathAsync(state);
 
             // two steps to the left to get to (2, 2)
             // 13 steps down to get to (2, 15)
