@@ -14,5 +14,13 @@ namespace AgateLib.Tests.Display
 
             clr.ToArgb().Should().Be("78123456");
         }
+
+        [Fact]
+        public void ToArgbZeroGreen()
+        {
+            var clr = new Color(0x88, 0x00, 0x77, 0x66);
+
+            clr.ToArgb().Should().Be("66880077");
+        }
     }
 }

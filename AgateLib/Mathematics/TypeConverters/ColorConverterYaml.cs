@@ -63,7 +63,7 @@ namespace AgateLib.Mathematics.TypeConverters
             emitter.Emit(new YamlDotNet.Core.Events.Scalar(
                 null,
                 null,
-                $"{color.A:x}{color.R:x}{color.G:x}{color.B:x}",
+                color.ToArgb(),
                 ScalarStyle.Plain,
                 true,
                 false
