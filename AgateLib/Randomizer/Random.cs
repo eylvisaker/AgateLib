@@ -137,7 +137,15 @@ namespace AgateLib.Randomizer
         /// <param name="random"></param>
         /// <param name="items"></param>
         /// <returns></returns>
-        public static T PickOne<T>(this IRandom random, IReadOnlyList<T> items) => items[random.NextInteger(items.Count)];
+        public static T PickOne<T>(this IRandom random, IReadOnlyCollection<T> items) 
+        {
+            if (items is IReadOnlyList<T> list)
+            {
+                return list[random.NextInteger(list.Count)];
+            }
+
+            return items.Skip(random.NextInteger(items.Count)).First();
+        }
 
         /// <summary>
         /// Picks a random point within the specified rectangle.
