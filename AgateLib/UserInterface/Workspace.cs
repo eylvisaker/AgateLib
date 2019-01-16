@@ -172,7 +172,9 @@ namespace AgateLib.UserInterface
         {
             DebugMsg($"Handling UI action {args.Action}...");
 
-            Focus?.OnUserInterfaceAction(args);
+            var target = Focus ?? visualTree.TreeRoot;
+
+            target?.OnUserInterfaceAction(args);
 
             if (!args.Handled)
                 UnhandledEvent?.Invoke(args);

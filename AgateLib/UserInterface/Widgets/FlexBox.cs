@@ -576,6 +576,15 @@ namespace AgateLib.UserInterface
             return true;
         }
 
+        public override void OnCancel(UserInterfaceActionEventArgs args)
+        {
+            if (Props.OnCancel != null)
+            {
+                Props.OnCancel?.Invoke(EventData);
+                args.Handled = true;
+            }
+        }
+
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action)
         {
             bool moved = false;

@@ -279,7 +279,7 @@ namespace AgateLib.UserInterface
 
             if (!args.Handled)
             {
-                Parent.OnChildAction(this, args);
+                Parent?.OnChildAction(this, args);
             }
         }
 
