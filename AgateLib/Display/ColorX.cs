@@ -156,13 +156,16 @@ namespace AgateLib.Display
         /// Converts a string to an Microsoft.Xna.Framework.Color structure.
         /// </summary>
         /// <param name="str">The string to convert.  It must be in one of the following formats
-        /// RRGGBB, AARRGGBB, 0xRRGGBB, 0xAARRGGBB where AA, RR, GG, BB are each a hexidecimal
+        /// RRGGBB, AARRGGBB, 0xRRGGBB, 0xAARRGGBB, #RRGGBB, #AARRGGBB
+        /// where AA, RR, GG, BB are each a hexidecimal
         /// number (such as "ff" or "8B").</param>
         /// <returns></returns>
         public static Color FromArgb(string str)
         {
             if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 str = str.Substring(2);
+            else if (str.StartsWith("#", StringComparison.Ordinal))
+                str = str.Substring(1);
 
             if (str.Length == 6)
             {
