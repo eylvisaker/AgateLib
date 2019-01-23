@@ -92,6 +92,8 @@ namespace AgateLib.UserInterface
             Children = new List<IRenderElement> { child };
         }
 
+        public override Size MinContentSize => child.MinContentSize;
+
         public override void OnAccept(UserInterfaceActionEventArgs args)
         {
             if (!Props.Enabled)

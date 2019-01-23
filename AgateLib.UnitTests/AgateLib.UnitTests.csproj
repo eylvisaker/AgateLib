@@ -262,6 +262,7 @@
     <Compile Include="UserInterface\Content\TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterface\DesktopTests.cs" />
+    <Compile Include="UserInterface\Layout\FlexBoxOversizeUnitTests.cs" />
     <Compile Include="UserInterface\Layout\GridLayoutTests.cs" />
     <Compile Include="UserInterface\Layout\GridNavigationTests.cs" />
     <Compile Include="UserInterface\Layout\LayoutMathTests.cs" />
@@ -271,7 +272,7 @@
     <Compile Include="UserInterface\Styling\Themes\ThemeStylerTest.cs" />
     <Compile Include="UserInterface\VisualTreeTests.cs" />
     <Compile Include="UserInterface\Widgets\FixedSizeTests.cs" />
-    <Compile Include="UserInterface\Widgets\FlexBoxTest.cs" />
+    <Compile Include="UserInterface\Layout\FlexBoxDirectionUnitTests.cs" />
     <Compile Include="UserInterface\Widgets\LabelWithLocalizationTest.cs" />
     <Compile Include="UserInterface\Widgets\LabelTest.cs" />
     <Compile Include="UserInterface\Widgets\MenuTest.cs" />

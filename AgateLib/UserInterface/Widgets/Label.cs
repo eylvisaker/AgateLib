@@ -104,6 +104,9 @@ namespace AgateLib.UserInterface
             return content?.Size ?? Size.Empty;
         }
 
+        public override Size MinContentSize
+            => new Size(1, Style.Font.FontHeight);
+
         public override void Draw(IUserInterfaceRenderContext renderContext, 
                                   Rectangle clientArea)
         {

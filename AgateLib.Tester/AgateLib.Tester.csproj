@@ -182,6 +182,10 @@
     <Compile Include="UserInterface\JustifyContentTest\JustifyContentTest.cs" />
     <Compile Include="UserInterface\RadioButtons\RadioButtonApp.cs" />
     <Compile Include="UserInterface\RadioButtons\RadioButtonTest.cs" />
+    <Compile Include="UserInterface\Scrolling\ScrollingApp.cs" />
+    <Compile Include="UserInterface\Scrolling\ScrollingTest.cs" />
+    <Compile Include="UserInterface\Scrolling\ScrollWindow2.cs" />
+    <Compile Include="UserInterface\Scrolling\ScrollWindow1.cs" />
     <Compile Include="UserInterface\TextAlignment\TextAlignmentApp.cs" />
     <Compile Include="UserInterface\TextAlignment\TextAlignmentTest.cs" />
     <Compile Include="UserInterface\TitleMenu\TitleMenuApp.cs" />

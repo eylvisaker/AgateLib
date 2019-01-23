@@ -13,12 +13,12 @@ using Xunit;
 
 namespace AgateLib.Tests.UserInterface.Widgets
 {
-    public class FlexBoxTest
+    public class FlexBoxDirectionUnitTests
     {
         private ThemeStyler styleConfigurator;
         private IUserInterfaceRenderContext renderContext = CommonMocks.RenderContext().Object;
 
-        public FlexBoxTest()
+        public FlexBoxDirectionUnitTests()
         {
             var themes = new ThemeCollection();
             themes["default"] = new Theme();

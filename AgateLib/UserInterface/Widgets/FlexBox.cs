@@ -73,11 +73,25 @@ namespace AgateLib.UserInterface
                 GrowFlexItems(children, ref extraSpace);
                 ContractItems(children, mySize, ref extraSpace);
 
+                ConstrainSizes(children, mySize);
+
                 PositionChildren(mySize, myStyle, children);
                 ApplyAlignment(mySize, myStyle, children);
 
                 DistributeExtraSpace(myStyle, children, ref extraSpace);
+            }
 
+            private void ConstrainSizes(IList<IRenderElement> children, Size mySize)
+            {
+                foreach(IRenderElement child in children)
+                {
+                    Rectangle marginRect = child.Display.MarginRect;
+
+                    marginRect.Width = Math.Min(marginRect.Width, mySize.Width);
+                    marginRect.Height = Math.Min(marginRect.Height, mySize.Height);
+
+                    child.Display.MarginRect = marginRect;
+                }
             }
 
             private void DistributeExtraSpace(IRenderElementStyle myStyle,
@@ -141,8 +155,8 @@ namespace AgateLib.UserInterface
                         Size currentSize = item.Display.Region.ContentRect.Size;
                         Size newSize = SetSize(MainAxis(currentSize) + (int)shrinkAmount,
                                                CrossAxis(currentSize));
-
-                        newSize = LayoutMath.ConstrainSize(newSize, item.Style.Size);
+                        
+                        newSize = LayoutMath.ConstrainSize(newSize, item.Style.Size, item.MinContentSize);
 
                         item.Display.Region.SetContentSize(newSize);
 

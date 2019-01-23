@@ -48,6 +48,11 @@ namespace AgateLib.UserInterface
         IRenderElement Parent { get; }
 
         /// <summary>
+        /// Gets the minimum size of the content.
+        /// </summary>
+        Size MinContentSize { get; }
+
+        /// <summary>
         /// Gets the type identifier used to identify this render element type to the styling
         /// engine.
         /// </summary>
@@ -232,6 +237,8 @@ namespace AgateLib.UserInterface
         public ElementReference Ref { get; set; }
 
         protected UserInterfaceEvent EventData { get; }
+
+        public virtual Size MinContentSize => new Size(1, 1);
 
         public abstract Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize);
 

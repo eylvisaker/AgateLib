@@ -8,15 +8,15 @@ using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AgateLib.Tests.UserInterface.TextAlignment
+namespace AgateLib.Tests.UserInterface.Scrolling
 {
-    public class TextAlignmentTest : UITest
+    public class ScrollingTest : UITest
     {
-        public override string Name => "Text Alignment";
+        public override string Name => "Scrolling";
 
         protected override IRenderable CreateUIRoot()
         {
-            return new TextAlignmentApp(new TextAlignmentAppProps
+            return new ScrollingApp(new ScrollingAppProps
             {
                 OnCancel = e => ExitTest(),
             });

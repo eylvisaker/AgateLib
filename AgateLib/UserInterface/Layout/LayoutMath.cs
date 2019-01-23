@@ -50,21 +50,33 @@ namespace AgateLib.UserInterface.Layout
             return new Size(itemMaxWidth, itemMaxHeight);
         }
 
-
-        public static Size ConstrainSize(Size size, SizeConstraints constraints)
+        /// <summary>
+        /// Constrains the content size of a render element.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="constraints"></param>
+        /// <param name="minContentSize"></param>
+        /// <returns></returns>
+        public static Size ConstrainSize(Size size, SizeConstraints constraints, Size? minContentSize)
         {
-            if (constraints == null)
-                return size;
+            if (constraints != null)
+            {
+                if (size.Width > constraints.MaxWidth)
+                    size.Width = constraints.MaxWidth.Value;
+                if (size.Height > constraints.MaxHeight)
+                    size.Height = constraints.MaxHeight.Value;
 
-            if (size.Width > constraints.MaxWidth)
-                size.Width = constraints.MaxWidth.Value;
-            if (size.Height > constraints.MaxHeight)
-                size.Height = constraints.MaxHeight.Value;
+                if (size.Width < constraints.MinWidth)
+                    size.Width = constraints.MinWidth;
+                if (size.Height < constraints.MinHeight)
+                    size.Height = constraints.MinHeight;
+            }
 
-            if (size.Width  < constraints.MinWidth)
-                size.Width  = constraints.MinWidth;
-            if (size.Height < constraints.MinHeight)
-                size.Height = constraints.MinHeight;
+            if (minContentSize != null)
+            {
+                size.Width = Math.Max(size.Width, minContentSize.Value.Width);
+                size.Height = Math.Max(size.Height, minContentSize.Value.Height);
+            }
 
             return size;
         }
@@ -96,7 +108,7 @@ namespace AgateLib.UserInterface.Layout
 
             Size idealSize = item.CalcIdealContentSize(renderContext, maxSize);
 
-            idealSize = ConstrainSize(idealSize, item.Style.Size);
+            idealSize = ConstrainSize(idealSize, item.Style.Size, item.MinContentSize);
 
             item.Display.Region.IdealContentSize = idealSize;
         }
