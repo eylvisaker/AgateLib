@@ -24,37 +24,34 @@ using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.UserInterface.Content
+namespace AgateLib.UserInterface.Content.LayoutItems
 {
-    public class ContentText : IContentLayoutItem
+    public class ContentText : ContentLayoutItem
     {
-        public ContentText(string text, Font font, Vector2 dest)
+        public ContentText(string text, Font font)
         {
-            Text = text;
+            Text = text ?? "";
             Font = font;
-            Location = dest;
 
             Size = Font.MeasureString(text);
         }
 
         public override string ToString()
         {
-            return $"ContentText:{Text}";
+            return $"ContentText: {Text}";
         }
 
-        public int Count => Text.Length;
-
-        public Vector2 Location { get; set; }
+        public override int Count => Text.Length;
 
         public string Text { get; }
 
         public Font Font { get; }
 
-        public Size Size { get; }
+        public override Size Size { get; }
 
-        public void Draw(Vector2 origin, ContentRenderContext renderContext)
+        public override void Draw(Vector2 origin, ContentRenderContext renderContext)
         {
-            Vector2 destPt = Location + origin;
+            Vector2 destPt = origin + Position.ToVector2();
 
             if (renderContext.RemainingItemsToDisplay > Text.Length)
             {
@@ -69,11 +66,6 @@ namespace AgateLib.UserInterface.Content
 
                 renderContext.ItemsDisplayed += count;
             }
-
-        }
-
-        public void Update(GameTime time)
-        {
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿//
+//
 //    Copyright (c) 2006-2018 Erik Ylvisaker
 //
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,28 +20,41 @@
 //    SOFTWARE.
 //
 
-using System;
+using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AgateLib.Mathematics.Geometry;
 
-namespace AgateLib.UserInterface.Content
+namespace AgateLib.UserInterface.Content.LayoutItems
 {
-    public interface IContentLayoutItem
+    /// <summary>
+    /// Draws an image as part of the content.
+    /// </summary>
+	public class TextureLayoutItem : ContentLayoutItem
     {
-        Vector2 Location { get; set; }
+        private readonly Texture2D image;
 
-        Size Size { get; }
+        public TextureLayoutItem(Texture2D image, Rectangle sourceRect)
+        {
+            this.image = image;
 
-        /// <summary>
-        /// The number of items to be drawn by this item.
-        /// For text, this is the number of characters.
-        /// For an image, this is usually 1.
-        /// </summary>
-        int Count { get; }
+            SourceRect = sourceRect;
+        }
 
-        void Update(GameTime time);
+        public override int Count => 1;
 
-        void Draw(Vector2 origin, ContentRenderContext renderContext);
+        public override Size Size => SourceRect.Size;
+
+        public Rectangle SourceRect { get; }
+
+        public override void Draw(Vector2 origin, ContentRenderContext renderContext)
+        {
+            Vector2 drawPt = origin + Position.ToVector2();
+
+            var destRect = new Rectangle(drawPt.ToPoint(), Size);
+
+            renderContext.Draw(image, destRect, SourceRect, Color.White);
+
+            renderContext.ItemsDisplayed++;
+        }
     }
 }

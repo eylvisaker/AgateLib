@@ -76,7 +76,7 @@ namespace AgateLib.UserInterface
         public void Draw(IUserInterfaceRenderContext renderContext)
         {
             contentLayoutOptions.Font = Font;
-            contentLayoutOptions.MaxWidth = renderContext.Area.Width;
+            //contentLayoutOptions.MaxWidth = renderContext.Area.Width;
 
             var validItems = items.Where(kvp => kvp.Value.Visible
                                              && !string.IsNullOrWhiteSpace(kvp.Value.Text));

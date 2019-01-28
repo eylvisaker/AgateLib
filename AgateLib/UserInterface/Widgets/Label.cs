@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
@@ -92,26 +93,35 @@ namespace AgateLib.UserInterface
 
         public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
-            RefreshContent(renderContext, size.Width);
+            RefreshContent(renderContext);
         }
 
         public override string StyleTypeId => "label";
 
         public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
         {
-            RefreshContent(renderContext, maxSize.Width);
+            RefreshContent(renderContext);
 
-            return content?.Size ?? Size.Empty;
+            if (content != null)
+            {
+                content.MaxWidth = maxSize.Width;
+
+                return content.Size;
+            }
+
+            return Size.Empty;
         }
 
         public override Size MinContentSize
             => new Size(1, Style.Font.FontHeight);
 
-        public override void Draw(IUserInterfaceRenderContext renderContext, 
+        public override void Draw(IUserInterfaceRenderContext renderContext,
                                   Rectangle clientArea)
         {
             if (content != null)
             {
+                content.DoLayout();
+
                 int extraHorizontalSpace = clientArea.Width - content.Size.Width;
 
                 switch (Style.TextAlign)
@@ -133,6 +143,11 @@ namespace AgateLib.UserInterface
 
         public override void Update(IUserInterfaceRenderContext renderContext)
         {
+            RefreshContent(renderContext);
+
+            content.TextAlign = Style.TextAlign;
+            content.Options.ReadSlowly = Props.ReadSlowly;
+
             content?.Update(renderContext.GameTime);
         }
 
@@ -141,37 +156,24 @@ namespace AgateLib.UserInterface
             return $"label: {Props.Text?.Substring(0, Math.Min(200, Props.Text.Length)) ?? "null"}";
         }
 
-        private void RefreshContent(IUserInterfaceRenderContext renderContext, int maxWidth)
+        private void RefreshContent(IUserInterfaceRenderContext renderContext)
         {
-            if (!dirty && content != null)
-            {
-                if (maxWidth > content.Size.Width)
-                    return;
+            bool needsRefresh = false;
 
-                dirty = true;
-            }
+            needsRefresh |= content == null;
+            needsRefresh |= layoutOptions.Font?.Name != Style.Font.Name;
+            needsRefresh |= layoutOptions.Font?.Size != Style.Font.Size;
+            needsRefresh |= layoutOptions.Font?.Color != Style.Font.Color;
+            needsRefresh |= layoutOptions.Font?.Style != Style.Font.Style;
 
-            if (dirty || lastContentMaxWidth != maxWidth)
-            {
-                if (Props.Text == null)
-                {
-                    content = null;
-                }
-                else
-                {
-                    layoutOptions.Font = Style.Font;
-                    layoutOptions.TextAlign = Style.TextAlign;
-                    layoutOptions.MaxWidth = maxWidth;
+            if (!needsRefresh)
+                return;
 
-                    content = renderContext.CreateContentLayout(Props.Text, layoutOptions, Props.PerformLocalization);
-                    content.Options.ReadSlowly = Props.ReadSlowly;
+            layoutOptions.Font = new Font(Style.Font);
 
-                    content.AnimationComplete += () => Props.AnimationComplete?.Invoke(evt.Reset(this));
-                }
+            content = renderContext.CreateContentLayout(Props.Text, layoutOptions, Props.PerformLocalization);
 
-                lastContentMaxWidth = maxWidth;
-                dirty = false;
-            }
+            content.AnimationComplete += () => Props.AnimationComplete?.Invoke(evt.Reset(this));
         }
     }
 

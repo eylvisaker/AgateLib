@@ -1,4 +1,4 @@
-//
+﻿//
 //    Copyright (c) 2006-2018 Erik Ylvisaker
 //
 //    Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,46 +20,54 @@
 //    SOFTWARE.
 //
 
-using AgateLib.Mathematics.Geometry;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AgateLib.Mathematics.Geometry;
 
-namespace AgateLib.UserInterface.Content
+namespace AgateLib.UserInterface.Content.LayoutItems
 {
-    /// <summary>
-    /// Draws an image as part of the content.
-    /// </summary>
-	public class TextureLayoutItem : IContentLayoutItem
+    public interface IContentLayoutItem
     {
-        private readonly Texture2D image;
+        int ExtraWhiteSpace { get; set; }
 
-        public TextureLayoutItem(Texture2D image, Vector2 dest, Rectangle sourceRect)
-        {
-            this.image = image;
+        int NewLinesAfter { get; set; }
 
-            Location = dest;
-            SourceRect = sourceRect;
-        }
+        Point Position { get; set; }
 
-        public int Count => 1;
+        Size Size { get; }
 
-        public Vector2 Location { get; set; }
+        Rectangle Bounds { get; }
 
-        public Rectangle SourceRect { get; }
+        /// <summary>
+        /// The number of items to be drawn by this item.
+        /// For text, this is the number of characters.
+        /// For an image, this is usually 1.
+        /// </summary>
+        int Count { get; }
 
-        public Size Size => SourceRect.Size;
+        void Update(GameTime time);
 
-        public void Draw(Vector2 origin, ContentRenderContext renderContext)
-        {
-            var destRect = new Rectangle((origin + Location).ToPoint(), new Point(Size.Width, Size.Height));
+        void Draw(Vector2 origin, ContentRenderContext renderContext);
+    }
 
-            renderContext.Draw(image, destRect, SourceRect, Color.White);
+    public abstract class ContentLayoutItem : IContentLayoutItem
+    {
+        public int NewLinesAfter { get; set; }
 
-            renderContext.ItemsDisplayed++;
-        }
+        public int ExtraWhiteSpace { get; set; }
 
-        public void Update(GameTime time)
-        {
-        }
+        public Point Position { get; set; }
+
+        public Rectangle Bounds => new Rectangle(Position, Size);
+
+        public abstract Size Size { get; }
+
+        public abstract int Count { get; }
+
+        public abstract void Draw(Vector2 origin, ContentRenderContext renderContext);
+
+        public virtual void Update(GameTime time)
+        { }
     }
 }

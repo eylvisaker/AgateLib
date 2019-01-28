@@ -88,8 +88,6 @@ namespace AgateLib.UserInterface.Content
                 ProcessToken(context, context.ReadNextToken());
             }
 
-            context.ApplyAlignment();
-
             return context.Layout;
         }
 
@@ -167,11 +165,14 @@ namespace AgateLib.UserInterface.Content
     {
         public static IContentLayout LayoutContent(this IContentLayoutEngine engine, string text, int maxWidth = int.MaxValue, FontStyleProperties font = null)
         {
-            return engine.LayoutContent(text, new ContentLayoutOptions
+            IContentLayout result = engine.LayoutContent(text, new ContentLayoutOptions
             {
-                MaxWidth = maxWidth,
                 FontLookup = font,
             });
+
+            result.MaxWidth = maxWidth;
+
+            return result;
         }
     }
 }

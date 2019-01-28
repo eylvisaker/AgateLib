@@ -1,5 +1,6 @@
 ﻿using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Tests;
 using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
@@ -10,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Widgets
+namespace AgateLib.UserInterface.Widgets
 {
     public class LabelTest
     {
@@ -61,13 +62,23 @@ namespace AgateLib.Tests.UserInterface.Widgets
             idealSize.Width.Should().Be(expectedWidth);
             idealSize.Height.Should().Be(expectedHeight);
 
-            fontCore.DrawCalls.Count.Should().Be(1);
-            var drawCall = fontCore.DrawCalls[0];
+            fontCore.DrawCalls.Count.Should().Be(7);
 
-            drawCall.Text.Should().Be(text);
-            drawCall.Parameters.Should().Match(p => p == null || p.Count() == 0);
-            drawCall.Color.Should().Be(Color.White);
-            drawCall.Dest.Should().Be(new Vector2(40, 60));
+            string[] words = text.Split(' ');
+            Vector2 dest = new Vector2(40, 60);
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                var drawCall = fontCore.DrawCalls[i];
+
+                drawCall.Text.Should().Be(words[i]);
+                drawCall.Parameters.Should().Match(p => p == null || p.Count() == 0);
+                drawCall.Color.Should().Be(Color.White);
+                drawCall.Dest.Should().Be(dest);
+
+                // add 1 for the space after the word.
+                dest.X += 5 * (1 + words[i].Length);
+            }
         }
 
         [Fact]
@@ -90,11 +101,11 @@ namespace AgateLib.Tests.UserInterface.Widgets
             idealSize.Width.Should().Be(expectedWidth);
             idealSize.Height.Should().Be(expectedHeight);
 
-            fontCore.DrawCalls.Count.Should().Be(2);
+            fontCore.DrawCalls.Count.Should().Be(5);
             var firstDraw = fontCore.DrawCalls[0];
-            var secondDraw = fontCore.DrawCalls[1];
+            var secondDraw = fontCore.DrawCalls[4];
 
-            firstDraw.Text.Should().Be("This has a carriage");
+            firstDraw.Text.Should().Be("This");
             firstDraw.Parameters.Should().Match(p => p == null || p.Count() == 0);
             firstDraw.Color.Should().Be(Color.White);
             firstDraw.Dest.Should().Be(new Vector2(40, 60));

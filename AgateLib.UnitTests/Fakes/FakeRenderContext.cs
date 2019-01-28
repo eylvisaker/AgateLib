@@ -2,6 +2,7 @@
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
+using AgateLib.UserInterface.Content.LayoutItems;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,10 +37,9 @@ namespace AgateLib.Tests.Fakes
 
         public IContentLayout CreateContentLayout(string text, ContentLayoutOptions contentLayoutOptions, bool localizeText = true)
         {
-
             return new ContentLayout(new[] {
-                new ContentText(text, Fonts.Default, Vector2.Zero)
-            });
+                new ContentText(text, Fonts.Default),
+            }, 10);
         }
 
         public void DrawChild(Rectangle contentDest, IRenderElement child)

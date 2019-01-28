@@ -102,7 +102,7 @@ namespace AgateLib.Tests.Fakes
 
         public Size MeasureString(FontState state, string text)
         {
-            if (text.Length == 0)
+            if ((text?.Length ?? 0) == 0)
                 return Size.Empty;
 
             int lineLength = 0;

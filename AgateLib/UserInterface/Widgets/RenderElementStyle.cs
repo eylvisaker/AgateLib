@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Display;
+using AgateLib.Quality;
 using AgateLib.UserInterface.Styling;
 using System;
 using System.Collections.Generic;
@@ -132,7 +133,7 @@ namespace AgateLib.UserInterface
 
             if (compareFont.IsEmpty)
             {
-                font = new Font(display.ParentFont);
+                SetFont(display.ParentFont);
             }
             else if (!compareFont.Equals(fontProperties) || ParentFontChanged())
             {
@@ -140,16 +141,16 @@ namespace AgateLib.UserInterface
 
                 if (string.IsNullOrWhiteSpace(fontProperties.Family))
                 {
-                    font = new Font(display.ParentFont);
+                    SetFont(display.ParentFont);
                 }
                 else if (display.Fonts.HasFont(fontProperties.Family)
                          && !fontProperties.Family.Equals(Font?.Name, StringComparison.OrdinalIgnoreCase))
                 {
-                    font = new Font(display.Fonts[fontProperties.Family]);
+                    SetFont(display.Fonts[fontProperties.Family]);
                 }
                 else if (font == null)
                 {
-                    font = new Font(display.ParentFont);
+                    SetFont(display.ParentFont);
                 }
 
                 font.Color = fontProperties.Color ?? display.ParentFont?.Color ?? Font.Color;
@@ -160,6 +161,26 @@ namespace AgateLib.UserInterface
             parentFontProperties.CopyFrom(display.ParentFont);
 
             FontChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Sets the font for the render element style. This will compare font objects
+        /// and only create a new font object if they are different.
+        /// </summary>
+        /// <param name="parentFont"></param>
+        private void SetFont(Font parentFont)
+        {
+            Require.ArgumentNotNull(parentFont, nameof(parentFont));
+
+            if (font?.Core != parentFont.Core
+             || font?.Name != parentFont.Name)
+            {
+                font = new Font(display.ParentFont);
+            }
+
+            font.Color = parentFont.Color;
+            font.Style = parentFont.Style;
+            font.Size = parentFont.Size;
         }
 
         private void Swap<T>(ref T a, ref T b)

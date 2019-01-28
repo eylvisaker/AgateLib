@@ -31,11 +31,6 @@ namespace AgateLib.UserInterface.Content
     public class ContentLayoutOptions
     {
         /// <summary>
-        /// Maximum width for the content layout
-        /// </summary>
-        public int MaxWidth { get; set; }
-
-        /// <summary>
         /// Font to use for text.
         /// </summary>
         public Font Font { get; set; }
@@ -56,10 +51,5 @@ namespace AgateLib.UserInterface.Content
         /// to match the height of the text.
         /// </summary>
         public bool ScaleImages { get; set; } = true;
-
-        /// <summary>
-        /// How to align the text when laid out.
-        /// </summary>
-        public TextAlign TextAlign { get; set; }
     }
 }

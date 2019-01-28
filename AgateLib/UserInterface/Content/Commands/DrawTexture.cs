@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.Content.LayoutItems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -48,10 +49,7 @@ namespace AgateLib.UserInterface.Content.Commands
                     size = new Size((int)(image.Width * ratio), (int)(image.Height * ratio));
                 }
 
-                Vector2 insertionPoint = context.ReserveSpace(size);
-
                 var item = new TextureLayoutItem(image,
-                    insertionPoint,
                     new Rectangle(Point.Zero, size));
 
                 context.Add(item);

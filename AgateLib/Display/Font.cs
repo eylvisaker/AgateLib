@@ -282,6 +282,15 @@ namespace AgateLib.Display
         {
             core.AddFontSurface(settings, fontSurface);
         }
-    }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Font font)
+            {
+                return Equals(font);
+            }
+
+            return base.Equals(obj);
+        }
+    }
 }

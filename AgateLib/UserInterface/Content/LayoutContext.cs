@@ -21,11 +21,11 @@
 //
 
 using AgateLib.Display;
-using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
-using Microsoft.Xna.Framework;
-using System;
+using AgateLib.UserInterface.Content.LayoutItems;
+using AgateLib.UserInterface.Content.TextTokenizer;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.UserInterface.Content
 {
@@ -36,6 +36,8 @@ namespace AgateLib.UserInterface.Content
         private int lineStartIndex = 0;
         private List<IContentLayoutItem> layoutItems = new List<IContentLayoutItem>();
         private readonly ContentLayoutOptions options;
+        private readonly PrecendenceBasedTokenizer tokenizer = new PrecendenceBasedTokenizer();
+        private int defaultLineHeight;
 
         public LayoutContext(List<string> tokens, ContentLayoutOptions layoutOptions)
         {
@@ -44,19 +46,17 @@ namespace AgateLib.UserInterface.Content
 
             this.tokens = tokens;
             this.options = layoutOptions;
+            this.defaultLineHeight = layoutOptions.Font.FontHeight;
+
         }
 
         public bool AnyTokensLeft => currentTokenIndex < tokens.Count - 1;
 
         public string CurrentToken => currentTokenIndex < tokens.Count ? tokens[currentTokenIndex] : null;
 
-        public IContentLayout Layout => new ContentLayout(layoutItems);
-
-        public int MaxWidth => options.MaxWidth;
+        public IContentLayout Layout => new ContentLayout(layoutItems, defaultLineHeight);
 
         public ContentLayoutOptions Options => options;
-
-        public Point InsertionPoint;
 
         public int LineHeight { get; set; }
 
@@ -75,182 +75,200 @@ namespace AgateLib.UserInterface.Content
                 LineHeight = height;
         }
 
-        public Vector2 ReserveSpace(Size size)
+        private void ReserveWhiteSpace(string whiteSpace)
         {
-            if (InsertionPoint.X + size.Width > MaxWidth)
-            {
-                InsertionPoint.X = 0;
-                InsertionPoint.Y += LineHeight;
-                LineHeight = 0;
-            }
+            int length = whiteSpace.Count(x => x == ' ');
+            int tabs = whiteSpace.Count(x => x == '\t');
 
-            Vector2 result = InsertionPoint.ToVector2();
+            length += tabs * 4;
 
-            InsertionPoint.X += size.Width;
-            ExpandLineHeight(size.Height);
-
-            return result;
+            GetLastItem().ExtraWhiteSpace += length * Font.MeasureString(" ").Width;
         }
 
         public void NewLine()
         {
-            InsertionPoint.X = 0;
-            InsertionPoint.Y += Math.Max(LineHeight, Font.FontHeight);
-            LineHeight = 0;
-            lineStartIndex = currentTokenIndex;
+            GetLastItem().NewLinesAfter++;
         }
 
-        public void ApplyAlignment()
+        private IContentLayoutItem GetLastItem()
         {
-            if (options.TextAlign == TextAlign.Left)
-                return;
-
-            int maxLineWidth = FindMaxLineWidth();
-
-            ApplyAlignment(maxLineWidth);
-        }
-
-        private int FindMaxLineWidth()
-        {
-            int index = 0;
-
-            float result = 0;
-
-            while (index < layoutItems.Count)
+            if (layoutItems.Count == 0)
             {
-                int endOfLine = FindEndOfLine(index);
-                IContentLayoutItem lastItem = layoutItems[endOfLine];
-
-                float right = lastItem.Location.X + lastItem.Size.Width;
-
-                result = Math.Max(result, right);
-
-                index = endOfLine + 1;
+                layoutItems.Add(new ContentText("", new Font(Font)));
             }
 
-            return (int)Math.Ceiling(result);
+            return layoutItems.Last();
         }
 
-        private void ApplyAlignment(int maxLineWidth)
-        {
-            if (options.TextAlign == TextAlign.Left)
-                return;
+        //public void ApplyAlignment()
+        //{
+        //    if (options.TextAlign == TextAlign.Left)
+        //        return;
 
-            int index = 0;
+        //    int maxLineWidth = FindMaxLineWidth();
 
-            while (index < layoutItems.Count)
-            {
-                int endOfLine = FindEndOfLine(index);
-                IContentLayoutItem lastItem = layoutItems[endOfLine];
+        //    ApplyAlignment(maxLineWidth);
+        //}
 
-                float right = lastItem.Location.X + lastItem.Size.Width;
-                float space = maxLineWidth - right;
+        //private int FindMaxLineWidth()
+        //{
+        //    int index = 0;
 
-                if (options.TextAlign == TextAlign.Center)
-                    space /= 2;
+        //    float result = 0;
 
-                Vector2 displacement = new Vector2(space, 0);
+        //    while (index < layoutItems.Count)
+        //    {
+        //        int endOfLine = FindEndOfLine(index);
+        //        IContentLayoutItem lastItem = layoutItems[endOfLine];
 
-                for (int i = index; i <= endOfLine; i++)
-                    layoutItems[i].Location += displacement;
+        //        float right = lastItem.Location.X + lastItem.Size.Width;
 
-                index = endOfLine + 1;
-            }
-        }
+        //        result = Math.Max(result, right);
 
-        int FindEndOfLine(int startIndex)
-        {
-            float startY = layoutItems[startIndex].Location.Y;
+        //        index = endOfLine + 1;
+        //    }
 
-            for (int i = startIndex; i < layoutItems.Count; i++)
-            {
-                if (layoutItems[i].Location.Y > startY)
-                    return i - 1;
-            }
+        //    return (int)Math.Ceiling(result);
+        //}
 
-            return layoutItems.Count - 1;
-        }
+        //private void ApplyAlignment(int maxLineWidth)
+        //{
+        //    if (options.TextAlign == TextAlign.Left)
+        //        return;
+
+        //    int index = 0;
+
+        //    while (index < layoutItems.Count)
+        //    {
+        //        int endOfLine = FindEndOfLine(index);
+        //        IContentLayoutItem lastItem = layoutItems[endOfLine];
+
+        //        float right = lastItem.Location.X + lastItem.Size.Width;
+        //        float space = maxLineWidth - right;
+
+        //        if (options.TextAlign == TextAlign.Center)
+        //            space /= 2;
+
+        //        Vector2 displacement = new Vector2(space, 0);
+
+        //        for (int i = index; i <= endOfLine; i++)
+        //            layoutItems[i].Location += displacement;
+
+        //        index = endOfLine + 1;
+        //    }
+        //}
+
+        //int FindEndOfLine(int startIndex)
+        //{
+        //    float startY = layoutItems[startIndex].Location.Y;
+
+        //    for (int i = startIndex; i < layoutItems.Count; i++)
+        //    {
+        //        if (layoutItems[i].Location.Y > startY)
+        //            return i - 1;
+        //    }
+
+        //    return layoutItems.Count - 1;
+        //}
 
         public void AppendText(string text, int recursion = 0)
         {
             if (string.IsNullOrEmpty(text))
                 return;
 
+            var tokens = tokenizer.Tokenize(text);
+
             var font = new Font(Font);
 
-            while (text.StartsWith("\n") || text.StartsWith("\r\n"))
+            foreach (var token in tokens)
             {
-                NewLine();
-
-                if (text.StartsWith("\n"))
+                switch (token.TokenType)
                 {
-                    if (text.Length == 1)
-                        return;
-
-                    text = text.Substring(1);
-                }
-                else if (text.StartsWith("\r\n"))
-                {
-                    if (text.Length == 2)
-                        return;
-
-                    text = text.Substring(2);
-                }
-            }
-
-            var newLineIndex = text.IndexOf('\n');
-
-            if (newLineIndex > 0)
-            {
-                if (text[newLineIndex - 1] == '\r')
-                    newLineIndex--;
-
-                AppendText(text.Substring(0, newLineIndex), recursion + 1);
-                AppendText(text.Substring(newLineIndex), recursion + 1);
-                return;
-            }
-
-            string thisLineText = text;
-            int advance = thisLineText.Length;
-
-            var textSize = font.MeasureString(thisLineText);
-
-            while (InsertionPoint.X + textSize.Width > MaxWidth)
-            {
-                var whiteSpaceIndex = thisLineText.LastIndexOf(' ');
-
-                if (whiteSpaceIndex <= 0)
-                {
-                    if (InsertionPoint.X == 0)
-                    {
-                        // insert the word anyway, since it's too long for the full width.
+                    case TokenType.Word:
+                        Add(new ContentText(token.Value, font));
                         break;
-                    }
 
-                    NewLine();
+                    case TokenType.WhiteSpace:
+                        ReserveWhiteSpace(token.Value);
+                        break;
 
-                    thisLineText = thisLineText.TrimStart();
-                    textSize = font.MeasureString(thisLineText);
-                    continue;
+                    case TokenType.NewLine:
+                        NewLine();
+                        break;
                 }
-
-                thisLineText = thisLineText.Substring(0, whiteSpaceIndex);
-                advance = whiteSpaceIndex;
-                textSize = font.MeasureString(thisLineText);
             }
 
-            var item = new ContentText(thisLineText, font, InsertionPoint.ToVector2());
+            //while (text.StartsWith("\n") || text.StartsWith("\r\n"))
+            //{
+            //    NewLine();
 
-            ReserveSpace(item.Size);
+            //    if (text.StartsWith("\n"))
+            //    {
+            //        if (text.Length == 1)
+            //            return;
 
-            Add(item);
+            //        text = text.Substring(1);
+            //    }
+            //    else if (text.StartsWith("\r\n"))
+            //    {
+            //        if (text.Length == 2)
+            //            return;
 
-            if (advance < text.Length)
-            {
-                var remainingText = text.Substring(advance);
+            //        text = text.Substring(2);
+            //    }
+            //}
 
-                AppendText(remainingText, recursion + 1);
-            }
+            //var newLineIndex = text.IndexOf('\n');
+
+            //if (newLineIndex > 0)
+            //{
+            //    if (text[newLineIndex - 1] == '\r')
+            //        newLineIndex--;
+
+            //    AppendText(text.Substring(0, newLineIndex), recursion + 1);
+            //    AppendText(text.Substring(newLineIndex), recursion + 1);
+            //    return;
+            //}
+
+            //string thisLineText = text;
+            //int advance = thisLineText.Length;
+
+            //var textSize = font.MeasureString(thisLineText);
+
+            ////while (InsertionPoint.X + textSize.Width > MaxWidth)
+            ////{
+            ////    var whiteSpaceIndex = thisLineText.LastIndexOf(' ');
+
+            ////    if (whiteSpaceIndex <= 0)
+            ////    {
+            ////        if (InsertionPoint.X == 0)
+            ////        {
+            ////            // insert the word anyway, since it's too long for the full width.
+            ////            break;
+            ////        }
+
+            ////        NewLine();
+
+            ////        thisLineText = thisLineText.TrimStart();
+            ////        textSize = font.MeasureString(thisLineText);
+            ////        continue;
+            ////    }
+
+            ////    thisLineText = thisLineText.Substring(0, whiteSpaceIndex);
+            ////    advance = whiteSpaceIndex;
+            ////    textSize = font.MeasureString(thisLineText);
+            ////}
+
+            //var item = new ContentText(thisLineText, font);
+
+            //Add(item);
+
+            //if (advance < text.Length)
+            //{
+            //    var remainingText = text.Substring(advance);
+
+            //    AppendText(remainingText, recursion + 1);
+            //}
         }
 
         public void Add(IContentLayoutItem item)

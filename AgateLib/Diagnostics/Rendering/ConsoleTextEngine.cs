@@ -93,7 +93,11 @@ namespace AgateLib.Diagnostics.Rendering
 
         public IContentLayout LayoutContent(string text, int maxWidth)
         {
-            return contentLayoutEngine.LayoutContent(text, maxWidth);
+            var result = contentLayoutEngine.LayoutContent(text);
+
+            result.MaxWidth = maxWidth;
+
+            return result;
         }
 
         public Font Font => consoleFontProvider.Default;
