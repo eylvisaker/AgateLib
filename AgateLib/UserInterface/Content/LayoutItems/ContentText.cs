@@ -38,7 +38,7 @@ namespace AgateLib.UserInterface.Content.LayoutItems
 
         public override string ToString()
         {
-            return $"ContentText: {Text}";
+            return Text;
         }
 
         public override int Count => Text.Length;
@@ -67,5 +67,6 @@ namespace AgateLib.UserInterface.Content.LayoutItems
                 renderContext.ItemsDisplayed += count;
             }
         }
+
     }
 }

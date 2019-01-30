@@ -288,6 +288,34 @@ namespace AgateLib.UserInterface
         {
             TreeRoot.Display.MarginRect = area;
             TreeRoot.DoLayout(renderContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);
+
+            CheckForOverflow();
+        }
+
+        private void CheckForOverflow()
+        {
+            Walk(element =>
+            {
+                HasOverflow overflow = HasOverflow.None;
+
+                if (element.Children != null)
+                {
+                    if (element.Children.Any(x =>
+                        x.Display.MarginRect.Right > element.Display.ContentRect.Width))
+                    {
+                        overflow |= HasOverflow.X;
+                    }
+                    if (element.Children.Any(x =>
+                        x.Display.MarginRect.Bottom > element.Display.ContentRect.Height))
+                    {
+                        overflow |= HasOverflow.Y;
+                    }
+                }
+
+                element.Display.HasOverflow = overflow;
+
+                return true;
+            });
         }
 
         /// <summary>

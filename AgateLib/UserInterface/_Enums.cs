@@ -44,4 +44,12 @@ namespace AgateLib.UserInterface
         PageUp,
     }
 
+    [Flags]
+    public enum HasOverflow
+    {
+        None = 0,
+        X = 0x1,
+        Y = 0x2,
+        Both = 0x3,
+    }
 }

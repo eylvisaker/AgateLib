@@ -33,14 +33,14 @@ namespace AgateLib.UserInterface.Widgets
                     .ToList<IRenderable>(),
             });
 
-            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator);
+            var driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
             var elements = root.Children.ToList();
 
             root.Display.ContentRect.Should().Be(
-                new Rectangle(615, 0, 50, Math.Min(720, buttonCount * 10)));
+                new Rectangle(515, 0, 50, Math.Min(620, buttonCount * 10)));
 
             for (int i = 0; i < buttonCount; i++)
             {
@@ -64,14 +64,14 @@ namespace AgateLib.UserInterface.Widgets
                     .ToList<IRenderable>(),
             });
 
-            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator);
+            var driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
             var elements = root.Children.ToList();
 
             root.Display.ContentRect.Should().Be(
-                new Rectangle(615, 0, 50, Math.Min(720, buttonCount * 10)));
+                new Rectangle(515, 0, 50, Math.Min(620, buttonCount * 10)));
 
             for (int i = 0; i < buttonCount; i++)
             {

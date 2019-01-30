@@ -46,8 +46,8 @@ namespace AgateLib.UserInterface
 
     public enum Overflow
     {
-        Visible,
         Hidden,
+        Visible,
         Scroll,
     }
 

@@ -22,7 +22,6 @@
 
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -83,7 +82,7 @@ namespace AgateLib.UserInterface
 
             private void ConstrainSizes(IList<IRenderElement> children, Size mySize)
             {
-                foreach(IRenderElement child in children)
+                foreach (IRenderElement child in children)
                 {
                     Rectangle marginRect = child.Display.MarginRect;
 
@@ -145,17 +144,19 @@ namespace AgateLib.UserInterface
 
                 while (Math.Abs(fExtraSpace) > 1e-6 && iter < 5)
                 {
-                    float shrinkAmount = fExtraSpace / children.Count(
-                        x => MainAxis(x.Display.Region.ContentSize)
-                           - MainAxis(x.Style.Size?.ToMinSize() ?? Size.Empty) 
-                           > 0);
-
-                    foreach (var item in children)
+                    for (int i = 0; i < children.Count; i++)
                     {
+                        IRenderElement item = children[i];
+
+                        // TODO: This only works for lists where the last child
+                        // can be shrunk. A better approach would be to use a
+                        // linear system with constraints to solve this.
+                        float shrinkAmount = fExtraSpace / (children.Count - i);
+
                         Size currentSize = item.Display.Region.ContentRect.Size;
                         Size newSize = SetSize(MainAxis(currentSize) + (int)shrinkAmount,
                                                CrossAxis(currentSize));
-                        
+
                         newSize = LayoutMath.ConstrainSize(item, newSize);
 
                         item.Display.Region.SetContentSize(newSize);

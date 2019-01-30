@@ -46,6 +46,8 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public TextAlign? TextAlign => themeStyle.TextAlign;
 
+        public Overflow? Overflow => themeStyle.Overflow;
+
         public int Specificity => match.Specificity;
 
         public IReadOnlyCollection<string> PseudoClasses => match.PseudoClasses;

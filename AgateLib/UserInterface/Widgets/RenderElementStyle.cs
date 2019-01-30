@@ -55,6 +55,8 @@ namespace AgateLib.UserInterface
 
         TextAlign TextAlign { get; }
 
+        Overflow Overflow { get; }
+
         /// <summary>
         /// Called by the rendering engine before each frame to ensure that the style
         /// is updated based on the widget's current state.
@@ -115,6 +117,7 @@ namespace AgateLib.UserInterface
             FlexItem = Aggregate(p => p.FlexItem);
             Layout = Aggregate(p => p.Layout);
             Size = Aggregate(p => p.Size);
+            Overflow = Aggregate(p => p.Overflow) ?? default(Overflow);
         }
 
         private bool ParentFontChanged()
@@ -320,6 +323,8 @@ namespace AgateLib.UserInterface
         public LayoutBox Margin { get; private set; }
 
         public TextAlign TextAlign { get; private set; }
+
+        public Overflow Overflow { get; private set; }
 
         public FlexStyle Flex { get; private set; }
 

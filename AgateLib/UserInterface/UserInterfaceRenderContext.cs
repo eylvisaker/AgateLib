@@ -252,7 +252,7 @@ namespace AgateLib.UserInterface
             animationFactory.Configure(element.Display);
             UserInterfaceRenderer.UpdateAnimation(this, element);
 
-            if (element.Display.Animation.IsDoubleBuffered)
+            if (element.Display.IsDoubleBuffered)
             {
                 var newContext = DoubleBuffer.PrepRenderState(element, this);
 
@@ -271,7 +271,7 @@ namespace AgateLib.UserInterface
         {
             var animation = element.Display.Animation;
 
-            if (animation.IsDoubleBuffered)
+            if (element.Display.IsDoubleBuffered)
             {
                 if (animation.RenderTarget != null)
                 {
@@ -297,6 +297,8 @@ namespace AgateLib.UserInterface
                     parentContentDest.Y + element.Display.Animation.AnimatedContentRect.Y,
                     element.Display.Animation.AnimatedContentRect.Width,
                     element.Display.Animation.AnimatedContentRect.Height);
+
+                Rectangle oldScissor = GraphicsDevice.ScissorRectangle;
 
                 UserInterfaceRenderer.DrawBackground(this, element.Display, dest);
                 UserInterfaceRenderer.DrawFrame(this, element.Display, dest);

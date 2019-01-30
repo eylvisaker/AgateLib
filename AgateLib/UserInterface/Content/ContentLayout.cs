@@ -27,6 +27,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace AgateLib.UserInterface.Content
 {
@@ -259,6 +260,19 @@ namespace AgateLib.UserInterface.Content
 
             Size = resultSize;
             layoutDirty = false;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder b = new StringBuilder();
+
+            foreach(var item in items)
+            {
+                b.Append(item.ToString());
+                b.Append(" ");
+            }
+
+            return b.ToString().Trim();
         }
     }
 }

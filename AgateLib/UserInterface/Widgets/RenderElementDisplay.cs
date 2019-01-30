@@ -157,6 +157,12 @@ namespace AgateLib.UserInterface
         /// </summary>
         public PseudoClassCollection PseudoClasses { get; } = new PseudoClassCollection();
 
+        public HasOverflow HasOverflow { get; internal set; }
+
+        public bool IsDoubleBuffered => Animation.IsDoubleBuffered
+                                     || (HasOverflow != HasOverflow.None
+                                         && Style.Overflow != Overflow.Visible);
+
         public override string ToString() => $"Margin: {MarginRect}, Content: {ContentRect}";
     }
 }

@@ -63,9 +63,7 @@ namespace AgateLib.UserInterface
 
             foreach (var workspace in Desktop.Workspaces)
             {
-                var root = workspace.VisualTree.TreeRoot;
-
-                root.DoLayout(uiDriver.RenderContext, Size);
+                workspace.VisualTree.DoLayout(uiDriver.RenderContext, uiDriver.ScreenArea);
             }
         }
 

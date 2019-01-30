@@ -64,6 +64,8 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public TextAlign? TextAlign { get; set; }
 
+        public Overflow? Overflow { get; set; }
+
         #endregion
 
         #region --- Debug Info ---

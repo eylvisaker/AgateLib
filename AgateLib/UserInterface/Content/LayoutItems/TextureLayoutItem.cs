@@ -56,5 +56,7 @@ namespace AgateLib.UserInterface.Content.LayoutItems
 
             renderContext.ItemsDisplayed++;
         }
+
+        public override string ToString() => "{Image}";
     }
 }

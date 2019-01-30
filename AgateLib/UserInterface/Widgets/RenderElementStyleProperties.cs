@@ -58,6 +58,8 @@ namespace AgateLib.UserInterface
 
         TextAlign? TextAlign { get; }
 
+        Overflow? Overflow { get; }
+
         /// <summary>
         /// The pseudoclasses this property set applies to.
         /// </summary>
@@ -93,6 +95,7 @@ namespace AgateLib.UserInterface
             if (a.FontSize != b.FontSize) return false;
             if (a.FontStyle != b.FontStyle) return false;
             if (a.TextAlign != b.TextAlign) return false;
+            if (a.Overflow != b.Overflow) return false;
             if (!BackgroundStyle.Equals(a.Background, b.Background)) return false;
             if (!BorderStyle.Equals(a.Border, b.Border)) return false;
             if (!AnimationStyle.Equals(a.Animation, b.Animation)) return false;
@@ -133,6 +136,8 @@ namespace AgateLib.UserInterface
         public LayoutBox? Margin { get; set; }
 
         public TextAlign? TextAlign { get; set; }
+
+        public Overflow? Overflow { get; set; }
 
         public int Specificity => 1000;
 

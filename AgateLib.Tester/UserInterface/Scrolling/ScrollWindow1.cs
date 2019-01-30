@@ -17,7 +17,7 @@ namespace AgateLib.Tests.UserInterface.Scrolling
         {
             List<IRenderable> buttons = new List<IRenderable>();
 
-            buttons.Add(new Label(new LabelProps { Text = "There should be 50 items in the list below this label." }));
+            buttons.Add(new Label(new LabelProps { Text = "There should be 50 items in\nthe list below this label." }));
 
             for (int i = 0; i < 50; i++)
                 buttons.Add(new Button(new ButtonProps { Text = $"Item {i + 1}" }));
