@@ -1,7 +1,5 @@
-﻿using AgateLib.UserInterface;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.UserInterface.Rendering.Animations
 {
@@ -27,7 +25,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
     [Singleton]
     public class AnimationFactory : IAnimationFactory
     {
-        Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>> activators
+        private Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>> activators
             = new Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>>(StringComparer.OrdinalIgnoreCase);
 
         public AnimationFactory()
@@ -71,48 +69,55 @@ namespace AgateLib.UserInterface.Rendering.Animations
     {
         public static void Configure(this IAnimationFactory animationFactory, RenderElementDisplay display)
         {
-            if (display.Style.Animation == null)
+            Configure(animationFactory, display.Animation, display.Style);
+        }
+
+        private static void Configure(IAnimationFactory animationFactory, 
+                                      RenderElementAnimator animation, 
+                                      IRenderElementStyle style)
+        {
+            if (style.Animation == null)
             {
-                display.Animation.In = display.Animation.In ?? animationFactory.Create("default", null);
-                display.Animation.Out = display.Animation.Out ?? animationFactory.Create("default", null);
-                display.Animation.Static = display.Animation.Static ?? animationFactory.Create("default", null);
+                animation.In = animation.In ?? animationFactory.Create("default", null);
+                animation.Out = animation.Out ?? animationFactory.Create("default", null);
+                animation.Static = animation.Static ?? animationFactory.Create("default", null);
 
                 return;
             }
 
             // Currently, we don't support updating animators when the style changes unless the name of the
-            // animator type has changed. I don't see a good use case for supporting this at the moment. -EY
-            if (display.Animation.InType != display.Style.Animation.EntryName)
+            // animator type has changed. I don't see a good use case for supporting this at the moment. -ERY
+            if (animation.InType != style.Animation.EntryName)
             {
-                display.Animation.InType = display.Style.Animation.EntryName;
-                display.Animation.In = animationFactory.Create(display.Style.Animation.EntryName, display.Style.Animation.EntryArgs);
+                animation.InType = style.Animation.EntryName;
+                animation.In = animationFactory.Create(style.Animation.EntryName, style.Animation.EntryArgs);
             }
 
-            if (display.Animation.OutType != display.Style.Animation.ExitName)
+            if (animation.OutType != style.Animation.ExitName)
             {
-                display.Animation.OutType = display.Style.Animation.ExitName;
-                display.Animation.Out = animationFactory.Create(display.Style.Animation.ExitName, display.Style.Animation.ExitArgs);
+                animation.OutType = style.Animation.ExitName;
+                animation.Out = animationFactory.Create(style.Animation.ExitName, style.Animation.ExitArgs);
             }
 
-            if (display.Animation.StaticType != display.Style.Animation.StaticName)
+            if (animation.StaticType != style.Animation.StaticName)
             {
-                display.Animation.StaticType = display.Style.Animation.StaticName;
-                display.Animation.Static = animationFactory.Create(display.Style.Animation.StaticName, display.Style.Animation.StaticArgs);
+                animation.StaticType = style.Animation.StaticName;
+                animation.Static = animationFactory.Create(style.Animation.StaticName, style.Animation.StaticArgs);
             }
 
-            if (display.Animation.In == null)
+            if (animation.In == null)
             {
-                display.Animation.In = display.Animation.In ?? animationFactory.Create("default", null);
+                animation.In = animation.In ?? animationFactory.Create("default", null);
             }
 
-            if (display.Animation.Out == null)
+            if (animation.Out == null)
             {
-                display.Animation.Out = display.Animation.Out ?? animationFactory.Create("default", null);
+                animation.Out = animation.Out ?? animationFactory.Create("default", null);
             }
 
-            if (display.Animation.Static == null)
+            if (animation.Static == null)
             {
-                display.Animation.Static = display.Animation.Static ?? animationFactory.Create("default", null);
+                animation.Static = animation.Static ?? animationFactory.Create("default", null);
             }
         }
     }

@@ -1,14 +1,11 @@
-﻿using AgateLib.Mathematics.Geometry;
-using AgateLib.Tests.UserInterface.Content;
+﻿using AgateLib.Tests.UserInterface.Content;
 using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
-using AgateLib.UserInterface;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Widgets
+namespace AgateLib.UserInterface.Widgets
 {
     public class FixedSizeTests
     {
@@ -80,7 +77,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                     Flex = new FlexStyle
                     {
                         Direction = FlexDirection.Row,
-                        AlignItems= AlignItems.Stretch,
+                        AlignItems = AlignItems.Stretch,
                     },
                     Size = new SizeConstraints
                     {
@@ -113,8 +110,8 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(CreateApp(box), 
-                                                   styleConfigurator, 
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(CreateApp(box),
+                                                   styleConfigurator,
                                                    contentLayoutEngine: contentLayoutEngine);
             driver.DoLayout();
 

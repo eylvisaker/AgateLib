@@ -1,15 +1,9 @@
 ﻿using AgateLib.Tests.UserInterface.RadioButtons;
-using AgateLib.UserInterface;
 using FluentAssertions;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Widgets
+namespace AgateLib.UserInterface.Widgets
 {
     public class RadioMenuTest
     {
@@ -26,7 +20,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 Items = { "Foo", "Bar", "Gra", "Hoh" }
             });
 
-            TestUIDriver driver = new TestUIDriver(app);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(app);
 
             driver.Press(Buttons.DPadRight);
             driver.Press(Buttons.A);

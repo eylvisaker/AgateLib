@@ -156,7 +156,7 @@ namespace AgateLib.UserInterface
                         Size newSize = SetSize(MainAxis(currentSize) + (int)shrinkAmount,
                                                CrossAxis(currentSize));
                         
-                        newSize = LayoutMath.ConstrainSize(newSize, item.Style.Size, item.MinContentSize);
+                        newSize = LayoutMath.ConstrainSize(item, newSize);
 
                         item.Display.Region.SetContentSize(newSize);
 

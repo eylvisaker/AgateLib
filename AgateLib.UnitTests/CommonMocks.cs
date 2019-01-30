@@ -9,7 +9,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests
+namespace AgateLib
 {
     public static class CommonMocks
     {
@@ -96,6 +96,13 @@ namespace AgateLib.Tests
                       if (element.Display.Animation.State == AnimationState.TransitionOut)
                           element.Display.Animation.State = AnimationState.Dead;
                   });
+
+            var fontProvider = new FontProvider();
+            fontProvider.Add("default", new Font(new FakeFontCore("default")));
+
+            result
+                .Setup(x => x.Fonts)
+                .Returns(fontProvider);
 
             return result;
         }

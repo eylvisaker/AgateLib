@@ -25,7 +25,7 @@ namespace AgateLib.Tests.UserInterface.Scrolling
                 OnCancel = Props.OnCancel,
                 Children =
                 {
-                    new Label(new LabelProps { Text = "There should be 50 items in the list below."}),
+                    new Label(new LabelProps { Text = "There should be 50 items in the list below this label."}),
                     new FlexBox(new FlexBoxProps
                     {
                         Children = buttons

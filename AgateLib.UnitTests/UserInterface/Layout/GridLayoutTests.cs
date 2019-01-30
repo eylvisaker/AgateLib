@@ -30,6 +30,11 @@ namespace AgateLib.UserInterface.Layout
                 .Add("Strength").Add("12", AlignRight)
                 .Add("Dexterity").Add("8", AlignRight));
 
+            grid.InitializeStyles(context.Object);
+
+            //grid.Display.ParentFont = context.Object.Fonts.Default;
+            //grid.Style.Update();
+
             Size maxSize = new Size(300, 300);
             Size idealSize = grid.CalcIdealContentSize(context.Object, maxSize);
             grid.DoLayout(context.Object, idealSize);

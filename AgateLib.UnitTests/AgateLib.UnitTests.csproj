@@ -8,7 +8,7 @@
     <ProjectGuid>{5F203662-6438-4CD9-BE4B-D111F1DFB925}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgateLib.Tests</RootNamespace>
+    <RootNamespace>AgateLib</RootNamespace>
     <AssemblyName>AgateLib.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -267,10 +267,12 @@
     <Compile Include="UserInterface\Layout\GridLayoutTests.cs" />
     <Compile Include="UserInterface\Layout\GridNavigationTests.cs" />
     <Compile Include="UserInterface\Layout\LayoutMathTests.cs" />
+    <Compile Include="UserInterface\Scrolling\ScrollingAppUnitTests.cs" />
     <Compile Include="UserInterface\Styling\AnimationStyleTest.cs" />
     <Compile Include="UserInterface\Styling\Themes\CssSelectorTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\ThemeDeserializationTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\ThemeStylerTest.cs" />
+    <Compile Include="UserInterface\UserInterfaceFunctions.cs" />
     <Compile Include="UserInterface\VisualTreeTests.cs" />
     <Compile Include="UserInterface\Widgets\FixedSizeTests.cs" />
     <Compile Include="UserInterface\Layout\FlexBoxDirectionUnitTests.cs" />
@@ -279,7 +281,7 @@
     <Compile Include="UserInterface\Widgets\MenuTest.cs" />
     <Compile Include="UserInterface\Widgets\NavigationTest.cs" />
     <Compile Include="UserInterface\Widgets\RadioMenuTest.cs" />
-    <Compile Include="UserInterface\Widgets\TestUIDriver.cs" />
+    <Compile Include="UserInterface\UserInterfaceTestDriver.cs" />
     <Compile Include="UserInterface\WorkspaceTests.cs" />
   </ItemGroup>
   <ItemGroup>

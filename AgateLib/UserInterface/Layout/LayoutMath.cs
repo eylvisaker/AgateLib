@@ -21,8 +21,6 @@
 //
 
 using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
 using System;
 
 namespace AgateLib.UserInterface.Layout
@@ -57,8 +55,10 @@ namespace AgateLib.UserInterface.Layout
         /// <param name="constraints"></param>
         /// <param name="minContentSize"></param>
         /// <returns></returns>
-        public static Size ConstrainSize(Size size, SizeConstraints constraints, Size? minContentSize)
+        public static Size ConstrainSize(IRenderElement item, Size size)
         {
+            SizeConstraints constraints = item.Style.Size;
+
             if (constraints != null)
             {
                 if (size.Width > constraints.MaxWidth)
@@ -72,11 +72,10 @@ namespace AgateLib.UserInterface.Layout
                     size.Height = constraints.MinHeight;
             }
 
-            if (minContentSize != null)
-            {
-                size.Width = Math.Max(size.Width, minContentSize.Value.Width);
-                size.Height = Math.Max(size.Height, minContentSize.Value.Height);
-            }
+            var minSize = item.CalcMinContentSize(size.Width, size.Height);
+
+            size.Width = Math.Max(size.Width, minSize.Width);
+            size.Height = Math.Max(size.Height, minSize.Height);
 
             return size;
         }
@@ -108,7 +107,7 @@ namespace AgateLib.UserInterface.Layout
 
             Size idealSize = item.CalcIdealContentSize(renderContext, maxSize);
 
-            idealSize = ConstrainSize(idealSize, item.Style.Size, item.MinContentSize);
+            idealSize = ConstrainSize(item, idealSize);
 
             item.Display.Region.IdealContentSize = idealSize;
         }

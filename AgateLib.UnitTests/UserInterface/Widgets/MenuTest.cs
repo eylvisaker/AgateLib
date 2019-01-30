@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.Widgets;
 using FluentAssertions;
 using Microsoft.Xna.Framework.Input;
 using Xunit;
@@ -23,7 +24,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 Children = { new Button(new ButtonProps { Text = "Hello" }) }
             });
 
-            TestUIDriver driver = new TestUIDriver(menu);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(menu);
 
             driver.Press(Buttons.B);
 
@@ -61,7 +62,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(menu);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(menu);
 
             driver.Press(Buttons.DPadDown);
             FocusItemHasText(driver, "Some");
@@ -149,7 +150,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(menu);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(menu);
 
             driver.Press(Buttons.A);
             driver.Press(Buttons.A);
@@ -159,7 +160,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
         #endregion
 
-        private static void FocusItemHasText(TestUIDriver driver, string text)
+        private static void FocusItemHasText(UserInterfaceTestDriver driver, string text)
         {
             driver.Focus.Props.Should().BeOfType(typeof(ButtonElementProps));
             (driver.Focus.Props as ButtonElementProps).Text.Should().Be(text);

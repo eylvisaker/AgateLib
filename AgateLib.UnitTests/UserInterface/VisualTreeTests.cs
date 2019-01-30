@@ -1,8 +1,7 @@
-﻿using AgateLib.Tests.UserInterface.Widgets;
-using AgateLib.UserInterface;
+﻿using AgateLib.UserInterface.Widgets;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface
+namespace AgateLib.UserInterface
 {
     public class VisualTreeTests
     {
@@ -65,7 +64,7 @@ namespace AgateLib.Tests.UserInterface
         [Fact]
         public void ReferenceStaysAliveAfterReconciliation()
         {
-            TestUIDriver driver = new TestUIDriver(new TestApp(new TestAppProps()));
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(new TestApp(new TestAppProps()));
 
             driver.Press(Microsoft.Xna.Framework.Input.Buttons.A);
             driver.Press(Microsoft.Xna.Framework.Input.Buttons.A);

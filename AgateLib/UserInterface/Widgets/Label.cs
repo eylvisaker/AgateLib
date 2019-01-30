@@ -112,8 +112,22 @@ namespace AgateLib.UserInterface
             return Size.Empty;
         }
 
-        public override Size MinContentSize
-            => new Size(1, Style.Font.FontHeight);
+        public override Size CalcMinContentSize(int? widthConstraint, int? heightConstraint)
+        {
+            if (content == null)
+                return base.CalcMinContentSize(widthConstraint, heightConstraint);
+
+            if (widthConstraint != null)
+            {
+                content.MaxWidth = widthConstraint.Value;
+
+                content.DoLayout();
+
+                return content.Size;
+            }
+
+            return new Size(1, Style.Font.FontHeight);
+        }
 
         public override void Draw(IUserInterfaceRenderContext renderContext,
                                   Rectangle clientArea)
@@ -158,6 +172,9 @@ namespace AgateLib.UserInterface
 
         private void RefreshContent(IUserInterfaceRenderContext renderContext)
         {
+            if (Style.Font == null)
+                return;
+
             bool needsRefresh = false;
 
             needsRefresh |= content == null;

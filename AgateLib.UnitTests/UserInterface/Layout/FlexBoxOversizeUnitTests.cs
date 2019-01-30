@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Styling.Themes;
-using AgateLib.UserInterface;
+﻿using AgateLib.UserInterface.Styling.Themes;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
+using System;
+using System.Linq;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Widgets
+namespace AgateLib.UserInterface.Widgets
 {
     public class FlexBoxTest
     {
@@ -39,7 +33,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                     .ToList<IRenderable>(),
             });
 
-            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -66,11 +60,11 @@ namespace AgateLib.Tests.UserInterface.Widgets
             {
                 Name = "thewindow",
                 Children = Enumerable.Range(0, buttonCount).Select(i =>
-                    new Button(new ButtonProps { Text = $"Button {i+1:000}"}))
+                    new Button(new ButtonProps { Text = $"Button {i + 1:000}" }))
                     .ToList<IRenderable>(),
             });
 
-            TestUIDriver driver = new TestUIDriver(CreateApp(box), styleConfigurator);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();

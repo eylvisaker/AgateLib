@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Tests.UserInterface.DoubleRadioMenus;
-using AgateLib.UserInterface;
+﻿using AgateLib.Tests.UserInterface.DoubleRadioMenus;
 using FluentAssertions;
 using Microsoft.Xna.Framework.Input;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Widgets
+namespace AgateLib.UserInterface.Widgets
 {
     public class NavigationTest
     {
@@ -34,7 +28,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 },
             });
 
-            TestUIDriver driver = new TestUIDriver(app);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(app);
 
             driver.Press(Buttons.DPadDown);
             driver.Press(Buttons.DPadDown);
@@ -68,7 +62,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 },
             });
 
-            TestUIDriver driver = new TestUIDriver(app);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(app);
 
             driver.Press(Buttons.A);
             driver.Press(Buttons.DPadRight);
@@ -106,7 +100,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 },
             });
 
-            TestUIDriver driver = new TestUIDriver(app);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(app);
 
             driver.Press(Buttons.DPadDown);
             driver.Press(Buttons.A);
@@ -150,7 +144,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(app);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(app);
 
             driver.Press(Buttons.DPadDown);
             driver.Press(Buttons.A);
@@ -199,7 +193,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                 }
             });
 
-            TestUIDriver driver = new TestUIDriver(app);
+            UserInterfaceTestDriver driver = new UserInterfaceTestDriver(app);
 
             driver.Press(Buttons.DPadRight);
             driver.Press(Buttons.DPadDown);

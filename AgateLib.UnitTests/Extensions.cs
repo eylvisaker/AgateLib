@@ -8,7 +8,7 @@ using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.Tests
+namespace AgateLib
 {
     public static class Extensions
     {

@@ -75,20 +75,6 @@ namespace AgateLib.Quality
         }
 
         /// <summary>
-        /// Throws an ArgumentOutOfRangeException if the condition is not met.
-        /// </summary>
-        /// <param name="condition">If false, this method throws an exception.</param>
-        /// <param name="paramName">Name of the parameter.</param>
-        /// <param name="message">Message for the exception.</param>
-        [DebuggerStepThrough]
-        public static void ArgumentInRange(bool condition, string paramName, string message)
-        {
-            if (condition)
-                return;
-
-            throw new ArgumentOutOfRangeException(paramName, message);
-        }
-        /// <summary>
         /// Throws an ArgumentNull Exception if the specified
         /// argument is null.
         /// </summary>
@@ -103,6 +89,21 @@ namespace AgateLib.Quality
                 return;
 
             throw new ArgumentNullException(paramName, message);
+        }
+
+        /// <summary>
+        /// Throws an ArgumentOutOfRangeException if the condition is not met.
+        /// </summary>
+        /// <param name="condition">If false, this method throws an exception.</param>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="message">Message for the exception.</param>
+        [DebuggerStepThrough]
+        public static void ArgumentInRange(bool condition, string paramName, string message)
+        {
+            if (condition)
+                return;
+
+            throw new ArgumentOutOfRangeException(paramName, message);
         }
 
         /// <summary>
@@ -135,6 +136,8 @@ namespace AgateLib.Quality
 
         /// <summary>
         /// Throws an exception if the value of state is true.
+        /// This requires that the exception type has a constructor which takes
+        /// a single string parameter for the exception message.
         /// </summary>
         /// <typeparam name="TE"></typeparam>
         /// <param name="state">If this value is true, an exception is thrown.</param>

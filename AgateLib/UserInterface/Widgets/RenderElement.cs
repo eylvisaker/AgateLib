@@ -46,12 +46,7 @@ namespace AgateLib.UserInterface
         /// Gets the parent of this element.
         /// </summary>
         IRenderElement Parent { get; }
-
-        /// <summary>
-        /// Gets the minimum size of the content.
-        /// </summary>
-        Size MinContentSize { get; }
-
+        
         /// <summary>
         /// Gets the type identifier used to identify this render element type to the styling
         /// engine.
@@ -115,6 +110,15 @@ namespace AgateLib.UserInterface
         /// <param name="maxSize"></param>
         /// <returns></returns>
         Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize);
+
+        /// <summary>
+        /// Compute the minimum size of the content of the widget, given
+        /// a constraint on its height or width.
+        /// </summary>
+        /// <param name="widthConstraint"></param>
+        /// <param name="heightConstraint"></param>
+        /// <returns></returns>
+        Size CalcMinContentSize(int? widthConstraint, int? heightConstraint);
 
         /// <summary>
         /// Instructs the element to prepare its layout.
@@ -238,7 +242,10 @@ namespace AgateLib.UserInterface
 
         protected UserInterfaceEvent EventData { get; }
 
-        public virtual Size MinContentSize => new Size(1, 1);
+        public virtual Size CalcMinContentSize(int? widthConstraint, int? heightConstraint)
+        {
+            return new Size(1, 1);
+        }
 
         public abstract Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize);
 
@@ -472,6 +479,13 @@ namespace AgateLib.UserInterface
 
     public static class RenderElementExtensions
     {
+        /// <summary>
+        /// Compute the ideal size of an element's margin rectangle.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="renderContext"></param>
+        /// <param name="maxSize"></param>
+        /// <returns></returns>
         public static Size CalcIdealMarginSize(this IRenderElement element, IUserInterfaceRenderContext renderContext, Size maxSize)
         {
             var contentSize = element.CalcIdealContentSize(renderContext, maxSize);
@@ -479,7 +493,24 @@ namespace AgateLib.UserInterface
             var marginSize = element.Display.Region.MarginToContentOffset.Expand(contentSize);
 
             return marginSize;
+        }
 
+        /// <summary>
+        /// Computes the minimum size of an element's margin rectangle.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="widthConstraint"></param>
+        /// <param name="heightConstraint"></param>
+        /// <returns></returns>
+        public static Size CalcMinMarginSize(this IRenderElement element,
+                                             int? widthConstraint,
+                                             int? heightConstraint)
+        {
+            var contentSize = element.CalcMinContentSize(widthConstraint, heightConstraint);
+
+            var marginSize = element.Display.Region.MarginToContentOffset.Expand(contentSize);
+
+            return marginSize;
         }
 
         /// <summary>
