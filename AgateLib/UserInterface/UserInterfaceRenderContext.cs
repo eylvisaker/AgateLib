@@ -261,6 +261,9 @@ namespace AgateLib.UserInterface
                 UserInterfaceRenderer.DrawBackground(newContext, element.Display, rtClientDest);
                 UserInterfaceRenderer.DrawFrame(newContext, element.Display, rtClientDest);
 
+                rtClientDest.X -= element.Display.ScrollPosition.X;
+                rtClientDest.Y -= element.Display.ScrollPosition.Y;
+
                 element.Draw(newContext, rtClientDest);
 
                 DoubleBuffer.CompleteRendering(this, element);

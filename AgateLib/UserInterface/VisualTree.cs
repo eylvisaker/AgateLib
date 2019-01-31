@@ -210,6 +210,8 @@ namespace AgateLib.UserInterface
 
                 focus = value;
 
+                focus?.Parent?.Display.ScrollTo(focus.Display);
+
                 focus?.OnFocus();
                 focus?.Display.PseudoClasses.Add("focus");
             }
@@ -231,7 +233,9 @@ namespace AgateLib.UserInterface
                 element.Style.Update();
 
                 foreach (var child in element.Children ?? Enumerable.Empty<IRenderElement>())
+                {
                     child.Display.ParentFont = element.Style.Font;
+                }
 
                 return true;
             });

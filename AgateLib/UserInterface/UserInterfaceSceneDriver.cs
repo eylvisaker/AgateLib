@@ -145,17 +145,23 @@ namespace AgateLib.UserInterface
 
             IRenderElement current = focus;
 
-            while(current != null)
-            {
-                var currentLoc = result.Location;
+            Point currentLoc = result.Location;
 
+            while (current != null)
+            {
                 currentLoc.X += current.Display.Animation.AnimatedContentRect.X;
                 currentLoc.Y += current.Display.Animation.AnimatedContentRect.Y;
 
-                result.Location = currentLoc;
-
                 current = current.Parent;
+
+                if (current != null)
+                {
+                    currentLoc.X -= current.Display.ScrollPosition.X;
+                    currentLoc.Y -= current.Display.ScrollPosition.Y;
+                }
             }
+
+            result.Location = currentLoc;
 
             return result;
         }

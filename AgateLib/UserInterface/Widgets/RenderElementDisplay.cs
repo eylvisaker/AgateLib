@@ -24,6 +24,7 @@ using AgateLib.Display;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface
@@ -35,6 +36,7 @@ namespace AgateLib.UserInterface
     public class RenderElementDisplay
     {
         private RenderElementStyle style;
+        private Point scrollPosition;
 
         public RenderElementDisplay(RenderElementProps props)
         {
@@ -51,6 +53,48 @@ namespace AgateLib.UserInterface
         internal void SetProps(RenderElementProps props)
         {
             style.SetProps(props);
+        }
+
+        /// <summary>
+        /// Gets or sets the current scroll position.
+        /// Values are always positive.
+        /// </summary>
+        public Point ScrollPosition
+        {
+            get => scrollPosition;
+            set => scrollPosition = value;
+        }
+
+        /// <summary>
+        /// Scrolls to the specified render element.
+        /// </summary>
+        /// <param name="display"></param>
+        public void ScrollTo(RenderElementDisplay display)
+        {
+            var showRect = display.BorderRect;
+
+            int offRight = showRect.Right - scrollPosition.X - MarginRect.Width;
+            int offBottom = showRect.Bottom - scrollPosition.Y - MarginRect.Height;
+            int offTop = scrollPosition.Y - showRect.Top;
+            int offLeft = scrollPosition.X - showRect.Left;
+
+            if (offLeft > 0)
+            {
+                scrollPosition.X = showRect.Left;
+            }
+            else if (offRight > 0)
+            {
+                scrollPosition.X += offRight;
+            }
+
+            if (offTop > 0)
+            {
+                scrollPosition.Y = showRect.Top;
+            }
+            else if (offBottom > 0)
+            {
+                scrollPosition.Y += offBottom;
+            }
         }
 
         /// <summary>
@@ -164,5 +208,6 @@ namespace AgateLib.UserInterface
                                          && Style.Overflow != Overflow.Visible);
 
         public override string ToString() => $"Margin: {MarginRect}, Content: {ContentRect}";
+        
     }
 }
