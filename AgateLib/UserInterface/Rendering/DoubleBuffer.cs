@@ -28,9 +28,12 @@ namespace AgateLib.UserInterface.Rendering
 {
     public interface IDoubleBuffer
     {
-        IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, IUserInterfaceRenderContext renderContext);
+        IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, 
+                                                    IUserInterfaceRenderContext renderContext);
 
-        void CompleteRendering(IUserInterfaceRenderContext renderContext, IRenderElement widget);
+        void CompleteRendering(IUserInterfaceRenderContext renderContext, 
+                               IRenderElement widget);
+        void Flush(IUserInterfaceRenderContext newContext);
     }
 
     [Transient]
@@ -47,33 +50,26 @@ namespace AgateLib.UserInterface.Rendering
             ColorDestinationBlend = Blend.InverseSourceAlpha,
         };
 
+        private RasterizerState rasterizerState = new RasterizerState
+        {
+            ScissorTestEnable = true,
+        };
+
         public void CompleteRendering(IUserInterfaceRenderContext renderContext,
-            IRenderElement widget)
+                                      IRenderElement widget)
         {
             var animation = widget.Display.Animation;
-            var display = widget.Display;
 
-            display.Animation.Buffer.RenderContext.SpriteBatch.End();
+            animation.Buffer.RenderContext.SpriteBatch.End();
 
-            // Now use the parent render target.
+            // Now reset the parent render target.
             renderContext.GraphicsDevice.SetRenderTarget(renderContext.RenderTarget);
-
-            //var screenRect = animation.AnimatedBorderRect;
-            //screenRect.X += parentContentDest.X;
-            //screenRect.Y += parentContentDest.Y;
-
-            //renderContext.SpriteBatch.Draw(
-            //    animation.RenderTarget,
-            //    screenRect,
-            //    null,
-            //    animation.Color,
-            //    0,
-            //    Vector2.Zero,
-            //    SpriteEffects.None,
-            //    animation.LayerDepth);
+            renderContext.GraphicsDevice.RasterizerState = new RasterizerState();
         }
 
-        public IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, IUserInterfaceRenderContext renderContext)
+        public IUserInterfaceRenderContext PrepRenderState(
+                    IRenderElement widget, 
+                    IUserInterfaceRenderContext renderContext)
         {
             var animation = widget.Display.Animation;
             var display = widget.Display;
@@ -92,14 +88,17 @@ namespace AgateLib.UserInterface.Rendering
             }
 
             var newRenderContext = display.Animation.Buffer.RenderContext;
+            var renderTarget = animation.RenderTarget;
 
             newRenderContext.GameTime = renderContext.GameTime;
 
             newRenderContext.GraphicsDevice.SetRenderTarget(animation.RenderTarget);
             newRenderContext.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
             newRenderContext.GraphicsDevice.BlendState = blendState;
+            newRenderContext.GraphicsDevice.ScissorRectangle =
+               new Rectangle(0, 0, renderTarget.Width, renderTarget.Height);
 
-            newRenderContext.SpriteBatch.Begin();
+            newRenderContext.SpriteBatch.Begin(rasterizerState: rasterizerState);
 
             widget.Display.Animation.Buffer.ContentDestination = new Rectangle(
                 display.Region.MarginToContentOffset.Left,
@@ -110,13 +109,20 @@ namespace AgateLib.UserInterface.Rendering
             return newRenderContext;
         }
 
+        public void Flush(IUserInterfaceRenderContext bufferedRenderContext)
+        {
+            bufferedRenderContext.SpriteBatch.End();
+            bufferedRenderContext.SpriteBatch.Begin(rasterizerState: rasterizerState);
+        }
+
         /// <summary>
         /// Checks if the render target needs to be initialized and does it. 
         /// Returns true if a new render target was created. False othewise.
         /// </summary>
         /// <param name="display"></param>
         /// <returns></returns>
-        public bool InitializeRenderTarget(RenderElementDisplay display, GraphicsDevice graphicsDevice)
+        public bool InitializeRenderTarget(RenderElementDisplay display, 
+                                           GraphicsDevice graphicsDevice)
         {
             var animation = display.Animation;
 

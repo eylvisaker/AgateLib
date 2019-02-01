@@ -254,15 +254,36 @@ namespace AgateLib.UserInterface
 
             if (element.Display.IsDoubleBuffered)
             {
-                var newContext = DoubleBuffer.PrepRenderState(element, this);
+                IUserInterfaceRenderContext newContext 
+                    = DoubleBuffer.PrepRenderState(element, this);
 
-                var rtClientDest = element.Display.Animation.Buffer.ContentDestination;
+                Rectangle rtClientDest 
+                    = element.Display.Animation.Buffer.ContentDestination;
 
                 UserInterfaceRenderer.DrawBackground(newContext, element.Display, rtClientDest);
                 UserInterfaceRenderer.DrawFrame(newContext, element.Display, rtClientDest);
 
                 rtClientDest.X -= element.Display.ScrollPosition.X;
                 rtClientDest.Y -= element.Display.ScrollPosition.Y;
+
+                bool clip = false;
+                Rectangle oldClipRect = GraphicsDevice.ScissorRectangle;
+
+                if (element.Display.HasOverflow != HasOverflow.None
+                    && element.Style.Overflow != Overflow.Visible)
+                {
+                    DoubleBuffer.Flush(newContext);
+
+                    Rectangle clipRect = new Rectangle(Point.Zero,
+                                                       element.Display.ContentRect.Size);
+
+                    clipRect.X = element.Display.Region.MarginToContentOffset.Left;
+                    clipRect.Y = element.Display.Region.MarginToContentOffset.Top;
+
+                    clip = true;
+
+                    GraphicsDevice.ScissorRectangle = clipRect;
+                }
 
                 element.Draw(newContext, rtClientDest);
 

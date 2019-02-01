@@ -73,8 +73,8 @@ namespace AgateLib.UserInterface
         {
             var showRect = display.BorderRect;
 
-            int offRight = showRect.Right - scrollPosition.X - MarginRect.Width;
-            int offBottom = showRect.Bottom - scrollPosition.Y - MarginRect.Height;
+            int offRight = showRect.Right - scrollPosition.X - ContentRect.Width;
+            int offBottom = showRect.Bottom - scrollPosition.Y - ContentRect.Height;
             int offTop = scrollPosition.Y - showRect.Top;
             int offLeft = scrollPosition.X - showRect.Left;
 
