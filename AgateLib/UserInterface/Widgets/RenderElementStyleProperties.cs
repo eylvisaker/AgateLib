@@ -139,7 +139,7 @@ namespace AgateLib.UserInterface
 
         public Overflow? Overflow { get; set; }
 
-        public int Specificity => 1000;
+        public int Specificity { get; set; }
 
         IReadOnlyCollection<string> IRenderElementStyleProperties.PseudoClasses => null;
 

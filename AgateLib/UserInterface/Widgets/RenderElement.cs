@@ -46,7 +46,7 @@ namespace AgateLib.UserInterface
         /// Gets the parent of this element.
         /// </summary>
         IRenderElement Parent { get; }
-        
+
         /// <summary>
         /// Gets the type identifier used to identify this render element type to the styling
         /// engine.
@@ -385,6 +385,9 @@ namespace AgateLib.UserInterface
 
     public class RenderElementProps
     {
+        private InlineElementStyle _defaultStyle;
+        private InlineElementStyle _style;
+
         /// <summary>
         /// Gets or sets the name of the theme the styling engine should 
         /// use to style the owning widget.
@@ -404,12 +407,32 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Style elements specified by the parent. Styles specified here have the highest priority.
         /// </summary>
-        public InlineElementStyle Style { get; set; }
+        public InlineElementStyle Style
+        {
+            get => _style;
+            set
+            {
+                if (value != null)
+                    value.Specificity = 1000;
+
+                _style = value;
+            }
+        }
 
         /// <summary>
         /// The default style for this element. Styles specified here have the lowest priority.
         /// </summary>
-        public InlineElementStyle DefaultStyle { get; set; }
+        public InlineElementStyle DefaultStyle
+        {
+            get => _defaultStyle;
+            set
+            {
+                if (value != null)
+                    value.Specificity = -1000;
+
+                _defaultStyle = value;
+            }
+        }
 
         /// <summary>
         /// Key which is used to match the render element during reconciliation.
@@ -529,7 +552,7 @@ namespace AgateLib.UserInterface
             elementProps.StyleClass = props.StyleClass;
             elementProps.DefaultStyle = props.DefaultStyle;
             elementProps.Visible = props.Visible;
-            
+
             return elementProps;
         }
     }
