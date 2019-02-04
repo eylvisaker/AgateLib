@@ -185,8 +185,7 @@ namespace AgateLib.Display
                 return new Color(r, g, b, a);
             }
             else
-                throw new ArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
-                    "Argument \"{0}\" is not a valid Color string.", str));
+                throw new ArgumentException($"Argument \"{str}\" is not a valid Color string.");
         }
 
         /// <summary>

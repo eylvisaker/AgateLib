@@ -28,7 +28,7 @@ namespace AgateLib.UserInterface.Scrolling
             var scrollWindow1 = rootElement.Children.First();
             
             rootElement.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1280, 720));
-            scrollWindow1.Display.ContentRect.Should().Be(new Rectangle(254, 0, 159, 620));
+            scrollWindow1.Display.ContentRect.Should().Be(new Rectangle(250, 10, 159, 600));
 
             IRenderElement header = scrollWindow1.Children.First();
 
@@ -77,7 +77,7 @@ namespace AgateLib.UserInterface.Scrolling
             var scrollWindow2 = rootElement.Children.Last();
 
             rootElement.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1280, 720));
-            scrollWindow2.Display.ContentRect.Should().Be(new Rectangle(667, 0, 159, 620));
+            scrollWindow2.Display.ContentRect.Should().Be(new Rectangle(670, 10, 159, 600));
 
             IRenderElement header = scrollWindow2.Children.First();
 

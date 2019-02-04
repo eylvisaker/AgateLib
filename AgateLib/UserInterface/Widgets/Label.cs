@@ -94,11 +94,14 @@ namespace AgateLib.UserInterface
         public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
             RefreshContent(renderContext);
+
+            content.MaxWidth = size.Width;
         }
 
         public override string StyleTypeId => "label";
 
-        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext,
+                                                  Size maxSize)
         {
             RefreshContent(renderContext);
 
@@ -134,23 +137,6 @@ namespace AgateLib.UserInterface
         {
             if (content != null)
             {
-                content.DoLayout();
-
-                int extraHorizontalSpace = clientArea.Width - content.Size.Width;
-
-                switch (Style.TextAlign)
-                {
-                    case TextAlign.Right:
-                        clientArea.X += extraHorizontalSpace;
-                        clientArea.Width -= extraHorizontalSpace;
-                        break;
-
-                    case TextAlign.Center:
-                        clientArea.X += extraHorizontalSpace / 2;
-                        clientArea.Width -= extraHorizontalSpace;
-                        break;
-                }
-
                 renderContext.Draw(content, clientArea);
             }
         }
@@ -175,7 +161,7 @@ namespace AgateLib.UserInterface
             if (Style.Font == null)
                 return;
 
-            bool needsRefresh = false;
+            bool needsRefresh = dirty;
 
             needsRefresh |= content == null;
             needsRefresh |= layoutOptions.Font?.Name != Style.Font.Name;
@@ -191,6 +177,8 @@ namespace AgateLib.UserInterface
             content = renderContext.CreateContentLayout(Props.Text, layoutOptions, Props.PerformLocalization);
 
             content.AnimationComplete += () => Props.AnimationComplete?.Invoke(evt.Reset(this));
+
+            dirty = false;
         }
     }
 

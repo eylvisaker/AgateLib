@@ -55,6 +55,8 @@ namespace AgateLib.UserInterface
 
         public IRenderElement Focus => defaultWorkspace.Focus;
 
+        public IRenderElement RootElement => defaultWorkspace.VisualTree.TreeRoot;
+
         public void DoLayout()
         {
             uiDriver.ScreenArea = new Rectangle(Point.Zero, Size);

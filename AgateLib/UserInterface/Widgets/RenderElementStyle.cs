@@ -159,11 +159,11 @@ namespace AgateLib.UserInterface
                 font.Color = fontProperties.Color ?? display.ParentFont?.Color ?? Font.Color;
                 font.Style = fontProperties.Style ?? display.ParentFont?.Style ?? Font.Style;
                 font.Size = fontProperties.Size ?? display.ParentFont?.Size ?? Font.Size;
+
+                parentFontProperties.CopyFrom(display.ParentFont);
+
+                FontChanged?.Invoke();
             }
-
-            parentFontProperties.CopyFrom(display.ParentFont);
-
-            FontChanged?.Invoke();
         }
 
         /// <summary>

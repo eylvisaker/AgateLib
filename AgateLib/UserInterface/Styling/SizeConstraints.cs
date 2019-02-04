@@ -56,6 +56,26 @@ namespace AgateLib.UserInterface
         public int MinHeight { get; set; }
         public int? MaxHeight { get; set; }
 
+        public int? Width
+        {
+            get => MaxWidth == MinWidth ? MaxWidth : null;
+            set
+            {
+                MaxWidth = value;
+                MinWidth = value ?? 0;
+            }
+        }
+
+        public int? Height
+        {
+            get => MaxHeight == MinHeight ? MaxHeight : null;
+            set
+            {
+                MaxHeight = value;
+                MinHeight = value ?? 0;
+            }
+        }
+
         public Size ToMinSize()
         {
             return new Size(MinWidth, MinHeight);

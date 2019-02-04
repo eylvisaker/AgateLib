@@ -269,6 +269,7 @@
     <Compile Include="UserInterface\Layout\LayoutMathTests.cs" />
     <Compile Include="UserInterface\Scrolling\ScrollingAppUnitTests.cs" />
     <Compile Include="UserInterface\Styling\AnimationStyleTest.cs" />
+    <Compile Include="UserInterface\Styling\SizeConstraintsUnitTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\CssSelectorTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\ThemeDeserializationTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\ThemeStylerTest.cs" />

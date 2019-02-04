@@ -73,9 +73,19 @@ namespace AgateLib.UserInterface.Styling.Themes
             {
                 new ThemeStyle
                 {
+                    Selector = "workspace",
+                    Background = new BackgroundStyle
+                    {
+                        Color = new Color(Color.Black, 0.2f)
+                    },
+                },
+
+                new ThemeStyle
+                {
                     Selector = "window, workspace > *",
                     Background = new BackgroundStyle { Color = Color.Black, },
                     Font = new FontStyleProperties { Color = Color.White, },
+                    Margin = LayoutBox.SameAllAround(10),
                     Animation = new AnimationStyle
                     {
                         Entry = "fade 0.35",
@@ -112,16 +122,6 @@ namespace AgateLib.UserInterface.Styling.Themes
                     Selector = "button:focus",
                     Background = new BackgroundStyle { Color = Color.White },
                     Font = new FontStyleProperties { Color = Color.Black },
-                },
-
-                new ThemeStyle
-                {
-                    Selector = "radiomenu",
-                },
-
-                new ThemeStyle
-                {
-                    Selector = "radiobutton",
                 },
 
                 new ThemeStyle
