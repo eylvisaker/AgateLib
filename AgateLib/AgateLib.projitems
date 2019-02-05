@@ -158,6 +158,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Quality\Require.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer\Random.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer\FastRandom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scenes\BufferedScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\SceneStack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\_EventArgs.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\TextTokenizer\_Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\DisplaySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceBufferedScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Image.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\AnimationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\FadeAnimation.cs" />

@@ -37,46 +37,14 @@ using System.Linq;
 
 namespace AgateLib.UserInterface
 {
-    public interface IUserInterfaceScene : IScene
-    {
-        /// <summary>
-        /// Gets the desktop object for the UI scene.
-        /// </summary>
-        Desktop Desktop { get; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this scene should automatically
-        /// exit when there are no workspaces left in the desktop.
-        /// </summary>
-        bool ExitWhenEmpty { get; set; }
-
-        /// <summary>
-        /// Creates a workspace for the specified widget or render element and
-        /// adds it to the scene.
-        /// </summary>
-        /// <param name="root"></param>
-        void Add(IRenderable root);
-
-        /// <summary>
-        /// Tells the UI to transition out, and when the animation is complete
-        /// calls the callback function.
-        /// </summary>
-        /// <param name="p"></param>
-        void ExitThen(Action callback);
-
-        /// <summary>
-        /// Exits the user interface by informing all workspaces to begin their exit transition animation.
-        /// </summary>
-        void Exit();
-    }
-
     [Transient]
-    public class UserInterfaceScene : Scene, IUserInterfaceScene
+    public class UserInterfaceBufferedScene : BufferedScene, IUserInterfaceScene
     {
         private readonly UserInterfaceRenderContext renderContext;
         private readonly UserInterfaceSceneDriver driver;
 
-        public UserInterfaceScene(GraphicsDevice graphicsDevice,
+        public UserInterfaceBufferedScene(GraphicsDevice graphicsDevice,
+            Size backBufferSize,
             IUserInterfaceRenderer userInterfaceRenderer,
             IContentLayoutEngine contentLayoutEngine,
             IFontProvider fontProvider,
@@ -85,6 +53,7 @@ namespace AgateLib.UserInterface
             IUserInterfaceAudio audio = null,
             IDoubleBuffer doubleBuffer = null,
             RenderTarget2D renderTarget = null)
+            : base(graphicsDevice, backBufferSize)
         {
             DrawBelow = true;
             UpdateBelow = false;
@@ -109,8 +78,7 @@ namespace AgateLib.UserInterface
                 fontProvider,
                 audio);
 
-            driver.ScreenArea = new Rectangle(Point.Zero,
-                GraphicsDeviceRenderTargetSize);
+            driver.ScreenArea = new Rectangle(Point.Zero, backBufferSize);
 
             driver.Desktop.Empty += () =>
             {
@@ -125,27 +93,6 @@ namespace AgateLib.UserInterface
                 AlphaSourceBlend = Blend.One,
                 AlphaDestinationBlend = Blend.InverseSourceAlpha,
             };
-        }
-
-        private Size GraphicsDeviceRenderTargetSize
-        {
-            get
-            {
-                var renderTargets = GraphicsDevice.GetRenderTargets();
-
-                if (renderTargets.Length == 0)
-                {
-                    return new Size(
-                        GraphicsDevice.PresentationParameters.BackBufferWidth,
-                        GraphicsDevice.PresentationParameters.BackBufferHeight);
-                }
-                else
-                {
-                    var renderTarget = (Texture2D)GraphicsDevice.GetRenderTargets()[0].RenderTarget;
-
-                    return new Size(renderTarget.Width, renderTarget.Height);
-                }
-            }
         }
 
         /// <summary>

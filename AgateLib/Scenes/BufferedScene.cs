@@ -1,118 +1,49 @@
-﻿//
-//    Copyright (c) 2006-2018 Erik Ylvisaker
-//
-//    Permission is hereby granted, free of charge, to any person obtaining a copy
-//    of this software and associated documentation files (the "Software"), to deal
-//    in the Software without restriction, including without limitation the rights
-//    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//    copies of the Software, and to permit persons to whom the Software is
-//    furnished to do so, subject to the following conditions:
-//
-//    The above copyright notice and this permission notice shall be included in all
-//    copies or substantial portions of the Software.
-//
-//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//    SOFTWARE.
-//
-
+﻿using AgateLib.Input;
+using AgateLib.Mathematics.Geometry;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Input;
-using Microsoft.Xna.Framework;
 
 namespace AgateLib.Scenes
 {
-    /// <summary>
-    /// Interface for a scene. 
-    /// </summary>
-    public interface IScene
-    {
-        /// <summary>
-        /// The scene stack this scene is a part of.
-        /// </summary>
-        ISceneStack SceneStack { get; set; }
-
-        /// <summary>
-        /// Return true to indicate scenes below this one should receive
-        /// update events.
-        /// </summary>
-        bool UpdateBelow { get; set; }
-
-        /// <summary>
-        /// Return true to indicate scenes below this one should receive
-        /// draw events.
-        /// </summary>
-        bool DrawBelow { get; set; }
-
-        /// <summary>
-        /// Return true to indicate that this scene should handle input events.
-        /// Only the topmost scene which returns true gets access to input events.
-        /// </summary>
-        bool HandleInput { get; }
-
-        /// <summary>
-        /// Return true to indicate this scene is finished and should be
-        /// removed from the stack. If the scene implements IDisposable, its Dispose
-        /// method will be called.
-        /// </summary>
-        bool IsFinished { get; }
-
-        /// <summary>
-        /// Called the first time a scene is added to a scene stack.
-        /// </summary>
-        void SceneStart();
-
-        /// <summary>
-        /// Called when the scene is removed from a scene stack.
-        /// </summary>
-        void SceneEnd();
-
-        /// <summary>
-        /// Called when the scene is activated after a scene above it is
-        /// completed. Does not get called the first time a scene is activated.
-        /// </summary>
-        void SceneActivated();
-
-        /// <summary>
-        /// Called before Update for the topmost scene which has HandleInput == true.
-        /// </summary>
-        /// <param name="input"></param>
-        void UpdateInput(IInputState input);
-
-        /// <summary>
-        /// Called each frame to update the game logic.
-        /// </summary>
-        /// <param name="gameClockElapsed"></param>
-        void Update(GameTime time);
-
-        /// <summary>
-        /// Called each frame to draw. This method is called between a 
-        /// BeginFrame..EndFrame block, so there is no need to call BeginFrame or EndFrame.
-        /// </summary>`
-        void Draw(GameTime time);
-    }
 
     /// <summary>
-    /// A simple scene implementation. 
+    /// An implementation for a scene which renders
+    /// to a texture of a fixed size before drawing to the screen. 
     /// </summary>
-    public class Scene : IScene
+    public class BufferedScene : IScene
     {
         private bool isRunning;
+        private readonly GraphicsDevice graphicsDevice;
+        private RenderTarget2D backBuffer;
+        private SpriteBatch spriteBatch;
 
         /// <summary>
-        /// Constructs a Scene object.
+        /// Constructs a BufferedScene object.
         /// </summary>
-        public Scene()
+        /// <param name="graphicsDevice">The graphics device.</param>
+        /// <param name="bufferSize">The size of the render target to use.</param>
+        public BufferedScene(GraphicsDevice graphicsDevice, Size bufferSize)
+            : this(graphicsDevice, bufferSize.Width, bufferSize.Height)
         {
+        }
 
+        /// <summary>
+        /// Constructs a BufferedScene object.
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="bufferWidth"></param>
+        /// <param name="bufferHeight"></param>
+        public BufferedScene(GraphicsDevice graphicsDevice, 
+                             int bufferWidth, 
+                             int bufferHeight)
+        {
+            this.graphicsDevice = graphicsDevice;
+
+            backBuffer = new RenderTarget2D(graphicsDevice, bufferWidth, bufferHeight);
+            spriteBatch = new SpriteBatch(graphicsDevice);
         }
 
         /// <summary>
@@ -261,11 +192,35 @@ namespace AgateLib.Scenes
         /// <param name="time"></param>
         protected void DrawWithEvents(GameTime time)
         {
+            var currentRenderTarget = graphicsDevice.GetRenderTargets();
+
+            graphicsDevice.SetRenderTarget(backBuffer);
+            graphicsDevice.Clear(new Color(0, 0, 0, 0));
+
             OnBeforeDraw(time);
-
             DrawScene(time);
-
             OnDraw(time);
+
+            graphicsDevice.SetRenderTargets(currentRenderTarget);
+            Rectangle screenRect = GetScreenRect(currentRenderTarget);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(backBuffer, screenRect, Color.White);
+            spriteBatch.End();
+        }
+
+        private Rectangle GetScreenRect(RenderTargetBinding[] currentRenderTarget)
+        {
+            if (currentRenderTarget.Length == 0)
+            {
+                return new Rectangle(0, 0,
+                    graphicsDevice.PresentationParameters.BackBufferWidth,
+                    graphicsDevice.PresentationParameters.BackBufferHeight);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         void IScene.SceneStart()

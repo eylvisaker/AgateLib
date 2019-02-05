@@ -51,9 +51,8 @@ namespace AgateLib.UserInterface.Layout
         /// <summary>
         /// Constrains the content size of a render element.
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="constraints"></param>
-        /// <param name="minContentSize"></param>
+        /// <param name="item">The item who's size is to be constrained.</param>
+        /// <param name="size">The desired content size of the item.</param>
         /// <returns></returns>
         public static Size ConstrainSize(IRenderElement item, Size size)
         {
