@@ -75,7 +75,6 @@ namespace AgateLib.UserInterface
     {
         private IContentLayout content;
         private bool dirty;
-        private int lastContentMaxWidth;
         private ContentLayoutOptions layoutOptions = new ContentLayoutOptions();
         private UserInterfaceEvent evt = new UserInterfaceEvent();
 

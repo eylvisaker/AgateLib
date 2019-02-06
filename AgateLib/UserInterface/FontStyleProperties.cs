@@ -38,6 +38,16 @@ namespace AgateLib.UserInterface
         public FontStyles? Style { get; set; }
         public Color? Color { get; set; }
 
+        public bool Equals(FontStyleProperties other)
+        {
+            if (Family != other.Family) return false;
+            if (Size != other.Size) return false;
+            if (Style != other.Style) return false;
+            if (Color != other.Color) return false;
+
+            return true;
+        }
+
         public override string ToString()
         {
             var b = new PropertyDebugStringBuilder { Delimiter = " " };
