@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using AgateLib.UserInterface;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {
@@ -48,7 +47,7 @@ namespace AgateLib.UserInterface.Styling.Themes
     /// </remarks>
     public class CssWidgetSelector : IWidgetSelector
     {
-        private static Regex pattern = new Regex(
+        private static readonly Regex pattern = new Regex(
             @"(?<whitespace>\s+)|" +
             @"(?<typeid>[a-zA-Z_][a-zA-Z0-9_\-]*)|" +
             @"(?<class>\.[a-zA-Z_][a-zA-Z0-9_\-]*)|" +
@@ -56,10 +55,13 @@ namespace AgateLib.UserInterface.Styling.Themes
             @"(?<pseudoclass>:[a-zA-Z_][a-zA-Z0-9_\-]*)|" +
             @"(?<child>\>)|" +
             @"(?<wildcard>\*)|" +
-            @"(?<separator>,)|" + 
+            @"(?<separator>,)|" +
             @"(?<invalid>[^\s]+)");
 
-        enum TokenType
+        private static readonly char[] classSplitChars = new char[] { ' ' };
+        private static readonly string[] emptyClassList = new string[0];
+
+        private enum TokenType
         {
             Whitespace,
             TypeId,
@@ -73,7 +75,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             Invalid,
         }
 
-        class Token
+        private class Token
         {
             public TokenType Type { get; set; }
 
@@ -85,10 +87,9 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// <summary>
         /// Stores tokens in REVERSE order.
         /// </summary>
-        List<Token> tokens = new List<Token>();
-        string selector;
-
-        List<Matcher> matchers = new List<Matcher>();
+        private List<Token> tokens = new List<Token>();
+        private string selector;
+        private List<Matcher> matchers = new List<Matcher>();
 
         public CssWidgetSelector(string selector)
         {
@@ -111,12 +112,12 @@ namespace AgateLib.UserInterface.Styling.Themes
                 IsValid = ValidateTokens();
             }
         }
-        
+
         private int CalcSpecificity(Matcher matcher)
         {
             int result = 0;
 
-            foreach(var itemMatcher in matcher)
+            foreach (var itemMatcher in matcher)
             {
                 if (!string.IsNullOrWhiteSpace(itemMatcher.TypeId) && itemMatcher.TypeId != "*")
                     result += 1;
@@ -154,7 +155,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                 matchers.Add(matcher);
                 matcher = new Matcher();
             }
-            
+
 
             foreach (var token in tokens)
             {
@@ -278,9 +279,11 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public SelectorMatch FindMatch(IRenderElement element, RenderElementStack stack)
         {
-            foreach(var matcher in matchers)
+            string[] elementClasses = ClassesOf(element);
+
+            foreach (var matcher in matchers)
             {
-                if (Matches(matcher, element, stack))
+                if (Matches(matcher, element, elementClasses, stack))
                 {
                     return new SelectorMatch(matcher, CalcSpecificity(matcher), matcher.First().PseudoClasses);
                 }
@@ -289,13 +292,16 @@ namespace AgateLib.UserInterface.Styling.Themes
             return null;
         }
 
-        private bool Matches(Matcher matcher, IRenderElement element, RenderElementStack stack)
+        private bool Matches(Matcher matcher,
+                             IRenderElement element,
+                             IReadOnlyList<string> elementClasses,
+                             RenderElementStack stack)
         {
             if (!IsValid)
                 return false;
 
             // first check if the final token is a potential match to the actual element.
-            if (!IsMatch(matcher.First(), element))
+            if (!IsMatch(matcher.First(), element, elementClasses))
                 return false;
 
             int stackPtr = stack.ParentStack.Count - 1;
@@ -307,7 +313,8 @@ namespace AgateLib.UserInterface.Styling.Themes
                 if (stackPtr < 0)
                     return false;
 
-                while (!IsMatch(itemMatcher, stack.ParentStack[stackPtr]))
+                while (!IsMatch(itemMatcher, stack.ParentStack[stackPtr],
+                                             ClassesOf(stack.ParentStack[stackPtr])))
                 {
                     if (itemMatcher.MatchType == MatcherType.Ancestor)
                     {
@@ -326,7 +333,9 @@ namespace AgateLib.UserInterface.Styling.Themes
             return true;
         }
 
-        private bool IsMatch(ItemMatcher matcher, IRenderElement element)
+        private bool IsMatch(ItemMatcher matcher,
+                             IRenderElement element,
+                             IReadOnlyList<string> elementClasses)
         {
             if (matcher.TypeId == "*")
                 return true;
@@ -337,16 +346,25 @@ namespace AgateLib.UserInterface.Styling.Themes
                 return false;
             }
 
-            // TODO: Make this work so it can match multiple classes and identifiers on an element.
-            foreach(var cls in matcher.ClassNames)
+            foreach (string cls in matcher.ClassNames)
             {
-                if(!cls.Equals(element.StyleClass, StringComparison.OrdinalIgnoreCase))
+                bool anyMatchToElement = false;
+
+                foreach (string elementClass in elementClasses)
                 {
-                    return false;
+                    if (cls.Equals(elementClass, StringComparison.OrdinalIgnoreCase))
+                    {
+                        anyMatchToElement = true;
+                        break;
+                    }
                 }
+
+                if (!anyMatchToElement)
+                    return false;
             }
 
-            foreach(var cls in matcher.Identifiers)
+            // TODO: Should I make match multiple identifiers on an element?
+            foreach (var cls in matcher.Identifiers)
             {
                 if (!cls.Equals(element.Name, StringComparison.OrdinalIgnoreCase))
                 {
@@ -355,6 +373,13 @@ namespace AgateLib.UserInterface.Styling.Themes
             }
 
             return true;
+        }
+
+        private static string[] ClassesOf(IRenderElement element)
+        {
+            return element.StyleClass?.Split(classSplitChars,
+                                                      StringSplitOptions.RemoveEmptyEntries)
+                            ?? emptyClassList;
         }
 
         public override string ToString() => Selector;
@@ -385,9 +410,9 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             StringBuilder result = new StringBuilder();
 
-            foreach(var item in this)
+            foreach (var item in this)
             {
-                switch(item.MatchType)
+                switch (item.MatchType)
                 {
                     case MatcherType.Self:
                     case MatcherType.Ancestor:

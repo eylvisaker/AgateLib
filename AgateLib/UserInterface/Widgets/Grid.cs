@@ -46,21 +46,41 @@ namespace AgateLib.UserInterface
 
         public Grid(GridProps props) : base(props)
         {
-            Children = Finalize(props.Children).ToList();
+            Children = Finalize(Props.Children).ToList();
 
-            sizeGrid = new Size[Columns * Rows];
+            RecalcArrangement();
+        }
 
-            columnWidths = new int[Columns];
-            rowHeights = new int[Rows];
+        protected override void OnReceiveProps()
+        {
+            base.OnReceiveProps();
 
-            focusPoint = LocationOf(Children[Props.InitialFocusIndex]);
+            RecalcArrangement();
+        }
+
+        private void RecalcArrangement()
+        {
+            if (sizeGrid?.Length != Columns * Rows)
+                sizeGrid = new Size[Columns * Rows];
+
+            if (columnWidths?.Length != Columns)
+                columnWidths = new int[Columns];
+
+            if (rowHeights?.Length != Rows)
+                rowHeights = new int[Rows];
+
+            if (focusPoint.X < 0 || focusPoint.Y < 0 ||
+                focusPoint.X >= Columns || focusPoint.Y >= Rows)
+            {
+                focusPoint = LocationOf(Children[Props.InitialFocusIndex]);
+            }
 
             var initialFocus = focusPoint;
 
             while (!ChildAt(focusPoint).CanHaveFocus)
             {
                 focusPoint.X++;
-                
+
                 if (focusPoint.X >= Columns)
                 {
                     focusPoint.X = 0;
@@ -75,6 +95,12 @@ namespace AgateLib.UserInterface
             }
         }
 
+        public override void OnChildrenUpdated()
+        {
+            base.OnChildrenUpdated();
+
+            RecalcArrangement();
+        }
         public Point LocationOf(IRenderElement item)
         {
             if (item == null)
@@ -174,8 +200,8 @@ namespace AgateLib.UserInterface
                         desty,
                         columnWidths[x],
                         rowHeights[y]);
-                    
-		    item.DoLayout(renderContext, item.Display.ContentRect.Size);
+
+                    item.DoLayout(renderContext, item.Display.ContentRect.Size);
 
                     destx += columnWidths[x];
                 }
@@ -523,8 +549,8 @@ namespace AgateLib.UserInterface
         /// <param name="text"></param>
         /// <param name="labelPropsEditor">An optional method to modify the label props.</param>
         /// <returns></returns>
-        public static GridProps Add(this GridProps props, 
-                                    string text, 
+        public static GridProps Add(this GridProps props,
+                                    string text,
                                     Action<LabelProps> labelPropsEditor = null,
                                     string styleClass = null)
         {

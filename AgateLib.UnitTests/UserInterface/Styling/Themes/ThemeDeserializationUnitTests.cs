@@ -12,13 +12,13 @@ using Moq;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {
-    public class ThemeDeserializationTests
+    public class ThemeDeserializationUnitTests
     {
         private Mock<IFontProvider> fonts;
         private Mock<IContentProvider> content;
         private ThemeLoader loader;
 
-        public ThemeDeserializationTests()
+        public ThemeDeserializationUnitTests()
         {
             fonts = new Mock<IFontProvider>();
 

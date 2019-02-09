@@ -268,11 +268,11 @@
     <Compile Include="UserInterface\Layout\GridNavigationTests.cs" />
     <Compile Include="UserInterface\Layout\LayoutMathTests.cs" />
     <Compile Include="UserInterface\Scrolling\ScrollingAppUnitTests.cs" />
-    <Compile Include="UserInterface\Styling\AnimationStyleTest.cs" />
+    <Compile Include="UserInterface\Styling\AnimationStyleUnitTests.cs" />
     <Compile Include="UserInterface\Styling\SizeConstraintsUnitTests.cs" />
-    <Compile Include="UserInterface\Styling\Themes\CssSelectorTests.cs" />
-    <Compile Include="UserInterface\Styling\Themes\ThemeDeserializationTests.cs" />
-    <Compile Include="UserInterface\Styling\Themes\ThemeStylerTest.cs" />
+    <Compile Include="UserInterface\Styling\Themes\CssSelectorUnitTests.cs" />
+    <Compile Include="UserInterface\Styling\Themes\ThemeDeserializationUnitTests.cs" />
+    <Compile Include="UserInterface\Styling\Themes\ThemeStylerUnitTests.cs" />
     <Compile Include="UserInterface\UserInterfaceFunctions.cs" />
     <Compile Include="UserInterface\VisualTreeTests.cs" />
     <Compile Include="UserInterface\Widgets\FixedSizeTests.cs" />

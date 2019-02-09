@@ -9,7 +9,7 @@ using Xunit;
 
 namespace AgateLib.UserInterface.Styling
 {
-    public class AnimationStyleTest
+    public class AnimationStyleUnitTests
     {
         [Fact]
         public void AnimationStyleInNameAndArgs()

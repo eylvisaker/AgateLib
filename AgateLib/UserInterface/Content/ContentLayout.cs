@@ -183,6 +183,9 @@ namespace AgateLib.UserInterface.Content
 
             void ApplyAlignment(int start, int end)
             {
+                if (end < start)
+                    return;
+
                 IEnumerable<IContentLayoutItem> affectedItems 
                     = items.Skip(start).Take(end - start + 1);
 

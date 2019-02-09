@@ -14,7 +14,7 @@ using AgateLib.UserInterface;
 
 namespace AgateLib.Tests.UserInterface.Styling.Themes
 {
-    public class ThemeStylerTest
+    public class ThemeStylerUnitTests
     {
         [Fact]
         public void ApplyDefaultTheme()

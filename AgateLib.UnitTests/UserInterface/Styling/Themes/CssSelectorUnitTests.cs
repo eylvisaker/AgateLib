@@ -10,8 +10,62 @@ using Xunit;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {
-    public class CssSelectorTests
+    public class CssSelectorUnitTests
     {
+        [Fact]
+        public void MatchesItemWithMultipleClasses()
+        {
+            var tree = Element(
+                children: new[]
+                {
+                    Element(cls: "menu window"),
+                    Element(),
+                    Element(),
+                });
+
+            var selector = ".menu";
+
+            // Top level
+            DoesNotMatch(tree, selector, tree);
+
+            // First level
+            Matches(tree, selector, tree.Children.First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(1).First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(2).First());
+
+            selector = ".window";
+
+            // Top level
+            DoesNotMatch(tree, selector, tree);
+
+            // First level
+            Matches(tree, selector, tree.Children.First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(1).First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(2).First());
+        }
+
+        [Fact]
+        public void MatchesThatRequiresMultipleClasses()
+        {
+            var tree = Element(
+                children: new[]
+                {
+                    Element(cls: "menu"),
+                    Element(cls: "window"),
+                    Element(cls: "menu window"),
+                });
+
+            var selector = ".menu.window";
+
+            // Top level
+            DoesNotMatch(tree, selector, tree);
+
+            // First level
+            DoesNotMatch(tree, selector, tree.Children.First());
+            DoesNotMatch(tree, selector, tree.Children.Skip(1).First());
+            Matches(tree, selector, tree.Children.Skip(2).First());
+        }
+
         [Fact]
         public void MatchesWithComma()
         {
