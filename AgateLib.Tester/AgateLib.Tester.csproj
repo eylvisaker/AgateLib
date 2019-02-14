@@ -180,6 +180,11 @@
     <Compile Include="UserInterface\FlexFiddler\FlexFiddlerTest.cs" />
     <Compile Include="UserInterface\JustifyContentTest\JustifyContentApp.cs" />
     <Compile Include="UserInterface\JustifyContentTest\JustifyContentTest.cs" />
+    <Compile Include="UserInterface\MultipleWorkspaces\FirstWorkspaceApp.cs" />
+    <Compile Include="UserInterface\MultipleWorkspaces\MultiWorkspaceApp.cs" />
+    <Compile Include="UserInterface\MultipleWorkspaces\MultiWorkspaceTest.cs" />
+    <Compile Include="UserInterface\MultipleWorkspaces\MultiWorkspaceWindow.cs" />
+    <Compile Include="UserInterface\MultipleWorkspaces\StatusWindow.cs" />
     <Compile Include="UserInterface\RadioButtons\RadioButtonApp.cs" />
     <Compile Include="UserInterface\RadioButtons\RadioButtonTest.cs" />
     <Compile Include="UserInterface\Scrolling\ScrollingApp.cs" />
