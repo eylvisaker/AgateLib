@@ -262,11 +262,12 @@
     <Compile Include="UserInterface\Content\ContentLayoutUnitTests.cs" />
     <Compile Include="UserInterface\Content\TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInterface\DesktopTests.cs" />
+    <Compile Include="UserInterface\DesktopUnitTests.cs" />
     <Compile Include="UserInterface\Layout\FlexBoxOversizeUnitTests.cs" />
     <Compile Include="UserInterface\Layout\GridLayoutTests.cs" />
     <Compile Include="UserInterface\Layout\GridNavigationTests.cs" />
     <Compile Include="UserInterface\Layout\LayoutMathTests.cs" />
+    <Compile Include="UserInterface\MultipleWorkspaces\MultiWorkspaceUnitTests.cs" />
     <Compile Include="UserInterface\Scrolling\ScrollingAppUnitTests.cs" />
     <Compile Include="UserInterface\Styling\AnimationStyleUnitTests.cs" />
     <Compile Include="UserInterface\Styling\SizeConstraintsUnitTests.cs" />

@@ -26,7 +26,8 @@ namespace AgateLib.Tests.UserInterface.MultipleWorkspaces
                     }),
                     new StatusWindow(new StatusWindowProps
                     {
-                        Text = State.Text
+                        Text = State.Text,
+                        StatusLabelRef = Props.StatusLabelRef,
                     }),
                 }
             });
@@ -40,5 +41,6 @@ namespace AgateLib.Tests.UserInterface.MultipleWorkspaces
 
     public class MultiWorkspaceAppProps : WidgetProps
     {
+        public ElementReference StatusLabelRef { get; set; }
     }
 }

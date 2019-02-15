@@ -210,6 +210,11 @@ namespace AgateLib.UserInterface
                 return;
             }
 
+            for(int i = 0; i < workspaces.Count; i++)
+            {
+                workspaces[i].Update(renderContext);
+            }
+
             Workspace activeWorkspace;
 
             do
@@ -218,8 +223,6 @@ namespace AgateLib.UserInterface
                 // while updating the active workspace. If so, the new
                 // workspace will also need to be updated.
                 activeWorkspace = ActiveWorkspace;
-
-                ActiveWorkspace?.Update(renderContext);
 
                 if (ActiveWorkspace?.AnimationState == AnimationState.Dead)
                 {

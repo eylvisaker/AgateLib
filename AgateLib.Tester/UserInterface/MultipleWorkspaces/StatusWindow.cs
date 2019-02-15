@@ -1,9 +1,4 @@
 ﻿using AgateLib.UserInterface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.MultipleWorkspaces
 {
@@ -18,7 +13,11 @@ namespace AgateLib.Tests.UserInterface.MultipleWorkspaces
             {
                 Children =
                 {
-                    new Label(new LabelProps { Text = Props.Text })
+                    new Label(new LabelProps
+                    {
+                        Text = Props.Text,
+                        Ref = Props.StatusLabelRef,
+                    }),
                 }
             });
     }
@@ -26,5 +25,7 @@ namespace AgateLib.Tests.UserInterface.MultipleWorkspaces
     public class StatusWindowProps : WidgetProps
     {
         public string Text { get; set; }
+
+        public ElementReference StatusLabelRef { get; set; }
     }
 }

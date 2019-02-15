@@ -7,7 +7,7 @@ using Xunit;
 
 namespace AgateLib.Tests.UserInterface
 {
-    public class DesktopTests
+    public class DesktopUnitTests
     {
         [Fact]
         public void Desktop_InputIsSentToActiveWorkspaceOnly()
