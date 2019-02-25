@@ -243,7 +243,7 @@ namespace AgateLib.UserInterface
             DoLayout(renderContext, area);
 
             Walk(element =>
-            { 
+            {
                 renderContext.UpdateAnimation(element);
                 return true;
             });
@@ -284,7 +284,7 @@ namespace AgateLib.UserInterface
         public void Draw(IUserInterfaceRenderContext renderContext, Rectangle area)
         {
             DebugMsg("Drawing all widgets", ifDebugFlagAtLeast: 1, setDebugFlag: 0);
-            
+
             renderContext.DrawChild(area, TreeRoot);
         }
 

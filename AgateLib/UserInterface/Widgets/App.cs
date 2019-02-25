@@ -37,6 +37,7 @@ namespace AgateLib.UserInterface
             Theme = Props.Theme,
             Style = Props.Style,
             StyleClass = Props.StyleClass,
+            InitialFocusIndex = Props.InitialFocusIndex,
             DefaultStyle = Props.DefaultStyle ?? new InlineElementStyle
             {
                 Flex = new FlexStyle
@@ -56,6 +57,8 @@ namespace AgateLib.UserInterface
 
     public class AppProps : WidgetProps
     {
+        public int InitialFocusIndex { get; set; }
+
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
 
         public UserInterfaceEventHandler OnCancel { get; set; }

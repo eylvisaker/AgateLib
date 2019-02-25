@@ -145,11 +145,11 @@ namespace AgateLib.UserInterface
         public static T CopyFrom<T>(this T widgetProps, WidgetProps props)
             where T : WidgetProps
         {
-            widgetProps.Name = props.Name;
-            widgetProps.Theme = props.Theme;
-            widgetProps.Style = props.Style;
-            widgetProps.StyleClass = props.StyleClass;
-            widgetProps.DefaultStyle = props.DefaultStyle;
+            widgetProps.Name = widgetProps.Name ?? props.Name;
+            widgetProps.Theme = widgetProps.Theme ?? props.Theme;
+            widgetProps.Style = widgetProps.Style ?? props.Style;
+            widgetProps.StyleClass = widgetProps.StyleClass ?? props.StyleClass;
+            widgetProps.DefaultStyle = widgetProps.DefaultStyle ?? props.DefaultStyle;
             widgetProps.Visible = props.Visible;
 
             return widgetProps;
