@@ -32,17 +32,20 @@ namespace AgateLib.UserInterface.Content.LayoutItems
 	public class TextureLayoutItem : ContentLayoutItem
     {
         private readonly Texture2D image;
+        private readonly Size destSize;
 
-        public TextureLayoutItem(Texture2D image, Rectangle sourceRect)
+        public TextureLayoutItem(Texture2D image, Rectangle sourceRect, Size destSize)
         {
             this.image = image;
 
             SourceRect = sourceRect;
+
+            this.destSize = destSize;
         }
 
         public override int Count => 1;
 
-        public override Size Size => SourceRect.Size;
+        public override Size Size => destSize;
 
         public Rectangle SourceRect { get; }
 
@@ -50,7 +53,7 @@ namespace AgateLib.UserInterface.Content.LayoutItems
         {
             Vector2 drawPt = origin + Position.ToVector2();
 
-            var destRect = new Rectangle(drawPt.ToPoint(), Size);
+            var destRect = new Rectangle(drawPt.ToPoint(), destSize);
 
             renderContext.Draw(image, destRect, SourceRect, Color.White);
 

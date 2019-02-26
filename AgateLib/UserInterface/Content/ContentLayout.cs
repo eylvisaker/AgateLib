@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Content
         /// <summary>
         /// Gets or sets the maximum width of the content layout.
         /// </summary>
-        int MaxWidth { get; set; }
+        int? MaxWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the alignment of the text when drawn.
@@ -74,9 +74,10 @@ namespace AgateLib.UserInterface.Content
         private ContentRenderContext renderContext = new ContentRenderContext();
         private bool animationCompleted;
 
-        private int maxWidth = int.MaxValue;
-        private TextAlign textAlign;
+        private int? maxWidth;
         private bool layoutDirty = true;
+
+        private TextAlign textAlign;
 
         public ContentLayout(IEnumerable<IContentLayoutItem> items, int lineHeight)
         {
@@ -105,7 +106,7 @@ namespace AgateLib.UserInterface.Content
 
         public IReadOnlyList<IContentLayoutItem> Items => items;
 
-        public int MaxWidth
+        public int? MaxWidth
         {
             get => maxWidth;
             set
@@ -181,6 +182,8 @@ namespace AgateLib.UserInterface.Content
             int lineHeight = defaultLineHeight;
             int lineStartIndex = 0;
 
+            int myMaxWidth = MaxWidth ?? items.Max(x => x.Bounds.Right);
+
             void ApplyAlignment(int start, int end)
             {
                 if (end < start)
@@ -198,11 +201,11 @@ namespace AgateLib.UserInterface.Content
 
                 if (TextAlign == TextAlign.Right)
                 {
-                    shiftRight = MaxWidth - width;
+                    shiftRight = myMaxWidth - width;
                 }
                 else if (TextAlign == TextAlign.Center)
                 {
-                    shiftRight = (MaxWidth - width) / 2;
+                    shiftRight = (myMaxWidth - width) / 2;
                 }
 
                 if (shiftRight > 0)
