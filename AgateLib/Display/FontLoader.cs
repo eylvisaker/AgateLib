@@ -20,16 +20,11 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using AgateLib.Display.BitmapFont;
 using AgateLib.Display.BitmapFont.Model;
 using AgateLib.Display.BitmapFont.TypeConverters;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -37,7 +32,7 @@ namespace AgateLib.Display
 {
     public static class FontLoader
     {
-        static IDeserializer deserializer;
+        private static IDeserializer deserializer;
 
         private static IDeserializer CreateDeserializer()
         {

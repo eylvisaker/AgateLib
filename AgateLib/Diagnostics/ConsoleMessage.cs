@@ -20,50 +20,45 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.UserInterface.Content;
 
 namespace AgateLib.Diagnostics
 {
-	/// <summary>
-	/// Represents a message in the console window.
-	/// </summary>
-	public class ConsoleMessage
-	{
-		string text;
+    /// <summary>
+    /// Represents a message in the console window.
+    /// </summary>
+    public class ConsoleMessage
+    {
+        private string text;
 
-		/// <summary>
-		/// Gets or sets the text of a console message.
-		/// </summary>
-		public string Text
-		{
-			get => text;
-			set
-			{
-				text = value;
-				Layout = null;
-			}
-		}
+        /// <summary>
+        /// Gets or sets the text of a console message.
+        /// </summary>
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value;
+                Layout = null;
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the time the console message was logged.
-		/// </summary>
-		public long Time { get; set; }
+        /// <summary>
+        /// Gets or sets the time the console message was logged.
+        /// </summary>
+        public long Time { get; set; }
 
-		/// <summary>
-		/// Gets or sets the type of console message. This is used to determine how the console message is displayed.
-		/// </summary>
-		public ConsoleMessageType MessageType { get; set; }
+        /// <summary>
+        /// Gets or sets the type of console message. This is used to determine how the console message is displayed.
+        /// </summary>
+        public ConsoleMessageType MessageType { get; set; }
 
-		internal IContentLayout Layout { get; set; }
+        internal IContentLayout Layout { get; set; }
 
-		internal void ClearCache()
-		{
-			Layout = null;
-		}
-	}
+        internal void ClearCache()
+        {
+            Layout = null;
+        }
+    }
 }

@@ -150,9 +150,11 @@ namespace AgateLib.Diagnostics.CommandLibraries
             quit?.Invoke();
         }
 
-        [ConsoleCommand("Enable or disable debug info with 'debug on' or 'debug off'", Hidden = true)]
-        public void Debug(string mode = "")
+        [ConsoleCommand("Enable or disable debug info", Hidden = true)]
+        public void Debug([Param("Either \"on\" or \"off\"")] string mode = "")
         {
+            mode = mode.ToLowerInvariant();
+
             if (mode == "off")
             {
                 Shell.WriteLine("Disabling debug information.");
@@ -168,6 +170,7 @@ namespace AgateLib.Diagnostics.CommandLibraries
 
             Shell.WriteLine("Type 'debug on' to enable debug information.");
             Shell.WriteLine("Type 'debug off' to disable debug information.");
+            Shell.WriteLine($"Debug information is currently {(Shell.State.Debug ? "ON" : "OFF")}");
         }
     }
 }

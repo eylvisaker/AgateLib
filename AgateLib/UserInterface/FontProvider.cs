@@ -56,7 +56,25 @@ namespace AgateLib.UserInterface
         bool HasFont(string family);
     }
 
-    [Singleton]
+    /// <summary>
+    /// Provides a prototypical implementation of IFontProvider.
+    /// A good way to use this is to inherit from it and use the Add method in the constructor to add fonts.
+    /// </summary>
+    /// <example>
+    /// [Singleton]
+    /// public class GenerationsOfLoreFontProvider : FontProvider
+    /// {
+    ///     public GenerationsOfLoreFontProvider(IContentProvider content)
+    ///     {
+    ///         Add("MedievalSharp", Font.Load(content, "UserInterface/Fonts/MedievalSharp"));
+    /// 
+    ///         Add("Sans", Font.Load(content, "AgateLib/AgateSans"));
+    ///         Add("Mono", Font.Load(content, "AgateLib/AgateMono"));
+    /// 
+    ///         Default.Size = 20;
+    ///     }
+    /// } 
+    /// </example>
     public class FontProvider : IFontProvider
     {
         private readonly Dictionary<string, Font> fonts

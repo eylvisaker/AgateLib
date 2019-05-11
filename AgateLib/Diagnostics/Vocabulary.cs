@@ -45,7 +45,7 @@ namespace AgateLib.Diagnostics
         bool IsValid { get; }
 
         /// <summary>
-        /// This allows that game to enable and disable vocabularies based on context.
+        /// This allows the game to enable and disable vocabularies based on context.
         /// </summary>
         bool IsEnabled { get; set; }
 

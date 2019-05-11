@@ -58,6 +58,31 @@ namespace AgateLib.Diagnostics
     }
 
     /// <summary>
+    /// Use this attribute on arguments to methods decorated with ConsoleCommandAttribute
+    /// to control how the parameter is described in the method usage.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
+    public class ParamAttribute : Attribute
+    {
+        public ParamAttribute(string description)
+        {
+            Description = description;
+        }
+
+        /// <summary>
+        /// A description of the parameter when printing the usage info of the command.
+        /// </summary>
+        public string Description { get; }
+
+        /// <summary>
+        /// Indicates whether the parameter should be displayed as optional.
+        /// If this is true, the optional nature of the parameter will be suppressed in the help output.
+        /// This is useful if you want to handle a missing value by displaying an additional help message for that parameter.
+        /// </summary>
+        public bool Required { get; set; }
+    }
+
+    /// <summary>
     /// Signifies that a ConsoleCommand should have all its arguments joined 
     /// into the decorated argument.
     /// </summary>
@@ -69,7 +94,8 @@ namespace AgateLib.Diagnostics
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class AliasAttribute : Attribute
     {
-        public AliasAttribute(string value) {
+        public AliasAttribute(string value)
+        {
             this.Value = value;
         }
 

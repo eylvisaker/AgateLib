@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics
 {
@@ -40,10 +41,21 @@ namespace AgateLib.Diagnostics
         ConsoleState State { get; }
 
         /// <summary>
+        /// Returns true if the user has the console window open.
+        /// </summary>
+        bool IsVisible { get; }
+
+        /// <summary>
         /// Writes a line to the output portion of the screen.
         /// </summary>
         /// <param name="text"></param>
-        void WriteLine(string text);
+        void WriteLine(string text = "");
+
+        /// <summary>
+        /// Creates an object that allows updates to the game while it is active.
+        /// </summary>
+        /// <returns></returns>
+        IDisposable AllowGameUpdates();
 
         /// <summary>
         /// Executes a command, as if the user had typed it in.
@@ -55,6 +67,23 @@ namespace AgateLib.Diagnostics
     [Singleton]
     public class ConsoleShell : IConsoleShell
     {
+        private class GameUpdater : IDisposable
+        {
+            private ConsoleState state;
+
+            public GameUpdater(ConsoleState state)
+            {
+                this.state = state;
+
+                state.PauseGame = false;
+            }
+
+            public void Dispose()
+            {
+                state.PauseGame = true;
+            }
+        }
+
         private List<ConsoleMessage> inputHistory = new List<ConsoleMessage>();
 
         private int historyIndex;
@@ -67,6 +96,8 @@ namespace AgateLib.Diagnostics
         private VocabularyCommands emergencyVocab;
         private GameTime lastTime = new GameTime();
         private long CurrentTime;
+
+        private Task awaitingTask;
 
         public ConsoleShell()
         {
@@ -85,6 +116,8 @@ namespace AgateLib.Diagnostics
         /// </summary>
         public event EventHandler KeyProcessed;
 
+        public bool IsVisible => State.DisplayMode == ConsoleDisplayMode.Full;
+
         private string InputText
         {
             get => State.InputText;
@@ -98,6 +131,23 @@ namespace AgateLib.Diagnostics
         }
 
         private List<ConsoleMessage> Messages => State.Messages;
+
+        public IDisposable AllowGameUpdates()
+        {
+            return new GameUpdater(State);
+        }
+
+        public void WaitForTask(Task task)
+        {
+            if (awaitingTask != null)
+            {
+                awaitingTask = Task.WhenAll(awaitingTask, task);
+            }
+            else
+            {
+                awaitingTask = task;
+            }
+        }
 
         /// <summary>
         /// Returns the entire list of command libraries, including those
@@ -229,6 +279,10 @@ namespace AgateLib.Diagnostics
         public void WriteLine(string text)
         {
             System.Diagnostics.Debug.WriteLine(text);
+
+            // Hack because ContentLayout won't print a completely empty string.
+            if (string.IsNullOrEmpty(text))
+                text = " ";
 
             var message = new ConsoleMessage
             {
@@ -441,6 +495,9 @@ namespace AgateLib.Diagnostics
 
         public void ProcessKeyDown(Keys keyCode, string keystring, IKeyModifiers modifiers)
         {
+            if (State.ExecutingTask)
+                return;
+
             if (keyCode == Keys.C && modifiers.Control)
             {
                 ClearInputText();

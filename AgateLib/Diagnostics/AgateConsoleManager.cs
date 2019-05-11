@@ -1,6 +1,4 @@
-﻿using AgateLib;
-using AgateLib.Diagnostics;
-using AgateLib.Scenes;
+﻿using AgateLib.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;

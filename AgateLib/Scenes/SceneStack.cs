@@ -287,7 +287,7 @@ namespace AgateLib.Scenes
             }
         }
 
-        public void Update(GameTime time)
+        public void Update(GameTime time, bool processInput = true)
         {
             missedUpdates.Clear();
 
@@ -296,7 +296,7 @@ namespace AgateLib.Scenes
             try
             {
                 updating = true;
-                bool processedInput = false;
+                bool processedInput = !processInput;
 
                 lock (updateLock)
                 {

@@ -1,11 +1,6 @@
-﻿using AgateLib;
-using AgateLib.Diagnostics;
-using AgateLib.Scenes;
+﻿using AgateLib.Scenes;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.Diagnostics
 {

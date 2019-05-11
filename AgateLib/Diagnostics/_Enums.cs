@@ -20,43 +20,38 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics
 {
-	/// <summary>
-	/// Enum representing the different console message types.
-	/// </summary>
-	public enum ConsoleMessageType
-	{
-		/// <summary>
-		/// Output from the application
-		/// </summary>
-		Text,
+    /// <summary>
+    /// Enum representing the different console message types.
+    /// </summary>
+    public enum ConsoleMessageType
+    {
+        /// <summary>
+        /// Output from the application
+        /// </summary>
+        Text,
 
-		/// <summary>
-		/// Input from the user.
-		/// </summary>
-		UserInput,
+        /// <summary>
+        /// Input from the user.
+        /// </summary>
+        UserInput,
 
-		/// <summary>
-		/// Temporary message to notify the user. 
-		/// A temporary message is removed as soon as another temporary 
-		/// message is added to the console, or the user hits enter.
-		/// </summary>
-		Temporary,
-	}
+        /// <summary>
+        /// Temporary message to notify the user. 
+        /// A temporary message is removed as soon as another temporary 
+        /// message is added to the console, or the user hits enter.
+        /// </summary>
+        Temporary,
+    }
 
-	public enum ConsoleDisplayMode
-	{
-		None,
+    public enum ConsoleDisplayMode
+    {
+        None,
 
-		RecentMessagesOnly,
+        RecentMessagesOnly,
 
-		Full,
-	}
+        Full,
+    }
 }

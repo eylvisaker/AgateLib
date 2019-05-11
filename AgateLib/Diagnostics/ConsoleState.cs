@@ -23,12 +23,13 @@
 using AgateLib.Diagnostics.ConsoleAppearance;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics
 {
     public class ConsoleState
     {
-        Stack<string> pathStack = new Stack<string>();
+        private Stack<string> pathStack = new Stack<string>();
 
         public ConsoleState()
         {
@@ -84,5 +85,31 @@ namespace AgateLib.Diagnostics
 
             CurrentPath = path;
         }
+
+        public bool ExecutingTask
+        {
+            get
+            {
+                if (AwaitingTask != null)
+                {
+                    switch (AwaitingTask.Status)
+                    {
+                        case TaskStatus.Running:
+                        case TaskStatus.WaitingForActivation:
+                        case TaskStatus.WaitingForChildrenToComplete:
+                        case TaskStatus.WaitingToRun:
+                            return true;
+                    }
+
+                    AwaitingTask = null;
+                }
+
+                return false;
+            }
+        }
+
+        internal bool PauseGame { get; set; } = true;
+
+        internal Task AwaitingTask { get; set; }
     }
 }

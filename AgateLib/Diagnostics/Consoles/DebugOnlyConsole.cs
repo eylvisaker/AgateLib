@@ -20,17 +20,26 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace AgateLib.Diagnostics.Consoles
 {
+    [Obsolete("This does not do anything useful.")]
     public class DebugOnlyConsole : IConsoleSetup
     {
         public bool IsOpen => true;
+
+        public bool IsActive => true;
+
+        public bool PauseGame => true;
+
+        public bool CapturingInput => true;
+
+        public Keys ToggleKey { get; set; } = Keys.OemTilde;
+
+        public bool DisplayMessagesWhenClosed { get; set; }
 
         public void AddCommands(IVocabulary boxVocabulary)
         {

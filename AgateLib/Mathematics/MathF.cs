@@ -21,31 +21,28 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Mathematics
 {
-	/// <summary>
-	/// Provides single precision math operations.
-	/// </summary>
-	public static class MathF
-	{
-		public const float PI = 3.14159265359f;
-		public const float TwoPI = 6.28318530718f;
+#if !SYSTEM_MATHF
+    /// <summary>
+    /// Provides single precision math operations.
+    /// </summary>
+    public static class MathF
+    {
+        public const float PI = 3.14159265359f;
+        public const float TwoPI = 6.28318530718f;
 
 
-		/// <summary>
-		/// Single precision sine.
-		/// </summary>
-		/// <param name="angle"></param>
-		/// <returns></returns>
-		public static float Sin(float angle)
-		{
-			return (float)Math.Sin(angle);
-		}
+        /// <summary>
+        /// Single precision sine.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static float Sin(float angle)
+        {
+            return (float)Math.Sin(angle);
+        }
 
         /// <summary>
         /// Hyperbolic Tangent function.
@@ -54,7 +51,7 @@ namespace AgateLib.Mathematics
         /// <returns></returns>
         public static float Tanh(float x)
         {
-            return (float)Math.Tanh((float)x);
+            return (float)Math.Tanh(x);
         }
 
         /// <summary>
@@ -63,9 +60,9 @@ namespace AgateLib.Mathematics
         /// <param name="angle"></param>
         /// <returns></returns>
         public static float Cos(float angle)
-		{
-			return (float)Math.Cos(angle);
-		}
+        {
+            return (float)Math.Cos(angle);
+        }
 
         /// <summary>
         /// Single precision square root.
@@ -84,9 +81,9 @@ namespace AgateLib.Mathematics
         /// <param name="y"></param>
         /// <returns></returns>
         public static float Pow(float x, float y)
-		{
-			return (float)Math.Pow(x, y);
-		}
+        {
+            return (float)Math.Pow(x, y);
+        }
 
         /// <summary>
         /// Single precision inverse tangent(2) function.
@@ -99,4 +96,5 @@ namespace AgateLib.Mathematics
             return (float)Math.Atan2(y, x);
         }
     }
+#endif
 }

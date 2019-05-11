@@ -20,15 +20,11 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AgateLib.Display;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
-using Microsoft.Xna.Framework.Content;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace AgateLib.Diagnostics.Rendering
 {

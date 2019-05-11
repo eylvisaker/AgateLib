@@ -36,7 +36,7 @@ namespace AgateLib.Diagnostics.CommandLibraries
     /// </summary>
     public class VocabularyCommands : ICommandLibrary
     {
-        class CommandInfo
+        private class CommandInfo
         {
             public Delegate Delegate { get; set; }
 
@@ -122,7 +122,49 @@ namespace AgateLib.Diagnostics.CommandLibraries
 
             var commandAttribute = methodInfo?.GetCustomAttribute<ConsoleCommandAttribute>();
 
+            string usage = "    " + command;
+            StringBuilder desc = new StringBuilder();
+
+            foreach (ParameterInfo parameter in methodInfo.GetParameters())
+            {
+                var paramAttribute = parameter.GetCustomAttribute<ParamAttribute>();
+                bool isOptional = parameter.IsOptional;
+
+                if (paramAttribute?.Required == true)
+                    isOptional = false;
+
+                if (isOptional)
+                {
+                    usage += $" [{parameter.Name}]";
+                }
+                else
+                {
+                    usage += " " + parameter.Name;
+                }
+
+                desc.Append($"    {parameter.Name} ({FriendlyTypeName(parameter.ParameterType)})");
+
+                if (paramAttribute != null)
+                {
+                    desc.Append($" - {paramAttribute.Description}");
+                }
+
+                desc.AppendLine();
+            }
+
+            Shell.WriteLine("Usage:");
+            Shell.WriteLine();
+            Shell.WriteLine(usage);
+            Shell.WriteLine();
             Shell.WriteLine(commandAttribute?.Description ?? "No description found.");
+
+            string descStr = desc.ToString();
+
+            if (descStr.Trim().Length > 0)
+            {
+                Shell.WriteLine();
+                Shell.WriteLine(desc.ToString());
+            }
 
             return true;
         }
@@ -209,7 +251,7 @@ namespace AgateLib.Diagnostics.CommandLibraries
                     catch
                     {
                         Shell.WriteLine(
-                            $"Argument #{j} invalid: \"{tokens[j]}\" not convertable to {parameters[i].ParameterType.Name}");
+                            $"Argument #{j} invalid: \"{tokens[j]}\" not convertable to {FriendlyTypeName(parameters[i].ParameterType)}");
                         badArgs = true;
                     }
                 }
@@ -244,7 +286,40 @@ namespace AgateLib.Diagnostics.CommandLibraries
 
             object result = method.Invoke(p.Target, args);
 
-            if (method.ReturnType != typeof(void) && result != null)
+            if (result is Task task)
+            {
+                task = task.ContinueWith(t =>
+                {
+                    if (t.Status == TaskStatus.Faulted)
+                    {
+                        if (t.Exception is AggregateException ae)
+                        {
+                            foreach (var ex in ae.InnerExceptions)
+                            {
+                                Shell.WriteLine($"{ex.GetType().Name}: {ex.Message}");
+                            }
+                        }
+                        else
+                        {
+                            Shell.WriteLine($"{t.Exception.GetType().Name}: {t.Exception.Message}");
+                        }
+                    }
+                    else
+                    {
+                        Type type = t.GetType();
+                        TypeInfo typeInfo = type.GetTypeInfo();
+
+                        var voidTaskType = typeof(Task<>).MakeGenericType(Type.GetType("System.Threading.Tasks.VoidTaskResult"));
+                        if (!voidTaskType.IsAssignableFrom(type))
+                        {
+                            Shell.WriteLine(typeInfo.GetDeclaredProperty("Result").GetValue(t).ToString());
+                        }
+                    }
+                });
+
+                Shell.State.AwaitingTask = task;
+            }
+            else if (method.ReturnType != typeof(void) && result != null)
             {
                 Shell.WriteLine(result.ToString());
             }
@@ -264,6 +339,16 @@ namespace AgateLib.Diagnostics.CommandLibraries
             }
 
             return result.ToString();
+        }
+
+        private string FriendlyTypeName(Type type)
+        {
+            if (type == typeof(string)) return "string";
+            if (type == typeof(int) || type == typeof(short)) return "integer";
+            if (type == typeof(byte)) return "byte";
+            if (type == typeof(double) || type == typeof(float)) return "float";
+
+            return type.Name;
         }
 
         public override string ToString() => $"Commands: <{vocabulary.GetType().Name}>";

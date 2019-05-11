@@ -290,6 +290,12 @@ namespace AgateLib.Diagnostics.Rendering
 
         private void DrawUserEntry()
         {
+            if (State.ExecutingTask)
+            {
+                entryHeight = 0;
+                return;
+            }
+
             int y = size.Height;
             Font.TextAlignment = OriginAlignment.BottomLeft;
 

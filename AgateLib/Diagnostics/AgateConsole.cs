@@ -36,7 +36,40 @@ namespace AgateLib.Diagnostics
 
     public interface IConsoleSetup : IConsole
     {
+        [Obsolete("Use PauseGame instead.")]
+        bool IsActive { get; }
+
+        /// <summary>
+        /// Gets whether the console window is displayed on the screen.
+        /// </summary>
         bool IsOpen { get; }
+
+        Keys ToggleKey { get; set; }
+
+        /// <summary>
+        /// Gets whether updates to the game should be paused. This is generally
+        /// true when the console window is open and waiting for user input.
+        /// </summary>
+        /// <remarks>
+        /// In some cases, the game engine should get updated while the console window is open.
+        /// Be sure to check the CapturingInput property to decide whether your game engine should
+        /// process user input.
+        /// </remarks>
+        bool PauseGame { get; }
+
+        /// <summary>
+        /// Gets whether the console is capturing input. This is always true
+        /// when the console window is open. If this is true, you should not process
+        /// input in your game engine.
+        /// </summary>
+        bool CapturingInput { get; }
+
+        /// <summary>
+        /// If set to true, any messages written to the console will show on screen for a few seconds
+        /// even when the console is closed. This is automatically set to true if the console window
+        /// is opened by the user.
+        /// </summary>
+        bool DisplayMessagesWhenClosed { get; set; }
 
         void Update(GameTime time);
 
@@ -71,7 +104,24 @@ namespace AgateLib.Diagnostics
 
         public Keys ToggleKey { get; set; } = Keys.OemTilde;
 
-        public bool IsOpen { get; private set; }
+        public bool IsOpen => State.DisplayMode == ConsoleDisplayMode.Full;
+
+        [Obsolete]
+        public bool IsActive => PauseGame;
+
+        public bool PauseGame => CapturingInput && State.PauseGame;
+
+        public bool CapturingInput => State.DisplayMode == ConsoleDisplayMode.Full;
+
+        public bool DisplayMessagesWhenClosed
+        {
+            get => State.DisplayMode != ConsoleDisplayMode.None;
+            set
+            {
+                if (State.DisplayMode == ConsoleDisplayMode.None)
+                    State.DisplayMode = ConsoleDisplayMode.RecentMessagesOnly;
+            }
+        }
 
         /// <summary>
         /// Adds a vocabulary to the console.
@@ -104,7 +154,12 @@ namespace AgateLib.Diagnostics
         {
             shell.Update(time);
 
-            if (IsOpen)
+            if (!CapturingInput)
+            {
+                OpenIfToggleKeyPressed();
+            }
+
+            if (CapturingInput)
             {
                 keyboardInput.Update(time);
             }
@@ -120,7 +175,7 @@ namespace AgateLib.Diagnostics
 
         private void KeyboardInput_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (IsOpen)
+            if (CapturingInput)
             {
                 if (e.Key == ToggleKey && suppressToggleKey)
                     return;
@@ -144,19 +199,39 @@ namespace AgateLib.Diagnostics
             }
         }
 
+        public void OpenIfToggleKeyPressed()
+        {
+            if (IsOpen)
+                return;
+
+            var keys = Keyboard.GetState();
+
+            if (keys.IsKeyDown(ToggleKey))
+            {
+                Open();
+            }
+        }
+
         public void Open(bool ignoreNextToggleKey = true)
         {
             this.ignoreNextToggleKey = ignoreNextToggleKey;
-            IsOpen = true;
+
             State.DisplayMode = ConsoleDisplayMode.Full;
         }
 
         public void Close()
         {
-            if (IsOpen)
+            if (State.DisplayMode == ConsoleDisplayMode.Full)
             {
-                IsOpen = false;
-                State.DisplayMode = ConsoleDisplayMode.RecentMessagesOnly;
+                if (DisplayMessagesWhenClosed)
+                {
+                    State.DisplayMode = ConsoleDisplayMode.RecentMessagesOnly;
+                }
+                else
+                {
+                    State.DisplayMode = ConsoleDisplayMode.None;
+                }
+
 
                 ConsoleClosed?.Invoke();
             }
