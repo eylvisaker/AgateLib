@@ -97,15 +97,16 @@ namespace AgateLib.UserInterface
         private readonly UserInterfaceRenderContext renderContext;
         private readonly UserInterfaceSceneDriver driver;
 
-        public UserInterfaceScene(GraphicsDevice graphicsDevice,
-            IUserInterfaceRenderer userInterfaceRenderer,
-            IContentLayoutEngine contentLayoutEngine,
-            IFontProvider fontProvider,
-            IStyleConfigurator styleConfigurator,
-            IAnimationFactory animationFactory = null,
-            IUserInterfaceAudio audio = null,
-            IDoubleBuffer doubleBuffer = null,
-            RenderTarget2D renderTarget = null)
+        public UserInterfaceScene(Rectangle screenArea,
+                                  GraphicsDevice graphicsDevice,
+                                  IUserInterfaceRenderer userInterfaceRenderer,
+                                  IContentLayoutEngine contentLayoutEngine,
+                                  IFontProvider fontProvider,
+                                  IStyleConfigurator styleConfigurator,
+                                  IAnimationFactory animationFactory = null,
+                                  IUserInterfaceAudio audio = null,
+                                  IDoubleBuffer doubleBuffer = null,
+                                  RenderTarget2D renderTarget = null)
         {
             DrawBelow = true;
             UpdateBelow = false;
@@ -114,6 +115,7 @@ namespace AgateLib.UserInterface
             GraphicsDevice = graphicsDevice;
 
             renderContext = new UserInterfaceRenderContext(
+                screenArea,
                 graphicsDevice,
                 contentLayoutEngine,
                 userInterfaceRenderer,
@@ -130,8 +132,7 @@ namespace AgateLib.UserInterface
                 fontProvider,
                 audio);
 
-            driver.ScreenArea = new Rectangle(Point.Zero,
-                GraphicsDeviceRenderTargetSize);
+            driver.ScreenArea = screenArea;
 
             driver.Desktop.Empty += () =>
             {
@@ -146,27 +147,6 @@ namespace AgateLib.UserInterface
                 AlphaSourceBlend = Blend.One,
                 AlphaDestinationBlend = Blend.InverseSourceAlpha,
             };
-        }
-
-        private Size GraphicsDeviceRenderTargetSize
-        {
-            get
-            {
-                var renderTargets = GraphicsDevice.GetRenderTargets();
-
-                if (renderTargets.Length == 0)
-                {
-                    return new Size(
-                        GraphicsDevice.PresentationParameters.BackBufferWidth,
-                        GraphicsDevice.PresentationParameters.BackBufferHeight);
-                }
-                else
-                {
-                    var renderTarget = (Texture2D)GraphicsDevice.GetRenderTargets()[0].RenderTarget;
-
-                    return new Size(renderTarget.Width, renderTarget.Height);
-                }
-            }
         }
 
         /// <summary>

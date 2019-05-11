@@ -31,7 +31,7 @@ namespace AgateLib.Tests.Fakes
 
         public IInstructions Instructions { get; set; }
 
-        public Rectangle Area { get; set; }
+        public Rectangle ScreenArea { get; set; }
 
         public Size GraphicsDeviceRenderTargetSize { get; set; }
 

@@ -11,6 +11,7 @@ using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.Tests
 {
@@ -34,11 +35,14 @@ namespace AgateLib.Tests
         Texture2D WhiteTexture { get; }
 
         UserInterfaceRenderer UserInterfaceRenderer { get; set; }
+        Rectangle ScreenArea { get; }
     }
 
     public class TestResources : ITestResources
     {
         public GraphicsDevice GraphicsDevice { get; set; }
+
+        public Rectangle ScreenArea { get; set; }
 
         public IContentProvider Content { get; set; }
 

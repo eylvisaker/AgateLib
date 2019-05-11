@@ -40,6 +40,7 @@ namespace AgateLib.Tests.Selector
             var fontProvider = resources.Fonts;
 
             scene = new UserInterfaceScene(
+                resources.ScreenArea,
                 resources.GraphicsDevice,
                 resources.UserInterfaceRenderer,
                 resources.LocalizedContent,

@@ -60,11 +60,14 @@ namespace AgateLib.Tests
                 activeTest.OnExit += ExitTest;
 
                 activeTest.Initialize(resources);
-                activeTest.ScreenArea = new Rectangle(0, 0,
-                    GraphicsDevice.PresentationParameters.BackBufferWidth,
-                    GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight);
+                activeTest.ScreenArea = ScreenArea;
             }
         }
+
+        private Rectangle ScreenArea => new Rectangle(0, 0,
+                    GraphicsDevice.PresentationParameters.BackBufferWidth,
+                    GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight);
+        
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load

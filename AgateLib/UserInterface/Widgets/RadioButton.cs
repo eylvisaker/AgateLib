@@ -86,7 +86,7 @@ namespace AgateLib.UserInterface
         {
             if (props.Children.Count == 1)
             {
-                child = Finalize(props.Children.First());
+                child = FinalizeRendering(props.Children.First());
             }
             else
             {

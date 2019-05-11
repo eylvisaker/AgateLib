@@ -43,17 +43,17 @@ namespace AgateLib.UserInterface
         private readonly UserInterfaceRenderContext renderContext;
         private readonly UserInterfaceSceneDriver driver;
 
-        public UserInterfaceBufferedScene(GraphicsDevice graphicsDevice,
-            Size backBufferSize,
-            IUserInterfaceRenderer userInterfaceRenderer,
-            IContentLayoutEngine contentLayoutEngine,
-            IFontProvider fontProvider,
-            IStyleConfigurator styleConfigurator,
-            IAnimationFactory animationFactory = null,
-            IUserInterfaceAudio audio = null,
-            IDoubleBuffer doubleBuffer = null,
-            RenderTarget2D renderTarget = null)
-            : base(graphicsDevice, backBufferSize)
+        public UserInterfaceBufferedScene(Rectangle screenArea,
+                                          GraphicsDevice graphicsDevice,
+                                          IUserInterfaceRenderer userInterfaceRenderer,
+                                          IContentLayoutEngine contentLayoutEngine,
+                                          IFontProvider fontProvider,
+                                          IStyleConfigurator styleConfigurator,
+                                          IAnimationFactory animationFactory = null,
+                                          IUserInterfaceAudio audio = null,
+                                          IDoubleBuffer doubleBuffer = null,
+                                          RenderTarget2D renderTarget = null)
+            : base(graphicsDevice, screenArea.Size)
         {
             DrawBelow = true;
             UpdateBelow = false;
@@ -61,7 +61,7 @@ namespace AgateLib.UserInterface
             Animations = animationFactory ?? new AnimationFactory();
             GraphicsDevice = graphicsDevice;
 
-            renderContext = new UserInterfaceRenderContext(
+            renderContext = new UserInterfaceRenderContext(screenArea,
                 graphicsDevice,
                 contentLayoutEngine,
                 userInterfaceRenderer,
@@ -78,7 +78,7 @@ namespace AgateLib.UserInterface
                 fontProvider,
                 audio);
 
-            driver.ScreenArea = new Rectangle(Point.Zero, backBufferSize);
+            driver.ScreenArea = screenArea;
 
             driver.Desktop.Empty += () =>
             {

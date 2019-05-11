@@ -96,7 +96,7 @@ namespace AgateLib.UserInterface
 
             totalWidth += (count - 1) * Margin;
 
-            int x = (renderContext.Area.Width - totalWidth) / 2;
+            int x = (renderContext.ScreenArea.Width - totalWidth) / 2;
 
             foreach (var itemKvp in validItems)
             {
@@ -124,7 +124,7 @@ namespace AgateLib.UserInterface
         private static void DrawContent(IUserInterfaceRenderContext renderContext, IContentLayout content, ref int x)
         {
             renderContext.Draw(content,
-                new Vector2(x, renderContext.Area.Height - content.Size.Height));
+                new Vector2(x, renderContext.ScreenArea.Height - content.Size.Height));
 
             x += content.Size.Width;
         }

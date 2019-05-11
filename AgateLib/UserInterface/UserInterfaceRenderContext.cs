@@ -73,7 +73,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets a rectangle corresponding to the "in-bounds" render area.
         /// </summary>
-        Rectangle Area { get; }
+        Rectangle ScreenArea { get; }
 
         /// <summary>
         /// Gets the pixel size of the graphics device's render target area.
@@ -148,7 +148,7 @@ namespace AgateLib.UserInterface
         private UserInterfaceRenderContext parentRenderContext;
         private bool workspaceIsActive;
 
-        public UserInterfaceRenderContext(
+        public UserInterfaceRenderContext(Rectangle screenArea,
             GraphicsDevice graphicsDevice,
             IContentLayoutEngine contentLayoutEngine,
             IUserInterfaceRenderer uiRenderer,
@@ -173,6 +173,7 @@ namespace AgateLib.UserInterface
             SpriteBatch spriteBatch,
             RenderTarget2D renderTarget)
         {
+            this.ScreenArea = parent.ScreenArea;
             this.GraphicsDevice = parent.GraphicsDevice;
             this.SpriteBatch = spriteBatch;
             this.RenderTarget = renderTarget;
@@ -201,39 +202,9 @@ namespace AgateLib.UserInterface
 
         public GameTime GameTime { get; set; }
 
-        public Rectangle Area
-        {
-            get
-            {
-                if (RenderTarget != null)
-                    return new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height);
+        public Rectangle ScreenArea { get; set; }
 
-                return new Rectangle(0, 0,
-                    GraphicsDevice.PresentationParameters.BackBufferWidth,
-                    GraphicsDevice.PresentationParameters.BackBufferHeight);
-            }
-        }
-
-        public Size GraphicsDeviceRenderTargetSize
-        {
-            get
-            {
-                var renderTargets = GraphicsDevice.GetRenderTargets();
-
-                if (renderTargets.Length == 0)
-                {
-                    return new Size(
-                        GraphicsDevice.PresentationParameters.BackBufferWidth,
-                        GraphicsDevice.PresentationParameters.BackBufferHeight);
-                }
-                else
-                {
-                    var renderTarget = (Texture2D)GraphicsDevice.GetRenderTargets()[0].RenderTarget;
-
-                    return new Size(renderTarget.Width, renderTarget.Height);
-                }
-            }
-        }
+        public Size GraphicsDeviceRenderTargetSize => ScreenArea.Size;
 
         public bool WorkspaceIsActive
         {

@@ -39,6 +39,7 @@ namespace AgateLib.Tests.UserInterface
         public virtual void Initialize(ITestResources resources)
         {
             scene = new UserInterfaceScene(
+                resources.ScreenArea,
                 resources.GraphicsDevice,
                 resources.UserInterfaceRenderer,
                 resources.LocalizedContent,
