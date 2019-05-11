@@ -21,12 +21,14 @@
 //
 
 using AgateLib.UserInterface.Content;
+using System.Diagnostics;
 
 namespace AgateLib.Diagnostics
 {
     /// <summary>
     /// Represents a message in the console window.
     /// </summary>
+    [DebuggerDisplay("{Text}")]
     public class ConsoleMessage
     {
         private string text;

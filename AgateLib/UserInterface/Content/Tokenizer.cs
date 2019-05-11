@@ -46,6 +46,9 @@ namespace AgateLib.UserInterface.Content
         {
             List<string> result = new List<string>();
 
+            if (text == null)
+                return result;
+
             int start = 0;
             var context = textContext;
 

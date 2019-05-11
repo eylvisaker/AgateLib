@@ -284,14 +284,19 @@ namespace AgateLib.Diagnostics
             if (string.IsNullOrEmpty(text))
                 text = " ";
 
-            var message = new ConsoleMessage
-            {
-                Text = text,
-                Time = CurrentTime,
-                MessageType = ConsoleMessageType.Text,
-            };
+            string[] lines = text.Split('\n');
 
-            WriteMessage(message);
+            foreach (var line in lines)
+            {
+                var message = new ConsoleMessage
+                {
+                    Text = line,
+                    Time = CurrentTime,
+                    MessageType = ConsoleMessageType.Text,
+                };
+
+                WriteMessage(message);
+            }
         }
 
         public void Execute(string command)

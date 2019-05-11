@@ -250,8 +250,6 @@ namespace AgateLib.Diagnostics.Rendering
         {
             var y = size.Height - entryHeight;
 
-            //Display.PushClipRect(new Rectangle(0, 0, size.Width, y));
-
             y += (int)viewShiftPixels;
 
             for (int i = Messages.Count - 1; i >= 0; i--)
@@ -273,7 +271,9 @@ namespace AgateLib.Diagnostics.Rendering
                         text, size.Width);
                 }
 
-                y -= message.Layout.Size.Height;
+                int lineHeight = Math.Max(message.Layout.Size.Height, message.Layout.LineHeight);
+
+                y -= lineHeight;
 
                 if (messageTheme.BackColor.A > 0)
                 {

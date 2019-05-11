@@ -44,6 +44,12 @@ namespace AgateLib.UserInterface.Content
         int? MaxWidth { get; set; }
 
         /// <summary>
+        /// Gets the default height of a single line of text for the font used
+        /// in the content layout.
+        /// </summary>
+        int LineHeight { get; }
+
+        /// <summary>
         /// Gets or sets the alignment of the text when drawn.
         /// </summary>
         TextAlign TextAlign { get; set; }
@@ -86,6 +92,8 @@ namespace AgateLib.UserInterface.Content
         }
 
         public event Action AnimationComplete;
+
+        public int LineHeight => defaultLineHeight;
 
         public ContentRenderOptions Options => renderContext.Options;
 
