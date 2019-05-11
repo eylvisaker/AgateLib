@@ -96,8 +96,16 @@ namespace AgateLib.Scenes
         /// <summary>
         /// Called each frame to draw. This method is called between a 
         /// BeginFrame..EndFrame block, so there is no need to call BeginFrame or EndFrame.
-        /// </summary>`
+        /// </summary>
         void Draw(GameTime time);
+    }
+
+    /// <summary>
+    /// An extended version of IScene which includes some event handlers.
+    /// </summary>
+    public interface ISceneEnhanced : IScene
+    {
+        event EventHandler<GameTime> BeforeDraw;
     }
 
     /// <summary>
@@ -105,8 +113,6 @@ namespace AgateLib.Scenes
     /// </summary>
     public class Scene : IScene
     {
-        private bool isRunning;
-
         /// <summary>
         /// Constructs a Scene object.
         /// </summary>
@@ -270,15 +276,11 @@ namespace AgateLib.Scenes
 
         void IScene.SceneStart()
         {
-            isRunning = true;
-
             OnSceneStart();
         }
 
         void IScene.SceneEnd()
         {
-            isRunning = false;
-
             OnSceneEnd();
         }
 

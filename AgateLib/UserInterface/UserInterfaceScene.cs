@@ -37,7 +37,7 @@ using System.Linq;
 
 namespace AgateLib.UserInterface
 {
-    public interface IUserInterfaceScene : IScene
+    public interface IUserInterfaceScene : ISceneEnhanced
     {
         /// <summary>
         /// Gets the desktop object for the UI scene.
@@ -49,6 +49,27 @@ namespace AgateLib.UserInterface
         /// exit when there are no workspaces left in the desktop.
         /// </summary>
         bool ExitWhenEmpty { get; set; }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether the scene should automatically
+        /// exit when the user pushes a key or button mapped to the exit command.
+        /// </summary>
+        bool ExitOnExitButton { get; set; }
+
+        /// <summary>
+        /// Gets the instructions object.
+        /// </summary>
+        IInstructions Instructions { get; }
+
+        /// <summary>
+        /// Gets the button mapping. 
+        /// </summary>
+        Dictionary<Buttons, UserInterfaceAction> ButtonMap { get; }
+
+        /// <summary>
+        /// Gets or sets the focus indicator.
+        /// </summary>
+        IFocusIndicator Indicator { get; set; }
 
         /// <summary>
         /// Creates a workspace for the specified widget or render element and
