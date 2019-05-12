@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using AgateLib.UserInterface.InputMap;
 
 namespace AgateLib.UserInterface
 {
@@ -36,5 +35,11 @@ namespace AgateLib.UserInterface
 
             return this;
         }
+    }
+
+    public class ButtonStateEventArgs : EventArgs
+    {
+        public UserInterfaceAction ActionButton { get; internal set; }
+        public UserInterfaceInputState InputState { get; internal set; }
     }
 }

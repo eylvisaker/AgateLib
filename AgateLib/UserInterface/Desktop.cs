@@ -51,6 +51,21 @@ namespace AgateLib.UserInterface
             Fonts = fonts;
         }
 
+        /// <summary>
+        /// Event raised when the user makes an input action.
+        /// </summary>
+        public event Action<UserInterfaceActionEventArgs> UserInterfaceAction;
+
+        /// <summary>
+        /// Occurs when a button is pressed.
+        /// </summary>
+        public event Action<ButtonStateEventArgs> ButtonDown;
+
+        /// <summary>
+        /// Occurs when a button is released.
+        /// </summary>
+        public event Action<ButtonStateEventArgs> ButtonUp;
+
         public IStyleConfigurator Styles { get; }
 
         public IFontProvider Fonts { get; }
@@ -170,9 +185,16 @@ namespace AgateLib.UserInterface
         public Workspace ActiveWorkspace => workspaces.LastOrDefault();
 
         public IReadOnlyList<Workspace> Workspaces => workspaces;
-        
+
+        #region --- Handling Input ---
+
         public void OnUserInterfaceAction(UserInterfaceActionEventArgs args)
         {
+            UserInterfaceAction?.Invoke(args);
+
+            if (args.Handled)
+                return;
+
             if (ActiveWorkspace?.AnimationState == AnimationState.Static)
             {
                 ActiveWorkspace?.HandleUIAction(args);
@@ -182,11 +204,22 @@ namespace AgateLib.UserInterface
                 UnhandledEvent?.Invoke(args);
         }
 
+        public void OnButtonDown(ButtonStateEventArgs button)
+        {
+            ButtonDown?.Invoke(button);
+        }
+
+        public void OnButtonUp(ButtonStateEventArgs button)
+        {
+            ButtonUp?.Invoke(button);
+        }
 
         protected virtual void OnEmpty()
         {
             Empty?.Invoke();
         }
+
+        #endregion
 
         /// <summary>
         /// Instructs all workspaces to transition out.

@@ -256,7 +256,9 @@ namespace AgateLib.UserInterface
                     GraphicsDevice.ScissorRectangle = clipRect;
                 }
 
+                element.Events.BeforeDraw?.Invoke(newContext, rtClientDest);
                 element.Draw(newContext, rtClientDest);
+                element.Events.AfterDraw?.Invoke(newContext, rtClientDest);
 
                 DoubleBuffer.CompleteRendering(this, element);
             }
@@ -298,7 +300,9 @@ namespace AgateLib.UserInterface
                 UserInterfaceRenderer.DrawBackground(this, element.Display, dest);
                 UserInterfaceRenderer.DrawFrame(this, element.Display, dest);
 
+                element.Events.BeforeDraw?.Invoke(this, dest);
                 element.Draw(this, dest);
+                element.Events.AfterDraw?.Invoke(this, dest);
             }
         }
 

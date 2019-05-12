@@ -90,6 +90,8 @@ namespace AgateLib.UserInterface
             dirty = true;
         }
 
+        public ContentRenderOptions ContentRenderOptions => content.Options;
+
         public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
             RefreshContent(renderContext);

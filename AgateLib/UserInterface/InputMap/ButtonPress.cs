@@ -26,7 +26,6 @@ using System.Text;
 
 namespace AgateLib.UserInterface.InputMap
 {
-    [Obsolete("I don't think this is needed anymore? Double check after keyboard and general joystick input is handled.")]
     public class ButtonPress<T> where T : struct
     {
         HashSet<T> buttonsDown = new HashSet<T>();

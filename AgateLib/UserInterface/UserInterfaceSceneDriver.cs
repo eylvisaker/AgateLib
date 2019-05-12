@@ -55,6 +55,9 @@ namespace AgateLib.UserInterface
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
 
             uiInput.UIAction += desktop.OnUserInterfaceAction;
+
+            uiInput.ButtonDown += desktop.OnButtonDown;
+            uiInput.ButtonUp += desktop.OnButtonUp;
         }
 
         public event Action ExitPressed;

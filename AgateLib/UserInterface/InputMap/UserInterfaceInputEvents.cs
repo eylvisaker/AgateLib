@@ -34,7 +34,6 @@ namespace AgateLib.UserInterface.InputMap
         private HashSet<UserInterfaceAction> upEventsNeeded = new HashSet<UserInterfaceAction>();
         private HashSet<UserInterfaceAction> ignoredDownButtons = new HashSet<UserInterfaceAction>();
         private UserInterfaceInputMap inputMap = new UserInterfaceInputMap();
-        private UserInterfaceActionEventArgs eventArgs = new UserInterfaceActionEventArgs();
         private const float timeToFirstRepeat = 0.5f;
         private const float timeToNextRepeat = 0.1f;
 
@@ -42,12 +41,19 @@ namespace AgateLib.UserInterface.InputMap
         private float timeToNavigateAction = 0;
         private HashSet<UserInterfaceAction> activeNavActions = new HashSet<UserInterfaceAction>();
 
+        private UserInterfaceActionEventArgs eventArgs = new UserInterfaceActionEventArgs();
+        private ButtonStateEventArgs buttonStateEventArgs = new ButtonStateEventArgs();
+
         public UserInterfaceInputEvents()
         {
+            buttonStateEventArgs.InputState = inputState;
 
         }
 
         public event Action<UserInterfaceActionEventArgs> UIAction;
+
+        public event Action<ButtonStateEventArgs> ButtonDown;
+        public event Action<ButtonStateEventArgs> ButtonUp;
 
         public UserInterfaceInputMap InputMap
         {
@@ -116,6 +122,8 @@ namespace AgateLib.UserInterface.InputMap
             if (timeToNavigateAction > 0 && activeNavActions.Contains(action))
                 return;
 
+            TriggerButtonDown(action);
+
             switch (action)
             {
                 case UserInterfaceAction.Up:
@@ -130,6 +138,8 @@ namespace AgateLib.UserInterface.InputMap
 
         private void TriggerReleasedAction(UserInterfaceAction action)
         {
+            TriggerButtonUp(action);
+
             switch (action)
             {
                 case UserInterfaceAction.Accept:
@@ -144,6 +154,20 @@ namespace AgateLib.UserInterface.InputMap
                     activeNavActions.Remove(action);
                     break;
             }
+        }
+
+        private void TriggerButtonDown(UserInterfaceAction action)
+        {
+            buttonStateEventArgs.ActionButton = action;
+            
+            ButtonDown?.Invoke(buttonStateEventArgs);
+        }
+
+        private void TriggerButtonUp(UserInterfaceAction action)
+        {
+            buttonStateEventArgs.ActionButton = action;
+
+            ButtonUp?.Invoke(buttonStateEventArgs);
         }
 
         private void TriggerActionEvent(UserInterfaceAction action)

@@ -195,7 +195,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\LayoutStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeRenderElementStyleProperties.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceActionEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\_EventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceAudio.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceLoadException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\VisualTree.cs" />

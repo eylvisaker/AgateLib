@@ -90,6 +90,11 @@ namespace AgateLib.UserInterface
         ElementReference Ref { get; set; }
 
         /// <summary>
+        /// Events for the element.
+        /// </summary>
+        RenderElementEvents Events { get; }
+
+        /// <summary>
         /// Draws the content of the widget.
         /// To draw children, call <c >renderContext.DrawChildren</c>.
         /// </summary>
@@ -223,6 +228,8 @@ namespace AgateLib.UserInterface
         }
 
         #endregion
+
+        public virtual RenderElementEvents Events { get; } = new RenderElementEvents();
 
         public RenderElementDisplay Display { get; }
 
