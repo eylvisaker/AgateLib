@@ -55,9 +55,11 @@ namespace AgateLib.UserInterface
         public bool AllowNavigate { get; set; } = true;
 
         public IList<IRenderable> Children { get; set; } = new List<IRenderable>();
+
         public UserInterfaceEventHandler OnCancel { get; set; }
 
         public bool Enabled { get; set; } = true;
+
         public int InitialFocusIndex { get; set; }
     }
 }

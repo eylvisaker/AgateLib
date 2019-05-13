@@ -78,14 +78,15 @@ namespace AgateLib.UserInterface
                 anyUpdates = true;
                 return;
             }
-            else if (newNode == null)
+            if (newNode == null)
             {
                 Unmount(oldNode);
                 oldNode = null;
                 anyUpdates = true;
                 return;
             }
-            else if (oldNode.GetType() != newNode.GetType())
+
+            if (oldNode.GetType() != newNode.GetType())
             {
                 Replace(ref oldNode, newNode);
                 anyUpdates = true;
@@ -93,6 +94,8 @@ namespace AgateLib.UserInterface
             else if (!oldNode.Props.PropertiesEqual(newNode.Props))
             {
                 oldNode.SetProps(newNode.Props);
+                oldNode.SetState(newNode.State);
+
                 anyUpdates = true;
 
                 if (newNode.Ref != null)

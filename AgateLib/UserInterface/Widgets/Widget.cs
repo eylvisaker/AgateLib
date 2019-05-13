@@ -70,6 +70,7 @@ namespace AgateLib.UserInterface
         {
             SetState(stateMutator(state));
         }
+
         protected void SetState(Action<TState> stateMutator)
         {
             stateMutator(state);

@@ -64,12 +64,6 @@ namespace AgateLib.UserInterface
         string Name { get; }
 
         /// <summary>
-        /// Sets the props of the render element. This must match the props type used by the render element.
-        /// </summary>
-        /// <param name="props"></param>
-        void SetProps(RenderElementProps props);
-
-        /// <summary>
         /// Gets whether or not the element can receive input focus.
         /// </summary>
         bool CanHaveFocus { get; }
@@ -83,6 +77,11 @@ namespace AgateLib.UserInterface
         /// Gets the props object for the render element.
         /// </summary>
         RenderElementProps Props { get; }
+
+        /// <summary>
+        /// Gets the state object for the render element.
+        /// </summary>
+        RenderElementState State { get; }
 
         /// <summary>
         /// Used to track references by the display system.
@@ -178,9 +177,28 @@ namespace AgateLib.UserInterface
         /// </summary>
         void OnReconciliationCompleted();
 
+        /// <summary>
+        /// Sets the props of the render element. This must match the props type used by the render element.
+        /// </summary>
+        /// <param name="props"></param>
+        void SetProps(RenderElementProps props);
+
+        /// <summary>
+        /// Sets the state of the render element. This must match the state type used by the render element.
+        /// </summary>
+        /// <param name="state"></param>
+        void SetState(RenderElementState state);
     }
 
-    public abstract class RenderElement<TProps> : IRenderElement where TProps : RenderElementProps
+    public abstract class RenderElement<TProps> : RenderElement<TProps, RenderElementState> where TProps : RenderElementProps
+    {
+        public RenderElement(TProps props) : base(props)
+        {
+        }
+    }
+
+    public abstract class RenderElement<TProps, TState> : IRenderElement where TProps : RenderElementProps where TState:RenderElementState
+
     {
         public RenderElement(TProps props)
         {
@@ -198,12 +216,57 @@ namespace AgateLib.UserInterface
         public TProps Props { get; private set; }
         RenderElementProps IRenderElement.Props => Props;
 
-        public void SetProps(RenderElementProps props)
+        void IRenderElement.SetProps(RenderElementProps props)
         {
             Props = (TProps)props;
             Display.SetProps(props);
 
             OnReceiveProps();
+        }
+
+        #endregion
+        #region --- State ---
+
+        private TState state;
+
+        public TState State => state;
+        RenderElementState IRenderElement.State => State;
+
+        protected void ReplaceState(Func<TState, TState> stateMutator)
+        {
+            SetState(stateMutator(state));
+        }
+
+        protected void SetState(Action<TState> stateMutator)
+        {
+            stateMutator(state);
+
+            //NeedsRender?.Invoke(this);
+        }
+
+        protected void SetState(TState newState)
+        {
+            this.state = newState;
+
+            //NeedsRender?.Invoke(this);
+        }
+
+        void IRenderElement.SetState(RenderElementState newState)
+        {
+            if (State == null && newState == null)
+                return;
+
+            if (newState == null)
+                throw new ArgumentNullException("State should not be set to null after it has been set to a value.");
+
+            if (newState is TState typedState)
+            {
+                SetState(typedState);
+            }
+            else
+            {
+                throw new ArgumentException("NewState is not correct type");
+            }
         }
 
         #endregion
@@ -229,12 +292,27 @@ namespace AgateLib.UserInterface
 
         #endregion
 
+        /// <summary>
+        /// Gets the event container for the render element.
+        /// </summary>
         public virtual RenderElementEvents Events { get; } = new RenderElementEvents();
 
+        /// <summary>
+        /// Gets the display object for the render element. This contains everything the
+        /// rendering system needs to display the render element.
+        /// </summary>
         public RenderElementDisplay Display { get; }
 
+        /// <summary>
+        /// Gets or sets the children of the render element. This should only 
+        /// be modified by the constructor of a render element.
+        /// </summary>
         public virtual IList<IRenderElement> Children { get; protected set; }
 
+        /// <summary>
+        /// Gets the style of the render element. This contains things like the default font for
+        /// the render element.
+        /// </summary>
         public IRenderElementStyle Style => Display.Style;
 
         public virtual string StyleTypeId => GetType().Name;
@@ -243,6 +321,9 @@ namespace AgateLib.UserInterface
 
         public string Name => Props.Name;
 
+        /// <summary>
+        /// Gets whether or not the render element can hold input focus.
+        /// </summary>
         public virtual bool CanHaveFocus => false;
 
         public ElementReference Ref { get; set; }
@@ -351,6 +432,10 @@ namespace AgateLib.UserInterface
         {
         }
 
+        /// <summary>
+        /// Called when props are received. If overriden, you should not
+        /// modify the Children collection.
+        /// </summary>
         protected virtual void OnReceiveProps()
         {
             ReceiveRenderElementProps();
@@ -505,6 +590,11 @@ namespace AgateLib.UserInterface
 
             return true;
         }
+    }
+
+    public class RenderElementState
+    {
+
     }
 
     public static class RenderElementExtensions

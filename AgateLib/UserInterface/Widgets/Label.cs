@@ -71,26 +71,39 @@ namespace AgateLib.UserInterface
         public UserInterfaceEventHandler AnimationComplete { get; set; }
     }
 
-    public class LabelElement : RenderElement<LabelElementProps>
+    public class LabelElement : RenderElement<LabelElementProps, LabelElementState>
     {
-        private IContentLayout content;
-        private bool dirty;
-        private ContentLayoutOptions layoutOptions = new ContentLayoutOptions();
         private UserInterfaceEvent evt = new UserInterfaceEvent();
 
         public LabelElement(LabelElementProps props) : base(props)
         {
-            Style.FontChanged += () => dirty = true;
+            SetState(new LabelElementState());
+
+            Style.FontChanged += () => State.Dirty = true;
         }
+
+        private IContentLayout content
+        {
+            get => State.Content;
+            set => State.Content = value;
+        }
+
+        private bool Dirty
+        {
+            get => State.Dirty;
+            set => State.Dirty = value;
+        }
+
+        private ContentLayoutOptions LayoutOptions => State.LayoutOptions;
+
+        public ContentRenderOptions ContentRenderOptions => content.Options;
 
         protected override void OnReceiveProps()
         {
             base.OnReceiveProps();
 
-            dirty = true;
+            Dirty = true;
         }
-
-        public ContentRenderOptions ContentRenderOptions => content.Options;
 
         public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
@@ -162,24 +175,24 @@ namespace AgateLib.UserInterface
             if (Style.Font == null)
                 return;
 
-            bool needsRefresh = dirty;
+            bool needsRefresh = Dirty;
 
             needsRefresh |= content == null;
-            needsRefresh |= layoutOptions.Font?.Name != Style.Font.Name;
-            needsRefresh |= layoutOptions.Font?.Size != Style.Font.Size;
-            needsRefresh |= layoutOptions.Font?.Color != Style.Font.Color;
-            needsRefresh |= layoutOptions.Font?.Style != Style.Font.Style;
+            needsRefresh |= LayoutOptions.Font?.Name != Style.Font.Name;
+            needsRefresh |= LayoutOptions.Font?.Size != Style.Font.Size;
+            needsRefresh |= LayoutOptions.Font?.Color != Style.Font.Color;
+            needsRefresh |= LayoutOptions.Font?.Style != Style.Font.Style;
 
             if (!needsRefresh)
                 return;
 
-            layoutOptions.Font = new Font(Style.Font);
+            LayoutOptions.Font = new Font(Style.Font);
 
-            content = renderContext.CreateContentLayout(Props.Text, layoutOptions, Props.PerformLocalization);
+            content = renderContext.CreateContentLayout(Props.Text, LayoutOptions, Props.PerformLocalization);
 
             content.AnimationComplete += () => Props.AnimationComplete?.Invoke(evt.Reset(this));
 
-            dirty = false;
+            Dirty = false;
         }
     }
 
@@ -192,5 +205,14 @@ namespace AgateLib.UserInterface
         public bool ReadSlowly { get; set; }
 
         public UserInterfaceEventHandler AnimationComplete { get; set; }
+    }
+
+    public class LabelElementState : RenderElementState
+    {
+        public ContentLayoutOptions LayoutOptions { get; set; } = new ContentLayoutOptions();
+
+        public bool Dirty { get; set; }
+
+        public IContentLayout Content { get; set; }
     }
 }

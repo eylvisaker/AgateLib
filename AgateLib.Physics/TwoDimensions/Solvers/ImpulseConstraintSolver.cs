@@ -46,11 +46,8 @@ namespace AgateLib.Physics.TwoDimensions.Solvers
 
 		private const float DefaultSpringConstant = 50;
 
-		private Matrix<float> externalForces;
-
 		private Matrix<float> savedJacobian;
 		private float savedLagrangeMultiplier;
-		private Matrix<float> constraintForces;
 
 		private Dictionary<PhysicalParticle, Vector3> newVelocities = new Dictionary<PhysicalParticle, Vector3>();
 
