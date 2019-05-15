@@ -89,7 +89,7 @@ namespace AgateLib.UserInterface.InputMap
                 TriggerReleasedAction(action);
             }
 
-            inputState.ClearReleasedActions();
+            inputState.Clear();
 
             if (AnyNavigateActionPressed)
             {

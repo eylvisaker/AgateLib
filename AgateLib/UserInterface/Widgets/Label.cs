@@ -96,7 +96,7 @@ namespace AgateLib.UserInterface
 
         private ContentLayoutOptions LayoutOptions => State.LayoutOptions;
 
-        public ContentRenderOptions ContentRenderOptions => content.Options;
+        public ContentRenderOptions ContentRenderOptions => content?.Options;
 
         protected override void OnReceiveProps()
         {

@@ -52,7 +52,7 @@ namespace AgateLib.UserInterface.InputMap
         {
             if (value)
             {
-                if (!ignoredButtons.Contains(button))
+                if (!ignoredButtons.Contains(button) && !pressedButtons.Contains(button))
                 {
                     pressedButtons.Add(button);
                     pressedActions.Add(action);
@@ -60,14 +60,18 @@ namespace AgateLib.UserInterface.InputMap
             }
             if (!value)
             {
-                ignoredButtons.Remove(button);
-
                 if (pressedButtons.Contains(button))
                 {
                     pressedButtons.Remove(button);
                     pressedActions.Remove(action);
-                    releasedActions.Add(action);
+
+                    if (!ignoredButtons.Contains(button))
+                    {
+                        releasedActions.Add(action);
+                    }
                 }
+
+                ignoredButtons.Remove(button);
             }
         }
 

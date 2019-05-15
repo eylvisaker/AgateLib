@@ -275,6 +275,8 @@
     <Compile Include="UserInterface\Styling\Themes\ThemeDeserializationUnitTests.cs" />
     <Compile Include="UserInterface\Styling\Themes\ThemeStylerUnitTests.cs" />
     <Compile Include="UserInterface\UserInterfaceFunctions.cs" />
+    <Compile Include="UserInterface\InputMap\UserInterfaceInputEventsUnitTests.cs" />
+    <Compile Include="UserInterface\InputMap\UserInterfaceInputStateUnitTests.cs" />
     <Compile Include="UserInterface\VisualTreeTests.cs" />
     <Compile Include="UserInterface\Widgets\FixedSizeTests.cs" />
     <Compile Include="UserInterface\Layout\FlexBoxDirectionUnitTests.cs" />

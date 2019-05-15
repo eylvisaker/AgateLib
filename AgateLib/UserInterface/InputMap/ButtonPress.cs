@@ -49,6 +49,9 @@ namespace AgateLib.UserInterface.InputMap
 
         public event Action<T> Press;
 
+        /// <summary>
+        /// Clears the state of the button press object. Does not trigger ButtonUp events.
+        /// </summary>
         public void Clear()
         {
             buttonsDown.Clear();
