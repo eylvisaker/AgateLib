@@ -262,6 +262,7 @@ namespace AgateLib.UserInterface
             if (newState is TState typedState)
             {
                 SetState(typedState);
+                OnReceiveState();
             }
             else
             {
@@ -439,6 +440,11 @@ namespace AgateLib.UserInterface
         protected virtual void OnReceiveProps()
         {
             ReceiveRenderElementProps();
+        }
+
+        protected virtual void OnReceiveState()
+        {
+
         }
 
         protected void ReceiveRenderElementProps()

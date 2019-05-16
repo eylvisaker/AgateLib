@@ -56,7 +56,15 @@ namespace AgateLib.UserInterface.Content
 
         bool AnimationCompleted { get; }
 
-        ContentRenderOptions Options { get; }
+        /// <summary>
+        /// Gets or sets the render options.
+        /// </summary>
+        ContentRenderOptions Options { get; set; }
+
+        /// <summary>
+        /// Gets or sets the render context.
+        /// </summary>
+        ContentRenderContext RenderContext { get; set; }
 
         /// <summary>
         /// Gets the size of the content given the current maximum size.
@@ -95,7 +103,23 @@ namespace AgateLib.UserInterface.Content
 
         public int LineHeight => defaultLineHeight;
 
-        public ContentRenderOptions Options => renderContext.Options;
+        public ContentRenderContext RenderContext
+        {
+            get => renderContext;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(RenderContext));
+
+                renderContext = value;
+            }
+        }
+
+        public ContentRenderOptions Options
+        {
+            get => renderContext.Options;
+            set => renderContext.Options = value;
+        }
 
         public bool AnimationCompleted
         {

@@ -94,7 +94,6 @@ namespace AgateLib.UserInterface
             else if (!oldNode.Props.PropertiesEqual(newNode.Props))
             {
                 oldNode.SetProps(newNode.Props);
-                oldNode.SetState(newNode.State);
 
                 anyUpdates = true;
 

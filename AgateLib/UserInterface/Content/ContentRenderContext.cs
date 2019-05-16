@@ -23,19 +23,25 @@
 using AgateLib.Display;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace AgateLib.UserInterface.Content
 {
     public class ContentRenderContext
     {
-        float charsToDisplay;
+        private float charsToDisplay;
+        private ContentRenderOptions options = new ContentRenderOptions();
 
-        public ContentRenderOptions Options { get; } = new ContentRenderOptions();
+        public ContentRenderOptions Options
+        {
+            get => options;
+            set => options = value ?? throw new ArgumentNullException($"{nameof(Options)} cannot be null.");
+        }
 
         /// <summary>
         /// The number of items already drawn.
         /// </summary>
-		public int ItemsDisplayed { get; set; }
+        public int ItemsDisplayed { get; set; }
 
         /// <summary>
         /// The maximum number of items to draw in this draw frame.

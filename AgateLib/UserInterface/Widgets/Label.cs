@@ -73,20 +73,53 @@ namespace AgateLib.UserInterface
 
     public class LabelElement : RenderElement<LabelElementProps, LabelElementState>
     {
+        class LabelAnimationState : ILabelAnimationState
+        {
+            private LabelElement label;
+
+            public LabelAnimationState(LabelElement labelElement)
+            {
+                this.label = labelElement;
+            }
+
+            public float SlowReadRate
+            {
+                get => label.content?.Options.SlowReadRate ?? 0f;
+                set
+                {
+                    if (label.content == null)
+                        return;
+
+                    label.content.Options.SlowReadRate = value;
+                }
+            }
+
+            public int ItemsDisplayed
+            {
+                get => label.content?.RenderContext.ItemsDisplayed ?? 0;
+                set
+                {
+                    if (label.content == null)
+                        return;
+
+                    label.content.RenderContext.ItemsDisplayed = value;
+                }
+            }
+        }
+
         private UserInterfaceEvent evt = new UserInterfaceEvent();
+        private IContentLayout content;
 
         public LabelElement(LabelElementProps props) : base(props)
         {
             SetState(new LabelElementState());
 
             Style.FontChanged += () => State.Dirty = true;
+
+            AnimationState = new LabelAnimationState(this);
         }
 
-        private IContentLayout content
-        {
-            get => State.Content;
-            set => State.Content = value;
-        }
+        public ILabelAnimationState AnimationState { get; }
 
         private bool Dirty
         {
@@ -96,13 +129,17 @@ namespace AgateLib.UserInterface
 
         private ContentLayoutOptions LayoutOptions => State.LayoutOptions;
 
-        public ContentRenderOptions ContentRenderOptions => content?.Options;
 
         protected override void OnReceiveProps()
         {
             base.OnReceiveProps();
 
             Dirty = true;
+        }
+
+        protected override void OnReceiveState()
+        {
+            base.OnReceiveState();
         }
 
         public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
@@ -192,6 +229,17 @@ namespace AgateLib.UserInterface
 
             content.AnimationComplete += () => Props.AnimationComplete?.Invoke(evt.Reset(this));
 
+            if (State.RenderOptions != null)
+            {
+                content.Options = State.RenderOptions;
+                content.RenderContext = State.RenderContext;
+            }
+            else
+            {
+                State.RenderOptions = content.Options;
+                State.RenderContext = content.RenderContext;
+            }
+
             Dirty = false;
         }
     }
@@ -209,10 +257,18 @@ namespace AgateLib.UserInterface
 
     public class LabelElementState : RenderElementState
     {
-        public ContentLayoutOptions LayoutOptions { get; set; } = new ContentLayoutOptions();
-
         public bool Dirty { get; set; }
 
-        public IContentLayout Content { get; set; }
+        public ContentLayoutOptions LayoutOptions { get; set; } = new ContentLayoutOptions();
+
+        public ContentRenderOptions RenderOptions { get; set; }
+
+        public ContentRenderContext RenderContext { get; set; }
+    }
+
+    public interface ILabelAnimationState
+    {
+        float SlowReadRate { get; set; }
+        int ItemsDisplayed { get; set; }
     }
 }
