@@ -56,17 +56,20 @@ namespace AgateLib.UserInterface.Content
         private Dictionary<string, IContentCommand> commands
             = new Dictionary<string, IContentCommand>(StringComparer.OrdinalIgnoreCase);
 
-        public ContentLayoutEngine(IFontProvider fonts)
+        public ContentLayoutEngine(IFontProvider fonts, char commandStart = '`', char commandEnd = '`')
         {
             this.fonts = fonts;
 
             commands.Add("color", new SetTextColor());
             commands.Add("scale", new SetTextScale());
             commands.Add("reset", new ResetFont());
+
+            CommandStart = commandStart;
+            CommandEnd = commandEnd;
         }
 
-        public char CommandStart { get; set; } = '`';
-        public char CommandEnd { get; set; } = '`';
+        public char CommandStart { get; set; }
+        public char CommandEnd { get; set; }
 
         public IContentLayout LayoutContent(string text, ContentLayoutOptions layoutOptions, bool _ = true)
         {
