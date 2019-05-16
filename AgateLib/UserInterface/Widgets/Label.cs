@@ -94,16 +94,9 @@ namespace AgateLib.UserInterface
                 }
             }
 
-            public int ItemsDisplayed
+            public void Restart()
             {
-                get => label.content?.RenderContext.ItemsDisplayed ?? 0;
-                set
-                {
-                    if (label.content == null)
-                        return;
-
-                    label.content.RenderContext.ItemsDisplayed = value;
-                }
+                label.content.RestartAnimation();
             }
         }
 
@@ -269,6 +262,7 @@ namespace AgateLib.UserInterface
     public interface ILabelAnimationState
     {
         float SlowReadRate { get; set; }
-        int ItemsDisplayed { get; set; }
+
+        void Restart();
     }
 }

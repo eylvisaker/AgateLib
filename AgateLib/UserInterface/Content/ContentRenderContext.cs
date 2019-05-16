@@ -54,6 +54,9 @@ namespace AgateLib.UserInterface.Content
 
         public SpriteBatch SpriteBatch { get; set; }
 
+        /// <summary>
+        /// Preps the render context for the next draw cycle.
+        /// </summary>
         public void Reset()
         {
             ItemsDisplayed = 0;
@@ -66,6 +69,12 @@ namespace AgateLib.UserInterface.Content
             {
                 MaxItemsToDisplay = int.MaxValue;
             }
+        }
+
+        public void RestartAnimation()
+        {
+            charsToDisplay = 0;
+            ItemsDisplayed = 0;
         }
 
         internal void Update(GameTime time)

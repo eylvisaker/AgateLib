@@ -75,7 +75,10 @@ namespace AgateLib.UserInterface.Content
 
         void Draw(Vector2 dest, SpriteBatch spriteBatch = null);
 
-        void Reset();
+        /// <summary>
+        /// Restarts the animation.
+        /// </summary>
+        void RestartAnimation();
 
         void DoLayout();
     }
@@ -192,9 +195,10 @@ namespace AgateLib.UserInterface.Content
             }
         }
 
-        public void Reset()
+        public void RestartAnimation()
         {
-            renderContext.Reset();
+            renderContext.RestartAnimation();
+            AnimationCompleted = false;
         }
 
         public void Update(GameTime time)
