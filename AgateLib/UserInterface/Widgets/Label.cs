@@ -130,11 +130,6 @@ namespace AgateLib.UserInterface
             Dirty = true;
         }
 
-        protected override void OnReceiveState()
-        {
-            base.OnReceiveState();
-        }
-
         public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
         {
             RefreshContent(renderContext);

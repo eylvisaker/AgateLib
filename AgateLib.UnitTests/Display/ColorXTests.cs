@@ -22,5 +22,53 @@ namespace AgateLib.Tests.Display
 
             clr.ToArgb().Should().Be("66880077");
         }
+
+        [Fact]
+        public void TryParseRgb()
+        {
+            bool result = ColorX.TryParse("123456", out Color clr);
+
+            result.Should().BeTrue();
+
+            clr.A.Should().Be(0xff);
+            clr.R.Should().Be(0x12);
+            clr.G.Should().Be(0x34);
+            clr.B.Should().Be(0x56);
+        }
+
+        [Fact]
+        public void TryParseArgb()
+        {
+            bool result = ColorX.TryParse("44123456", out Color clr);
+
+            result.Should().BeTrue();
+
+            clr.A.Should().Be(0x44);
+            clr.R.Should().Be(0x12);
+            clr.G.Should().Be(0x34);
+            clr.B.Should().Be(0x56);
+        }
+
+        [Fact]
+        public void FromRgb()
+        {
+            Color clr = ColorX.FromArgb("123456");
+
+            clr.A.Should().Be(0xff);
+            clr.R.Should().Be(0x12);
+            clr.G.Should().Be(0x34);
+            clr.B.Should().Be(0x56);
+        }
+
+        [Fact]
+        public void FromArgb()
+        {
+            Color clr = ColorX.FromArgb("44123456");
+
+            clr.A.Should().Be(0x44);
+            clr.R.Should().Be(0x12);
+            clr.G.Should().Be(0x34);
+            clr.B.Should().Be(0x56);
+        }
     }
 }

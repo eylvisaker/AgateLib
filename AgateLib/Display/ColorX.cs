@@ -117,14 +117,12 @@ namespace AgateLib.Display
 
             if (str.Length == 8)
             {
-                byte a, r, g, b;
-
                 bool valid = true;
 
-                valid &= TryParseByteValueFromHex(str.Substring(0, 2), out a);
-                valid &= TryParseByteValueFromHex(str.Substring(2, 2), out r);
-                valid &= TryParseByteValueFromHex(str.Substring(4, 2), out g);
-                valid &= TryParseByteValueFromHex(str.Substring(6, 2), out b);
+                valid &= TryParseByteValueFromHex(str.Substring(0, 2), out byte a);
+                valid &= TryParseByteValueFromHex(str.Substring(2, 2), out byte r);
+                valid &= TryParseByteValueFromHex(str.Substring(4, 2), out byte g);
+                valid &= TryParseByteValueFromHex(str.Substring(6, 2), out byte b);
 
                 if (!valid)
                 {
@@ -132,7 +130,7 @@ namespace AgateLib.Display
                     return false;
                 }
 
-                result = new Color(r, g, b);
+                result = new Color(r, g, b, a);
 
                 return true;
             }
