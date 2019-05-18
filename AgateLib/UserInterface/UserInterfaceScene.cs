@@ -289,6 +289,11 @@ namespace AgateLib.UserInterface
             renderContext.SpriteBatch.Begin(blendState: BlendState);
         }
 
+        public void IgnoreCurrentInput()
+        {
+            driver.IgnoreCurrentInput();
+        }
+
         /// <summary>
         /// Exits the user interface, then executes an action once the animation is complete and
         /// this scene is about to be removed from the scene stack.

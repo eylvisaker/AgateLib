@@ -99,6 +99,16 @@ namespace AgateLib.UserInterface
             uiInput.ClearPressedButtons();
         }
 
+        /// <summary>
+        /// Ignores the current set of inputs, so that any buttons pressed
+        /// will have to be released and pressed again before they will trigger
+        /// any button press events.
+        /// </summary>
+        public void IgnoreCurrentInput()
+        {
+            setIgnoreInput = true;
+        }
+
         public void UpdateInput(IInputState input)
         {
             if (setIgnoreInput)
