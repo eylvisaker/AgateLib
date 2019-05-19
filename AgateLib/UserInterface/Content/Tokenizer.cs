@@ -54,12 +54,9 @@ namespace AgateLib.UserInterface.Content
 
             while (start < text.Length)
             {
-                if (textContext.TokenBreaks.Contains(text[start]))
-                    context = commandContext;
-                else
-                {
-                    context = textContext;
-                }
+                context = textContext.TokenBreaks.Contains(text[start]) 
+                        ? commandContext 
+                        : textContext;
 
                 var nextTokenStart = NextTokenStart(text, start + 1, context);
 
@@ -83,7 +80,7 @@ namespace AgateLib.UserInterface.Content
                     min = dist;
             }
 
-            if (context.IncludeBreak)
+            if (context.IncludeBreak && min < text.Length)
                 min++;
 
             return min;

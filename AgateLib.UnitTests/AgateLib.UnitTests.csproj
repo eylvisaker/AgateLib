@@ -260,7 +260,7 @@
     <Compile Include="UserInterface\Content\ContentLayoutEngineLogger.cs" />
     <Compile Include="UserInterface\Content\ContentLayoutEngineUnitTests.cs" />
     <Compile Include="UserInterface\Content\ContentLayoutUnitTests.cs" />
-    <Compile Include="UserInterface\Content\TokenizerTest.cs" />
+    <Compile Include="UserInterface\Content\TokenizerUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterface\DesktopUnitTests.cs" />
     <Compile Include="UserInterface\Layout\FlexBoxOversizeUnitTests.cs" />

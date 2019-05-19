@@ -3,7 +3,7 @@ using Xunit;
 
 namespace AgateLib.UserInterface.Content
 {
-    public class TokenizerTest
+    public class TokenizerUnitTestsBraces
     {
         private Tokenizer tokenizer = new Tokenizer('{', '}');
 
@@ -65,5 +65,18 @@ namespace AgateLib.UserInterface.Content
             result[2].Should().Be("really bad.");
             result[3].Should().Be("{Color white}");
         }
+
+    }
+
+    public class TokenizerUnitTestsBackTicks
+    {
+        private Tokenizer tokenizer = new Tokenizer('`', '`');
+
+        [Fact]
+        public void TokenizeUncompletedCommand()
+        {
+            var result = tokenizer.Tokenize("IList`1 args\r");
+        }
+
     }
 }
