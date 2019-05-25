@@ -21,81 +21,70 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AgateLib.Display
 {
-	/// <summary>
-	/// Structure which encapsulates font size and style.
-	/// </summary>
-	public struct FontSettings : IEquatable<FontSettings>
-	{
-		int mSize;
-		FontStyles mStyle;
+    /// <summary>
+    /// Structure which encapsulates font size and style.
+    /// </summary>
+    public struct FontSettings : IEquatable<FontSettings>
+    {
+        /// <summary>
+        /// Size of the font in points.
+        /// </summary>
+        public int Size { get; set; }
 
-		/// <summary>
-		/// Size of the font in points.
-		/// </summary>
-		public int Size { get => mSize;
-			set => mSize = value;
-		}
-		/// <summary>
-		/// Style(s) of the font. Combinations like bold &amp; italic are possible.
-		/// </summary>
-		public FontStyles Style { get => mStyle;
-			set => mStyle = value;
-		}
+        /// <summary>
+        /// Style(s) of the font. Combinations like bold &amp; italic are possible.
+        /// </summary>
+        public FontStyles Style { get; set; }
 
-		/// <summary>
-		/// Returns true if the two FontSettings objects are equal.
-		/// </summary>
-		/// <param name="other"></param>
-		/// <returns></returns>
-		public bool Equals(FontSettings other)
-		{
-			if (Size != other.Size)
-				return false;
-			if (Style != other.Style)
-				return false;
+        /// <summary>
+        /// Returns true if the two FontSettings objects are equal.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(FontSettings other)
+        {
+            if (Size != other.Size)
+                return false;
+            if (Style != other.Style)
+                return false;
 
-			return true;
-		}
+            return true;
+        }
 
-		/// <summary>
-		/// Constructs a FontSettings object.
-		/// </summary>
-		/// <param name="size"></param>
-		/// <param name="style"></param>
-		public FontSettings(int size, FontStyles style)
-		{
-			mSize = size;
-			mStyle = style;
-		}
+        /// <summary>
+        /// Constructs a FontSettings object.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="style"></param>
+        public FontSettings(int size, FontStyles style)
+        {
+            Size = size;
+            Style = style;
+        }
 
-		/// <summary>
-		/// Returns the full name of a font with these settings.
-		/// </summary>
-		/// <param name="family"></param>
-		/// <returns></returns>
-		public string FontName(string family)
-		{
-			return family + "-" + ToString();
-		}
+        /// <summary>
+        /// Returns the full name of a font with these settings.
+        /// </summary>
+        /// <param name="family"></param>
+        /// <returns></returns>
+        public string FontName(string family)
+        {
+            return family + "-" + ToString();
+        }
 
-		/// <summary>
-		/// Converts to a string representation.
-		/// </summary>
-		/// <returns></returns>
-		public override string ToString()
-		{
-			if (Style != FontStyles.None)
-			{
-				return string.Format("{0}-{1}", Size, Style);
-			}
-			else
-				return Size.ToString();
-		}
-	}
+        /// <summary>
+        /// Converts to a string representation.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            if (Style != FontStyles.None)
+                return $"{Size}-{Style}";
+            else
+                return Size.ToString();
+        }
+    }
 }

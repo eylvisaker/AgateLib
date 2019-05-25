@@ -21,43 +21,40 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AgateLib.Display
 {
-	/// <summary>
-	/// Enumeration which allows selection of font styles when creating
-	/// a font from the OS.  This enum has the FlagsAttribute, so its members
-	/// can be combined in a bitwise fashion.
-	/// </summary>
-	[Flags]
-	public enum FontStyles
-	{
-		/// <summary>
-		/// No style is applied.
-		/// </summary>
-		None = 0,
-		/// <summary>
-		/// Make the font bold.
-		/// </summary>
-		Bold = 1,
-		/// <summary>
-		/// Use italics.
-		/// </summary>
-		Italic = 2,
-		/// <summary>
-		/// Strikeout through the font glyphs.
-		/// </summary>
-		Strikeout = 4,
-		/// <summary>
-		/// Underline beneath the glyphs.
-		/// </summary>
-		Underline = 8,
-	}
+    /// <summary>
+    /// Enumeration which allows selection of font styles when creating
+    /// a font from the OS.  This enum has the FlagsAttribute, so its members
+    /// can be combined in a bitwise fashion.
+    /// </summary>
+    [Flags]
+    public enum FontStyles
+    {
+        /// <summary>
+        /// No style is applied.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// Make the font bold.
+        /// </summary>
+        Bold = 1,
+        /// <summary>
+        /// Use italics.
+        /// </summary>
+        Italic = 2,
+        /// <summary>
+        /// Strikeout through the font glyphs.
+        /// </summary>
+        Strikeout = 4,
+        /// <summary>
+        /// Underline beneath the glyphs.
+        /// </summary>
+        Underline = 8,
+    }
 
-	/*
+    /*
 	/// <summary>
 	/// Enum indicating how images are laid out when drawing inline with text.
 	/// </summary>
@@ -77,56 +74,29 @@ namespace AgateLib.Display
 		InlineBottom,
 	}
 
-	/// <summary>
-	/// Enum which describes what position the window should be created at on screen.
-	/// </summary>
-	public enum WindowPosition
-	{
-		/// <summary>
-		/// Lets AgateLib choose where to position the window.  
-		/// </summary>
-		DefaultAgate,
-
-		/// <summary>
-		/// Let the runtime decide where the window is placed.
-		/// </summary>
-		DefaultOS,
-
-		/// <summary>
-		/// Center the window horizontally on screen, but vertically above center.
-		/// This often looks better because the vertical center of the monitor is usually 
-		/// positioned below eye-level.
-		/// </summary>
-		AboveCenter,
-
-		/// <summary>
-		/// Center the window on the screen.
-		/// </summary>
-		CenterScreen,
-	}
 	*/
-	/// <summary>
-	/// Types of lines that Display.Primitives.DrawLines can render.
-	/// </summary>
-	public enum LineType
-	{
-		/// <summary>
-		/// Indicates that the points trace the perimeter of a polygon.
-		/// The first and last points will be connected.
-		/// </summary>
-		Polygon,
+    /// <summary>
+    /// Types of lines that Display.Primitives.DrawLines can render.
+    /// </summary>
+    public enum LineType
+    {
+        /// <summary>
+        /// Indicates that the points trace the perimeter of a polygon.
+        /// The first and last points will be connected.
+        /// </summary>
+        Polygon,
 
-		/// <summary>
-		/// Indicates that the points trace a path. Each point will be 
-		/// connected to the next, but the first and last points will not be
-		/// connected.
-		/// </summary>
-		Path,
+        /// <summary>
+        /// Indicates that the points trace a path. Each point will be 
+        /// connected to the next, but the first and last points will not be
+        /// connected.
+        /// </summary>
+        Path,
 
-		/// <summary>
-		/// Indicates each pair of points in the list should be drawn independently.
-		/// No lines are connected unless the points are duplicated.
-		/// </summary>
-		LineSegments,
-	}
+        /// <summary>
+        /// Indicates each pair of points in the list should be drawn independently.
+        /// No lines are connected unless the points are duplicated.
+        /// </summary>
+        LineSegments,
+    }
 }

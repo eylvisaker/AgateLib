@@ -24,6 +24,7 @@ using AgateLib.Display;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.UserInterface
 {
@@ -38,8 +39,10 @@ namespace AgateLib.UserInterface
         /// Creates a font object for the specified font family.
         /// Returns the default font if the specified font family is not found.
         /// </summary>
-        /// <param name="family"></param>
-        Font GetOrDefault(string family);
+        /// <param name="fontDescription">The description of a font. This can be a comma separate value like "Sans,14,bold" 
+        /// to indicate the size and attributes. Any attributes are optional except the font family name. The
+        /// family name must be first.</param>
+        Font GetOrDefault(string fontDescription);
 
         /// <summary>
         /// Gets a font by font face name. Throws an exception if the font is not present.
@@ -51,7 +54,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Returns true if the specified font is available.
         /// </summary>
-        /// <param name="family"></param>
+        /// <param name="family">The name of a font family</param>
         /// <returns></returns>
         bool HasFont(string family);
     }
@@ -77,6 +80,8 @@ namespace AgateLib.UserInterface
     /// </example>
     public class FontProvider : IFontProvider
     {
+        private static char[] descriptionSeparator = new char[] { ',' };
+
         private readonly Dictionary<string, Font> fonts
             = new Dictionary<string, Font>(StringComparer.OrdinalIgnoreCase);
 
@@ -111,12 +116,29 @@ namespace AgateLib.UserInterface
             return GetEnumerator();
         }
 
-        public Font GetOrDefault(string family)
+        public Font GetOrDefault(string fontDescription)
         {
-            if (HasFont(family))
-                return this[family];
+            if (string.IsNullOrWhiteSpace(fontDescription))
+                throw new ArgumentNullException(nameof(fontDescription));
 
-            return new Font(Default);
+            string[] parts = fontDescription.Split(descriptionSeparator, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length == 0)
+                throw new ArgumentException(nameof(fontDescription));
+
+            string family = parts[0];
+
+            Font result = new Font(HasFont(family) ? this[family] : Default);
+
+            foreach(string param in parts.Skip(1))
+            {
+                if (int.TryParse(param, out int size))
+                    result.Size = size;
+                else if (Enum.TryParse<FontStyles>(param, out FontStyles fontStyles))
+                    result.Style = fontStyles;
+            }
+
+            return result;
         }
     }
 }
