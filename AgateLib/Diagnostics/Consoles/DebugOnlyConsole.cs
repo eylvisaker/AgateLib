@@ -20,13 +20,14 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace AgateLib.Diagnostics.Consoles
 {
-    [Obsolete("This does not do anything useful.")]
+    [Obsolete("This should be moved to a test framework library.")]
     public class DebugOnlyConsole : IConsoleSetup
     {
         public bool IsOpen => true;
@@ -41,6 +42,8 @@ namespace AgateLib.Diagnostics.Consoles
 
         public bool DisplayMessagesWhenClosed { get; set; }
 
+        public double FontScale { get; set; } = 1.0;
+
         public void AddCommands(IVocabulary boxVocabulary)
         {
             throw new NotImplementedException();
@@ -49,6 +52,9 @@ namespace AgateLib.Diagnostics.Consoles
         public void Draw(GameTime time)
         {
         }
+
+        public void Initialize(Size screenSize)
+        { }
 
         public void Update(GameTime time)
         {

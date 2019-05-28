@@ -23,6 +23,7 @@
 using AgateLib.Display;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -31,6 +32,8 @@ namespace AgateLib.Diagnostics.Rendering
     public interface IConsoleTextEngine
     {
         Font Font { get; }
+
+        double FontScale { get; set; }
 
         IContentLayout LayoutContent(string text, int maxWidth);
     }
@@ -74,17 +77,28 @@ namespace AgateLib.Diagnostics.Rendering
 
         private readonly IFontProvider consoleFontProvider;
         private readonly IContentLayoutEngine contentLayoutEngine;
+        private int defaultFontSize;
+        private double _fontScale = 1.0;
 
         public ConsoleTextEngine(IContentProvider contentProvider)
         {
             consoleFontProvider = new ConsoleFontProvider(contentProvider);
             contentLayoutEngine = new ContentLayoutEngine(consoleFontProvider);
+
+            InitializeFont();
         }
 
+        /// <summary>
+        /// This constructor shouldn't be used, since the console needs to actually modify
+        /// the default font object of the font provider.
+        /// </summary>
+        /// <param name="fontProvider"></param>
         internal ConsoleTextEngine(IFontProvider fontProvider)
         {
             consoleFontProvider = fontProvider;
             contentLayoutEngine = new ContentLayoutEngine(consoleFontProvider);
+
+            InitializeFont();
         }
 
         public IContentLayout LayoutContent(string text, int maxWidth)
@@ -96,7 +110,24 @@ namespace AgateLib.Diagnostics.Rendering
             return result;
         }
 
-        public Font Font => consoleFontProvider.Default;
+        public Font Font { get; private set; }
 
+        public double FontScale
+        {
+            get => _fontScale;
+            set
+            {
+                _fontScale = value;
+
+                Font.Size = (int)(defaultFontSize * _fontScale / 2) * 2;
+            }
+        }
+
+        private void InitializeFont()
+        {
+            Font = consoleFontProvider.Default;
+
+            defaultFontSize = Font.Size;
+        }
     }
 }

@@ -23,6 +23,7 @@
 using AgateLib.Diagnostics.CommandLibraries;
 using AgateLib.Diagnostics.Rendering;
 using AgateLib.Input;
+using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -71,11 +72,23 @@ namespace AgateLib.Diagnostics
         /// </summary>
         bool DisplayMessagesWhenClosed { get; set; }
 
+        /// <summary>
+        /// Increases the font size for high dpi monitors.
+        /// </summary>
+        double FontScale { get; set; }
+
         void Update(GameTime time);
 
         void Draw(GameTime time);
 
         void AddCommands(IVocabulary vocabulary);
+
+        /// <summary>
+        /// Initializes the console to the specified screen size. If the screen size is larger than 1080p, 
+        /// fonts will automatically be scaled up.
+        /// </summary>
+        /// <param name="screenSize"></param>
+        void Initialize(Size screenSize);
     }
 
     [Singleton]
@@ -121,6 +134,19 @@ namespace AgateLib.Diagnostics
                 if (State.DisplayMode == ConsoleDisplayMode.None)
                     State.DisplayMode = ConsoleDisplayMode.RecentMessagesOnly;
             }
+        }
+
+        public double FontScale
+        {
+            get => renderer.FontScale;
+            set => renderer.FontScale = value;
+        }
+
+        public void Initialize(Size screenSize)
+        {
+            renderer.SetScreenSize(screenSize);
+
+            FontScale = Math.Max(1.0, screenSize.Height / 1080.0);
         }
 
         /// <summary>

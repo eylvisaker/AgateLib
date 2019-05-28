@@ -37,9 +37,13 @@ namespace AgateLib.Diagnostics.Rendering
 
         ConsoleState State { get; set; }
 
+        double FontScale { get; set; }
+
         void Draw(GameTime time);
 
         void Update(GameTime time);
+
+        void SetScreenSize(Size screenSize);
     }
 
     [Transient]
@@ -52,10 +56,11 @@ namespace AgateLib.Diagnostics.Rendering
         private readonly SpriteBatch spriteBatch;
         private readonly Texture2D whiteTexture;
 
-        private Size size;
+        private Size windowSize;
         private int entryHeight;
         private long timeOffset;
         private double viewShiftPixels;
+        private bool fontChanged;
 
         private BlendState renderTargetBlendState = new BlendState
         {
@@ -69,12 +74,12 @@ namespace AgateLib.Diagnostics.Rendering
         };
 
         private RenderTarget2D renderTarget;
-        private Size displaySize;
+        private Size screenSize;
         private long CurrentTime;
 
         public ConsoleRenderer(GraphicsDevice graphicsDevice,
-            IConsoleTextEngine textEngine,
-            ITextureBuilder textureBuilder = null)
+                               IConsoleTextEngine textEngine,
+                               ITextureBuilder textureBuilder = null)
         {
             this.graphicsDevice = graphicsDevice;
             this.textEngine = textEngine;
@@ -84,7 +89,6 @@ namespace AgateLib.Diagnostics.Rendering
             spriteBatch = new SpriteBatch(graphicsDevice);
             whiteTexture = textureBuilder.SolidColor(10, 10, Color.White);
 
-            ResizeRenderTarget();
             //console.KeyProcessed += (sender, e) => { timeOffset = CurrentTime; };
         }
 
@@ -107,6 +111,16 @@ namespace AgateLib.Diagnostics.Rendering
 
         public Font Font => textEngine.Font;
 
+        public double FontScale
+        {
+            get => textEngine.FontScale;
+            set
+            {
+                textEngine.FontScale = value;
+                fontChanged = true;
+            }
+        }
+
         public ConsoleState State { get; set; }
 
         private Rectangle ConsoleWindowDestRect => new Rectangle(0, 0,
@@ -120,13 +134,20 @@ namespace AgateLib.Diagnostics.Rendering
             if (State.DisplayMode == ConsoleDisplayMode.None)
                 return;
 
-            if (State.DisplayMode == ConsoleDisplayMode.RecentMessagesOnly)
+            try
             {
-                DrawRecentMessages();
-                return;
-            }
+                if (State.DisplayMode == ConsoleDisplayMode.RecentMessagesOnly)
+                {
+                    DrawRecentMessages();
+                    return;
+                }
 
-            BlitToScreen();
+                BlitToScreen();
+            }
+            finally
+            {
+                fontChanged = false;
+            }
         }
 
         private void BlitToScreen()
@@ -146,8 +167,6 @@ namespace AgateLib.Diagnostics.Rendering
                 State.Theme = ConsoleThemes.Default;
 
             UpdateViewShift(time.ElapsedGameTime.TotalSeconds);
-
-            ResizeRenderTarget();
 
             Redraw(renderTarget);
         }
@@ -178,27 +197,20 @@ namespace AgateLib.Diagnostics.Rendering
             }
         }
 
-        private void ResizeRenderTarget()
+        public void SetScreenSize(Size screenSize)
         {
-            displaySize = new Size(
-                graphicsDevice.PresentationParameters.BackBufferWidth,
-                graphicsDevice.PresentationParameters.BackBufferHeight);
+            this.screenSize = screenSize;
 
-            int width = displaySize.Width;
-            int height = (int)(displaySize.Height * heightCoverage);
-
-            if (width > 1920)
-                width = 1920;
-            if (height > 1080 * heightCoverage)
-                height = (int)(1080 * heightCoverage);
+            int width = screenSize.Width;
+            int height = (int)(screenSize.Height * heightCoverage);
 
             var newSize = new Size(width, height);
 
-            if (renderTarget == null || newSize != size)
+            if (renderTarget == null || newSize != windowSize)
             {
                 renderTarget?.Dispose();
                 renderTarget = new RenderTarget2D(graphicsDevice, width, height);
-                size = newSize;
+                windowSize = newSize;
             }
         }
 
@@ -248,7 +260,7 @@ namespace AgateLib.Diagnostics.Rendering
 
         private void DrawHistory()
         {
-            var y = size.Height - entryHeight;
+            var y = windowSize.Height - entryHeight;
 
             y += (int)viewShiftPixels;
 
@@ -257,7 +269,7 @@ namespace AgateLib.Diagnostics.Rendering
                 var message = Messages[i];
                 var messageTheme = Theme.MessageTheme(message);
 
-                if (message.Layout == null)
+                if (message.Layout == null || fontChanged)
                 {
                     var text = message.Text;
 
@@ -268,7 +280,7 @@ namespace AgateLib.Diagnostics.Rendering
 
                     Font.Color = messageTheme.ForeColor;
                     message.Layout = textEngine.LayoutContent(
-                        text, size.Width);
+                        text, windowSize.Width);
                 }
 
                 int lineHeight = Math.Max(message.Layout.Size.Height, message.Layout.LineHeight);
@@ -278,7 +290,7 @@ namespace AgateLib.Diagnostics.Rendering
                 if (messageTheme.BackColor.A > 0)
                 {
                     FillRect(messageTheme.BackColor,
-                        new Rectangle(0, y, size.Width, message.Layout.Size.Height));
+                        new Rectangle(0, y, windowSize.Width, message.Layout.Size.Height));
                 }
 
                 message.Layout.Draw(new Vector2(0, y), spriteBatch);
@@ -296,7 +308,7 @@ namespace AgateLib.Diagnostics.Rendering
                 return;
             }
 
-            int y = size.Height;
+            int y = windowSize.Height;
             Font.TextAlignment = OriginAlignment.BottomLeft;
 
             string currentLineText = Theme.EntryPrefix;
@@ -308,7 +320,7 @@ namespace AgateLib.Diagnostics.Rendering
             if (Theme.EntryBackgroundColor.A > 0)
             {
                 FillRect(Theme.EntryBackgroundColor,
-                    new Rectangle(0, size.Height - entryHeight, size.Width, entryHeight));
+                    new Rectangle(0, windowSize.Height - entryHeight, windowSize.Width, entryHeight));
             }
 
             Font.Color = Theme.EntryColor;
