@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -95,9 +96,21 @@ namespace AgateLib
             WriteLine(LogLevel.Warn, text);
         }
 
+        public static void Warn(Exception e, string text)
+        {
+            WriteLine(LogLevel.Warn, text);
+            WriteLine(LogLevel.Warn, e.ToString());
+        }
+
         public static void Error(string text)
         {
             WriteLine(LogLevel.Error, text);
+        }
+
+        public static void Error(Exception e, string text)
+        {
+            WriteLine(LogLevel.Error, text);
+            WriteLine(LogLevel.Error, e.ToString());
         }
     }
 
@@ -132,4 +145,20 @@ namespace AgateLib
         }
     }
 
+    public class AgateConsoleLogger : ILogListener
+    {
+        private readonly IConsole console;
+
+        public AgateConsoleLogger(IConsole console)
+        {
+            this.console = console;
+        }
+
+        public LogLevel Level { get; set; } = LogLevel.Warn;
+
+        public void WriteLine(LogLevel level, string text)
+        {
+            console.WriteLine($"{level.ToString().ToUpperInvariant()}: {text}");
+        }
+    }
 }

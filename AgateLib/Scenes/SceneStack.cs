@@ -127,7 +127,7 @@ namespace AgateLib.Scenes
         private readonly List<IScene> updateScenes = new List<IScene>();
 
         /// <summary>
-        /// Event called after each frame is completed.
+        /// Event called after drawing each frame is completed.
         /// </summary>
         public event EventHandler FrameCompleted;
 
@@ -285,6 +285,8 @@ namespace AgateLib.Scenes
             {
                 sc.Draw(time);
             }
+
+            FrameCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         public void Update(GameTime time, bool processInput = true)

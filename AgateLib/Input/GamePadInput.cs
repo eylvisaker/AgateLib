@@ -141,7 +141,6 @@ namespace AgateLib.Input
         private static Buttons[] ButtonNames = (Buttons[])Enum.GetValues(typeof(Buttons));
 
         private GamePadState state;
-        private KeyboardState lastKeyState;
         
         /// <summary>
         /// Constructs a Gamepad object and sets it to track a low-level joystick.

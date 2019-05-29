@@ -94,6 +94,11 @@ namespace AgateLib.Scenes
         public ISceneStack SceneStack { get; private set; }
 
         /// <summary>
+        /// Gets whether or not this scene is currently running in a scene stack.
+        /// </summary>
+        public bool IsRunning => isRunning;
+
+        /// <summary>
         /// Set to true to terminate this scene.
         /// </summary>
         public bool IsFinished { get; set; }
