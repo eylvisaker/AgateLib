@@ -81,6 +81,12 @@ namespace AgateLib
             }
         }
 
+
+        public static void Trace(string text)
+        {
+            WriteLine(LogLevel.Trace, text);
+        }
+
         public static void Debug(string text)
         {
             WriteLine(LogLevel.Debug, text);
@@ -116,11 +122,14 @@ namespace AgateLib
 
     public enum LogLevel
     {
+        Trace,
         Debug,
         Info,
+        [Obsolete("Do not use this one.", true)]
         Performance,
         Warn,
         Error,
+        Fatal,
     }
 
     public interface ILogListener

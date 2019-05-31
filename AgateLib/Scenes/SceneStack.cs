@@ -336,7 +336,7 @@ namespace AgateLib.Scenes
 
                 if (missedUpdateCount > missedUpdateLimit)
                 {
-                    Log.WriteLine(LogLevel.Performance, $"{missedUpdateCount} scenes added during update.");
+                    Log.WriteLine(LogLevel.Warn, $"{missedUpdateCount} scenes added during update.");
                 }
             }
             finally

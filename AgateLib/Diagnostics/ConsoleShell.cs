@@ -175,7 +175,7 @@ namespace AgateLib.Diagnostics
 
                 foreach (var library in commandLibraries.Where(
                          x => x.IsGlobal
-                           || NormalizeAbsolutePath(x.Path).Equals(State.CurrentPath, StringComparison.InvariantCultureIgnoreCase)))
+                           || NormalizeAbsolutePath(x.Path).Equals(State.CurrentPath, StringComparison.OrdinalIgnoreCase)))
                 {
                     yield return library;
                 }
