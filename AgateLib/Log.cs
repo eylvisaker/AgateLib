@@ -118,6 +118,17 @@ namespace AgateLib
             WriteLine(LogLevel.Error, text);
             WriteLine(LogLevel.Error, e.ToString());
         }
+
+        public static void Fatal(string text)
+        {
+            WriteLine(LogLevel.Fatal, text);
+        }
+
+        public static void Fatal(Exception e, string text)
+        {
+            WriteLine(LogLevel.Fatal, text);
+            WriteLine(LogLevel.Fatal, e.ToString());
+        }
     }
 
     public enum LogLevel
