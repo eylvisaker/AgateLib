@@ -27,7 +27,7 @@ namespace AgateLib.Storage
 
         public UserStorage()
         {
-#if XBOX
+#if WINDOWS_UWP
             iso = IsolatedStorageFile.GetUserStoreForApplication();
 #else
             iso = IsolatedStorageFile.GetUserStoreForDomain();

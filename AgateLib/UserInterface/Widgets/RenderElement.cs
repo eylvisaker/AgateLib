@@ -25,6 +25,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace AgateLib.UserInterface
@@ -580,7 +581,7 @@ namespace AgateLib.UserInterface
             if (other.GetType() != GetType())
                 return false;
 
-            var properties = GetType().GetProperties();
+            var properties = GetType().GetTypeInfo().DeclaredProperties;
 
             foreach (var prop in properties.Where(x => x.Name != "Children"))
             {
