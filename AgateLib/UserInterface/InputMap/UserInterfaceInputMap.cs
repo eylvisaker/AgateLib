@@ -33,11 +33,8 @@ namespace AgateLib.UserInterface.InputMap
     {
         #region --- Static Members ---
 
-        /// <summary>
-        /// Gets or sets the default button map.
-        /// </summary>
-        public static IReadOnlyDictionary<Buttons, UserInterfaceAction> DefaultButtonMap { get; set; }
-            = new Dictionary<Buttons, UserInterfaceAction>
+        public static Dictionary<Buttons, UserInterfaceAction> CreateDefaultButtonMap()
+            => new Dictionary<Buttons, UserInterfaceAction>
             {
                 [Buttons.A] = UserInterfaceAction.Accept,
                 [Buttons.B] = UserInterfaceAction.Cancel,
@@ -57,11 +54,8 @@ namespace AgateLib.UserInterface.InputMap
                 [Buttons.RightShoulder] = UserInterfaceAction.PageDown,
             };
 
-        /// <summary>
-        /// Gets or sets the default key map for keyboards.
-        /// </summary>
-        public static IReadOnlyDictionary<Keys, UserInterfaceAction> DefaultKeyMap { get; set; }
-            = new Dictionary<Keys, UserInterfaceAction>
+        public static Dictionary<Keys, UserInterfaceAction> CreateDefaultKeyMap()
+            => new Dictionary<Keys, UserInterfaceAction>
             {
                 [Keys.Enter] = UserInterfaceAction.Accept,
                 [Keys.Space] = UserInterfaceAction.Accept,
@@ -78,6 +72,18 @@ namespace AgateLib.UserInterface.InputMap
                 [Keys.PageDown] = UserInterfaceAction.PageDown,
                 [Keys.PageUp] = UserInterfaceAction.PageUp,
             };
+
+        /// <summary>
+        /// Gets or sets the default button map.
+        /// </summary>
+        public static IReadOnlyDictionary<Buttons, UserInterfaceAction> DefaultButtonMap { get; set; }
+                    = CreateDefaultButtonMap();
+
+        /// <summary>
+        /// Gets or sets the default key map for keyboards.
+        /// </summary>
+        public static IReadOnlyDictionary<Keys, UserInterfaceAction> DefaultKeyMap { get; set; }
+             = CreateDefaultKeyMap();
 
         #endregion
 
@@ -112,8 +118,8 @@ namespace AgateLib.UserInterface.InputMap
             };
         }
 
-        public void UpdateInputState(UserInterfaceInputState inputState, 
-                                     PlayerIndex playerIndex, 
+        public void UpdateInputState(UserInterfaceInputState inputState,
+                                     PlayerIndex playerIndex,
                                      IInputState input)
         {
             GamePadState gamePad = input.GamePadStateOf(playerIndex);
@@ -131,8 +137,8 @@ namespace AgateLib.UserInterface.InputMap
             }
         }
 
-        public void IgnoreCurrentInput(UserInterfaceInputState inputState, 
-                                       PlayerIndex playerIndex, 
+        public void IgnoreCurrentInput(UserInterfaceInputState inputState,
+                                       PlayerIndex playerIndex,
                                        IInputState input)
         {
             GamePadState gamePad = input.GamePadStateOf(playerIndex);
