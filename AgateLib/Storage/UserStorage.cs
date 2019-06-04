@@ -53,6 +53,7 @@ namespace AgateLib.Storage
             noRootWarning = false;
 
             Log.Info($"User storage set to {rootFolder}.");
+            Directory.CreateDirectory(rootFolder);
         }
 
         public bool FileExists(string localPath)
