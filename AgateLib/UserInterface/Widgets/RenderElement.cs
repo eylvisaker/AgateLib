@@ -581,7 +581,7 @@ namespace AgateLib.UserInterface
             if (other.GetType() != GetType())
                 return false;
 
-            var properties = GetType().GetTypeInfo().GetProperties();
+            var properties = GetType().GetProperties();
 
             foreach (var prop in properties.Where(x => x.Name != "Children"))
             {
