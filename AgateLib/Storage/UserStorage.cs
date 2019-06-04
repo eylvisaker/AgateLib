@@ -55,47 +55,51 @@ namespace AgateLib.Storage
             Log.Info($"User storage set to {rootFolder}.");
         }
 
-        public bool FileExists(string path)
+        public bool FileExists(string localPath)
         {
             WarnIfNoRoot();
+            string path = MapPath(localPath);
 
-            return File.Exists(Path.Combine(rootFolder, path));
+            return File.Exists(path);
         }
 
-        public Stream OpenFile(string path, FileMode fileMode)
+        public Stream OpenFile(string localPath, FileMode fileMode)
         {
             WarnIfNoRoot();
+            string path = MapPath(localPath);
 
             CreateDirectoryIfApplicable(path, fileMode);
 
             return File.Open(path, fileMode);
         }
 
-        public Stream OpenFile(string path, FileMode fileMode, FileAccess fileAccess)
+        public Stream OpenFile(string localPath, FileMode fileMode, FileAccess fileAccess)
         {
             WarnIfNoRoot();
+            string path = MapPath(localPath);
 
             CreateDirectoryIfApplicable(path, fileMode);
 
             return File.Open(path, fileMode, fileAccess);
         }
 
-        public Stream OpenFile(string path, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
+        public Stream OpenFile(string localPath, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
         {
             WarnIfNoRoot();
+            string path = MapPath(localPath);
 
             CreateDirectoryIfApplicable(path, fileMode);
 
             return File.Open(path, fileMode, fileAccess, fileShare);
         }
 
-        private void CreateDirectoryIfApplicable(string path, FileMode fileMode)
+        private void CreateDirectoryIfApplicable(string fullPath, FileMode fileMode)
         {
             if (fileMode == FileMode.Create ||
                 fileMode == FileMode.CreateNew ||
                 fileMode == FileMode.OpenOrCreate)
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
             }
         }
 
@@ -110,6 +114,9 @@ namespace AgateLib.Storage
             Log.Warn($"No root folder set. User data is stored in {rootFolder}");
             noRootWarning = true;
         }
+
+        private string MapPath(string path) => Path.Combine(rootFolder, path);
+
 #endif
 
         #region --- UWP ---
