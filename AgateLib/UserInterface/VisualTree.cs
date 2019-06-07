@@ -22,21 +22,29 @@
 
 //#define __DEBUG_RENDER
 
+using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-
 namespace AgateLib.UserInterface
 {
     public class VisualTree
     {
+        private readonly IAnimationFactory animationFactory;
+
         private IRenderElement root;
         private IRenderElement focus;
+
+        private int debugFlag;
+
+        public VisualTree(IAnimationFactory animationFactory)
+        {
+            this.animationFactory = animationFactory;
+        }
 
         public void Render(IRenderable rootRenderable)
         {
@@ -63,6 +71,10 @@ namespace AgateLib.UserInterface
             Walk(element =>
             {
                 element.Display.System = DisplaySystem;
+                element.Style.Update();
+
+                animationFactory.Configure(element.Display);
+
                 return true;
             });
         }
@@ -365,8 +377,5 @@ namespace AgateLib.UserInterface
             if (setDebugFlag != null)
                 debugFlag = setDebugFlag.Value;
         }
-
-        private int debugFlag;
-
     }
 }

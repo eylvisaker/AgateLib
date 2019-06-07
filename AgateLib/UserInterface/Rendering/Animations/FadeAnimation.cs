@@ -53,7 +53,14 @@ namespace AgateLib.UserInterface.Rendering.Animations
 
         public void Initialize(RenderElementDisplay display)
         {
-            display.Animation.Alpha = 0;
+            if (display.Animation.State == AnimationState.TransitionOut)
+            {
+                display.Animation.Alpha = 1;
+            }
+            else
+            {
+                display.Animation.Alpha = 0;
+            }
         }
 
         public bool Update(RenderElementDisplay display, IUserInterfaceRenderContext renderContext)

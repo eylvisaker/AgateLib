@@ -28,6 +28,7 @@ using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AgateLib.UserInterface.Rendering.Animations;
 
 namespace AgateLib.UserInterface
 {
@@ -44,11 +45,12 @@ namespace AgateLib.UserInterface
             IUserInterfaceRenderContext renderContext, 
             IStyleConfigurator styles, 
             IFontProvider fonts,
+            IAnimationFactory animationFactory,
             IUserInterfaceAudio audio = null)
         {
             this.renderContext = renderContext;
 
-            desktop = new Desktop(fonts, styles);
+            desktop = new Desktop(fonts, styles, animationFactory);
 
             desktop.Audio = audio;
 
@@ -148,6 +150,7 @@ namespace AgateLib.UserInterface
 
                 Indicator.DrawFocus(renderContext.SpriteBatch, 
                                     desktop.ActiveWorkspace.Focus,
+                                    desktop.ActiveWorkspace,
                                     ScreenAreaOf(desktop.ActiveWorkspace.Focus));
             }
         }

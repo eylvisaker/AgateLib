@@ -22,6 +22,7 @@
 #define __DEBUG_WORKSPACE
 
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using System;
@@ -99,9 +100,12 @@ namespace AgateLib.UserInterface
             }
         }
 
-        private readonly VisualTree visualTree = new VisualTree();
-        private readonly WorkspaceDisplaySystem displaySystem;
         private readonly IRenderable app;
+
+        private VisualTree visualTree;
+        private WorkspaceDisplaySystem displaySystem;
+
+        private string defaultTheme;
 
         /// <summary>
         /// Initializes a workspace object.
@@ -111,10 +115,18 @@ namespace AgateLib.UserInterface
         {
             Name = name;
 
-            displaySystem = new WorkspaceDisplaySystem(this);
-            visualTree.DisplaySystem = displaySystem;
-
             this.app = root;
+        }
+
+        internal void InitializeVisualTree(IAnimationFactory animationFactory)
+        {
+            displaySystem = new WorkspaceDisplaySystem(this);
+
+            visualTree = new VisualTree(animationFactory)
+            {
+                DisplaySystem = displaySystem,
+                DefaultTheme = defaultTheme
+            };
         }
 
         public IRenderElement Focus
@@ -164,8 +176,16 @@ namespace AgateLib.UserInterface
 
         public string DefaultTheme
         {
-            get => visualTree.DefaultTheme;
-            set => visualTree.DefaultTheme = value;
+            get => defaultTheme;
+            set
+            {
+                defaultTheme = value;
+
+                if (visualTree != null)
+                {
+                    visualTree.DefaultTheme = value;
+                }
+            }
         }
 
         public void HandleUIAction(UserInterfaceActionEventArgs args)
@@ -183,14 +203,6 @@ namespace AgateLib.UserInterface
         public void Update(IUserInterfaceRenderContext renderContext)
         {
             visualTree.Update(renderContext, ScreenArea);
-        }
-
-        public void Render()
-        {
-            if (displaySystem.Fonts == null)
-                return;
-
-            visualTree.Render(app);
 
             if (Focus == null)
             {
@@ -205,6 +217,14 @@ namespace AgateLib.UserInterface
                     return true;
                 });
             }
+        }
+
+        public void Render()
+        {
+            if (displaySystem.Fonts == null)
+                return;
+
+            visualTree.Render(app);
         }
 
         public void Draw(IUserInterfaceRenderContext renderContext)
@@ -273,6 +293,7 @@ namespace AgateLib.UserInterface
                                              IRenderElement element)
         {
             element.Display.Animation.State = state;
+            element.Display.Animation.InitializeTransition();
 
             if (state == AnimationState.TransitionOut)
             {

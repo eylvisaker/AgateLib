@@ -220,7 +220,6 @@ namespace AgateLib.UserInterface
 
         public void UpdateAnimation(IRenderElement element)
         {
-            animationFactory.Configure(element.Display);
             UserInterfaceRenderer.UpdateAnimation(this, element);
 
             if (element.Display.IsDoubleBuffered)

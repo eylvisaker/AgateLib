@@ -35,19 +35,24 @@ namespace AgateLib.UserInterface
 {
     public class Desktop
     {
+        private readonly IAnimationFactory animationFactory;
+
         private readonly List<Workspace> workspaces = new List<Workspace>();
 
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
-
+        
         private Rectangle screenArea;
 
         private IInstructions instructions = new Instructions();
 
         private bool inDraw;
 
-        public Desktop(IFontProvider fonts, IStyleConfigurator styles)
+        public Desktop(IFontProvider fonts, 
+                       IStyleConfigurator styles, 
+                       IAnimationFactory animationFactory)
         {
             Styles = styles;
+            this.animationFactory = animationFactory;
             Fonts = fonts;
         }
 
@@ -116,6 +121,8 @@ namespace AgateLib.UserInterface
         {
             Require.Not(inDraw, "Cannot add workspace while drawing.");
             Require.Not(workspaces.Contains(workspace), "Cannot add same workspace twice.", CommonException.ArgumentException);
+
+            workspace.InitializeVisualTree(animationFactory);
 
             workspaces.Add(workspace);
 

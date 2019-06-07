@@ -20,13 +20,9 @@
 //    SOFTWARE.
 //
 
+using AgateLib.UserInterface.Rendering.Animations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using AgateLib.UserInterface.Rendering.Animations;
-using AgateLib.UserInterface;
 
 namespace AgateLib.UserInterface.Rendering
 {
@@ -52,7 +48,7 @@ namespace AgateLib.UserInterface.Rendering
         {
             get
             {
-                switch(State)
+                switch (State)
                 {
                     case AnimationState.TransitionIn:
                         return In;
@@ -132,11 +128,10 @@ namespace AgateLib.UserInterface.Rendering
         public string InType { get; internal set; }
         public string OutType { get; internal set; }
         public string StaticType { get; internal set; }
-
-        public void Initialize()
+        
+        public void InitializeTransition()
         {
-            State = 0;
-            Alpha = 1;
+            Transition?.Initialize(display);
         }
 
         internal void ContentRectUpdated()

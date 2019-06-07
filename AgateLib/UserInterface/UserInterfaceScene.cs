@@ -130,6 +130,7 @@ namespace AgateLib.UserInterface
                 renderContext,
                 styleConfigurator,
                 fontProvider,
+                Animations,
                 audio);
 
             driver.ScreenArea = screenArea;

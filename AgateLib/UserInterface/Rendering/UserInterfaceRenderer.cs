@@ -163,7 +163,7 @@ namespace AgateLib.UserInterface.Rendering
 
             bool finished = animator.Transition?.Update(element.Display, renderContext) ?? false;
 
-            if (finished)
+            if (finished && (animator.State == AnimationState.TransitionIn || animator.State == AnimationState.TransitionOut))
             {
                 AdvanceTransitionState(element);
             }

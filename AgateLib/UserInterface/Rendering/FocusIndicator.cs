@@ -41,7 +41,11 @@ namespace AgateLib.UserInterface.Rendering
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to use for drawing.</param>
         /// <param name="focusElement">The element that has focus.</param>
+        /// <param name="activeWorkspace">The workspace which is currently active.</param>
         /// <param name="focusContentRect">The screen coordinates of the content area of the focus element.</param>
-        void DrawFocus(SpriteBatch spriteBatch, IRenderElement focusElement, Rectangle focusContentRect);
+        void DrawFocus(SpriteBatch spriteBatch, 
+                       IRenderElement focusElement, 
+                       Workspace activeWorkspace,
+                       Rectangle focusContentRect);
     }
 }
