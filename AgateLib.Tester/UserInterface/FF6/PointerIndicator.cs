@@ -26,7 +26,10 @@ namespace AgateLib.Tests.UserInterface.FF6
         /// <param name="renderContext">Render Context (is this really necessary?)</param>
         /// <param name="focusElement">The element that has focus.</param>
         /// <param name="focusContentRect">The screen coordinates of the content area of the focus element.</param>
-        public void DrawFocus(SpriteBatch spriteBatch, IRenderElement focusElement, Rectangle focusContentRect)
+        public void DrawFocus(SpriteBatch spriteBatch, 
+                              IRenderElement focusElement, 
+                              Workspace activeWorkspace, 
+                              Rectangle focusContentRect)
         {
             const int overlap = 1;
 

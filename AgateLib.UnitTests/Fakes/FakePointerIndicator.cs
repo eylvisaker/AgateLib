@@ -19,7 +19,7 @@ namespace AgateLib.Tests.Fakes
 
         public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 
-        public void DrawFocus(SpriteBatch spriteBatch, IRenderElement focusElement, Rectangle focusContentArea)
+        public void DrawFocus(SpriteBatch spriteBatch, IRenderElement focusElement, Workspace activeWorkspace, Rectangle focusContentArea)
         {
             draws.Add(focusContentArea);
         }

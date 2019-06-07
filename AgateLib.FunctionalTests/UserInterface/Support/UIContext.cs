@@ -1,6 +1,7 @@
 ﻿using AgateLib.Tests.UserInterface.FF6;
 using AgateLib.Tests.UserInterface.Support.Systems;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.Rendering.Animations;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -20,7 +21,8 @@ namespace AgateLib.Tests.UserInterface.Support
             scene = new UserInterfaceSceneDriver(
                 renderContext,
                 CommonMocks.StyleConfigurator().Object,
-                CommonMocks.FontProvider().Object);
+                CommonMocks.FontProvider().Object,
+                new AnimationFactory());
 
             scene.ScreenArea = new Rectangle(0, 0, 1280, 720);
         }

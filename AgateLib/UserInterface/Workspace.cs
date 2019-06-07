@@ -204,19 +204,7 @@ namespace AgateLib.UserInterface
         {
             visualTree.Update(renderContext, ScreenArea);
 
-            if (Focus == null)
-            {
-                visualTree.Walk(element =>
-                {
-                    if (element.CanHaveFocus)
-                    {
-                        Focus = element;
-                        return false;
-                    }
-
-                    return true;
-                });
-            }
+            EnsureFocus();
         }
 
         public void Render()
@@ -320,6 +308,26 @@ namespace AgateLib.UserInterface
             foreach (IRenderElement element in children)
             {
                 BeginTopLevelTransition(state, element);
+            }
+        }
+
+        /// <summary>
+        /// Makes sure that something in the workspace has focus.
+        /// </summary>
+        public void EnsureFocus()
+        {
+            if (Focus == null)
+            {
+                visualTree.Walk(element =>
+                {
+                    if (element.CanHaveFocus)
+                    {
+                        Focus = element;
+                        return false;
+                    }
+
+                    return true;
+                });
             }
         }
 

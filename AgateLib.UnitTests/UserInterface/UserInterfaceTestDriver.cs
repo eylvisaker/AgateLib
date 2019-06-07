@@ -2,6 +2,7 @@
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
@@ -19,14 +20,16 @@ namespace AgateLib.UserInterface
         public UserInterfaceTestDriver(IRenderable app,
                             IStyleConfigurator styleConfigurator = null,
                             IFontProvider fontProvider = null,
-                            IContentLayoutEngine contentLayoutEngine = null)
+                            IContentLayoutEngine contentLayoutEngine = null,
+                            IAnimationFactory animationFactory = null)
         {
             var renderContext = CommonMocks.RenderContext(contentLayoutEngine).Object;
 
             uiDriver = new UserInterfaceSceneDriver(
                 renderContext,
                 styleConfigurator ?? new ThemeStyler(new ThemeCollection { ["default"] = Theme.CreateDefaultTheme() }),
-                fontProvider ?? CommonMocks.FontProvider().Object);
+                fontProvider ?? CommonMocks.FontProvider().Object,
+                animationFactory ?? new AnimationFactory());
 
             defaultWorkspace = new Workspace("default", app);
 
