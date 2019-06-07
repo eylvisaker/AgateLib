@@ -33,10 +33,17 @@ namespace AgateLib.UserInterface.InputMap
         private HashSet<Keys> pressedKeys = new HashSet<Keys>();
 
         private HashSet<UserInterfaceAction> pressedActions = new HashSet<UserInterfaceAction>();
+        private HashSet<UserInterfaceAction> heldActions = new HashSet<UserInterfaceAction>();
         private HashSet<UserInterfaceAction> releasedActions = new HashSet<UserInterfaceAction>();
 
         private HashSet<Buttons> ignoredButtons = new HashSet<Buttons>();
         private HashSet<Keys> ignoredKeys = new HashSet<Keys>();
+
+        public ICollection<UserInterfaceAction> PressedActions => pressedActions;
+
+        public ICollection<UserInterfaceAction> HeldActions => heldActions;
+
+        public ICollection<UserInterfaceAction> ReleasedActions => releasedActions;
 
         public void IgnoreNextButtonPress(Buttons button)
         {
@@ -79,7 +86,7 @@ namespace AgateLib.UserInterface.InputMap
         {
             if (value)
             {
-                if (!ignoredKeys.Contains(key))
+                if (!ignoredKeys.Contains(key) && !pressedKeys.Contains(key))
                 {
                     pressedKeys.Add(key);
                     pressedActions.Add(action);
@@ -92,24 +99,41 @@ namespace AgateLib.UserInterface.InputMap
                 if (pressedKeys.Contains(key))
                 {
                     pressedKeys.Remove(key);
-
                     pressedActions.Remove(action);
-                    releasedActions.Add(action);
+
+                    if (!ignoredKeys.Contains(key))
+                    {
+                        releasedActions.Add(action);
+                    }
                 }
             }
         }
 
-        public ICollection<UserInterfaceAction> PressedActions => pressedActions;
-
-        public ICollection<UserInterfaceAction> ReleasedActions => releasedActions;
-
-        public void Clear()
+        public void ActionsProcessed()
         {
+            foreach(var action in pressedActions)
+            {
+                heldActions.Add(action);
+            }
+            foreach(var action in releasedActions)
+            {
+                heldActions.Remove(action);
+            }
+
             ClearPressedActions();
             ClearReleasedActions();
         }
 
-        public void ClearReleasedActions() => releasedActions.Clear();
+        public void ClearEverything()
+        {
+            ClearPressedActions();
+            ClearReleasedActions();
+            ClearHeldActions();
+        }
+
+        private void ClearHeldActions() => heldActions.Clear();
+
+        private void ClearReleasedActions() => releasedActions.Clear();
 
         private void ClearPressedActions() => pressedActions.Clear();
     }

@@ -24,6 +24,7 @@ using AgateLib.Input;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.UserInterface.InputMap
 {
@@ -34,15 +35,16 @@ namespace AgateLib.UserInterface.InputMap
         private HashSet<UserInterfaceAction> upEventsNeeded = new HashSet<UserInterfaceAction>();
         private HashSet<UserInterfaceAction> ignoredDownButtons = new HashSet<UserInterfaceAction>();
         private UserInterfaceInputMap inputMap = new UserInterfaceInputMap();
-        private const float timeToFirstRepeat = 0.5f;
-        private const float timeToNextRepeat = 0.1f;
-
-        private bool repeating = false;
-        private float timeToNavigateAction = 0;
         private HashSet<UserInterfaceAction> activeNavActions = new HashSet<UserInterfaceAction>();
 
         private UserInterfaceActionEventArgs eventArgs = new UserInterfaceActionEventArgs();
         private ButtonStateEventArgs buttonStateEventArgs = new ButtonStateEventArgs();
+
+        private const float timeToFirstRepeat = 0.5f;
+        private const float timeToNextRepeat = 0.1f;
+
+        private bool repeating = false;
+        private float timeSinceRepeat = 0;
 
         public UserInterfaceInputEvents()
         {
@@ -61,11 +63,11 @@ namespace AgateLib.UserInterface.InputMap
             set => inputMap = value ?? throw new ArgumentNullException(nameof(InputMap));
         }
 
-        public bool AnyNavigateActionPressed
-            => inputState.PressedActions.Contains(UserInterfaceAction.Up)
-            || inputState.PressedActions.Contains(UserInterfaceAction.Down)
-            || inputState.PressedActions.Contains(UserInterfaceAction.Left)
-            || inputState.PressedActions.Contains(UserInterfaceAction.Right);
+        public bool AnyNavigateActionHeld
+            => inputState.HeldActions.Contains(UserInterfaceAction.Up)
+            || inputState.HeldActions.Contains(UserInterfaceAction.Down)
+            || inputState.HeldActions.Contains(UserInterfaceAction.Left)
+            || inputState.HeldActions.Contains(UserInterfaceAction.Right);
 
         public void UpdateState(IInputState input)
         {
@@ -82,6 +84,29 @@ namespace AgateLib.UserInterface.InputMap
             foreach (UserInterfaceAction action in inputState.PressedActions)
             {
                 TriggerPressedAction(action);
+                timeSinceRepeat = 0;
+            }
+
+            if (inputState.HeldActions.Any())
+            {
+                float timeToRepeat = repeating ? timeToNextRepeat : timeToFirstRepeat;
+
+                timeSinceRepeat += (float)time.ElapsedGameTime.TotalSeconds;
+
+                if (timeSinceRepeat > timeToRepeat)
+                {
+                    timeSinceRepeat = 0;
+                    repeating = true;
+
+                    foreach (UserInterfaceAction action in inputState.HeldActions)
+                    {
+                        TriggerPressedAction(action);
+                    }
+                }
+            }
+            else
+            {
+                repeating = false;
             }
 
             foreach (UserInterfaceAction action in inputState.ReleasedActions)
@@ -89,37 +114,12 @@ namespace AgateLib.UserInterface.InputMap
                 TriggerReleasedAction(action);
             }
 
-            inputState.Clear();
-
-            if (AnyNavigateActionPressed)
-            {
-                if (timeToNavigateAction <= 0)
-                {
-                    if (!repeating)
-                    {
-                        timeToNavigateAction = timeToFirstRepeat;
-                        repeating = true;
-                    }
-                    else
-                    {
-                        timeToNavigateAction = timeToNextRepeat;
-                    }
-                }
-                else
-                {
-                    timeToNavigateAction -= (float)time.ElapsedGameTime.TotalSeconds;
-                }
-            }
-            else
-            {
-                repeating = false;
-                timeToNavigateAction = 0;
-            }
+            inputState.ActionsProcessed();
         }
 
         private void TriggerPressedAction(UserInterfaceAction action)
         {
-            if (timeToNavigateAction > 0 && activeNavActions.Contains(action))
+            if (timeSinceRepeat > 0 && activeNavActions.Contains(action))
                 return;
 
             TriggerButtonDown(action);
@@ -179,7 +179,7 @@ namespace AgateLib.UserInterface.InputMap
 
         internal void ClearPressedButtons()
         {
-            inputState.Clear();
+            inputState.ClearEverything();
         }
 
     }
