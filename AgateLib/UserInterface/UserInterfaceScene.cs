@@ -34,6 +34,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface
 {
@@ -83,12 +84,14 @@ namespace AgateLib.UserInterface
         /// calls the callback function.
         /// </summary>
         /// <param name="p"></param>
+        [Obsolete("Use Exit().ContinueWith or await Exit() instead.", true)]
         void ExitThen(Action callback);
 
         /// <summary>
-        /// Exits the user interface by informing all workspaces to begin their exit transition animation.
+        /// Exits the user interface by informing all workspaces to begin their exit transition animation. Returns a task that resolves when the exit transition 
+        /// is complete.
         /// </summary>
-        void Exit();
+        Task Exit();
     }
 
     [Transient]
@@ -96,6 +99,8 @@ namespace AgateLib.UserInterface
     {
         private readonly UserInterfaceRenderContext renderContext;
         private readonly UserInterfaceSceneDriver driver;
+
+        private TaskCompletionSource<bool> exitTask;
 
         public UserInterfaceScene(Rectangle screenArea,
                                   GraphicsDevice graphicsDevice,
@@ -314,9 +319,12 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Exits the user interface by informing all workspaces to begin their exit transition animation.
         /// </summary>
-        public void Exit()
+        public Task Exit()
         {
             Desktop.ExitUserInterface();
+
+            exitTask = new TaskCompletionSource<bool>();
+            return exitTask.Task;
         }
 
         public void PushWorkspace(Workspace workspace)
@@ -339,6 +347,13 @@ namespace AgateLib.UserInterface
                     PushWorkspace(new Workspace(name, root));
                 }
             }
+        }
+
+        protected override void OnSceneEnd()
+        {
+            base.OnSceneEnd();
+
+            exitTask?.SetResult(true);
         }
     }
 }

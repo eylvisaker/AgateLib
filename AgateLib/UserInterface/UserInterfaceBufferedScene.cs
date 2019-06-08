@@ -34,6 +34,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface
 {
@@ -42,6 +43,8 @@ namespace AgateLib.UserInterface
     {
         private readonly UserInterfaceRenderContext renderContext;
         private readonly UserInterfaceSceneDriver driver;
+
+        private TaskCompletionSource<bool> exitTask;
 
         public UserInterfaceBufferedScene(Rectangle screenArea,
                                           GraphicsDevice graphicsDevice,
@@ -255,9 +258,12 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Exits the user interface by informing all workspaces to begin their exit transition animation.
         /// </summary>
-        public void Exit()
+        public Task Exit()
         {
             Desktop.ExitUserInterface();
+
+            exitTask = new TaskCompletionSource<bool>();
+            return exitTask.Task;
         }
 
         public void PushWorkspace(Workspace workspace)
@@ -280,6 +286,13 @@ namespace AgateLib.UserInterface
                     PushWorkspace(new Workspace(name, root));
                 }
             }
+        }
+
+        protected override void OnSceneEnd()
+        {
+            base.OnSceneEnd();
+
+            exitTask.SetResult(true);
         }
     }
 }
