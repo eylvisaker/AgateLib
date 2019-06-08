@@ -334,7 +334,7 @@ namespace AgateLib.UserInterface
         [Conditional("__DEBUG_WORKSPACE")]
         private void DebugMsg(string message)
         {
-            Log.Debug(message);
+            Log.Trace($"Workspace {Name}: {message}");
         }
     }
 }
