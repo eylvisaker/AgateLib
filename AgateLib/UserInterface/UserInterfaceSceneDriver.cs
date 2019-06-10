@@ -29,6 +29,7 @@ using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AgateLib.UserInterface.Rendering.Animations;
+using AgateLib.Quality;
 
 namespace AgateLib.UserInterface
 {
@@ -49,7 +50,11 @@ namespace AgateLib.UserInterface
             IAnimationFactory animationFactory,
             IUserInterfaceAudio audio = null)
         {
+            Require.That(screenArea.Width > 0, "Screen area width must be positive.");
+            Require.That(screenArea.Height > 0, "Screen area width must be positive.");
+
             this.renderContext = renderContext;
+            this.ScreenArea = screenArea;
 
             desktop = new Desktop(screenArea, renderContext, fonts, styles, animationFactory);
 

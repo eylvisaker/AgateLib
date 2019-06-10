@@ -184,6 +184,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\TextTokenizer\TokenMatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\TextTokenizer\_Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\DisplaySystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\SimpleMessageBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceBufferedScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Image.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\LayoutStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeRenderElementStyleProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Separator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\_EventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceAudio.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceLoadException.cs" />
