@@ -165,7 +165,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// The area of the screen area where the UI controls will be layed out.
         /// </summary>
-        public Rectangle ScreenArea { get; set; }
+        public Rectangle ScreenArea { get; internal set; }
 
         public string Name { get; private set; }
 

@@ -33,7 +33,7 @@ namespace AgateLib.UserInterface.Widgets
                     .ToList<IRenderable>(),
             });
 
-            var driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator);
+            var driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator: styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();
@@ -64,7 +64,7 @@ namespace AgateLib.UserInterface.Widgets
                     .ToList<IRenderable>(),
             });
 
-            var driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator);
+            var driver = new UserInterfaceTestDriver(CreateApp(box), styleConfigurator: styleConfigurator);
             driver.DoLayout();
 
             var root = driver.Desktop.ActiveWorkspace.VisualTree.Find("#thewindow").First();

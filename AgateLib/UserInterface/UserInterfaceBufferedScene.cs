@@ -76,6 +76,7 @@ namespace AgateLib.UserInterface
                 doubleBuffer);
 
             driver = new UserInterfaceSceneDriver(
+                screenArea,
                 renderContext,
                 styleConfigurator,
                 fontProvider,

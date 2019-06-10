@@ -172,6 +172,7 @@ namespace AgateLib.UserInterface
                     value.Height - Region.MarginToContentOffset.Height);
 
                 Region.SetContentRect(contentRect);
+                Animation.ContentRectUpdated();
             }
         }
 
@@ -191,6 +192,7 @@ namespace AgateLib.UserInterface
                     value.Height - Region.BorderToContentOffset.Height);
 
                 Region.SetContentRect(contentRect);
+                Animation.ContentRectUpdated();
             }
         }
 

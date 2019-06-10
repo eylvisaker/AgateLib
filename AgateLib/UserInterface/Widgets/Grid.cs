@@ -133,7 +133,7 @@ namespace AgateLib.UserInterface
 
         private void SetSizeAt(int x, int y, Size value) => sizeGrid[y * Columns + x] = value;
 
-        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
         {
             Array.Clear(columnWidths, 0, columnWidths.Length);
             Array.Clear(rowHeights, 0, rowHeights.Length);
@@ -154,7 +154,7 @@ namespace AgateLib.UserInterface
                     var itemMaxSize = LayoutMath.ItemContentMaxSize(itemBox, maxSize);
 
                     item.Display.Region.IdealContentSize
-                        = item.CalcIdealContentSize(renderContext, itemMaxSize);
+                        = item.CalcIdealContentSize(layoutContext, itemMaxSize);
 
                     var itemIdealSize = item.Display.Region.CalcConstrainedContentSize(itemMaxSize);
 
@@ -177,7 +177,7 @@ namespace AgateLib.UserInterface
             return new Size(idealWidth, idealHeight);
         }
 
-        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
+        public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
         {
             int desty = 0;
 
@@ -201,7 +201,7 @@ namespace AgateLib.UserInterface
                         columnWidths[x],
                         rowHeights[y]);
 
-                    item.DoLayout(renderContext, item.Display.ContentRect.Size);
+                    item.DoLayout(layoutContext, item.Display.ContentRect.Size);
 
                     destx += columnWidths[x];
                 }

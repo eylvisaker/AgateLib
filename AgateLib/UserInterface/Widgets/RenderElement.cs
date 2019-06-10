@@ -111,10 +111,10 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Compute the ideal size of the content of the widget.
         /// </summary>
-        /// <param name="renderContext"></param>
+        /// <param name="layoutContext"></param>
         /// <param name="maxSize"></param>
         /// <returns></returns>
-        Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize);
+        Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize);
 
         /// <summary>
         /// Compute the minimum size of the content of the widget, given
@@ -128,9 +128,9 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Instructs the element to prepare its layout.
         /// </summary>
-        /// <param name="renderContext"></param>
+        /// <param name="layoutContext"></param>
         /// <param name="contentAreaSize"></param>
-        void DoLayout(IUserInterfaceRenderContext renderContext, Size contentAreaSize);
+        void DoLayout(IUserInterfaceLayoutContext layoutContext, Size contentAreaSize);
 
         /// <summary>
         /// Called when the element loses focus.
@@ -337,16 +337,15 @@ namespace AgateLib.UserInterface
             return new Size(1, 1);
         }
 
-        public abstract Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize);
+        public abstract Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize);
 
-        public abstract void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea);
-
-        public abstract void DoLayout(IUserInterfaceRenderContext renderContext, Size size);
-
+        public abstract void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size);
 
         public virtual void Update(IUserInterfaceRenderContext renderContext)
         {
         }
+
+        public abstract void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea);
 
         public void DrawChildren(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
@@ -468,13 +467,13 @@ namespace AgateLib.UserInterface
             return null;
         }
 
-        protected void DoLayoutForSingleChild(IUserInterfaceRenderContext renderContext, Size size, IRenderElement child)
+        protected void DoLayoutForSingleChild(IUserInterfaceLayoutContext layoutContext, Size size, IRenderElement child)
         {
             child.Display.MarginRect = new Rectangle(Point.Zero, size);
 
             var contentSize = child.Display.ContentRect.Size;
 
-            child.DoLayout(renderContext, contentSize);
+            child.DoLayout(layoutContext, contentSize);
         }
 
         void IRenderable.OnRenderResult(IRenderElement result)
@@ -610,12 +609,14 @@ namespace AgateLib.UserInterface
         /// Compute the ideal size of an element's margin rectangle.
         /// </summary>
         /// <param name="element"></param>
-        /// <param name="renderContext"></param>
+        /// <param name="layoutContext"></param>
         /// <param name="maxSize"></param>
         /// <returns></returns>
-        public static Size CalcIdealMarginSize(this IRenderElement element, IUserInterfaceRenderContext renderContext, Size maxSize)
+        public static Size CalcIdealMarginSize(this IRenderElement element, 
+                                               IUserInterfaceLayoutContext layoutContext, 
+                                               Size maxSize)
         {
-            var contentSize = element.CalcIdealContentSize(renderContext, maxSize);
+            var contentSize = element.CalcIdealContentSize(layoutContext, maxSize);
 
             var marginSize = element.Display.Region.MarginToContentOffset.Expand(contentSize);
 

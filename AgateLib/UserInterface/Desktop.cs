@@ -35,10 +35,10 @@ namespace AgateLib.UserInterface
 {
     public class Desktop
     {
+        private readonly IUserInterfaceLayoutContext layoutContext;
         private readonly IAnimationFactory animationFactory;
 
         private readonly List<Workspace> workspaces = new List<Workspace>();
-
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
         
         private Rectangle screenArea;
@@ -47,12 +47,16 @@ namespace AgateLib.UserInterface
 
         private bool inDraw;
 
-        public Desktop(IFontProvider fonts, 
+        public Desktop(Rectangle screenArea,
+                       IUserInterfaceLayoutContext layoutContext,
+                       IFontProvider fonts, 
                        IStyleConfigurator styles, 
                        IAnimationFactory animationFactory)
         {
-            Styles = styles;
+            this.screenArea = screenArea;
             this.animationFactory = animationFactory;
+            this.layoutContext = layoutContext;
+            Styles = styles;
             Fonts = fonts;
         }
 
@@ -127,6 +131,7 @@ namespace AgateLib.UserInterface
             workspaces.Add(workspace);
 
             workspace.Desktop = this;
+            workspace.ScreenArea = ScreenArea;
             workspace.Style = Styles;
             workspace.Fonts = Fonts;
             workspace.Instructions = Instructions;
@@ -137,7 +142,7 @@ namespace AgateLib.UserInterface
                 workspace.DefaultTheme = DefaultTheme;
 
             workspace.Render();
-
+            workspace.VisualTree.DoLayout(layoutContext, ScreenArea);
             workspace.TransitionIn();
         }
 

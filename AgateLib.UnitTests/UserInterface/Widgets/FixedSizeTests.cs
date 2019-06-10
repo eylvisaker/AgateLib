@@ -111,7 +111,7 @@ namespace AgateLib.UserInterface.Widgets
             });
 
             UserInterfaceTestDriver driver = new UserInterfaceTestDriver(CreateApp(box),
-                                                   styleConfigurator,
+                                                   styleConfigurator: styleConfigurator,
                                                    contentLayoutEngine: contentLayoutEngine);
             driver.DoLayout();
 

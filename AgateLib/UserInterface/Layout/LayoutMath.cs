@@ -100,11 +100,11 @@ namespace AgateLib.UserInterface.Layout
             return maxSize;
         }
 
-        public static void CalcIdealSize(IRenderElement item, IUserInterfaceRenderContext renderContext, Size parentMaxSize)
+        public static void CalcIdealSize(IRenderElement item, IUserInterfaceLayoutContext layoutContext, Size parentMaxSize)
         {
             Size maxSize = ConstrainMaxSize(parentMaxSize, item.Style.Size);
 
-            Size idealSize = item.CalcIdealContentSize(renderContext, maxSize);
+            Size idealSize = item.CalcIdealContentSize(layoutContext, maxSize);
 
             idealSize = ConstrainSize(item, idealSize);
 

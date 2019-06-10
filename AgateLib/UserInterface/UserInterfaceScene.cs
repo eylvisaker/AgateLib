@@ -132,13 +132,12 @@ namespace AgateLib.UserInterface
                 doubleBuffer);
 
             driver = new UserInterfaceSceneDriver(
+                screenArea,
                 renderContext,
                 styleConfigurator,
                 fontProvider,
                 Animations,
                 audio);
-
-            driver.ScreenArea = screenArea;
 
             driver.Desktop.Empty += () =>
             {

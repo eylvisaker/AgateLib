@@ -130,19 +130,19 @@ namespace AgateLib.UserInterface
             Dirty = true;
         }
 
-        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
+        public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
         {
-            RefreshContent(renderContext);
+            RefreshContent(layoutContext);
 
             content.MaxWidth = size.Width;
         }
 
         public override string StyleTypeId => "label";
 
-        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext,
+        public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext,
                                                   Size maxSize)
         {
-            RefreshContent(renderContext);
+            RefreshContent(layoutContext);
 
             if (content != null)
             {
@@ -195,7 +195,7 @@ namespace AgateLib.UserInterface
             return $"label: {Props.Text?.Substring(0, Math.Min(200, Props.Text.Length)) ?? "null"}";
         }
 
-        private void RefreshContent(IUserInterfaceRenderContext renderContext)
+        private void RefreshContent(IUserInterfaceLayoutContext layoutContext)
         {
             if (Style.Font == null)
                 return;
@@ -213,7 +213,7 @@ namespace AgateLib.UserInterface
 
             LayoutOptions.Font = new Font(Style.Font);
 
-            content = renderContext.CreateContentLayout(Props.Text, LayoutOptions, Props.PerformLocalization);
+            content = layoutContext.CreateContentLayout(Props.Text, LayoutOptions, Props.PerformLocalization);
 
             content.AnimationComplete += () => Props.AnimationComplete?.Invoke(evt.Reset(this));
 

@@ -19,12 +19,11 @@ namespace AgateLib.Tests.UserInterface.Support
             renderContext = CommonMocks.RenderContext().Object;
 
             scene = new UserInterfaceSceneDriver(
+                new Rectangle(0, 0, 1280, 720),
                 renderContext,
                 CommonMocks.StyleConfigurator().Object,
                 CommonMocks.FontProvider().Object,
                 new AnimationFactory());
-
-            scene.ScreenArea = new Rectangle(0, 0, 1280, 720);
         }
 
         public ITestSystem TestSystem { get; set; }

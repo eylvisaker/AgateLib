@@ -33,11 +33,33 @@ using System.Linq;
 
 namespace AgateLib.UserInterface
 {
+    public interface IUserInterfaceLayoutContext
+    {
+        /// <summary>
+        /// Gets a rectangle corresponding to the "in-bounds" render area.
+        /// </summary>
+        Rectangle ScreenArea { get; }
+
+        /// <summary>
+        /// Creates an IContentLayout object for the specified text.
+        /// </summary>
+        /// <param name="text">The text to layout. If localizeText is true, this text will be used
+        /// as a key in the lookup table for the current language.</param>
+        /// <param name="contentLayoutOptions">Options for content layout.</param>
+        /// <param name="performLocalization">If true, the text will be localized. Defaults to true.</param>
+        /// <returns></returns>
+        IContentLayout CreateContentLayout(
+            string text,
+            ContentLayoutOptions contentLayoutOptions,
+            bool performLocalization = true);
+
+    }
+
     /// <summary>
     /// Interface for a render context which provides functions needed to 
     /// render an entire GUI.
     /// </summary>
-    public interface IUserInterfaceRenderContext
+    public interface IUserInterfaceRenderContext : IUserInterfaceLayoutContext
     {
         /// <summary>
         /// Gets the graphics device.
@@ -69,30 +91,7 @@ namespace AgateLib.UserInterface
         /// Gets the style renderer for the UI.
         /// </summary>
         IUserInterfaceRenderer UserInterfaceRenderer { get; }
-
-        /// <summary>
-        /// Gets a rectangle corresponding to the "in-bounds" render area.
-        /// </summary>
-        Rectangle ScreenArea { get; }
-
-        /// <summary>
-        /// Gets the pixel size of the graphics device's render target area.
-        /// </summary>
-        Size GraphicsDeviceRenderTargetSize { get; }
-
-        /// <summary>
-        /// Creates an IContentLayout object for the specified text.
-        /// </summary>
-        /// <param name="text">The text to layout. If localizeText is true, this text will be used
-        /// as a key in the lookup table for the current language.</param>
-        /// <param name="contentLayoutOptions">Options for content layout.</param>
-        /// <param name="performLocalization">If true, the text will be localized. Defaults to true.</param>
-        /// <returns></returns>
-        IContentLayout CreateContentLayout(
-            string text,
-            ContentLayoutOptions contentLayoutOptions,
-            bool performLocalization = true);
-
+        
         /// <summary>
         /// Draws a child widget of the current widget.
         /// </summary>

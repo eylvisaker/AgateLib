@@ -24,6 +24,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics;
 
 namespace AgateLib.UserInterface
 {
@@ -117,10 +118,19 @@ namespace AgateLib.UserInterface
         /// </summary>
         public Size MarginSize => MarginRect.Size;
 
-        public void SetContentRect(Rectangle newContentRect) => contentRect = newContentRect;
+        public void SetContentRect(Rectangle newContentRect)
+        {
+            Debug.Assert(newContentRect.Width >= 0 && newContentRect.Height >= 0);
 
-        public void SetContentSize(Size newContentSize) => contentRect.Size = newContentSize;
+            contentRect = newContentRect;
+        }
 
+        public void SetContentSize(Size newContentSize)
+        {
+            Debug.Assert(newContentSize.Width >= 0 && newContentSize.Height >= 0);
+
+            contentRect.Size = newContentSize;
+        }
         public void SetMarginPosition(Point position)
         {
             var contentPos = new Point(position.X + MarginToContentOffset.Left,

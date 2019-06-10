@@ -111,11 +111,11 @@ namespace AgateLib.UserInterface
 
         public override bool CanHaveFocus => Props.Enabled;
 
-        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
-            => DoLayoutForSingleChild(renderContext, size, child);
+        public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
+            => DoLayoutForSingleChild(layoutContext, size, child);
 
-        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
-            => child.CalcIdealMarginSize(renderContext, maxSize);
+        public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
+            => child.CalcIdealMarginSize(layoutContext, maxSize);
 
         public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
             => renderContext.DrawChild(clientArea, child);

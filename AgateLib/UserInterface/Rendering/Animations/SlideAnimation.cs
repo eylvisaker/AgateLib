@@ -2,13 +2,12 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.UserInterface.Rendering.Animations
 {
     public class SlideAnimation : IRenderElementAnimation
     {
-        enum SlideFromLocation
+        private enum SlideFromLocation
         {
             Auto,
             Left,
@@ -17,17 +16,15 @@ namespace AgateLib.UserInterface.Rendering.Animations
             Bottom,
         }
 
-        SlideFromLocation slideFrom;
-        AnimationState lastState = (AnimationState)(-1);
-
-        float wiggle = 0;
-        float animationTimeLength_s = 0.5f;
-
-        Vector2 offScreenPos;
-        Vector2 onScreenPos;
-
-        float currentTime;
-        int timeSign = 1;
+        private SlideFromLocation slideFrom;
+        private AnimationState lastState = (AnimationState)(-1);
+        private float wiggle = 0;
+        private float animationTimeLength_s = 0.5f;
+        private Vector2 offScreenPos;
+        private Vector2 onScreenPos;
+        private float currentTime;
+        private int timeSign = 1;
+        private bool initialized = false;
 
         public SlideAnimation(IReadOnlyList<string> args)
         {
@@ -94,7 +91,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
             const int offscreenMargin = 30;
             Size screenSize = display.System.ScreenArea.Size;
 
-            switch(slideOffPoint)
+            switch (slideOffPoint)
             {
                 case SlideFromLocation.Left:
                     return new Vector2(-offscreenMargin - display.BorderRect.Width, display.BorderRect.Top);
@@ -128,7 +125,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
             // x = 1 is on-screen position
             float a = -2 * (1 + wiggle);
             float b = 2 - wiggle;
-            
+
             float t = currentTime / animationTimeLength_s;
             float x = 0.5f * a * t * t + b * t;
             float _x = x;

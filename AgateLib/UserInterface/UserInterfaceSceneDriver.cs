@@ -42,6 +42,7 @@ namespace AgateLib.UserInterface
         private bool setIgnoreInput;
 
         public UserInterfaceSceneDriver(
+            Rectangle screenArea,
             IUserInterfaceRenderContext renderContext, 
             IStyleConfigurator styles, 
             IFontProvider fonts,
@@ -50,7 +51,7 @@ namespace AgateLib.UserInterface
         {
             this.renderContext = renderContext;
 
-            desktop = new Desktop(fonts, styles, animationFactory);
+            desktop = new Desktop(screenArea, renderContext, fonts, styles, animationFactory);
 
             desktop.Audio = audio;
 

@@ -18,14 +18,17 @@ namespace AgateLib.UserInterface
         private readonly ManualInputState input;
 
         public UserInterfaceTestDriver(IRenderable app,
+                            Size? screenSize = null,
                             IStyleConfigurator styleConfigurator = null,
                             IFontProvider fontProvider = null,
                             IContentLayoutEngine contentLayoutEngine = null,
                             IAnimationFactory animationFactory = null)
         {
             var renderContext = CommonMocks.RenderContext(contentLayoutEngine).Object;
+            Size = screenSize ?? new Size(1280, 720);
 
             uiDriver = new UserInterfaceSceneDriver(
+                new Rectangle(Point.Zero, Size),
                 renderContext,
                 styleConfigurator ?? new ThemeStyler(new ThemeCollection { ["default"] = Theme.CreateDefaultTheme() }),
                 fontProvider ?? CommonMocks.FontProvider().Object,
@@ -52,7 +55,7 @@ namespace AgateLib.UserInterface
             uiDriver.Update(new GameTime());
         }
 
-        public Size Size { get; set; } = new Size(1280, 720);
+        public Size Size { get; set; }
 
         public Desktop Desktop => uiDriver.Desktop;
 

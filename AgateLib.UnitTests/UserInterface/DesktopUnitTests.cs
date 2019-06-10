@@ -2,6 +2,7 @@
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering.Animations;
 using FluentAssertions;
+using Microsoft.Xna.Framework;
 using Moq;
 using System.Linq;
 using Xunit;
@@ -13,7 +14,11 @@ namespace AgateLib.Tests.UserInterface
         [Fact]
         public void Desktop_InputIsSentToActiveWorkspaceOnly()
         {
-            Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object, new AnimationFactory());
+            Desktop desktop = new Desktop(new Rectangle(0, 0, 1280, 720), 
+                                          CommonMocks.RenderContext().Object, 
+                                          CommonMocks.FontProvider().Object, 
+                                          CommonMocks.StyleConfigurator().Object, 
+                                          new AnimationFactory());
 
             (var w1, var e1) = CommonMocks.Widget("w1", elementCanHaveFocus: true);
             (var w2, var e2) = CommonMocks.Widget("w2", elementCanHaveFocus: true);
@@ -47,7 +52,11 @@ namespace AgateLib.Tests.UserInterface
         [Fact]
         public void Desktop_MultipleWorkspaces()
         {
-            Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object, new AnimationFactory());
+            Desktop desktop = new Desktop(new Rectangle(0, 0, 1280, 720),
+                                          CommonMocks.RenderContext().Object,
+                                          CommonMocks.FontProvider().Object,
+                                          CommonMocks.StyleConfigurator().Object,
+                                          new AnimationFactory());
 
             bool exited = false;
 
@@ -94,7 +103,11 @@ namespace AgateLib.Tests.UserInterface
         {
             var renderContext = new FakeRenderContext();
 
-            Desktop desktop = new Desktop(CommonMocks.FontProvider().Object, CommonMocks.StyleConfigurator().Object, new AnimationFactory());
+            Desktop desktop = new Desktop(new Rectangle(0, 0, 1280, 720),
+                                          CommonMocks.RenderContext().Object,
+                                          CommonMocks.FontProvider().Object,
+                                          CommonMocks.StyleConfigurator().Object,
+                                          new AnimationFactory());
 
             (var widget, var element) = CommonMocks.Widget("happy");
 

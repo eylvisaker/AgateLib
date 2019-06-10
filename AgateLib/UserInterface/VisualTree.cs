@@ -302,10 +302,10 @@ namespace AgateLib.UserInterface
             renderContext.DrawChild(area, TreeRoot);
         }
 
-        public void DoLayout(IUserInterfaceRenderContext renderContext, Rectangle area)
+        public void DoLayout(IUserInterfaceLayoutContext layoutContext, Rectangle area)
         {
             TreeRoot.Display.MarginRect = area;
-            TreeRoot.DoLayout(renderContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);
+            TreeRoot.DoLayout(layoutContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);
 
             CheckForOverflow();
         }

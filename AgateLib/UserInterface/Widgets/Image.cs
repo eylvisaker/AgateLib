@@ -39,12 +39,12 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
         {
             return DestSize;
         }
 
-        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size) { }
+        public override void DoLayout(IUserInterfaceLayoutContext renderContext, Size size) { }
 
         public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {

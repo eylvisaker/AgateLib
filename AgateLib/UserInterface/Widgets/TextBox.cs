@@ -43,7 +43,7 @@ namespace AgateLib.UserInterface
 
         public override bool CanHaveFocus => Props.Enabled;
 
-        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
         {
             return new Size(80, Style.Font.FontHeight);
         }
@@ -56,7 +56,7 @@ namespace AgateLib.UserInterface
                 flashCycle %= flashTime;
         }
 
-        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
+        public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
         {
 
         }

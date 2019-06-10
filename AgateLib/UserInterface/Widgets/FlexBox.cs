@@ -60,12 +60,12 @@ namespace AgateLib.UserInterface
             }
 
             public void PerformLayout(
-                IUserInterfaceRenderContext renderContext,
+                IUserInterfaceLayoutContext layoutContext,
                 Size mySize,
                 IRenderElementStyle myStyle,
                 IList<IRenderElement> children)
             {
-                int idealSizeOfAllChildren = CalcChildrenIdealSizes(renderContext, mySize, children);
+                int idealSizeOfAllChildren = CalcChildrenIdealSizes(layoutContext, mySize, children);
 
                 int extraSpace = MainAxis(mySize) - idealSizeOfAllChildren;
 
@@ -250,17 +250,17 @@ namespace AgateLib.UserInterface
             /// Updates the ideal size property for each child.
             /// Returns the total ideal margin size along the main axis.
             /// </summary>
-            /// <param name="renderContext"></param>
+            /// <param name="layoutContext"></param>
             /// <param name="mySize"></param>
             /// <param name="children"></param>
             /// <returns></returns>
-            private int CalcChildrenIdealSizes(IUserInterfaceRenderContext renderContext,
+            private int CalcChildrenIdealSizes(IUserInterfaceLayoutContext layoutContext,
                                                Size mySize,
                                                IList<IRenderElement> children)
             {
                 foreach (var item in children)
                 {
-                    LayoutMath.CalcIdealSize(item, renderContext, mySize);
+                    LayoutMath.CalcIdealSize(item, layoutContext, mySize);
 
                     item.Display.Region.SetContentSize(item.Display.Region.IdealContentSize);
                 }
@@ -312,7 +312,7 @@ namespace AgateLib.UserInterface
                 }
             }
 
-            public Size CalcIdealSize(IUserInterfaceRenderContext renderContext, Size maxSize, IList<IRenderElement> children)
+            public Size CalcIdealSize(IUserInterfaceLayoutContext layoutContext, Size maxSize, IList<IRenderElement> children)
             {
                 int idealCrossSize = 0;
                 int idealAxisSize = 0;
@@ -327,7 +327,7 @@ namespace AgateLib.UserInterface
                     var itemMaxSize = LayoutMath.ItemContentMaxSize(itemBox, maxSize);
 
                     item.Display.Region.IdealContentSize
-                        = item.CalcIdealContentSize(renderContext, maxSize);
+                        = item.CalcIdealContentSize(layoutContext, maxSize);
 
                     var itemIdealContentSize = item.Display.Region.CalcConstrainedContentSize(maxSize);
                     var itemIdealMarginSize = itemBox.Expand(itemIdealContentSize);
@@ -437,17 +437,17 @@ namespace AgateLib.UserInterface
 
         public override bool CanHaveFocus => focusChildren.Any();
 
-        public override void DoLayout(IUserInterfaceRenderContext renderContext, Size size)
+        public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
         {
-            PerformLayout(renderContext, size);
+            PerformLayout(layoutContext, size);
 
             foreach (var item in Children.Where(x => x.Display.IsVisible))
             {
-                item.DoLayout(renderContext, item.Display.ContentRect.Size);
+                item.DoLayout(layoutContext, item.Display.ContentRect.Size);
             }
         }
 
-        public override Size CalcIdealContentSize(IUserInterfaceRenderContext renderContext, Size maxSize)
+        public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
         {
             UpdateChildLists();
 
@@ -457,11 +457,11 @@ namespace AgateLib.UserInterface
             {
                 case FlexDirection.Column:
                 case FlexDirection.ColumnReverse:
-                    return vertical.CalcIdealSize(renderContext, maxSize, layoutChildren);
+                    return vertical.CalcIdealSize(layoutContext, maxSize, layoutChildren);
 
                 case FlexDirection.Row:
                 case FlexDirection.RowReverse:
-                    return horizontal.CalcIdealSize(renderContext, maxSize, layoutChildren);
+                    return horizontal.CalcIdealSize(layoutContext, maxSize, layoutChildren);
 
                 default:
                     throw new InvalidOperationException();
@@ -529,7 +529,7 @@ namespace AgateLib.UserInterface
             DrawChildren(renderContext, clientArea);
         }
 
-        private void PerformLayout(IUserInterfaceRenderContext renderContext, Size size)
+        private void PerformLayout(IUserInterfaceLayoutContext layoutContext, Size size)
         {
             UpdateChildLists();
 
@@ -537,12 +537,12 @@ namespace AgateLib.UserInterface
             {
                 case FlexDirection.Column:
                 case FlexDirection.ColumnReverse:
-                    vertical.PerformLayout(renderContext, size, Style, layoutChildren);
+                    vertical.PerformLayout(layoutContext, size, Style, layoutChildren);
                     break;
 
                 case FlexDirection.Row:
                 case FlexDirection.RowReverse:
-                    horizontal.PerformLayout(renderContext, size, Style, layoutChildren);
+                    horizontal.PerformLayout(layoutContext, size, Style, layoutChildren);
                     break;
 
                 default:
