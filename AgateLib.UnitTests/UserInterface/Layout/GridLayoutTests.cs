@@ -30,6 +30,15 @@ namespace AgateLib.UserInterface.Layout
                 .Add("Strength").Add("12", AlignRight)
                 .Add("Dexterity").Add("8", AlignRight));
 
+            IDisplaySystem displaySystem = CommonMocks.DisplaySystem().Object;
+
+            grid.Display.System = displaySystem;
+
+            foreach(var child in grid.Children)
+            {
+                child.Display.System = displaySystem;
+            }
+
             grid.InitializeStyles(context.Object);
 
             //grid.Display.ParentFont = context.Object.Fonts.Default;

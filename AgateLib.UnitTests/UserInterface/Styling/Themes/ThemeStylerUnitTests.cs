@@ -19,7 +19,6 @@ namespace AgateLib.Tests.UserInterface.Styling.Themes
         [Fact]
         public void ApplyDefaultTheme()
         {
-            var fontProvider = CommonMocks.FontProvider("default");
             ThemeCollection themes = new ThemeCollection
             {
                 ["default"] = Theme.CreateDefaultTheme(),
@@ -29,8 +28,6 @@ namespace AgateLib.Tests.UserInterface.Styling.Themes
             ThemeStyler styler = new ThemeStyler(themes);
 
             (var widget, var element) = CommonMocks.Widget("widget");
-
-            element.Object.Display.ParentFont = fontProvider.Object.Default;
 
             styler.Apply(element.Object, "xyz");
 

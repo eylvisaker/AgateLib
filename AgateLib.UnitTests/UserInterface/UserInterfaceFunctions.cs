@@ -30,8 +30,6 @@ namespace AgateLib.UserInterface
             Require.ArgumentNotNull(defaultFont, nameof(defaultFont),
                 "Default font should not be null.");
 
-            root.Display.ParentFont = defaultFont;
-
             UpdateStyles(root);
         }
 
@@ -44,8 +42,6 @@ namespace AgateLib.UserInterface
 
             foreach(var child in root.Children)
             {
-                child.Display.ParentFont = root.Style.Font;
-
                 UpdateStyles(child);
             }
         }

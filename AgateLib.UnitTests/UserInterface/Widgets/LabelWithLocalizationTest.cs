@@ -36,6 +36,7 @@ namespace AgateLib.UserInterface.Widgets
 
         private readonly IContentLayoutEngine contentLayout;
         private readonly Mock<IUserInterfaceRenderContext> context;
+        private readonly Mock<IDisplaySystem> displaySystem;
 
         public LabelWithLocalizationTest()
         {
@@ -57,6 +58,8 @@ namespace AgateLib.UserInterface.Widgets
                 {
                     content.Draw(dest.Location.ToVector2());
                 });
+
+            displaySystem = CommonMocks.DisplaySystem(fontProvider);
         }
 
         [Fact]
@@ -72,7 +75,7 @@ namespace AgateLib.UserInterface.Widgets
             var label = new Label(new LabelProps { Text = textKey });
             var labelElement = (LabelElement)label.FinalizeRendering(null);
 
-            labelElement.Display.ParentFont = new Font(font);
+            labelElement.Display.System = displaySystem.Object;
             labelElement.Style.Update();
 
             Size idealSize = labelElement.CalcIdealContentSize(context.Object, new Size(1000, 1000));
@@ -113,7 +116,7 @@ namespace AgateLib.UserInterface.Widgets
 
             var label = new Label(new LabelProps { Text = textKey });
             var labelElement = (LabelElement)label.FinalizeRendering(null);
-            labelElement.Display.ParentFont = font;
+            labelElement.Display.System = displaySystem.Object;
             labelElement.Style.Update();
 
             Size idealSize = labelElement.CalcIdealContentSize(context.Object, new Size(1000, 1000));

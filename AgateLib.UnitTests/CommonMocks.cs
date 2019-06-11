@@ -20,14 +20,19 @@ namespace AgateLib
         /// <param name="name"></param>
         /// <returns></returns>
         public static (Mock<Widget<WidgetProps>>, Mock<RenderElement<RenderElementProps>>)
-            Widget(string name, bool elementCanHaveFocus = false)
+            Widget(string name, 
+                   bool elementCanHaveFocus = false,
+                   IDisplaySystem displaySystem = null)
         {
+            displaySystem = displaySystem ?? DisplaySystem().Object;
+
             var elementProps = new RenderElementProps();
             var renderResult = new Mock<RenderElement<RenderElementProps>>(elementProps);
 
             renderResult.CallBase = true;
             renderResult.Setup(x => x.CanHaveFocus).Returns(elementCanHaveFocus);
             renderResult.Setup(x => x.Children).Returns(new List<IRenderElement>());
+            renderResult.Object.Display.System = displaySystem;
 
             var widgetProps = new WidgetProps { Name = name };
             Mock<Widget<WidgetProps>> widgetResult =
@@ -39,6 +44,16 @@ namespace AgateLib
             return (widgetResult, renderResult);
         }
 
+        public static Mock<IDisplaySystem> DisplaySystem(IFontProvider fontProvider = null)
+        {
+            fontProvider = fontProvider ?? CommonMocks.FontProvider("default").Object;
+
+            var result = new Mock<IDisplaySystem>();
+
+            result.Setup(x => x.Fonts).Returns(fontProvider);
+
+            return result;
+        }
 
         /// <summary>
         /// Constructs a font provider, with an optional list of available fake fonts.
