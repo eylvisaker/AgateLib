@@ -205,7 +205,7 @@ namespace AgateLib.UserInterface
         {
             this.Props = props;
 
-            Display = new RenderElementDisplay(props);
+            Display = new RenderElementDisplay(this, props);
 
             ReceiveRenderElementProps();
 

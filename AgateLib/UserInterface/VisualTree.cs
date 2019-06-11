@@ -55,8 +55,6 @@ namespace AgateLib.UserInterface
 
             Reconcile(ref root, newRoot, ref anyUpdates);
 
-            root.Display.ParentFont = DisplaySystem.Fonts.Default;
-
             if (anyUpdates)
             {
                 Walk(element =>
@@ -68,9 +66,11 @@ namespace AgateLib.UserInterface
 
             Style.Apply(root, DefaultTheme);
 
-            Walk(element =>
+            Walk((element, parent) =>
             {
                 element.Display.System = DisplaySystem;
+                element.Display.Parent = parent?.Display;
+
                 element.Style.Update();
 
                 animationFactory.Configure(element.Display);
@@ -245,12 +245,7 @@ namespace AgateLib.UserInterface
             {
                 element.Update(renderContext);
                 element.Style.Update();
-
-                foreach (var child in element.Children ?? Enumerable.Empty<IRenderElement>())
-                {
-                    child.Display.ParentFont = element.Style.Font;
-                }
-
+                
                 return true;
             });
 
@@ -269,12 +264,23 @@ namespace AgateLib.UserInterface
         /// <param name="action">An action to execute on each render element. Return true to continue walking, false to exit.</param>
         public void Walk(Func<IRenderElement, bool> action)
         {
-            Walk(root, action);
+            Walk(root, null, (node, parent) => action(node));
         }
 
-        private bool Walk(IRenderElement node, Func<IRenderElement, bool> action)
+        /// <summary>
+        /// Walks the entire visual tree using a depth first approach.
+        /// </summary>
+        /// <param name="action">An action to execute on each render element. The first argument
+        /// is the render element, the second is its parent. Parent will be null for the root element.
+        /// Return true to continue the walk, false to exit.</param>
+        public void Walk(Func<IRenderElement, IRenderElement, bool> action)
         {
-            bool cont = action(node);
+            Walk(root, null, action);
+        }
+
+        private bool Walk(IRenderElement node, IRenderElement parent, Func<IRenderElement, IRenderElement, bool> action)
+        {
+            bool cont = action(node, parent);
 
             if (!cont)
                 return false;
@@ -282,11 +288,9 @@ namespace AgateLib.UserInterface
             if (node.Children == null)
                 return true;
 
-            foreach (var item in node.Children)
+            foreach (var child in node.Children)
             {
-                item.Display.ParentFont = node.Style.Font;
-
-                cont = Walk(item, action);
+                cont = Walk(child, node, action);
 
                 if (!cont)
                     return false;

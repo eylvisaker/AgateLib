@@ -20,8 +20,11 @@ namespace AgateLib.UserInterface.Rendering.Animations
         private AnimationState lastState = (AnimationState)(-1);
         private float wiggle = 0;
         private float animationTimeLength_s = 0.5f;
-        private Vector2 offScreenPos;
-        private Vector2 onScreenPos;
+        private Rectangle onScreenRect;
+        private Rectangle offScreenRect;
+
+        private Vector2 offParentPos;
+        private Vector2 onParentPos;
         private float currentTime;
         private int timeSign = 1;
         private bool initialized = false;
@@ -49,8 +52,13 @@ namespace AgateLib.UserInterface.Rendering.Animations
         {
             lastState = display.Animation.State;
 
-            offScreenPos = OffscreenPosition(display);
-            onScreenPos = display.BorderRect.Location.ToVector2();
+            onScreenRect = display.Parent.ToScreen(display.BorderRect);
+            offScreenRect = OffscreenRect(display);
+
+            Vector2 delta = offScreenRect.Location.ToVector2() - onScreenRect.Location.ToVector2(); 
+
+            onParentPos = display.BorderRect.Location.ToVector2();
+            offParentPos = onParentPos + delta;
 
             if (lastState == AnimationState.TransitionIn)
             {
@@ -64,16 +72,16 @@ namespace AgateLib.UserInterface.Rendering.Animations
             }
         }
 
-        private Vector2 OffscreenPosition(RenderElementDisplay display)
+        private Rectangle OffscreenRect(RenderElementDisplay display)
         {
             SlideFromLocation target = slideFrom;
 
             if (target == SlideFromLocation.Auto)
             {
-                int deltaTop = display.BorderRect.Top;
-                int deltaLeft = display.BorderRect.Left;
-                int deltaRight = display.System.ScreenArea.Width - display.BorderRect.Right;
-                int deltaBottom = display.System.ScreenArea.Height - display.BorderRect.Bottom;
+                int deltaTop = onScreenRect.Top;
+                int deltaLeft = onScreenRect.Left;
+                int deltaRight = display.System.ScreenArea.Width - onScreenRect.Right;
+                int deltaBottom = display.System.ScreenArea.Height - onScreenRect.Bottom;
 
                 int deltaTarget = deltaTop;
                 target = SlideFromLocation.Top;
@@ -83,10 +91,12 @@ namespace AgateLib.UserInterface.Rendering.Animations
                 if (deltaBottom < deltaTarget) { target = SlideFromLocation.Bottom; deltaTarget = deltaBottom; }
             }
 
-            return OffscreenPosition(display, target);
+            return new Rectangle(
+                OffscreenPosition(display, target),
+                onScreenRect.Size);
         }
 
-        private Vector2 OffscreenPosition(RenderElementDisplay display, SlideFromLocation slideOffPoint)
+        private Point OffscreenPosition(RenderElementDisplay display, SlideFromLocation slideOffPoint)
         {
             const int offscreenMargin = 30;
             Size screenSize = display.System.ScreenArea.Size;
@@ -94,13 +104,13 @@ namespace AgateLib.UserInterface.Rendering.Animations
             switch (slideOffPoint)
             {
                 case SlideFromLocation.Left:
-                    return new Vector2(-offscreenMargin - display.BorderRect.Width, display.BorderRect.Top);
+                    return new Point(-offscreenMargin - onScreenRect.Width, onScreenRect.Top);
                 case SlideFromLocation.Top:
-                    return new Vector2(display.BorderRect.Left, -offscreenMargin - display.BorderRect.Height);
+                    return new Point(onScreenRect.Left, -offscreenMargin - onScreenRect.Height);
                 case SlideFromLocation.Right:
-                    return new Vector2(screenSize.Width + offscreenMargin, display.BorderRect.Top);
+                    return new Point(screenSize.Width + offscreenMargin, onScreenRect.Top);
                 case SlideFromLocation.Bottom:
-                    return new Vector2(display.BorderRect.Left, screenSize.Height + offscreenMargin);
+                    return new Point(onScreenRect.Left, screenSize.Height + offscreenMargin);
 
                 default:
                     throw new ArgumentException(
@@ -135,7 +145,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
             if (x <= 0)
                 x = 0;
 
-            Vector2 position = offScreenPos + (onScreenPos - offScreenPos) * x;
+            Vector2 position = offParentPos + (onParentPos - offParentPos) * x;
 
             display.Animation.AnimatedBorderRect = new Rectangle(
                 position.ToPoint(), display.BorderRect.Size);

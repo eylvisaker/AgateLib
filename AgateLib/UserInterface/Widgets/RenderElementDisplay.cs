@@ -38,8 +38,9 @@ namespace AgateLib.UserInterface
         private RenderElementStyle style;
         private Point scrollPosition;
 
-        public RenderElementDisplay(RenderElementProps props)
+        public RenderElementDisplay(IRenderElement owner, RenderElementProps props)
         {
+            Owner = owner;
             style = new RenderElementStyle(this, props);
             Region = new RenderElementRegion(Style);
 
@@ -54,6 +55,11 @@ namespace AgateLib.UserInterface
         {
             style.SetProps(props);
         }
+
+        /// <summary>
+        /// Gets the IRenderElement which owns this RenderElementDisplay object.
+        /// </summary>
+        public IRenderElement Owner { get; }
 
         /// <summary>
         /// Gets or sets the current scroll position.
@@ -138,7 +144,7 @@ namespace AgateLib.UserInterface
         public List<IRenderElementStyleProperties> ElementStyles { get; }
             = new List<IRenderElementStyleProperties>();
 
-        public Font ParentFont { get; set; }
+        public Font ParentFont => Parent?.Style.Font ?? Fonts.Default;
 
         public IFontProvider Fonts => System.Fonts;
 
@@ -209,7 +215,40 @@ namespace AgateLib.UserInterface
                                      || (HasOverflow != HasOverflow.None
                                          && Style.Overflow != Overflow.Visible);
 
+        public RenderElementDisplay Parent { get; internal set; }
+
         public override string ToString() => $"Margin: {MarginRect}, Content: {ContentRect}";
-        
+
+        /// <summary>
+        /// Converts a rectangle from content coordinates to screen space coordinates.
+        /// </summary>
+        /// <param name="borderRect"></param>
+        /// <returns></returns>
+        public Rectangle ToScreen(Rectangle rect)
+        {
+            return new Rectangle(ToScreen(rect.Location), rect.Size);
+        }
+
+        /// <summary>
+        /// Converts a point from content coordinates to screen space coordinates.
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public Point ToScreen(Point pt)
+        { 
+            RenderElementDisplay disp = this;
+
+            Point result = pt;
+
+            while (disp != null)
+            {
+                result.X += disp.ContentRect.X;
+                result.Y += disp.ContentRect.Y;
+
+                disp = disp.Parent;
+            }
+
+            return result;
+        }
     }
 }
