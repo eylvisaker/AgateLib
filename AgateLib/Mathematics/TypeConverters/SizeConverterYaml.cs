@@ -20,72 +20,73 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.IO;
-using System.Linq;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
+using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.Mathematics.TypeConverters
 {
-	public class SizeConverterYaml : IYamlTypeConverter
-	{
-		private static readonly char[] delimiter = new[] { ' ' };
+    public class SizeConverterYaml : IYamlTypeConverter
+    {
+        private static readonly char[] delimiter = new[] { ' ' };
 
-		public bool Accepts(Type type)
-		{
-			return type == typeof(Size) || type == typeof(Size?);
-		}
+        public bool Accepts(Type type)
+        {
+            return type == typeof(Size) || type == typeof(Size?);
+        }
 
-		public object ReadYaml(IParser parser, Type type)
-		{
-			var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
-			var value = scalar.Value;
+        public object ReadYaml(IParser parser, Type type)
+        {
+            var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
+            var value = scalar.Value;
 
-			if (string.IsNullOrWhiteSpace(value) && type == typeof(Size?))
-			{
-				parser.MoveNext();
-				return null;
-			}
+            if (string.IsNullOrWhiteSpace(value) && type == typeof(Size?))
+            {
+                parser.MoveNext();
+                return null;
+            }
 
-			var values = value
-				.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
-				.Select(s => int.Parse(s))
-				.ToArray();
+            var values = value
+                .Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => int.Parse(s, CultureInfo.InvariantCulture))
+                .ToArray();
 
-			Require.That<InvalidDataException>(values.Length == 2,
-				"Must have exactly two values to convert to a Size object.");
+            Require.That<InvalidDataException>(values.Length == 2,
+                "Must have exactly two values to convert to a Size object.");
 
-			var result = new Size(values[0], values[1]);
+            var result = new Size(values[0], values[1]);
 
-			parser.MoveNext();
-			return result;
-		}
+            parser.MoveNext();
+            return result;
+        }
 
-		public void WriteYaml(IEmitter emitter, object value, Type type)
-		{
-			Size Size;
+        public void WriteYaml(IEmitter emitter, object value, Type type)
+        {
+            Size Size;
 
-			if (type == typeof(Size?))
-			{
-				if (value == null)
-					return;
+            if (type == typeof(Size?))
+            {
+                if (value == null)
+                    return;
 
-				Size = ((Size?)value).Value;
-			}
-			else
-				Size = (Size)value;
+                Size = ((Size?)value).Value;
+            }
+            else
+                Size = (Size)value;
 
-			emitter.Emit(new YamlDotNet.Core.Events.Scalar(
-				null,
-				null,
-				$"{Size.Width} {Size.Height}",
-				ScalarStyle.Plain,
-				true,
-				false
-			));
-		}
-	}
+            emitter.Emit(new YamlDotNet.Core.Events.Scalar(
+                null,
+                null,
+                FormattableString.Invariant($"{Size.Width} {Size.Height}"),
+                ScalarStyle.Plain,
+                true,
+                false
+            ));
+        }
+    }
 }

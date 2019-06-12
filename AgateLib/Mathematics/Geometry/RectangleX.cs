@@ -24,6 +24,7 @@ using AgateLib.Quality;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace AgateLib.Mathematics.Geometry
@@ -125,10 +126,10 @@ namespace AgateLib.Mathematics.Geometry
             var numbers = arg.Split(',');
 
             return new Rectangle(
-                int.Parse(numbers[0]),
-                int.Parse(numbers[1]),
-                int.Parse(numbers[2]),
-                int.Parse(numbers[3]));
+                int.Parse(numbers[0], CultureInfo.InvariantCulture),
+                int.Parse(numbers[1], CultureInfo.InvariantCulture),
+                int.Parse(numbers[2], CultureInfo.InvariantCulture),
+                int.Parse(numbers[3], CultureInfo.InvariantCulture));
         }
 
         /// <summary>

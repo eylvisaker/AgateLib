@@ -22,6 +22,7 @@
 
 using Microsoft.Xna.Framework;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -230,7 +231,10 @@ namespace AgateLib.Display
         {
             value = 0;
 
-            if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out int ivalue))
+            if (int.TryParse(hex, 
+                             NumberStyles.HexNumber, 
+                             CultureInfo.InvariantCulture, 
+                             out int ivalue))
             {
                 if (ivalue > 255 || ivalue < 0)
                     return false;
@@ -253,7 +257,7 @@ namespace AgateLib.Display
         {
             int value;
 
-            if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out value))
+            if (int.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
                 if (value > 255 || value < 0)
                     throw new ArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture,

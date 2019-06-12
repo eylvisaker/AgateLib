@@ -24,6 +24,7 @@ using AgateLib.Display;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace AgateLib.UserInterface
@@ -132,7 +133,7 @@ namespace AgateLib.UserInterface
 
             foreach(string param in parts.Skip(1))
             {
-                if (int.TryParse(param, out int size))
+                if (int.TryParse(param, NumberStyles.Integer, CultureInfo.InvariantCulture, out int size))
                     result.Size = size;
                 else if (Enum.TryParse<FontStyles>(param, out FontStyles fontStyles))
                     result.Style = fontStyles;

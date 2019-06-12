@@ -21,6 +21,7 @@
 //
 
 using Microsoft.Xna.Framework;
+using System.Globalization;
 
 namespace AgateLib.UserInterface.Content.Commands
 {
@@ -28,7 +29,7 @@ namespace AgateLib.UserInterface.Content.Commands
     {
         public void Execute(LayoutContext context, string arg)
         {
-            if (float.TryParse(arg, out float scale))
+            if (float.TryParse(arg, NumberStyles.Float, CultureInfo.InvariantCulture, out float scale))
             {
                 context.Font.Size = (int)(context.Options.DefaultFont.Size * scale);
             }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -115,7 +116,7 @@ namespace AgateLib.Parsers.Tmx
 
             if (properties.TryGetValue(key, out string s))
             {
-                return int.TryParse(s, out value);
+                return int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out value);
             }
 
             return false;
@@ -127,7 +128,7 @@ namespace AgateLib.Parsers.Tmx
 
             if (properties.TryGetValue(key, out string s))
             {
-                return float.TryParse(s, out value);
+                return float.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
             }
 
             return false;

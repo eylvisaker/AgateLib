@@ -21,9 +21,11 @@
 //
 
 using System;
+using System.Globalization;
 using System.Linq;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
+using static System.FormattableString;
 
 namespace AgateLib.UserInterface.Styling.TypeConverters
 {
@@ -46,7 +48,7 @@ namespace AgateLib.UserInterface.Styling.TypeConverters
             }
 
             LayoutBox result = new LayoutBox();
-            int[] values = value.Split(' ').Select(x => int.Parse(x)).ToArray();
+            int[] values = value.Split(' ').Select(x => int.Parse(x, CultureInfo.InvariantCulture)).ToArray();
 
             result.Left = values[0];
             result.Top = values[1 % values.Length];
@@ -68,21 +70,21 @@ namespace AgateLib.UserInterface.Styling.TypeConverters
                 {
                     if (box.Top == box.Left)
                     {
-                        result = box.Left.ToString();
+                        result = box.Left.ToString(CultureInfo.InvariantCulture);
                     }
                     else
                     {
-                        result = string.Format("{0} {1}", box.Left, box.Top);
+                        result = Invariant($"{box.Left} {box.Top}");
                     }
                 }
                 else
                 {
-                    result = string.Format("{0} {1} {2}", box.Left, box.Top, box.Right);
+                    result = Invariant($"{box.Left} {box.Top} {box.Right}");
                 }
             }
             else
             {
-                result = string.Format("{0} {1} {2} {3}", box.Left, box.Top, box.Right, box.Bottom);
+                result = Invariant($"{box.Left} {box.Top} {box.Right} {box.Bottom}");
             }
 
             emitter.Emit(new YamlDotNet.Core.Events.Scalar(

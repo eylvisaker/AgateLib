@@ -48,7 +48,7 @@ namespace AgateLib.Mathematics.TypeConverters
 
 		protected override string Serialize(Vector3 value)
 		{
-			return $"{value.X} {value.Y} {value.Z}";
+            return FormattableString.Invariant($"{value.X} {value.Y} {value.Z}");
 		}
 	}
 }

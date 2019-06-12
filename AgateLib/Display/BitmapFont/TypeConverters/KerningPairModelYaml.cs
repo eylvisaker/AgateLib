@@ -20,84 +20,82 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Quality;
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Quality;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.Display.BitmapFont.TypeConverters
 {
-	/// <summary>
-	/// Converts a KerningPairModel object to YAML.
-	/// </summary>
-	public class KerningPairModelYaml : IYamlTypeConverter
-	{
-		private static readonly char[] delimiter = new[] { ' ' };
+    /// <summary>
+    /// Converts a KerningPairModel object to YAML.
+    /// </summary>
+    public class KerningPairModelYaml : IYamlTypeConverter
+    {
+        private static readonly char[] delimiter = new[] { ' ' };
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="type"></param>
-		/// <returns></returns>
-		public bool Accepts(Type type)
-		{
-			return type == typeof(KerningPairModel);
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public bool Accepts(Type type)
+        {
+            return type == typeof(KerningPairModel);
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="parser"></param>
-		/// <param name="type"></param>
-		/// <returns></returns>
-		public object ReadYaml(IParser parser, Type type)
-		{
-			var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
-			var value = scalar.Value;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public object ReadYaml(IParser parser, Type type)
+        {
+            var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
+            var value = scalar.Value;
 
-			if (string.IsNullOrWhiteSpace(value))
-			{
-				parser.MoveNext();
-				return null;
-			}
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                parser.MoveNext();
+                return null;
+            }
 
-			var values = value
-				.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
-				.Select(s => int.Parse(s))
-				.ToArray();
+            var values = value
+                .Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => int.Parse(s, CultureInfo.InvariantCulture))
+                .ToArray();
 
-			Require.That<InvalidDataException>(values.Length == 3,
-				"Must have exactly three values to convert to a KerningPairModel object.");
+            Require.That<InvalidDataException>(values.Length == 3,
+                "Must have exactly three values to convert to a KerningPairModel object.");
 
-			var result = new KerningPairModel { First = values[0], Second = values[1], Amount = values[2] };
+            var result = new KerningPairModel { First = values[0], Second = values[1], Amount = values[2] };
 
-			parser.MoveNext();
-			return result;
-		}
+            parser.MoveNext();
+            return result;
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="emitter"></param>
-		/// <param name="value"></param>
-		/// <param name="type"></param>
-		public void WriteYaml(IEmitter emitter, object value, Type type)
-		{
-			KerningPairModel kp = (KerningPairModel)value;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="emitter"></param>
+        /// <param name="value"></param>
+        /// <param name="type"></param>
+        public void WriteYaml(IEmitter emitter, object value, Type type)
+        {
+            KerningPairModel kp = (KerningPairModel)value;
 
-			emitter.Emit(new YamlDotNet.Core.Events.Scalar(
-				null,
-				null,
-				$"{kp.First} {kp.Second} {kp.Amount}",
-				ScalarStyle.Plain,
-				true,
-				false
-			));
-		}
-	}
+            emitter.Emit(new YamlDotNet.Core.Events.Scalar(
+                null,
+                null,
+                $"{kp.First} {kp.Second} {kp.Amount}",
+                ScalarStyle.Plain,
+                true,
+                false
+            ));
+        }
+    }
 }

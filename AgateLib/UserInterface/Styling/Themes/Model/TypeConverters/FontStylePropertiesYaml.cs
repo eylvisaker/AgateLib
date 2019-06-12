@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -65,7 +66,7 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
                 });
             int? size = TryParseEachAndRemove(values, x
                 => {
-                    bool success = int.TryParse(x, out int number);
+                    bool success = int.TryParse(x, NumberStyles.Integer, CultureInfo.InvariantCulture, out int number);
                     if (!success) return (false, null);
                     return (success, (int?)number);
                 });
@@ -114,7 +115,7 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
             emitter.Emit(new YamlDotNet.Core.Events.Scalar(
                 null,
                 null,
-                $"{font.Size} {font.Style} {font.Color} {font.Family}",
+                FormattableString.Invariant($"{font.Size} {font.Style} {font.Color} {font.Family}"),
                 ScalarStyle.Plain,
                 true,
                 false

@@ -4,6 +4,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.Parsers.Tmx;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -256,7 +257,7 @@ namespace AgateLib.Parsers.Tmx
 
             foreach (var pt in pointStrings)
             {
-                result.Add(Vector2X.Parse(pt));
+                result.Add(Vector2X.Parse(pt, CultureInfo.InvariantCulture));
             }
 
             return result;

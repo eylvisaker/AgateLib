@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,9 +47,9 @@ namespace AgateLib.Tests.UserInterface.Support.Systems
 
             foreach (var ch in charAttributes)
             {
-                party.Add(new PlayerCharacter(ch["Name"], int.Parse(ch["MaxHP"]))
+                party.Add(new PlayerCharacter(ch["Name"], int.Parse(ch["MaxHP"], CultureInfo.InvariantCulture))
                 {
-                    HP = int.Parse(ch["HP"])
+                    HP = int.Parse(ch["HP"], CultureInfo.InvariantCulture)
                 });
             }
         }

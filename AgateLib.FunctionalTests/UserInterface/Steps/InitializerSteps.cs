@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.Tests.UserInterface.Support;
 using AgateLib.Tests.UserInterface.FF6;
 using TechTalk.SpecFlow;
+using System.Globalization;
 
 namespace AgateLib.Tests.UserInterface.Steps
 {
@@ -54,7 +55,7 @@ namespace AgateLib.Tests.UserInterface.Steps
                 var effectArgs = effect.Split(' ');
 
                 result.Effect = effectArgs[0];
-                result.EffectAmount = int.Parse(effectArgs[1]);
+                result.EffectAmount = int.Parse(effectArgs[1], CultureInfo.InvariantCulture);
             }
 
             return result;

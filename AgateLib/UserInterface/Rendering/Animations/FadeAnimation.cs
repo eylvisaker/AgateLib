@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using AgateLib.Mathematics;
 using AgateLib.UserInterface;
@@ -38,7 +39,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
         {
             if ((args?.Count ?? 0) > 0)
             {
-                if (!float.TryParse(args[0], out transitionTime))
+                if (!float.TryParse(args[0], NumberStyles.Float, CultureInfo.InvariantCulture, out transitionTime))
                 {
                     Log.Warn($"Failed to parse transition time for fade animation.");
                 }

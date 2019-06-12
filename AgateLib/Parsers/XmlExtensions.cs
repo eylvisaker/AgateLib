@@ -3,6 +3,7 @@ using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Xml.Linq;
 
@@ -36,7 +37,7 @@ namespace AgateLib.Parsers
 
             int result;
 
-            if (int.TryParse(attrib.Value, out result))
+            if (int.TryParse(attrib.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result))
                 return result;
 
             throw new InvalidOperationException("Attribute " + name + " does not contain an integer value.");
@@ -81,7 +82,7 @@ namespace AgateLib.Parsers
 
             float result;
 
-            if (float.TryParse(attrib.Value, out result))
+            if (float.TryParse(attrib.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
                 return result;
 
             throw new InvalidOperationException("Attribute " + name + " does not contain a boolean value.");

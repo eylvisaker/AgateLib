@@ -23,6 +23,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.Mathematics.Geometry
@@ -222,11 +223,21 @@ namespace AgateLib.Mathematics.Geometry
         }
 
         /// <summary>
-        /// Parses a string into a size object.
+        /// Parses a string into a size object. This uses the invariant culture for parsing number formats.
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
         public static Size FromString(string text)
+        {
+            return FromString(text, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Parses a string into a size object.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static Size FromString(string text, IFormatProvider provider)
         {
             if (text.StartsWith("{") && text.EndsWith("}"))
             {
@@ -251,7 +262,7 @@ namespace AgateLib.Mathematics.Geometry
                     {
                         int equals = values[i].IndexOf("=", StringComparison.OrdinalIgnoreCase);
 
-                        result.Width = int.Parse(values[i].Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
+                        result.Width = int.Parse(values[i].Substring(equals + 1), provider);
                     }
                     else if (values[i].ToLowerInvariant().Contains("height")
                         && values[i].Contains("="))
@@ -264,8 +275,8 @@ namespace AgateLib.Mathematics.Geometry
             }
             else
             {
-                result.Width = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
-                result.Height = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
+                result.Width = int.Parse(values[0], provider);
+                result.Height = int.Parse(values[1], provider);
             }
 
             return result;

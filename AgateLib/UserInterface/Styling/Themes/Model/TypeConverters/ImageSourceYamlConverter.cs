@@ -20,18 +20,17 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
 {
-    class ImageSourceYamlConverter : IYamlTypeConverter
+    internal class ImageSourceYamlConverter : IYamlTypeConverter
     {
         private static readonly char[] delimiter = new[] { ':' };
 
@@ -76,14 +75,14 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
             var groups = match.Groups;
 
             var result = new Rectangle(
-                int.Parse(groups[1].Value),
-                int.Parse(groups[2].Value),
-                int.Parse(groups[3].Value),
-                int.Parse(groups[4].Value));
+                int.Parse(groups[1].Value, CultureInfo.InvariantCulture),
+                int.Parse(groups[2].Value, CultureInfo.InvariantCulture),
+                int.Parse(groups[3].Value, CultureInfo.InvariantCulture),
+                int.Parse(groups[4].Value, CultureInfo.InvariantCulture));
 
             return result;
         }
-        
+
         public void WriteYaml(IEmitter emitter, object value, Type type)
         {
             throw new NotImplementedException();
