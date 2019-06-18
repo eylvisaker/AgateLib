@@ -6,9 +6,10 @@
     <SharedGUID>4e4bf256-68ba-43fe-9308-535a04ece9f8</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>AgateLib.TestFramework</Import_RootNamespace>
+    <Import_RootNamespace>AgateLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Randomizer\FakeRandom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\FakeUserStorage.cs" />
   </ItemGroup>
 </Project>
