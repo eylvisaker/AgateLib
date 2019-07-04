@@ -28,7 +28,8 @@ using Microsoft.Xna.Framework.Input;
 namespace AgateLib.Input
 {
     /// <summary>
-    /// Interface for a gamepad
+    /// Interface for a Game pad class which provides an 
+    /// event based model for user input.
     /// </summary>
     public interface IGamePad
     {
@@ -134,7 +135,8 @@ namespace AgateLib.Input
     }
 
     /// <summary>
-    /// Class which represents a gamepad.
+    /// Game pad class which provides an event based model for 
+    /// user input.
     /// </summary>
     public class GamePadInput : IGamePad
     {
