@@ -219,7 +219,7 @@ namespace AgateLib.Algorithms.PathFinding
                 path.Add(node.Location);
             }
 
-            state.Path.AddRange(path);
+            state.Path.AddRange(Enumerable.Reverse(path));
             state.FoundPath = true;
         }
 

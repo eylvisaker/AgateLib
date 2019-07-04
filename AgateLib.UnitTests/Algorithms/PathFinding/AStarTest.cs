@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AgateLib.Algorithms.PathFinding;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.Algorithms.PathFinding
+namespace AgateLib.Algorithms.PathFinding
 {
     public class AStarTest
     {
+        /// <summary>
+        /// A map which only allows movement along Cartesian axes.
+        /// </summary>
         class FakeMap : IAStarMap<Point>
         {
             public void ReportProgress(AStarState<Point> task)
@@ -90,7 +94,7 @@ namespace AgateLib.Tests.Algorithms.PathFinding
         }
 
         [Fact]
-        public async Task AStarPath()
+        public async Task AStarPathAsync()
         {
             AStarState<Point> state = new AStarState<Point>();
             state.Start = new Point(4, 2);
@@ -105,6 +109,36 @@ namespace AgateLib.Tests.Algorithms.PathFinding
             // 3 steps to the right to get to (5, 15)
             // that's 18 steps, plus the start point makes 19.
             state.Path.Count.Should().Be(19);
+        }
+
+        [Fact]
+        public async Task AStarPathConnected()
+        {
+            AStarState<Point> state = new AStarState<Point>();
+            state.Start = new Point(4, 2);
+            state.EndPoints.Add(new Point(5, 15));
+
+            var astar = new AStar<Point>(new FakeMap());
+
+            await astar.FindPathAsync(state);
+
+            // First point should be start.
+            state.Path[0].Should().Be(state.Start);
+            state.Path[state.Path.Count - 1].Should().Be(state.EndPoints.Single());
+
+            Point prev = state.Start;
+
+            for (int i = 1; i < state.Path.Count; i++)
+            {
+                Point current = state.Path[i];
+                Point delta = current - prev;
+
+                int dist = delta.X * delta.X + delta.Y * delta.Y;
+
+                dist.Should().Be(1);
+
+                prev = current;
+            }
         }
     }
 }
