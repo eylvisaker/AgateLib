@@ -57,5 +57,11 @@ namespace AgateLib.Storage
 
         public void SetApplicationDataFolder(string folderName)
         { }
+
+        public void DeleteFile(string path)
+        {
+            var p = NormalizePath(path);
+            files.Remove(p);
+        }
     }
 }

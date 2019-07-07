@@ -22,6 +22,7 @@ namespace AgateLib.Storage
         Stream OpenFile(string path, FileMode fileMode);
         Stream OpenFile(string path, FileMode fileMode, FileAccess fileAccess);
         Stream OpenFile(string path, FileMode fileMode, FileAccess fileAccess, FileShare fileShare);
+        void DeleteFile(string path);
     }
 
     /// <summary>
@@ -62,6 +63,14 @@ namespace AgateLib.Storage
             string path = MapPath(localPath);
 
             return File.Exists(path);
+        }
+
+        public void DeleteFile(string localPath)
+        {
+            WarnIfNoRoot();
+            string path = MapPath(localPath);
+
+            File.Delete(localPath);
         }
 
         public Stream OpenFile(string localPath, FileMode fileMode)

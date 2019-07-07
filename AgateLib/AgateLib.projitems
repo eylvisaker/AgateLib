@@ -184,6 +184,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\TextTokenizer\TokenMatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Content\TextTokenizer\_Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\DisplaySystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\PleaseWaitBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\SimpleMessageBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceBufferedScene.cs" />
