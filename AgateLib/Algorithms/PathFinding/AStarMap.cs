@@ -20,50 +20,45 @@
 //    SOFTWARE.
 //
 
+using System.Collections.Generic;
+
 namespace AgateLib.Algorithms.PathFinding
 {
 	/// <summary>
-	/// Class which represents a node in an A* calulation.
+	/// This interface is used to provide the required communication between
+	/// an area and the A* algorithm searching that area.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class AStarNode<T>
+	public interface IAStarMap<T>
 	{
 		/// <summary>
-		/// Location of the node.
+		/// Calculate the heuristic for reaching the destination.
+		/// If this method returns zero, the A* algorithm assumes
+		/// this point is equivalent to the destination and ends
+		/// successfully.
+		/// If this method returns a negative number, the A* algorithm
+		/// assumes that this point is invalid.
 		/// </summary>
-		public T Location;
-
-		/// <summary>
-		/// The parent node.
-		/// </summary>
-		public AStarNode<T> Parent;
-		
-		/// <summary>
-		/// The cost paid to reach this node.
-		/// </summary>
-		public int PaidCost;
-
-		/// <summary>
-		/// The cost estimated by the heuristic to reach the end.
-		/// </summary>
-		public int Heuristic;
-		
-		/// <summary>
-		/// The total cost that a path passing through this node would be.
-		/// </summary>
-		public int TotalCost 
-		{ 
-			get { return PaidCost + Heuristic; }
-		}
-
-		/// <summary>
-		/// Convert to a string for debug output.
-		/// </summary>
+		/// <param name="location"></param>
+		/// <param name="destination"></param>
 		/// <returns></returns>
-		public override string ToString()
-		{
-			return string.Format("{0} : F={1} G={2} H={3}",
-			                     Location, TotalCost, PaidCost, Heuristic);
-		}
-	}
+		int CalculateHeuristic(T location, List<T> destination);
+
+        /// <summary>
+        /// Return the available movements from the current location.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        IEnumerable<T> GetAvailableSteps(T location);
+
+        /// <summary>
+        /// Gets the cost value for moving from start to target.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="start"></param>
+        /// <returns></returns>
+        int GetStepCost(T target, T start);
+    }
 }
+
