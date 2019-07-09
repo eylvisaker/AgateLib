@@ -66,7 +66,7 @@ namespace AgateLib.Algorithms.PathFinding
             public Point NextUnvisitedPoint()
             {
                 float lowest = float.MaxValue;
-                int lowestIndex = -1;
+                int lowestIndex = 0;
 
                 for (int i = 0; i < nodes.Length; i++)
                 {
