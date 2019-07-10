@@ -1,20 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AgateLib.Algorithms.PathFinding
 {
     public class DjikstraCartesian
     {
-        private class DjikstraNode
-        {
-            public float Distance { get; internal set; }
-            public DjikstraNode Parent { get; internal set; }
-            public bool Visited { get; internal set; }
-            public Point Location { get; internal set; }
-            public bool Enterable { get; internal set; }
-        }
-
         private class DjikstraGrid
         {
             private readonly IDjikstraCartesianMap map;
@@ -63,7 +55,7 @@ namespace AgateLib.Algorithms.PathFinding
                 }
             }
 
-            public Point NextUnvisitedPoint()
+            public DjikstraNode NextUnvisitedNode()
             {
                 float lowest = float.MaxValue;
                 int lowestIndex = 0;
@@ -80,11 +72,10 @@ namespace AgateLib.Algorithms.PathFinding
                     }
                 }
 
-                return nodes[lowestIndex].Location;
+                return nodes[lowestIndex];
             }
 
-            public bool AnyUnvisitedNodes()
-                => nodes.Any(x => !x.Visited && x.Enterable);
+            public bool AnyUnvisitedNodes => nodes.Any(x => !x.Visited && x.Enterable);
 
             public IEnumerable<Point> NeighborsOf(Point location)
             {
@@ -121,8 +112,10 @@ namespace AgateLib.Algorithms.PathFinding
         public int MaxDistance { get; set; }
 
         public IEnumerable<Point> ReachableLocations =>
-            grid.Nodes.Where(x => x.Distance <= MaxDistance)
+            grid.Nodes.Where(x => x.Distance < MaxDistance)
               .Select(x => x.Location);
+
+        public IEnumerable<DjikstraNode> Nodes => grid.Nodes;
 
         /// <summary>
         /// Finds all points that can be reached.
@@ -143,11 +136,11 @@ namespace AgateLib.Algorithms.PathFinding
                 node.Enterable = map.CanEnter(node.Location);
             }
 
-            while (grid.AnyUnvisitedNodes())
+            while (grid.AnyUnvisitedNodes)
             {
-                Point location = grid.NextUnvisitedPoint();
+                DjikstraNode node = grid.NextUnvisitedNode();
 
-                var node = grid[location];
+                var location = node.Location;
                 node.Visited = true;
 
                 foreach (Point neighbor in grid.NeighborsOf(location))
@@ -175,4 +168,15 @@ namespace AgateLib.Algorithms.PathFinding
             a = c;
         }
     }
+
+    [DebuggerDisplay("{Location} - V:{Visited} - E:{Enterable} - D:{Distance}")]
+    public class DjikstraNode
+    {
+        public float Distance { get; internal set; }
+        public DjikstraNode Parent { get; internal set; }
+        public bool Visited { get; internal set; }
+        public Point Location { get; internal set; }
+        public bool Enterable { get; internal set; }
+    }
+
 }

@@ -1,4 +1,5 @@
-﻿using AgateLib.Scenes;
+﻿using AgateLib.Mathematics.Geometry;
+using AgateLib.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -8,6 +9,8 @@ namespace AgateLib.Diagnostics
     public interface IAgateConsoleManager
     {
         event Action Quit;
+
+        void Initialize(Size screenSize);
 
         void Update(GameTime gameTime);
 
@@ -26,6 +29,11 @@ namespace AgateLib.Diagnostics
             this.sceneStack = sceneStack;
             this.console = console;
             this.consoleScene = consoleScene;
+        }
+
+        public void Initialize(Size screenSize)
+        {
+            console.Initialize(screenSize);
         }
 
         /// <summary>
