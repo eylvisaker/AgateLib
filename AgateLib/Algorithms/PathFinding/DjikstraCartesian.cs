@@ -169,7 +169,6 @@ namespace AgateLib.Algorithms.PathFinding
         }
     }
 
-    [DebuggerDisplay("{Location} - V:{Visited} - E:{Enterable} - D:{Distance}")]
     public class DjikstraNode
     {
         public float Distance { get; internal set; }
@@ -177,6 +176,7 @@ namespace AgateLib.Algorithms.PathFinding
         public bool Visited { get; internal set; }
         public Point Location { get; internal set; }
         public bool Enterable { get; internal set; }
-    }
 
+        public override string ToString() => $"{Location} - V:{Visited} - E:{Enterable} - D:{Distance}";
+    }
 }
