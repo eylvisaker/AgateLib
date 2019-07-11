@@ -64,7 +64,10 @@ namespace AgateLib.Algorithms.PathFinding
 
             djikstra.FindReachable();
 
-            var results = djikstra.ReachableLocations.ToList();
+            var results = djikstra.Nodes
+                .Where(x => x.Distance <= djikstra.MaxDistance)
+                .Select(x => x.Location)
+                .ToList();
 
             var validResults = new[]
             {

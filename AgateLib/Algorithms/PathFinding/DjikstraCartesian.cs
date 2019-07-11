@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -111,6 +112,7 @@ namespace AgateLib.Algorithms.PathFinding
 
         public int MaxDistance { get; set; }
 
+        [Obsolete("Use Nodes and provide your own filter function instead.")]
         public IEnumerable<Point> ReachableLocations =>
             grid.Nodes.Where(x => x.Distance < MaxDistance)
               .Select(x => x.Location);
