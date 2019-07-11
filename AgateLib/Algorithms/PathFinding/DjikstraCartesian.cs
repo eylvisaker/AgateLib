@@ -59,7 +59,7 @@ namespace AgateLib.Algorithms.PathFinding
             public DjikstraNode NextUnvisitedNode()
             {
                 float lowest = float.MaxValue;
-                int lowestIndex = 0;
+                int lowestIndex = -1;
 
                 for (int i = 0; i < nodes.Length; i++)
                 {
@@ -73,11 +73,12 @@ namespace AgateLib.Algorithms.PathFinding
                     }
                 }
 
+                if (lowestIndex < 0)
+                    return null;
+
                 return nodes[lowestIndex];
             }
-
-            public bool AnyUnvisitedNodes => nodes.Any(x => !x.Visited && x.Enterable);
-
+            
             public IEnumerable<Point> NeighborsOf(Point location)
             {
                 foreach (var pt in map.GetAvailableSteps(location))
@@ -112,11 +113,6 @@ namespace AgateLib.Algorithms.PathFinding
 
         public int MaxDistance { get; set; }
 
-        [Obsolete("Use Nodes and provide your own filter function instead.")]
-        public IEnumerable<Point> ReachableLocations =>
-            grid.Nodes.Where(x => x.Distance < MaxDistance)
-              .Select(x => x.Location);
-
         public IEnumerable<DjikstraNode> Nodes => grid.Nodes;
 
         /// <summary>
@@ -130,18 +126,14 @@ namespace AgateLib.Algorithms.PathFinding
             }
 
             grid.Initialize(Start);
-
             grid[Start].Distance = 0;
 
-            foreach (var node in grid.Nodes)
-            {
-                node.Enterable = map.CanEnter(node.Location);
-            }
+            MarkEnterableNodes();
 
-            while (grid.AnyUnvisitedNodes)
-            {
-                DjikstraNode node = grid.NextUnvisitedNode();
+            DjikstraNode node;
 
+            while ((node = grid.NextUnvisitedNode()) != null)
+            {
                 var location = node.Location;
                 node.Visited = true;
 
@@ -163,6 +155,14 @@ namespace AgateLib.Algorithms.PathFinding
             }
         }
 
+        private void MarkEnterableNodes()
+        {
+            foreach (DjikstraNode node in grid.Nodes)
+            {
+                node.Enterable = map.CanEnter(node.Location);
+            }
+        }
+
         private void Swap<P>(ref P a, ref P b)
         {
             P c = b;
@@ -179,6 +179,6 @@ namespace AgateLib.Algorithms.PathFinding
         public Point Location { get; internal set; }
         public bool Enterable { get; internal set; }
 
-        public override string ToString() => $"{Location} - V:{Visited} - E:{Enterable} - D:{Distance}";
+        public override string ToString() => $"({Location.X},{Location.Y}) - V:{Visited} - E:{Enterable} - D:{Distance}";
     }
 }

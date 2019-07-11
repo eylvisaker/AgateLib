@@ -20,40 +20,37 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AgateLib.Display
 {
-	public interface ITextureBuilder
-	{
-		Texture2D SolidColor(int width, int height, Color color);
-	}
+    public interface ITextureBuilder
+    {
+        Texture2D SolidColor(int width, int height, Color color);
+    }
 
-	[Transient]
-	public class TextureBuilder : ITextureBuilder
-	{
-		private readonly GraphicsDevice device;
+    [Transient]
+    public class TextureBuilder : ITextureBuilder
+    {
+        private readonly GraphicsDevice device;
 
-		public TextureBuilder(GraphicsDevice device)
-		{
-			this.device = device;
-		}
+        public TextureBuilder(GraphicsDevice device)
+        {
+            this.device = device;
+        }
 
-		public Texture2D SolidColor(int width, int height, Color color)
-		{
-			var result = new Texture2D(device, width, height);
+        public Texture2D SolidColor(int width, int height, Color color)
+        {
+            var result = new Texture2D(device, width, height);
 
-			Color[] colors = new Color[100];
-			for (int i = 0; i < colors.Length; i++)
-				colors[i] = color;
+            Color[] colors = new Color[width * height];
+            for (int i = 0; i < colors.Length; i++)
+                colors[i] = color;
 
-			result.SetData(colors);
+            result.SetData(colors);
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }
