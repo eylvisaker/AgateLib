@@ -36,18 +36,18 @@ namespace AgateLib.Algorithms.PathFinding
         /// <summary>
         /// Class which represents a node in an A* calulation.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public class AStarNode<T>
+        /// <typeparam name="Tnode"></typeparam>
+        public class AStarNode<Tnode>
         {
             /// <summary>
             /// Location of the node.
             /// </summary>
-            public T Location;
+            public Tnode Location;
 
             /// <summary>
             /// The parent node.
             /// </summary>
-            public AStarNode<T> Parent;
+            public AStarNode<Tnode> Parent;
 
             /// <summary>
             /// The cost paid to reach this node.

@@ -52,7 +52,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
         {
             lastState = display.Animation.State;
 
-            onScreenRect = display.Parent.ToScreen(display.BorderRect);
+            onScreenRect = display.Parent?.ToScreen(display.BorderRect) ?? display.BorderRect;
             offScreenRect = OffscreenRect(display);
 
             Vector2 delta = offScreenRect.Location.ToVector2() - onScreenRect.Location.ToVector2(); 

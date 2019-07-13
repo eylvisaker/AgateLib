@@ -294,6 +294,8 @@ namespace AgateLib.UserInterface
             base.OnSceneEnd();
 
             exitTask?.SetResult(true);
+
+            exitTask = null;
         }
     }
 }

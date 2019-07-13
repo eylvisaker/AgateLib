@@ -292,5 +292,25 @@ namespace AgateLib.Display
 
             return base.Equals(obj);
         }
+
+        public bool Equals(Font font)
+        {
+            if (!core.Equals(font.core))
+                return false;
+
+            if (Size != font.Size)
+                return false;
+
+            if (Color != font.Color)
+                return false;
+
+            if (Style != font.Style)
+                return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+            => core.GetHashCode() ^ Size.GetHashCode() ^ Color.GetHashCode() ^ Style.GetHashCode();
     }
 }
