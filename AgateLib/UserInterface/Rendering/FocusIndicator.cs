@@ -29,6 +29,7 @@ using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AgateLib.Display;
 
 namespace AgateLib.UserInterface.Rendering
 {
@@ -39,11 +40,11 @@ namespace AgateLib.UserInterface.Rendering
         /// <summary>
         /// Draws the focus indicator.
         /// </summary>
-        /// <param name="spriteBatch">SpriteBatch to use for drawing.</param>
+        /// <param name="canvas">Canvas to use for drawing.</param>
         /// <param name="focusElement">The element that has focus.</param>
         /// <param name="activeWorkspace">The workspace which is currently active.</param>
         /// <param name="focusContentRect">The screen coordinates of the content area of the focus element.</param>
-        void DrawFocus(SpriteBatch spriteBatch, 
+        void DrawFocus(ICanvas canvas, 
                        IRenderElement focusElement, 
                        Workspace activeWorkspace,
                        Rectangle focusContentRect);

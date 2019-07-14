@@ -281,17 +281,17 @@ namespace AgateLib.UserInterface
         {
             renderContext.GameTime = time;
 
-            renderContext.SpriteBatch.Begin(blendState: BlendState);
+            renderContext.Canvas.Begin(blendState: BlendState);
 
-            driver.Draw(time, renderContext.SpriteBatch, renderContext.RenderTarget);
+            driver.Draw(time, renderContext.Canvas, renderContext.RenderTarget);
 
-            renderContext.SpriteBatch.End();
+            renderContext.Canvas.End();
         }
 
         public void FlushSpriteBatch()
         {
-            renderContext.SpriteBatch.End();
-            renderContext.SpriteBatch.Begin(blendState: BlendState);
+            renderContext.Canvas.End();
+            renderContext.Canvas.Begin(blendState: BlendState);
         }
 
         public void IgnoreCurrentInput()

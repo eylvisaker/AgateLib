@@ -65,7 +65,7 @@ namespace AgateLib.UserInterface
         {
             Vector2 screenDest = clientArea.Location.ToVector2();
 
-            Style.Font.DrawText(renderContext.SpriteBatch, screenDest, text);
+            renderContext.Canvas.DrawText(Style.Font, screenDest, text);
 
             Vector2 insertionPointLoc = new Vector2(Style.Font.MeasureString(text.Substring(0, insertionPoint)).Width, 0);
 

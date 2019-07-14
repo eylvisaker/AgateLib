@@ -30,6 +30,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.Quality;
+using AgateLib.Display;
 
 namespace AgateLib.UserInterface
 {
@@ -144,9 +145,9 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public void Draw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget = null)
+        public void Draw(GameTime time, ICanvas canvas, RenderTarget2D renderTarget = null)
         {
-            renderContext.PrepDraw(time, spriteBatch, renderTarget);
+            renderContext.PrepDraw(time, canvas, renderTarget);
 
             desktop.Draw(renderContext);
 
@@ -154,7 +155,7 @@ namespace AgateLib.UserInterface
             {
                 Indicator.UserInterfaceRenderer = renderContext.UserInterfaceRenderer;
 
-                Indicator.DrawFocus(renderContext.SpriteBatch, 
+                Indicator.DrawFocus(renderContext.Canvas, 
                                     desktop.ActiveWorkspace.Focus,
                                     desktop.ActiveWorkspace,
                                     ScreenAreaOf(desktop.ActiveWorkspace.Focus));

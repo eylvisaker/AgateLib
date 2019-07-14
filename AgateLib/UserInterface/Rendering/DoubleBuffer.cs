@@ -61,7 +61,7 @@ namespace AgateLib.UserInterface.Rendering
         {
             var animation = widget.Display.Animation;
 
-            animation.Buffer.RenderContext.SpriteBatch.End();
+            animation.Buffer.RenderContext.Canvas.End();
 
             // Now reset the parent render target.
             renderContext.GraphicsDevice.SetRenderTarget(renderContext.RenderTarget);
@@ -111,8 +111,8 @@ namespace AgateLib.UserInterface.Rendering
 
         public void Flush(IUserInterfaceRenderContext bufferedRenderContext)
         {
-            bufferedRenderContext.SpriteBatch.End();
-            bufferedRenderContext.SpriteBatch.Begin(rasterizerState: rasterizerState);
+            bufferedRenderContext.Canvas.End();
+            bufferedRenderContext.Canvas.Begin(rasterizerState: rasterizerState);
         }
 
         /// <summary>

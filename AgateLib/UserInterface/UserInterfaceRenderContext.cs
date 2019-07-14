@@ -75,7 +75,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets the sprite batch object being used.
         /// </summary>
-        [Obsolete("Use Canvas instead.")]
+        [Obsolete("Use Canvas instead.", true)]
         SpriteBatch SpriteBatch { get; }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace AgateLib.UserInterface
         /// <param name="time"></param>
         /// <param name="spriteBatch"></param>
         /// <param name="renderTarget"></param>
-        void PrepDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget);
+        void PrepDraw(GameTime time, ICanvas canvas, RenderTarget2D renderTarget);
 
         /// <summary>
         /// Updates the animation state for the specified element.
@@ -176,7 +176,6 @@ namespace AgateLib.UserInterface
             this.animationFactory = animation;
             this.RenderTarget = renderTarget;
             this.Canvas = canvas ?? new Canvas(graphicsDevice);
-            this.SpriteBatch = Canvas.SpriteBatch;
             this.DoubleBuffer = doubleBuffer ?? new DoubleBuffer();
         }
 
@@ -188,8 +187,6 @@ namespace AgateLib.UserInterface
             this.GraphicsDevice = parent.GraphicsDevice;
             this.Canvas = canvas;
             this.RenderTarget = renderTarget;
-
-            this.SpriteBatch = canvas.SpriteBatch;
 
             this.contentLayoutEngine = parent.contentLayoutEngine;
             this.GameTime = parent.GameTime;
@@ -203,7 +200,7 @@ namespace AgateLib.UserInterface
 
         public GraphicsDevice GraphicsDevice { get; }
 
-        [Obsolete]
+        [Obsolete("Use Canvas instead.", true)]
         public SpriteBatch SpriteBatch { get; set; }
 
         public ICanvas Canvas { get; set; }
@@ -291,7 +288,7 @@ namespace AgateLib.UserInterface
                     screenRect.X += parentContentDest.X;
                     screenRect.Y += parentContentDest.Y;
 
-                    SpriteBatch.Draw(
+                    Canvas.Draw(
                         animation.RenderTarget,
                         screenRect,
                         null,
@@ -342,36 +339,36 @@ namespace AgateLib.UserInterface
             GameTime = time;
         }
 
-        public void PrepDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
+        public void PrepDraw(GameTime time, ICanvas canvas, RenderTarget2D renderTarget)
         {
             GameTime = time;
-            SpriteBatch = spriteBatch;
+            Canvas = canvas;
             RenderTarget = renderTarget;
         }
 
         public void Draw(Texture2D image, Rectangle destRect, Color color)
         {
-            SpriteBatch.Draw(image, destRect, color);
+            Canvas.Draw(image, destRect, color);
         }
 
         public void Draw(Texture2D image, Rectangle destRect, Rectangle sourceRect, Color color)
         {
-            SpriteBatch.Draw(image, destRect, sourceRect, color);
+            Canvas.Draw(image, destRect, sourceRect, color);
         }
 
         public void DrawText(Font font, Vector2 destination, string text)
         {
-            font.DrawText(SpriteBatch, destination, text);
+            Canvas.DrawText(font, destination, text);
         }
 
         public void Draw(IContentLayout content, Vector2 destination)
         {
-            content.Draw(destination, SpriteBatch);
+            Canvas.Draw(content, destination);
         }
 
         public void Draw(IContentLayout content, Rectangle destinationArea)
         {
-            content.Draw(destinationArea.Location.ToVector2(), SpriteBatch);
+            Canvas.Draw(content, destinationArea.Location.ToVector2());
         }
     }
 }
