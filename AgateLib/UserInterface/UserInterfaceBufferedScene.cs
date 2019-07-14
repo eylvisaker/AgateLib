@@ -204,6 +204,12 @@ namespace AgateLib.UserInterface
 
         public IInstructions Instructions => Desktop.Instructions;
 
+        public Color InactiveWorkspaceFade
+        {
+            get => Desktop.InactiveWorkspaceFade;
+            set => Desktop.InactiveWorkspaceFade = value;
+        }
+
         protected override void OnSceneStart()
         {
             base.OnSceneStart();

@@ -20,16 +20,15 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Display;
+using AgateLib.Quality;
+using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Rendering.Animations;
+using AgateLib.UserInterface.Styling;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AgateLib.Mathematics.Geometry;
-using AgateLib.Quality;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.Rendering;
-using Microsoft.Xna.Framework;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface.Rendering.Animations;
 
 namespace AgateLib.UserInterface
 {
@@ -40,24 +39,29 @@ namespace AgateLib.UserInterface
 
         private readonly List<Workspace> workspaces = new List<Workspace>();
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
-        
+
         private Rectangle screenArea;
 
         private IInstructions instructions = new Instructions();
 
         private bool inDraw;
 
+        private FadeColor inactiveWorkspaceFadeColor = new FadeColor();
+        
         public Desktop(Rectangle screenArea,
                        IUserInterfaceLayoutContext layoutContext,
-                       IFontProvider fonts, 
-                       IStyleConfigurator styles, 
+                       IFontProvider fonts,
+                       IStyleConfigurator styles,
                        IAnimationFactory animationFactory)
         {
             this.screenArea = screenArea;
             this.animationFactory = animationFactory;
             this.layoutContext = layoutContext;
+
             Styles = styles;
             Fonts = fonts;
+
+            inactiveWorkspaceFadeColor.FadeIn();
         }
 
         /// <summary>
@@ -87,7 +91,7 @@ namespace AgateLib.UserInterface
         /// <param name="explorer"></param>
         public void Explore(Action<IRenderElement> explorer)
         {
-            foreach(var workspace in workspaces)
+            foreach (var workspace in workspaces)
             {
                 workspace.Explore(explorer);
             }
@@ -165,6 +169,11 @@ namespace AgateLib.UserInterface
             var workspace = workspaces[workspaces.Count - 1];
 
             workspace.TransitionOut();
+
+            if (workspaces.Count == 1)
+            {
+                inactiveWorkspaceFadeColor.FadeOut();
+            }
         }
 
         /// <summary>
@@ -172,10 +181,12 @@ namespace AgateLib.UserInterface
         /// </summary>
         public void ExitUserInterface()
         {
-            foreach(var workspace in workspaces)
+            foreach (var workspace in workspaces)
             {
                 workspace.TransitionOut();
             }
+
+            inactiveWorkspaceFadeColor.FadeOut();
         }
 
         /// <summary>
@@ -197,6 +208,12 @@ namespace AgateLib.UserInterface
         public Workspace ActiveWorkspace => workspaces.LastOrDefault();
 
         public IReadOnlyList<Workspace> Workspaces => workspaces;
+
+        public Color InactiveWorkspaceFade
+        {
+            get => inactiveWorkspaceFadeColor.ActiveColor;
+            set => inactiveWorkspaceFadeColor.ActiveColor = value;
+        }
 
         #region --- Handling Input ---
 
@@ -246,6 +263,8 @@ namespace AgateLib.UserInterface
 
         public void Update(IUserInterfaceRenderContext renderContext)
         {
+            inactiveWorkspaceFadeColor.Update(renderContext.GameTime);
+
             foreach (var workspace in workspaces)
                 workspace.IsActive = workspace == ActiveWorkspace;
 
@@ -255,7 +274,7 @@ namespace AgateLib.UserInterface
                 return;
             }
 
-            for(int i = 0; i < workspaces.Count; i++)
+            for (int i = 0; i < workspaces.Count; i++)
             {
                 workspaces[i].Update(renderContext);
             }
@@ -285,6 +304,11 @@ namespace AgateLib.UserInterface
 
                 foreach (var w in workspaces)
                 {
+                    if (w == ActiveWorkspace && inactiveWorkspaceFadeColor.CurrentColor.A > 0)
+                    {
+                        renderContext.Canvas.FillRect(ScreenArea, inactiveWorkspaceFadeColor.CurrentColor);
+                    }
+
                     w.Draw(renderContext);
                 }
             }

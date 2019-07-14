@@ -73,7 +73,7 @@ namespace AgateLib.UserInterface
         /// <param name="root"></param>
         public static void PushWorkspace(this IDisplaySystem displaySystem, IRenderable root)
         {
-            displaySystem.PushWorkspace(new Workspace($"unnamed-{new Guid()}", root));
+            displaySystem.PushWorkspace(new Workspace($"unnamed-{Guid.NewGuid()}", root));
         }
     }
 }

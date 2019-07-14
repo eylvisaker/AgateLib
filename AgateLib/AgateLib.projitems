@@ -66,6 +66,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Display\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\Canvas.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\ColorX.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\FadeColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\Font.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\FontBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\FontExtensions.cs" />
