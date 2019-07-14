@@ -28,6 +28,7 @@ using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -70,6 +71,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets the sprite batch object being used.
         /// </summary>
+        [Obsolete("Use Canvas instead.")]
         SpriteBatch SpriteBatch { get; }
 
         /// <summary>
@@ -91,7 +93,7 @@ namespace AgateLib.UserInterface
         /// Gets the style renderer for the UI.
         /// </summary>
         IUserInterfaceRenderer UserInterfaceRenderer { get; }
-        
+
         /// <summary>
         /// Draws a child widget of the current widget.
         /// </summary>
@@ -127,14 +129,19 @@ namespace AgateLib.UserInterface
         /// <param name="element"></param>
         void UpdateAnimation(IRenderElement element);
 
+        [Obsolete("Use Canvas.Draw instead.")]
         void Draw(Texture2D image, Rectangle destRect, Color color);
 
+        [Obsolete("Use Canvas.Draw instead.")]
         void Draw(Texture2D image, Rectangle destRect, Rectangle sourceRect, Color color);
 
+        [Obsolete("Use Canvas.Draw instead.")]
         void Draw(IContentLayout content, Vector2 destination);
 
+        [Obsolete("Use Canvas.Draw instead.")]
         void Draw(IContentLayout content, Rectangle destinationArea);
 
+        [Obsolete("Use Canvas.DrawText instead.")]
         void DrawText(Font font, Vector2 destination, string text);
     }
 
@@ -155,7 +162,7 @@ namespace AgateLib.UserInterface
             IFontProvider fonts,
             IAnimationFactory animation,
             RenderTarget2D renderTarget = null,
-            SpriteBatch spriteBatch = null,
+            ICanvas canvas = null,
             IDoubleBuffer doubleBuffer = null)
         {
             this.GraphicsDevice = graphicsDevice;
@@ -164,7 +171,8 @@ namespace AgateLib.UserInterface
             this.fonts = fonts;
             this.animationFactory = animation;
             this.RenderTarget = renderTarget;
-            this.SpriteBatch = spriteBatch ?? new SpriteBatch(graphicsDevice);
+            this.Canvas = canvas ?? new Canvas(graphicsDevice);
+            this.SpriteBatch = Canvas.SpriteBatch;
             this.DoubleBuffer = doubleBuffer ?? new DoubleBuffer();
         }
 
@@ -190,6 +198,8 @@ namespace AgateLib.UserInterface
         public GraphicsDevice GraphicsDevice { get; }
 
         public SpriteBatch SpriteBatch { get; set; }
+
+        public ICanvas Canvas { get; set; }
 
         public RenderTarget2D RenderTarget { get; set; }
 

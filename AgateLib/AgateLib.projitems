@@ -64,6 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Display\BitmapFont\Model\FontResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\BitmapFont\Model\FontSurfaceResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\Canvas.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\ColorX.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\Font.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\FontBuilder.cs" />
