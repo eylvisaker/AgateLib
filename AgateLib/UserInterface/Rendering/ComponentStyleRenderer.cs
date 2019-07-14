@@ -37,11 +37,11 @@ namespace AgateLib.UserInterface.Rendering
 {
     public interface IComponentStyleRenderer : IDisposable
     {
-        void DrawBackground(SpriteBatch spriteBatch, BackgroundStyle background, Rectangle backgroundRect);
+        void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect);
 
-        void DrawFrame(SpriteBatch spriteBatch, BorderStyle border, Rectangle borderRect);
+        void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect);
 
-        void DrawFrame(SpriteBatch spriteBatch, Rectangle destOuterRect, Texture2D frameTexture,
+        void DrawFrame(ICanvas canvas, Rectangle destOuterRect, Texture2D frameTexture,
             Rectangle frameSourceInner, Rectangle frameSourceOuter,
             ImageScale borderScale);
     }
@@ -53,7 +53,7 @@ namespace AgateLib.UserInterface.Rendering
         private IContentProvider imageProvider;
 
         public ComponentStyleRenderer(GraphicsDevice graphicsDevice,
-            IContentProvider imageProvider)
+                                      IContentProvider imageProvider)
         {
             this.imageProvider = imageProvider;
 
@@ -63,24 +63,20 @@ namespace AgateLib.UserInterface.Rendering
 
             blankSurface.SetData(data);
         }
-
-        SpriteBatch SpriteBatch { get; set; }
-
+        
         public void Dispose()
         {
             blankSurface.Dispose();
         }
 
-        public void DrawBackground(SpriteBatch spriteBatch, BackgroundStyle background, Rectangle backgroundRect)
+        public void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect)
         {
             if (background == null)
                 return;
 
-            this.SpriteBatch = spriteBatch;
-
             if (background.Color.A > 0)
             {
-                spriteBatch.Draw(
+                canvas.Draw(
                     blankSurface,
                     backgroundRect,
                     background.Color);
@@ -98,42 +94,40 @@ namespace AgateLib.UserInterface.Rendering
                 switch (background.Repeat)
                 {
                     case BackgroundRepeat.None:
-                        DrawClipped(backgroundImage, origin, backgroundRect, background.Image.SourceRect);
+                        DrawClipped(canvas, backgroundImage, origin, backgroundRect, background.Image.SourceRect);
                         break;
 
                     case BackgroundRepeat.Repeat:
-                        DrawRepeatedClipped(backgroundImage, origin, backgroundRect, true, true, background.Image.SourceRect);
+                        DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, true, true, background.Image.SourceRect);
                         break;
 
                     case BackgroundRepeat.Repeat_X:
-                        DrawRepeatedClipped(backgroundImage, origin, backgroundRect, true, false, background.Image.SourceRect);
+                        DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, true, false, background.Image.SourceRect);
                         break;
 
                     case BackgroundRepeat.Repeat_Y:
-                        DrawRepeatedClipped(backgroundImage, origin, backgroundRect, false, true, background.Image.SourceRect);
+                        DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, false, true, background.Image.SourceRect);
                         break;
                 }
             }
         }
 
-        public void DrawFrame(SpriteBatch spriteBatch, BorderStyle border, Rectangle borderRect)
+        public void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect)
         {
             if (border == null)
                 return;
 
-            this.SpriteBatch = spriteBatch;
-
             if (string.IsNullOrEmpty(border.Image?.File))
             {
-                DrawOrdinaryFrame(border, borderRect);
+                DrawOrdinaryFrame(canvas, border, borderRect);
             }
             else
             {
-                DrawImageFrame(border, borderRect, border.Image.SourceRect);
+                DrawImageFrame(canvas, border, borderRect, border.Image.SourceRect);
             }
         }
 
-        private void DrawImageFrame(BorderStyle border, Rectangle borderRect, Rectangle? maybeSrcRect)
+        private void DrawImageFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect, Rectangle? maybeSrcRect)
         {
             var image = imageProvider.Load<Texture2D>(border.Image.File);
 
@@ -145,15 +139,13 @@ namespace AgateLib.UserInterface.Rendering
                 outerRect.Right - slice.Right,
                 outerRect.Bottom - slice.Bottom);
 
-            DrawFrame(SpriteBatch, borderRect, image, innerRect, outerRect, border.ImageScale);
+            DrawFrame(canvas, borderRect, image, innerRect, outerRect, border.ImageScale);
         }
 
-        public void DrawFrame(SpriteBatch spriteBatch, Rectangle destOuterRect, Texture2D frameTexture,
+        public void DrawFrame(ICanvas canvas, Rectangle destOuterRect, Texture2D frameTexture,
             Rectangle frameSourceInner, Rectangle frameSourceOuter,
             ImageScale borderScale)
         {
-            this.SpriteBatch = spriteBatch;
-
             Rectangle destInnerRect = destOuterRect;
             Size delta = new Size(frameSourceInner.X - frameSourceOuter.X, frameSourceInner.Y - frameSourceOuter.Y);
 
@@ -169,52 +161,52 @@ namespace AgateLib.UserInterface.Rendering
             src = RectangleX.FromLTRB(outer.Left, outer.Top, inner.Left, inner.Top);
             dest = RectangleX.FromLTRB(destOuterRect.Left, destOuterRect.Top, destInnerRect.Left, destInnerRect.Top);
 
-            SpriteBatch.Draw(frameTexture, dest, src, Color.White);
+            canvas.Draw(frameTexture, dest, src, Color.White);
 
             // top
             src = RectangleX.FromLTRB(inner.Left, outer.Top, inner.Right, inner.Top);
             dest = RectangleX.FromLTRB(destInnerRect.Left, destOuterRect.Top, destInnerRect.Right, destInnerRect.Top);
 
-            ScaleSurface(frameTexture, src, dest, borderScale);
+            ScaleSurface(canvas, frameTexture, src, dest, borderScale);
 
             // top right
             src = RectangleX.FromLTRB(inner.Right, outer.Top, outer.Right, inner.Top);
             dest = RectangleX.FromLTRB(destInnerRect.Right, destOuterRect.Top, destOuterRect.Right, destInnerRect.Top);
 
-            SpriteBatch.Draw(frameTexture, dest, src, Color.White);
+            canvas.Draw(frameTexture, dest, src, Color.White);
 
             // left
             src = RectangleX.FromLTRB(outer.Left, inner.Top, inner.Left, inner.Bottom);
             dest = RectangleX.FromLTRB(destOuterRect.Left, destInnerRect.Top, destInnerRect.Left, destInnerRect.Bottom);
 
-            ScaleSurface(frameTexture, src, dest, borderScale);
+            ScaleSurface(canvas, frameTexture, src, dest, borderScale);
 
             // right
             src = RectangleX.FromLTRB(inner.Right, inner.Top, outer.Right, inner.Bottom);
             dest = RectangleX.FromLTRB(destInnerRect.Right, destInnerRect.Top, destOuterRect.Right, destInnerRect.Bottom);
 
-            ScaleSurface(frameTexture, src, dest, borderScale);
+            ScaleSurface(canvas, frameTexture, src, dest, borderScale);
 
             // bottom left
             src = RectangleX.FromLTRB(outer.Left, inner.Bottom, inner.Left, outer.Bottom);
             dest = RectangleX.FromLTRB(destOuterRect.Left, destInnerRect.Bottom, destInnerRect.Left, destOuterRect.Bottom);
 
-            SpriteBatch.Draw(frameTexture, dest, src, Color.White);
+            canvas.Draw(frameTexture, dest, src, Color.White);
 
             // bottom
             src = RectangleX.FromLTRB(inner.Left, inner.Bottom, inner.Right, outer.Bottom);
             dest = RectangleX.FromLTRB(destInnerRect.Left, destInnerRect.Bottom, destInnerRect.Right, destOuterRect.Bottom);
 
-            ScaleSurface(frameTexture, src, dest, borderScale);
+            ScaleSurface(canvas, frameTexture, src, dest, borderScale);
 
             // bottom right
             src = RectangleX.FromLTRB(inner.Right, inner.Bottom, outer.Right, outer.Bottom);
             dest = RectangleX.FromLTRB(destInnerRect.Right, destInnerRect.Bottom, destOuterRect.Right, destOuterRect.Bottom);
 
-            SpriteBatch.Draw(frameTexture, dest, src, Color.White);
+            canvas.Draw(frameTexture, dest, src, Color.White);
         }
 
-        private void DrawOrdinaryFrame(BorderStyle border, Rectangle borderRect)
+        private void DrawOrdinaryFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect)
         {
             if (border.Top.Color.A == 0 &&
                 border.Left.Color.A == 0 &&
@@ -227,42 +219,42 @@ namespace AgateLib.UserInterface.Rendering
             // draw top
             Rectangle rect = new Rectangle(borderRect.X, borderRect.Y, borderRect.Width, border.Top.Width);
 
-            SpriteBatch.Draw(blankSurface, rect, border.Top.Color);
+            canvas.Draw(blankSurface, rect, border.Top.Color);
 
             // draw bottom
             rect = new Rectangle(borderRect.X, borderRect.Bottom - border.Bottom.Width, borderRect.Width, border.Bottom.Width);
 
-            SpriteBatch.Draw(blankSurface, rect, border.Bottom.Color);
+            canvas.Draw(blankSurface, rect, border.Bottom.Color);
 
             // draw left
             rect = new Rectangle(borderRect.X, borderRect.Y, border.Left.Width, borderRect.Height);
 
-            SpriteBatch.Draw(blankSurface, rect, border.Left.Color);
+            canvas.Draw(blankSurface, rect, border.Left.Color);
 
             // draw right
             rect = new Rectangle(borderRect.Right - border.Right.Width, borderRect.Y, border.Right.Width, borderRect.Height);
 
-            SpriteBatch.Draw(blankSurface, rect, border.Right.Color);
+            canvas.Draw(blankSurface, rect, border.Right.Color);
         }
 
-        private void ScaleSurface(Texture2D texture, Rectangle src, Rectangle dest, ImageScale scale)
+        private void ScaleSurface(ICanvas canvas, Texture2D texture, Rectangle src, Rectangle dest, ImageScale scale)
         {
             if (scale == ImageScale.Tile)
             {
-                TileImage(texture, src, dest);
+                TileImage(canvas, texture, src, dest);
             }
             else
             {
-                SpriteBatch.Draw(texture, dest, src, Color.White);
+                canvas.Draw(texture, dest, src, Color.White);
             }
         }
 
-        private void TileImage(Texture2D frameTexture, Rectangle src, Rectangle dest)
+        private void TileImage(ICanvas canvas, Texture2D frameTexture, Rectangle src, Rectangle dest)
         {
-            DrawRepeatedClipped(frameTexture, dest.Location, dest, true, true, src);
+            DrawRepeatedClipped(canvas, frameTexture, dest.Location, dest, true, true, src);
         }
 
-        private void DrawClipped(Texture2D image, Point dest, Rectangle clipRect, Rectangle? maybeSrcRect)
+        private void DrawClipped(ICanvas canvas, Texture2D image, Point dest, Rectangle clipRect, Rectangle? maybeSrcRect)
         {
             Rectangle srcRect = maybeSrcRect ?? new Rectangle(0, 0, image.Width, image.Height);
             Rectangle destRect = new Rectangle(dest.X, dest.Y, srcRect.Width, srcRect.Height);
@@ -283,10 +275,10 @@ namespace AgateLib.UserInterface.Rendering
                     return;
             }
 
-            SpriteBatch.Draw(image, destRect, srcRect, Color.White);
+            canvas.Draw(image, destRect, srcRect, Color.White);
         }
 
-        private void DrawRepeatedClipped(Texture2D image, Point startPt, Rectangle clipRect, bool repeatX, bool repeatY, Rectangle? maybeSrcRect)
+        private void DrawRepeatedClipped(ICanvas canvas, Texture2D image, Point startPt, Rectangle clipRect, bool repeatX, bool repeatY, Rectangle? maybeSrcRect)
         {
             Rectangle srcRect = maybeSrcRect ?? new Rectangle(0, 0, image.Width, image.Height);
 
@@ -308,7 +300,7 @@ namespace AgateLib.UserInterface.Rendering
 
                 for (int i = 0; i < countX; i++)
                 {
-                    DrawClipped(image, destPt, clipRect, srcRect);
+                    DrawClipped(canvas, image, destPt, clipRect, srcRect);
 
                     destPt.X += srcRect.Width;
                 }

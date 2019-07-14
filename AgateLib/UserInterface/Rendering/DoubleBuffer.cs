@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Display;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -67,9 +68,8 @@ namespace AgateLib.UserInterface.Rendering
             renderContext.GraphicsDevice.RasterizerState = new RasterizerState();
         }
 
-        public IUserInterfaceRenderContext PrepRenderState(
-                    IRenderElement widget, 
-                    IUserInterfaceRenderContext renderContext)
+        public IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, 
+                                                           IUserInterfaceRenderContext renderContext)
         {
             var animation = widget.Display.Animation;
             var display = widget.Display;
@@ -80,7 +80,7 @@ namespace AgateLib.UserInterface.Rendering
                 {
                     display.Animation.Buffer.RenderContext = new UserInterfaceRenderContext(
                         (UserInterfaceRenderContext)renderContext,
-                        new SpriteBatch(renderContext.GraphicsDevice),
+                        new Canvas(renderContext.GraphicsDevice),
                         animation.RenderTarget);
                 }
 
@@ -98,7 +98,7 @@ namespace AgateLib.UserInterface.Rendering
             newRenderContext.GraphicsDevice.ScissorRectangle =
                new Rectangle(0, 0, renderTarget.Width, renderTarget.Height);
 
-            newRenderContext.SpriteBatch.Begin(rasterizerState: rasterizerState);
+            newRenderContext.Canvas.Begin(rasterizerState: rasterizerState);
 
             widget.Display.Animation.Buffer.ContentDestination = new Rectangle(
                 display.Region.MarginToContentOffset.Left,

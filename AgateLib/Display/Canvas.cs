@@ -22,8 +22,14 @@ namespace AgateLib.Display
 
         int Height { get; }
 
-        void FillRect(Color color, Rectangle destRect);
-        
+        void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred,
+                          BlendState blendState = null,
+                          SamplerState samplerState = null,
+                          DepthStencilState depthStencilState = null,
+                          RasterizerState rasterizerState = null,
+                          Effect effect = null,
+                          Matrix? transformMatrix = null);
+
         void Draw(Texture2D texture, Rectangle destinationRectangle, Color color);
         void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
         void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
@@ -38,6 +44,15 @@ namespace AgateLib.Display
         void DrawRect(Color borderColor, Rectangle rectangle);
 
         void DrawText(Font font, Vector2 position, string text);
+
+        void End();
+
+        /// <summary>
+        /// Fills a rectangle with a solid color.
+        /// </summary>
+        /// <param name="destRect"></param>
+        /// <param name="color"></param>
+        void FillRect(Rectangle destRect, Color color);
     }
 
     public class Canvas : ICanvas
@@ -125,7 +140,7 @@ namespace AgateLib.Display
             font.DrawText(spriteBatch, position, text);
         }
 
-        public void FillRect(Color color, Rectangle destRect)
+        public void FillRect(Rectangle destRect, Color color)
         {
             Draw(whiteTexture, destRect, color);
         }

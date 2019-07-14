@@ -67,6 +67,10 @@ namespace AgateLib.UserInterface
         /// </summary>
         GraphicsDevice GraphicsDevice { get; }
 
+        /// <summary>
+        /// Gets the canvas object.
+        /// </summary>
+        ICanvas Canvas { get; }
 
         /// <summary>
         /// Gets the sprite batch object being used.
@@ -177,13 +181,15 @@ namespace AgateLib.UserInterface
         }
 
         public UserInterfaceRenderContext(UserInterfaceRenderContext parent,
-            SpriteBatch spriteBatch,
+            ICanvas canvas,
             RenderTarget2D renderTarget)
         {
             this.ScreenArea = parent.ScreenArea;
             this.GraphicsDevice = parent.GraphicsDevice;
-            this.SpriteBatch = spriteBatch;
+            this.Canvas = canvas;
             this.RenderTarget = renderTarget;
+
+            this.SpriteBatch = canvas.SpriteBatch;
 
             this.contentLayoutEngine = parent.contentLayoutEngine;
             this.GameTime = parent.GameTime;
@@ -197,6 +203,7 @@ namespace AgateLib.UserInterface
 
         public GraphicsDevice GraphicsDevice { get; }
 
+        [Obsolete]
         public SpriteBatch SpriteBatch { get; set; }
 
         public ICanvas Canvas { get; set; }
@@ -233,10 +240,10 @@ namespace AgateLib.UserInterface
 
             if (element.Display.IsDoubleBuffered)
             {
-                IUserInterfaceRenderContext newContext 
+                IUserInterfaceRenderContext newContext
                     = DoubleBuffer.PrepRenderState(element, this);
 
-                Rectangle rtClientDest 
+                Rectangle rtClientDest
                     = element.Display.Animation.Buffer.ContentDestination;
 
                 UserInterfaceRenderer.DrawBackground(newContext, element.Display, rtClientDest);

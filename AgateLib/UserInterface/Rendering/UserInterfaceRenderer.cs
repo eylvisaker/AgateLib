@@ -27,6 +27,7 @@ using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AgateLib.Display;
 
 namespace AgateLib.UserInterface.Rendering
 {
@@ -59,11 +60,11 @@ namespace AgateLib.UserInterface.Rendering
         void DrawFrame(IUserInterfaceRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest);
 
 
-        void DrawBackground(SpriteBatch spriteBatch, BackgroundStyle background, Rectangle backgroundRect);
+        void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect);
 
-        void DrawFrame(SpriteBatch spriteBatch, BorderStyle border, Rectangle borderRect);
+        void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect);
 
-        void DrawFrame(SpriteBatch spriteBatch, Rectangle destOuterRect, Texture2D frameTexture,
+        void DrawFrame(ICanvas canvas, Rectangle destOuterRect, Texture2D frameTexture,
             Rectangle frameSourceInner, Rectangle frameSourceOuter,
             ImageScale borderScale);
     }
@@ -120,20 +121,20 @@ namespace AgateLib.UserInterface.Rendering
                 display.BorderRect.Height - borderLayout.Height / 2);
 
             styleRenderer.DrawBackground(
-                renderContext.SpriteBatch,
+                renderContext.Canvas,
                 display.Style.Background,
                 backgroundRect);
         }
 
-        public void DrawBackground(SpriteBatch spriteBatch, BackgroundStyle background, Rectangle backgroundRect)
+        public void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect)
         {
-            styleRenderer.DrawBackground(spriteBatch, background, backgroundRect);
+            styleRenderer.DrawBackground(canvas, background, backgroundRect);
         }
 
         public void DrawFrame(IUserInterfaceRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
         {
             styleRenderer.DrawFrame(
-                renderContext.SpriteBatch,
+                renderContext.Canvas,
                 display.Style.Border,
                 new Rectangle(
                     new Point(clientDest.X - display.Region.BorderToContentOffset.Left,
@@ -141,15 +142,15 @@ namespace AgateLib.UserInterface.Rendering
                     display.BorderRect.Size));
         }
 
-        public void DrawFrame(SpriteBatch spriteBatch, BorderStyle border, Rectangle borderRect)
+        public void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect)
         {
-            styleRenderer.DrawFrame(spriteBatch, border, borderRect);
+            styleRenderer.DrawFrame(canvas, border, borderRect);
         }
 
-        public void DrawFrame(SpriteBatch spriteBatch, Rectangle destOuterRect, Texture2D frameTexture, Rectangle frameSourceInner, Rectangle frameSourceOuter, ImageScale borderScale)
+        public void DrawFrame(ICanvas canvas, Rectangle destOuterRect, Texture2D frameTexture, Rectangle frameSourceInner, Rectangle frameSourceOuter, ImageScale borderScale)
         {
             styleRenderer.DrawFrame(
-                spriteBatch,
+                canvas,
                 destOuterRect,
                 frameTexture,
                 frameSourceInner,
