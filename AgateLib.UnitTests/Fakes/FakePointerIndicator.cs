@@ -8,6 +8,7 @@ using AgateLib.Tests.UserInterface.FF6;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.Display;
 
 namespace AgateLib.Tests.Fakes
 {
@@ -19,7 +20,7 @@ namespace AgateLib.Tests.Fakes
 
         public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 
-        public void DrawFocus(SpriteBatch spriteBatch, IRenderElement focusElement, Workspace activeWorkspace, Rectangle focusContentArea)
+        public void DrawFocus(ICanvas canvas, IRenderElement focusElement, Workspace activeWorkspace, Rectangle focusContentArea)
         {
             draws.Add(focusContentArea);
         }

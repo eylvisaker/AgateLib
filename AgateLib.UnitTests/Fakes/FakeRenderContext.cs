@@ -6,6 +6,8 @@ using AgateLib.UserInterface.Content.LayoutItems;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Moq;
+using System;
 using System.Collections.Generic;
 
 namespace AgateLib.Tests.Fakes
@@ -19,13 +21,15 @@ namespace AgateLib.Tests.Fakes
 
         public GraphicsDevice GraphicsDevice => null;
 
+        public ICanvas Canvas { get; } = Mock.Of<ICanvas>();
+
         public SpriteBatch SpriteBatch => null;
 
         public RenderTarget2D RenderTarget => null;
 
         public IFontProvider Fonts { get; set; }
 
-        public GameTime GameTime { get; set; }
+        public GameTime GameTime { get; set; } = new GameTime(TimeSpan.FromSeconds(10), TimeSpan.FromMilliseconds(16));
 
         public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 
@@ -50,7 +54,7 @@ namespace AgateLib.Tests.Fakes
         {
         }
 
-        public void PrepDraw(GameTime time, SpriteBatch spriteBatch, RenderTarget2D renderTarget)
+        public void PrepDraw(GameTime time, ICanvas canvas, RenderTarget2D renderTarget)
         {
         }
 
