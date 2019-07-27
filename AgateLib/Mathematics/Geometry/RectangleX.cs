@@ -29,7 +29,9 @@ using System.Linq;
 
 namespace AgateLib.Mathematics.Geometry
 {
-
+    /// <summary>
+    /// Extension methods for rectangles.
+    /// </summary>
     public static class RectangleX
     {
         /// <summary>
