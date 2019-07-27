@@ -38,5 +38,21 @@ namespace AgateLib.Tests.MathematicsTests
 
             result.Should().Be(new Rectangle(1, 2, 19, 20));
         }
+
+        [Fact]
+        public void Rect_CenterPoint_EvenValues()
+        {
+            var rect = new Rectangle(10, 10, 40, 30);
+
+            rect.CenterPoint().Should().Be(rect.Center.ToVector2());
+        }
+
+        [Fact]
+        public void Rect_CenterPoint_OddValues()
+        {
+            var rect = new Rectangle(10, 12, 5, 3);
+
+            rect.CenterPoint().Should().Be(new Vector2(12.5f, 13.5f));
+        }
     }
 }
