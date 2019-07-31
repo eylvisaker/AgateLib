@@ -56,7 +56,7 @@ namespace AgateLib.Scenes
         /// Return true to indicate that this scene should handle input events.
         /// Only the topmost scene which returns true gets access to input events.
         /// </summary>
-        bool HandleInput { get; }
+        bool HandleInput { get; set; }
 
         /// <summary>
         /// Return true to indicate this scene is finished and should be

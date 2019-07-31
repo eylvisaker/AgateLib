@@ -95,6 +95,13 @@ namespace AgateLib.UserInterface
         RenderElementEvents Events { get; }
 
         /// <summary>
+        /// Draws the background and border of the element.
+        /// </summary>
+        /// <param name="renderContext"></param>
+        /// <param name="clientDest"></param>
+        void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle clientDest);
+
+        /// <summary>
         /// Draws the content of the widget.
         /// To draw children, call <c >renderContext.DrawChildren</c>.
         /// </summary>
@@ -343,6 +350,12 @@ namespace AgateLib.UserInterface
 
         public virtual void Update(IUserInterfaceRenderContext renderContext)
         {
+        }
+
+        public virtual void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle rtClientDest)
+        {
+            renderContext.UserInterfaceRenderer.DrawBackground(renderContext, Display, rtClientDest);
+            renderContext.UserInterfaceRenderer.DrawFrame(renderContext, Display, rtClientDest);
         }
 
         public abstract void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea);

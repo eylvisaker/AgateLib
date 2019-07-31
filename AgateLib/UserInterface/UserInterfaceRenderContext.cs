@@ -243,8 +243,7 @@ namespace AgateLib.UserInterface
                 Rectangle rtClientDest
                     = element.Display.Animation.Buffer.ContentDestination;
 
-                UserInterfaceRenderer.DrawBackground(newContext, element.Display, rtClientDest);
-                UserInterfaceRenderer.DrawFrame(newContext, element.Display, rtClientDest);
+                element.DrawBackgroundAndBorder(newContext, rtClientDest);
 
                 rtClientDest.X -= element.Display.ScrollPosition.X;
                 rtClientDest.Y -= element.Display.ScrollPosition.Y;
@@ -308,9 +307,8 @@ namespace AgateLib.UserInterface
                     element.Display.Animation.AnimatedContentRect.Height);
 
                 Rectangle oldScissor = GraphicsDevice.ScissorRectangle;
-
-                UserInterfaceRenderer.DrawBackground(this, element.Display, dest);
-                UserInterfaceRenderer.DrawFrame(this, element.Display, dest);
+                
+                element.DrawBackgroundAndBorder(this, dest);
 
                 element.Events.BeforeDraw?.Invoke(this, dest);
                 element.Draw(this, dest);

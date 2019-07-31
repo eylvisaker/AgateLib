@@ -58,6 +58,11 @@ namespace AgateLib.UserInterface
         bool ExitOnExitButton { get; set; }
 
         /// <summary>
+        /// Gets or sets the color that the background and inactive workspaces are faded to.
+        /// </summary>
+        Color InactiveWorkspaceFade { get; set; }
+
+        /// <summary>
         /// Gets the instructions object.
         /// </summary>
         IInstructions Instructions { get; }
@@ -170,6 +175,12 @@ namespace AgateLib.UserInterface
         {
             get => InputMap.ButtonMap;
             set => InputMap.ButtonMap = value;
+        }
+
+        public Color InactiveWorkspaceFade
+        {
+            get => Desktop.InactiveWorkspaceFade;
+            set => Desktop.InactiveWorkspaceFade = value;
         }
 
         /// <summary>

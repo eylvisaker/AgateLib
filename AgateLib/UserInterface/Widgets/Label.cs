@@ -176,7 +176,7 @@ namespace AgateLib.UserInterface
         {
             if (content != null)
             {
-                renderContext.Draw(content, clientArea);
+                renderContext.Canvas.Draw(content, clientArea.Location.ToVector2());
             }
         }
 
