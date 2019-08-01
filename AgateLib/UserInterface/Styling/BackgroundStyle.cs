@@ -51,5 +51,6 @@ namespace AgateLib.UserInterface
 
         public BackgroundRepeat Repeat { get; set; }
 
+        public ImageScale ImageScale { get; set; }
     }
 }

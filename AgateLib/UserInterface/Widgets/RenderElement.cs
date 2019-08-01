@@ -350,6 +350,7 @@ namespace AgateLib.UserInterface
 
         public virtual void Update(IUserInterfaceRenderContext renderContext)
         {
+            Props.OnUpdate?.Invoke(renderContext);
         }
 
         public virtual void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle rtClientDest)
@@ -569,6 +570,11 @@ namespace AgateLib.UserInterface
         /// Event raised when a render element loses the focus.
         /// </summary>
         public UserInterfaceEventHandler OnBlur { get; set; }
+
+        /// <summary>
+        /// Event raised when a render element receives its update event.
+        /// </summary>
+        public Action<IUserInterfaceRenderContext> OnUpdate { get; set; }
 
         /// <summary>
         /// Gets or sets whether the element is visible. Defaults to true.

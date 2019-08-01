@@ -20,18 +20,11 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace AgateLib.UserInterface.Rendering
 {
@@ -63,7 +56,7 @@ namespace AgateLib.UserInterface.Rendering
 
             blankSurface.SetData(data);
         }
-        
+
         public void Dispose()
         {
             blankSurface.Dispose();
@@ -84,29 +77,39 @@ namespace AgateLib.UserInterface.Rendering
 
             if (string.IsNullOrEmpty(background.Image?.File) == false)
             {
-                var backgroundImage = imageProvider.Load<Texture2D>(background.Image.File);
+                Texture2D backgroundImage = imageProvider.Load<Texture2D>(background.Image.File);
                 Point origin = backgroundRect.Location;
-                var backgroundPosition = background.Position;
+                Point backgroundPosition = background.Position;
+                Rectangle srcRect = background.Image.SourceRect ?? new Rectangle(0, 0, backgroundImage.Width, backgroundImage.Height);
 
-                origin.X += backgroundPosition.X;
-                origin.Y += backgroundPosition.Y;
-
-                switch (background.Repeat)
+                switch (background.ImageScale)
                 {
-                    case BackgroundRepeat.None:
-                        DrawClipped(canvas, backgroundImage, origin, backgroundRect, background.Image.SourceRect);
+                    case ImageScale.Tile:
+                        origin.X += backgroundPosition.X;
+                        origin.Y += backgroundPosition.Y;
+
+                        switch (background.Repeat)
+                        {
+                            case BackgroundRepeat.None:
+                                DrawClipped(canvas, backgroundImage, origin, backgroundRect, srcRect);
+                                break;
+
+                            case BackgroundRepeat.Repeat:
+                                DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, true, true, srcRect);
+                                break;
+
+                            case BackgroundRepeat.Repeat_X:
+                                DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, true, false, srcRect);
+                                break;
+
+                            case BackgroundRepeat.Repeat_Y:
+                                DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, false, true, srcRect);
+                                break;
+                        }
                         break;
 
-                    case BackgroundRepeat.Repeat:
-                        DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, true, true, background.Image.SourceRect);
-                        break;
-
-                    case BackgroundRepeat.Repeat_X:
-                        DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, true, false, background.Image.SourceRect);
-                        break;
-
-                    case BackgroundRepeat.Repeat_Y:
-                        DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, false, true, background.Image.SourceRect);
+                    case ImageScale.Stretch:
+                        canvas.Draw(backgroundImage, backgroundRect, srcRect, Color.White);
                         break;
                 }
             }
@@ -147,12 +150,13 @@ namespace AgateLib.UserInterface.Rendering
             ImageScale borderScale)
         {
             Rectangle destInnerRect = destOuterRect;
-            Size delta = new Size(frameSourceInner.X - frameSourceOuter.X, frameSourceInner.Y - frameSourceOuter.Y);
+            Size topLeftDelta = new Size(frameSourceInner.X - frameSourceOuter.X, frameSourceInner.Y - frameSourceOuter.Y);
+            Size bottomRightDelta = new Size(frameSourceOuter.Right - frameSourceInner.Right, frameSourceOuter.Bottom - frameSourceInner.Bottom);
 
-            destInnerRect.X += delta.Width;
-            destInnerRect.Y += delta.Height;
-            destInnerRect.Width -= (delta.Width) * 2;
-            destInnerRect.Height -= (delta.Height) * 2;
+            destInnerRect.X += topLeftDelta.Width;
+            destInnerRect.Y += topLeftDelta.Height;
+            destInnerRect.Width -= topLeftDelta.Width + bottomRightDelta.Width;
+            destInnerRect.Height -= topLeftDelta.Height + bottomRightDelta.Height;
 
             Rectangle src, dest;
             Rectangle outer = frameSourceOuter, inner = frameSourceInner;
@@ -254,9 +258,8 @@ namespace AgateLib.UserInterface.Rendering
             DrawRepeatedClipped(canvas, frameTexture, dest.Location, dest, true, true, src);
         }
 
-        private void DrawClipped(ICanvas canvas, Texture2D image, Point dest, Rectangle clipRect, Rectangle? maybeSrcRect)
+        private void DrawClipped(ICanvas canvas, Texture2D image, Point dest, Rectangle clipRect, Rectangle srcRect)
         {
-            Rectangle srcRect = maybeSrcRect ?? new Rectangle(0, 0, image.Width, image.Height);
             Rectangle destRect = new Rectangle(dest.X, dest.Y, srcRect.Width, srcRect.Height);
 
             if (clipRect.Contains(destRect) == false)
@@ -278,10 +281,8 @@ namespace AgateLib.UserInterface.Rendering
             canvas.Draw(image, destRect, srcRect, Color.White);
         }
 
-        private void DrawRepeatedClipped(ICanvas canvas, Texture2D image, Point startPt, Rectangle clipRect, bool repeatX, bool repeatY, Rectangle? maybeSrcRect)
+        private void DrawRepeatedClipped(ICanvas canvas, Texture2D image, Point startPt, Rectangle clipRect, bool repeatX, bool repeatY, Rectangle srcRect)
         {
-            Rectangle srcRect = maybeSrcRect ?? new Rectangle(0, 0, image.Width, image.Height);
-
             int countX = (int)Math.Ceiling(clipRect.Width / (double)srcRect.Width);
             int countY = (int)Math.Ceiling(clipRect.Height / (double)srcRect.Height);
 

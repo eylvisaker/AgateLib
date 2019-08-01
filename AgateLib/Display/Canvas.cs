@@ -23,12 +23,12 @@ namespace AgateLib.Display
         int Height { get; }
 
         void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred,
-                          BlendState blendState = null,
-                          SamplerState samplerState = null,
-                          DepthStencilState depthStencilState = null,
-                          RasterizerState rasterizerState = null,
-                          Effect effect = null,
-                          Matrix? transformMatrix = null);
+                   BlendState blendState = null,
+                   SamplerState samplerState = null,
+                   DepthStencilState depthStencilState = null,
+                   RasterizerState rasterizerState = null,
+                   Effect effect = null,
+                   Matrix? transformMatrix = null);
 
         void Draw(Texture2D texture, Rectangle destinationRectangle, Color color);
         void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
@@ -53,14 +53,45 @@ namespace AgateLib.Display
         /// <param name="destRect"></param>
         /// <param name="color"></param>
         void FillRect(Rectangle destRect, Color color);
+
+        /// <summary>
+        /// Flushes the drawing buffer. Stores the last parameters to Begin.
+        /// </summary>
+        /// <param name="copyExisting">If true, this will copy the existing state and overwrite only values which were passed in</param>
+        void PushState(bool copyExisting = true,
+                       SpriteSortMode? sortMode = null,
+                       BlendState blendState = null,
+                       SamplerState samplerState = null,
+                       DepthStencilState depthStencilState = null,
+                       RasterizerState rasterizerState = null,
+                       Effect effect = null,
+                       Matrix? transformMatrix = null);
+
+        /// <summary>
+        /// Flushes the drawing buffer. Uses the last parameters to Begin to resume the drawing state.
+        /// </summary>
+        void PopState();
     }
 
     public class Canvas : ICanvas
     {
+        class SpriteBatchBeginArgs
+        {
+            public SpriteSortMode sortMode = SpriteSortMode.Deferred;
+            public BlendState blendState = null;
+            public SamplerState samplerState = null;
+            public DepthStencilState depthStencilState = null;
+            public RasterizerState rasterizerState = null;
+            public Effect effect = null;
+            public Matrix? transformMatrix = null;
+        };
+
         private readonly GraphicsDevice graphics;
         private readonly SpriteBatch spriteBatch;
         private Rectangle coordinates;
         private Texture2D whiteTexture;
+        private SpriteBatchBeginArgs spriteBatchBeginArgs = new SpriteBatchBeginArgs();
+        private Stack<SpriteBatchBeginArgs> beginArgsStack = new Stack<SpriteBatchBeginArgs>();
 
         public Canvas(GraphicsDevice graphics)
         {
@@ -127,7 +158,7 @@ namespace AgateLib.Display
         {
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, color);
         }
-        
+
         public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
         {
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, color, rotation, origin, effects, layerDepth);
@@ -145,26 +176,97 @@ namespace AgateLib.Display
             Draw(whiteTexture, destRect, color);
         }
 
-        public void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, 
-                          BlendState blendState = null, 
-                          SamplerState samplerState = null, 
-                          DepthStencilState depthStencilState = null, 
-                          RasterizerState rasterizerState = null, 
-                          Effect effect = null, 
+        public void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred,
+                          BlendState blendState = null,
+                          SamplerState samplerState = null,
+                          DepthStencilState depthStencilState = null,
+                          RasterizerState rasterizerState = null,
+                          Effect effect = null,
                           Matrix? transformMatrix = null)
         {
-            spriteBatch.Begin(sortMode, 
-                              blendState, 
-                              samplerState, 
-                              depthStencilState, 
-                              rasterizerState, 
-                              effect, 
-                              transformMatrix);
+            spriteBatchBeginArgs.sortMode = sortMode;
+            spriteBatchBeginArgs.blendState = blendState;
+            spriteBatchBeginArgs.samplerState = samplerState;
+            spriteBatchBeginArgs.depthStencilState = depthStencilState;
+            spriteBatchBeginArgs.rasterizerState = rasterizerState;
+            spriteBatchBeginArgs.effect = effect;
+            spriteBatchBeginArgs.transformMatrix = transformMatrix;
+
+            BeginSpriteBatch();
         }
+
 
         public void End()
         {
             spriteBatch.End();
+        }
+
+        /// <summary>
+        /// Flushes the drawing buffer. Stores the last parameters to Begin.
+        /// </summary>
+        public void PushState(bool copyExisting,
+                              SpriteSortMode? sortMode = null,
+                              BlendState blendState = null,
+                              SamplerState samplerState = null,
+                              DepthStencilState depthStencilState = null,
+                              RasterizerState rasterizerState = null,
+                              Effect effect = null,
+                              Matrix? transformMatrix = null)
+        {
+            beginArgsStack.Push(spriteBatchBeginArgs);
+
+            if (copyExisting)
+            {
+                spriteBatchBeginArgs = new SpriteBatchBeginArgs
+                {
+                    sortMode = sortMode ?? spriteBatchBeginArgs.sortMode,
+                    blendState = blendState ?? spriteBatchBeginArgs.blendState,
+                    samplerState = samplerState ?? spriteBatchBeginArgs.samplerState,
+                    depthStencilState = depthStencilState ?? spriteBatchBeginArgs.depthStencilState,
+                    rasterizerState = rasterizerState ?? spriteBatchBeginArgs.rasterizerState,
+                    effect = effect ?? spriteBatchBeginArgs.effect,
+                    transformMatrix = transformMatrix ?? spriteBatchBeginArgs.transformMatrix
+                };
+            }
+            else
+            {
+                spriteBatchBeginArgs = new SpriteBatchBeginArgs
+                {
+                    sortMode = sortMode ?? SpriteSortMode.Deferred,
+                    blendState = blendState,
+                    samplerState = samplerState,
+                    depthStencilState = depthStencilState,
+                    rasterizerState = rasterizerState,
+                    effect = effect,
+                    transformMatrix = transformMatrix
+                };
+            }
+
+            End();
+            BeginSpriteBatch();
+        }
+
+        /// <summary>
+        /// Flushes the drawing buffer. Uses the last parameters to Begin to resume the drawing state.
+        /// </summary>
+        public void PopState()
+        {
+            End();
+
+            spriteBatchBeginArgs = beginArgsStack.Pop();
+
+            BeginSpriteBatch();
+        }
+
+        private void BeginSpriteBatch()
+        {
+            spriteBatch.Begin(spriteBatchBeginArgs.sortMode,
+                              spriteBatchBeginArgs.blendState,
+                              spriteBatchBeginArgs.samplerState,
+                              spriteBatchBeginArgs.depthStencilState,
+                              spriteBatchBeginArgs.rasterizerState,
+                              spriteBatchBeginArgs.effect,
+                              spriteBatchBeginArgs.transformMatrix);
         }
     }
 }

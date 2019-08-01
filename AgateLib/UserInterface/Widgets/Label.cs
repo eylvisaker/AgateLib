@@ -188,6 +188,8 @@ namespace AgateLib.UserInterface
             content.Options.ReadSlowly = Props.ReadSlowly;
 
             content?.Update(renderContext.GameTime);
+
+            base.Update(renderContext);
         }
 
         public override string ToString()

@@ -54,6 +54,8 @@ namespace AgateLib.UserInterface
 
             if (flashCycle > flashTime)
                 flashCycle %= flashTime;
+
+            base.Update(renderContext);
         }
 
         public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
