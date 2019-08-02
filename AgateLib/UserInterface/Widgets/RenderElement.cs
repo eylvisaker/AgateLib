@@ -324,7 +324,10 @@ namespace AgateLib.UserInterface
         /// </summary>
         public IRenderElementStyle Style => Display.Style;
 
-        public virtual string StyleTypeId => GetType().Name;
+        /// <summary>
+        /// Gets the type identifier of this render element.
+        /// </summary>
+        public virtual string StyleTypeId => GetType().Name.ToLowerInvariant();
 
         public string StyleClass => Props.StyleClass;
 

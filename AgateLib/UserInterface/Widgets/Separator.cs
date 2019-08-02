@@ -9,11 +9,11 @@ namespace AgateLib.UserInterface
         {
         }
 
+        public override string StyleTypeId => "separator";
+
         public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
         {
-            int size = Style.Font.FontHeight / 2;
-
-            return new Size(size, size);
+            return new Size(Props.MinSize, Props.MinSize);
         }
 
         public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
@@ -25,5 +25,6 @@ namespace AgateLib.UserInterface
 
     public class SeparatorProps : RenderElementProps
     {
+        public int MinSize = 0;
     }
 }
