@@ -22,6 +22,11 @@ namespace AgateLib.Display
 
         int Height { get; }
 
+        /// <summary>
+        /// Gets the current blend state.
+        /// </summary>
+        BlendState BlendState { get; }
+
         void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred,
                    BlendState blendState = null,
                    SamplerState samplerState = null,
@@ -108,6 +113,8 @@ namespace AgateLib.Display
 
         [Obsolete("Avoid using this.")]
         public SpriteBatch SpriteBatch => spriteBatch;
+
+        public BlendState BlendState => spriteBatchBeginArgs.blendState;
 
         public Rectangle Coordinates => coordinates;
 

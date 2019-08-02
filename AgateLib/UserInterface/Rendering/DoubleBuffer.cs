@@ -98,7 +98,7 @@ namespace AgateLib.UserInterface.Rendering
             newRenderContext.GraphicsDevice.ScissorRectangle =
                new Rectangle(0, 0, renderTarget.Width, renderTarget.Height);
 
-            newRenderContext.Canvas.Begin(rasterizerState: rasterizerState);
+            newRenderContext.Canvas.Begin(rasterizerState: rasterizerState, blendState: renderContext.Canvas.BlendState);
 
             widget.Display.Animation.Buffer.ContentDestination = new Rectangle(
                 display.Region.MarginToContentOffset.Left,
