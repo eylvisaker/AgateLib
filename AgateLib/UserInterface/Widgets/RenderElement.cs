@@ -25,7 +25,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace AgateLib.UserInterface
@@ -205,7 +204,7 @@ namespace AgateLib.UserInterface
         }
     }
 
-    public abstract class RenderElement<TProps, TState> : IRenderElement where TProps : RenderElementProps where TState:RenderElementState
+    public abstract class RenderElement<TProps, TState> : IRenderElement where TProps : RenderElementProps where TState : RenderElementState
 
     {
         public RenderElement(TProps props)
@@ -634,8 +633,8 @@ namespace AgateLib.UserInterface
         /// <param name="layoutContext"></param>
         /// <param name="maxSize"></param>
         /// <returns></returns>
-        public static Size CalcIdealMarginSize(this IRenderElement element, 
-                                               IUserInterfaceLayoutContext layoutContext, 
+        public static Size CalcIdealMarginSize(this IRenderElement element,
+                                               IUserInterfaceLayoutContext layoutContext,
                                                Size maxSize)
         {
             var contentSize = element.CalcIdealContentSize(layoutContext, maxSize);
@@ -670,15 +669,27 @@ namespace AgateLib.UserInterface
         /// <param name="elementProps"></param>
         /// <param name="props"></param>
         /// <returns></returns>
-        public static T CopyFromWidgetProps<T>(this T elementProps, WidgetProps props)
+        public static T CopyFromWidgetProps<T>(this T elementProps, WidgetProps props, bool overwriteExisting = true)
             where T : RenderElementProps
         {
-            elementProps.Name = props.Name;
-            elementProps.Theme = props.Theme;
-            elementProps.Style = props.Style;
-            elementProps.StyleClass = props.StyleClass;
-            elementProps.DefaultStyle = props.DefaultStyle;
-            elementProps.Visible = props.Visible;
+            if (overwriteExisting)
+            {
+                elementProps.Name = props.Name ?? elementProps.Name;
+                elementProps.Theme = props.Theme ?? elementProps.Theme;
+                elementProps.Style = props.Style ?? elementProps.Style;
+                elementProps.StyleClass = props.StyleClass ?? elementProps.StyleClass;
+                elementProps.DefaultStyle = props.DefaultStyle ?? elementProps.DefaultStyle;
+                elementProps.Visible = props.Visible;
+            }
+            else
+            {
+                elementProps.Name = elementProps.Name ?? props.Name;
+                elementProps.Theme = elementProps.Theme ?? props.Theme;
+                elementProps.Style = elementProps.Style ?? props.Style;
+                elementProps.StyleClass = elementProps.StyleClass ?? props.StyleClass;
+                elementProps.DefaultStyle = elementProps.DefaultStyle ?? props.DefaultStyle;
+                // Not overwriting value for Visible.
+            }
 
             return elementProps;
         }
