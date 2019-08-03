@@ -120,7 +120,9 @@ namespace AgateLib.UserInterface
         public Font GetOrDefault(string fontDescription)
         {
             if (string.IsNullOrWhiteSpace(fontDescription))
-                throw new ArgumentNullException(nameof(fontDescription));
+            {
+                return new Font(Default);
+            }
 
             string[] parts = fontDescription.Split(descriptionSeparator, StringSplitOptions.RemoveEmptyEntries);
 
