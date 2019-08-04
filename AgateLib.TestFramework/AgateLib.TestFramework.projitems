@@ -11,5 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer\FakeRandom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\FakeUserStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FakeCanvas.cs" />
   </ItemGroup>
 </Project>

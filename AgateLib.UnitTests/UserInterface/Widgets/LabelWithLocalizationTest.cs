@@ -35,6 +35,7 @@ namespace AgateLib.UserInterface.Widgets
         private readonly TextRepository textRepo;
 
         private readonly IContentLayoutEngine contentLayout;
+        private readonly Mock<ICanvas> canvas;
         private readonly Mock<IUserInterfaceRenderContext> context;
         private readonly Mock<IDisplaySystem> displaySystem;
 
@@ -51,12 +52,14 @@ namespace AgateLib.UserInterface.Widgets
             contentLayout = new LocalizedContentLayoutEngine(
                 new ContentLayoutEngine(fontProvider), textRepo);
 
-            context = CommonMocks.RenderContext(contentLayout);
+            canvas = new Mock<ICanvas>();
 
-            context.Setup(x => x.Draw(It.IsAny<IContentLayout>(), It.IsAny<Rectangle>()))
-                .Callback<IContentLayout, Rectangle>((content, dest) =>
+            context = CommonMocks.RenderContext(contentLayout, canvas.Object);
+
+            canvas.Setup(x => x.Draw(It.IsAny<IContentLayout>(), It.IsAny<Vector2>()))
+                .Callback<IContentLayout, Vector2>((content, dest) =>
                 {
-                    content.Draw(dest.Location.ToVector2());
+                    content.Draw(dest);
                 });
 
             displaySystem = CommonMocks.DisplaySystem(fontProvider);

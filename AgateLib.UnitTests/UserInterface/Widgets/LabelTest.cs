@@ -19,6 +19,7 @@ namespace AgateLib.UserInterface.Widgets
         private readonly Font font;
         private readonly FontProvider fontProvider;
         private readonly ContentLayoutEngine contentLayout;
+        private readonly Mock<ICanvas> canvas;
         private readonly Mock<IUserInterfaceRenderContext> context;
         private readonly Mock<IDisplaySystem> displaySystem;
 
@@ -31,13 +32,14 @@ namespace AgateLib.UserInterface.Widgets
             fontProvider.Add("default", font);
 
             contentLayout = new ContentLayoutEngine(fontProvider);
+            canvas = new Mock<ICanvas>();
 
-            context = CommonMocks.RenderContext(contentLayout);
+            context = CommonMocks.RenderContext(contentLayout, canvas.Object);
 
-            context.Setup(x => x.Draw(It.IsAny<IContentLayout>(), It.IsAny<Rectangle>()))
-                .Callback<IContentLayout, Rectangle>((content, dest) =>
+            canvas.Setup(x => x.Draw(It.IsAny<IContentLayout>(), It.IsAny<Vector2>()))
+                .Callback<IContentLayout, Vector2>((content, dest) =>
                 {
-                    content.Draw(dest.Location.ToVector2());
+                    content.Draw(dest);
                 });
 
             displaySystem = CommonMocks.DisplaySystem(fontProvider);

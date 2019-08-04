@@ -84,12 +84,13 @@ namespace AgateLib
             return fontProvider;
         }
 
-        public static Mock<IUserInterfaceRenderContext> RenderContext(IContentLayoutEngine contentLayoutEngine = null)
+        public static Mock<IUserInterfaceRenderContext> RenderContext(IContentLayoutEngine contentLayoutEngine = null, ICanvas canvas = null)
         {
             var styleRenderer = new Mock<IComponentStyleRenderer>();
             var uiRenderer = new UserInterfaceRenderer(styleRenderer.Object);
-
             var result = new Mock<IUserInterfaceRenderContext>();
+
+            canvas = canvas ?? new FakeCanvas();
 
             result.SetupGet(x => x.UserInterfaceRenderer)
                 .Returns(uiRenderer);
@@ -118,6 +119,10 @@ namespace AgateLib
             result
                 .Setup(x => x.Fonts)
                 .Returns(fontProvider);
+
+            result
+                .Setup(x => x.Canvas)
+                .Returns(canvas);
 
             return result;
         }
