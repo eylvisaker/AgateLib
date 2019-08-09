@@ -69,6 +69,17 @@ namespace AgateLib.Mathematics.Geometry
         }
 
         /// <summary>
+        /// Deconstructs the size object.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void Deconstruct(out int width, out int height)
+        {
+            width = Width;
+            height = Height;
+        }
+
+        /// <summary>
         /// Gets or sets the width.
         /// </summary>
         public int Width
