@@ -21,10 +21,12 @@
 //
 
 using AgateLib.Mathematics;
+using AgateLib.Quality;
 using AgateLib.Randomizer;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -131,23 +133,6 @@ namespace AgateLib.Randomizer
         public static Vector2 NextUnitVector(this IRandom random) => Vector2X.FromPolar(1, random.NextAngle());
 
         /// <summary>
-        /// Picks a random item from a list.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="random"></param>
-        /// <param name="items"></param>
-        /// <returns></returns>
-        public static T PickOne<T>(this IRandom random, IReadOnlyCollection<T> items) 
-        {
-            if (items is IReadOnlyList<T> list)
-            {
-                return list[random.NextInteger(list.Count)];
-            }
-
-            return items.Skip(random.NextInteger(items.Count)).First();
-        }
-
-        /// <summary>
         /// Picks a random point within the specified rectangle.
         /// </summary>
         /// <param name="random">The IRandom object which provides random numbers</param>
@@ -162,6 +147,26 @@ namespace AgateLib.Randomizer
         }
 
         /// <summary>
+        /// Picks a random item from a list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="random"></param>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static T PickOne<T>(this IRandom random, IReadOnlyCollection<T> items) 
+        {
+            Require.ArgumentInRange(items.Count > 0, nameof(items), "No items in collection");
+
+            if (items is IReadOnlyList<T> list)
+            {
+                return list[random.NextInteger(list.Count)];
+            }
+
+            return items.Skip(random.NextInteger(items.Count)).First();
+        }
+
+        /// <summary>
         /// Picks a random item from a list. Items weighted more heavily are more likely to be picked.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -169,9 +174,23 @@ namespace AgateLib.Randomizer
         /// <param name="items">The list of items to pick from.</param>
         /// <param name="weightFunc">A function that when called for each object in the list returns its weight.</param>
         /// <returns></returns>
+        [DebuggerStepThrough]
         public static T PickOneWeighted<T>(this IRandom random, IReadOnlyList<T> items, Func<T, int> weightFunc)
         {
-            int max = items.Sum(x => weightFunc(x));
+            Require.ArgumentInRange(items.Count > 0, nameof(items), "No items in collection");
+
+            int max = 0;
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                int weight = weightFunc(items[i]);
+                max += weight;
+
+                Require.That(weight >= 0, $"Weight of item {i} is negative. All weights must be non-negative.");
+            }
+
+            Require.That(max > 0, "Sum of weights must be positive. All weights were zero");
+
             int initialVal = random.NextInteger(max);
             int val = initialVal;
 
