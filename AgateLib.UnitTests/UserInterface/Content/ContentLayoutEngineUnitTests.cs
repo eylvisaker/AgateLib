@@ -126,5 +126,23 @@ Be careful! Some enemies may anticipate this!";
             }
         }
 
+        [Fact]
+        public void TextWithDash()
+        {
+            var text = @"Weapon - Knife";
+
+            var fontProvider = CommonMocks.FontProvider("temp");
+
+            ContentLayoutEngine layoutEngine = new ContentLayoutEngine(fontProvider.Object)
+            {
+                CommandStart = '`',
+                CommandEnd = '`',
+            };
+
+            var result = (ContentLayout)layoutEngine.LayoutContent(text);
+
+            result.Items.Count.Should().Be(3);
+        }
+
     }
 }

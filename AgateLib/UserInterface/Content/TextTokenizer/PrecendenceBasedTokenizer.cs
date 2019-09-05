@@ -18,7 +18,7 @@ namespace AgateLib.UserInterface.Content.TextTokenizer
             tokenDefs = new List<TokenDefinition>();
 
             tokenDefs.Add(new TokenDefinition(TokenType.Word, 
-                @"[\w\.,\!\?'""@#$%^&*\(\)_\+\=\[\]\{\};:\<\>/\\]+[\-\\]?", 1));
+                @"[\w\.,\!\?'""@#$%^&*\(\)_\+\=\[\]\{\};:\<\>/\\-]+", 1));
             tokenDefs.Add(new TokenDefinition(TokenType.NewLine, @"\r?\n", 1));
             tokenDefs.Add(new TokenDefinition(TokenType.WhiteSpace, @"[ \t]", 1));
             tokenDefs.Add(new TokenDefinition(TokenType.NotDefined, @".+", 1));

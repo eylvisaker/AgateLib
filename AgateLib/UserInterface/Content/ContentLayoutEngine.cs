@@ -52,7 +52,7 @@ namespace AgateLib.UserInterface.Content
     public class ContentLayoutEngine : IContentLayoutEngine
     {
         private readonly IFontProvider fonts;
-        private Tokenizer tokenizer;
+        private Tokenizer commandTokenizer;
         private Dictionary<string, IContentCommand> commands
             = new Dictionary<string, IContentCommand>(StringComparer.OrdinalIgnoreCase);
 
@@ -73,17 +73,17 @@ namespace AgateLib.UserInterface.Content
 
         public IContentLayout LayoutContent(string text, ContentLayoutOptions layoutOptions, bool _ = true)
         {
-            if (tokenizer == null ||
-                tokenizer.CommandStart != CommandStart ||
-                tokenizer.CommandEnd != CommandEnd)
+            if (commandTokenizer == null ||
+                commandTokenizer.CommandStart != CommandStart ||
+                commandTokenizer.CommandEnd != CommandEnd)
             {
-                tokenizer = new Tokenizer(CommandStart, CommandEnd);
+                commandTokenizer = new Tokenizer(CommandStart, CommandEnd);
             }
 
             layoutOptions.Font = layoutOptions.Font ?? LookupFont(layoutOptions.FontLookup);
             layoutOptions.DefaultFont = new Font(layoutOptions.Font);
 
-            var tokens = tokenizer.Tokenize(text);
+            var tokens = commandTokenizer.Tokenize(text);
             var context = new LayoutContext(tokens, layoutOptions);
 
             while (context.AnyTokensLeft)

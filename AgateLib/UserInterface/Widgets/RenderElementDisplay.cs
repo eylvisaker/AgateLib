@@ -45,6 +45,8 @@ namespace AgateLib.UserInterface
             Region = new RenderElementRegion(Style);
 
             Animation = new RenderElementAnimator(this);
+
+            Region.ContentRectUpdated += () => Animation.ContentRectUpdated();
         }
 
         /// <summary>
@@ -155,11 +157,7 @@ namespace AgateLib.UserInterface
         public Rectangle ContentRect
         {
             get => Region.ContentRect;
-            set
-            {
-                Region.SetContentRect(value);
-                Animation.ContentRectUpdated();
-            }
+            set => Region.SetContentRect(value);
         }
 
         /// <summary>
@@ -178,7 +176,6 @@ namespace AgateLib.UserInterface
                     value.Height - Region.MarginToContentOffset.Height);
 
                 Region.SetContentRect(contentRect);
-                Animation.ContentRectUpdated();
             }
         }
 
@@ -198,7 +195,6 @@ namespace AgateLib.UserInterface
                     value.Height - Region.BorderToContentOffset.Height);
 
                 Region.SetContentRect(contentRect);
-                Animation.ContentRectUpdated();
             }
         }
 

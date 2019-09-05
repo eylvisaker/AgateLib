@@ -218,6 +218,13 @@ namespace AgateLib.UserInterface.Content
             int lineHeight = defaultLineHeight;
             int lineStartIndex = 0;
 
+            if (items.Count == 0)
+            {
+                Size = resultSize;
+                layoutDirty = false;
+                return;
+            }
+
             int myMaxWidth = MaxWidth ?? items.Max(x => x.Bounds.Right);
 
             void ApplyAlignment(int start, int end)

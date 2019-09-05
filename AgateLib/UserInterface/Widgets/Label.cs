@@ -30,6 +30,8 @@ namespace AgateLib.UserInterface
 {
     public class Label : Widget<LabelProps>
     {
+        public Label(string text) : base(new LabelProps { Text = text }) { }
+
         public Label(LabelProps props) : base(props)
         {
         }

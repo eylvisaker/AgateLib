@@ -21,7 +21,6 @@
 //
 
 using AgateLib.Display;
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -29,10 +28,10 @@ namespace AgateLib.UserInterface.Rendering
 {
     public interface IDoubleBuffer
     {
-        IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, 
+        IUserInterfaceRenderContext PrepRenderState(IRenderElement widget,
                                                     IUserInterfaceRenderContext renderContext);
 
-        void CompleteRendering(IUserInterfaceRenderContext renderContext, 
+        void CompleteRendering(IUserInterfaceRenderContext renderContext,
                                IRenderElement widget);
         void Flush(IUserInterfaceRenderContext newContext);
     }
@@ -68,7 +67,7 @@ namespace AgateLib.UserInterface.Rendering
             renderContext.GraphicsDevice.RasterizerState = new RasterizerState();
         }
 
-        public IUserInterfaceRenderContext PrepRenderState(IRenderElement widget, 
+        public IUserInterfaceRenderContext PrepRenderState(IRenderElement widget,
                                                            IUserInterfaceRenderContext renderContext)
         {
             var animation = widget.Display.Animation;
@@ -89,14 +88,14 @@ namespace AgateLib.UserInterface.Rendering
 
             var newRenderContext = display.Animation.Buffer.RenderContext;
             var renderTarget = animation.RenderTarget;
+            var area = new Rectangle(0, 0, renderTarget.Width, renderTarget.Height);
 
             newRenderContext.GameTime = renderContext.GameTime;
-
+            newRenderContext.ScreenArea = area;
             newRenderContext.GraphicsDevice.SetRenderTarget(animation.RenderTarget);
             newRenderContext.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
             newRenderContext.GraphicsDevice.BlendState = blendState;
-            newRenderContext.GraphicsDevice.ScissorRectangle =
-               new Rectangle(0, 0, renderTarget.Width, renderTarget.Height);
+            newRenderContext.GraphicsDevice.ScissorRectangle = area;
 
             newRenderContext.Canvas.Begin(rasterizerState: rasterizerState, blendState: renderContext.Canvas.BlendState);
 
@@ -121,7 +120,7 @@ namespace AgateLib.UserInterface.Rendering
         /// </summary>
         /// <param name="display"></param>
         /// <returns></returns>
-        public bool InitializeRenderTarget(RenderElementDisplay display, 
+        public bool InitializeRenderTarget(RenderElementDisplay display,
                                            GraphicsDevice graphicsDevice)
         {
             var animation = display.Animation;

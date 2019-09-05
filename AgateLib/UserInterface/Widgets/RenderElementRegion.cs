@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Quality;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using System;
@@ -43,6 +44,8 @@ namespace AgateLib.UserInterface
         {
             this.Style = activeStyle;
         }
+
+        public event Action ContentRectUpdated;
 
         /// <summary>
         /// A reference to the active style for this widget.
@@ -120,29 +123,46 @@ namespace AgateLib.UserInterface
 
         public void SetContentRect(Rectangle newContentRect)
         {
-            Debug.Assert(newContentRect.Width >= 0 && newContentRect.Height >= 0);
+            Require.ArgumentInRange(newContentRect.Width >= 0 && newContentRect.Height >= 0, 
+                                    nameof(newContentRect),
+                                    "ContentRect must have positive width and height");
+
+            if (contentRect == newContentRect)
+                return;
 
             contentRect = newContentRect;
+            ContentRectUpdated?.Invoke();
         }
 
         public void SetContentSize(Size newContentSize)
         {
-            Debug.Assert(newContentSize.Width >= 0 && newContentSize.Height >= 0);
+            Require.ArgumentInRange(newContentSize.Width >= 0 && newContentSize.Height >= 0,
+                                    nameof(newContentSize),
+                                    "ContentRect must have positive width and height");
+
+            if (contentRect.Size == (Point)newContentSize)
+                return;
 
             contentRect.Size = newContentSize;
+            ContentRectUpdated?.Invoke();
         }
+
         public void SetMarginPosition(Point position)
         {
             var contentPos = new Point(position.X + MarginToContentOffset.Left,
                                        position.Y + MarginToContentOffset.Top);
 
+            if (contentRect.Location == contentPos)
+                return;
+
             contentRect.Location = contentPos;
+            ContentRectUpdated?.Invoke();
         }
 
         public void SetMarginSize(Size newMarginSize)
         {
-            contentRect.Size = new Size(newMarginSize.Width - MarginToContentOffset.Width,
-                                        newMarginSize.Height - MarginToContentOffset.Height);
+            SetContentSize(new Size(newMarginSize.Width - MarginToContentOffset.Width,
+                                    newMarginSize.Height - MarginToContentOffset.Height));
         }
 
         /// <summary>

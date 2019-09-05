@@ -27,6 +27,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
             animator.IsVisible = display.IsVisible;
             animator.AnimatedContentRect = display.ContentRect;
             animator.AnimatedBorderRect = display.BorderRect;
+
             animator.Alpha = 1;
 
             return true;
