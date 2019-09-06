@@ -75,15 +75,18 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public void Press(Buttons buttons, PlayerIndex playerIndex = PlayerIndex.One)
+        public void Press(Buttons buttons, PlayerIndex playerIndex = PlayerIndex.One, int repeatCount = 1)
         {
-            // Button down
-            ButtonDown(buttons, playerIndex);
+            for (int i = 0; i < repeatCount; i++)
+            {
+                // Button down
+                ButtonDown(buttons, playerIndex);
 
-            // Button up
-            ButtonUp();
+                // Button up
+                ButtonUp();
 
-            WaitForAnimations();
+                WaitForAnimations();
+            }
         }
 
         public void ButtonUp()

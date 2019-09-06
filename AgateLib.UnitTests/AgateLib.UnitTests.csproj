@@ -279,6 +279,7 @@
     <Compile Include="UserInterface\UserInterfaceFunctions.cs" />
     <Compile Include="UserInterface\InputMap\UserInterfaceInputEventsUnitTests.cs" />
     <Compile Include="UserInterface\InputMap\UserInterfaceInputStateUnitTests.cs" />
+    <Compile Include="UserInterface\VisualTreeReconcileUnitTests.cs" />
     <Compile Include="UserInterface\VisualTreeTests.cs" />
     <Compile Include="UserInterface\Widgets\FixedSizeTests.cs" />
     <Compile Include="UserInterface\Layout\FlexBoxDirectionUnitTests.cs" />

@@ -126,12 +126,14 @@ namespace AgateLib.UserInterface
 
             bool childrenUpdated = false;
 
-            for (int i = 0; i < oldNode.Children.Count || i < newNode.Children.Count; i++)
+            for (int oldIndex = 0, newIndex = 0; 
+                     oldIndex < oldNode.Children.Count || newIndex < newNode.Children.Count; oldIndex++, newIndex++)
             {
-                if (i < oldNode.Children.Count)
+                if (oldIndex < oldNode.Children.Count)
                 {
-                    var old = oldNode.Children[i];
-                    var match = FindMatch(oldNode.Children, i, newNode.Children);
+                    var old = oldNode.Children[oldIndex];
+                    // var match = FindMatch(oldNode.Children, oldIndex, newNode.Children);
+                    var match = FindMatch(old, newNode.Children, newIndex);
 
                     Reconcile(ref old, match, ref anyUpdates);
 
@@ -139,18 +141,19 @@ namespace AgateLib.UserInterface
 
                     if (old == null)
                     {
-                        oldNode.Children.RemoveAt(i);
+                        oldNode.Children.RemoveAt(oldIndex);
+                        oldIndex--;
                         childrenUpdated = true;
                     }
-                    else if (!ReferenceEquals(old, oldNode.Children[i]))
+                    else if (!ReferenceEquals(old, oldNode.Children[oldIndex]))
                     {
-                        oldNode.Children[i] = old;
+                        oldNode.Children[oldIndex] = old;
                         childrenUpdated = true;
                     }
                 }
                 else
                 {
-                    oldNode.Children.Add(newNode.Children[i]);
+                    oldNode.Children.Add(newNode.Children[oldIndex]);
                     anyUpdates = true;
                     childrenUpdated = true;
                 }
@@ -175,7 +178,27 @@ namespace AgateLib.UserInterface
         /// <param name="old"></param>
         /// <param name="children"></param>
         /// <param name="defaultIndex"></param>
-        private IRenderElement FindMatch(IList<IRenderElement> oldKids, int oldIndex, IList<IRenderElement> newKids)
+        private IRenderElement FindMatch(IRenderElement oldKid, IList<IRenderElement> newKids, int newIndex)
+        {
+            if (!string.IsNullOrWhiteSpace(oldKid.Props.Key))
+            {
+                return newKids.FirstOrDefault(x => x.Props.Key == oldKid.Props.Key);
+            }
+
+            if (newIndex >= newKids.Count)
+                return null;
+
+            return newKids[newIndex];
+        }
+
+        /// <summary>
+        /// Matches an old node to one in the new tree by the key parameters. 
+        /// Or returns the item at the defaultIndex position in the children array.
+        /// </summary>
+        /// <param name="old"></param>
+        /// <param name="children"></param>
+        /// <param name="defaultIndex"></param>
+        private IRenderElement FindMatch_Unused(IList<IRenderElement> oldKids, int oldIndex, IList<IRenderElement> newKids)
         {
             var old = oldKids[oldIndex];
 
