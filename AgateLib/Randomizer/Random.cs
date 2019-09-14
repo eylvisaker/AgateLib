@@ -125,7 +125,7 @@ namespace AgateLib.Randomizer
         public static float NextAngle(this IRandom random) => random.NextSingle(MathX.PI * -1f, MathX.PI);
 
         /// <summary>
-        /// Gets the next random unit vector.
+        /// Gets a random unit vector.
         /// </summary>
         /// <param name="random"></param>
         /// <param name=""></param>
@@ -133,18 +133,31 @@ namespace AgateLib.Randomizer
         public static Vector2 NextUnitVector(this IRandom random) => Vector2X.FromPolar(1, random.NextAngle());
 
         /// <summary>
+        /// Gets a random point.
+        /// </summary>
+        /// <param name="random"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public static Point NextPoint(this IRandom random, Rectangle bounds)
+            => new Point(random.NextInteger(bounds.Left, bounds.Right),
+                         random.NextInteger(bounds.Top, bounds.Bottom));
+
+        /// <summary>
         /// Picks a random point within the specified rectangle.
         /// </summary>
         /// <param name="random">The IRandom object which provides random numbers</param>
         /// <param name="rect">The bounding rectangle.</param>
         /// <returns></returns>
-        public static Vector2 NextVector2InRect(this IRandom random, Rectangle rect)
+        public static Vector2 NextVector2(this IRandom random, Rectangle rect)
         {
             return new Vector2(
                 random.NextSingle(rect.Left, rect.Right),
                 random.NextSingle(rect.Top, rect.Bottom)
                 );
         }
+
+        [Obsolete("Use NextVector2 instead.", true)]
+        public static Vector2 NextVector2InRect(this IRandom random, Rectangle rect) => NextVector2(random, rect);
 
         /// <summary>
         /// Picks a random item from a list.
