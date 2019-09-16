@@ -310,7 +310,7 @@ namespace AgateLib.Scenes
 
                             inputState.NewFrame(time);
 
-                            sc.UpdateInput(sceneData[sc].InputState);
+                            sc.UpdateInput(time, sceneData[sc].InputState);
                             processedInput = true;
                         }
 

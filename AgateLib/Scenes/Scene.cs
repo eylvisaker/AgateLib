@@ -84,19 +84,20 @@ namespace AgateLib.Scenes
         /// <summary>
         /// Called before Update for the topmost scene which has HandleInput == true.
         /// </summary>
+        /// <param name="time"></param>
         /// <param name="input"></param>
-        void UpdateInput(IInputState input);
+        void UpdateInput(GameTime time, IInputState input);
 
         /// <summary>
         /// Called each frame to update the game logic.
         /// </summary>
-        /// <param name="gameClockElapsed"></param>
+        /// <param name="time"></param>
         void Update(GameTime time);
 
         /// <summary>
-        /// Called each frame to draw. This method is called between a 
-        /// BeginFrame..EndFrame block, so there is no need to call BeginFrame or EndFrame.
+        /// Called each frame to draw. 
         /// </summary>
+        /// <param name="time"></param>
         void Draw(GameTime time);
     }
 
@@ -141,7 +142,7 @@ namespace AgateLib.Scenes
         /// Event raised when the scene should handle input. This is called before 
         /// the scene's Update event is called.
         /// </summary>
-        public event EventHandler<IInputState> UpdateInput;
+        public event Action<GameTime, IInputState> UpdateInput;
 
         /// <summary>
         /// Event raised when the scene should be updated.
@@ -221,9 +222,9 @@ namespace AgateLib.Scenes
         /// Called when the scene should process input.
         /// </summary>
         /// <param name="input"></param>
-        protected virtual void OnUpdateInput(IInputState input)
+        protected virtual void OnUpdateInput(GameTime time, IInputState input)
         {
-            UpdateInput?.Invoke(this, input);
+            UpdateInput?.Invoke(time, input);
         }
 
         /// <summary>
@@ -289,9 +290,9 @@ namespace AgateLib.Scenes
             OnSceneActivated();
         }
 
-        void IScene.UpdateInput(IInputState input)
+        void IScene.UpdateInput(GameTime time, IInputState input)
         {
-            OnUpdateInput(input);
+            OnUpdateInput(time, input);
         }
 
         void IScene.Update(GameTime time)

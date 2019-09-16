@@ -66,7 +66,7 @@ namespace AgateLib.Scenes
         /// Event raised when the scene should handle input. This is called before 
         /// the scene's Update event is called.
         /// </summary>
-        public event EventHandler<IInputState> UpdateInput;
+        public event Action<GameTime, IInputState> UpdateInput;
 
         /// <summary>
         /// Event raised when the scene should be updated.
@@ -151,9 +151,9 @@ namespace AgateLib.Scenes
         /// Called when the scene should process input.
         /// </summary>
         /// <param name="input"></param>
-        protected virtual void OnUpdateInput(IInputState input)
+        protected virtual void OnUpdateInput(GameTime time, IInputState input)
         {
-            UpdateInput?.Invoke(this, input);
+            UpdateInput?.Invoke(time, input);
         }
 
         /// <summary>
@@ -247,9 +247,9 @@ namespace AgateLib.Scenes
             OnSceneActivated();
         }
 
-        void IScene.UpdateInput(IInputState input)
+        void IScene.UpdateInput(GameTime time, IInputState input)
         {
-            OnUpdateInput(input);
+            OnUpdateInput(time, input);
         }
 
         void IScene.Update(GameTime time)

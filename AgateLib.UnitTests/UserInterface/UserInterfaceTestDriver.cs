@@ -93,7 +93,7 @@ namespace AgateLib.UserInterface
         {
             input.Reset();
 
-            uiDriver.UpdateInput(input);
+            uiDriver.UpdateInput(new GameTime(), input);
             uiDriver.Update(new GameTime());
         }
 
@@ -108,7 +108,7 @@ namespace AgateLib.UserInterface
                 0,
                 buttons);
 
-            uiDriver.UpdateInput(input);
+            uiDriver.UpdateInput(new GameTime(), input);
             uiDriver.Update(new GameTime());
         }
     }

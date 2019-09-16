@@ -118,7 +118,7 @@ namespace AgateLib.UserInterface
             setIgnoreInput = true;
         }
 
-        public void UpdateInput(IInputState input)
+        public void UpdateInput(GameTime time, IInputState input)
         {
             if (setIgnoreInput)
             {

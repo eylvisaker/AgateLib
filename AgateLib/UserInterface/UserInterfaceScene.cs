@@ -276,10 +276,10 @@ namespace AgateLib.UserInterface
             driver.Initialize();
         }
 
-        protected override void OnUpdateInput(IInputState input)
+        protected override void OnUpdateInput(GameTime time, IInputState input)
         {
-            driver.UpdateInput(input);
-            base.OnUpdateInput(input);
+            driver.UpdateInput(time, input);
+            base.OnUpdateInput(time, input);
         }
 
         protected override void OnUpdate(GameTime time)
