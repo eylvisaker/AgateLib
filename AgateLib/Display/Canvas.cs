@@ -15,7 +15,7 @@ namespace AgateLib.Display
         SpriteBatch SpriteBatch { get; }
 
         Rectangle Coordinates { get; }
-
+        
         Size Size { get; }
 
         int Width { get; }
@@ -38,6 +38,7 @@ namespace AgateLib.Display
         void Draw(Texture2D texture, Rectangle destinationRectangle, Color color);
         void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color);
         void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
+        void Draw(Texture2D texture, Vector2 position, OriginAlignment alignment, Color color);
         void Draw(Texture2D texture, Vector2 position, Color color);
         void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color);
         void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
@@ -134,6 +135,13 @@ namespace AgateLib.Display
             Vector2 offset = Origin.Calc(destAlignment, view.Size).ToVector2();
 
             view.Draw(position - offset, spriteBatch);
+        }
+
+        public void Draw(Texture2D texture, Vector2 position, OriginAlignment alignment, Color color)
+        {
+            var offset = Origin.Calc(alignment, new Size(texture.Width, texture.Height));
+
+            spriteBatch.Draw(texture, position - offset.ToVector2(), color);
         }
 
         public void Draw(Texture2D texture, Vector2 position, Color color)
@@ -274,6 +282,14 @@ namespace AgateLib.Display
                               spriteBatchBeginArgs.rasterizerState,
                               spriteBatchBeginArgs.effect,
                               spriteBatchBeginArgs.transformMatrix);
+        }
+    }
+
+    public static class CanvasExtensions
+    {
+        public static Matrix TransformMatrix(this ICanvas canvas)
+        {
+            return Matrix.CreateOrthographicOffCenter(canvas.Coordinates, -1, 1);
         }
     }
 }

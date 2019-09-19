@@ -70,6 +70,10 @@ namespace AgateLib.UserInterface
         {
         }
 
+        public void Draw(Texture2D texture, Vector2 position, OriginAlignment alignment, Color color)
+        {
+        }
+
         public void DrawRect(Color borderColor, Rectangle rectangle)
         {
         }
