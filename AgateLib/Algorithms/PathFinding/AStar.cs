@@ -20,10 +20,10 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Quality;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AgateLib.Algorithms.PathFinding
 {
@@ -85,6 +85,7 @@ namespace AgateLib.Algorithms.PathFinding
 
         private List<AStarNode<T>> openNodes = new List<AStarNode<T>>();
         private List<AStarNode<T>> closedNodes = new List<AStarNode<T>>();
+        private List<T> _endPoints = new List<T>();
 
         /// <summary>
         /// Constructs an A* algorithm object.
@@ -122,13 +123,21 @@ namespace AgateLib.Algorithms.PathFinding
         /// <summary>
         /// The list of acceptable end points.
         /// </summary>
-        public List<T> EndPoints { get; } = new List<T>();
+        public List<T> EndPoints
+        {
+            get => _endPoints;
+            set
+            {
+                Require.ArgumentNotNull(value, nameof(EndPoints));
+                _endPoints = value;
+            }
+        }
 
         /// <summary>
         /// The resulting path.
         /// </summary>
         public List<T> Path => path;
-        
+
         /// <summary>
         /// True if currently searching for the path.
         /// </summary>
@@ -143,7 +152,7 @@ namespace AgateLib.Algorithms.PathFinding
         /// Trus if a path was found.
         /// </summary>
         public bool FoundPath { get; set; }
-        
+
         /// <summary>
         /// Set to true to force the path finding algorithm to gracefully abort.
         /// </summary>
@@ -174,7 +183,7 @@ namespace AgateLib.Algorithms.PathFinding
 
             Complete = true;
         }
-        
+
         private void FindPathExec()
         {
             openNodes.Clear();
