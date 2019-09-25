@@ -69,6 +69,17 @@ namespace AgateLib.Mathematics.Geometry
         }
 
         /// <summary>
+        /// Scales the vector's coordinates by the size object.
+        /// </summary>
+        /// <param name="v1"></param>
+        /// <param name="sz"></param>
+        /// <returns></returns>
+        public static Vector2 operator *(Vector2 v1, Size sz)
+        {
+            return new Vector2(v1.X * sz.width, v1.Y * sz.height);
+        }
+
+        /// <summary>
         /// Deconstructs the size object.
         /// </summary>
         /// <param name="width"></param>
