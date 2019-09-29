@@ -92,7 +92,7 @@ namespace AgateLib.Tests.UserInterface.TextAlignment
         public UserInterfaceEventHandler OnCancel { get; set; }
     }
 
-    public class TextAlignmentAppState : WidgetState
+    public class TextAlignmentAppState
     {
         public TextAlign TextAlign { get; set; }
     }

@@ -9,9 +9,7 @@ namespace AgateLib.UserInterface.Layout
 {
     public class GridLayoutTests
     {
-        private Mock<RenderElement<RenderElementProps>> parent;
         private Grid grid;
-        private GridNavigationWrap navigationWrap;
 
         [Fact]
         public void GridWithRightAlignText()

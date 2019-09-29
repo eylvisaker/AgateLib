@@ -33,7 +33,6 @@ namespace AgateLib.UserInterface.Content
     {
         private List<string> tokens;
         private int currentTokenIndex = -1;
-        private int lineStartIndex = 0;
         private List<IContentLayoutItem> layoutItems = new List<IContentLayoutItem>();
         private readonly ContentLayoutOptions options;
         private readonly PrecendenceBasedTokenizer tokenizer = new PrecendenceBasedTokenizer();

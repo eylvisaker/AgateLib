@@ -123,7 +123,7 @@ namespace AgateLib.UserInterface
         
         private static void DrawContent(IUserInterfaceRenderContext renderContext, IContentLayout content, ref int x)
         {
-            renderContext.Draw(content,
+            renderContext.Canvas.Draw(content,
                 new Vector2(x, renderContext.ScreenArea.Height - content.Size.Height));
 
             x += content.Size.Width;

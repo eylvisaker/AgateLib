@@ -101,7 +101,6 @@ namespace AgateLib.Algorithms.PathFinding
         }
 
         private readonly IDjikstraCartesianMap map;
-        private DjikstraNode[,] nodes;
         private DjikstraGrid grid;
 
         public DjikstraCartesian(IDjikstraCartesianMap map)

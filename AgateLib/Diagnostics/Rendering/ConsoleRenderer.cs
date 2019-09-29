@@ -58,7 +58,13 @@ namespace AgateLib.Diagnostics.Rendering
 
         private Size windowSize;
         private int entryHeight;
-        private long timeOffset;
+
+        /// <summary>
+        /// This was not set anywhere, so I made it const to eliminate the warning.
+        /// I believe it should be used to reset the cursor blinking when text is
+        /// entered by the user.
+        /// </summary>
+        const long timeOffset = 0;
         private double viewShiftPixels;
         private bool fontChanged;
 
