@@ -147,15 +147,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prebuild|x86'">
-    <OutputPath>bin\x86\Prebuild\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prebuild|AnyCPU'">
-    <OutputPath>bin\Prebuild\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prebuild|x64'">
-    <OutputPath>bin\x64\Prebuild\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Console\BasicConsoleTest.cs" />
     <Compile Include="Console\BoxVocabulary.cs" />
