@@ -60,6 +60,12 @@ namespace AgateLib.Diagnostics.Consoles
         {
         }
 
+        public void WriteException(string text, Exception e)
+        {
+            WriteLine(text);
+            WriteLine(e.ToString());
+        }
+
         public void WriteLine(string text)
         {
             System.Diagnostics.Debug.WriteLine(text);

@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\CommandLibraries\VocabularyCommands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ConsoleState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Consoles\DebugOnlyConsole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Profiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Rendering\ConsoleTextEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\_Attributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ConsoleMessage.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\SpriteContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\Sprites\SpriteFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\TextureBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Display\TexturedPolygon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Display\_Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\GamepadButtonEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\GamePadInput.cs" />
@@ -191,7 +193,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\PleaseWaitBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\SimpleMessageBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceAppContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceBufferedScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\InputCaptureElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Image.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\AnimationFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\FadeAnimation.cs" />
@@ -201,6 +205,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\FlexStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\LayoutStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Styling\Themes\ThemeRenderElementStyleProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\LabelReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Separator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\_EventArgs.cs" />

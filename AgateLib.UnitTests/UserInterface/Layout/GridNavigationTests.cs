@@ -351,7 +351,7 @@ namespace AgateLib.UserInterface.Layout
             (var parentWidget, var parent) = CommonMocks.Widget("parent", elementCanHaveFocus: true);
             this.parent = parent;
 
-            grid = new Grid(gridProps);
+            grid = new Grid(gridProps) { AppContext = new UserInterfaceAppContext() };
 
             var displaySystem = new Mock<IDisplaySystem>();
             displaySystem.Setup(x => x.ParentOf(grid)).Returns(

@@ -75,7 +75,7 @@ namespace AgateLib.UserInterface.Widgets
             int expectedWidth = 215;
             int expectedHeight = 10;
 
-            var label = new Label(new LabelProps { Text = textKey });
+            var label = new Label(new LabelProps { Text = textKey }) { AppContext = new UserInterfaceAppContext() };
             var labelElement = (LabelElement)label.FinalizeRendering(null);
 
             labelElement.Display.System = displaySystem.Object;
@@ -117,7 +117,7 @@ namespace AgateLib.UserInterface.Widgets
             int expectedWidth = 95;
             int expectedHeight = 20;
 
-            var label = new Label(new LabelProps { Text = textKey });
+            var label = new Label(new LabelProps { Text = textKey }) { AppContext = new UserInterfaceAppContext() };
             var labelElement = (LabelElement)label.FinalizeRendering(null);
             labelElement.Display.System = displaySystem.Object;
             labelElement.Style.Update();

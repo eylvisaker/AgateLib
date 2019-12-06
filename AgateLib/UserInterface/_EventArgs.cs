@@ -41,5 +41,6 @@ namespace AgateLib.UserInterface
     {
         public UserInterfaceAction ActionButton { get; internal set; }
         public UserInterfaceInputState InputState { get; internal set; }
+        public bool Handled { get; set; }
     }
 }

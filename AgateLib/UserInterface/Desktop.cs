@@ -39,6 +39,7 @@ namespace AgateLib.UserInterface
 
         private readonly List<Workspace> workspaces = new List<Workspace>();
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
+        private readonly UserInterfaceAppContext appContext = new UserInterfaceAppContext();
 
         private Rectangle screenArea;
 
@@ -79,11 +80,18 @@ namespace AgateLib.UserInterface
         /// </summary>
         public event Action<ButtonStateEventArgs> ButtonUp;
 
+        /// <summary>
+        /// Occurs when the focus control changes.
+        /// </summary>
+        public event Action FocusChanged;
+
         public IStyleConfigurator Styles { get; }
 
         public IFontProvider Fonts { get; }
 
         public IUserInterfaceAudio Audio { get; set; }
+
+        public UserInterfaceAppContext AppContext => appContext;
 
         /// <summary>
         /// Explores all the elements in the visual tree on the desktop using a depth-first search.
@@ -140,14 +148,17 @@ namespace AgateLib.UserInterface
             workspace.Fonts = Fonts;
             workspace.Instructions = Instructions;
             workspace.Audio = Audio;
+            workspace.AppContext = AppContext;
+            workspace.FocusChanged += Workspace_FocusChanged;
 
-            // TODO: find a better way to do this.
             if (string.IsNullOrWhiteSpace(workspace.DefaultTheme))
                 workspace.DefaultTheme = DefaultTheme;
 
             workspace.Render();
             workspace.VisualTree.DoLayout(layoutContext, ScreenArea);
             workspace.TransitionIn();
+
+            FocusChanged?.Invoke();
         }
 
         public void BringWorkspaceToFront(Workspace workspace)
@@ -168,12 +179,15 @@ namespace AgateLib.UserInterface
 
             var workspace = workspaces[workspaces.Count - 1];
 
+            workspace.FocusChanged -= Workspace_FocusChanged;
             workspace.TransitionOut();
 
             if (workspaces.Count == 1)
             {
                 inactiveWorkspaceFadeColor.FadeOut();
             }
+
+            FocusChanged?.Invoke();
         }
 
         /// <summary>
@@ -233,14 +247,30 @@ namespace AgateLib.UserInterface
                 UnhandledEvent?.Invoke(args);
         }
 
-        public void OnButtonDown(ButtonStateEventArgs button)
+        public void OnButtonDown(ButtonStateEventArgs args)
         {
-            ButtonDown?.Invoke(button);
+            ButtonDown?.Invoke(args);
+
+            if (args.Handled)
+                return;
+
+            if (ActiveWorkspace?.AnimationState == AnimationState.Static)
+            {
+                ActiveWorkspace?.HandleButtonDown(args);
+            }
         }
 
-        public void OnButtonUp(ButtonStateEventArgs button)
+        public void OnButtonUp(ButtonStateEventArgs args)
         {
-            ButtonUp?.Invoke(button);
+            ButtonUp?.Invoke(args);
+
+            if (args.Handled)
+                return;
+
+            if (ActiveWorkspace?.AnimationState == AnimationState.Static)
+            {
+                ActiveWorkspace?.HandleButtonUp(args);
+            }
         }
 
         protected virtual void OnEmpty()
@@ -318,6 +348,11 @@ namespace AgateLib.UserInterface
             }
 
             Instructions.Draw(renderContext);
+        }
+
+        private void Workspace_FocusChanged()
+        {
+            FocusChanged?.Invoke();
         }
     }
 }

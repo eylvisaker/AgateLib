@@ -53,8 +53,14 @@ namespace AgateLib.UserInterface
         /// </summary>
         public string Text { get; set; }
 
+        /// <summary>
+        /// Event raised when the user presses the accept button while this button has focus.
+        /// </summary>
         public UserInterfaceEventHandler OnAccept { get; set; }
 
+        /// <summary>
+        /// Event raised when this button receives focus.
+        /// </summary>
         public UserInterfaceEventHandler OnFocus { get; set; }
 
         /// <summary>
@@ -74,18 +80,21 @@ namespace AgateLib.UserInterface
         private IRenderElement child;
 
         public ButtonElement(ButtonElementProps props) : base(props)
+        { }
+
+        protected override void OnReceivedAppContext()
         {
-            if (props.Children.Count == 1)
+            if (Props.Children.Count == 1)
             {
-                child = FinalizeRendering(props.Children.First());
+                child = FinalizeRendering(Props.Children.First());
             }
             else
             {
                 child = new FlexBox(new FlexBoxProps
                 {
-                    DefaultStyle = props.DefaultStyle,
-                    Style = props.Style,
-                    Children = props.Children
+                    DefaultStyle = Props.DefaultStyle,
+                    Style = Props.Style,
+                    Children = Props.Children
                 });
             }
 

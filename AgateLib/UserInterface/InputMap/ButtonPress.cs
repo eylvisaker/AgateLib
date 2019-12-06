@@ -26,6 +26,10 @@ using System.Text;
 
 namespace AgateLib.UserInterface.InputMap
 {
+    /// <summary>
+    /// Provides a simple event model for button presses.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ButtonPress<T> where T : struct
     {
         HashSet<T> buttonsDown = new HashSet<T>();

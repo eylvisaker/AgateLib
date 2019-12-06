@@ -52,6 +52,7 @@ namespace AgateLib.UserInterface
                                              TimeSpan.FromSeconds(10)));
             }
 
+            uiDriver.UpdateInput(new GameTime(), input);
             uiDriver.Update(new GameTime());
         }
 

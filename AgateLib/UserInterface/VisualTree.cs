@@ -50,27 +50,58 @@ namespace AgateLib.UserInterface
         {
             DebugMsg($"Rendering from {rootRenderable}", setDebugFlag: 1);
 
+            rootRenderable.AppContext = AppContext;
+
             var newRoot = rootRenderable.FinalizeRendering(_ => Render(rootRenderable));
             bool anyUpdates = false;
 
             Reconcile(ref root, newRoot, ref anyUpdates);
 
+            // The order of operations of the below is critical.
+            // 1. Set the appcontext, display system, and parent of every item in the tree.
+            // 2. OnReconciliationCompleted should be called first, so
+            //    that any containers that cache lists of children can update.
+            // 3. Check to make sure the focus element is still valid and reset it if not. Must be done
+            //    after OnReconciliationCompleted because of element caching.
+            // 4. Apply styles. This must be done after the focus is updated so the focus element has the correct 
+            //    styling.
+            // 5. Call element.Style.Update and animationFactory.Configure on the element. Do this after applying 
+            //    styles so animations work correctly.
+            Walk((element, parent) =>
+            {
+                element.AppContext = AppContext;
+
+                element.Display.System = DisplaySystem;
+                element.Display.Parent = parent?.Display;
+
+                return true;
+            });
+
             if (anyUpdates)
             {
-                Walk(element =>
+                Walk((element, parent) =>
                 {
                     element.OnReconciliationCompleted();
                     return true;
                 });
             }
 
+            if (Focus?.Parent == null)
+            {
+                if (root.CanHaveFocus)
+                {
+                    Focus = root;
+                }
+                else
+                {
+                    Focus = null;
+                }
+            }
+
             Style.Apply(root, DefaultTheme);
 
             Walk((element, parent) =>
             {
-                element.Display.System = DisplaySystem;
-                element.Display.Parent = parent?.Display;
-
                 element.Style.Update();
 
                 animationFactory.Configure(element.Display);
@@ -126,43 +157,32 @@ namespace AgateLib.UserInterface
 
             bool childrenUpdated = false;
 
-            for (int oldIndex = 0, newIndex = 0; 
-                     oldIndex < oldNode.Children.Count || newIndex < newNode.Children.Count; oldIndex++, newIndex++)
+            var children = new List<IRenderElement>();
+
+            // Reorder the children in the old node so that they match the ones in the new node.
+            for (int newIndex = 0; newIndex < newNode.Children.Count; newIndex++)
             {
-                if (oldIndex < oldNode.Children.Count)
+                var newItem = newNode.Children[newIndex];
+                var old = FindMatch(newItem, oldNode.Children, newIndex);
+
+                if (old != null)
                 {
-                    var old = oldNode.Children[oldIndex];
-                    // var match = FindMatch(oldNode.Children, oldIndex, newNode.Children);
-                    var match = FindMatch(old, newNode.Children, newIndex);
-
-                    Reconcile(ref old, match, ref anyUpdates);
-
-                    anyUpdates = true;
-
-                    if (old == null)
-                    {
-                        oldNode.Children.RemoveAt(oldIndex);
-                        oldIndex--;
-                        childrenUpdated = true;
-                    }
-                    else if (!ReferenceEquals(old, oldNode.Children[oldIndex]))
-                    {
-                        oldNode.Children[oldIndex] = old;
-                        childrenUpdated = true;
-                    }
+                    Reconcile(ref old, newItem, ref anyUpdates);
+                    children.Add(old);
                 }
                 else
                 {
-                    oldNode.Children.Add(newNode.Children[oldIndex]);
-                    anyUpdates = true;
-                    childrenUpdated = true;
+                    children.Add(newItem);
                 }
+
+                anyUpdates = childrenUpdated = true;
             }
 
-            for (int i = oldNode.Children.Count - 1; i > 0; i--)
+            oldNode.Children.Clear();
+
+            foreach (var child in children)
             {
-                if (oldNode.Children[i] == null)
-                    oldNode.Children.RemoveAt(i);
+                oldNode.Children.Add(child);
             }
 
             if (childrenUpdated)
@@ -224,6 +244,7 @@ namespace AgateLib.UserInterface
             if (newNode == null)
                 return;
 
+            newNode.AppContext = AppContext;
             newNode.OnDidMount();
         }
 
@@ -249,8 +270,8 @@ namespace AgateLib.UserInterface
 
                 focus?.Parent?.Display.ScrollTo(focus.Display);
 
-                focus?.OnFocus();
                 focus?.Display.PseudoClasses.Add("focus");
+                focus?.OnFocus();
             }
         }
 
@@ -260,6 +281,8 @@ namespace AgateLib.UserInterface
 
         public string DefaultTheme { get; set; }
 
+        public UserInterfaceAppContext AppContext { get; internal set; }
+
         public void Update(IUserInterfaceRenderContext renderContext, Rectangle area)
         {
             DebugMsg("Updating all widgets", ifDebugFlagAtLeast: 1);
@@ -268,7 +291,7 @@ namespace AgateLib.UserInterface
             {
                 element.Update(renderContext);
                 element.Style.Update();
-                
+
                 return true;
             });
 

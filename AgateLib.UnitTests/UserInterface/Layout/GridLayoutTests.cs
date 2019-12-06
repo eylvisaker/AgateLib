@@ -31,6 +31,7 @@ namespace AgateLib.UserInterface.Layout
             IDisplaySystem displaySystem = CommonMocks.DisplaySystem().Object;
 
             grid.Display.System = displaySystem;
+            grid.AppContext = new UserInterfaceAppContext();
 
             foreach(var child in grid.Children)
             {

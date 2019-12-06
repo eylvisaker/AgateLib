@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Quality;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ using System.Text;
 
 namespace AgateLib.UserInterface
 {
+    /// <summary>
+    /// Interface for a render element.
+    /// </summary>
     public interface IRenderElement : IRenderable
     {
         /// <summary>
@@ -67,6 +71,11 @@ namespace AgateLib.UserInterface
         /// Gets whether or not the element can receive input focus.
         /// </summary>
         bool CanHaveFocus { get; }
+
+        /// <summary>
+        /// Gets whether or not the element participates in layout.
+        /// </summary>
+        bool ParticipateInLayout { get; }
 
         /// <summary>
         /// Gets the aggregated style of the render element.
@@ -155,6 +164,18 @@ namespace AgateLib.UserInterface
         void OnUserInterfaceAction(UserInterfaceActionEventArgs action);
 
         /// <summary>
+        /// Called when a button is pressed.
+        /// </summary>
+        /// <param name="args"></param>
+        void OnButtonDown(ButtonStateEventArgs args);
+
+        /// <summary>
+        /// Called when a button is released.
+        /// </summary>
+        /// <param name="args"></param>
+        void OnButtonUp(ButtonStateEventArgs args);
+
+        /// <summary>
         /// Event called by a child component when it receives an input event it cannot handle.
         /// This is usually a navigation event.
         /// </summary>
@@ -235,6 +256,7 @@ namespace AgateLib.UserInterface
         #region --- State ---
 
         private TState state;
+        private IUserInterfaceAppContext appContext;
 
         public TState State => state;
         RenderElementState IRenderElement.State => State;
@@ -278,22 +300,63 @@ namespace AgateLib.UserInterface
         }
 
         #endregion
+        #region --- AppContext ---
+
+        public IUserInterfaceAppContext AppContext
+        {
+            get => appContext;
+            set
+            {
+                Require.ArgumentNotNull(value, nameof(AppContext));
+
+                if (this.appContext == value)
+                    return;
+
+                appContext = value;
+                OnReceivedAppContext();
+            }
+        }
+
+        protected virtual void OnReceivedAppContext()
+        {
+
+        }
+
+        #endregion
         #region --- Rendering Widgets ---
 
         Action<IRenderable> IRenderable.NeedsRender { get => NeedsRender; set => NeedsRender = value; }
         protected Action<IRenderable> NeedsRender { get; private set; }
 
-        public IRenderElement Parent => Display.System.ParentOf(this);
+        public IRenderElement Parent => Display.System?.ParentOf(this);
 
+        /// <summary>
+        /// Finalizes rendering of a set of child widgets. This must not be called in the constructor
+        /// because it requires the AppContext property be set. Instead call in OnReceiveAppContext.
+        /// </summary>
+        /// <param name="renderables"></param>
+        /// <returns></returns>
         protected IEnumerable<IRenderElement> Finalize(IEnumerable<IRenderable> renderables)
         {
+            Require.That(AppContext != null, "AppContext must not be null to finalize.");
+
             return renderables.Where(x => x != null).Select(FinalizeRendering);
         }
 
+        /// <summary>
+        /// Finalizes rendering of a child widget. This must not be called in the constructor
+        /// because it requires the AppContext property be set. Instead call in OnReceiveAppContext.
+        /// </summary>
+        /// <param name="renderable"></param>
+        /// <returns></returns>
         protected IRenderElement FinalizeRendering(IRenderable renderable)
         {
             if (renderable == null)
                 return null;
+
+            Require.That(AppContext != null, "AppContext must not be null to finalize.");
+            
+            renderable.AppContext = AppContext;
 
             return renderable.FinalizeRendering(e => NeedsRender?.Invoke(e));
         }
@@ -336,6 +399,11 @@ namespace AgateLib.UserInterface
         /// Gets whether or not the render element can hold input focus.
         /// </summary>
         public virtual bool CanHaveFocus => false;
+
+        /// <summary>
+        /// Gets whether or not the element participates in layout.
+        /// </summary>
+        public virtual bool ParticipateInLayout => true;
 
         public ElementReference Ref { get; set; }
 
@@ -402,6 +470,18 @@ namespace AgateLib.UserInterface
             }
         }
 
+        /// <summary>
+        /// Called when a button is pressed.
+        /// </summary>
+        /// <param name="args"></param>
+        public virtual void OnButtonDown(ButtonStateEventArgs args) { }
+
+        /// <summary>
+        /// Called when a button is released.
+        /// </summary>
+        /// <param name="args"></param>
+        public virtual void OnButtonUp(ButtonStateEventArgs args) { }
+
         public virtual void OnAccept(UserInterfaceActionEventArgs args)
         {
         }
@@ -410,15 +490,35 @@ namespace AgateLib.UserInterface
         {
         }
 
+        #region --- Focus Events ---
+
+        public bool HasFocus { get; private set; }
+
+        /// <summary>
+        /// Called when the element loses focus.
+        /// </summary>
+        /// <remarks>
+        /// If overriding this, be sure to call base.OnBlur() so HasFocus and the Props.OnFocus event get called correctly.
+        /// </remarks>
         public virtual void OnBlur()
         {
+            HasFocus = false;
             Props.OnBlur?.Invoke(EventData);
         }
 
+        /// <summary>
+        /// Called when the element gains focus.
+        /// </summary>
+        /// <remarks>
+        /// If overriding this, be sure to call base.OnFocus() so HasFocus and the Props.OnFocus event get called correctly.
+        /// </remarks>
         public virtual void OnFocus()
         {
+            HasFocus = true;
             Props.OnFocus?.Invoke(EventData);
         }
+
+        #endregion
 
         /// <summary>
         /// Event called when a child component receives an input event it can't handle.
@@ -674,6 +774,7 @@ namespace AgateLib.UserInterface
         {
             if (overwriteExisting)
             {
+                elementProps.Key = props.Key ?? elementProps.Key;
                 elementProps.Name = props.Name ?? elementProps.Name;
                 elementProps.Theme = props.Theme ?? elementProps.Theme;
                 elementProps.Style = props.Style ?? elementProps.Style;
@@ -683,6 +784,7 @@ namespace AgateLib.UserInterface
             }
             else
             {
+                elementProps.Key = props.Key ?? elementProps.Key;
                 elementProps.Name = elementProps.Name ?? props.Name;
                 elementProps.Theme = elementProps.Theme ?? props.Theme;
                 elementProps.Style = elementProps.Style ?? props.Style;

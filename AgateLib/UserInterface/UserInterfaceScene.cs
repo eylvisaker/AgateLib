@@ -104,6 +104,7 @@ namespace AgateLib.UserInterface
     {
         private readonly UserInterfaceRenderContext renderContext;
         private readonly UserInterfaceSceneDriver driver;
+        private readonly List<Action> actionsToInvoke = new List<Action>();
 
         private TaskCompletionSource<bool> exitTask;
 
@@ -124,17 +125,15 @@ namespace AgateLib.UserInterface
             Animations = animationFactory ?? new AnimationFactory();
             GraphicsDevice = graphicsDevice;
 
-            renderContext = new UserInterfaceRenderContext(
-                screenArea,
-                graphicsDevice,
-                contentLayoutEngine,
-                userInterfaceRenderer,
-                styleConfigurator,
-                fontProvider,
-                Animations,
-                renderTarget,
-                null,
-                doubleBuffer);
+            renderContext = new UserInterfaceRenderContext(graphicsDevice,
+                                                           contentLayoutEngine,
+                                                           userInterfaceRenderer,
+                                                           actionsToInvoke,
+                                                           fontProvider,
+                                                           Animations,
+                                                           renderTarget,
+                                                           null,
+                                                           doubleBuffer);
 
             driver = new UserInterfaceSceneDriver(
                 screenArea,
@@ -286,6 +285,8 @@ namespace AgateLib.UserInterface
         {
             driver.Update(time);
             base.OnUpdate(time);
+
+            InvokeActions();
         }
 
         protected override void DrawScene(GameTime time)
@@ -297,6 +298,18 @@ namespace AgateLib.UserInterface
             driver.Draw(time, renderContext.Canvas, renderContext.RenderTarget);
 
             renderContext.Canvas.End();
+
+            InvokeActions();
+        }
+
+        private void InvokeActions()
+        {
+            foreach (var action in actionsToInvoke)
+            {
+                action.Invoke();
+            }
+
+            actionsToInvoke.Clear();
         }
 
         public void FlushSpriteBatch()

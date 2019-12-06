@@ -23,7 +23,7 @@ namespace AgateLib.Display
             set => fadeTime_s = (float)value.TotalSeconds;
         }
 
-        public Color ActiveColor { get; set; } = Color.Black;
+        public Color ActiveColor { get; set; } = Color.Black * 0.25f;
 
         public Color InactiveColor { get; set; } = new Color(0, 0, 0, 0);
 

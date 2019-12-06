@@ -31,14 +31,13 @@ namespace AgateLib.UserInterface.InputMap
     public class UserInterfaceInputEvents
     {
         private UserInterfaceInputState inputState = new UserInterfaceInputState();
-        private HashSet<UserInterfaceAction> downEventFired = new HashSet<UserInterfaceAction>();
-        private HashSet<UserInterfaceAction> upEventsNeeded = new HashSet<UserInterfaceAction>();
-        private HashSet<UserInterfaceAction> ignoredDownButtons = new HashSet<UserInterfaceAction>();
         private UserInterfaceInputMap inputMap = new UserInterfaceInputMap();
         private HashSet<UserInterfaceAction> activeNavActions = new HashSet<UserInterfaceAction>();
 
         private UserInterfaceActionEventArgs eventArgs = new UserInterfaceActionEventArgs();
         private ButtonStateEventArgs buttonStateEventArgs = new ButtonStateEventArgs();
+
+        private List<UserInterfaceAction> actionCache = new List<UserInterfaceAction>();
 
         private const float timeToFirstRepeat = 0.5f;
         private const float timeToNextRepeat = 0.1f;
@@ -79,6 +78,11 @@ namespace AgateLib.UserInterface.InputMap
             inputMap.IgnoreCurrentInput(inputState, PlayerIndex.One, input);
         }
 
+        public void IgnoreCurrentInput(IInputState input, UserInterfaceAction action)
+        {
+            inputMap.IgnoreCurrentInput(inputState, PlayerIndex.One, input, action);
+        }
+
         public void TriggerEvents(GameTime time)
         {
             foreach (UserInterfaceAction action in inputState.PressedActions)
@@ -109,7 +113,10 @@ namespace AgateLib.UserInterface.InputMap
                 repeating = false;
             }
 
-            foreach (UserInterfaceAction action in inputState.ReleasedActions)
+            actionCache.Clear();
+            actionCache.AddRange(inputState.ReleasedActions);
+
+            foreach (UserInterfaceAction action in actionCache)
             {
                 TriggerReleasedAction(action);
             }
@@ -159,13 +166,15 @@ namespace AgateLib.UserInterface.InputMap
         private void TriggerButtonDown(UserInterfaceAction action)
         {
             buttonStateEventArgs.ActionButton = action;
-            
+            buttonStateEventArgs.Handled = false;
+
             ButtonDown?.Invoke(buttonStateEventArgs);
         }
 
         private void TriggerButtonUp(UserInterfaceAction action)
         {
             buttonStateEventArgs.ActionButton = action;
+            buttonStateEventArgs.Handled = false;
 
             ButtonUp?.Invoke(buttonStateEventArgs);
         }
@@ -181,6 +190,5 @@ namespace AgateLib.UserInterface.InputMap
         {
             inputState.ClearEverything();
         }
-
     }
 }

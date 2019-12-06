@@ -127,7 +127,10 @@ namespace AgateLib.UserInterface
         {
             get
             {
-                if (!IsVisible) return false;
+                if (!IsVisible) 
+                    return false;
+                if (!Owner.ParticipateInLayout)
+                    return false;
 
                 var positionType = Style.Layout?.PositionType ?? PositionType.Default;
 

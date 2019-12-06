@@ -31,6 +31,7 @@ using Microsoft.Xna.Framework.Graphics;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.Quality;
 using AgateLib.Display;
+using System.Collections.Generic;
 
 namespace AgateLib.UserInterface
 {
@@ -42,11 +43,12 @@ namespace AgateLib.UserInterface
         private UserInterfaceInputEvents uiInput = new UserInterfaceInputEvents();
 
         private bool setIgnoreInput;
+        private List<UserInterfaceAction> ignoreInputsFor = new List<UserInterfaceAction>();
 
         public UserInterfaceSceneDriver(
             Rectangle screenArea,
-            IUserInterfaceRenderContext renderContext, 
-            IStyleConfigurator styles, 
+            IUserInterfaceRenderContext renderContext,
+            IStyleConfigurator styles,
             IFontProvider fonts,
             IAnimationFactory animationFactory,
             IUserInterfaceAudio audio = null)
@@ -60,7 +62,7 @@ namespace AgateLib.UserInterface
             desktop = new Desktop(screenArea, renderContext, fonts, styles, animationFactory);
 
             desktop.Audio = audio;
-
+            desktop.FocusChanged += Desktop_FocusChanged;
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
 
             uiInput.UIAction += desktop.OnUserInterfaceAction;
@@ -108,6 +110,12 @@ namespace AgateLib.UserInterface
             uiInput.ClearPressedButtons();
         }
 
+        private void Desktop_FocusChanged()
+        {
+            ignoreInputsFor.Add(UserInterfaceAction.Accept);
+            ignoreInputsFor.Add(UserInterfaceAction.Cancel);
+        }
+
         /// <summary>
         /// Ignores the current set of inputs, so that any buttons pressed
         /// will have to be released and pressed again before they will trigger
@@ -124,6 +132,15 @@ namespace AgateLib.UserInterface
             {
                 uiInput.IgnoreCurrentInput(input);
                 setIgnoreInput = false;
+            }
+            else if (ignoreInputsFor.Count > 0)
+            {
+                foreach (var action in ignoreInputsFor)
+                {
+                    uiInput.IgnoreCurrentInput(input, action);
+                }
+
+                ignoreInputsFor.Clear();
             }
 
             uiInput.UpdateState(input);
@@ -155,7 +172,7 @@ namespace AgateLib.UserInterface
             {
                 Indicator.UserInterfaceRenderer = renderContext.UserInterfaceRenderer;
 
-                Indicator.DrawFocus(renderContext.Canvas, 
+                Indicator.DrawFocus(renderContext.Canvas,
                                     desktop.ActiveWorkspace.Focus,
                                     desktop.ActiveWorkspace,
                                     ScreenAreaOf(desktop.ActiveWorkspace.Focus));

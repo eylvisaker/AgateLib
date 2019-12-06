@@ -28,7 +28,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
 
             driver.Press(Buttons.B);
 
-            canceled.Should().BeTrue("Menu did not exit when cancel was pressed.");
+            canceled.Should().BeTrue("menu should exit when cancel was pressed.");
         }
 
         [Fact]

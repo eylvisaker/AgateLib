@@ -228,6 +228,14 @@ namespace AgateLib.Randomizer
         }
 
         /// <summary>
+        /// Generates a seed that can be used for a new random number generator. 
+        /// You may store this to generate the same random sequence at a later time.
+        /// </summary>
+        /// <param name="random"></param>
+        public static long GenerateSeed(this IRandom random, int salt = 0x7deadcad) 
+            => Math.Abs(random.NextInteger(1, int.MaxValue - 1) ^ salt);
+
+        /// <summary>
         /// Creates a new IRandom object with a specified seed.
         /// </summary>
         /// <returns></returns>

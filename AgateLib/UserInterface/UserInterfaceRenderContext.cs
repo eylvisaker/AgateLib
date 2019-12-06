@@ -147,6 +147,12 @@ namespace AgateLib.UserInterface
 
         [Obsolete("Use Canvas.DrawText instead.")]
         void DrawText(Font font, Vector2 destination, string text);
+
+        /// <summary>
+        /// Invokes an anction when the current update/draw cycle is complete.
+        /// </summary>
+        /// <param name="action"></param>
+        void Invoke(Action action);
     }
 
     public class UserInterfaceRenderContext : IUserInterfaceRenderContext
@@ -154,24 +160,25 @@ namespace AgateLib.UserInterface
         private readonly IContentLayoutEngine contentLayoutEngine;
         private readonly IFontProvider fonts;
         private readonly IAnimationFactory animationFactory;
+        private readonly List<Action> actionsToInvoke;
 
         private UserInterfaceRenderContext parentRenderContext;
         private bool workspaceIsActive;
 
-        public UserInterfaceRenderContext(Rectangle screenArea,
-            GraphicsDevice graphicsDevice,
-            IContentLayoutEngine contentLayoutEngine,
-            IUserInterfaceRenderer uiRenderer,
-            IStyleConfigurator styleConfigurator,
-            IFontProvider fonts,
-            IAnimationFactory animation,
-            RenderTarget2D renderTarget = null,
-            ICanvas canvas = null,
-            IDoubleBuffer doubleBuffer = null)
+        public UserInterfaceRenderContext(GraphicsDevice graphicsDevice,
+                                          IContentLayoutEngine contentLayoutEngine,
+                                          IUserInterfaceRenderer uiRenderer,
+                                          List<Action> actionsToInvoke,
+                                          IFontProvider fonts,
+                                          IAnimationFactory animation,
+                                          RenderTarget2D renderTarget = null,
+                                          ICanvas canvas = null,
+                                          IDoubleBuffer doubleBuffer = null)
         {
             this.GraphicsDevice = graphicsDevice;
             this.contentLayoutEngine = contentLayoutEngine;
             this.UserInterfaceRenderer = uiRenderer;
+            this.actionsToInvoke = actionsToInvoke;
             this.fonts = fonts;
             this.animationFactory = animation;
             this.RenderTarget = renderTarget;
@@ -229,6 +236,11 @@ namespace AgateLib.UserInterface
                 return workspaceIsActive;
             }
             set => workspaceIsActive = value;
+        }
+
+        public void Invoke(Action action)
+        {
+            actionsToInvoke.Add(action);
         }
 
         public void UpdateAnimation(IRenderElement element)

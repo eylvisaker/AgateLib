@@ -83,25 +83,24 @@ namespace AgateLib.UserInterface
         private bool isChecked;
 
         public RadioButtonElement(RadioButtonElementProps props) : base(props)
+        { }
+
+        protected override void OnReceivedAppContext()
         {
-            if (props.Children.Count == 1)
+            if (Props.Children.Count == 1)
             {
-                child = FinalizeRendering(props.Children.First());
+                child = FinalizeRendering(Props.Children.First());
             }
             else
             {
-                child = new FlexBox(new FlexBoxProps { Children = props.Children });
+                child = new FlexBox(new FlexBoxProps { Children = Props.Children });
             }
 
             IsChecked = Props.Checked;
 
             Children = new List<IRenderElement> { child };
         }
-
-        private void OnButtonPress(UserInterfaceAction btn)
-        {
-        }
-
+        
         public bool IsChecked
         {
             get => isChecked;

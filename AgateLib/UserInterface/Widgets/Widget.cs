@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Quality;
 using System;
 
 namespace AgateLib.UserInterface
@@ -29,6 +30,7 @@ namespace AgateLib.UserInterface
     {
         private TProps props;
         private TState state;
+        private IUserInterfaceAppContext appContext;
 
         public Widget(TProps props)
         {
@@ -88,6 +90,33 @@ namespace AgateLib.UserInterface
         internal IDisplaySystem DisplaySystem { get; set; }
 
         #endregion
+        #region --- AppContext Management ---
+
+        public IUserInterfaceAppContext AppContext
+        {
+            get => appContext;
+            set
+            {
+                Require.ArgumentNotNull(value, nameof(AppContext));
+
+                if (this.appContext == value)
+                    return;
+
+                this.appContext = value;
+
+                OnReceiveAppContext();
+            }
+        }
+
+        /// <summary>
+        /// Method called when the app context is set.
+        /// </summary>
+        protected virtual void OnReceiveAppContext()
+        {
+
+        }
+
+        #endregion
 
         public abstract IRenderable Render();
 
@@ -110,6 +139,11 @@ namespace AgateLib.UserInterface
 
     public class WidgetProps
     {
+        /// <summary>
+        /// The key used during reconciliation to match this element between updates.
+        /// </summary>
+        public string Key { get; set; }
+
         public string Name { get; set; }
 
         public string Theme { get; set; }
@@ -129,7 +163,7 @@ namespace AgateLib.UserInterface
         public ElementReference Ref { get; set; }
     }
 
-    [Obsolete("This class serves no purpose.")]
+    [Obsolete("This class serves no purpose.", true)]
     public class WidgetState
     {
     }
@@ -146,6 +180,7 @@ namespace AgateLib.UserInterface
         public static T CopyFrom<T>(this T widgetProps, WidgetProps props)
             where T : WidgetProps
         {
+            widgetProps.Key = widgetProps.Key ?? props.Key;
             widgetProps.Name = widgetProps.Name ?? props.Name;
             widgetProps.Theme = widgetProps.Theme ?? props.Theme;
             widgetProps.Style = widgetProps.Style ?? props.Style;

@@ -44,6 +44,7 @@ namespace AgateLib.UserInterface
                 PerformLocalization = Props.LocalizeContent,
                 ReadSlowly = Props.ReadSlowly,
                 AnimationComplete = Props.AnimationComplete,
+                ResetReading = Props.ResetReading,
             }.CopyFromWidgetProps(Props));
         }
 
@@ -71,6 +72,11 @@ namespace AgateLib.UserInterface
         /// Callback which is executed when the animation completes.
         /// </summary>
         public UserInterfaceEventHandler AnimationComplete { get; set; }
+
+        /// <summary>
+        /// If true, the slow reading counter will be reset if the text changes.
+        /// </summary>
+        public bool ResetReading { get; set; }
     }
 
     public class LabelElement : RenderElement<LabelElementProps, LabelElementState>
@@ -96,6 +102,8 @@ namespace AgateLib.UserInterface
                 }
             }
 
+            public bool IsComplete => label.content.AnimationCompleted;
+
             public void Restart()
             {
                 label.content.RestartAnimation();
@@ -104,6 +112,7 @@ namespace AgateLib.UserInterface
 
         private UserInterfaceEvent evt = new UserInterfaceEvent();
         private IContentLayout content;
+        private string lastText;
 
         public LabelElement(LabelElementProps props) : base(props)
         {
@@ -130,6 +139,13 @@ namespace AgateLib.UserInterface
             base.OnReceiveProps();
 
             Dirty = true;
+
+            if (Props.ResetReading && Props.Text != lastText)
+            {
+                content.RestartAnimation();
+            }
+
+            lastText = Props.Text;
         }
 
         public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
@@ -244,6 +260,8 @@ namespace AgateLib.UserInterface
 
         public bool ReadSlowly { get; set; }
 
+        public bool ResetReading { get; set; }
+
         public UserInterfaceEventHandler AnimationComplete { get; set; }
     }
 
@@ -261,6 +279,8 @@ namespace AgateLib.UserInterface
     public interface ILabelAnimationState
     {
         float SlowReadRate { get; set; }
+
+        bool IsComplete { get; }
 
         void Restart();
     }

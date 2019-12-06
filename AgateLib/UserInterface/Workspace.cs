@@ -132,11 +132,20 @@ namespace AgateLib.UserInterface
         public IRenderElement Focus
         {
             get => visualTree.Focus;
-            set => visualTree.Focus = value;
+            set
+            {
+                if (visualTree.Focus == value)
+                    return;
+
+                visualTree.Focus = value;
+
+                FocusChanged?.Invoke();
+            }
         }
 
         public event Action<UserInterfaceActionEventArgs> UnhandledEvent;
         public event Action BeforeTransitionOut;
+        public event Action FocusChanged;
 
         public IStyleConfigurator Style
         {
@@ -200,6 +209,24 @@ namespace AgateLib.UserInterface
                 UnhandledEvent?.Invoke(args);
         }
 
+        public void HandleButtonDown(ButtonStateEventArgs args)
+        {
+            DebugMsg($"Handling button down {args.ActionButton}...");
+
+            var target = Focus ?? visualTree.TreeRoot;
+
+            target?.OnButtonDown(args);
+        }
+
+        public void HandleButtonUp(ButtonStateEventArgs args)
+        {
+            DebugMsg($"Handling button up {args.ActionButton}...");
+
+            var target = Focus ?? visualTree.TreeRoot;
+
+            target?.OnButtonUp(args);
+        }
+
         public void Update(IUserInterfaceRenderContext renderContext)
         {
             visualTree.Update(renderContext, ScreenArea);
@@ -257,6 +284,12 @@ namespace AgateLib.UserInterface
         {
             get => this.displaySystem.Desktop;
             set => this.displaySystem.Desktop = value;
+        }
+        
+        public UserInterfaceAppContext AppContext
+        {
+            get => visualTree.AppContext;
+            internal set => visualTree.AppContext = value;
         }
 
         internal void TransitionOut()

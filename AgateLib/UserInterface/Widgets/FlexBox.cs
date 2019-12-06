@@ -413,17 +413,21 @@ namespace AgateLib.UserInterface
 
         #endregion
 
-        private readonly List<IRenderElement> layoutChildren;
-        private readonly List<IRenderElement> focusChildren;
+        private List<IRenderElement> layoutChildren;
+        private List<IRenderElement> focusChildren;
         private bool currentLayoutIsReversed;
 
         public FlexBox(FlexBoxProps props) : base(props)
         {
-            Children = Finalize(props.Children).ToList();
+        }
+
+        protected override void OnReceivedAppContext()
+        {
+            Children = Finalize(Props.Children).ToList();
             layoutChildren = Children.Where(x => x.Display.IsInLayout).ToList();
             focusChildren = Children.Where(x => CanChildHaveFocus(x)).ToList();
 
-            FocusIndex = props.InitialFocusIndex;
+            FocusIndex = Props.InitialFocusIndex;
 
             if (FocusIndex >= Children.Count)
                 FocusIndex = 0;
@@ -491,7 +495,7 @@ namespace AgateLib.UserInterface
                         layoutChildren.Clear();
                         layoutChildren.AddRange(Children.Where(x => x.Display.IsInLayout));
                         focusChildren.Clear();
-                        focusChildren.AddRange(layoutChildren.Where(x => CanChildHaveFocus(x)));
+                        focusChildren.AddRange(Children.Where(x => CanChildHaveFocus(x)));
                         currentLayoutIsReversed = false;
                     }
                     break;
@@ -503,7 +507,7 @@ namespace AgateLib.UserInterface
                         layoutChildren.Clear();
                         layoutChildren.AddRange(Children.Where(x => x.Display.IsInLayout).Reverse());
                         focusChildren.Clear();
-                        focusChildren.AddRange(layoutChildren.Where(x => CanChildHaveFocus(x)).Reverse());
+                        focusChildren.AddRange(Children.Where(x => CanChildHaveFocus(x)).Reverse());
                         currentLayoutIsReversed = true;
                     }
                     break;

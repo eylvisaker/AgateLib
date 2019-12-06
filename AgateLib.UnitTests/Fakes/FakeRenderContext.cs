@@ -83,5 +83,8 @@ namespace AgateLib.Tests.Fakes
 
         public void Draw(IContentLayout content, Rectangle destinationArea)
         { }
+
+        public void Invoke(Action action)
+        { }
     }
 }

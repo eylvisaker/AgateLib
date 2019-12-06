@@ -50,6 +50,10 @@ namespace AgateLib.UserInterface.Content
 
         public int RemainingItemsToDisplay => MaxItemsToDisplay - ItemsDisplayed;
 
+        /// <summary>
+        /// During rendering, this will be set to true when we've displayed all the items that the animation has
+        /// currently allowed.
+        /// </summary>
         public bool Complete => ItemsDisplayed >= MaxItemsToDisplay;
 
         public SpriteBatch SpriteBatch { get; set; }

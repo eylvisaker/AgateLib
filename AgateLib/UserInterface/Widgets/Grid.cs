@@ -45,6 +45,9 @@ namespace AgateLib.UserInterface
         private UserInterfaceActionEventArgs navigateEvent = new UserInterfaceActionEventArgs();
 
         public Grid(GridProps props) : base(props)
+        { }
+
+        protected override void OnReceivedAppContext()
         {
             Children = Finalize(Props.Children).ToList();
 

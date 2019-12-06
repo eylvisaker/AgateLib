@@ -156,5 +156,26 @@ namespace AgateLib.UserInterface.InputMap
                     inputState.IgnoreNextKeyPress(key);
             }
         }
+
+        public void IgnoreCurrentInput(UserInterfaceInputState inputState,
+                                       PlayerIndex playerIndex,
+                                       IInputState input,
+                                       UserInterfaceAction action)
+        {
+            GamePadState gamePad = input.GamePadStateOf(playerIndex);
+            KeyboardState keyboard = input.KeyboardState;
+
+            foreach (var button in buttonMap.Where(x => x.Value == action).Select(x => x.Key))
+            {
+                if (gamePad.IsButtonDown(button))
+                    inputState.IgnoreNextButtonPress(button);
+            }
+
+            foreach (var key in keyMap.Where(x => x.Value == action).Select(x => x.Key))
+            {
+                if (keyboard.IsKeyDown(key))
+                    inputState.IgnoreNextKeyPress(key);
+            }
+        }
     }
 }

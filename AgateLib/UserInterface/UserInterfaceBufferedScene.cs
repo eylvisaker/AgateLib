@@ -43,6 +43,7 @@ namespace AgateLib.UserInterface
     {
         private readonly UserInterfaceRenderContext renderContext;
         private readonly UserInterfaceSceneDriver driver;
+        private readonly List<Action> actionsToInvoke = new List<Action>();
 
         private TaskCompletionSource<bool> exitTask;
 
@@ -64,24 +65,22 @@ namespace AgateLib.UserInterface
             Animations = animationFactory ?? new AnimationFactory();
             GraphicsDevice = graphicsDevice;
 
-            renderContext = new UserInterfaceRenderContext(screenArea,
-                graphicsDevice,
-                contentLayoutEngine,
-                userInterfaceRenderer,
-                styleConfigurator,
-                fontProvider,
-                Animations,
-                renderTarget,
-                null,
-                doubleBuffer);
+            renderContext = new UserInterfaceRenderContext(graphicsDevice,
+                                                           contentLayoutEngine,
+                                                           userInterfaceRenderer,
+                                                           actionsToInvoke,
+                                                           fontProvider,
+                                                           Animations,
+                                                           renderTarget,
+                                                           null,
+                                                           doubleBuffer);
 
-            driver = new UserInterfaceSceneDriver(
-                screenArea,
-                renderContext,
-                styleConfigurator,
-                fontProvider,
-                Animations,
-                audio);
+            driver = new UserInterfaceSceneDriver(screenArea,
+                                                  renderContext,
+                                                  styleConfigurator,
+                                                  fontProvider,
+                                                  Animations,
+                                                  audio);
 
             driver.ScreenArea = screenArea;
 
@@ -238,6 +237,18 @@ namespace AgateLib.UserInterface
             driver.Draw(time, renderContext.Canvas, renderContext.RenderTarget);
 
             renderContext.Canvas.End();
+
+            InvokeActions();
+        }
+
+        private void InvokeActions()
+        {
+            foreach (var action in actionsToInvoke)
+            {
+                action.Invoke();
+            }
+
+            actionsToInvoke.Clear();
         }
 
         public void FlushSpriteBatch()
@@ -269,7 +280,11 @@ namespace AgateLib.UserInterface
         {
             Desktop.ExitUserInterface();
 
-            exitTask = new TaskCompletionSource<bool>();
+            if (exitTask == null)
+            {
+                exitTask = new TaskCompletionSource<bool>();
+            }
+
             return exitTask.Task;
         }
 
@@ -295,13 +310,19 @@ namespace AgateLib.UserInterface
             }
         }
 
+        public void AddContext<T>(T context)
+        {
+            Desktop.AppContext.Add(context);
+        }
+
         protected override void OnSceneEnd()
         {
             base.OnSceneEnd();
 
-            exitTask?.SetResult(true);
-
+            var task = exitTask;
             exitTask = null;
+
+            task?.SetResult(true);
         }
     }
 }

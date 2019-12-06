@@ -43,6 +43,11 @@ namespace AgateLib.UserInterface
         Action<IRenderable> NeedsRender { get; set; }
 
         /// <summary>
+        /// Gets or sets the app context for the renderable.
+        /// </summary>
+        IUserInterfaceAppContext AppContext { get; set; }
+
+        /// <summary>
         /// Called when the renderable has completed rendering with the resulting
         /// element.
         /// </summary>
@@ -60,6 +65,7 @@ namespace AgateLib.UserInterface
         /// <returns></returns>
         public static IRenderElement FinalizeRendering(this IRenderable renderable, Action<IRenderable> needsRenderSubscriber)
         {
+            IUserInterfaceAppContext appContext = renderable.AppContext;
             IRenderable item = renderable;
             int count = 0;
             const int max = 200;
@@ -74,6 +80,7 @@ namespace AgateLib.UserInterface
                     throw new InvalidOperationException($"After {max} iterations, {renderable} failed to return a render element.");
 
                 item = item.Render();
+                item.AppContext = appContext;
                 item.NeedsRender = needsRenderSubscriber;
 
                 count++;

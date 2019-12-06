@@ -80,6 +80,83 @@ namespace AgateLib.UserInterface
 
             props.ManipWindowRef.Current.Children.Count.Should().Be(4);
         }
-    }
 
+        [Fact]
+        public void AddItemInMiddle()
+        {
+            var app = new ElementReference();
+            var b = new ElementReference();
+            var c = new ElementReference();
+
+            var appWidget = new App(new AppProps
+            {
+                Children = {
+                    new Separator(new SeparatorProps { Key = "a" }),
+                    new Window (new WindowProps { Key = "c", Ref = b })
+                },
+                Ref = app,
+            });
+
+            var driver = new UserInterfaceTestDriver(appWidget);
+
+            app.Current.Children.Count.Should().Be(2);
+
+            appWidget.SetProps(new AppProps
+            {
+                Children = {
+                    new Separator(new SeparatorProps { Key = "a" }),
+                    new Window (new WindowProps { Key = "b", Ref = b }),
+                    new Window (new WindowProps { Key = "c", Ref = c }),
+                }
+            });
+
+            app.Current.Children.Count.Should().Be(3);
+
+            b.Current.Should().NotBeNull();
+
+            app.Current.Children[1].Should().Be(b.Current, $"b should be in middle, but found {app.Current.Children[1].Props.Key}");
+            app.Current.Children[2].Should().Be(c.Current, $"c should be at end, but found {app.Current.Children[2].Props.Key}");
+        }
+
+        [Fact]
+        public void RemoveItemFromMiddle()
+        {
+            var app = new ElementReference();
+            var b = new ElementReference();
+            var c = new ElementReference();
+            var buttonB = new ElementReference();
+            var buttonC = new ElementReference();
+
+            var appWidget = new App(new AppProps
+            {
+                Children = {
+                    new Separator(new SeparatorProps { Key = "a" }),
+                    new Window (new WindowProps { Key = "b", Ref = b, Children = { new Button(new ButtonProps { Ref = buttonB, Name="ButtonB" }) } }),
+                    new Window (new WindowProps { Key = "c", Ref = c, Children = { new Button(new ButtonProps { Ref = buttonC, Name="ButtonC" }) } }),
+                },
+                Ref = app,
+            });
+
+            var driver = new UserInterfaceTestDriver(appWidget);
+
+            app.Current.Children.Count.Should().Be(3);
+            driver.Focus.Should().Be(buttonB.Current);
+
+            appWidget.SetProps(new AppProps
+            {
+                Children = {
+                    new Separator(new SeparatorProps { Key = "a" }),
+                    new Window (new WindowProps { Key = "c", Ref = c, Children = { new Button(new ButtonProps { Ref = buttonC, Name = "ButtonC" }) } }),
+                },
+                Ref = app,
+            });
+
+            app.Current.Children.Count.Should().Be(2);
+
+            b.Current.Should().NotBeNull();
+
+            app.Current.Children[1].Should().Be(c.Current, $"c should be at end, but found {app.Current.Children[1].Props.Key}");
+            driver.Focus.Should().Be(buttonC.Current, $"focus should be C, but found {driver.Focus.Props.Name}");
+        }
+    }
 }

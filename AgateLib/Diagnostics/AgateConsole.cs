@@ -33,6 +33,7 @@ namespace AgateLib.Diagnostics
     public interface IConsole
     {
         void WriteLine(string text);
+        void WriteException(string text, Exception e);
     }
 
     public interface IConsoleSetup : IConsole
@@ -261,6 +262,12 @@ namespace AgateLib.Diagnostics
 
                 ConsoleClosed?.Invoke();
             }
+        }
+
+        public void WriteException(string text, Exception e)
+        {
+            WriteLine(text);
+            WriteLine(e.ToString());
         }
     }
 }

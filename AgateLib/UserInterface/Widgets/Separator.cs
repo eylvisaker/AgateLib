@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
 {
+    /// <summary>
+    /// A render element that participates in layout but displays nothing. This is useful
+    /// for creating some negative space between UI elements.
+    /// </summary>
     public class Separator : RenderElement<SeparatorProps>
     {
         public Separator(SeparatorProps props = null) : base(props ?? new SeparatorProps())

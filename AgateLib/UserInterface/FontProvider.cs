@@ -81,7 +81,7 @@ namespace AgateLib.UserInterface
     /// </example>
     public class FontProvider : IFontProvider
     {
-        private static char[] descriptionSeparator = new char[] { ',' };
+        private static char[] descriptionSeparator = new char[] { ',', ' ' };
 
         private readonly Dictionary<string, Font> fonts
             = new Dictionary<string, Font>(StringComparer.OrdinalIgnoreCase);
