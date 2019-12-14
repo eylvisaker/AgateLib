@@ -9,6 +9,7 @@
     <Import_RootNamespace>AgateLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\CollectionAlgorithms.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\Inverting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\AStar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\DjikstraCartesian.cs" />

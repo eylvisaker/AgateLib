@@ -149,12 +149,28 @@ namespace AgateLib.Mathematics
         /// <summary>
         /// Adds a vector to every vector in an enumerable.
         /// </summary>
-        /// <param name="item"></param>
+		/// <param name="items"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static IEnumerable<Vector2> Add(IEnumerable<Vector2> item, Vector2 v)
+		public static IEnumerable<Vector2> Add(IEnumerable<Vector2> items, Vector2 v) => Add(v, items);
+
+        /// <summary>
+        /// Computes the centroid of a collection of Vector2 objects, which is essentially the average value of the vectors.
+        /// </summary>
+        /// <param name="items">Collection to iterate through.</param>
+        /// <returns></returns>
+        public static Vector2 Centroid(this IEnumerable<Vector2> items)
         {
-            return Add(v, item);
+            int count = 0;
+            Vector2 sum = Vector2.Zero;
+
+            foreach (Vector2 item in items)
+            {
+                count++;
+                sum += item;
+            }
+
+            return sum / count;
         }
 
         /// <summary>
