@@ -179,5 +179,20 @@ namespace AgateLib.Algorithms.PathFinding
         public bool Enterable { get; internal set; }
 
         public override string ToString() => $"({Location.X},{Location.Y}) - V:{Visited} - E:{Enterable} - D:{Distance}";
+
+        public IEnumerable<DjikstraNode> Path() => ReversePath().Reverse();
+        
+        private IEnumerable<DjikstraNode> ReversePath()
+        {
+            DjikstraNode _this = this;
+
+            yield return _this;
+
+            while (_this.Parent != null)
+            {
+                _this = _this.Parent;
+                yield return _this;
+            }
+        }
     }
 }
