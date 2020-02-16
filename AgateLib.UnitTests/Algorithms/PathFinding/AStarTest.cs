@@ -21,21 +21,23 @@ namespace AgateLib.Algorithms.PathFinding
                 return Math.Abs(destination.X - location.X) + Math.Abs(destination.Y - location.Y);
             }
 
-            public int CalculateHeuristic(Point location, List<Point> destination)
+            public int CalcHeuristic(AStarNode<Point> location, List<Point> destination)
             {
                 int minval = int.MaxValue;
 
                 foreach (var dest in destination)
                 {
-                    int val = CalculateHeuristic(location, dest);
+                    int val = CalculateHeuristic(location.Location, dest);
                     if (val < minval) minval = val;
                 }
 
                 return minval;
             }
 
-            public IEnumerable<Point> GetAvailableSteps(Point location)
+            public IEnumerable<Point> AvailableStepsAt(AStarNode<Point> node)
             {
+                Point location = node.Location;
+
                 for (int j = -1; j <= 1; j++)
                 {
                     for (int i = -1; i <= 1; i++)
@@ -66,7 +68,7 @@ namespace AgateLib.Algorithms.PathFinding
                 return false;
             }
 
-            public int GetStepCost(Point target, Point start)
+            public int StepCost(AStarNode<Point> start, Point target)
             {
                 return 1;
             }

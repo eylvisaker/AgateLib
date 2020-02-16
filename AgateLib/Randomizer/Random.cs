@@ -167,7 +167,7 @@ namespace AgateLib.Randomizer
         /// <param name="items"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static T PickOne<T>(this IRandom random, IReadOnlyCollection<T> items) 
+        public static T PickOne<T>(this IRandom random, IReadOnlyCollection<T> items)
         {
             Require.ArgumentInRange(items.Count > 0, nameof(items), "No items in collection");
 
@@ -188,18 +188,21 @@ namespace AgateLib.Randomizer
         /// <param name="weightFunc">A function that when called for each object in the list returns its weight.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static T PickOneWeighted<T>(this IRandom random, IReadOnlyList<T> items, Func<T, int> weightFunc)
+        public static T PickOneWeighted<T>(this IRandom random, IReadOnlyCollection<T> items, Func<T, int> weightFunc)
         {
             Require.ArgumentInRange(items.Count > 0, nameof(items), "No items in collection");
 
             int max = 0;
+            int index = 0;
 
-            for (int i = 0; i < items.Count; i++)
+            foreach (var item in items)
             {
-                int weight = weightFunc(items[i]);
+                int weight = weightFunc(item);
                 max += weight;
 
-                Require.That(weight >= 0, $"Weight of item {i} is negative. All weights must be non-negative.");
+                Require.That(weight >= 0, $"Weight of item {index} is negative. All weights must be non-negative.");
+
+                index++;
             }
 
             Require.That(max > 0, "Sum of weights must be positive. All weights were zero");
@@ -207,12 +210,12 @@ namespace AgateLib.Randomizer
             int initialVal = random.NextInteger(max);
             int val = initialVal;
 
-            for (int i = 0; i < items.Count; i++)
+            foreach (var item in items)
             {
-                val -= weightFunc(items[i]);
+                val -= weightFunc(item);
 
                 if (val < 0)
-                    return items[i];
+                    return item;
             }
 
             return default(T);
@@ -232,7 +235,7 @@ namespace AgateLib.Randomizer
         /// You may store this to generate the same random sequence at a later time.
         /// </summary>
         /// <param name="random"></param>
-        public static long GenerateSeed(this IRandom random, int salt = 0x7deadcad) 
+        public static long GenerateSeed(this IRandom random, int salt = 0x7deadcad)
             => Math.Abs(random.NextInteger(1, int.MaxValue - 1) ^ salt);
 
         /// <summary>

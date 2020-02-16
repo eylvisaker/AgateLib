@@ -99,4 +99,11 @@ namespace AgateLib.Display
         /// </summary>
         LineSegments,
     }
+
+    public enum ColorSpace
+    {
+        Rgb,
+        Yuv,
+        Hsv,
+    }
 }

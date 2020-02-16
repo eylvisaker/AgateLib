@@ -24,25 +24,25 @@ using System.Collections.Generic;
 
 namespace AgateLib.Algorithms.PathFinding
 {
-	/// <summary>
-	/// This interface is used to provide the required communication between
-	/// an area and the A* algorithm searching that area.
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	public interface IAStarMap<T>
-	{
-		/// <summary>
-		/// Calculate the heuristic for reaching the destination.
-		/// If this method returns zero, the A* algorithm assumes
-		/// this point is equivalent to the destination and ends
-		/// successfully.
-		/// If this method returns a negative number, the A* algorithm
-		/// assumes that this point is invalid.
-		/// </summary>
-		/// <param name="location"></param>
-		/// <param name="destination"></param>
-		/// <returns></returns>
-		int CalculateHeuristic(T location, List<T> destination);
+    /// <summary>
+    /// This interface is used to provide the required communication between
+    /// an area and the A* algorithm searching that area.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface IAStarMap<T>
+    {
+        /// <summary>
+        /// Calculate the heuristic for reaching the destination.
+        /// If this method returns zero, the A* algorithm assumes
+        /// this point is equivalent to the destination and ends
+        /// successfully.
+        /// If this method returns a negative number, the A* algorithm
+        /// assumes that this point is invalid.
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="destination"></param>
+        /// <returns></returns>
+        int CalcHeuristic(AStarNode<T> node, List<T> destination);
 
         /// <summary>
         /// Return the available movements from the current location.
@@ -50,7 +50,7 @@ namespace AgateLib.Algorithms.PathFinding
         /// <param name="task"></param>
         /// <param name="location"></param>
         /// <returns></returns>
-        IEnumerable<T> GetAvailableSteps(T location);
+        IEnumerable<T> AvailableStepsAt(AStarNode<T> node);
 
         /// <summary>
         /// Gets the cost value for moving from start to target.
@@ -58,7 +58,7 @@ namespace AgateLib.Algorithms.PathFinding
         /// <param name="target"></param>
         /// <param name="start"></param>
         /// <returns></returns>
-        int GetStepCost(T target, T start);
+        int StepCost(AStarNode<T> node, T target);
     }
 }
 

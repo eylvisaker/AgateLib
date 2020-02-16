@@ -334,9 +334,9 @@ namespace AgateLib.UserInterface
 
             EventHandler next = null;
 
-            next = (sender, e) => { nextAction(); SceneEnd -= next; };
+            next = (sender, e) => { nextAction(); End -= next; };
 
-            SceneEnd += next;
+            End += next;
         }
 
         /// <summary>

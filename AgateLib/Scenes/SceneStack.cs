@@ -253,7 +253,7 @@ namespace AgateLib.Scenes
 
                 topScene = scenes.LastOrDefault();
 
-                sceneData[scene].Dispose();
+                sceneData[scene]?.Dispose();
                 sceneData.Remove(scene);
             }
         }
@@ -273,7 +273,10 @@ namespace AgateLib.Scenes
         /// </summary>
         public void Clear()
         {
-            scenes.Clear();
+            while(scenes.Count > 0)
+            {
+                Remove(scenes.Last());
+            }
 
             foreach (var data in sceneData.Values)
                 data.Dispose();

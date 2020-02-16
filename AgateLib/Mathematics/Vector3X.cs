@@ -30,21 +30,37 @@ using Microsoft.Xna.Framework;
 namespace AgateLib.Mathematics
 {
 	public static class Vector3X
-	{
-		/// <summary>
-		/// Using standard spherical coordinates.
-		/// </summary>
-		/// <remarks>See https://en.wikipedia.org/wiki/Spherical_coordinate_system#Cartesian_coordinates for more information.</remarks>
-		/// <param name="r"></param>
-		/// <param name="theta"></param>
-		/// <param name="phi"></param>
-		/// <returns></returns>
-		public static Vector3 FromSpherical(float r, float theta, float phi)
+    {
+        /// <summary>
+        /// Using standard cylindrical coordinates.
+        /// </summary>
+        /// <remarks>See https://en.wikipedia.org/wiki/Cylindrical_coordinate_system for more information.</remarks>
+        /// <param name="radialDist">The radial distance in the x-y plane</param>
+        /// <param name="z">The distance in the z direction</param>
+        /// <param name="azimuthalAngle">The azimuthal angle in radians.</param>
+        /// <returns></returns>
+        public static Vector3 FromCylindrical(float radialDist, float z, float azimuthalAngle)
+        {
+            return new Vector3(
+                radialDist * MathF.Cos(azimuthalAngle),
+                radialDist * MathF.Sin(azimuthalAngle),
+                z);
+        }
+
+        /// <summary>
+        /// Using standard spherical coordinates.
+        /// </summary>
+        /// <remarks>See https://en.wikipedia.org/wiki/Spherical_coordinate_system#Cartesian_coordinates for more information.</remarks>
+        /// <param name="radialDist">The radial distance</param>
+        /// <param name="polarAngle">The polar angle in radians.</param>
+        /// <param name="azimuthalAngle">The azimuthal angle in radians.</param>
+        /// <returns></returns>
+        public static Vector3 FromSpherical(float radialDist, float polarAngle, float azimuthalAngle)
 		{
 			return new Vector3(
-				r * MathF.Sin(theta) * MathF.Cos(phi),
-				r * MathF.Sin(theta) * MathF.Sin(phi),
-				r * MathF.Cos(theta));
+				radialDist * MathF.Sin(polarAngle) * MathF.Cos(azimuthalAngle),
+				radialDist * MathF.Sin(polarAngle) * MathF.Sin(azimuthalAngle),
+				radialDist * MathF.Cos(polarAngle));
 		}
 
 		/// <summary>

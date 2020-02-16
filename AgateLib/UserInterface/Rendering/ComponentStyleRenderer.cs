@@ -91,19 +91,19 @@ namespace AgateLib.UserInterface.Rendering
                         switch (background.Repeat)
                         {
                             case BackgroundRepeat.None:
-                                DrawClipped(canvas, backgroundImage, origin, backgroundRect, srcRect);
+                                canvas.DrawClipped(backgroundImage, origin, backgroundRect, srcRect);
                                 break;
 
                             case BackgroundRepeat.Repeat:
-                                DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, true, true, srcRect);
+                                canvas.DrawRepeatedClipped(backgroundImage, origin, backgroundRect, true, true, srcRect);
                                 break;
 
                             case BackgroundRepeat.Repeat_X:
-                                DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, true, false, srcRect);
+                                canvas.DrawRepeatedClipped(backgroundImage, origin, backgroundRect, true, false, srcRect);
                                 break;
 
                             case BackgroundRepeat.Repeat_Y:
-                                DrawRepeatedClipped(canvas, backgroundImage, origin, backgroundRect, false, true, srcRect);
+                                canvas.DrawRepeatedClipped(backgroundImage, origin, backgroundRect, false, true, srcRect);
                                 break;
                         }
                         break;
@@ -255,10 +255,14 @@ namespace AgateLib.UserInterface.Rendering
 
         private void TileImage(ICanvas canvas, Texture2D frameTexture, Rectangle src, Rectangle dest)
         {
-            DrawRepeatedClipped(canvas, frameTexture, dest.Location, dest, true, true, src);
+            canvas.DrawRepeatedClipped(frameTexture, dest.Location, dest, true, true, src);
         }
 
-        private void DrawClipped(ICanvas canvas, Texture2D image, Point dest, Rectangle clipRect, Rectangle srcRect)
+    }
+
+    public static class CanvasExtensions
+    {
+        public static void DrawClipped(this ICanvas canvas, Texture2D image, Point dest, Rectangle clipRect, Rectangle srcRect)
         {
             Rectangle destRect = new Rectangle(dest.X, dest.Y, srcRect.Width, srcRect.Height);
 
@@ -281,13 +285,26 @@ namespace AgateLib.UserInterface.Rendering
             canvas.Draw(image, destRect, srcRect, Color.White);
         }
 
-        private void DrawRepeatedClipped(ICanvas canvas, Texture2D image, Point startPt, Rectangle clipRect, bool repeatX, bool repeatY, Rectangle srcRect)
+        public static void DrawRepeatedClipped(this ICanvas canvas, Texture2D image, Point startPt, Rectangle clipRect, bool repeatX, bool repeatY, Rectangle srcRect)
         {
             int countX = (int)Math.Ceiling(clipRect.Width / (double)srcRect.Width);
             int countY = (int)Math.Ceiling(clipRect.Height / (double)srcRect.Height);
 
             if (repeatX && startPt.X != clipRect.X) startPt.X -= image.Width;
             if (repeatY && startPt.Y != clipRect.Y) startPt.Y -= image.Height;
+
+            if (repeatX)
+            {
+                // TODO: Optimize this with the power of MATH!.
+                while (startPt.X + image.Width < clipRect.X)
+                    startPt.X += image.Width;
+            }
+
+            if (repeatY)
+            {
+                while (startPt.Y + image.Height < clipRect.Y)
+                    startPt.Y += image.Height;
+            }
 
             if (startPt.X + countX * image.Width < clipRect.Right) countX++;
             if (startPt.Y + countY * image.Height < clipRect.Bottom) countY++;

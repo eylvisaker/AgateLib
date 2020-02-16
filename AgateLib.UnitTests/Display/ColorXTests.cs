@@ -70,5 +70,57 @@ namespace AgateLib.Tests.Display
             clr.G.Should().Be(0x34);
             clr.B.Should().Be(0x56);
         }
+
+        [Theory]
+        [InlineData(ColorSpace.Yuv, -0.1, 0, 0, 0)]
+        [InlineData(ColorSpace.Yuv, 1.1, 255, 255, 255)]
+        [InlineData(ColorSpace.Yuv, 0.5, 127, 127, 127)]
+        [InlineData(ColorSpace.Rgb, -0.1, 0, 0, 0)]
+        [InlineData(ColorSpace.Rgb, 1.1, 255, 255, 255)]
+        [InlineData(ColorSpace.Rgb, 0.5, 127, 127, 127)]
+        public void InterpolateBlackWhite(ColorSpace space,
+                                          double step,
+                                          byte expectedR,
+                                          byte expectedG,
+                                          byte expectedB)
+        {
+            Color clr = ColorX.Interpolate(Color.Black, Color.White, step, space);
+
+            clr.R.Should().Be(expectedR);
+            clr.G.Should().Be(expectedG);
+            clr.B.Should().Be(expectedB);
+        }
+
+        [Theory]
+        [InlineData(ColorSpace.Yuv, 0.5, 127, 64, 0)]
+        [InlineData(ColorSpace.Rgb, 0.5, 127, 64, 0)]
+        public void InterpolateRedGreen(ColorSpace space,
+                                        double step,
+                                        byte expectedR,
+                                        byte expectedG,
+                                        byte expectedB)
+        {
+            Color clr = ColorX.Interpolate(Color.Red, Color.Green, step, space);
+
+            clr.R.Should().Be(expectedR);
+            clr.G.Should().Be(expectedG);
+            clr.B.Should().Be(expectedB);
+        }
+
+        [Theory]
+        [InlineData(ColorSpace.Yuv, 0.5, 127, 127, 127)]
+        [InlineData(ColorSpace.Rgb, 0.5, 127, 127, 127)]
+        public void InterpolateRedCyan(ColorSpace space,
+                                        double step,
+                                        byte expectedR,
+                                        byte expectedG,
+                                        byte expectedB)
+        {
+            Color clr = ColorX.Interpolate(Color.Red, Color.Cyan, step, space);
+
+            clr.R.Should().Be(expectedR);
+            clr.G.Should().Be(expectedG);
+            clr.B.Should().Be(expectedB);
+        }
     }
 }

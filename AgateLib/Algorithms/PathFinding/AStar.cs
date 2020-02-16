@@ -33,52 +33,8 @@ namespace AgateLib.Algorithms.PathFinding
     /// <typeparam name="T">A type which represents a point on a map.</typeparam>
     public class AStar<T>
     {
-        /// <summary>
-        /// Class which represents a node in an A* calulation.
-        /// </summary>
-        /// <typeparam name="Tnode"></typeparam>
-        public class AStarNode<Tnode>
-        {
-            /// <summary>
-            /// Location of the node.
-            /// </summary>
-            public Tnode Location;
+        public const int DefaultMaxSteps = 200;
 
-            /// <summary>
-            /// The parent node.
-            /// </summary>
-            public AStarNode<Tnode> Parent;
-
-            /// <summary>
-            /// The cost paid to reach this node.
-            /// </summary>
-            public int PaidCost;
-
-            /// <summary>
-            /// The cost estimated by the heuristic to reach the end.
-            /// </summary>
-            public int Heuristic;
-
-            /// <summary>
-            /// The total cost that a path passing through this node would be.
-            /// </summary>
-            public int TotalCost
-            {
-                get { return PaidCost + Heuristic; }
-            }
-
-            /// <summary>
-            /// Convert to a string for debug output.
-            /// </summary>
-            /// <returns></returns>
-            public override string ToString()
-            {
-                return string.Format("{0} : F={1} G={2} H={3}",
-                                     Location, TotalCost, PaidCost, Heuristic);
-            }
-        }
-
-        private const int maxSteps = 200;
         private IAStarMap<T> map;
         private Func<T, T, bool> equals;
         private List<T> path = new List<T>();
@@ -115,6 +71,8 @@ namespace AgateLib.Algorithms.PathFinding
             equals = comparison;
         }
 
+        public event AStarProgressHandler<T> AStarProgress;
+
         /// <summary>
         /// The starting point.
         /// </summary>
@@ -139,19 +97,34 @@ namespace AgateLib.Algorithms.PathFinding
         public List<T> Path => path;
 
         /// <summary>
+        /// Gets or sets the default number of steps the A* algorithm will take.
+        /// Defaults to the value of DefaultMaxSteps.
+        /// </summary>
+        public int MaxSteps { get; set; } = DefaultMaxSteps;
+
+        /// <summary>
+        /// Gets or sets the default weight for the heuristic in the calculation.
+        /// Higher values will bias the algorithm to search nodes closer to the end point.
+        /// This can result in faster searches in getting around small obstacles but 
+        /// slower searches to find ways around large obstacles.
+        /// Defaults to 0. Negative values may have bizarre effects.
+        /// </summary>
+        public double HeuristicWeight { get; set; }
+
+        /// <summary>
         /// True if currently searching for the path.
         /// </summary>
-        public bool SearchingPath { get; set; }
+        public bool SearchingPath { get; private set; }
 
         /// <summary>
         /// True if the algorithm finished.
         /// </summary>
-        public bool Complete { get; set; }
+        public bool Complete { get; private set; }
 
         /// <summary>
         /// Trus if a path was found.
         /// </summary>
-        public bool FoundPath { get; set; }
+        public bool FoundPath { get; private set; }
 
         /// <summary>
         /// Set to true to force the path finding algorithm to gracefully abort.
@@ -195,9 +168,11 @@ namespace AgateLib.Algorithms.PathFinding
             {
                 Location = Start,
                 Parent = null,
-                Heuristic = map.CalculateHeuristic(Start, EndPoints),
+                HeuristicWeight = (1 + HeuristicWeight),
                 PaidCost = 0
             };
+
+            node.Heuristic = map.CalcHeuristic(node, EndPoints);
 
             openNodes.Add(node);
 
@@ -208,7 +183,7 @@ namespace AgateLib.Algorithms.PathFinding
             {
                 SortOpenNodes(openNodes);
 
-                //sMap.ReportProgress(openNodes, closedNodes, end);
+                AStarProgress?.Invoke(openNodes, closedNodes);
 
                 node = openNodes[0];
                 openNodes.RemoveAt(0);
@@ -221,10 +196,10 @@ namespace AgateLib.Algorithms.PathFinding
                 }
 
                 steps++;
-                if (steps > maxSteps)
+                if (steps > MaxSteps)
                     break;
 
-                foreach (T test in map.GetAvailableSteps(node.Location))
+                foreach (T test in map.AvailableStepsAt(node))
                 {
                     if (AbortOperation)
                         return;
@@ -232,7 +207,7 @@ namespace AgateLib.Algorithms.PathFinding
                     if (LocationIn(closedNodes, test))
                         continue;
 
-                    int deltaCost = map.GetStepCost(test, node.Location);
+                    int deltaCost = map.StepCost(node, test);
 
                     int index = FindPointInOpenNodes(openNodes, test);
 
@@ -255,8 +230,10 @@ namespace AgateLib.Algorithms.PathFinding
                             Location = test,
                             Parent = node,
                             PaidCost = node.PaidCost + deltaCost,
-                            Heuristic = map.CalculateHeuristic(test, EndPoints)
+                            HeuristicWeight = 1 + HeuristicWeight,
                         };
+
+                        newtarget.Heuristic = map.CalcHeuristic(newtarget, EndPoints);
 
                         if (newtarget.Heuristic < 0)
                         {
@@ -324,7 +301,8 @@ namespace AgateLib.Algorithms.PathFinding
                 return result;
             });
         }
-
     }
+
+    public delegate void AStarProgressHandler<T>(List<AStarNode<T>> openNodes, List<AStarNode<T>> closedNodes);
 }
 

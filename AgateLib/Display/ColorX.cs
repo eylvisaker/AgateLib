@@ -31,6 +31,83 @@ namespace AgateLib.Display
     public static class ColorX
     {
         /// <summary>
+        /// Interpolates a color between two values.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="step">A value indicating how much of the right color should be mixed into the left.
+        /// If this value is less than 0, the left value will be returned, 
+        /// and if it's greater than 1, the right value will be returned.</param>
+        /// <param name="interpolationSpace">Which color space to perform the interpolation in.</param>
+        /// <returns></returns>
+        public static Color Interpolate(Color left, Color right, double step, ColorSpace interpolationSpace = ColorSpace.Rgb)
+        {
+            switch (interpolationSpace)
+            {
+                case ColorSpace.Hsv:
+                case ColorSpace.Yuv:
+                    return InterpolateYuv(left, right, step);
+                
+                case ColorSpace.Rgb:
+                    return InterpolateRgb(left, right, step);
+
+                default:
+                    throw new ArgumentOutOfRangeException($"Color interpolation scheme {interpolationSpace} not recognized.");
+            }
+        }
+
+        /// <summary>        
+        /// Interpolates a color between two values.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="step">A value indicating how much of the right color should be mixed into the left.
+        /// If this value is less than 0, the left value will be returned, 
+        /// and if it's greater than 1, the right value will be returned.</param>
+        public static Color InterpolateYuv(Color left, Color right, double step)
+        {
+            if (step <= 0)
+                return left;
+            if (step >= 1)
+                return right;
+
+            left.ToYuv (out double Ly, out double Lu, out double Lv, out double La);
+            right.ToYuv(out double Ry, out double Ru, out double Rv, out double Ra);
+
+            double Lf = 1 - step;
+            double Rf = step;
+
+            return FromYuv(Lf * Ly + Rf * Ry,
+                           Lf * Lu + Rf * Ru,
+                           Lf * Lv + Rf * Rv,
+                           Lf * La + Rf * Ra);
+        }
+
+        /// <summary>        
+        /// Interpolates a color between two values.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="step">A value indicating how much of the right color should be mixed into the left.
+        /// If this value is less than 0, the left value will be returned, 
+        /// and if it's greater than 1, the right value will be returned.</param>
+        public static Color InterpolateRgb(Color left, Color right, double step)
+        {
+            if (step <= 0)
+                return left;
+            if (step >= 1)
+                return right;
+
+            double Lf = 1 - step;
+            double Rf = step;
+
+            return new Color((int)(Lf * left.R + Rf * right.R),
+                             (int)(Lf * left.G + Rf * right.G),
+                             (int)(Lf * left.B + Rf * right.B),
+                             (int)(Lf * left.A + Rf * right.A));
+        }
+
+        /// <summary>
         /// Tries to parse the color. First calls TryParseNamedColor to see if the value matches a known name,
         /// then TryParseFromArgb.
         /// </summary>
@@ -283,11 +360,26 @@ namespace AgateLib.Display
         /// <param name="y"></param>
         /// <param name="u"></param>
         /// <param name="v"></param>
-        public static void ToYuv(Color clr, out double y, out double u, out double v)
+        public static void ToYuv(this Color clr, out double y, out double u, out double v)
         {
             y = (W_R * clr.R + W_G * clr.G + W_B * clr.B) / 255.0;
             u = Umax * (clr.B / 255.0 - y) / (1 - W_B);
             v = Vmax * (clr.R / 255.0 - y) / (1 - W_R);
+        }
+
+        /// <summary>
+        /// Converts a color to YUVA values.
+        /// </summary>
+        /// <param name="y"></param>
+        /// <param name="u"></param>
+        /// <param name="v"></param>
+        /// <param name="a">Alpha (transparency) value</param>
+        public static void ToYuv(this Color clr, out double y, out double u, out double v, out double a)
+        {
+            y = (W_R * clr.R + W_G * clr.G + W_B * clr.B) / 255.0;
+            u = Umax * (clr.B / 255.0 - y) / (1 - W_B);
+            v = Vmax * (clr.R / 255.0 - y) / (1 - W_R);
+            a = clr.A / 255.0;
         }
 
         /// <summary>
@@ -297,12 +389,13 @@ namespace AgateLib.Display
         /// <param name="u"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static Color FromYuv(double y, double u, double v)
+        public static Color FromYuv(double y, double u, double v, double a = 1)
         {
             return new Color(
-                (int)(255 * (y + v * (1 - W_R) / Vmax)),
-                (int)(255 * (y - u * W_B * (1 - W_B) / (Umax * W_G) - v * W_R * (1 - W_R) / (Vmax * W_G))),
-                (int)(255 * (y + u * (1 - W_B) / Umax)));
+                (byte)(255 * (y + v * (1 - W_R) / Vmax)),
+                (byte)(255 * (y - u * W_B * (1 - W_B) / (Umax * W_G) - v * W_R * (1 - W_R) / (Vmax * W_G))),
+                (byte)(255 * (y + u * (1 - W_B) / Umax)),
+                (byte)(255 * a));
         }
 
         /// <summary>

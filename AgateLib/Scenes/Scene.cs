@@ -35,6 +35,17 @@ namespace AgateLib.Scenes
     /// </summary>
     public interface IScene
     {
+
+        /// <summary>
+        /// Event raised when the scene is first added to a scene stack.
+        /// </summary>
+        event EventHandler Start;
+
+        /// <summary>
+        /// Event raised when the scene is about to be removed from the scene stack.
+        /// </summary>
+        event EventHandler End;
+
         /// <summary>
         /// The scene stack this scene is a part of.
         /// </summary>
@@ -114,6 +125,9 @@ namespace AgateLib.Scenes
     /// </summary>
     public class Scene : IScene
     {
+        EventHandler start;
+        EventHandler end;
+
         /// <summary>
         /// Constructs a Scene object.
         /// </summary>
@@ -125,11 +139,17 @@ namespace AgateLib.Scenes
         /// <summary>
         /// Event raised when the scene is first added to a scene stack.
         /// </summary>
+        public event EventHandler Start;
+
+        [Obsolete("Use Start instead.", true)]
         public event EventHandler SceneStart;
 
         /// <summary>
         /// Event raised when the scene is about to be removed from the scene stack.
         /// </summary>
+        public event EventHandler End;
+        
+        [Obsolete("Use End instead.", true)]
         public event EventHandler SceneEnd;
 
         /// <summary>

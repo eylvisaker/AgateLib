@@ -49,11 +49,17 @@ namespace AgateLib.Scenes
         /// <summary>
         /// Event raised when the scene is first added to a scene stack.
         /// </summary>
+        public event EventHandler Start;
+
+        [Obsolete("Use Start instead.")]
         public event EventHandler SceneStart;
 
         /// <summary>
         /// Event raised when the scene is about to be removed from the scene stack.
         /// </summary>
+        public event EventHandler End;
+
+        [Obsolete("Use End instead.")]
         public event EventHandler SceneEnd;
 
         /// <summary>

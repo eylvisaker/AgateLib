@@ -160,7 +160,6 @@ namespace AgateLib.Quality
         /// <param name="message"></param>
         [DebuggerStepThrough]
         public static void Not(bool state, string message)
-
         {
             Not<InvalidOperationException>(state, message);
         }

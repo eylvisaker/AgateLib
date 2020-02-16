@@ -84,7 +84,7 @@ namespace AgateLib.Diagnostics
             }
             catch (Exception e)
             {
-                Log.Info($"Task {actionName} faulted after {watch.Elapsed.TotalSeconds} s.");
+                Log.Info($"Task {actionName} faulted after {watch.Elapsed.TotalSeconds} s with exception:\n{e}");
                 throw;
             }
         }

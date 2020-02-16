@@ -159,6 +159,8 @@ namespace AgateLib.UserInterface
 
             var children = new List<IRenderElement>();
 
+            newNode.AppContext = AppContext;
+
             // Reorder the children in the old node so that they match the ones in the new node.
             for (int newIndex = 0; newIndex < newNode.Children.Count; newIndex++)
             {

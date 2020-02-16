@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\CollectionAlgorithms.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\Inverting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\AStar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\DjikstraCartesian.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\AStarMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\DjikstraCartesianMap.cs" />
