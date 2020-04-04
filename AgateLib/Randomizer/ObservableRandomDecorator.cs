@@ -18,9 +18,9 @@ namespace AgateLib.Randomizer
 
         public event Action SeedChanged;
 
-        public long Seed => random.Seed;
+        public Seed Seed => random.Seed;
 
-        public int NextIntegerMaxValue => random.NextIntegerMaxValue;
+        public uint NextUInt32MaxValue => random.NextUInt32MaxValue;
 
         public double NextDouble()
         {
@@ -31,9 +31,9 @@ namespace AgateLib.Randomizer
             return result;
         }
 
-        public int NextInteger()
+        public uint NextUInt32()
         {
-            int result = random.NextInteger();
+            uint result = random.NextUInt32();
 
             SeedChanged?.Invoke();
 
@@ -43,6 +43,15 @@ namespace AgateLib.Randomizer
         public float NextSingle()
         {
             float result = random.NextSingle();
+
+            SeedChanged?.Invoke();
+
+            return result;
+        }
+
+        public Seed GenerateSeed()
+        {
+            Seed result = random.GenerateSeed();
 
             SeedChanged?.Invoke();
 

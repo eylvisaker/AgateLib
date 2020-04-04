@@ -49,7 +49,7 @@ namespace AgateLib.Algorithms.PathFinding
         {
             string heuristicWeight = HeuristicWeight != 1 ? $" * {HeuristicWeight}" : "";
 
-            return $"{Location} : G={PaidCost} + H={Heuristic}{heuristicWeight} = {TotalCost}";
+            return $"G={PaidCost} + H={Heuristic}{heuristicWeight} = {TotalCost} @ {Location}";
         }
     }
 

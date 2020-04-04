@@ -37,18 +37,18 @@ namespace AgateLib.Randomizer
         /// <summary>
         /// Gets the seed value.
         /// </summary>
-        long Seed { get; }
+        Seed Seed { get; }
 
         /// <summary>
-        /// Gets the maximum value that can be returned by NextInteger().
+        /// Gets the maximum value that can be returned by NextUInt32().
         /// </summary>
-        int NextIntegerMaxValue { get; }
+        uint NextUInt32MaxValue { get; }
 
         /// <summary>
-        /// Gets the next random integer in the sequence, between zero and NextIntegerMaxValue.
+        /// Gets the next random integer in the sequence, between 0 and UInt32.MaxValue
         /// </summary>
         /// <returns></returns>
-        int NextInteger();
+        uint NextUInt32();
 
         /// <summary>
         /// Gets the next random single precision floating point in the sequence, between zero and 1.
@@ -61,6 +61,12 @@ namespace AgateLib.Randomizer
         /// </summary>
         /// <returns></returns>
         double NextDouble();
+
+        /// <summary>
+        /// Generates a seed value that can be used for another sequence of random numbers.
+        /// </summary>
+        /// <returns></returns>
+        Seed GenerateSeed();
     }
 
     public static class RandomX
@@ -69,7 +75,13 @@ namespace AgateLib.Randomizer
         /// Gets a seed value from the system clock.
         /// </summary>
         /// <returns></returns>
-        public static int GetSeedFromSystemClock() => Math.Abs((int)DateTime.Now.Ticks);
+        public static Seed GetSeedFromSystemClock() => new Seed((ulong)DateTime.Now.Ticks, (ulong)DateTime.Now.Ticks ^ 0xdeadba5eba11beef);
+
+        /// <summary>
+        /// Gets the next random integer in the sequence, between zero and Int32.MaxValue.
+        /// </summary>
+        /// <returns></returns>
+        public static int NextInteger(this IRandom random) => random.NextInteger(0, int.MaxValue);
 
         /// <summary>
         /// Gets the next random integer value which is greater than zero and less than or equal to
@@ -231,21 +243,13 @@ namespace AgateLib.Randomizer
         }
 
         /// <summary>
-        /// Generates a seed that can be used for a new random number generator. 
-        /// You may store this to generate the same random sequence at a later time.
-        /// </summary>
-        /// <param name="random"></param>
-        public static long GenerateSeed(this IRandom random, int salt = 0x7deadcad)
-            => Math.Abs(random.NextInteger(1, int.MaxValue - 1) ^ salt);
-
-        /// <summary>
         /// Creates a new IRandom object with a specified seed.
         /// </summary>
         /// <returns></returns>
-        public static IRandom Create(long seed)
+        public static IRandom Create(Seed seed)
         {
             if (RandomFactory == null)
-                return new FastRandom((int)seed);
+                return new Xoroshiro128pp(seed);
 
             return RandomFactory(seed);
         }
@@ -253,7 +257,7 @@ namespace AgateLib.Randomizer
         /// <summary>
         /// Set to specify a custom random factory method.
         /// </summary>
-        public static Func<long, IRandom> RandomFactory { get; set; }
+        public static Func<Seed, IRandom> RandomFactory { get; set; }
     }
 }
 

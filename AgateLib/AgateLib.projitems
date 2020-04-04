@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\PathFinding\DjikstraCartesianMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\BinaryTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\BinaryTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Graph.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\ListSorting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\ObservableList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\NonGenericListSorting.cs" />
@@ -166,6 +167,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer\ObservableRandomDecorator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer\Random.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer\FastRandom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Randomizer\Seed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Randomizer\TypeConverters\SeedYaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Randomizer\Xoroshiro128pp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\BufferedScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\SceneStack.cs" />

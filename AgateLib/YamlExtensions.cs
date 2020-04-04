@@ -22,6 +22,7 @@
 
 using System;
 using AgateLib.Mathematics.TypeConverters;
+using AgateLib.Randomizer.TypeConverters;
 using AgateLib.UserInterface.Styling.Themes.Model.TypeConverters;
 using AgateLib.UserInterface.Styling.TypeConverters;
 using YamlDotNet.Serialization;
@@ -53,6 +54,7 @@ namespace AgateLib
                 .WithTypeConverter(new BorderSideStyleYaml())
                 .WithTypeConverter(new FontStylePropertiesYaml())
                 .WithTypeConverter(new LayoutBoxConverterYaml())
+                .WithTypeConverter(new SeedYaml())
                 ;
         }
     }

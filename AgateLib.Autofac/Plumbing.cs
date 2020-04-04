@@ -50,9 +50,19 @@ namespace AgateLib.Foundation
             RegisterConventions(myAssembly);
 
             RegisterSystemModules();
+
+            if (Debugger.IsAttached)
+            {
+                UseDebuggerBreak = true;
+            }
         }
 
-        public bool DebugResolve { get; set; }
+        /// <summary>
+        /// If true, a failure will call Debugger.Break for easier debugging
+        /// of the problem. Automatically set to true when the application is
+        /// started with a debugger attached.
+        /// </summary>
+        public bool UseDebuggerBreak { get; set; }
 
         /// <summary>
         /// Registers a singleton instance of an object.
@@ -89,10 +99,13 @@ namespace AgateLib.Foundation
                     let transient = typeinfo.GetCustomAttribute<TransientAttribute>()
                     where transient != null
                           && typeinfo.IsPublic && !typeinfo.IsAbstract
-                    select new { InstanceType = type,
-                                 TypeInfo = typeinfo,
-                                 Transient = transient,
-                                 InstanceTypeName = type.Name };
+                    select new
+                    {
+                        InstanceType = type,
+                        TypeInfo = typeinfo,
+                        Transient = transient,
+                        InstanceTypeName = type.Name
+                    };
 
                 foreach (var type in types)
                 {
@@ -221,22 +234,33 @@ namespace AgateLib.Foundation
             }
             catch (Exception ex)
             {
-                if (Debugger.IsAttached)
+                // Autofac was not able to resolve a dependency.
+                // This usually means that an object has not been 
+                // registered with the plumbing system by applying
+                // an attribute like [Singleton] or [Transient].
+                // The message on the innermost exception will tell 
+                // what dependency was not met.
+                string innerMostMessage = InnerMostException(ex).Message;
+
+                Debug.WriteLine($"Failed to resolve dependency: {innerMostMessage}");
+
+                if (UseDebuggerBreak)
                 {
-
-                    // Autofac was not able to resolve a dependency.
-                    // This usually means that an object has not been 
-                    // registered with the plumbing system by applying
-                    // an attribute like [Singleton] or [Transient].
-                    // The message on the innermost exception will tell 
-                    // what dependency was not met.
-                    string innerMostMessage = InnerMostException(ex).Message;
-
-                    Debug.WriteLine($"Failed to resolve dependency: {innerMostMessage}");
                     Debugger.Break();
                 }
 
-                Resolve<IConsole>().WriteLine($"Failed to resolve {typeof(T).Name}.\n{ex.ToString()}");
+                try
+                {
+                    var console = container.Resolve<IConsole>();
+                    console.WriteLine($"Failed to resolve {typeof(T).Name}.\n{ex.ToString()}");
+                }
+                catch
+                {
+                    // Failed to resolve console so don't print a console message.
+                    // Nothing else to do here, since the outer exception is the one
+                    // that should be thrown.
+                }
+
                 throw;
             }
         }

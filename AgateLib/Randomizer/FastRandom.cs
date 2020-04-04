@@ -34,6 +34,7 @@ namespace AgateLib.Randomizer
     /// <remarks>
     /// Adapted from https://github.com/Matthew-Davey/mercury-particle-engine/blob/develop/Mercury.ParticleEngine.Core/FastRand.cs
     /// </remarks>
+    [Obsolete("xoroshiro128p is a much better algorithm.")]
     public class FastRandom : IRandom
     {
         private int _state = 1;
@@ -46,8 +47,11 @@ namespace AgateLib.Randomizer
         /// Initializes a FastRandom object. 
         /// </summary>
         /// <param name="seed"></param>
-        public FastRandom(int seed)
+        public FastRandom(Seed seed)
         {
+            if (seed == 0)
+                throw new ArgumentOutOfRangeException("Seed cannot be zero.");
+
             Seed = seed;
         }
 
@@ -71,19 +75,26 @@ namespace AgateLib.Randomizer
         /// <summary>
         /// Gets or sets the seed value that will produce the next random number.
         /// </summary>
-        public int Seed
+        public Seed Seed
         {
-            get => _state;
+            get => new Seed(_state);
             set
             {
-                if (value < 1)
-                    throw new ArgumentOutOfRangeException(nameof(Seed), "seed must be greater than zero");
-
-                _state = value;
+                ulong temp = value.HighBits ^ value.LowBits;
+                _state = (int)((temp >> 32) ^ temp);
             }
         }
 
-        long IRandom.Seed => _state;
+        /// <summary>
+        /// Generates a seed that can be used for a new random number generator. 
+        /// You may store this to generate the same random sequence at a later time.
+        /// </summary>
+        /// <param name="random"></param>
+        public Seed GenerateSeed()
+        {
+            const int salt = 0x7deadcad;
+            return new Seed(NextUInt32() ^ salt);
+        }
 
         /// <summary>
         /// Gets the next double precision value.
@@ -91,23 +102,23 @@ namespace AgateLib.Randomizer
         /// <returns></returns>
         public double NextDouble() => NextSingle();
 
-        public int NextIntegerMaxValue => Int16.MaxValue;
+        public uint NextUInt32MaxValue => (int)Int16.MaxValue;
 
         /// <summary>
         /// Gets the next random integer value.
         /// </summary>
         /// <returns>A random positive integer.</returns>
-        public int NextInteger()
+        public uint NextUInt32()
         {
             _state = 214013 * _state + 2531011;
-            return (_state >> 16) & 0x7FFF;
+            return (uint)((_state >> 16) & 0x7FFF);
         }
 
         /// <summary>
         /// Gets the next random single value.
         /// </summary>
         /// <returns>A random single value between 0 and 1.</returns>
-        public float NextSingle() => NextInteger() / (float)(Int16.MaxValue + 1);
+        public float NextSingle() => NextUInt32() / (float)(Int16.MaxValue + 1);
 
     }
 }

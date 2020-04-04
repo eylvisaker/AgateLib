@@ -172,7 +172,7 @@ namespace AgateLib.Algorithms.PathFinding
                 PaidCost = 0
             };
 
-            node.Heuristic = map.CalcHeuristic(node, EndPoints);
+            node.Heuristic = EndPoints.Select(x => map.CalcHeuristic(node, x)).Where(x => x >= 0).Min();
 
             openNodes.Add(node);
 
@@ -233,7 +233,7 @@ namespace AgateLib.Algorithms.PathFinding
                             HeuristicWeight = 1 + HeuristicWeight,
                         };
 
-                        newtarget.Heuristic = map.CalcHeuristic(newtarget, EndPoints);
+                        newtarget.Heuristic = EndPoints.Select(x => map.CalcHeuristic(newtarget, x)).Min();
 
                         if (newtarget.Heuristic < 0)
                         {

@@ -42,7 +42,7 @@ namespace AgateLib.Algorithms.PathFinding
         /// <param name="location"></param>
         /// <param name="destination"></param>
         /// <returns></returns>
-        int CalcHeuristic(AStarNode<T> node, List<T> destination);
+        int CalcHeuristic(AStarNode<T> node, T destination);
 
         /// <summary>
         /// Return the available movements from the current location.

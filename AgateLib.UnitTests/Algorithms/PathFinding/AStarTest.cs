@@ -16,22 +16,11 @@ namespace AgateLib.Algorithms.PathFinding
         /// </summary>
         class FakeMap : IAStarMap<Point>
         {
-            public int CalculateHeuristic(Point location, Point destination)
+            public int CalcHeuristic(AStarNode<Point> node, Point destination)
             {
-                return Math.Abs(destination.X - location.X) + Math.Abs(destination.Y - location.Y);
-            }
+                int val = Math.Abs(destination.X - node.Location.X) + Math.Abs(destination.Y - node.Location.Y); ;
 
-            public int CalcHeuristic(AStarNode<Point> location, List<Point> destination)
-            {
-                int minval = int.MaxValue;
-
-                foreach (var dest in destination)
-                {
-                    int val = CalculateHeuristic(location.Location, dest);
-                    if (val < minval) minval = val;
-                }
-
-                return minval;
+                return val;
             }
 
             public IEnumerable<Point> AvailableStepsAt(AStarNode<Point> node)

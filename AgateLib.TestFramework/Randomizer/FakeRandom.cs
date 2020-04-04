@@ -4,12 +4,19 @@ namespace AgateLib.Randomizer
 {
     public class FakeRandom : IRandom
     {
-        public long Seed => 1;
+        public Seed Seed => new Seed(1);
 
-        public int NextIntegerMaxValue => short.MaxValue;
+        public uint NextUInt32MaxValue => (uint)short.MaxValue;
 
         public double NextDouble() => 0.5;
-        public int NextInteger() => NextIntegerMaxValue / 2;
+        public uint NextUInt32() => NextUInt32MaxValue / 2;
         public float NextSingle() => 0.5f;
+
+        /// <summary>
+        /// Generates a seed that can be used for a new random number generator. 
+        /// You may store this to generate the same random sequence at a later time.
+        /// </summary>
+        /// <param name="random"></param>
+        public Seed GenerateSeed() => 1;
     }
 }

@@ -7,17 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace AgateLib.Tests
+namespace AgateLib.Randomizer
 {
-    public class RandomExtensionsTest
+    public class RandomExtensionsUnitTests
     {
-        const int TestCount = 5000;
+        const int TestCount = 15000;
 
         private IRandom rnd;
 
-        public RandomExtensionsTest()
+        public RandomExtensionsUnitTests()
         {
-            rnd = new FastRandom(45);
+            rnd = new Xoroshiro128pp(45);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace AgateLib.Tests
             {
                 int value = rnd.NextInteger(10);
 
-                value.Should().BeInRange(0, 9);
+                value.Should().BeInRange(0, 9, $"Iteration {i} should be between 0-9");
             }
         }
 
@@ -72,7 +72,7 @@ namespace AgateLib.Tests
                 if (!inRange)
                 {
                     distributionResult.Append(
-                        $" - out of expected range {minFraction}, {maxFraction}");
+                        $" - out of expected range {100 * minFraction}%, {100 * maxFraction}%");
 
                     anyOutOfRange = true;
                 }
