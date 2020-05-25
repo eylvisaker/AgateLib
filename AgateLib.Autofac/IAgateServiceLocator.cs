@@ -17,5 +17,8 @@ namespace AgateLib.Foundation
     {
         T Resolve<T>();
         T Resolve<T>(object anonymousObjectArguments);
+
+        T ResolveNamed<T>(string name);
+        T ResolveNamed<T>(string name, object anonymousObjectArguments);
     }
 }

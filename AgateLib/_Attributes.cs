@@ -28,32 +28,41 @@ using System.Threading.Tasks;
 
 namespace AgateLib
 {
-	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
-	public class SingletonAttribute : Attribute
-	{
-		public string Name { get; set; }
-	}
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    public class SingletonAttribute : Attribute
+    {
+        public string Name { get; set; }
+    }
 
-	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
-	public class TransientAttribute : Attribute
-	{
-		public TransientAttribute()
-		{
-		}
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    public class TransientAttribute : Attribute
+    {
+        public TransientAttribute()
+        {
+        }
 
-		public TransientAttribute(string name)
-		{
-			Name = name;
-		}
+        public TransientAttribute(string name)
+        {
+            Name = name;
+        }
 
-		public string Name { get; }
-	}
+        public string Name { get; }
+    }
 
-	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
-	public class ScopedTransientAttribute : Attribute
-	{
-		
-	}
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    public class ScopedTransientAttribute : Attribute
+    {
+        public ScopedTransientAttribute()
+        {
+        }
+
+        public ScopedTransientAttribute(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; set; }
+    }
 
     /// <summary>
     /// Indicates to the type resolution system that properties which
@@ -61,7 +70,7 @@ namespace AgateLib
     /// set with the resolved services. This attribute is inherited.
     /// </summary>
 	[AttributeUsage(AttributeTargets.Class, Inherited = true)]
-	public class InjectPropertiesAttribute : Attribute
-	{
-	}
+    public class InjectPropertiesAttribute : Attribute
+    {
+    }
 }

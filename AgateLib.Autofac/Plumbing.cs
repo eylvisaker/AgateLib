@@ -37,6 +37,16 @@ namespace AgateLib.Foundation
             {
                 return lifetimeScope.Resolve<T>(BuildParameterList(anonymousObjectArguments));
             }
+
+            public T ResolveNamed<T>(string name)
+            {
+                return lifetimeScope.ResolveNamed<T>(name);
+            }
+
+            public T ResolveNamed<T>(string name, object anonymousObjectArguments)
+            {
+                return lifetimeScope.ResolveNamed<T>(name, BuildParameterList(anonymousObjectArguments));
+            }
         }
 
         private readonly ContainerBuilder builder;
@@ -151,6 +161,16 @@ namespace AgateLib.Foundation
                         .InstancePerLifetimeScope();
 
                     WireProperties(registration, type.TypeInfo);
+
+                    if (!string.IsNullOrWhiteSpace(type.Transient.Name))
+                    {
+                        var interfaces = type.InstanceType.GetTypeInfo().ImplementedInterfaces;
+
+                        foreach (var interf in interfaces)
+                        {
+                            registration.Named(type.Transient.Name, interf);
+                        }
+                    }
                 }
             }
         }
@@ -195,8 +215,6 @@ namespace AgateLib.Foundation
         private void RegisterSystemModules()
         {
             builder.RegisterInstance(this).As<IAgateServiceLocator>();
-            builder.RegisterInstance(new Random()).As<Random>();
-            builder.RegisterInstance(new SceneStack()).As<ISceneStack>().As<SceneStack>();
         }
 
         public T Resolve<T>()
@@ -209,9 +227,19 @@ namespace AgateLib.Foundation
 
         public T Resolve<T>(object anonymousObjectArguments)
         {
-            var parameters = BuildParameterList(anonymousObjectArguments);
+            if (anonymousObjectArguments != null)
+            {
+                if (anonymousObjectArguments is string)
+                    throw new ArgumentException("Arguments must be an object. If passing a name, use ResolveNamed instead.", nameof(anonymousObjectArguments));
 
-            return ResolveAndDebug<T>(c => c.Resolve<T>(parameters));
+                var parameters = BuildParameterList(anonymousObjectArguments);
+
+                return ResolveAndDebug<T>(c => c.Resolve<T>(parameters));
+            }
+            else
+            {
+                return Resolve<T>();
+            }
         }
 
         public T ResolveNamed<T>(string name)
@@ -221,9 +249,16 @@ namespace AgateLib.Foundation
 
         public T ResolveNamed<T>(string name, object anonymousObjectArguments)
         {
-            var parameters = BuildParameterList(anonymousObjectArguments);
+            if (anonymousObjectArguments != null)
+            {
+                var parameters = BuildParameterList(anonymousObjectArguments);
 
-            return ResolveAndDebug<T>(c => c.ResolveNamed<T>(name, parameters));
+                return ResolveAndDebug<T>(c => c.ResolveNamed<T>(name, parameters));
+            }
+            else
+            {
+                return ResolveNamed<T>(name);
+            }
         }
 
         private T ResolveAndDebug<T>(Func<IContainer, T> resolver)
@@ -281,6 +316,7 @@ namespace AgateLib.Foundation
             {
                 parameters.Add(new NamedParameter(arg.Name, arg.GetValue(anonymousObjectArguments)));
             }
+
             return parameters;
         }
 

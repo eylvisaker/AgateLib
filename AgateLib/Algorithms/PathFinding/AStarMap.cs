@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
 
 namespace AgateLib.Algorithms.PathFinding
@@ -31,6 +32,14 @@ namespace AgateLib.Algorithms.PathFinding
     /// <typeparam name="T"></typeparam>
     public interface IAStarMap<T>
     {
+        /// <summary>
+        /// Return the available movements from the current location.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        IEnumerable<T> AvailableStepsAt(AStarNode<T> node);
+
         /// <summary>
         /// Calculate the heuristic for reaching the destination.
         /// If this method returns zero, the A* algorithm assumes
@@ -45,20 +54,50 @@ namespace AgateLib.Algorithms.PathFinding
         int CalcHeuristic(AStarNode<T> node, T destination);
 
         /// <summary>
-        /// Return the available movements from the current location.
-        /// </summary>
-        /// <param name="task"></param>
-        /// <param name="location"></param>
-        /// <returns></returns>
-        IEnumerable<T> AvailableStepsAt(AStarNode<T> node);
-
-        /// <summary>
         /// Gets the cost value for moving from start to target.
         /// </summary>
         /// <param name="target"></param>
         /// <param name="start"></param>
         /// <returns></returns>
         int StepCost(AStarNode<T> node, T target);
+    }
+
+    /// <summary>
+    /// Class which implements IAStarMap&lt;<typeparamref name="T"/>&gt; and
+    /// uses delegates to provide implementations for the interface.
+    /// All delegates must be supplied for the A* algorithm to function
+    /// properly.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class AStarMap<T> : IAStarMap<T>
+    {
+        /// <summary>
+        /// Function which takes an AStarNode&lt;<typeparamref name="T"/>&gt; and returns
+        /// a collection of the possible moves from that point.
+        /// </summary>
+        public Func<AStarNode<T>, IEnumerable<T>> AvailableStepsAt { get; set; }
+
+        /// <summary>
+        /// Function which takes an AStarNode&lt;<typeparamref name="T"/>&gt; and a destination
+        /// point <typeparamref name="T"/> and computes the A* heuristic.
+        /// </summary>
+        public Func<AStarNode<T>, T, int> CalcHeuristic { get; set; }
+
+        /// <summary>
+        /// Function which takes an AStarNode&lt;<typeparamref name="T"/>&gt; and a target move
+        /// point <typeparamref name="T"/> (taken from the AvailableStepsAt method)
+        /// and returns the cost of making that move.
+        /// </summary>
+        public Func<AStarNode<T>, T, int> StepCost { get; set; }
+
+        IEnumerable<T> IAStarMap<T>.AvailableStepsAt(AStarNode<T> node)
+            => AvailableStepsAt(node);
+
+        int IAStarMap<T>.CalcHeuristic(AStarNode<T> node, T destination)
+            => CalcHeuristic(node, destination);
+
+        int IAStarMap<T>.StepCost(AStarNode<T> node, T target)
+            => StepCost(node, target);
     }
 }
 
