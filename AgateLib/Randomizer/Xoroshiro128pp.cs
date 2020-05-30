@@ -24,7 +24,9 @@ namespace AgateLib.Randomizer
         public uint NextUInt32MaxValue => uint.MaxValue;
 
         public Seed GenerateSeed() => jump();
-        
+
+        public IRandom Spawn() => new Xoroshiro128pp(GenerateSeed());
+
         public double NextDouble() => next() / (double)NextUInt32MaxValue;
 
         public int NextInteger() => this.NextInteger(int.MaxValue);

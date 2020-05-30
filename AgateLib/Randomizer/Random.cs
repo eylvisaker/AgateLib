@@ -67,6 +67,15 @@ namespace AgateLib.Randomizer
         /// </summary>
         /// <returns></returns>
         Seed GenerateSeed();
+
+        /// <summary>
+        /// Generates a new random number generator. Calling 
+        /// <code>random.Spawn()</code>
+        /// is equivalent to 
+        /// <code>new RandomType(random.GenerateSeed)</code>
+        /// </summary>
+        /// <returns></returns>
+        IRandom Spawn();
     }
 
     public static class RandomX

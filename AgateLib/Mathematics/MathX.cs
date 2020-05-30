@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,7 @@ namespace AgateLib.Mathematics
 
 			return sign * y;
 		}
+
 		public static double Erfc(double x)
 		{
 			return 1 - Erf(x);
@@ -83,5 +85,97 @@ namespace AgateLib.Mathematics
 		{
 			return 0.5 + 0.5 * Erf(x);
 		}
-	}
+
+        /// <summary>
+        /// Calculates the distance between a point and a rectangle.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// This algorithm was adapted from work by Philip Peterson: http://wiki.unity3d.com/index.php/Distance_from_a_point_to_a_rectangle
+        /// </remarks>
+        public static float DistancePointToRectangle(Vector2 point, Rectangle rect)
+        {
+            //  Calculate a distance between a point and a rectangle.
+            //  The area around/in the rectangle is defined in terms of
+            //  several regions:
+            //
+            //  O--x
+            //  |
+            //  y
+            //
+            //
+            //        I   |    II    |  III
+            //      ======+==========+======   --yMin
+            //       VIII |  IX (in) |  IV
+            //      ======+==========+======   --yMax
+            //       VII  |    VI    |   V
+            //
+            //
+            //  Note that the +y direction is down because of Unity's GUI coordinates.
+
+            if (point.X < rect.Left)
+            { 
+                // Region I, VIII, or VII
+                if (point.Y < rect.Top)
+                { 
+                    // I
+                    Vector2 diff = point - new Vector2(rect.Left, rect.Top);
+                    return diff.Length();
+                }
+                else if (point.Y > rect.Bottom)
+                { 
+                    // VII
+                    Vector2 diff = point - new Vector2(rect.Left, rect.Bottom);
+                    return diff.Length();
+                }
+                else
+                { 
+                    // VIII
+                    return rect.Left - point.X;
+                }
+            }
+            else if (point.X > rect.Right)
+            { 
+                // Region III, IV, or V
+                if (point.Y < rect.Top)
+                { 
+                    // III
+                    Vector2 diff = point - new Vector2(rect.Right, rect.Top);
+                    return diff.Length();
+                }
+                else if (point.Y > rect.Bottom)
+                { 
+                    // V
+                    Vector2 diff = point - new Vector2(rect.Right, rect.Bottom);
+                    return diff.Length();
+                }
+                else
+                { 
+                    // IV
+                    return point.X - rect.Right;
+                }
+            }
+            else
+            { 
+                // Region II, IX, or VI
+                if (point.Y < rect.Top)
+                { 
+                    // II
+                    return rect.Top - point.Y;
+                }
+                else if (point.Y > rect.Bottom)
+                { 
+                    // VI
+                    return point.Y - rect.Bottom;
+                }
+                else
+                { 
+                    // IX
+                    return 0f;
+                }
+            }
+        }
+    }
 }

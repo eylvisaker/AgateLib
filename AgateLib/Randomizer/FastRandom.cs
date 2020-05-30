@@ -96,6 +96,8 @@ namespace AgateLib.Randomizer
             return new Seed(NextUInt32() ^ salt);
         }
 
+        public IRandom Spawn() => new FastRandom(GenerateSeed());
+
         /// <summary>
         /// Gets the next double precision value.
         /// </summary>

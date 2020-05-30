@@ -57,5 +57,7 @@ namespace AgateLib.Randomizer
 
             return result;
         }
+
+        public IRandom Spawn() => new ObservableRandomDecorator(random.Spawn());
     }
 }

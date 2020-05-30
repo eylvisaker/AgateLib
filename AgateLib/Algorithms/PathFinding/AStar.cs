@@ -241,12 +241,6 @@ namespace AgateLib.Algorithms.PathFinding
                         }
 
                         openNodes.Add(newtarget);
-
-                        if (newtarget.Heuristic == 0)
-                        {
-                            node = newtarget;
-                            found = true;
-                        }
                     }
 
                     if (found)

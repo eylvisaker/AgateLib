@@ -18,5 +18,7 @@ namespace AgateLib.Randomizer
         /// </summary>
         /// <param name="random"></param>
         public Seed GenerateSeed() => 1;
+
+        public IRandom Spawn() => new FakeRandom();
     }
 }
