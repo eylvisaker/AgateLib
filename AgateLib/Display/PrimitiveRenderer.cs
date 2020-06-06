@@ -27,6 +27,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.Geometry.Builders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NLog;
 
 namespace AgateLib.Display
 {
@@ -70,10 +71,12 @@ namespace AgateLib.Display
     public class PrimitiveRenderer : IPrimitiveRenderer
     {
         private readonly GraphicsDevice graphics;
+        private readonly Logger log;
 
         public PrimitiveRenderer(GraphicsDevice graphics)
         {
             this.graphics = graphics;
+            log = LogManager.GetCurrentClassLogger();
         }
 
         public void DrawLines(Effect effect, LineType lineType, Color color, IEnumerable<Vector2> points)
@@ -125,7 +128,7 @@ namespace AgateLib.Display
 
             if (triangles < 1)
             {
-                Log.WriteLine(LogLevel.Debug, "DrawTexturedPolygon call with no triangles.");
+                log.Debug("DrawTexturedPolygon call with no triangles.");
                 return;
             }
 

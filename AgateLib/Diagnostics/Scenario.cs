@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -8,6 +9,7 @@ namespace AgateLib.Diagnostics
     public class Scenario : IDisposable
     {
         private string scenarioName;
+        private Logger log;
         private Stopwatch watch = new Stopwatch();
         private List<ScenarioStep> steps = new List<ScenarioStep>();
         private long lastTime = 0;
@@ -15,11 +17,17 @@ namespace AgateLib.Diagnostics
         public Scenario(string name)
         {
             this.scenarioName = name;
+            this.log = LogManager.GetLogger(name);
 
             watch.Start();
         }
 
         public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             Stop();
         }
@@ -57,11 +65,11 @@ namespace AgateLib.Diagnostics
 
             watch.Stop();
 
-            Log.Info($"{scenarioName} complete.");
+            log.Info($"{scenarioName} complete.");
 
             for (int i = 0; i < steps.Count; i++)
             {
-                Log.Info($"     +{steps[i].Delta,6} = {steps[i].Elapsed,6} ms | {steps[i].Name}");
+                log.Info($"     +{steps[i].Delta,6} = {steps[i].Elapsed,6} ms | {steps[i].Name}");
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.Rendering.Animations
@@ -25,11 +26,15 @@ namespace AgateLib.UserInterface.Rendering.Animations
     [Singleton]
     public class AnimationFactory : IAnimationFactory
     {
+        private readonly Logger log;
+        
         private Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>> activators
             = new Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>>(StringComparer.OrdinalIgnoreCase);
 
         public AnimationFactory()
         {
+            log = LogManager.GetCurrentClassLogger();
+
             AddAnimationActivator("default", _ => new NullAnimation());
             AddAnimationActivator("fade", args => new FadeAnimation(args));
             AddAnimationActivator("slide", args => new SlideAnimation(args));
@@ -47,7 +52,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
 
             if (!activators.ContainsKey(name))
             {
-                Log.Warn($"Animation named {name} not found.");
+                log.Warn($"Animation named {name} not found.");
                 name = "default";
             }
 

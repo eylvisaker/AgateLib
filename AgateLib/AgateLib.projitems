@@ -31,7 +31,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\CommandLibraries\VocabularyCommands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ConsoleState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Consoles\DebugOnlyConsole.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Profiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Rendering\ConsoleTextEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Scenario.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\_Attributes.cs" />
@@ -106,7 +105,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\ManualInputState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\MouseEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\_Enums.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mathematics\Geometry\Algorithms\CollisionDetection\CollisionDetector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mathematics\Geometry\Algorithms\CollisionDetection\ContactPoint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mathematics\Geometry\Algorithms\CollisionDetection\ExpandingPolytopeAlgorithm.cs" />

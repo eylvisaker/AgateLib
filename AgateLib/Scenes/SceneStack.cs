@@ -24,6 +24,7 @@ using AgateLib.Collections.Generic;
 using AgateLib.Input;
 using AgateLib.Quality;
 using Microsoft.Xna.Framework;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,6 +126,12 @@ namespace AgateLib.Scenes
         /// Provides caching for the UpdateScenes property.
         /// </summary>
         private readonly List<IScene> updateScenes = new List<IScene>();
+        private readonly Logger log;
+
+        public SceneStack()
+        {
+            log = LogManager.GetCurrentClassLogger();
+        }
 
         /// <summary>
         /// Event called after drawing each frame is completed.
@@ -339,7 +346,7 @@ namespace AgateLib.Scenes
 
                 if (missedUpdateCount > missedUpdateLimit)
                 {
-                    Log.WriteLine(LogLevel.Warn, $"{missedUpdateCount} scenes added during update.");
+                    log.Warn($"{missedUpdateCount} scenes added during update.");
                 }
             }
             finally

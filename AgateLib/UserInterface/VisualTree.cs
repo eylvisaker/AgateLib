@@ -25,6 +25,7 @@
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,7 +36,7 @@ namespace AgateLib.UserInterface
     public class VisualTree
     {
         private readonly IAnimationFactory animationFactory;
-
+        private readonly Logger log;
         private IRenderElement root;
         private IRenderElement focus;
 
@@ -44,6 +45,7 @@ namespace AgateLib.UserInterface
         public VisualTree(IAnimationFactory animationFactory)
         {
             this.animationFactory = animationFactory;
+            log = LogManager.GetCurrentClassLogger();
         }
 
         public void Render(IRenderable rootRenderable)
@@ -423,7 +425,7 @@ namespace AgateLib.UserInterface
         {
             if (debugFlag >= ifDebugFlagAtLeast)
             {
-                Log.Debug(message);
+                log.Debug(message);
             }
 
             if (setDebugFlag != null)

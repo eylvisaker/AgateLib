@@ -25,6 +25,7 @@ using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -101,6 +102,7 @@ namespace AgateLib.UserInterface
         }
 
         private readonly IRenderable app;
+        private readonly Logger log;
 
         private VisualTree visualTree;
         private WorkspaceDisplaySystem displaySystem;
@@ -115,6 +117,7 @@ namespace AgateLib.UserInterface
         {
             Name = name;
 
+            this.log = LogManager.GetLogger($"Workspace.{name}");
             this.app = root;
         }
 
@@ -177,6 +180,7 @@ namespace AgateLib.UserInterface
         public Rectangle ScreenArea { get; internal set; }
 
         public string Name { get; private set; }
+
 
         /// <summary>
         /// Gets whether the workspace is the active workspace.
@@ -367,7 +371,7 @@ namespace AgateLib.UserInterface
         [Conditional("__DEBUG_WORKSPACE")]
         private void DebugMsg(string message)
         {
-            Log.Trace($"Workspace {Name}: {message}");
+            log.Trace($"Workspace {Name}: {message}");
         }
     }
 }

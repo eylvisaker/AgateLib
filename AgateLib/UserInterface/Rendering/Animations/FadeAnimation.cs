@@ -28,20 +28,25 @@ using System.Text;
 using AgateLib.Mathematics;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
+using NLog;
 
 namespace AgateLib.UserInterface.Rendering.Animations
 {
     public class FadeAnimation : IRenderElementAnimation
     {
+        private readonly Logger log;
+
         float transitionTime = 0.35f;
 
         public FadeAnimation(IReadOnlyList<string> args)
         {
+            log = LogManager.GetCurrentClassLogger();
+
             if ((args?.Count ?? 0) > 0)
             {
                 if (!float.TryParse(args[0], NumberStyles.Float, CultureInfo.InvariantCulture, out transitionTime))
                 {
-                    Log.Warn($"Failed to parse transition time for fade animation.");
+                    log.Warn($"Failed to parse transition time for fade animation.");
                 }
             }
         }
@@ -107,7 +112,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
                 display.BorderRect.Width - (int)(2 * leftRightMargin),
                 display.BorderRect.Height - (int)(2 * leftRightMargin));
 
-            Log.Debug($"Alpha: {animation.Alpha} BorderRect: {display.BorderRect} AnimatedBorderRect: {animation.AnimatedBorderRect}");
+            log.Debug($"Alpha: {animation.Alpha} BorderRect: {display.BorderRect} AnimatedBorderRect: {animation.AnimatedBorderRect}");
 
             return false;
         }

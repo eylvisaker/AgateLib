@@ -2,6 +2,7 @@
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Parsers.Tmx;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,10 +24,12 @@ namespace AgateLib.Parsers.Tmx
     public class TmxLoader : ITmxLoader
     {
         private readonly IContentProvider contentProvider;
+        private readonly Logger log;
 
         public TmxLoader(IContentProvider contentProvider)
         {
             this.contentProvider = contentProvider;
+            this.log = LogManager.GetCurrentClassLogger();
         }
 
         public TmxData Load(string filename)
@@ -67,7 +70,7 @@ namespace AgateLib.Parsers.Tmx
                             break;
 
                         default:
-                            Log.Debug($"Skipping unknown map element {element.Name}.");
+                            log.Debug($"Skipping unknown map element {element.Name}.");
                             break;
                     }
                 }
