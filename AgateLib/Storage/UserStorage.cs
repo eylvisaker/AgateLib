@@ -41,9 +41,24 @@ namespace AgateLib.Storage
 
         public UserStorage()
         {
-            appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            appDataFolder = FirstRooted(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".saved_games"));
+
             rootFolder = Path.Combine(appDataFolder, "UnknownApplication");
             log = LogManager.GetCurrentClassLogger();
+        }
+
+        private string FirstRooted(params string[] paths)
+        {
+            foreach (string path in paths)
+            {
+                if (Path.IsPathRooted(path))
+                    return path;
+            }
+
+            return null;
         }
 
         public void SetApplicationDataFolder(string folderName)
