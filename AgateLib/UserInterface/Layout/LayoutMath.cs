@@ -56,7 +56,7 @@ namespace AgateLib.UserInterface.Layout
         /// <returns></returns>
         public static Size ConstrainSize(IRenderElement item, Size size)
         {
-            SizeConstraints constraints = item.Style.Size;
+            ISizeConstraints constraints = item.Style.Size;
 
             if (constraints != null)
             {
@@ -87,7 +87,7 @@ namespace AgateLib.UserInterface.Layout
         /// <param name="maxSize"></param>
         /// <param name="constraints"></param>
         /// <returns>The new maximum size of the widget.</returns>
-        public static Size ConstrainMaxSize(Size maxSize, SizeConstraints constraints)
+        public static Size ConstrainMaxSize(Size maxSize, ISizeConstraints constraints)
         {
             if (constraints == null)
                 return maxSize;
@@ -110,5 +110,24 @@ namespace AgateLib.UserInterface.Layout
 
             item.Display.Region.IdealContentSize = idealSize;
         }
+
+        public static int? Scale(int? value, float amount)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            return Scale(value.Value, amount);
+        }
+
+        /// <summary>
+        /// Scales an integer by a floating point amount.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public static int Scale(int value, float amount)
+            => (int)(value * amount);
     }
 }

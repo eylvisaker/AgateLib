@@ -41,14 +41,10 @@ namespace AgateLib.UserInterface.Content.Commands
             if (Images.TryGetValue(arg, out image))
             {
                 var size = new Size(image.Width, image.Height);
-                var destSize = size;
+                var destSize = context.Options.ScaleImages 
+                    ? context.ScaleToLineHeight (size)
+                    : size;
 
-                if (context.Options.ScaleImages)
-                {
-                    var ratio = context.Font.FontHeight / (float)image.Height;
-
-                    destSize = new Size((int)(image.Width * ratio), (int)(image.Height * ratio));
-                }
 
                 var srcRect = new Rectangle(Point.Zero, size);
                 var item = new TextureLayoutItem(image, srcRect, destSize);

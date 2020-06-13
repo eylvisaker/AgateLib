@@ -35,7 +35,7 @@ namespace AgateLib.UserInterface
 
         public static void UpdateStyles(IRenderElement root)
         {
-            root.Style.Update();
+            root.Style.Update(1);
 
             if (root.Children == null)
                 return;

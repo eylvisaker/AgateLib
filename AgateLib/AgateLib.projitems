@@ -201,6 +201,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\FontProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceAppContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\UserInterfaceBufferedScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InlineElementStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\InputCaptureElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Image.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Rendering\Animations\AnimationFactory.cs" />
@@ -244,8 +245,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\RenderElementStyleProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\RenderElementStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInterface\RenderElementStyleProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Widgets\Instructions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\Layout\LayoutMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInterface\InputMap\UserInterfaceInputState.cs" />

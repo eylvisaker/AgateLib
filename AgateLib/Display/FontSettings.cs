@@ -30,6 +30,17 @@ namespace AgateLib.Display
     public struct FontSettings : IEquatable<FontSettings>
     {
         /// <summary>
+        /// Constructs a FontSettings object.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="style"></param>
+        public FontSettings(int size, FontStyles style)
+        {
+            Size = size;
+            Style = style;
+        }
+
+        /// <summary>
         /// Size of the font in points.
         /// </summary>
         public int Size { get; set; }
@@ -52,17 +63,6 @@ namespace AgateLib.Display
                 return false;
 
             return true;
-        }
-
-        /// <summary>
-        /// Constructs a FontSettings object.
-        /// </summary>
-        /// <param name="size"></param>
-        /// <param name="style"></param>
-        public FontSettings(int size, FontStyles style)
-        {
-            Size = size;
-            Style = style;
         }
 
         /// <summary>

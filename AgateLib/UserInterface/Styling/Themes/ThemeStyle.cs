@@ -84,14 +84,14 @@ namespace AgateLib.UserInterface.Styling.Themes
             return b.ToString();
         }
 
-        public IEnumerable<IRenderElementStyleProperties> MatchElementStyle(
+        public IEnumerable<RenderElementStyleProperties> MatchElementStyle(
             IRenderElement element, RenderElementStack stack)
         {
             var match = MatchExecutor.FindMatch(element, stack);
 
             if (match != null)
             {
-                yield return new ThemeRenderElementStyle(this, match);
+                yield return new RenderElementStyleProperties(new ThemeRenderElementStyle(this, match));
             }
         }
 

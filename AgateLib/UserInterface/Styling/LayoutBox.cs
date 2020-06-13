@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
@@ -114,6 +115,15 @@ namespace AgateLib.UserInterface
             return new Size(
                 targetRect.Width - Width,
                 targetRect.Height - Height);
+        }
+
+        public LayoutBox Scale(float scaling)
+        {
+            return new LayoutBox(
+                LayoutMath.Scale(Left, scaling),
+                LayoutMath.Scale(Top, scaling),
+                LayoutMath.Scale(Right, scaling),
+                LayoutMath.Scale(Bottom, scaling));
         }
 
         /// <summary>

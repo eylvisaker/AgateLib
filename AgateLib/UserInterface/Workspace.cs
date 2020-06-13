@@ -128,8 +128,14 @@ namespace AgateLib.UserInterface
             visualTree = new VisualTree(animationFactory)
             {
                 DisplaySystem = displaySystem,
-                DefaultTheme = defaultTheme
+                DefaultTheme = defaultTheme,
             };
+        }
+
+        public float Scaling
+        {
+            get => visualTree.Scaling;
+            set => visualTree.Scaling = value;
         }
 
         public IRenderElement Focus
@@ -289,7 +295,7 @@ namespace AgateLib.UserInterface
             get => this.displaySystem.Desktop;
             set => this.displaySystem.Desktop = value;
         }
-        
+
         public UserInterfaceAppContext AppContext
         {
             get => visualTree.AppContext;
@@ -302,8 +308,8 @@ namespace AgateLib.UserInterface
 
             displaySystem.Audio?.PlaySound(this, UserInterfaceSound.WorkspaceRemoved);
 
-            BeginTopLevelTransition(AnimationState.TransitionOut, 
-                                    visualTree.TreeRoot);            
+            BeginTopLevelTransition(AnimationState.TransitionOut,
+                                    visualTree.TreeRoot);
         }
 
         internal void TransitionIn()

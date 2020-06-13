@@ -154,6 +154,21 @@ namespace AgateLib.Display
         }
 
         /// <summary>
+        /// Creates a copy of a another font with its own state and size.
+        /// </summary>
+        /// <param name="prototypeFont"></param>
+        /// <param name="size"></param>
+        public Font(Font prototypeFont, float size)
+        {
+            Require.ArgumentNotNull(prototypeFont, nameof(prototypeFont));
+
+            core = prototypeFont.Core;
+
+            state = prototypeFont.state.Clone();
+            state.Size = (int)size;
+        }
+
+        /// <summary>
         /// Creates a copy of a another font with its own state and style.
         /// </summary>
         /// <param name="prototypeFont"></param>

@@ -29,8 +29,16 @@ namespace AgateLib.UserInterface.Content.LayoutItems
 {
     public interface IContentLayoutItem
     {
+        /// <summary>
+        /// Extra white space after the item in pixels.
+        /// This white space may be cut off by the layout engine if 
+        /// it inserts a new line after this item.
+        /// </summary>
         int ExtraWhiteSpace { get; set; }
 
+        /// <summary>
+        /// The number of new lines that immediately follow this item.
+        /// </summary>
         int NewLinesAfter { get; set; }
 
         Point Position { get; set; }

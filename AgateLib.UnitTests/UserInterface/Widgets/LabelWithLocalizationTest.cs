@@ -79,7 +79,7 @@ namespace AgateLib.UserInterface.Widgets
             var labelElement = (LabelElement)label.FinalizeRendering(null);
 
             labelElement.Display.System = displaySystem.Object;
-            labelElement.Style.Update();
+            labelElement.Style.Update(1);
 
             Size idealSize = labelElement.CalcIdealContentSize(context.Object, new Size(1000, 1000));
             labelElement.Draw(context.Object, new Rectangle(40, 60, 1000, 1000));
@@ -120,7 +120,7 @@ namespace AgateLib.UserInterface.Widgets
             var label = new Label(new LabelProps { Text = textKey }) { AppContext = new UserInterfaceAppContext() };
             var labelElement = (LabelElement)label.FinalizeRendering(null);
             labelElement.Display.System = displaySystem.Object;
-            labelElement.Style.Update();
+            labelElement.Style.Update(1);
 
             Size idealSize = labelElement.CalcIdealContentSize(context.Object, new Size(1000, 1000));
             labelElement.Draw(context.Object, new Rectangle(40, 60, 1000, 1000));

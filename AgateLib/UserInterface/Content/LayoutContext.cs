@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Display;
+using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 using AgateLib.UserInterface.Content.LayoutItems;
 using AgateLib.UserInterface.Content.TextTokenizer;
@@ -273,6 +274,13 @@ namespace AgateLib.UserInterface.Content
         public void Add(IContentLayoutItem item)
         {
             layoutItems.Add(item);
+        }
+
+        public Size ScaleToLineHeight(Size size)
+        {
+            var ratio = Font.FontHeight / (float)size.Height;
+
+            return new Size((int)(size.Width * ratio), (int)(size.Height * ratio));
         }
     }
 }

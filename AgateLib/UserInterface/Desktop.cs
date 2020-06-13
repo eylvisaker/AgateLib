@@ -38,6 +38,7 @@ namespace AgateLib.UserInterface
         private readonly IAnimationFactory animationFactory;
 
         private readonly List<Workspace> workspaces = new List<Workspace>();
+
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
         private readonly UserInterfaceAppContext appContext = new UserInterfaceAppContext();
 
@@ -48,7 +49,8 @@ namespace AgateLib.UserInterface
         private bool inDraw;
 
         private FadeColor inactiveWorkspaceFadeColor = new FadeColor();
-        
+        private float scaling;
+
         public Desktop(Rectangle screenArea,
                        IUserInterfaceLayoutContext layoutContext,
                        IFontProvider fonts,
@@ -90,6 +92,20 @@ namespace AgateLib.UserInterface
         public IFontProvider Fonts { get; }
 
         public IUserInterfaceAudio Audio { get; set; }
+
+        public float Scaling
+        {
+            get => scaling;
+            set
+            {
+                scaling = value;
+
+                foreach (Workspace workspace in workspaces)
+                {
+                    workspace.Scaling = value;
+                }
+            }
+        }
 
         public UserInterfaceAppContext AppContext => appContext;
 
@@ -143,6 +159,7 @@ namespace AgateLib.UserInterface
             workspaces.Add(workspace);
 
             workspace.Desktop = this;
+            workspace.Scaling = scaling;
             workspace.ScreenArea = ScreenArea;
             workspace.Style = Styles;
             workspace.Fonts = Fonts;

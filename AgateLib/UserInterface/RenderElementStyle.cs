@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface
 
         AnimationStyle Animation { get; }
 
-        SizeConstraints Size { get; }
+        ISizeConstraints Size { get; }
 
         FlexStyle Flex { get; }
 
@@ -61,7 +61,7 @@ namespace AgateLib.UserInterface
         /// Called by the rendering engine before each frame to ensure that the style
         /// is updated based on the widget's current state.
         /// </summary>
-        void Update();
+        void Update(float scaling);
     }
 
     public class RenderElementStyle : IRenderElementStyle
@@ -69,11 +69,11 @@ namespace AgateLib.UserInterface
         private RenderElementDisplay display;
         private RenderElementProps props;
 
-        private IRenderElementStyleProperties Inline => props.Style;
-        private IRenderElementStyleProperties DefaultStyle => props.DefaultStyle;
+        private RenderElementStyleProperties Inline { get; set; }
+        private RenderElementStyleProperties DefaultStyle { get; set; }
 
-        private List<IRenderElementStyleProperties> activeProperties = new List<IRenderElementStyleProperties>();
-        private List<IRenderElementStyleProperties> testProperties = new List<IRenderElementStyleProperties>();
+        private List<RenderElementStyleProperties> activeProperties = new List<RenderElementStyleProperties>();
+        private List<RenderElementStyleProperties> testProperties = new List<RenderElementStyleProperties>();
 
         private FontStyleProperties fontProperties = new FontStyleProperties();
         private FontStyleProperties compareFont = new FontStyleProperties();
@@ -85,7 +85,8 @@ namespace AgateLib.UserInterface
         public RenderElementStyle(RenderElementDisplay display, RenderElementProps props)
         {
             this.display = display;
-            this.props = props;
+
+            SetProps(props);
         }
 
         public event Action FontChanged;
@@ -93,19 +94,39 @@ namespace AgateLib.UserInterface
         public void SetProps(RenderElementProps props)
         {
             this.props = props;
+
+            if (props.Style != null)
+            {
+                Inline = new RenderElementStyleProperties(props.Style);
+            }
+            else
+            {
+                Inline = null;
+            }
+
+            if (props.DefaultStyle != null)
+            {
+                DefaultStyle = new RenderElementStyleProperties(props.DefaultStyle);
+            }
+            else
+            {
+                DefaultStyle = null;
+            }
         }
 
-        public void Update()
+        public void Update(float scaling)
         {
-            if (!FindActiveProperties())
+            if (!FindActiveProperties(scaling))
             {
-                if (ParentFontChanged())
-                    AggregateFont();
+                if (ParentFontChanged() && AggregateFont())
+                {
+                    FontChanged?.Invoke();
+                }
 
                 return;
             }
 
-            AggregateFont();
+            bool fontChanged = AggregateFont();
 
             Background = Aggregate(p => p.Background);
             Border = Aggregate(p => p.Border);
@@ -118,6 +139,11 @@ namespace AgateLib.UserInterface
             Layout = Aggregate(p => p.Layout);
             Size = Aggregate(p => p.Size);
             Overflow = Aggregate(p => p.Overflow) ?? default(Overflow);
+
+            if (fontChanged)
+            {
+                FontChanged?.Invoke();
+            }
         }
 
         private bool ParentFontChanged()
@@ -127,7 +153,7 @@ namespace AgateLib.UserInterface
             return !parentCompareFont.Equals(parentFontProperties);
         }
 
-        private void AggregateFont()
+        private bool AggregateFont()
         {
             compareFont.Family = Aggregate(p => p.FontFace);
             compareFont.Color = Aggregate(p => p.TextColor);
@@ -136,7 +162,7 @@ namespace AgateLib.UserInterface
 
             if (compareFont.IsEmpty)
             {
-                SetFont(display.ParentFont);
+                return SetFont(display.ParentFont);
             }
             else if (!compareFont.Equals(fontProperties) || ParentFontChanged())
             {
@@ -162,28 +188,39 @@ namespace AgateLib.UserInterface
 
                 parentFontProperties.CopyFrom(display.ParentFont);
 
-                FontChanged?.Invoke();
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
         /// Sets the font for the render element style. This will compare font objects
         /// and only create a new font object if they are different.
+        /// Returns true if the font changed.
         /// </summary>
         /// <param name="parentFont"></param>
-        private void SetFont(Font parentFont)
+        private bool SetFont(Font parentFont)
         {
             Require.ArgumentNotNull(parentFont, nameof(parentFont));
+            bool result = false;
 
             if (font?.Core != parentFont.Core
              || font?.Name != parentFont.Name)
             {
                 font = new Font(display.ParentFont);
+                result = true;
             }
+
+            if (font.Color != parentFont.Color) result = true;
+            if (font.Style != parentFont.Style) result = true;
+            if (font.Size != parentFont.Size) result = true;
 
             font.Color = parentFont.Color;
             font.Style = parentFont.Style;
             font.Size = parentFont.Size;
+
+            return result;
         }
 
         private void Swap<T>(ref T a, ref T b)
@@ -198,7 +235,7 @@ namespace AgateLib.UserInterface
         {
             T result = null;
 
-            foreach (var prop in activeProperties)
+            foreach (IRenderElementStyleProperties prop in activeProperties)
             {
                 T thisProp = property(prop);
 
@@ -216,7 +253,7 @@ namespace AgateLib.UserInterface
         {
             T? result = null;
 
-            foreach (var prop in activeProperties)
+            foreach (IRenderElementStyleProperties prop in activeProperties)
             {
                 var thisProp = property(prop);
 
@@ -234,7 +271,7 @@ namespace AgateLib.UserInterface
         /// Returns true if a change was made, false if no changes were made.
         /// </summary>
         /// <returns></returns>
-        private bool FindActiveProperties()
+        private bool FindActiveProperties(float scaling)
         {
             testProperties.Clear();
 
@@ -266,7 +303,8 @@ namespace AgateLib.UserInterface
             {
                 for (int i = 0; i < testProperties.Count; i++)
                 {
-                    if (testProperties[i] != activeProperties[i])
+                    if (testProperties[i] != activeProperties[i] ||
+                        testProperties[i].Scaling != scaling)
                     {
                         sameProps = false;
                         break;
@@ -280,15 +318,20 @@ namespace AgateLib.UserInterface
             activeProperties.Clear();
             activeProperties.AddRange(testProperties);
 
+            foreach (RenderElementStyleProperties prop in activeProperties)
+            {
+                prop.Scaling = scaling;
+            }
+
             return true;
         }
 
-        private void SortProperties(List<IRenderElementStyleProperties> props)
+        private void SortProperties(List<RenderElementStyleProperties> props)
         {
             props.Sort((x, y) => x.Specificity.CompareTo(y.Specificity));
         }
 
-        private bool PropertyApplies(IRenderElementStyleProperties property)
+        private bool PropertyApplies(RenderElementStyleProperties property)
         {
             if (!property.PseudoClasses.Any())
                 return true;
@@ -316,7 +359,7 @@ namespace AgateLib.UserInterface
 
         public AnimationStyle Animation { get; private set; }
 
-        public SizeConstraints Size { get; private set; }
+        public ISizeConstraints Size { get; private set; }
 
         public LayoutBox Padding { get; private set; }
 

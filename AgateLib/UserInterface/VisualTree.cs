@@ -48,6 +48,8 @@ namespace AgateLib.UserInterface
             log = LogManager.GetCurrentClassLogger();
         }
 
+        public float Scaling { get; set; } = 1;
+
         public void Render(IRenderable rootRenderable)
         {
             DebugMsg($"Rendering from {rootRenderable}", setDebugFlag: 1);
@@ -104,7 +106,7 @@ namespace AgateLib.UserInterface
 
             Walk((element, parent) =>
             {
-                element.Style.Update();
+                element.Style.Update(Scaling);
 
                 animationFactory.Configure(element.Display);
 
@@ -294,7 +296,7 @@ namespace AgateLib.UserInterface
             Walk(element =>
             {
                 element.Update(renderContext);
-                element.Style.Update();
+                element.Style.Update(Scaling);
 
                 return true;
             });

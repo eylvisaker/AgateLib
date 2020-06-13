@@ -21,28 +21,57 @@
 //
 
 
-using System;
 using AgateLib.Mathematics.Geometry;
-using Microsoft.Xna.Framework;
+using AgateLib.UserInterface.Layout;
 
 namespace AgateLib.UserInterface
 {
-    public class SizeConstraints
+    public interface ISizeConstraints
+    {
+        int MinWidth { get; }
+        int? MaxWidth { get; }
+
+        int MinHeight { get; }
+        int? MaxHeight { get; }
+    }
+
+    public class SizeConstraints : ISizeConstraints
     {
         public static bool Equals(SizeConstraints a, SizeConstraints b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            if (a == null && b == null)
+            {
+                return true;
+            }
+
+            if (a == null || b == null)
+            {
+                return false;
+            }
 
             // TODO: Implement these as percentages of parent size.
             //if (a.Width != b.Width) return false;
             //if (a.Height != b.Height) return false;
 
-            if (a.MinWidth != b.MinWidth) return false;
-            if (a.MaxWidth != b.MaxWidth) return false;
+            if (a.MinWidth != b.MinWidth)
+            {
+                return false;
+            }
 
-            if (a.MinHeight != b.MinHeight) return false;
-            if (a.MaxHeight != b.MaxHeight) return false;
+            if (a.MaxWidth != b.MaxWidth)
+            {
+                return false;
+            }
+
+            if (a.MinHeight != b.MinHeight)
+            {
+                return false;
+            }
+
+            if (a.MaxHeight != b.MaxHeight)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -80,5 +109,23 @@ namespace AgateLib.UserInterface
         {
             return new Size(MinWidth, MinHeight);
         }
+    }
+
+    public class ScaledSizeConstraints : ISizeConstraints
+    {
+        private readonly ISizeConstraints core;
+
+        public ScaledSizeConstraints(ISizeConstraints core)
+        {
+            this.core = core;
+        }
+
+        public float Scaling { get; set; }
+
+        public int MinWidth => LayoutMath.Scale(core.MinWidth, Scaling);
+        public int? MaxWidth => LayoutMath.Scale(core.MaxWidth, Scaling);
+
+        public int MinHeight => LayoutMath.Scale(core.MinHeight, Scaling);
+        public int? MaxHeight => LayoutMath.Scale(core.MaxHeight, Scaling);
     }
 }

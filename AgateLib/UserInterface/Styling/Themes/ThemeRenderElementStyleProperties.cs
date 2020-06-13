@@ -10,6 +10,7 @@ namespace AgateLib.UserInterface.Styling.Themes
     public class ThemeRenderElementStyle : IRenderElementStyleProperties
     {
         private ThemeStyle themeStyle;
+        private float scaling = 1;
         private readonly SelectorMatch match;
 
         public ThemeRenderElementStyle(ThemeStyle themeStyle, SelectorMatch match)
@@ -22,7 +23,20 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public Color? TextColor => themeStyle.Font?.Color;
 
-        public int? FontSize => themeStyle.Font?.Size;
+        public int? FontSize
+        {
+            get
+            {
+                int? result = themeStyle.Font?.Size;
+
+                if (result != null)
+                {
+                    result = (int)(result.Value * Scaling);
+                }
+
+                return result;
+            }
+        }
 
         public FontStyles? FontStyle => themeStyle.Font?.Style;
 
@@ -37,6 +51,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         public FlexItemStyle FlexItem => themeStyle.FlexItem;
 
         public SizeConstraints Size => themeStyle.Size;
+        ISizeConstraints IRenderElementStyleProperties.Size => Size;
 
         public LayoutBox? Margin => themeStyle.Margin;
 
@@ -51,6 +66,15 @@ namespace AgateLib.UserInterface.Styling.Themes
         public int Specificity => match.Specificity;
 
         public IReadOnlyCollection<string> PseudoClasses => match.PseudoClasses;
+        
+        public float Scaling
+        {
+            get => scaling;
+            set
+            {
+                scaling = value;
+            }
+        }
 
         public override string ToString()
         {

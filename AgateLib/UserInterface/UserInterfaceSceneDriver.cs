@@ -51,6 +51,7 @@ namespace AgateLib.UserInterface
             IStyleConfigurator styles,
             IFontProvider fonts,
             IAnimationFactory animationFactory,
+            float scaling = 1,
             IUserInterfaceAudio audio = null)
         {
             Require.That(screenArea.Width > 0, "Screen area width must be positive.");
@@ -61,6 +62,7 @@ namespace AgateLib.UserInterface
 
             desktop = new Desktop(screenArea, renderContext, fonts, styles, animationFactory);
 
+            desktop.Scaling = scaling;
             desktop.Audio = audio;
             desktop.FocusChanged += Desktop_FocusChanged;
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;

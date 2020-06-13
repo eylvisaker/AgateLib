@@ -31,7 +31,7 @@ namespace AgateLib.Tests.UserInterface.Styling.Themes
 
             styler.Apply(element.Object, "xyz");
 
-            element.Object.Style.Update();
+            element.Object.Style.Update(1);
             element.Object.Display.Style.Padding.Left.Should().Be(14);
             element.Object.Style.Font.Color.Should().Be(Color.Yellow);
         }

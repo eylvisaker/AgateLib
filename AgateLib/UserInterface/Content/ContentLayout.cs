@@ -225,14 +225,14 @@ namespace AgateLib.UserInterface.Content
                 return;
             }
 
-            int myMaxWidth = MaxWidth ?? items.Max(x => x.Bounds.Right);
+            int myMaxWidth = CalcMaxWidth();
 
             void ApplyAlignment(int start, int end)
             {
                 if (end < start)
                     return;
 
-                IEnumerable<IContentLayoutItem> affectedItems 
+                IEnumerable<IContentLayoutItem> affectedItems
                     = items.Skip(start).Take(end - start + 1);
 
                 int width = items[end].Bounds.Right
@@ -253,9 +253,9 @@ namespace AgateLib.UserInterface.Content
 
                 if (shiftRight > 0)
                 {
-                    foreach(var item in affectedItems)
+                    foreach (var item in affectedItems)
                     {
-                        item.Position = new Point(item.Position.X + shiftRight, 
+                        item.Position = new Point(item.Position.X + shiftRight,
                                                   item.Position.Y);
                     }
                 }
@@ -311,11 +311,39 @@ namespace AgateLib.UserInterface.Content
             layoutDirty = false;
         }
 
+        private int CalcMaxWidth()
+        {
+            if (MaxWidth.HasValue)
+                return MaxWidth.Value;
+
+            int currentLineWidth = 0;
+            int maxLineWidth = 0;
+
+            foreach (IContentLayoutItem item in items)
+            {
+                currentLineWidth += item.Bounds.Width;
+
+                if (item.NewLinesAfter > 0)
+                {
+                    maxLineWidth = Math.Max(maxLineWidth, currentLineWidth);
+                    currentLineWidth = 0;
+                }
+                else
+                {
+                    currentLineWidth += item.ExtraWhiteSpace;
+                }
+            }
+            
+            maxLineWidth = Math.Max(maxLineWidth, currentLineWidth);
+
+            return maxLineWidth;
+        }
+
         public override string ToString()
         {
             StringBuilder b = new StringBuilder();
 
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 b.Append(item.ToString());
                 b.Append(" ");

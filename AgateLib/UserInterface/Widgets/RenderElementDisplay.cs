@@ -146,8 +146,8 @@ namespace AgateLib.UserInterface
         /// </summary>
         public bool IsVisible { get; set; } = true;
 
-        public List<IRenderElementStyleProperties> ElementStyles { get; }
-            = new List<IRenderElementStyleProperties>();
+        public List<RenderElementStyleProperties> ElementStyles { get; }
+            = new List<RenderElementStyleProperties>();
 
         public Font ParentFont => Parent?.Style.Font ?? Fonts.Default;
 
