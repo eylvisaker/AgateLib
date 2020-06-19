@@ -7,6 +7,7 @@ using AgateLib.Mathematics;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
+using MathF = AgateLib.Mathematics.MathF;
 
 namespace AgateLib.Tests.MathematicsTests
 {

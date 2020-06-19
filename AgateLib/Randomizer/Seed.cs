@@ -70,6 +70,23 @@ namespace AgateLib.Randomizer
             return HighBits == 0 && LowBits == value;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Seed s) return Equals(s);
+            if (obj is ulong ul) return Equals(ul);
+            if (obj is uint ui) return Equals((ulong)ui);
+            if (obj is int i) return Equals((ulong)i);
+            if (obj is long l) return Equals((ulong)l);
+
+            return false;
+        }
+
+        public bool Equals(Seed other) 
+        {
+            return this.HighBits == other.HighBits 
+                && this.LowBits == other.LowBits;
+        }
+
         public override string ToString()
             => $"0x{HighBits:x}{delimiter[0]}0x{LowBits:x}";
 

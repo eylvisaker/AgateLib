@@ -5,250 +5,255 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Collections.Generic;
 using AgateLib.Quality;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
+using Xunit;
 
 namespace AgateLib.UnitTests.Collections
 {
-	[TestClass]
-	public class BinaryTreeTests
-	{
-		[TestMethod]
-		public void BinaryTree_Empty()
-		{
-			var tree = new BinaryTree<int>();
+    public class BinaryTreeTests
+    {
+        [Fact]
+        public void BinaryTree_Empty()
+        {
+            var tree = new BinaryTree<int>();
 
-			tree.Add(new[] { 1, 2, 3, 4 });
-			tree.Clear();
+            tree.Add(new[] { 1, 2, 3, 4 });
+            tree.Clear();
 
-			Assert.AreEqual(0, tree.Count);
-			Assert.AreEqual(0, tree.Items.Count());
-			Assert.AreEqual(0, tree.ItemsAscending.Count());
-			Assert.AreEqual(0, tree.ItemsDescending.Count());
-			Assert.IsNull(tree.Find(1));
-			Assert.IsNull(tree.Find(-1));
-			Assert.IsNull(tree.Find(0));
-		}
+            tree.Count.Should().Be(0);
+            tree.Items.Count().Should().Be(0);
+            tree.ItemsAscending.Count().Should().Be(0);
+            tree.ItemsDescending.Count().Should().Be(0);
+            tree.Find(1).Should().BeNull();
+            tree.Find(-1).Should().BeNull();
+            tree.Find(0).Should().BeNull();
+        }
 
-		[TestMethod]
-		public void BinaryTree_Remove()
-		{
-			var tree = new BinaryTree<int>();
+        [Fact]
+        public void BinaryTree_Remove()
+        {
+            var tree = new BinaryTree<int>();
 
-			tree.Add(new[] { 1, 2, 3, 4 });
+            tree.Add(new[] { 1, 2, 3, 4 });
 
-			Assert.AreEqual(4, tree.Count);
+            tree.Count.Should().Be(4);
 
-			tree.Remove(3);
+            tree.Remove(3);
 
-			Assert.AreEqual(3, tree.Count);
-			CollectionAssert.AreEquivalent(new[] { 1, 2, 4 }, tree.Items.Select(x => x.Value).ToList());
-			CollectionAssert.AreEquivalent(new[] { 1, 2, 4 }, tree.ItemsAscending.Select(x => x.Value).ToList());
-			CollectionAssert.AreEquivalent(new[] { 1, 2, 4 }, tree.ItemsDescending.Select(x => x.Value).ToList());
-			Assert.IsNotNull(tree.Find(1));
-			Assert.IsNull(tree.Find(-1));
-			Assert.IsNull(tree.Find(0));
-			Assert.IsNull(tree.Find(3));
-		}
+            tree.Count.Should().Be(3);
 
-		[TestMethod]
-		public void BinaryTree_RemoveRoot()
-		{
-			var tree = new BinaryTree<int>();
+            tree.Items.Select(x => x.Value).ToList().Should().BeEquivalentTo(new[] { 1, 2, 4 });
+            tree.ItemsAscending.Select(x => x.Value).ToList().Should().BeEquivalentTo(new[] { 1, 2, 4 });
+            tree.ItemsDescending.Select(x => x.Value).ToList().Should().BeEquivalentTo(new[] { 1, 2, 4 });
 
-			tree.Add(new[] { 1, 2, 3, 4 });
+            tree.Find(1).Should().NotBeNull();
+            tree.Find(-1).Should().BeNull();
+            tree.Find(0).Should().BeNull();
+            tree.Find(3).Should().BeNull();
+        }
 
-			Assert.AreEqual(4, tree.Count);
+        [Fact]
+        public void BinaryTree_RemoveRoot()
+        {
+            var tree = new BinaryTree<int>();
 
-			tree.Remove(1);
+            tree.Add(new[] { 1, 2, 3, 4 });
 
-			Assert.AreEqual(3, tree.Count);
-			CollectionAssert.AreEquivalent(new[] { 2, 3, 4 }, tree.Items.Select(x => x.Value).ToList());
-			CollectionAssert.AreEquivalent(new[] { 2, 3, 4 }, tree.ItemsAscending.Select(x => x.Value).ToList());
-			CollectionAssert.AreEquivalent(new[] { 2, 3, 4 }, tree.ItemsDescending.Select(x => x.Value).ToList());
-			Assert.IsNull(tree.Find(1));
-			Assert.IsNull(tree.Find(-1));
-			Assert.IsNull(tree.Find(0));
-			Assert.IsNotNull(tree.Find(3));
-		}
+            tree.Count.Should().Be(4);
 
-		[TestMethod]
-		public void BinaryTree_ThrowIfExists()
-		{
-			var items = CreateItems(25);
-			var tree = CreateTree(items, true);
+            tree.Remove(1);
 
-			AssertX.Throws<ArgumentException>(() => tree.Add(14));
-		}
+            tree.Count.Should().Be(3);
 
-		[TestMethod]
-		public void BinaryTree_ItemsCollection()
-		{
-			const int tests = 25;
+            tree.Items.Select(x => x.Value).ToList().Should().BeEquivalentTo(new[] { 2, 3, 4 });
+            tree.ItemsAscending.Select(x => x.Value).ToList().Should().BeEquivalentTo(new[] { 2, 3, 4 });
+            tree.ItemsDescending.Select(x => x.Value).ToList().Should().BeEquivalentTo(new[] { 2, 3, 4 });
 
-			BinaryTreeTester(tests, (testIndex, items, tree) =>
-			{
-				var result = tree.Items.Select(node => node.Value).ToList();
+            tree.Find(1).Should().BeNull();
+            tree.Find(-1).Should().BeNull();
+            tree.Find(0).Should().BeNull();
+            tree.Find(3).Should().NotBeNull();
+        }
 
-				Assert.AreEqual(items.Count, tree.Count);
-				Assert.AreEqual(items.Count, result.Count);
+        [Fact]
+        public void BinaryTree_ThrowIfExists()
+        {
+            var items = CreateItems(25);
+            var tree = CreateTree(items, true);
 
-				CollectionAssert.AreEquivalent(items.ToList(), result,
-					$"Equivalence failed for sequence #{testIndex}: {string.Join(",", items.Select(x => x.ToString()))}");
-			});
-		}
+            new Action(() => tree.Add(14)).Should().Throw<ArgumentException>();
+        }
 
-		[TestMethod]
-		public void BinaryTree_AscendingOrder()
-		{
-			const int tests = 25;
+        [Fact]
+        public void BinaryTree_ItemsCollection()
+        {
+            const int tests = 25;
 
-			BinaryTreeTester(tests, (testIndex, items, tree) =>
-			{
-				int expected = 0;
+            BinaryTreeTester(tests, (testIndex, items, tree) =>
+            {
+                var result = tree.Items.Select(node => node.Value).ToList();
 
-				var result = tree.ItemsAscending.Select(node => node.Value).ToList();
+                tree.Count.Should().Be(items.Count);
+                result.Count.Should().Be(items.Count);
 
-				Assert.AreEqual(items.Count, tree.Count);
-				Assert.AreEqual(items.Count, result.Count);
+                result.Should().BeEquivalentTo(items.ToList(),
+                    $"Equivalence failed for sequence #{testIndex}: {string.Join(",", items.Select(x => x.ToString()))}");
+            });
+        }
 
-				foreach (var item in result)
-				{
-					Assert.AreEqual(expected, item,
-						$"Order failed for sequence #{testIndex}: {string.Join(",", items.Select(x => x.ToString()))}");
+        [Fact]
+        public void BinaryTree_AscendingOrder()
+        {
+            const int tests = 25;
 
-					expected++;
-				}
+            BinaryTreeTester(tests, (testIndex, items, tree) =>
+            {
+                int expected = 0;
 
-			});
-		}
+                var result = tree.ItemsAscending.Select(node => node.Value).ToList();
 
-		[TestMethod]
-		public void BinaryTree_DescendingOrder()
-		{
-			const int tests = 25;
+                tree.Count.Should().Be(items.Count);
+                result.Count.Should().Be(items.Count);
 
-			BinaryTreeTester(tests, (testIndex, items, tree) =>
-			{
-				int expected = items.Max();
+                foreach (int item in result)
+                {
+                    item.Should().Be(expected,
+                        $"Order failed for sequence #{testIndex}: {string.Join(",", items.Select(x => x.ToString()))}");
 
-				var result = tree.ItemsDescending.Select(node => node.Value).ToList();
+                    expected++;
+                }
+            });
+        }
 
-				Assert.AreEqual(items.Count, tree.Count);
-				Assert.AreEqual(items.Count, result.Count);
+        [Fact]
+        public void BinaryTree_DescendingOrder()
+        {
+            const int tests = 25;
 
-				foreach (var item in result)
-				{
-					Assert.AreEqual(expected, item,
-						$"Order failed for sequence #{testIndex}: {string.Join(",", items.Select(x => x.ToString()))}");
+            BinaryTreeTester(tests, (testIndex, items, tree) =>
+            {
+                int expected = items.Max();
 
-					expected--;
-				}
-			});
-		}
+                var result = tree.ItemsDescending.Select(node => node.Value).ToList();
 
-		[TestMethod]
-		public void BinaryTree_Next()
-		{
-			const int tests = 25;
+                tree.Count.Should().Be(items.Count);
+                result.Count.Should().Be(items.Count);
 
-			BinaryTreeTester(tests, (testIndex, items, tree) =>
-			{
-				int expected = 0;
+                foreach (var item in result)
+                {
+                    item.Should().Be(expected,
+                        $"Order failed for sequence #{testIndex}: {string.Join(",", items.Select(x => x.ToString()))}");
 
-				var node = tree.Find(expected);
+                    expected--;
+                }
+            });
+        }
 
-				while (node != null)
-				{
-					Console.WriteLine(node.ToString());
-					Assert.AreEqual(expected, node.Value);
+        [Fact]
+        public void BinaryTree_Next()
+        {
+            const int tests = 25;
 
-					node = node.Next();
-					expected++;
-				}
+            BinaryTreeTester(tests, (testIndex, items, tree) =>
+            {
+                int expected = 0;
 
-				// Check if we went all the way through the array.
-				Assert.AreEqual(items.Count, expected);
-			});
-		}
+                var node = tree.Find(expected);
 
-		[TestMethod]
-		public void BinaryTree_Previous()
-		{
-			const int tests = 25;
+                while (node != null)
+                {
+                    Console.WriteLine(node.ToString());
 
-			BinaryTreeTester(tests, (testIndex, items, tree) =>
-			{
-				int expected = items.Max();
+                    node.Value.Should().Be(expected);
 
-				var node = tree.Find(expected);
+                    node = node.Next();
+                    expected++;
+                }
 
-				while (node != null)
-				{
-					Console.WriteLine(node.ToString());
-					Assert.AreEqual(expected, node.Value);
+                // Check if we went all the way through the array.
+                expected.Should().Be(items.Count);
+            });
+        }
 
-					node = node.Previous();
-					expected--;
-				}
+        [Fact]
+        public void BinaryTree_Previous()
+        {
+            const int tests = 25;
 
-				// Check if we went all the way through the array.
-				Assert.AreEqual(-1, expected);
-			});
-		}
+            BinaryTreeTester(tests, (testIndex, items, tree) =>
+            {
+                int expected = items.Max();
 
-		private void BinaryTreeTester(int tests, Action<int, IList<int>, BinaryTree<int>> test)
-		{
-			const int seed = 2; // seed chosen to make the first test have a large number of items.
+                var node = tree.Find(expected);
 
-			// Always generate the same sequences so the unit test is reliable.
-			var random = new Random(2);
-			bool randomize = false;
-			bool balance = false;
+                while (node != null)
+                {
+                    Console.WriteLine(node.ToString());
 
-			for (int i = 0; i < tests; i++)
-			{
-				int size = 5 + random.Next(32);
+                    node.Value.Should().Be(expected);
 
-				var items = CreateItems(size, randomize, random);
-				var tree = CreateTree(items, balance);
+                    node = node.Previous();
+                    expected--;
+                }
 
-				test(i, items, tree);
+                // Check if we went all the way through the array.
+                expected.Should().Be(-1);
+            });
+        }
 
-				// First two iteration are done without randomization.
-				randomize |= balance;
-				balance = !balance;
-			}
-		}
+        private void BinaryTreeTester(int tests, Action<int, IList<int>, BinaryTree<int>> test)
+        {
+            const int seed = 2; // seed chosen to make the first test have a large number of items.
 
-		private static IList<int> CreateItems(int count, bool randomize = false, Random random = null)
-		{
-			random = random ?? new System.Random(2);
+            // Always generate the same sequences so the unit test is reliable.
+            var random = new Random(seed);
+            bool randomize = false;
+            bool balance = false;
 
-			var list = Enumerable.Range(0, count).ToList();
+            for (int i = 0; i < tests; i++)
+            {
+                int size = 5 + random.Next(32);
 
-			if (randomize)
-			{
-				list.Randomize(random);
-			}
+                var items = CreateItems(size, randomize, random);
+                var tree = CreateTree(items, balance);
 
-			return list;
-		}
+                test(i, items, tree);
 
-		private static BinaryTree<int> CreateTree(IEnumerable<int> array, bool balance)
-		{
-			BinaryTree<int> tree = new BinaryTree<int>();
+                // First two iteration are done without randomization.
+                randomize |= balance;
+                balance = !balance;
+            }
+        }
 
-			tree.AutoBalance = balance;
-			tree.Add(array);
+        private static IList<int> CreateItems(int count, bool randomize = false, Random random = null)
+        {
+            random = random ?? new System.Random(2);
 
-			Assert.AreEqual(tree.Count, tree.Root.Count);
+            var list = Enumerable.Range(0, count).ToList();
 
-			if (balance)
-			{
-				Assert.IsTrue(tree.IsBalanced, "Autobalance enabled but the tree is not balanced.");
-			}
+            if (randomize)
+            {
+                list.Randomize(random);
+            }
 
-			return tree;
-		}
-	}
+            return list;
+        }
+
+        private static BinaryTree<int> CreateTree(IEnumerable<int> array, bool balance)
+        {
+            BinaryTree<int> tree = new BinaryTree<int>();
+
+            tree.AutoBalance = balance;
+            tree.Add(array);
+
+            tree.Root.Count.Should().Be(tree.Count);
+
+            if (balance)
+            {
+                tree.IsBalanced.Should().BeTrue("Autobalance enabled but the tree is not balanced.");
+            }
+
+            return tree;
+        }
+    }
 }

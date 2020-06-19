@@ -45,7 +45,7 @@ namespace AgateLib.Diagnostics.Rendering
         {
             public ConsoleFontProvider(IContentProvider contentProvider)
             {
-                Default = Font.Load(contentProvider, "AgateLib/AgateMono");
+                Default = Font.Load(contentProvider, Defaults.MonospaceFont);
             }
 
             public ConsoleFontProvider(Font font)
@@ -80,20 +80,12 @@ namespace AgateLib.Diagnostics.Rendering
         private int defaultFontSize;
         private double _fontScale = 1.0;
 
-        public ConsoleTextEngine(IContentProvider contentProvider)
-        {
-            consoleFontProvider = new ConsoleFontProvider(contentProvider);
-            contentLayoutEngine = new ContentLayoutEngine(consoleFontProvider);
-
-            InitializeFont();
-        }
-
         /// <summary>
         /// This constructor shouldn't be used, since the console needs to actually modify
         /// the default font object of the font provider.
         /// </summary>
         /// <param name="fontProvider"></param>
-        internal ConsoleTextEngine(IFontProvider fontProvider)
+        public ConsoleTextEngine(IFontProvider fontProvider)
         {
             consoleFontProvider = fontProvider;
             contentLayoutEngine = new ContentLayoutEngine(consoleFontProvider);

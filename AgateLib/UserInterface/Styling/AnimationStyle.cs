@@ -87,13 +87,13 @@ namespace AgateLib.UserInterface
             }
         }
 
-        internal string EntryName => entryName;
-        internal IReadOnlyList<string> EntryArgs => entryArgs;
-        internal string ExitName => exitName;
-        internal IReadOnlyList<string> ExitArgs => exitArgs;
+        public string EntryName => entryName;
+        public IReadOnlyList<string> EntryArgs => entryArgs;
+        public string ExitName => exitName;
+        public IReadOnlyList<string> ExitArgs => exitArgs;
 
-        internal string StaticName => staticName;
-        internal IReadOnlyList<string> StaticArgs => staticArgs;
+        public string StaticName => staticName;
+        public IReadOnlyList<string> StaticArgs => staticArgs;
 
         private void GetAnimationNameAndArgs(string data, ref string name, ref IReadOnlyList<string> args)
         {

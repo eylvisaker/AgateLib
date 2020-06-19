@@ -288,7 +288,7 @@ namespace AgateLib.UserInterface
             }
         }
 
-        internal VisualTree VisualTree { get => visualTree; }
+        public VisualTree VisualTree => visualTree; 
 
         internal Desktop Desktop
         {
@@ -302,7 +302,7 @@ namespace AgateLib.UserInterface
             internal set => visualTree.AppContext = value;
         }
 
-        internal void TransitionOut()
+        public void TransitionOut()
         {
             BeforeTransitionOut?.Invoke();
 
@@ -312,7 +312,7 @@ namespace AgateLib.UserInterface
                                     visualTree.TreeRoot);
         }
 
-        internal void TransitionIn()
+        public void TransitionIn()
         {
             displaySystem.Audio?.PlaySound(this, UserInterfaceSound.WorkspaceAdded);
 

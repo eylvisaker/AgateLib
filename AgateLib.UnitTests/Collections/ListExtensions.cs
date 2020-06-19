@@ -1,34 +1,34 @@
 ﻿using System.Collections.Generic;
 using AgateLib.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
+using Xunit;
 
 namespace AgateLib.UnitTests.Collections
 {
-	[TestClass]
-	public class ListExtensions
-	{
-		[TestMethod]
-		public void SortPrimitives()
-		{
-			List<int> li = new List<int> { 1, 6, 2, 3, 8, 10, 9, 7, 4, 5 };
+    public class ListExtensions
+    {
+        [Fact]
+        public void SortPrimitives()
+        {
+            List<int> li = new List<int> { 1, 6, 2, 3, 8, 10, 9, 7, 4, 5 };
 
-			Assert.AreEqual(10, li.Count);
+            li.Count.Should().Be(10, "the numbers 1-10 should in the test list.");
 
-			li.InsertionSort();
+            li.InsertionSort();
 
-			for (int i = 0; i < li.Count; i++)
-				Assert.AreEqual(i + 1, li[i]);
-		}
+            for (int i = 0; i < li.Count; i++)
+                li[i].Should().Be(i + 1);
+        }
 
-		[TestMethod]
-		public void InsertionSortTest()
-		{
-			List<int> list = new List<int> { 4, 2, 3, 1, 6, 7, 8, 9 };
+        [Fact]
+        public void InsertionSortTest()
+        {
+            List<int> list = new List<int> { 4, 2, 3, 1, 6, 7, 8, 9 };
 
-			list.InsertionSort();
+            list.InsertionSort();
 
-			Assert.AreEqual(1, list[0]);
-			Assert.AreEqual(9, list[list.Count - 1]);
-		}
-	}
+            list[0].Should().Be(1);
+            list[list.Count - 1].Should().Be(9);
+        }
+    }
 }

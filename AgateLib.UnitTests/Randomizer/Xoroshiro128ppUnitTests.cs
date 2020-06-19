@@ -31,7 +31,7 @@ namespace AgateLib.Randomizer
                     new uint[] { 0x80, 0x40081, 0x20040881, 0x20480900, 0x20500983, 0x48111c02, 0x88c81402, 0x2adb05d7, 0x48de3b98, 0xa3cb5158 })]
         [InlineData(1, 1,
                     new uint[] { 0x80, 0x0, 0x40081, 0x28090a00, 0x50500140, 0xaa170c93, 0x981494a1, 0x56f02857, 0x3326c675, 0x7b13d560 })]
-        public void SequenceFromSeed(ulong seedHi, ulong seedLo, params uint[] expectedValues)
+        public void SequenceFromSeed(ulong seedHi, ulong seedLo, uint[] expectedValues)
         {
             Xoroshiro128pp random = new Xoroshiro128pp(new Seed(seedHi, seedLo));
 

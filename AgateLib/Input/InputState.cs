@@ -72,7 +72,7 @@ namespace AgateLib.Input
         /// discarded.
         /// </summary>
         /// <param name="time"></param>
-        internal void NewFrame(GameTime time)
+        public void NewFrame(GameTime time)
         {
             Initialize();
 

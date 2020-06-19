@@ -148,7 +148,7 @@ namespace AgateLib.Scenes
         /// Event raised when the scene is about to be removed from the scene stack.
         /// </summary>
         public event EventHandler End;
-        
+
         [Obsolete("Use End instead.", true)]
         public event EventHandler SceneEnd;
 
@@ -218,7 +218,7 @@ namespace AgateLib.Scenes
         protected virtual void OnSceneStart()
         {
             IsFinished = false;
-            SceneStart?.Invoke(this, EventArgs.Empty);
+            Start?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace AgateLib.Scenes
         /// </summary>
         protected virtual void OnSceneEnd()
         {
-            SceneEnd?.Invoke(this, EventArgs.Empty);
+            End?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

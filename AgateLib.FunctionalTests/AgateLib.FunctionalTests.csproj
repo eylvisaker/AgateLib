@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AgateLib.Tests</RootNamespace>
     <AssemblyName>AgateLib.FunctionalTests</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -248,8 +248,12 @@
       <Name>AgateLib.Tester</Name>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.UnitTests\AgateLib.UnitTests.csproj">
-      <Project>{5F203662-6438-4CD9-BE4B-D111F1DFB925}</Project>
+      <Project>{5f203662-6438-4cd9-be4b-d111f1dfb925}</Project>
       <Name>AgateLib.UnitTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgateLib\AgateLib.csproj">
+      <Project>{30d1a19e-7df1-494f-99ea-77ab764693d5}</Project>
+      <Name>AgateLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

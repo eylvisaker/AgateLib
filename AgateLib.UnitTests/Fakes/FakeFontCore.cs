@@ -135,8 +135,6 @@ namespace AgateLib.Tests.Fakes
                 Parameters = parameters
             });
 
-            System.Console.WriteLine($"{Name} draw to ({dest}): {color}");
-            System.Console.WriteLine(text);
             LogParameters(parameters);
         }
 

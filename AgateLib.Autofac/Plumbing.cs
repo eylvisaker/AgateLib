@@ -1,6 +1,4 @@
-﻿using AgateLib;
-using AgateLib.Diagnostics;
-using AgateLib.Scenes;
+﻿using AgateLib.Diagnostics;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
@@ -55,16 +53,28 @@ namespace AgateLib.Foundation
         public Plumbing()
         {
             builder = new ContainerBuilder();
-            Assembly myAssembly = GetType().GetTypeInfo().Assembly;
 
-            RegisterConventions(myAssembly);
+            // Register AgateLib assembly.
+            RegisterTypesIn(typeof(ContentProvider).GetTypeInfo().Assembly);
 
-            RegisterSystemModules();
+            // Register AgateLib.Autofac assembly.
+            RegisterTypesIn(typeof(Plumbing).GetTypeInfo().Assembly);
 
             if (Debugger.IsAttached)
             {
                 UseDebuggerBreak = true;
             }
+        }
+
+        /// <summary>
+        /// Registers all the types in the assembly according to the AgateLib registration strategy.
+        /// </summary>
+        /// <param name="myAssembly"></param>
+        public void RegisterTypesIn(Assembly myAssembly)
+        {
+            RegisterConventions(myAssembly);
+
+            RegisterSystemModules();
         }
 
         /// <summary>
@@ -220,9 +230,16 @@ namespace AgateLib.Foundation
         public T Resolve<T>()
         {
             if (container == null)
+            {
                 throw new InvalidOperationException("Cannot resolve services before Complete is called.");
+            }
 
             return ResolveAndDebug<T>(c => c.Resolve<T>());
+        }
+
+        internal void AddSearchAssembly(Assembly entryAssembly)
+        {
+            throw new NotImplementedException();
         }
 
         public T Resolve<T>(object anonymousObjectArguments)
@@ -230,7 +247,9 @@ namespace AgateLib.Foundation
             if (anonymousObjectArguments != null)
             {
                 if (anonymousObjectArguments is string)
+                {
                     throw new ArgumentException("Arguments must be an object. If passing a name, use ResolveNamed instead.", nameof(anonymousObjectArguments));
+                }
 
                 var parameters = BuildParameterList(anonymousObjectArguments);
 
@@ -303,7 +322,9 @@ namespace AgateLib.Foundation
         private Exception InnerMostException(Exception ex)
         {
             if (ex?.InnerException != null)
+            {
                 return InnerMostException(ex.InnerException);
+            }
 
             return ex;
         }

@@ -52,7 +52,11 @@ namespace AgateLib.Scenes
         public event EventHandler Start;
 
         [Obsolete("Use Start instead.")]
-        public event EventHandler SceneStart;
+        public event EventHandler SceneStart
+        {
+            add => Start += value;
+            remove => Start -= value;
+        }
 
         /// <summary>
         /// Event raised when the scene is about to be removed from the scene stack.
@@ -60,7 +64,11 @@ namespace AgateLib.Scenes
         public event EventHandler End;
 
         [Obsolete("Use End instead.")]
-        public event EventHandler SceneEnd;
+        public event EventHandler SceneEnd
+        {
+            add => End += value;
+            remove => End -= value;
+        }
 
         /// <summary>
         /// Event raised when the scene is activated after a scene above it is
@@ -133,7 +141,7 @@ namespace AgateLib.Scenes
         protected virtual void OnSceneStart()
         {
             IsFinished = false;
-            SceneStart?.Invoke(this, EventArgs.Empty);
+            Start?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -150,7 +158,7 @@ namespace AgateLib.Scenes
         /// </summary>
         protected virtual void OnSceneEnd()
         {
-            SceneEnd?.Invoke(this, EventArgs.Empty);
+            End?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

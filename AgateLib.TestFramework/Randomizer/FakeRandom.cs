@@ -17,7 +17,7 @@ namespace AgateLib.Randomizer
         /// You may store this to generate the same random sequence at a later time.
         /// </summary>
         /// <param name="random"></param>
-        public Seed GenerateSeed() => 1;
+        public Seed GenerateSeed() => new Seed(1);
 
         public IRandom Spawn() => new FakeRandom();
     }
