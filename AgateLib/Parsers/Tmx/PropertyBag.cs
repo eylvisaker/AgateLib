@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.Parsers.Tmx
 {
@@ -151,7 +150,9 @@ namespace AgateLib.Parsers.Tmx
             string result;
 
             if (!properties.TryGetValue(key, out result))
+            {
                 result = null;
+            }
 
             return result;
         }
@@ -161,12 +162,18 @@ namespace AgateLib.Parsers.Tmx
             string result;
 
             if (!properties.TryGetValue(key, out result))
+            {
                 return default(T);
+            }
 
             if (typeCoercer == null)
+            {
                 return (T)Convert.ChangeType(result, typeof(T));
+            }
             else
+            {
                 return typeCoercer(result);
+            }
         }
 
         public T? NullableValueOrDefault<T>(string key, Func<string, T> typeCoercer = null) where T : struct
@@ -176,12 +183,18 @@ namespace AgateLib.Parsers.Tmx
                 string result;
 
                 if (!properties.TryGetValue(key, out result))
+                {
                     return null;
+                }
 
                 if (typeCoercer == null)
+                {
                     return (T)Convert.ChangeType(result, typeof(T));
+                }
                 else
+                {
                     return typeCoercer(result);
+                }
             }
             catch (Exception e)
             {
@@ -198,12 +211,18 @@ namespace AgateLib.Parsers.Tmx
             string result;
 
             if (!properties.TryGetValue(key, out result))
+            {
                 return defaultValue;
+            }
 
             if (typeCoercer == null)
+            {
                 return (T)Convert.ChangeType(result, typeof(T));
+            }
             else
+            {
                 return typeCoercer(result);
+            }
         }
 
         public T EnumValueOrDefault<T>(string key, T defaultValue, bool ignoreCase = true) where T : struct

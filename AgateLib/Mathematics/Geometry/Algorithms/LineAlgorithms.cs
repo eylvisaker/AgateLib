@@ -20,12 +20,8 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms
 {
@@ -80,7 +76,9 @@ namespace AgateLib.Mathematics.Geometry.Algorithms
             var determinant = line2.X * line1.Y - line1.X * line2.Y;
 
             if (Math.Abs(determinant) < tolerance)
+            {
                 return null;
+            }
 
             var S = R1a - R2a;
 

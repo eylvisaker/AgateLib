@@ -22,10 +22,8 @@
 
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
-using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 
 namespace AgateLib.UserInterface
 {
@@ -123,12 +121,14 @@ namespace AgateLib.UserInterface
 
         public void SetContentRect(Rectangle newContentRect)
         {
-            Require.ArgumentInRange(newContentRect.Width >= 0 && newContentRect.Height >= 0, 
+            Require.ArgumentInRange(newContentRect.Width >= 0 && newContentRect.Height >= 0,
                                     nameof(newContentRect),
                                     "ContentRect must have positive width and height");
 
             if (contentRect == newContentRect)
+            {
                 return;
+            }
 
             contentRect = newContentRect;
             ContentRectUpdated?.Invoke();
@@ -141,7 +141,9 @@ namespace AgateLib.UserInterface
                                     "ContentRect must have positive width and height");
 
             if (contentRect.Size == (Point)newContentSize)
+            {
                 return;
+            }
 
             contentRect.Size = newContentSize;
             ContentRectUpdated?.Invoke();
@@ -153,7 +155,9 @@ namespace AgateLib.UserInterface
                                        position.Y + MarginToContentOffset.Top);
 
             if (contentRect.Location == contentPos)
+            {
                 return;
+            }
 
             contentRect.Location = contentPos;
             ContentRectUpdated?.Invoke();
@@ -206,7 +210,9 @@ namespace AgateLib.UserInterface
         private int Maybe(Func<int, int, int> func, int a, int? b)
         {
             if (b == null)
+            {
                 return a;
+            }
 
             return func(a, b.Value);
         }

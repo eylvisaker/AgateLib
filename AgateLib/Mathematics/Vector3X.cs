@@ -20,16 +20,12 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.Mathematics
 {
-	public static class Vector3X
+    public static class Vector3X
     {
         /// <summary>
         /// Using standard cylindrical coordinates.
@@ -56,25 +52,25 @@ namespace AgateLib.Mathematics
         /// <param name="azimuthalAngle">The azimuthal angle in radians.</param>
         /// <returns></returns>
         public static Vector3 FromSpherical(float radialDist, float polarAngle, float azimuthalAngle)
-		{
-			return new Vector3(
-				radialDist * MathF.Sin(polarAngle) * MathF.Cos(azimuthalAngle),
-				radialDist * MathF.Sin(polarAngle) * MathF.Sin(azimuthalAngle),
-				radialDist * MathF.Cos(polarAngle));
-		}
+        {
+            return new Vector3(
+                radialDist * MathF.Sin(polarAngle) * MathF.Cos(azimuthalAngle),
+                radialDist * MathF.Sin(polarAngle) * MathF.Sin(azimuthalAngle),
+                radialDist * MathF.Cos(polarAngle));
+        }
 
-		/// <summary>
-		/// Performs equality comparison to within a tolerance value.
-		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <param name="tolerance"></param>
-		/// <returns></returns>
-		public static bool Equals(Vector3 a, Vector3 b, float tolerance)
-		{
-			return Math.Abs(a.X - b.X) < tolerance &&
-			       Math.Abs(a.Y - b.Y) < tolerance &&
-			       Math.Abs(a.Z - b.Z) < tolerance;
-		}
-	}
+        /// <summary>
+        /// Performs equality comparison to within a tolerance value.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="tolerance"></param>
+        /// <returns></returns>
+        public static bool Equals(Vector3 a, Vector3 b, float tolerance)
+        {
+            return Math.Abs(a.X - b.X) < tolerance &&
+                   Math.Abs(a.Y - b.Y) < tolerance &&
+                   Math.Abs(a.Z - b.Z) < tolerance;
+        }
+    }
 }

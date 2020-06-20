@@ -20,128 +20,125 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Mathematics.Geometry.Algorithms.Configuration;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
-	public class ExpandingPolytopeAlgorithm
-	{
-		class Edge
-		{
-			public Microsoft.Xna.Framework.Vector2 Normal { get; set; }
-			public double Distance { get; set; }
-			public int Index { get; set; }
-		}
+    public class ExpandingPolytopeAlgorithm
+    {
+        private class Edge
+        {
+            public Microsoft.Xna.Framework.Vector2 Normal { get; set; }
+            public double Distance { get; set; }
+            public int Index { get; set; }
+        }
 
-		private int iterations;
+        private int iterations;
 
-		public ExpandingPolytopeAlgorithm(IterativeAlgorithm iterationControl = null)
-		{
-			IterationControl = iterationControl ?? new IterativeAlgorithm();
-		}
+        public ExpandingPolytopeAlgorithm(IterativeAlgorithm iterationControl = null)
+        {
+            IterationControl = iterationControl ?? new IterativeAlgorithm();
+        }
 
-		private double Tolerance => IterationControl.Tolerance;
-		private int MaxIterations => IterationControl.MaxIterations;
+        private double Tolerance => IterationControl.Tolerance;
+        private int MaxIterations => IterationControl.MaxIterations;
 
-		public int Iterations => iterations;
+        public int Iterations => iterations;
 
-		public IterativeAlgorithm IterationControl { get; }
+        public IterativeAlgorithm IterationControl { get; }
 
-		public Microsoft.Xna.Framework.Vector2? PenetrationDepth(Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportA, Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportB, MinkowskiSimplex simplex)
-		{
-			iterations = 0;
+        public Microsoft.Xna.Framework.Vector2? PenetrationDepth(Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportA, Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportB, MinkowskiSimplex simplex)
+        {
+            iterations = 0;
 
-			while (iterations < MaxIterations)
-			{
-				iterations++;
+            while (iterations < MaxIterations)
+            {
+                iterations++;
 
-				Edge e = FindClosestEdge(simplex.Simplex);
-				var support = MinkowskiSimplex.Support(supportA, supportB, e.Normal);
-				Vector2 p = support.Difference;
-				float d = Vector2.Dot(p, e.Normal);
+                Edge e = FindClosestEdge(simplex.Simplex);
+                var support = MinkowskiSimplex.Support(supportA, supportB, e.Normal);
+                Vector2 p = support.Difference;
+                float d = Vector2.Dot(p, e.Normal);
 
-				if (d - e.Distance < Tolerance)
-				{
-					return d * e.Normal;
-				}
+                if (d - e.Distance < Tolerance)
+                {
+                    return d * e.Normal;
+                }
 
-				simplex.Insert(e.Index, support);
-			}
+                simplex.Insert(e.Index, support);
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		private static Microsoft.Xna.Framework.Vector2 Support(Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportA, Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportB, Microsoft.Xna.Framework.Vector2 v)
-		{
-			var sa = supportA(v);
-			var sb = supportB(-v);
+        private static Microsoft.Xna.Framework.Vector2 Support(Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportA, Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportB, Microsoft.Xna.Framework.Vector2 v)
+        {
+            var sa = supportA(v);
+            var sb = supportB(-v);
 
-			var w = sa - sb;
-			return w;
-		}
+            var w = sa - sb;
+            return w;
+        }
 
-		/// <summary>
-		/// Finds the edge of the simplex that is closest to the origin.
-		/// </summary>
-		/// <param name="simplex"></param>
-		/// <returns></returns>
-		private Edge FindClosestEdge(Polygon simplex)
-		{
-			Edge closest = new Edge();
+        /// <summary>
+        /// Finds the edge of the simplex that is closest to the origin.
+        /// </summary>
+        /// <param name="simplex"></param>
+        /// <returns></returns>
+        private Edge FindClosestEdge(Polygon simplex)
+        {
+            Edge closest = new Edge
+            {
+                Distance = double.MaxValue
+            };
 
-			closest.Distance = double.MaxValue;
+            for (int i = 0; i < simplex.Count; i++)
+            {
+                int j = (i + 1) % simplex.Count;
 
-			for (int i = 0; i < simplex.Count; i++)
-			{
-				int j = (i + 1) % simplex.Count;
+                Vector2 a = simplex[i];
+                Vector2 b = simplex[j];
 
-				Vector2 a = simplex[i];
-				Vector2 b = simplex[j];
+                Vector2 e = b - a;
 
-				Vector2 e = b - a;
+                Vector2 n = TripleProduct(e, a, e);
 
-				Vector2 n = TripleProduct(e, a, e);
+                var normalized = n;
+                normalized.Normalize();
 
-				var normalized = n;
-				normalized.Normalize();
+                float d = Vector2.Dot(normalized, a);
+                var zeroNormal = n.LengthSquared() < IterationControl.Tolerance;
 
-				float d = Vector2.Dot(normalized, a);
-				var zeroNormal = n.LengthSquared() < IterationControl.Tolerance;
+                if (zeroNormal)
+                {
+                    closest.Distance = 0;
+                    closest.Normal = Vector2.Zero;
+                    closest.Index = j;
+                    break;
+                }
 
-				if (zeroNormal)
-				{
-					closest.Distance = 0;
-					closest.Normal = Vector2.Zero;
-					closest.Index = j;
-					break;
-				}
+                if (d < closest.Distance)
+                {
+                    closest.Distance = d;
+                    closest.Normal = normalized;
+                    closest.Index = j;
+                }
+            }
 
-				if (d < closest.Distance)
-				{
-					closest.Distance = d;
-					closest.Normal = normalized;
-					closest.Index = j;
-				}
-			}
+            return closest;
+        }
 
-			return closest;
-		}
+        private Vector2 TripleProduct(Vector2 a, Vector2 b, Vector2 c)
+        {
+            double adotc = Vector2.Dot(a, c);
+            double adotb = Vector2.Dot(b, c);
 
-		private Vector2 TripleProduct(Vector2 a, Vector2 b, Vector2 c)
-		{
-			double adotc = Vector2.Dot(a, c);
-			double adotb = Vector2.Dot(b, c);
+            double x = b.X * adotc - c.X * adotb;
+            double y = b.Y * adotc - c.Y * adotb;
 
-			double x = b.X * adotc - c.X * adotb;
-			double y = b.Y * adotc - c.Y * adotb;
-			
-			return new Vector2((float)x, (float)y);
-		}
-	}
+            return new Vector2((float)x, (float)y);
+        }
+    }
 }

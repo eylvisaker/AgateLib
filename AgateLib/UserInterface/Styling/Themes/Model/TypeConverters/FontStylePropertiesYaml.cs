@@ -20,15 +20,13 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Display;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using AgateLib.Display;
-using AgateLib.Quality;
-using Microsoft.Xna.Framework;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
@@ -58,10 +56,15 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
                 .Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
                 .ToList();
 
-            Color? color = TryParseEachAndRemove(values, 
-                x => {
+            Color? color = TryParseEachAndRemove(values,
+                x =>
+                {
                     bool success = ColorX.TryParse(x, out Color c);
-                    if (!success) return (false, null);
+                    if (!success)
+                    {
+                        return (false, null);
+                    }
+
                     return (success, (Color?)c);
                 });
             int? size = TryParseEachAndRemove(values, x
@@ -71,13 +74,18 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
                     return (success, (int?)number);
                 });
             FontStyles? fontStyle = TryParseEachAndRemove(values,
-                x => {
+                x =>
+                {
                     bool success = Enum.TryParse<FontStyles>(x, true, out FontStyles fs);
-                    if (!success) return (false, null);
-                    return (success, (FontStyles?) fs);
+                    if (!success)
+                    {
+                        return (false, null);
+                    }
+
+                    return (success, (FontStyles?)fs);
                 });
             string family = values.Count > 0 ? values[0] : null;
-            
+
             var result = new FontStyleProperties
             {
                 Family = family,
@@ -93,7 +101,7 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
         private T? TryParseEachAndRemove<T>(List<string> values, Func<string, (bool, T?)> parser)
             where T : struct
         {
-            foreach(var value in values)
+            foreach (var value in values)
             {
                 (bool success, T? parsedValue) = parser(value);
 

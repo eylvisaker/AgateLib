@@ -64,13 +64,19 @@ namespace AgateLib.UserInterface
         private void RecalcArrangement()
         {
             if (sizeGrid?.Length != Columns * Rows)
+            {
                 sizeGrid = new Size[Columns * Rows];
+            }
 
             if (columnWidths?.Length != Columns)
+            {
                 columnWidths = new int[Columns];
+            }
 
             if (rowHeights?.Length != Rows)
+            {
                 rowHeights = new int[Rows];
+            }
 
             if (focusPoint.X < 0 || focusPoint.Y < 0 ||
                 focusPoint.X >= Columns || focusPoint.Y >= Rows)
@@ -94,7 +100,9 @@ namespace AgateLib.UserInterface
                     focusPoint.Y = 0;
                 }
                 if (focusPoint == initialFocus)
+                {
                     break;
+                }
             }
         }
 
@@ -107,12 +115,16 @@ namespace AgateLib.UserInterface
         public Point LocationOf(IRenderElement item)
         {
             if (item == null)
+            {
                 return new Point(-1, -1);
+            }
 
             var index = Children.IndexOf(item);
 
             if (index == -1)
+            {
                 return new Point(-1, -1);
+            }
 
             return new Point(index % Columns, index / Columns);
         }
@@ -127,7 +139,9 @@ namespace AgateLib.UserInterface
             var index = y * Columns + x;
 
             if (index >= Children.Count)
+            {
                 return null;
+            }
 
             return Children[index];
         }
@@ -150,7 +164,9 @@ namespace AgateLib.UserInterface
                     SetSizeAt(x, y, Size.Empty);
 
                     if (item == null)
+                    {
                         continue;
+                    }
 
                     var itemBox = item.Display.Region.MarginToContentOffset;
 
@@ -169,10 +185,14 @@ namespace AgateLib.UserInterface
             }
 
             for (int i = 0; i < Columns; i++)
+            {
                 columnWidths[i] = Math.Min(maxSize.Width, columnWidths[i]);
+            }
 
             for (int i = 0; i < Rows; i++)
+            {
                 rowHeights[i] = Math.Min(maxSize.Height, rowHeights[i]);
+            }
 
             var idealWidth = columnWidths.Sum();
             var idealHeight = rowHeights.Sum();
@@ -308,7 +328,9 @@ namespace AgateLib.UserInterface
             }
 
             if (moved)
+            {
                 Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            }
         }
 
         public bool MoveDown()
@@ -324,7 +346,9 @@ namespace AgateLib.UserInterface
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
                         if (Props.AllowNavigate)
+                        {
                             Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Down));
+                        }
 
                         return false;
                     }
@@ -335,7 +359,9 @@ namespace AgateLib.UserInterface
                     {
                         newFocus.X++;
                         if (newFocus.X >= Columns)
+                        {
                             newFocus.X = 0;
+                        }
                     }
                 }
 
@@ -363,14 +389,19 @@ namespace AgateLib.UserInterface
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
                         if (Props.AllowNavigate)
+                        {
                             Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Up));
+                        }
+
                         return false;
                     }
                     if (NavigationWrap == GridNavigationWrap.Sparse)
                     {
                         newFocus.X--;
                         if (newFocus.X < 0)
+                        {
                             newFocus.X = Columns - 1;
+                        }
                     }
                 }
             } while (this[newFocus] == null || !this[newFocus].CanHaveFocus);
@@ -397,7 +428,9 @@ namespace AgateLib.UserInterface
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
                         if (Props.AllowNavigate)
+                        {
                             Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Left));
+                        }
 
                         return false;
                     }
@@ -407,7 +440,9 @@ namespace AgateLib.UserInterface
                         newFocus.Y--;
 
                         if (newFocus.Y < 0)
+                        {
                             newFocus.Y = Rows - 1;
+                        }
                     }
                 }
 
@@ -433,7 +468,9 @@ namespace AgateLib.UserInterface
                     if (NavigationWrap == GridNavigationWrap.None)
                     {
                         if (Props.AllowNavigate)
+                        {
                             Parent?.OnChildAction(this, navigateEvent.Reset(UserInterfaceAction.Right));
+                        }
 
                         return false;
                     }
@@ -445,7 +482,9 @@ namespace AgateLib.UserInterface
                         newFocus.Y++;
 
                         if (newFocus.Y >= Rows)
+                        {
                             newFocus.Y = 0;
+                        }
                     }
                 }
 
@@ -461,7 +500,9 @@ namespace AgateLib.UserInterface
         private void SetFocus(Point newFocus)
         {
             if (focusPoint == newFocus)
+            {
                 return;
+            }
 
             focusPoint = newFocus;
             SetGlobalFocus();

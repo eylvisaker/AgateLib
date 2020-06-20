@@ -22,9 +22,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.Input
 {
@@ -42,8 +40,8 @@ namespace AgateLib.Input
     /// </summary>
     public class InputState : IInputState
     {
-        Dictionary<PlayerIndex, GamePadState?> gamePads = new Dictionary<PlayerIndex, GamePadState?>();
-        KeyboardState? keyboardState;
+        private Dictionary<PlayerIndex, GamePadState?> gamePads = new Dictionary<PlayerIndex, GamePadState?>();
+        private KeyboardState? keyboardState;
 
         public GameTime GameTime { get; set; }
 
@@ -52,7 +50,9 @@ namespace AgateLib.Input
             get
             {
                 if (keyboardState == null)
+                {
                     keyboardState = Keyboard.GetState();
+                }
 
                 return keyboardState.Value;
             }

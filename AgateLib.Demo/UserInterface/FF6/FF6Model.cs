@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.FF6
 {
     public class FF6Model
     {
-        List<EquipmentSlot> slots = new List<EquipmentSlot>
+        private List<EquipmentSlot> slots = new List<EquipmentSlot>
         {
             new EquipmentSlot("R-Hand", "weapon"),
             new EquipmentSlot("L-Hand", "shield"),
@@ -45,7 +43,9 @@ namespace AgateLib.Tests.UserInterface.FF6
             var validSlots = GetValidSlots(item);
 
             if (!validSlots.Any())
+            {
                 throw new InvalidOperationException($"No slot found for item {item.Name}");
+            }
 
             var firstEmpty = validSlots.FirstOrDefault(slot => pc.Equipment[slot.Name] == null);
 
@@ -61,7 +61,9 @@ namespace AgateLib.Tests.UserInterface.FF6
             foreach (var item in Inventory)
             {
                 if (GetValidSlots(item).Any(x => x.Name == slot))
+                {
                     yield return item;
+                }
             }
         }
 
@@ -94,7 +96,9 @@ namespace AgateLib.Tests.UserInterface.FF6
             pc.Equipment[slot.Name] = item;
 
             if (existing != null)
+            {
                 Inventory.Add(existing);
+            }
         }
     }
 
@@ -129,7 +133,9 @@ namespace AgateLib.Tests.UserInterface.FF6
         public void Add(PlayerCharacter playerCharacter)
         {
             if (characters.Count >= MaxPartySize)
+            {
                 throw new InvalidOperationException($"Cannot exceed max party size of {MaxPartySize}.");
+            }
 
             characters.Add(playerCharacter);
 

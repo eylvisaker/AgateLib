@@ -93,9 +93,20 @@ namespace AgateLib.UserInterface
             {
                 scaling = value;
 
-                if (size != null) size.Scaling = value;
-                if (core.Padding != null) Padding = core.Padding.Value.Scale(scaling);
-                if (core.Margin != null) Margin = core.Margin.Value.Scale(scaling);
+                if (size != null)
+                {
+                    size.Scaling = value;
+                }
+
+                if (core.Padding != null)
+                {
+                    Padding = core.Padding.Value.Scale(scaling);
+                }
+
+                if (core.Margin != null)
+                {
+                    Margin = core.Margin.Value.Scale(scaling);
+                }
             }
         }
 

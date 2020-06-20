@@ -1,5 +1,4 @@
 ﻿using AgateLib.Mathematics.Geometry;
-using AgateLib.Tests;
 using AgateLib.UserInterface.Content.LayoutItems;
 using FluentAssertions;
 using Microsoft.Xna.Framework;

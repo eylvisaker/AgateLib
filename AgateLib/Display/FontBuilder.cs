@@ -20,51 +20,51 @@
 //    SOFTWARE.
 //
 
-using System;
 using AgateLib.Display.BitmapFont;
 using AgateLib.Quality;
+using System;
 
 namespace AgateLib.Display
 {
-	/// <summary>
-	/// Constructs a font from a set of font surfaces.
-	/// </summary>
-	public class FontBuilder
-	{
-		private Font font;
+    /// <summary>
+    /// Constructs a font from a set of font surfaces.
+    /// </summary>
+    public class FontBuilder
+    {
+        private Font font;
 
-		public FontBuilder(string name)
-		{
-			font = new Font(name);
-		}
+        public FontBuilder(string name)
+        {
+            font = new Font(name);
+        }
 
-		/// <summary>
-		/// Adds a font surface to the font.
-		/// </summary>
-		/// <param name="settings"></param>
-		/// <param name="fontTexture"></param>
-		/// <returns></returns>
-		public FontBuilder AddFontTexture(FontSettings settings, IFontTexture fontTexture)
-		{
-			Require.That<InvalidOperationException>(font != null,
-				"FontBuilder objects cannot be reused.");
+        /// <summary>
+        /// Adds a font surface to the font.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="fontTexture"></param>
+        /// <returns></returns>
+        public FontBuilder AddFontTexture(FontSettings settings, IFontTexture fontTexture)
+        {
+            Require.That<InvalidOperationException>(font != null,
+                "FontBuilder objects cannot be reused.");
 
-			font.AddFontTexture(settings, fontTexture);
+            font.AddFontTexture(settings, fontTexture);
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Builds the resulting Font object.
-		/// </summary>
-		/// <returns></returns>
-		public Font Build()
-		{
-			var result = font;
+        /// <summary>
+        /// Builds the resulting Font object.
+        /// </summary>
+        /// <returns></returns>
+        public Font Build()
+        {
+            var result = font;
 
-			font = null;
+            font = null;
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }

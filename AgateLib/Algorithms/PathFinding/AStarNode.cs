@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AgateLib.Algorithms.PathFinding
+﻿namespace AgateLib.Algorithms.PathFinding
 {
     /// <summary>
     /// Class which represents a node in an A* calulation.

@@ -20,31 +20,24 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-
 namespace AgateLib.Mathematics.Geometry
 {
-	public class PolygonEdge
-	{
-		public PolygonEdge(LineSegment lineSegment, Microsoft.Xna.Framework.Vector2 normal)
-		{
-			LineSegment = lineSegment;
-			Normal = normal;
-		}
+    public class PolygonEdge
+    {
+        public PolygonEdge(LineSegment lineSegment, Microsoft.Xna.Framework.Vector2 normal)
+        {
+            LineSegment = lineSegment;
+            Normal = normal;
+        }
 
-		public LineSegment LineSegment { get; private set; }
+        public LineSegment LineSegment { get; private set; }
 
-		public Microsoft.Xna.Framework.Vector2 Normal { get; private set; }
+        public Microsoft.Xna.Framework.Vector2 Normal { get; private set; }
 
-		internal void SetValue(LineSegment segment, Microsoft.Xna.Framework.Vector2 normal)
-		{
-			LineSegment = segment;
-			Normal = normal;
-		}
-	}
+        internal void SetValue(LineSegment segment, Microsoft.Xna.Framework.Vector2 normal)
+        {
+            LineSegment = segment;
+            Normal = normal;
+        }
+    }
 }

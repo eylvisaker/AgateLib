@@ -1,17 +1,14 @@
-﻿using AgateLib.Randomizer;
-using FluentAssertions;
-using System;
+﻿using FluentAssertions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AgateLib.Randomizer
 {
     public class RandomExtensionsUnitTests
     {
-        const int TestCount = 15000;
+        private const int TestCount = 15000;
 
         private IRandom rnd;
 
@@ -37,7 +34,9 @@ namespace AgateLib.Randomizer
             Dictionary<int, int> valueSelectionCounts = new Dictionary<int, int>();
 
             for (int i = 1; i < 10; i++)
+            {
                 valueSelectionCounts[i] = 0;
+            }
 
             List<int> values = valueSelectionCounts.Keys.ToList();
 

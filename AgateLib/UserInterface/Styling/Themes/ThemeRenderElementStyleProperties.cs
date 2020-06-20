@@ -1,9 +1,6 @@
 ﻿using AgateLib.Display;
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {
@@ -66,7 +63,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         public int Specificity => match.Specificity;
 
         public IReadOnlyCollection<string> PseudoClasses => match.PseudoClasses;
-        
+
         public float Scaling
         {
             get => scaling;

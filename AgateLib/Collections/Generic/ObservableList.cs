@@ -24,7 +24,9 @@ namespace AgateLib.Collections.Generic
         public void EmitListChanged()
         {
             if (PauseEvents)
+            {
                 return;
+            }
 
             ListChanged?.Invoke(this, EventArgs.Empty);
         }

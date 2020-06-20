@@ -1,16 +1,11 @@
-﻿using AgateLib;
-using AgateLib.Mathematics;
+﻿using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
-using AgateLib.Parsers.Tmx;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace AgateLib.Parsers.Tmx
@@ -46,7 +41,9 @@ namespace AgateLib.Parsers.Tmx
                 XElement root = doc.Element("map");
 
                 if (root == null)
+                {
                     throw new InvalidDataException("Map did not contain root element \"map\"");
+                }
 
                 result.Subdirectory = subdirectory;
                 result.Size = root.AttributesToSize("width", "height");
@@ -139,10 +136,11 @@ namespace AgateLib.Parsers.Tmx
 
         private TmxLayerData ReadLayer(XElement layerElement)
         {
-            var result = new TmxLayerData();
-
-            result.Name = layerElement.AttributeToString("name");
-            result.Size = layerElement.AttributesToSize("width", "height", Size.Empty);
+            var result = new TmxLayerData
+            {
+                Name = layerElement.AttributeToString("name"),
+                Size = layerElement.AttributesToSize("width", "height", Size.Empty)
+            };
 
             foreach (var element in layerElement.Elements())
             {
@@ -197,11 +195,12 @@ namespace AgateLib.Parsers.Tmx
             bool isPolygon = element.Element("polygon") != null;
             bool isPolyLine = element.Element("polyline") != null;
 
-            var result = new TmxObjectData();
-
-            result.Id = id;
-            result.Name = name;
-            result.Type = type;
+            var result = new TmxObjectData
+            {
+                Id = id,
+                Name = name,
+                Type = type
+            };
 
             var pt = element.AttributesToVector2("x", "y");
 

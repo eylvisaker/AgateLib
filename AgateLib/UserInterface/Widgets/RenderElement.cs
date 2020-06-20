@@ -283,10 +283,14 @@ namespace AgateLib.UserInterface
         void IRenderElement.SetState(RenderElementState newState)
         {
             if (State == null && newState == null)
+            {
                 return;
+            }
 
             if (newState == null)
+            {
                 throw new ArgumentNullException("State should not be set to null after it has been set to a value.");
+            }
 
             if (newState is TState typedState)
             {
@@ -310,7 +314,9 @@ namespace AgateLib.UserInterface
                 Require.ArgumentNotNull(value, nameof(AppContext));
 
                 if (this.appContext == value)
+                {
                     return;
+                }
 
                 appContext = value;
                 OnReceivedAppContext();
@@ -352,10 +358,12 @@ namespace AgateLib.UserInterface
         protected IRenderElement FinalizeRendering(IRenderable renderable)
         {
             if (renderable == null)
+            {
                 return null;
+            }
 
             Require.That(AppContext != null, "AppContext must not be null to finalize.");
-            
+
             renderable.AppContext = AppContext;
 
             return renderable.FinalizeRendering(e => NeedsRender?.Invoke(e));
@@ -443,10 +451,14 @@ namespace AgateLib.UserInterface
             result.Append(StyleTypeId);
 
             if (!string.IsNullOrWhiteSpace(StyleClass))
+            {
                 result.Append($".{StyleClass}");
+            }
 
             if (!string.IsNullOrWhiteSpace(Name))
+            {
                 result.Append($"#{Name}");
+            }
 
             return result.ToString();
         }
@@ -577,8 +589,12 @@ namespace AgateLib.UserInterface
         protected string FirstNotNullOrWhitespace(params string[] values)
         {
             for (int i = 0; i < values.Length; i++)
+            {
                 if (!string.IsNullOrWhiteSpace(values[i]))
+                {
                     return values[i];
+                }
+            }
 
             return null;
         }
@@ -627,7 +643,9 @@ namespace AgateLib.UserInterface
             set
             {
                 if (value != null)
+                {
                     value.Specificity = 1000;
+                }
 
                 _style = value;
             }
@@ -642,7 +660,9 @@ namespace AgateLib.UserInterface
             set
             {
                 if (value != null)
+                {
                     value.Specificity = -1000;
+                }
 
                 _defaultStyle = value;
             }
@@ -699,7 +719,9 @@ namespace AgateLib.UserInterface
         public virtual bool PropertiesEqual(RenderElementProps other)
         {
             if (other.GetType() != GetType())
+            {
                 return false;
+            }
 
             var properties = GetType().GetProperties();
 
@@ -708,11 +730,20 @@ namespace AgateLib.UserInterface
                 object myValue = prop.GetValue(this);
                 object otherValue = prop.GetValue(other);
 
-                if (myValue == null && otherValue == null) continue;
-                if (myValue == null || otherValue == null) return false;
+                if (myValue == null && otherValue == null)
+                {
+                    continue;
+                }
+
+                if (myValue == null || otherValue == null)
+                {
+                    return false;
+                }
 
                 if (!myValue.Equals(otherValue))
+                {
                     return false;
+                }
             }
 
             return true;

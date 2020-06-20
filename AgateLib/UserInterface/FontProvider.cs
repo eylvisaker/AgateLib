@@ -94,7 +94,9 @@ namespace AgateLib.UserInterface
         public bool HasFont(string family)
         {
             if (family == null)
+            {
                 return false;
+            }
 
             return fonts.ContainsKey(family);
         }
@@ -104,7 +106,9 @@ namespace AgateLib.UserInterface
             fonts.Add(family, font);
 
             if (Default == null)
+            {
                 Default = font;
+            }
         }
 
         public IEnumerator<Font> GetEnumerator()
@@ -127,18 +131,23 @@ namespace AgateLib.UserInterface
             string[] parts = fontDescription.Split(descriptionSeparator, StringSplitOptions.RemoveEmptyEntries);
 
             if (parts.Length == 0)
+            {
                 throw new ArgumentException(nameof(fontDescription));
+            }
 
             string family = parts[0];
 
             Font result = new Font(HasFont(family) ? this[family] : Default);
 
-            foreach(string param in parts.Skip(1))
+            foreach (string param in parts.Skip(1))
             {
                 if (int.TryParse(param, NumberStyles.Integer, CultureInfo.InvariantCulture, out int size))
                     result.Size = size;
+                }
                 else if (Enum.TryParse<FontStyles>(param, out FontStyles fontStyles))
+                {
                     result.Style = fontStyles;
+                }
             }
 
             return result;

@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.UserInterface.InputMap
 {
@@ -32,7 +31,7 @@ namespace AgateLib.UserInterface.InputMap
     /// <typeparam name="T"></typeparam>
     public class ButtonPress<T> where T : struct
     {
-        HashSet<T> buttonsDown = new HashSet<T>();
+        private HashSet<T> buttonsDown = new HashSet<T>();
 
         public void ButtonDown(T button)
         {

@@ -1,5 +1,4 @@
 ﻿using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,7 +18,9 @@ namespace AgateLib.UserInterface
             get
             {
                 if (Props.Image == null)
+                {
                     return new Size(1, 1);
+                }
 
                 Size result;
 
@@ -49,26 +50,33 @@ namespace AgateLib.UserInterface
         public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
             if (Props.Image == null)
+            {
                 return;
+            }
 
             Rectangle destRect = new Rectangle(clientArea.Location, DestSize);
 
             if (destRect.Width > clientArea.Width)
+            {
                 destRect.Width = clientArea.Width;
+            }
+
             if (destRect.Height > clientArea.Height)
+            {
                 destRect.Height = clientArea.Height;
+            }
 
             if (Props.SourceRect != null)
             {
-                renderContext.Draw(Props.Image, 
-                                   destRect, 
-                                   Props.SourceRect.Value, 
+                renderContext.Draw(Props.Image,
+                                   destRect,
+                                   Props.SourceRect.Value,
                                    Props.Color);
             }
             else
             {
-                renderContext.Draw(Props.Image, 
-                                   destRect, 
+                renderContext.Draw(Props.Image,
+                                   destRect,
                                    Props.Color);
             }
         }

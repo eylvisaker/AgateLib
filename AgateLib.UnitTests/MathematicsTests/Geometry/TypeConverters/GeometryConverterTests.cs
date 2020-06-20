@@ -1,5 +1,4 @@
-﻿using AgateLib.Display;
-using AgateLib.Mathematics.Geometry;
+﻿using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.TypeConverters;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
@@ -11,8 +10,8 @@ namespace AgateLib.Tests.MathematicsTests.Geometry.TypeConverters
 {
     public class GeometryConverterTests
     {
-        IDeserializer deser;
-        ISerializer ser;
+        private IDeserializer deser;
+        private ISerializer ser;
 
         public class Something
         {

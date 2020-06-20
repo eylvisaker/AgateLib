@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AgateLib.Mathematics.Geometry;
+using FluentAssertions;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using Xunit;
-using AgateLib.Mathematics.Geometry;
-using Microsoft.Xna.Framework;
-using FluentAssertions;
 
 namespace AgateLib.Tests.MathematicsTests.AlgorithmTests
 {

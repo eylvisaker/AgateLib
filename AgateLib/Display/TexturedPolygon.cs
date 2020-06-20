@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.Display
 {
     public class TexturedPolygon
     {
-        List<Vector2> points = new List<Vector2>();
-        List<Vector2> texCoords = new List<Vector2>();
+        private List<Vector2> points = new List<Vector2>();
+        private List<Vector2> texCoords = new List<Vector2>();
 
         public IReadOnlyList<Vector2> Points => points;
 

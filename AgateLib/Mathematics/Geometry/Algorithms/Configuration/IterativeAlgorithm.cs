@@ -24,36 +24,36 @@ using AgateLib.Quality;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.Configuration
 {
-	public class IterativeAlgorithm
-	{
-		private int maxIterations = 50;
-		private float tolerance = 1e-4f;
+    public class IterativeAlgorithm
+    {
+        private int maxIterations = 50;
+        private float tolerance = 1e-4f;
 
-		public IterativeAlgorithm(int maxIterations = 50, float tolerance = 1e-4f)
-		{
-			this.maxIterations = maxIterations;
-			this.tolerance = tolerance;
-		}
+        public IterativeAlgorithm(int maxIterations = 50, float tolerance = 1e-4f)
+        {
+            this.maxIterations = maxIterations;
+            this.tolerance = tolerance;
+        }
 
-		public int MaxIterations
-		{
-			get => maxIterations;
-			set
-			{
-				Require.ArgumentInRange(value > 1, nameof(MaxIterations), "Value must be greater than 1.");
-				maxIterations = value;
-			}
-		}
+        public int MaxIterations
+        {
+            get => maxIterations;
+            set
+            {
+                Require.ArgumentInRange(value > 1, nameof(MaxIterations), "Value must be greater than 1.");
+                maxIterations = value;
+            }
+        }
 
-		public float Tolerance
-		{
-			get => tolerance;
-			set
-			{
-				Require.ArgumentInRange(value > 0, nameof(Tolerance), "Value must be positive.");
-				tolerance = value;
-			}
-		}
+        public float Tolerance
+        {
+            get => tolerance;
+            set
+            {
+                Require.ArgumentInRange(value > 0, nameof(Tolerance), "Value must be positive.");
+                tolerance = value;
+            }
+        }
 
-	}
+    }
 }

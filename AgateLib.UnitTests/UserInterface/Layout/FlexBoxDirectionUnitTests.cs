@@ -1,5 +1,4 @@
-﻿using AgateLib.Tests;
-using AgateLib.UserInterface.Styling.Themes;
+﻿using AgateLib.UserInterface.Styling.Themes;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using System.Linq;
@@ -14,8 +13,10 @@ namespace AgateLib.UserInterface.Widgets
 
         public FlexBoxDirectionUnitTests()
         {
-            var themes = new ThemeCollection();
-            themes["default"] = new Theme();
+            var themes = new ThemeCollection
+            {
+                ["default"] = new Theme()
+            };
 
             styleConfigurator = new ThemeStyler(themes);
         }

@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Mathematics;
+﻿using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Xunit;
 
 namespace AgateLib.Tests.MathematicsTests.Geometry.AlgorithmTests
 {
     public class CollisionDetectorTests : PolygonUnitTest
     {
-        CollisionDetector collider = new CollisionDetector();
+        private CollisionDetector collider = new CollisionDetector();
 
         [Fact]
         public void CD_RectsCollide()

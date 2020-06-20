@@ -1,11 +1,8 @@
 ﻿using AgateLib.Mathematics.Geometry;
-using AgateLib.Tests;
-using AgateLib.UserInterface.Content.Commands;
 using AgateLib.UserInterface.Content.LayoutItems;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Moq;
-using System;
 using System.Linq;
 using Xunit;
 

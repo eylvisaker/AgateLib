@@ -20,13 +20,11 @@
 //    SOFTWARE.
 //
 
-using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 
 namespace AgateLib
 {
@@ -124,7 +122,9 @@ namespace AgateLib
         {
             var stream = content.OpenOrNull(filename);
             if (stream == null)
+            {
                 return null;
+            }
 
             using (var s = new StreamReader(stream))
             {

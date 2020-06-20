@@ -20,16 +20,13 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Display;
 using AgateLib.Display.BitmapFont;
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace AgateLib.Tests.Fakes
 {
@@ -103,7 +100,9 @@ namespace AgateLib.Tests.Fakes
         public Size MeasureString(FontState state, string text)
         {
             if ((text?.Length ?? 0) == 0)
+            {
                 return Size.Empty;
+            }
 
             int lineLength = 0;
             int longestLine = 0;

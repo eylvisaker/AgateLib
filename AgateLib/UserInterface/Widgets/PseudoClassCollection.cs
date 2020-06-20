@@ -37,9 +37,13 @@ namespace AgateLib.UserInterface
         public void SetIf(string pseudoclass, bool value)
         {
             if (value)
+            {
                 values.Add(pseudoclass.ToLowerInvariant());
+            }
             else
+            {
                 values.Remove(pseudoclass);
+            }
         }
 
         public void Remove(string pseudoclass)

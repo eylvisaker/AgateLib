@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Tests.Fakes;
+﻿using AgateLib.Tests.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib
 {
@@ -14,9 +10,10 @@ namespace AgateLib
     {
         public static void WaitForAnimations(this Desktop desktop)
         {
-            var renderContext = new FakeRenderContext();
-
-            renderContext.GameTime = new GameTime(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+            var renderContext = new FakeRenderContext
+            {
+                GameTime = new GameTime(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2))
+            };
 
             desktop.Update(renderContext);
             desktop.Update(renderContext);
@@ -27,10 +24,12 @@ namespace AgateLib
         /// </summary>
         public static void ClearAnimations(this Desktop desktop)
         {
-            desktop.Explore(element => 
+            desktop.Explore(element =>
             {
                 if (element.Display.Animation.State == AnimationState.TransitionOut)
+                {
                     element.Display.IsVisible = false;
+                }
 
                 element.Display.Animation.State = AnimationState.Static;
                 element.Display.Animation.IsVisible = element.Display.IsVisible;

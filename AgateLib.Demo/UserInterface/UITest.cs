@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AgateLib.Scenes;
+﻿using AgateLib.Scenes;
 using AgateLib.Tests.UserInterface.FF6;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace AgateLib.Tests.UserInterface
 {
@@ -66,11 +63,13 @@ namespace AgateLib.Tests.UserInterface
         }
 
         protected abstract IRenderable CreateUIRoot();
-        
+
         public void Update(GameTime gameTime)
         {
             if (stack.Count == 0)
+            {
                 OnExit?.Invoke();
+            }
 
             stack.Update(gameTime);
         }

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace AgateLib.Collections.Generic
 {
     public class PoolTest
     {
-        class TestResource : IPoolResource
+        private class TestResource : IPoolResource
         {
             public event EventHandler Disposed;
 
@@ -31,12 +26,12 @@ namespace AgateLib.Collections.Generic
             }
         }
 
-        Pool<TestResource> pool = new Pool<TestResource>(() => new TestResource());
+        private Pool<TestResource> pool = new Pool<TestResource>(() => new TestResource());
 
         [Fact]
         public void PoolUseOneObject()
         {
-            for(int i = 0; i < 100; i++)
+            for (int i = 0; i < 100; i++)
             {
                 pool.TryGet(out var item).Should().BeTrue();
 

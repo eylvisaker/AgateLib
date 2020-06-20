@@ -20,11 +20,9 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Linq;
-using System.Reflection;
 using AgateLib.Display;
 using Microsoft.Xna.Framework;
+using System;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
@@ -51,7 +49,9 @@ namespace AgateLib.Mathematics.TypeConverters
             Color result;
 
             if (!ColorX.TryParseNamedColor(value, out result))
+            {
                 result = ColorX.FromArgb(value);
+            }
 
             parser.MoveNext();
             return result;

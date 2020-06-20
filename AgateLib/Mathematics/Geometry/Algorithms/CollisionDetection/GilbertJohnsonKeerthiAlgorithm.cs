@@ -20,215 +20,221 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Mathematics.Geometry.Algorithms.Configuration;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Mathematics.Geometry.Algorithms.Configuration;
-using Microsoft.Xna.Framework;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection
 {
-	/// <summary>
-	/// Im
-	/// </summary>
-	/// <remarks>
-	/// Implements the Gilbert-Johnson-Keerthi algorithm described
-	/// here:
-	/// http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
-	/// http://www.dtecta.com/papers/jgt98convex.pdf
-	/// https://www.toptal.com/game/video-game-physics-part-ii-collision-detection-for-solid-objects
-	/// </remarks>
-	public class GilbertJohnsonKeerthiAlgorithm
-	{
-		MinkowskiSimplex simplex = new MinkowskiSimplex();
+    /// <summary>
+    /// Im
+    /// </summary>
+    /// <remarks>
+    /// Implements the Gilbert-Johnson-Keerthi algorithm described
+    /// here:
+    /// http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
+    /// http://www.dtecta.com/papers/jgt98convex.pdf
+    /// https://www.toptal.com/game/video-game-physics-part-ii-collision-detection-for-solid-objects
+    /// </remarks>
+    public class GilbertJohnsonKeerthiAlgorithm
+    {
+        private MinkowskiSimplex simplex = new MinkowskiSimplex();
 
-		public GilbertJohnsonKeerthiAlgorithm(IterativeAlgorithm iterationControl = null)
-		{
-			IterationControl = iterationControl ?? new IterativeAlgorithm();
-		}
+        public GilbertJohnsonKeerthiAlgorithm(IterativeAlgorithm iterationControl = null)
+        {
+            IterationControl = iterationControl ?? new IterativeAlgorithm();
+        }
 
-		public void Initialize()
-		{
-			simplex.Initialize();
-		}
+        public void Initialize()
+        {
+            simplex.Initialize();
+        }
 
-		private double Tolerance => IterationControl.Tolerance;
-		private int MaxIterations => IterationControl.MaxIterations;
-		public IterativeAlgorithm IterationControl { get; }
+        private double Tolerance => IterationControl.Tolerance;
+        private int MaxIterations => IterationControl.MaxIterations;
+        public IterativeAlgorithm IterationControl { get; }
 
-		public int Iterations { get; private set; }
-		public bool Converged { get; private set; }
+        public int Iterations { get; private set; }
+        public bool Converged { get; private set; }
 
-		public bool AreColliding(Polygon a, Polygon b)
-		{
-			var minkowskiDiff = FindMinkowskiSimplex(a.First(),
-				p => PolygonSupport(a, p),
-				p => PolygonSupport(b, p));
+        public bool AreColliding(Polygon a, Polygon b)
+        {
+            var minkowskiDiff = FindMinkowskiSimplex(a.First(),
+                p => PolygonSupport(a, p),
+                p => PolygonSupport(b, p));
 
-			return minkowskiDiff.ContainsOrigin;
-		}
+            return minkowskiDiff.ContainsOrigin;
+        }
 
-		public double DistanceBetween(Polygon a, Polygon b)
-		{
-			var result = FindMinkowskiSimplex(a, b);
+        public double DistanceBetween(Polygon a, Polygon b)
+        {
+            var result = FindMinkowskiSimplex(a, b);
 
-			return result.ContainsOrigin ? 0 : result.DistanceFromOrigin;
-		}
+            return result.ContainsOrigin ? 0 : result.DistanceFromOrigin;
+        }
 
-		public MinkowskiSimplex FindMinkowskiSimplex(Polygon a, Polygon b)
-		{
-			FindMinkowskiSimplex(a.First(),
-				p => PolygonSupport(a, p),
-				p => PolygonSupport(b, p));
+        public MinkowskiSimplex FindMinkowskiSimplex(Polygon a, Polygon b)
+        {
+            FindMinkowskiSimplex(a.First(),
+                p => PolygonSupport(a, p),
+                p => PolygonSupport(b, p));
 
-			return simplex;
-		}
+            return simplex;
+        }
 
-		public MinkowskiSimplex FindMinkowskiSimplex(Microsoft.Xna.Framework.Vector2 start,
-			Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportA, Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportB)
-		{
-			simplex.Initialize();
+        public MinkowskiSimplex FindMinkowskiSimplex(Microsoft.Xna.Framework.Vector2 start,
+            Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportA, Func<Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2> supportB)
+        {
+            simplex.Initialize();
 
-			Microsoft.Xna.Framework.Vector2 d = start;
-			Microsoft.Xna.Framework.Vector2 dperp = new Microsoft.Xna.Framework.Vector2(-d.Y, d.X);
+            Microsoft.Xna.Framework.Vector2 d = start;
+            Microsoft.Xna.Framework.Vector2 dperp = new Microsoft.Xna.Framework.Vector2(-d.Y, d.X);
 
-			double diff = double.MaxValue;
+            double diff = double.MaxValue;
 
-			simplex.Add(MinkowskiSimplex.Support(supportA, supportB, dperp));
-			simplex.Add(MinkowskiSimplex.Support(supportA, supportB, d));
-			simplex.Add(MinkowskiSimplex.Support(supportA, supportB, -d));
+            simplex.Add(MinkowskiSimplex.Support(supportA, supportB, dperp));
+            simplex.Add(MinkowskiSimplex.Support(supportA, supportB, d));
+            simplex.Add(MinkowskiSimplex.Support(supportA, supportB, -d));
 
-			d = LineSegmentPointNearestOrigin(simplex.Simplex[1], simplex.Simplex[2]);
+            d = LineSegmentPointNearestOrigin(simplex.Simplex[1], simplex.Simplex[2]);
 
-			for (int i = 1; i <= 2; i++)
-			{
-				var newd = LineSegmentPointNearestOrigin(simplex.Simplex[0], simplex.Simplex[i]);
-				if (newd.LengthSquared() < d.LengthSquared())
-					d = newd;
-			}
+            for (int i = 1; i <= 2; i++)
+            {
+                var newd = LineSegmentPointNearestOrigin(simplex.Simplex[0], simplex.Simplex[i]);
+                if (newd.LengthSquared() < d.LengthSquared())
+                {
+                    d = newd;
+                }
+            }
 
-			Iterations = 0;
-			Converged = false;
-			while (Iterations < MaxIterations && diff > Tolerance)
-			{
-				Iterations++;
+            Iterations = 0;
+            Converged = false;
+            while (Iterations < MaxIterations && diff > Tolerance)
+            {
+                Iterations++;
 
-				if (simplex.ContainsOrigin)
-				{
-					Converged = true;
-					simplex.DistanceFromOrigin = d.Length();
-					return simplex;
-				}
+                if (simplex.ContainsOrigin)
+                {
+                    Converged = true;
+                    simplex.DistanceFromOrigin = d.Length();
+                    return simplex;
+                }
 
-				d = -d;
+                d = -d;
 
-				var c = MinkowskiSimplex.Support(supportA, supportB, d);
-				var dotc = Vector2.Dot(c.Difference, d);
-				var dota = Vector2.Dot(simplex.Last(), d);
+                var c = MinkowskiSimplex.Support(supportA, supportB, d);
+                var dotc = Vector2.Dot(c.Difference, d);
+                var dota = Vector2.Dot(simplex.Last(), d);
 
-				diff = dotc - dota;
-				if (diff < Tolerance)
-				{
-					Converged = true;
-					simplex.DistanceFromOrigin = d.Length();
-					return simplex;
-				}
+                diff = dotc - dota;
+                if (diff < Tolerance)
+                {
+                    Converged = true;
+                    simplex.DistanceFromOrigin = d.Length();
+                    return simplex;
+                }
 
-				var ia = simplex.Simplex.Count - 2;
-				var ib = simplex.Simplex.Count - 1;
+                var ia = simplex.Simplex.Count - 2;
+                var ib = simplex.Simplex.Count - 1;
 
-				var p1 = LineSegmentPointNearestOrigin(c.Difference, simplex.Simplex[ia]);
-				var p2 = LineSegmentPointNearestOrigin(c.Difference, simplex.Simplex[ib]);
+                var p1 = LineSegmentPointNearestOrigin(c.Difference, simplex.Simplex[ia]);
+                var p2 = LineSegmentPointNearestOrigin(c.Difference, simplex.Simplex[ib]);
 
-				if (p1.LengthSquared() < p2.LengthSquared())
-				{
-					simplex.StaggerInsert(ib, c);
-					d = p1;
-				}
-				else
-				{
-					simplex.StaggerInsert(ia, c);
-					d = p2;
-				}
-			}
+                if (p1.LengthSquared() < p2.LengthSquared())
+                {
+                    simplex.StaggerInsert(ib, c);
+                    d = p1;
+                }
+                else
+                {
+                    simplex.StaggerInsert(ia, c);
+                    d = p2;
+                }
+            }
 
-			simplex.DistanceFromOrigin = d.Length();
-			return simplex;
-		}
+            simplex.DistanceFromOrigin = d.Length();
+            return simplex;
+        }
 
-		public static Microsoft.Xna.Framework.Vector2 PolygonSupport(Polygon polygon, Microsoft.Xna.Framework.Vector2 d)
-		{
-			double highest = double.MinValue;
-			Microsoft.Xna.Framework.Vector2 support = Microsoft.Xna.Framework.Vector2.Zero;
+        public static Microsoft.Xna.Framework.Vector2 PolygonSupport(Polygon polygon, Microsoft.Xna.Framework.Vector2 d)
+        {
+            double highest = double.MinValue;
+            Microsoft.Xna.Framework.Vector2 support = Microsoft.Xna.Framework.Vector2.Zero;
 
-			foreach (var point in polygon)
-			{
-				var dot = Vector2.Dot(point, d);
+            foreach (var point in polygon)
+            {
+                var dot = Vector2.Dot(point, d);
 
-				if (dot > highest)
-				{
-					highest = dot;
-					support = point;
-				}
-			}
+                if (dot > highest)
+                {
+                    highest = dot;
+                    support = point;
+                }
+            }
 
-			return support;
-		}
+            return support;
+        }
 
-		private Microsoft.Xna.Framework.Vector2 LineSegmentPointNearestOrigin(Microsoft.Xna.Framework.Vector2 start, Microsoft.Xna.Framework.Vector2 end)
-		{
-			var delta = end - start;
-			var perp = new Vector2(delta.Y, -delta.X);
+        private Microsoft.Xna.Framework.Vector2 LineSegmentPointNearestOrigin(Microsoft.Xna.Framework.Vector2 start, Microsoft.Xna.Framework.Vector2 end)
+        {
+            var delta = end - start;
+            var perp = new Vector2(delta.Y, -delta.X);
 
-			if (delta.LengthSquared() < Tolerance)
-				return start;
+            if (delta.LengthSquared() < Tolerance)
+            {
+                return start;
+            }
 
-			var intersection = LineAlgorithms.LineSegmentIntersection(
-				start, end, Vector2.Zero, perp);
+            var intersection = LineAlgorithms.LineSegmentIntersection(
+                start, end, Vector2.Zero, perp);
 
-			if (intersection.WithinFirstSegment)
-				return intersection.IntersectionPoint;
+            if (intersection.WithinFirstSegment)
+            {
+                return intersection.IntersectionPoint;
+            }
 
-			return start.LengthSquared() < end.LengthSquared()
-				? start
-				: end;
-		}
+            return start.LengthSquared() < end.LengthSquared()
+                ? start
+                : end;
+        }
 
-		private Vector2 FindPointNearestOrigin(IEnumerable<Vector2> points)
-		{
-			Vector2 result = Vector2.Zero;
-			double distance = double.MaxValue;
-			bool any = false;
+        private Vector2 FindPointNearestOrigin(IEnumerable<Vector2> points)
+        {
+            Vector2 result = Vector2.Zero;
+            double distance = double.MaxValue;
+            bool any = false;
 
-			foreach (var point in points)
-			{
-				any = true;
-				var thisDist = point.LengthSquared();
+            foreach (var point in points)
+            {
+                any = true;
+                var thisDist = point.LengthSquared();
 
-				if (thisDist < distance)
-				{
-					distance = thisDist;
-					result = point;
-				}
-			}
+                if (thisDist < distance)
+                {
+                    distance = thisDist;
+                    result = point;
+                }
+            }
 
-			if (!any)
-				throw new ArgumentException();
+            if (!any)
+            {
+                throw new ArgumentException();
+            }
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 
 
-	internal class SupportData
-	{
-		public Microsoft.Xna.Framework.Vector2 SupportA { get; set; }
+    internal class SupportData
+    {
+        public Microsoft.Xna.Framework.Vector2 SupportA { get; set; }
 
-		public Microsoft.Xna.Framework.Vector2 SupportB { get; set; }
+        public Microsoft.Xna.Framework.Vector2 SupportB { get; set; }
 
-		public Microsoft.Xna.Framework.Vector2 Difference => SupportA - SupportB;
-	}
+        public Microsoft.Xna.Framework.Vector2 Difference => SupportA - SupportB;
+    }
 
 }

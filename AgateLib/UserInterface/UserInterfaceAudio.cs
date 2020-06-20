@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AgateLib.UserInterface
+﻿namespace AgateLib.UserInterface
 {
     /// <summary>
     /// Interface for an object which plays sounds when the user performs actions in the

@@ -1,7 +1,6 @@
 ﻿using NLog;
 using System;
 using System.IO;
-using System.IO.IsolatedStorage;
 
 namespace AgateLib.Storage
 {
@@ -34,7 +33,9 @@ namespace AgateLib.Storage
             foreach (string path in paths)
             {
                 if (Path.IsPathRooted(path))
+                {
                     return path;
+                }
             }
 
             return null;
@@ -43,7 +44,9 @@ namespace AgateLib.Storage
         public void SetApplicationDataFolder(string folderName)
         {
             if (string.IsNullOrWhiteSpace(folderName))
+            {
                 throw new ArgumentException(nameof(folderName));
+            }
 
             rootFolder = Path.Combine(appDataFolder, folderName);
 
@@ -113,10 +116,14 @@ namespace AgateLib.Storage
         private void WarnIfNoRoot()
         {
             if (appDataFolderSet)
+            {
                 return;
+            }
 
             if (noRootWarning)
+            {
                 return;
+            }
 
             log.Warn($"No root folder set. User data is stored in {rootFolder}");
             noRootWarning = true;

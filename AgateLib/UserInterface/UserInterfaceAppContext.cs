@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.UserInterface
 {
@@ -11,7 +10,7 @@ namespace AgateLib.UserInterface
 
     public class UserInterfaceAppContext : IUserInterfaceAppContext
     {
-        Dictionary<Type, object> contextValues = new Dictionary<Type, object>();
+        private Dictionary<Type, object> contextValues = new Dictionary<Type, object>();
 
         public void Add<T>(T context)
         {

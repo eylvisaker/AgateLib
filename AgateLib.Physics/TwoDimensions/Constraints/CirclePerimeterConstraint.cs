@@ -20,51 +20,51 @@
 //    SOFTWARE.
 //
 
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace AgateLib.Physics.TwoDimensions.Constraints
 {
-	/// <summary>
-	/// Constrains a particle to exist on a circle.
-	/// </summary>
-	public class CirclePerimeterConstraint : IPhysicalConstraint
-	{
-		private Vector2 circlePosition;
-		private float circleRadius;
-		private PhysicalParticle particle;
+    /// <summary>
+    /// Constrains a particle to exist on a circle.
+    /// </summary>
+    public class CirclePerimeterConstraint : IPhysicalConstraint
+    {
+        private Vector2 circlePosition;
+        private float circleRadius;
+        private PhysicalParticle particle;
 
-		public CirclePerimeterConstraint(PhysicalParticle particle, Vector2 circlePosition, float circleRadius)
-		{
-			this.particle = particle;
-			this.circlePosition = circlePosition;
-			this.circleRadius = circleRadius;
-		}
+        public CirclePerimeterConstraint(PhysicalParticle particle, Vector2 circlePosition, float circleRadius)
+        {
+            this.particle = particle;
+            this.circlePosition = circlePosition;
+            this.circleRadius = circleRadius;
+        }
 
-		public ConstraintType ConstraintType => ConstraintType.Equality;
+        public ConstraintType ConstraintType => ConstraintType.Equality;
 
-		public float Value(IReadOnlyList<PhysicalParticle> particles) => 
-			.5f * ((particle.Position - circlePosition).LengthSquared() - circleRadius * circleRadius);
+        public float Value(IReadOnlyList<PhysicalParticle> particles) =>
+            .5f * ((particle.Position - circlePosition).LengthSquared() - circleRadius * circleRadius);
 
-		public IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system)
-		{
-			yield return new List<PhysicalParticle> { particle };
-		}
+        public IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system)
+        {
+            yield return new List<PhysicalParticle> { particle };
+        }
 
-		public bool AppliesTo(PhysicalParticle particle)
-		{
-			return ReferenceEquals(this.particle, particle);
-		}
+        public bool AppliesTo(PhysicalParticle particle)
+        {
+            return ReferenceEquals(this.particle, particle);
+        }
 
-		public ConstraintDerivative Derivative(PhysicalParticle particle)
-		{
-			return new ConstraintDerivative(
-				particle.Position.X - circlePosition.X,
-				particle.Position.Y - circlePosition.Y,
-				0);
-		}
+        public ConstraintDerivative Derivative(PhysicalParticle particle)
+        {
+            return new ConstraintDerivative(
+                particle.Position.X - circlePosition.X,
+                particle.Position.Y - circlePosition.Y,
+                0);
+        }
 
-		public float MultiplierMin => float.MinValue;
-		public float MultiplierMax => float.MaxValue;
-	}
+        public float MultiplierMin => float.MinValue;
+        public float MultiplierMax => float.MaxValue;
+    }
 }

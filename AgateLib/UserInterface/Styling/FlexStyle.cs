@@ -20,23 +20,36 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using AgateLib.UserInterface;
-
 namespace AgateLib.UserInterface
 {
     public class FlexStyle
     {
         public static bool Equals(FlexStyle a, FlexStyle b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            if (a == null && b == null)
+            {
+                return true;
+            }
 
-            if (a.AlignItems != b.AlignItems) return false;
-            if (a.Direction != b.Direction) return false;
-            if (a.JustifyContent != b.JustifyContent) return false;
+            if (a == null || b == null)
+            {
+                return false;
+            }
+
+            if (a.AlignItems != b.AlignItems)
+            {
+                return false;
+            }
+
+            if (a.Direction != b.Direction)
+            {
+                return false;
+            }
+
+            if (a.JustifyContent != b.JustifyContent)
+            {
+                return false;
+            }
 
             return true;
         }

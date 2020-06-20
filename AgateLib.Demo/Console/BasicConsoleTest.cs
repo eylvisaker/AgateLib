@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using AgateLib.Diagnostics;
+﻿using AgateLib.Diagnostics;
 using AgateLib.Diagnostics.Rendering;
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace AgateLib.Tests.Console
 {

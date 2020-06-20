@@ -20,14 +20,12 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AgateLib.Display;
 using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.UserInterface
 {
@@ -44,7 +42,7 @@ namespace AgateLib.UserInterface
 
     public class Instructions : IInstructions
     {
-        class InstructionItem
+        private class InstructionItem
         {
             public bool Visible { get; set; } = true;
 
@@ -55,10 +53,10 @@ namespace AgateLib.UserInterface
             public IContentLayout ButtonContent { get; set; }
         }
 
-        private readonly Dictionary<Buttons, InstructionItem> items 
+        private readonly Dictionary<Buttons, InstructionItem> items
             = new Dictionary<Buttons, InstructionItem>();
 
-        private readonly ContentLayoutOptions contentLayoutOptions 
+        private readonly ContentLayoutOptions contentLayoutOptions
             = new ContentLayoutOptions();
 
         public Font Font { get; set; }
@@ -120,7 +118,7 @@ namespace AgateLib.UserInterface
                 item.Content = renderContext.CreateContentLayout(item.Text, contentLayoutOptions);
             }
         }
-        
+
         private static void DrawContent(IUserInterfaceRenderContext renderContext, IContentLayout content, ref int x)
         {
             renderContext.Canvas.Draw(content,

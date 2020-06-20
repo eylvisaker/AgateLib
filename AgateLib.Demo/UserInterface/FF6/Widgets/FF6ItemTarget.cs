@@ -1,15 +1,12 @@
 ﻿using AgateLib.UserInterface;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.FF6.Widgets
 {
     public class FF6ItemTarget : Widget<FF6ItemTargetProps>
     {
-        CharacterEvent characterEvent = new CharacterEvent();
+        private CharacterEvent characterEvent = new CharacterEvent();
 
         public FF6ItemTarget(FF6ItemTargetProps props) : base(props)
         {

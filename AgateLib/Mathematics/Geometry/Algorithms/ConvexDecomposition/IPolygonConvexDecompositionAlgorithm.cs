@@ -24,8 +24,8 @@ using System.Collections.Generic;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.ConvexDecomposition
 {
-	public interface IPolygonConvexDecompositionAlgorithm
-	{
-		IReadOnlyList<Polygon> BuildConvexDecomposition(Polygon polygon);
-	}
+    public interface IPolygonConvexDecompositionAlgorithm
+    {
+        IReadOnlyList<Polygon> BuildConvexDecomposition(Polygon polygon);
+    }
 }

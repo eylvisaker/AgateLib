@@ -20,20 +20,26 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace AgateLib.UserInterface
 {
     public class LayoutStyle
     {
         public static bool Equals(LayoutStyle a, LayoutStyle b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            if (a == null && b == null)
+            {
+                return true;
+            }
 
-            if (a.PositionType != b.PositionType) return false;
+            if (a == null || b == null)
+            {
+                return false;
+            }
+
+            if (a.PositionType != b.PositionType)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -69,7 +75,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Not implemented yet.
         /// </summary>
-        Sticky, 
+        Sticky,
 
         Default = Static,
     }

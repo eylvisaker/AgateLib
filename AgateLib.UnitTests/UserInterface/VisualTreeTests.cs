@@ -1,5 +1,4 @@
-﻿using AgateLib.UserInterface.Widgets;
-using Xunit;
+﻿using Xunit;
 
 namespace AgateLib.UserInterface
 {

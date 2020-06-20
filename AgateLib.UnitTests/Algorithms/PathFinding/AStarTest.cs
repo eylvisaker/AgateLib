@@ -1,10 +1,8 @@
-﻿using System;
+﻿using FluentAssertions;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AgateLib.Algorithms.PathFinding;
-using FluentAssertions;
-using Microsoft.Xna.Framework;
 using Xunit;
 
 namespace AgateLib.Algorithms.PathFinding
@@ -14,7 +12,7 @@ namespace AgateLib.Algorithms.PathFinding
         /// <summary>
         /// A map which only allows movement along Cartesian axes.
         /// </summary>
-        class FakeMap : IAStarMap<Point>
+        private class FakeMap : IAStarMap<Point>
         {
             public int CalcHeuristic(AStarNode<Point> node, Point destination)
             {
@@ -31,28 +29,63 @@ namespace AgateLib.Algorithms.PathFinding
                 {
                     for (int i = -1; i <= 1; i++)
                     {
-                        if (i == j || i == -j) continue;
+                        if (i == j || i == -j)
+                        {
+                            continue;
+                        }
 
                         Point trial = new Point(location.X + i, location.Y + j);
 
                         if (CanEnter(trial))
+                        {
                             yield return trial;
+                        }
                     }
                 }
             }
 
             private bool CanEnter(Point trial)
             {
-                if (trial.X < 0) return false;
-                if (trial.Y < 0) return false;
-                if (trial.X > 15) return false;
-                if (trial.Y > 15) return false;
+                if (trial.X < 0)
+                {
+                    return false;
+                }
+
+                if (trial.Y < 0)
+                {
+                    return false;
+                }
+
+                if (trial.X > 15)
+                {
+                    return false;
+                }
+
+                if (trial.Y > 15)
+                {
+                    return false;
+                }
 
                 // area in (3, 3) - (12, 12) is blocked
-                if (trial.X < 3) return true;
-                if (trial.Y < 3) return true;
-                if (trial.X > 12) return true;
-                if (trial.Y > 12) return true;
+                if (trial.X < 3)
+                {
+                    return true;
+                }
+
+                if (trial.Y < 3)
+                {
+                    return true;
+                }
+
+                if (trial.X > 12)
+                {
+                    return true;
+                }
+
+                if (trial.Y > 12)
+                {
+                    return true;
+                }
 
                 return false;
             }
@@ -66,9 +99,10 @@ namespace AgateLib.Algorithms.PathFinding
         [Fact]
         public void AStarPathSync()
         {
-            var astar = new AStar<Point>(new FakeMap());
-
-            astar.Start = new Point(4, 2);
+            var astar = new AStar<Point>(new FakeMap())
+            {
+                Start = new Point(4, 2)
+            };
             astar.EndPoints.Add(new Point(5, 15));
 
             astar.FindPath();
@@ -79,13 +113,14 @@ namespace AgateLib.Algorithms.PathFinding
             // that's 18 steps, plus the start point makes 19.
             astar.Path.Count.Should().Be(19);
         }
-        
+
         [Fact]
         public void AStarPathConnected()
         {
-            var astar = new AStar<Point>(new FakeMap());
-
-            astar.Start = new Point(4, 2);
+            var astar = new AStar<Point>(new FakeMap())
+            {
+                Start = new Point(4, 2)
+            };
             astar.EndPoints.Add(new Point(5, 15));
 
             astar.FindPath();

@@ -1,5 +1,4 @@
-﻿using AgateLib.Tests;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Moq;
 using System;
@@ -322,8 +321,10 @@ namespace AgateLib.UserInterface.Layout
         private void SetLayout(params string[] layoutStrings)
         {
             foreach (var line in layoutStrings)
+            {
                 line.Length.Should().Be(layoutStrings[0].Length,
                 "All lines in the layout should be the same length");
+            }
 
             var gridProps = new GridProps()
             {
@@ -340,7 +341,9 @@ namespace AgateLib.UserInterface.Layout
                     bool canHaveFocus = true;
 
                     if (layoutStrings[y][x] == ' ')
+                    {
                         canHaveFocus = false;
+                    }
 
                     (var widget, var element) = CommonMocks.Widget($"{x},{y}", elementCanHaveFocus: canHaveFocus);
 

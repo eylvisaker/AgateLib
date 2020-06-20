@@ -55,7 +55,7 @@
 //        }
 
 //        public event Action Exit;
-        
+
 //        public override Size ComputeIdealSize(IWidgetRenderContext renderContext, Size maxSize)
 //        {
 //            return tabLayout.RecalculateSize(this, renderContext, maxSize);

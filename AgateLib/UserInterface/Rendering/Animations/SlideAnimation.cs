@@ -55,7 +55,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
             onScreenRect = display.Parent?.ToScreen(display.BorderRect) ?? display.BorderRect;
             offScreenRect = OffscreenRect(display);
 
-            Vector2 delta = offScreenRect.Location.ToVector2() - onScreenRect.Location.ToVector2(); 
+            Vector2 delta = offScreenRect.Location.ToVector2() - onScreenRect.Location.ToVector2();
 
             onParentPos = display.BorderRect.Location.ToVector2();
             offParentPos = onParentPos + delta;
@@ -141,9 +141,14 @@ namespace AgateLib.UserInterface.Rendering.Animations
             float _x = x;
 
             if (x >= 1)
+            {
                 x = 1;
+            }
+
             if (x <= 0)
+            {
                 x = 0;
+            }
 
             Vector2 position = offParentPos + (onParentPos - offParentPos) * x;
 
@@ -151,9 +156,14 @@ namespace AgateLib.UserInterface.Rendering.Animations
                 position.ToPoint(), display.BorderRect.Size);
 
             if (t <= 0 && timeSign < 0)
+            {
                 return true;
+            }
+
             if (t >= 1 && timeSign > 0)
+            {
                 return true;
+            }
 
             return false;
         }

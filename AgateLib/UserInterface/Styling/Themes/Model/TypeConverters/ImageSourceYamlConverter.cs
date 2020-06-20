@@ -54,9 +54,10 @@ namespace AgateLib.UserInterface.Styling.Themes.Model.TypeConverters
                 .Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
                 .ToList();
 
-            var result = new ImageSource();
-
-            result.File = values[0];
+            var result = new ImageSource
+            {
+                File = values[0]
+            };
 
             if (values.Count > 1)
             {

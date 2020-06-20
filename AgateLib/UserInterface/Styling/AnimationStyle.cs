@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.UserInterface
 {
@@ -31,22 +30,38 @@ namespace AgateLib.UserInterface
     {
         public static bool Equals(AnimationStyle a, AnimationStyle b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            if (a == null && b == null)
+            {
+                return true;
+            }
 
-            if (a.Entry != b.Entry) return false;
-            if (a.Exit != b.Exit) return false;
-            if (a.Static != b.Static) return false;
+            if (a == null || b == null)
+            {
+                return false;
+            }
+
+            if (a.Entry != b.Entry)
+            {
+                return false;
+            }
+
+            if (a.Exit != b.Exit)
+            {
+                return false;
+            }
+
+            if (a.Static != b.Static)
+            {
+                return false;
+            }
 
             return true;
         }
 
-        static char[] splitter = new char[] { ' ' };
-
-        string _entry, _exit, _static;
-
-        string entryName, exitName, staticName;
-        IReadOnlyList<string> entryArgs, exitArgs, staticArgs;
+        private static char[] splitter = new char[] { ' ' };
+        private string _entry, _exit, _static;
+        private string entryName, exitName, staticName;
+        private IReadOnlyList<string> entryArgs, exitArgs, staticArgs;
 
         /// <summary>
         /// Animator to use when element is first added to the UI.

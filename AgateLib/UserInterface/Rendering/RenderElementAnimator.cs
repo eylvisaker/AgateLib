@@ -128,7 +128,7 @@ namespace AgateLib.UserInterface.Rendering
         public string InType { get; internal set; }
         public string OutType { get; internal set; }
         public string StaticType { get; internal set; }
-        
+
         public void InitializeTransition()
         {
             Transition?.Initialize(display);

@@ -20,10 +20,6 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace AgateLib.UserInterface.Content
 {
     /// <summary>
@@ -59,7 +55,9 @@ namespace AgateLib.UserInterface.Content
             bool localizeText = true)
         {
             if (localizeText)
+            {
                 text = textRepo.Lookup(text);
+            }
 
             return baseEngine.LayoutContent(text, contentLayoutOptions);
         }

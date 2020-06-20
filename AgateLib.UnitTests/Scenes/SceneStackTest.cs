@@ -3,18 +3,15 @@ using Microsoft.Xna.Framework;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AgateLib.Scenes
 {
     public class SceneStackTest
     {
-        SceneStack stack = new SceneStack();
-        double totalTimeInSeconds;
-        List<Mock<IScene>> activatedScenes = new List<Mock<IScene>>();
+        private SceneStack stack = new SceneStack();
+        private double totalTimeInSeconds;
+        private List<Mock<IScene>> activatedScenes = new List<Mock<IScene>>();
 
         [Fact]
         public void SceneStackRemovesTopSceneWhenFinished()
@@ -26,7 +23,7 @@ namespace AgateLib.Scenes
             stack.Add(a.Object);
             stack.Add(b.Object);
             stack.Add(c.Object);
-            
+
             RunUpdate(5);
 
             activatedScenes.Count.Should().Be(0);

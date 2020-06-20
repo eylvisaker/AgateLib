@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AgateLib.Display;
 using AgateLib.UserInterface;
-using AgateLib.Tests.UserInterface.FF6;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using AgateLib.UserInterface.Rendering;
-using AgateLib.Display;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace AgateLib.Tests.Fakes
 {
     public class FakeFocusIndicator : IFocusIndicator
     {
-        List<Rectangle> draws = new List<Rectangle>();
+        private List<Rectangle> draws = new List<Rectangle>();
 
         public List<Rectangle> Draws => Draws;
 

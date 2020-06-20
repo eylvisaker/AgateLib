@@ -1,9 +1,4 @@
-﻿using AgateLib.UserInterface;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AgateLib.UserInterface.Rendering.Animations
+﻿namespace AgateLib.UserInterface.Rendering.Animations
 {
 
     public class NullAnimation : IRenderElementAnimation

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AgateLib.UserInterface.Content.TextTokenizer
+﻿namespace AgateLib.UserInterface.Content.TextTokenizer
 {
     public enum TokenType
     {

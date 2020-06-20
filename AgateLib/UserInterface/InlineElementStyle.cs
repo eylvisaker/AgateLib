@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.UserInterface
 {
@@ -12,24 +11,90 @@ namespace AgateLib.UserInterface
 
         public static bool Equals(InlineElementStyle a, InlineElementStyle b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            if (a == null && b == null)
+            {
+                return true;
+            }
 
-            if (a.FontFace != b.FontFace) return false;
-            if (a.TextColor != b.TextColor) return false;
-            if (a.FontSize != b.FontSize) return false;
-            if (a.FontStyle != b.FontStyle) return false;
-            if (a.TextAlign != b.TextAlign) return false;
-            if (a.Overflow != b.Overflow) return false;
-            if (!BackgroundStyle.Equals(a.Background, b.Background)) return false;
-            if (!BorderStyle.Equals(a.Border, b.Border)) return false;
-            if (!AnimationStyle.Equals(a.Animation, b.Animation)) return false;
-            if (!FlexStyle.Equals(a.Flex, b.Flex)) return false;
-            if (!FlexItemStyle.Equals(a.FlexItem, b.FlexItem)) return false;
-            if (!Nullable.Equals(a.Padding, b.Padding)) return false;
-            if (!Nullable.Equals(a.Margin, b.Margin)) return false;
-            if (!LayoutStyle.Equals(a.Layout, b.Layout)) return false;
-            if (!SizeConstraints.Equals(a.Size, b.Size)) return false;
+            if (a == null || b == null)
+            {
+                return false;
+            }
+
+            if (a.FontFace != b.FontFace)
+            {
+                return false;
+            }
+
+            if (a.TextColor != b.TextColor)
+            {
+                return false;
+            }
+
+            if (a.FontSize != b.FontSize)
+            {
+                return false;
+            }
+
+            if (a.FontStyle != b.FontStyle)
+            {
+                return false;
+            }
+
+            if (a.TextAlign != b.TextAlign)
+            {
+                return false;
+            }
+
+            if (a.Overflow != b.Overflow)
+            {
+                return false;
+            }
+
+            if (!BackgroundStyle.Equals(a.Background, b.Background))
+            {
+                return false;
+            }
+
+            if (!BorderStyle.Equals(a.Border, b.Border))
+            {
+                return false;
+            }
+
+            if (!AnimationStyle.Equals(a.Animation, b.Animation))
+            {
+                return false;
+            }
+
+            if (!FlexStyle.Equals(a.Flex, b.Flex))
+            {
+                return false;
+            }
+
+            if (!FlexItemStyle.Equals(a.FlexItem, b.FlexItem))
+            {
+                return false;
+            }
+
+            if (!Nullable.Equals(a.Padding, b.Padding))
+            {
+                return false;
+            }
+
+            if (!Nullable.Equals(a.Margin, b.Margin))
+            {
+                return false;
+            }
+
+            if (!LayoutStyle.Equals(a.Layout, b.Layout))
+            {
+                return false;
+            }
+
+            if (!SizeConstraints.Equals(a.Size, b.Size))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -88,7 +153,9 @@ namespace AgateLib.UserInterface
         public override bool Equals(object obj)
         {
             if (!(obj is InlineElementStyle other))
+            {
                 return false;
+            }
 
             return Equals(this, other);
         }

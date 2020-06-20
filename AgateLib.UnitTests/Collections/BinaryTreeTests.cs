@@ -1,11 +1,8 @@
-﻿using System;
+﻿using AgateLib.Collections.Generic;
+using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Collections.Generic;
-using AgateLib.Quality;
-using FluentAssertions;
 using Xunit;
 
 namespace AgateLib.UnitTests.Collections
@@ -241,9 +238,10 @@ namespace AgateLib.UnitTests.Collections
 
         private static BinaryTree<int> CreateTree(IEnumerable<int> array, bool balance)
         {
-            BinaryTree<int> tree = new BinaryTree<int>();
-
-            tree.AutoBalance = balance;
+            BinaryTree<int> tree = new BinaryTree<int>
+            {
+                AutoBalance = balance
+            };
             tree.Add(array);
 
             tree.Root.Count.Should().Be(tree.Count);

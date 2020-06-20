@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.Collections.Generic
 {
@@ -51,9 +50,10 @@ namespace AgateLib.Collections.Generic
             var astar = new AStar<TNode>(new GraphAStarMap<TNode, TEdge>(
                 graph,
                 stepCost,
-                heuristic));
-
-            astar.Start = start;
+                heuristic))
+            {
+                Start = start
+            };
             astar.EndPoints.AddRange(end);
             astar.HeuristicWeight = heuristicWeight;
 
@@ -104,8 +104,15 @@ namespace AgateLib.Collections.Generic
         /// <returns></returns>
         public static bool Connects(this IGraphEdge edge, int nodeA)
         {
-            if (edge.Node1 == nodeA) return true;
-            if (edge.Node2 == nodeA) return true;
+            if (edge.Node1 == nodeA)
+            {
+                return true;
+            }
+
+            if (edge.Node2 == nodeA)
+            {
+                return true;
+            }
 
             return false;
         }
@@ -119,8 +126,15 @@ namespace AgateLib.Collections.Generic
         /// <returns></returns>
         public static bool Connects(this IGraphEdge edge, int nodeA, int nodeB)
         {
-            if (edge.Node1 == nodeA && edge.Node2 == nodeB) return true;
-            if (edge.Node1 == nodeB && edge.Node2 == nodeA) return true;
+            if (edge.Node1 == nodeA && edge.Node2 == nodeB)
+            {
+                return true;
+            }
+
+            if (edge.Node1 == nodeB && edge.Node2 == nodeA)
+            {
+                return true;
+            }
 
             return false;
         }
@@ -143,8 +157,15 @@ namespace AgateLib.Collections.Generic
         /// <returns></returns>
         public static int OtherNodeTo(this IGraphEdge edge, int nodeId)
         {
-            if (nodeId == edge.Node1) return edge.Node2;
-            if (nodeId == edge.Node2) return edge.Node1;
+            if (nodeId == edge.Node1)
+            {
+                return edge.Node2;
+            }
+
+            if (nodeId == edge.Node2)
+            {
+                return edge.Node1;
+            }
 
             throw new ArgumentException($"Node {nodeId} does not belong to this edge.");
         }

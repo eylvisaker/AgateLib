@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace AgateLib.Input
 {
@@ -11,7 +9,7 @@ namespace AgateLib.Input
     /// </summary>
     public class ManualInputState : IInputState
     {
-        Dictionary<PlayerIndex, GamePadState> gamePadState = new Dictionary<PlayerIndex, GamePadState>();
+        private Dictionary<PlayerIndex, GamePadState> gamePadState = new Dictionary<PlayerIndex, GamePadState>();
 
         public ManualInputState()
         {

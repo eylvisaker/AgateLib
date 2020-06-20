@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib;
-using AgateLib.Scenes;
-using AgateLib.UserInterface;
+﻿using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
+using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
-using AgateLib.UserInterface.Rendering;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace AgateLib.Tests
 {

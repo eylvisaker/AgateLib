@@ -20,56 +20,51 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace AgateLib.Display.BitmapFont
 {
-	/// <summary>
-	/// Base class for cache objects used for FontState.
-	/// </summary>
-	public interface IFontStateCache
-	{
-		/// <summary>
-		/// Performs a deep clone of the FontStateCache-derived object.
-		/// </summary>
-		/// <returns></returns>
-		IFontStateCache Clone();
+    /// <summary>
+    /// Base class for cache objects used for FontState.
+    /// </summary>
+    public interface IFontStateCache
+    {
+        /// <summary>
+        /// Performs a deep clone of the FontStateCache-derived object.
+        /// </summary>
+        /// <returns></returns>
+        IFontStateCache Clone();
 
-		/// <summary>
-		/// Function called when the text is changed.
-		/// </summary>
-		/// <param name="fontState"></param>
-		void OnTextChanged(FontState fontState);
+        /// <summary>
+        /// Function called when the text is changed.
+        /// </summary>
+        /// <param name="fontState"></param>
+        void OnTextChanged(FontState fontState);
 
-		/// <summary>
-		/// Function called when the location of text is changed.
-		/// </summary>
-		/// <param name="fontState"></param>
-		void OnLocationChanged(FontState fontState);
+        /// <summary>
+        /// Function called when the location of text is changed.
+        /// </summary>
+        /// <param name="fontState"></param>
+        void OnLocationChanged(FontState fontState);
 
-		/// <summary>
-		/// Function called when the display alignment of the text is changed.
-		/// </summary>
-		/// <param name="fontState"></param>
-		void OnDisplayAlignmentChanged(FontState fontState);
+        /// <summary>
+        /// Function called when the display alignment of the text is changed.
+        /// </summary>
+        /// <param name="fontState"></param>
+        void OnDisplayAlignmentChanged(FontState fontState);
 
-		/// <summary>
-		/// Function called when the color of the text is changed.
-		/// </summary>
-		/// <param name="fontState"></param>
-		void OnColorChanged(FontState fontState);
+        /// <summary>
+        /// Function called when the color of the text is changed.
+        /// </summary>
+        /// <param name="fontState"></param>
+        void OnColorChanged(FontState fontState);
 
-		/// <summary>
-		/// Function called when the scale of the text is changed.
-		/// </summary>
-		/// <param name="fontState"></param>
-		void OnScaleChanged(FontState fontState);
+        /// <summary>
+        /// Function called when the scale of the text is changed.
+        /// </summary>
+        /// <param name="fontState"></param>
+        void OnScaleChanged(FontState fontState);
 
-		void OnSizeChanged(FontState fontState);
+        void OnSizeChanged(FontState fontState);
 
-		void OnStyleChanged(FontState fontState);
-	}
+        void OnStyleChanged(FontState fontState);
+    }
 }

@@ -1,17 +1,12 @@
-﻿using System;
-using AgateLib.Display;
+﻿using AgateLib.Display;
 using AgateLib.Tests.Selector;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.Content;
+using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using AgateLib;
-using AgateLib.UserInterface.Content;
-using AgateLib.UserInterface.Styling.Themes;
-using AgateLib.UserInterface.Rendering;
-using Microsoft.Xna.Framework.Content;
-using AgateLib.Scenes;
-using AgateLib.UserInterface.Rendering.Animations;
 
 namespace AgateLib.Tests
 {
@@ -51,7 +46,7 @@ namespace AgateLib.Tests
             };
         }
 
-        ITest ActiveTest
+        private ITest ActiveTest
         {
             get => activeTest;
             set
@@ -67,7 +62,7 @@ namespace AgateLib.Tests
         private Rectangle ScreenArea => new Rectangle(0, 0,
                     GraphicsDevice.PresentationParameters.BackBufferWidth,
                     GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight);
-        
+
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -86,7 +81,8 @@ namespace AgateLib.Tests
 
             resources.ThemeLoader = new ThemeLoader(resources.Fonts);
 
-            resources.Themes = new ThemeCollection {
+            resources.Themes = new ThemeCollection
+            {
                 ["default"] = Theme.DefaultTheme,
                 ["FF"] = resources.ThemeLoader.LoadTheme(resources.Content, "UserInterface/FF")
             };
@@ -154,7 +150,9 @@ namespace AgateLib.Tests
         private void ExitTest()
         {
             if (ActiveTest == testSelector)
+            {
                 Exit();
+            }
 
             ActiveTest = testSelector;
         }

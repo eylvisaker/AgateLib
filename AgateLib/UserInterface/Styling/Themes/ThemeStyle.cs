@@ -20,10 +20,8 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
 using AgateLib.UserInterface.Styling.Themes.Model;
-using AgateLib.UserInterface;
+using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {

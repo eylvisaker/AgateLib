@@ -26,7 +26,7 @@ namespace AgateLib.UserInterface.Scrolling
             IRenderElement rootElement = appRef.Current;
 
             var scrollWindow1 = rootElement.Children.First();
-            
+
             rootElement.Display.MarginRect.Should().Be(new Rectangle(0, 0, 1280, 720));
             scrollWindow1.Display.ContentRect.Should().Be(new Rectangle(250, 10, 159, 600));
 
@@ -43,7 +43,7 @@ namespace AgateLib.UserInterface.Scrolling
 
             int y = header.Display.MarginRect.Bottom;
 
-            foreach(var button in buttons)
+            foreach (var button in buttons)
             {
                 button.Display.MarginRect.Height.Should().Be(26);
                 button.Display.MarginRect.Top.Should().Be(y);

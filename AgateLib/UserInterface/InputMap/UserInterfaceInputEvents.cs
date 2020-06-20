@@ -127,7 +127,9 @@ namespace AgateLib.UserInterface.InputMap
         private void TriggerPressedAction(UserInterfaceAction action)
         {
             if (timeSinceRepeat > 0 && activeNavActions.Contains(action))
+            {
                 return;
+            }
 
             TriggerButtonDown(action);
 

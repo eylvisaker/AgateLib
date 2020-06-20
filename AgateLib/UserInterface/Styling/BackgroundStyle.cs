@@ -20,7 +20,6 @@
 //    SOFTWARE.
 //
 
-using System;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface
@@ -29,14 +28,40 @@ namespace AgateLib.UserInterface
     {
         public static bool Equals(BackgroundStyle a, BackgroundStyle b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            if (a == null && b == null)
+            {
+                return true;
+            }
 
-            if (a.Clip != b.Clip) return false;
-            if (a.Color != b.Color) return false;
-            if (!ImageSource.Equals(a.Image, b.Image)) return false;
-            if (a.Position != b.Position) return false;
-            if (a.Repeat != b.Repeat) return false;
+            if (a == null || b == null)
+            {
+                return false;
+            }
+
+            if (a.Clip != b.Clip)
+            {
+                return false;
+            }
+
+            if (a.Color != b.Color)
+            {
+                return false;
+            }
+
+            if (!ImageSource.Equals(a.Image, b.Image))
+            {
+                return false;
+            }
+
+            if (a.Position != b.Position)
+            {
+                return false;
+            }
+
+            if (a.Repeat != b.Repeat)
+            {
+                return false;
+            }
 
             return true;
         }

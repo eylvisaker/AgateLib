@@ -72,7 +72,9 @@ namespace AgateLib.UserInterface
                 workspace.visualTree.Walk(e =>
                 {
                     if (e.Children == null)
+                    {
                         return true;
+                    }
 
                     if (e.Children.Contains(element))
                     {
@@ -144,7 +146,9 @@ namespace AgateLib.UserInterface
             set
             {
                 if (visualTree.Focus == value)
+                {
                     return;
+                }
 
                 visualTree.Focus = value;
 
@@ -216,7 +220,9 @@ namespace AgateLib.UserInterface
             target?.OnUserInterfaceAction(args);
 
             if (!args.Handled)
+            {
                 UnhandledEvent?.Invoke(args);
+            }
         }
 
         public void HandleButtonDown(ButtonStateEventArgs args)
@@ -247,7 +253,9 @@ namespace AgateLib.UserInterface
         public void Render()
         {
             if (displaySystem.Fonts == null)
+            {
                 return;
+            }
 
             visualTree.Render(app);
         }
@@ -276,19 +284,25 @@ namespace AgateLib.UserInterface
             get
             {
                 if (visualTree.TreeRoot.Children.Any(x => x.Display.Animation.State == AnimationState.TransitionIn))
+                {
                     return AnimationState.TransitionIn;
+                }
 
                 if (visualTree.TreeRoot.Children.Any(x => x.Display.Animation.State == AnimationState.TransitionOut))
+                {
                     return AnimationState.TransitionOut;
+                }
 
                 if (visualTree.TreeRoot.Children.All(x => x.Display.Animation.State == AnimationState.Dead))
+                {
                     return AnimationState.Dead;
+                }
 
                 return AnimationState.Static;
             }
         }
 
-        public VisualTree VisualTree => visualTree; 
+        public VisualTree VisualTree => visualTree;
 
         internal Desktop Desktop
         {
@@ -346,7 +360,9 @@ namespace AgateLib.UserInterface
                                              IEnumerable<IRenderElement> children)
         {
             if (children == null)
+            {
                 return;
+            }
 
             foreach (IRenderElement element in children)
             {

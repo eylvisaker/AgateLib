@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AgateLib.Collections.Generic;
-using AgateLib.Display;
+﻿using AgateLib.Display;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
@@ -13,7 +9,7 @@ namespace AgateLib.Tests.UserInterface.FF6
     public class PointerIndicator : IFocusIndicator
     {
         private Texture2D texture;
-        
+
         public PointerIndicator(Texture2D texture)
         {
             this.texture = texture;
@@ -27,9 +23,9 @@ namespace AgateLib.Tests.UserInterface.FF6
         /// <param name="renderContext">Render Context (is this really necessary?)</param>
         /// <param name="focusElement">The element that has focus.</param>
         /// <param name="focusContentRect">The screen coordinates of the content area of the focus element.</param>
-        public void DrawFocus(ICanvas canvas, 
-                              IRenderElement focusElement, 
-                              Workspace activeWorkspace, 
+        public void DrawFocus(ICanvas canvas,
+                              IRenderElement focusElement,
+                              Workspace activeWorkspace,
                               Rectangle focusContentRect)
         {
             const int overlap = 1;
@@ -42,7 +38,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             DrawPointer(canvas, pointerDest);
         }
-        
+
         protected virtual void DrawPointer(ICanvas canvas, Rectangle pointerDest)
         {
             canvas.Draw(texture, pointerDest, Color.White);

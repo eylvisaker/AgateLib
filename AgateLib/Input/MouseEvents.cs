@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Diagnostics;
 
 namespace AgateLib.Input
 {
@@ -53,10 +52,14 @@ namespace AgateLib.Input
         private void CheckMouseMove()
         {
             if (mouseState.Position == lastMouseState.Position)
+            {
                 return;
+            }
 
             if (!IsInWindow(lastMouseState.Position) && !IsInWindow(mouseState.Position))
+            {
                 return;
+            }
 
             Point lastPosition = ConstrainMousePosition(lastMouseState.Position);
             Point currentPosition = ConstrainMousePosition(mouseState.Position);
@@ -87,8 +90,15 @@ namespace AgateLib.Input
             {
                 result.Y = window.ClientBounds.Height;
             }
-            if (result.X < 0) result.X = 0;
-            if (result.Y < 0) result.Y = 0;
+            if (result.X < 0)
+            {
+                result.X = 0;
+            }
+
+            if (result.Y < 0)
+            {
+                result.Y = 0;
+            }
 
             return result;
         }

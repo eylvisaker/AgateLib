@@ -20,25 +20,27 @@ namespace AgateLib
         /// <param name="name"></param>
         /// <returns></returns>
         public static (Mock<Widget<WidgetProps>>, Mock<RenderElement<RenderElementProps>>)
-            Widget(string name, 
+            Widget(string name,
                    bool elementCanHaveFocus = false,
                    IDisplaySystem displaySystem = null)
         {
             displaySystem = displaySystem ?? DisplaySystem().Object;
 
             var elementProps = new RenderElementProps();
-            var renderResult = new Mock<RenderElement<RenderElementProps>>(elementProps);
-
-            renderResult.CallBase = true;
+            var renderResult = new Mock<RenderElement<RenderElementProps>>(elementProps)
+            {
+                CallBase = true
+            };
             renderResult.Setup(x => x.CanHaveFocus).Returns(elementCanHaveFocus);
             renderResult.Setup(x => x.Children).Returns(new List<IRenderElement>());
             renderResult.Object.Display.System = displaySystem;
 
             var widgetProps = new WidgetProps { Name = name };
             Mock<Widget<WidgetProps>> widgetResult =
-                new Mock<Widget<WidgetProps>>(widgetProps);
-
-            widgetResult.CallBase = true;
+                new Mock<Widget<WidgetProps>>(widgetProps)
+                {
+                    CallBase = true
+                };
             widgetResult.Setup(x => x.Render()).Returns(renderResult.Object);
 
             return (widgetResult, renderResult);
@@ -68,7 +70,9 @@ namespace AgateLib
             Font defaultFont = null;
 
             if (fonts.Count == 0)
+            {
                 fonts.Add("default");
+            }
 
             foreach (var fontName in fonts)
             {
@@ -108,13 +112,20 @@ namespace AgateLib
                   .Callback<IRenderElement>(element =>
                   {
                       if (element.Display.Animation.State == AnimationState.TransitionIn)
+                      {
                           element.Display.Animation.State = AnimationState.Static;
+                      }
+
                       if (element.Display.Animation.State == AnimationState.TransitionOut)
+                      {
                           element.Display.Animation.State = AnimationState.Dead;
+                      }
                   });
 
-            var fontProvider = new FontProvider();
-            fontProvider.Add("default", new Font(new FakeFontCore("default")));
+            var fontProvider = new FontProvider
+            {
+                { "default", new Font(new FakeFontCore("default")) }
+            };
 
             result
                 .Setup(x => x.Fonts)

@@ -1,9 +1,4 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AgateLib.UserInterface.Styling
@@ -13,9 +8,10 @@ namespace AgateLib.UserInterface.Styling
         [Fact]
         public void SettingWidthSetsMinAndMaxWidth()
         {
-            SizeConstraints sc = new SizeConstraints();
-
-            sc.Width = 888;
+            SizeConstraints sc = new SizeConstraints
+            {
+                Width = 888
+            };
 
             sc.MinWidth.Should().Be(888);
             sc.MaxWidth.Should().Be(888);
@@ -24,9 +20,10 @@ namespace AgateLib.UserInterface.Styling
         [Fact]
         public void SettingHeightSetsMinAndMaxHeight()
         {
-            SizeConstraints sc = new SizeConstraints();
-
-            sc.Height = 888;
+            SizeConstraints sc = new SizeConstraints
+            {
+                Height = 888
+            };
 
             sc.MinHeight.Should().Be(888);
             sc.MaxHeight.Should().Be(888);

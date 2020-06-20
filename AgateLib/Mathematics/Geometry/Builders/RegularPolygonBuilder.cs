@@ -20,47 +20,42 @@
 //    SOFTWARE.
 //
 
-using AgateLib.Mathematics.Geometry.Algorithms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.Mathematics.Geometry.Builders
 {
-	/// <summary>
-	/// Builds a pointed star
-	/// </summary>
-	public class RegularPolygonBuilder
-	{
-		/// <summary>
-		/// Builds a pointed star.
-		/// </summary>
-		/// <param name="pointCount">Number of points in the polygon.</param>
-		/// <param name="size">The size of the polygon.</param>
-		/// <param name="location"></param>
-		/// <param name="angle">The rotation angle for the polygon.</param>
-		/// <returns></returns>
-		public Polygon BuildPolygon(int pointCount, float size, Vector2 location = new Vector2(), float angle = 0)
-		{
-			return RegularShape(angle, pointCount, size).Translate(location);
-		}
+    /// <summary>
+    /// Builds a pointed star
+    /// </summary>
+    public class RegularPolygonBuilder
+    {
+        /// <summary>
+        /// Builds a pointed star.
+        /// </summary>
+        /// <param name="pointCount">Number of points in the polygon.</param>
+        /// <param name="size">The size of the polygon.</param>
+        /// <param name="location"></param>
+        /// <param name="angle">The rotation angle for the polygon.</param>
+        /// <returns></returns>
+        public Polygon BuildPolygon(int pointCount, float size, Vector2 location = new Vector2(), float angle = 0)
+        {
+            return RegularShape(angle, pointCount, size).Translate(location);
+        }
 
-		private static Polygon RegularShape(float angle, int pointCount, float size)
-		{
-			float step = 2 * (float)Math.PI / pointCount;
+        private static Polygon RegularShape(float angle, int pointCount, float size)
+        {
+            float step = 2 * (float)Math.PI / pointCount;
 
-			Polygon result = new Polygon();
+            Polygon result = new Polygon();
 
-			for (int i = 0; i < pointCount; i++)
-			{
-				result.Add(Vector2X.FromPolar(size, angle));
-				angle += step;
-			}
+            for (int i = 0; i < pointCount; i++)
+            {
+                result.Add(Vector2X.FromPolar(size, angle));
+                angle += step;
+            }
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }

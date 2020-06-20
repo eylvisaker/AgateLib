@@ -25,23 +25,23 @@ using System.Linq;
 
 namespace AgateLib.Physics.TwoDimensions.Solvers
 {
-	class AppliedConstraint
-	{
-		public IPhysicalConstraint Constraint { get; set; }
-		public IReadOnlyList<PhysicalParticle> Particles { get; set; }
+    internal class AppliedConstraint
+    {
+        public IPhysicalConstraint Constraint { get; set; }
+        public IReadOnlyList<PhysicalParticle> Particles { get; set; }
 
-		public float Value => Constraint.Value(Particles);
-		public float MultiplierMin => Constraint.MultiplierMin;
-		public float MultiplierMax => Constraint.MultiplierMax;
+        public float Value => Constraint.Value(Particles);
+        public float MultiplierMin => Constraint.MultiplierMin;
+        public float MultiplierMax => Constraint.MultiplierMax;
 
-		public bool AppliesTo(PhysicalParticle physicalParticle)
-		{
-			return Particles.Contains(physicalParticle);
-		}
+        public bool AppliesTo(PhysicalParticle physicalParticle)
+        {
+            return Particles.Contains(physicalParticle);
+        }
 
-		public ConstraintDerivative Derivative(PhysicalParticle physicalParticle)
-		{
-			return Constraint.Derivative(physicalParticle);
-		}
-	}
+        public ConstraintDerivative Derivative(PhysicalParticle physicalParticle)
+        {
+            return Constraint.Derivative(physicalParticle);
+        }
+    }
 }

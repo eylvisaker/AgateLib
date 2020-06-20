@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AgateLib.Randomizer
+﻿namespace AgateLib.Randomizer
 {
     /// <summary>
     /// Implementation of XoRoShiRo128++ from http://prng.di.unimi.it/
     /// </summary>
     public class Xoroshiro128pp : IRandom
     {
-        uint[] s = new uint[4];
+        private uint[] s = new uint[4];
 
         public Xoroshiro128pp(Seed seed)
         {
@@ -54,12 +50,12 @@ namespace AgateLib.Randomizer
         // The state must be seeded so that it is not everywhere zero. */
 
 
-        uint rotl(uint x, int k)
+        private uint rotl(uint x, int k)
         {
             return (x << k) | (x >> (32 - k));
         }
 
-        uint next()
+        private uint next()
         {
             uint result = rotl(s[0] + s[3], 7) + s[0];
 
@@ -77,14 +73,14 @@ namespace AgateLib.Randomizer
             return result;
         }
 
-        static readonly uint[] JUMP = new uint[] { 0x8764000b, 0xf542d2d3, 0x6fa035c3, 0x77f2db5b };
-        static readonly uint[] LONG_JUMP = new uint[] { 0xb523952e, 0x0b6f099f, 0xccf5a0ef, 0x1c580662 };
+        private static readonly uint[] JUMP = new uint[] { 0x8764000b, 0xf542d2d3, 0x6fa035c3, 0x77f2db5b };
+        private static readonly uint[] LONG_JUMP = new uint[] { 0xb523952e, 0x0b6f099f, 0xccf5a0ef, 0x1c580662 };
 
         /* This is the jump function for the generator. It is equivalent
            to 2^64 calls to next(); it can be used to generate 2^64
            non-overlapping subsequences for parallel computations. */
 
-        Seed jump()
+        private Seed jump()
         {
             uint s0 = 0;
             uint s1 = 0;
@@ -115,7 +111,7 @@ namespace AgateLib.Randomizer
            from each of which jump() will generate 2^32 non-overlapping
            subsequences for parallel distributed computations. */
 
-        void long_jump()
+        private void long_jump()
         {
             uint s0 = 0;
             uint s1 = 0;

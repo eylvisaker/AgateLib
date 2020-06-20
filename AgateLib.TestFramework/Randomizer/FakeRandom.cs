@@ -1,6 +1,4 @@
-﻿using AgateLib.Randomizer;
-
-namespace AgateLib.Randomizer
+﻿namespace AgateLib.Randomizer
 {
     public class FakeRandom : IRandom
     {

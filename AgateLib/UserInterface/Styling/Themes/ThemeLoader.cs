@@ -66,7 +66,9 @@ namespace AgateLib.UserInterface.Styling.Themes
         public ThemeData LoadThemeData(IContentProvider content, params string[] filenames)
         {
             if (filenames.Length == 0)
+            {
                 throw new ArgumentException("Must pass at least one filename to load.");
+            }
 
             ThemeData result = new ThemeData();
 
@@ -82,14 +84,18 @@ namespace AgateLib.UserInterface.Styling.Themes
                 filecontent = filecontent ?? content.ReadAllTextOrNull(filename);
 
                 if (filecontent == null)
+                {
                     throw new FileNotFoundException(filename);
+                }
 
                 var items = deserializer.Deserialize<ThemeData>(filecontent);
 
                 NormalizePaths(items, filename);
 
                 foreach (var item in items)
+                {
                     result.Add(item);
+                }
             }
 
             return result;
@@ -100,7 +106,9 @@ namespace AgateLib.UserInterface.Styling.Themes
             string path = Path.GetDirectoryName(filename + Extension);
 
             if (string.IsNullOrWhiteSpace(path))
+            {
                 return;
+            }
 
             foreach (var style in result)
             {
@@ -112,7 +120,9 @@ namespace AgateLib.UserInterface.Styling.Themes
         private void AddPath(BorderStyle border, string path)
         {
             if (border?.Image == null)
+            {
                 return;
+            }
 
             border.Image.File = CombinePath(path, border.Image.File);
         }
@@ -120,7 +130,9 @@ namespace AgateLib.UserInterface.Styling.Themes
         private void AddPath(BackgroundStyle background, string path)
         {
             if (background?.Image == null)
+            {
                 return;
+            }
 
             background.Image.File = CombinePath(path, background.Image.File);
         }
@@ -128,10 +140,14 @@ namespace AgateLib.UserInterface.Styling.Themes
         private string CombinePath(string a, string b)
         {
             if (string.IsNullOrWhiteSpace(b))
+            {
                 return null;
+            }
 
             if (string.IsNullOrWhiteSpace(a))
+            {
                 return b;
+            }
 
             return a + "/" + b;
         }

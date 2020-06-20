@@ -20,157 +20,156 @@
 //    SOFTWARE.
 //
 
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace AgateLib.Input
 {
-	/// <summary>
-	/// A data object which indicates how an event should be mapped to a gamepad button, axis or d-pad.
-	/// </summary>
-	public class KeyMapItem
-	{
-		/// <summary>
-		/// Creates a mapping to an axis of the left stick of the gamepad.
-		/// </summary>
-		/// <param name="gamePad"></param>
-		/// <param name="axis"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		public static KeyMapItem ToLeftStick(IGamePad gamePad, Axis axis, double value)
-		{
-			return ToLeftStick(gamePad.PlayerIndex, axis, value);
-		}
+    /// <summary>
+    /// A data object which indicates how an event should be mapped to a gamepad button, axis or d-pad.
+    /// </summary>
+    public class KeyMapItem
+    {
+        /// <summary>
+        /// Creates a mapping to an axis of the left stick of the gamepad.
+        /// </summary>
+        /// <param name="gamePad"></param>
+        /// <param name="axis"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static KeyMapItem ToLeftStick(IGamePad gamePad, Axis axis, double value)
+        {
+            return ToLeftStick(gamePad.PlayerIndex, axis, value);
+        }
 
-		/// <summary>
-		/// Creates a mapping to an axis of the right stick of the gamepad.
-		/// </summary>
-		/// <param name="gamePad"></param>
-		/// <param name="axis"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		public static KeyMapItem ToRightStick(IGamePad gamePad, Axis axis, double value)
-		{
-			return ToRightStick(gamePad.PlayerIndex, axis, value);
-		}
+        /// <summary>
+        /// Creates a mapping to an axis of the right stick of the gamepad.
+        /// </summary>
+        /// <param name="gamePad"></param>
+        /// <param name="axis"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static KeyMapItem ToRightStick(IGamePad gamePad, Axis axis, double value)
+        {
+            return ToRightStick(gamePad.PlayerIndex, axis, value);
+        }
 
-		/// <summary>
-		/// Creates a mapping to a button.
-		/// </summary>
-		/// <param name="gamePad"></param>
-		/// <param name="button"></param>
-		/// <returns></returns>
-		public static KeyMapItem ToButton(IGamePad gamePad, Buttons button)
-		{
-			return ToButton(gamePad.PlayerIndex, button);
-		}
-		
-		/// <summary>
-		/// Creates a mapping to an axis of the left stick of the gamepad.
-		/// </summary>
-		/// <param name="gamepadIndex">Zero-based gamepad index.</param>
-		/// <param name="axis"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		public static KeyMapItem ToLeftStick(PlayerIndex playerIndex, Axis axis, double value)
-		{
-			return new KeyMapItem
-			{
-				PlayerIndex = playerIndex,
-				KeyMapType = KeyMapType.LeftStick,
-				Axis = axis,
-				Value = value
-			};
-		}
+        /// <summary>
+        /// Creates a mapping to a button.
+        /// </summary>
+        /// <param name="gamePad"></param>
+        /// <param name="button"></param>
+        /// <returns></returns>
+        public static KeyMapItem ToButton(IGamePad gamePad, Buttons button)
+        {
+            return ToButton(gamePad.PlayerIndex, button);
+        }
 
-		/// <summary>
-		/// Creates a mapping to an axis of the right stick of the gamepad.
-		/// </summary>
-		/// <param name="gamepadIndex"></param>
-		/// <param name="axis"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		public static KeyMapItem ToRightStick(PlayerIndex playerIndex, Axis axis, double value)
-		{
-			return new KeyMapItem
-			{
-				PlayerIndex = playerIndex,
-				KeyMapType = KeyMapType.RightStick,
-				Axis = axis,
-				Value = value
-			};
-		}
+        /// <summary>
+        /// Creates a mapping to an axis of the left stick of the gamepad.
+        /// </summary>
+        /// <param name="gamepadIndex">Zero-based gamepad index.</param>
+        /// <param name="axis"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static KeyMapItem ToLeftStick(PlayerIndex playerIndex, Axis axis, double value)
+        {
+            return new KeyMapItem
+            {
+                PlayerIndex = playerIndex,
+                KeyMapType = KeyMapType.LeftStick,
+                Axis = axis,
+                Value = value
+            };
+        }
 
-		/// <summary>
-		/// Creates a mapping to a button.
-		/// </summary>
-		/// <param name="gamepadIndex"></param>
-		/// <param name="button"></param>
-		/// <returns></returns>
-		public static KeyMapItem ToButton(PlayerIndex playerIndex, Buttons button)
-		{
-			return new KeyMapItem
-			{
-				PlayerIndex = playerIndex,
-				KeyMapType = KeyMapType.Button,
-				Button = button,
-			};
-		}
+        /// <summary>
+        /// Creates a mapping to an axis of the right stick of the gamepad.
+        /// </summary>
+        /// <param name="gamepadIndex"></param>
+        /// <param name="axis"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static KeyMapItem ToRightStick(PlayerIndex playerIndex, Axis axis, double value)
+        {
+            return new KeyMapItem
+            {
+                PlayerIndex = playerIndex,
+                KeyMapType = KeyMapType.RightStick,
+                Axis = axis,
+                Value = value
+            };
+        }
 
-		/// <summary>
-		/// Creates a mapping to the left trigger.
-		/// </summary>
-		/// <param name="gamepadIndex"></param>
-		/// <returns></returns>
-		public static KeyMapItem ToLeftTrigger(PlayerIndex playerIndex)
-		{
-			return new KeyMapItem
-			{
-				PlayerIndex = playerIndex,
-				KeyMapType = KeyMapType.LeftTrigger,
-				Value = 1,
-			};
-		}
+        /// <summary>
+        /// Creates a mapping to a button.
+        /// </summary>
+        /// <param name="gamepadIndex"></param>
+        /// <param name="button"></param>
+        /// <returns></returns>
+        public static KeyMapItem ToButton(PlayerIndex playerIndex, Buttons button)
+        {
+            return new KeyMapItem
+            {
+                PlayerIndex = playerIndex,
+                KeyMapType = KeyMapType.Button,
+                Button = button,
+            };
+        }
 
-		/// <summary>
-		/// Creates a mapping to the right trigger.
-		/// </summary>
-		/// <param name="gamepadIndex"></param>
-		/// <returns></returns>
-		public static KeyMapItem ToRightTrigger(PlayerIndex playerIndex)
-		{
-			return new KeyMapItem
-			{
-				PlayerIndex = playerIndex,
-				KeyMapType = KeyMapType.RightTrigger,
-				Value = 1,
-			};
-		}
+        /// <summary>
+        /// Creates a mapping to the left trigger.
+        /// </summary>
+        /// <param name="gamepadIndex"></param>
+        /// <returns></returns>
+        public static KeyMapItem ToLeftTrigger(PlayerIndex playerIndex)
+        {
+            return new KeyMapItem
+            {
+                PlayerIndex = playerIndex,
+                KeyMapType = KeyMapType.LeftTrigger,
+                Value = 1,
+            };
+        }
 
-		/// <summary>
-		/// What type of mapping this object represents.
-		/// </summary>
-		public KeyMapType KeyMapType { get; set; }
+        /// <summary>
+        /// Creates a mapping to the right trigger.
+        /// </summary>
+        /// <param name="gamepadIndex"></param>
+        /// <returns></returns>
+        public static KeyMapItem ToRightTrigger(PlayerIndex playerIndex)
+        {
+            return new KeyMapItem
+            {
+                PlayerIndex = playerIndex,
+                KeyMapType = KeyMapType.RightTrigger,
+                Value = 1,
+            };
+        }
 
-		/// <summary>
-		/// The index of the gamepad this event is mapped to.
-		/// </summary>
-		public PlayerIndex PlayerIndex { get; set; }
+        /// <summary>
+        /// What type of mapping this object represents.
+        /// </summary>
+        public KeyMapType KeyMapType { get; set; }
 
-		/// <summary>
-		/// The value for the stick/dpad that should be set when the event happens.
-		/// </summary>
-		public double Value { get; set; }
+        /// <summary>
+        /// The index of the gamepad this event is mapped to.
+        /// </summary>
+        public PlayerIndex PlayerIndex { get; set; }
 
-		/// <summary>
-		/// Which axis should be set with this event.
-		/// </summary>
-		public Axis Axis { get; set; }
+        /// <summary>
+        /// The value for the stick/dpad that should be set when the event happens.
+        /// </summary>
+        public double Value { get; set; }
 
-		/// <summary>
-		/// The button that should be set when this event happens.
-		/// </summary>
-		public Buttons Button { get; set; }
-	}
+        /// <summary>
+        /// Which axis should be set with this event.
+        /// </summary>
+        public Axis Axis { get; set; }
+
+        /// <summary>
+        /// The button that should be set when this event happens.
+        /// </summary>
+        public Buttons Button { get; set; }
+    }
 }

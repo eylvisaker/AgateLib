@@ -20,15 +20,11 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace AgateLib.UserInterface.Content
 {
-	public interface IContentCommand
-	{
-		void Execute(LayoutContext context, string arg);
-	}
+    public interface IContentCommand
+    {
+        void Execute(LayoutContext context, string arg);
+    }
 
 }

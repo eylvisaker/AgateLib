@@ -64,7 +64,7 @@ namespace AgateLib.Diagnostics.Rendering
         /// I believe it should be used to reset the cursor blinking when text is
         /// entered by the user.
         /// </summary>
-        const long timeOffset = 0;
+        private const long timeOffset = 0;
         private double viewShiftPixels;
         private bool fontChanged;
 
@@ -109,7 +109,9 @@ namespace AgateLib.Diagnostics.Rendering
                 State.Theme = value;
 
                 foreach (var message in State.Messages)
+                {
                     message.ClearCache();
+                }
             }
         }
 
@@ -138,7 +140,9 @@ namespace AgateLib.Diagnostics.Rendering
             CurrentTime = (long)time.TotalGameTime.TotalMilliseconds;
 
             if (State.DisplayMode == ConsoleDisplayMode.None)
+            {
                 return;
+            }
 
             try
             {
@@ -170,7 +174,9 @@ namespace AgateLib.Diagnostics.Rendering
             CurrentTime = (long)time.TotalGameTime.TotalMilliseconds;
 
             if (State.Theme == null)
+            {
                 State.Theme = ConsoleThemes.Default;
+            }
 
             UpdateViewShift(time.ElapsedGameTime.TotalSeconds);
 
@@ -246,9 +252,14 @@ namespace AgateLib.Diagnostics.Rendering
             for (int i = 0; i < Messages.Count; i++)
             {
                 if (time - Messages[i].Time > 5000)
+                {
                     continue;
+                }
+
                 if (Messages[i].MessageType != ConsoleMessageType.Text)
+                {
                     continue;
+                }
 
                 Font.DrawText(spriteBatch, new Vector2(0, y), Messages[i].Text);
                 y += Font.FontHeight;
@@ -302,7 +313,9 @@ namespace AgateLib.Diagnostics.Rendering
                 message.Layout.Draw(new Vector2(0, y), spriteBatch);
 
                 if (y < 0)
+                {
                     break;
+                }
             }
         }
 

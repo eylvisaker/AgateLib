@@ -90,9 +90,13 @@ namespace AgateLib.Display.BitmapFont
         {
             var keys = fontTextures.Keys.Where(x => x.Style == style);
             if (keys.Any())
+            {
                 return keys.Max(x => x.Size);
+            }
             else
+            {
                 return -1;
+            }
         }
 
         #region --- Finding correctly sized font ---
@@ -117,7 +121,9 @@ namespace AgateLib.Display.BitmapFont
         public FontSettings GetClosestFontSettings(FontSettings settings)
         {
             if (fontTextures.ContainsKey(settings))
+            {
                 return settings;
+            }
 
             int maxSize = MaxSize(settings.Style);
 
@@ -128,13 +134,24 @@ namespace AgateLib.Display.BitmapFont
 
                 // OK remove styles until we find an actual font.
                 if (TryRemoveStyle(settings.Style, FontStyles.Strikeout, out newStyle))
+                {
                     return GetClosestFontSettings(settings.Size, newStyle);
+                }
+
                 if (TryRemoveStyle(settings.Style, FontStyles.Italic, out newStyle))
+                {
                     return GetClosestFontSettings(settings.Size, newStyle);
+                }
+
                 if (TryRemoveStyle(settings.Style, FontStyles.Underline, out newStyle))
+                {
                     return GetClosestFontSettings(settings.Size, newStyle);
+                }
+
                 if (TryRemoveStyle(settings.Style, FontStyles.Bold, out newStyle))
+                {
                     return GetClosestFontSettings(settings.Size, newStyle);
+                }
                 else
                 {
                     Debug.Assert(fontTextures.Count == 0);
@@ -143,14 +160,18 @@ namespace AgateLib.Display.BitmapFont
             }
 
             if (settings.Size > maxSize)
+            {
                 return GetClosestFontSettings(maxSize, settings.Style);
+            }
 
             for (int i = settings.Size; i <= maxSize; i++)
             {
                 settings.Size = i;
 
                 if (fontTextures.ContainsKey(settings))
+                {
                     return settings;
+                }
             }
 
             throw new InvalidOperationException("Could not find a valid font.");

@@ -21,19 +21,15 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Scenes
 {
 
-	public class SceneExitRequestEventArgs : EventArgs
-	{
-		/// <summary>
-		/// Set CancelExit to true if you wish to prevent the scene from ending.
-		/// </summary>
-		public bool CancelExit { get; set; }
-	}
+    public class SceneExitRequestEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Set CancelExit to true if you wish to prevent the scene from ending.
+        /// </summary>
+        public bool CancelExit { get; set; }
+    }
 }

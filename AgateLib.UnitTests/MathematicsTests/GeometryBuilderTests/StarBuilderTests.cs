@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Mathematics;
+﻿using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry.Builders;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Xunit;
 using MathF = AgateLib.Mathematics.MathF;
 
@@ -30,7 +26,10 @@ namespace AgateLib.Tests.MathematicsTests.GeometryBuilderTests
             {
                 var radius = point.Length();
                 var angle = point.Angle();
-                if (angle < 0) angle += MathF.PI * 2;
+                if (angle < 0)
+                {
+                    angle += MathF.PI * 2;
+                }
 
                 radius.Should().BeApproximately(radii[index % 2], 1e-6f);
                 angle.Should().BeGreaterThan(lastAngle,
@@ -72,7 +71,10 @@ namespace AgateLib.Tests.MathematicsTests.GeometryBuilderTests
             {
                 var radius = point.Length();
                 var angle = point.Angle();
-                if (angle < 0) angle += MathF.PI * 2;
+                if (angle < 0)
+                {
+                    angle += MathF.PI * 2;
+                }
 
                 radius.Should().BeApproximately(radii[index % 2], 1e-8f);
                 angle.Should().BeGreaterThan(lastAngle,

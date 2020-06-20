@@ -98,7 +98,9 @@ namespace AgateLib.UserInterface
                                               ref int extraSpace)
             {
                 if (extraSpace <= 0)
+                {
                     return;
+                }
 
                 switch (myStyle.Flex?.JustifyContent ?? JustifyContent.Default)
                 {
@@ -137,7 +139,9 @@ namespace AgateLib.UserInterface
                                        ref int extraSpace)
             {
                 if (extraSpace >= 0)
+                {
                     return;
+                }
 
                 float fExtraSpace = extraSpace;
                 int iter = 0;
@@ -178,7 +182,9 @@ namespace AgateLib.UserInterface
                 int totalFlexGrow = children.Sum(x => x.Style.FlexItem?.Grow ?? 0);
 
                 if (extraSpace <= 0 || totalFlexGrow <= 0)
+                {
                     return;
+                }
 
                 float fExtraSpace = extraSpace;
 
@@ -188,7 +194,9 @@ namespace AgateLib.UserInterface
                     int flexGrow = item.Style.FlexItem?.Grow ?? 0;
 
                     if (flexGrow == 0)
+                    {
                         continue;
+                    }
 
                     float flexGrowFactor = flexGrow / (float)totalFlexGrow;
                     float expand = extraSpace * flexGrowFactor;
@@ -274,7 +282,9 @@ namespace AgateLib.UserInterface
                 int betweenSpaces = children.Count() - 1;
 
                 if (betweenSpaces == 0)
+                {
                     return;
+                }
 
                 float step = extraSpace / (float)betweenSpaces;
                 int index = 0;
@@ -320,7 +330,9 @@ namespace AgateLib.UserInterface
                 foreach (var item in children)
                 {
                     if (!item.Display.IsVisible)
+                    {
                         continue;
+                    }
 
                     var itemBox = item.Display.Region.MarginToContentOffset;
 
@@ -430,7 +442,9 @@ namespace AgateLib.UserInterface
             FocusIndex = Props.InitialFocusIndex;
 
             if (FocusIndex >= Children.Count)
+            {
                 FocusIndex = 0;
+            }
         }
 
         public FlexDirection Direction => Style.Flex?.Direction ?? FlexDirection.Column;
@@ -520,10 +534,14 @@ namespace AgateLib.UserInterface
         public override void OnFocus()
         {
             if (focusChildren.Count == 0)
+            {
                 throw new InvalidOperationException("Cannot set focus to FlexBox with no focusable children.");
+            }
 
             if (FocusIndex >= focusChildren.Count)
+            {
                 FocusIndex = focusChildren.Count - 1;
+            }
 
             Display.System.SetFocus(focusChildren[FocusIndex]);
         }
@@ -564,7 +582,9 @@ namespace AgateLib.UserInterface
             } while (newIndex >= 0 && !CanChildHaveFocus(focusChildren[newIndex]));
 
             if (newIndex == FocusIndex || newIndex < 0 || newIndex >= focusChildren.Count)
+            {
                 return false;
+            }
 
             FocusIndex = newIndex;
 
@@ -585,7 +605,9 @@ namespace AgateLib.UserInterface
                      && !CanChildHaveFocus(focusChildren[newIndex]));
 
             if (newIndex == FocusIndex || newIndex < 0 || newIndex >= focusChildren.Count)
+            {
                 return false;
+            }
 
             FocusIndex = newIndex;
 
@@ -645,7 +667,9 @@ namespace AgateLib.UserInterface
             }
 
             if (!Props.AllowNavigate)
+            {
                 action.Handled = true;
+            }
 
             base.OnChildAction(this, action);
         }

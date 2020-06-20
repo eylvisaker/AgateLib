@@ -20,10 +20,9 @@
 //    SOFTWARE.
 //
 
-using System;
-using AgateLib.Quality;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace AgateLib.Input
 {
@@ -143,7 +142,7 @@ namespace AgateLib.Input
         private static Buttons[] ButtonNames = (Buttons[])Enum.GetValues(typeof(Buttons));
 
         private GamePadState state;
-        
+
         /// <summary>
         /// Constructs a Gamepad object and sets it to track a low-level joystick.
         /// </summary>
@@ -279,7 +278,7 @@ namespace AgateLib.Input
             ButtonReleased?.Invoke(this,
                 new GamepadButtonEventArgs(button));
         }
-        
+
         public void Poll(IInputState inputState)
         {
             GamePadState oldState = state;
@@ -295,16 +294,25 @@ namespace AgateLib.Input
                 if (oldDown != newDown)
                 {
                     if (newDown)
+                    {
                         OnButtonPressed(button);
+                    }
                     else
+                    {
                         OnButtonReleased(button);
+                    }
                 }
             }
-            
+
             if (state.ThumbSticks.Left != oldState.ThumbSticks.Left)
+            {
                 LeftStickChanged?.Invoke(this, EventArgs.Empty);
+            }
+
             if (state.ThumbSticks.Right != oldState.ThumbSticks.Right)
+            {
                 RightStickChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         // Feature is disabled because it isn't working and has questionable value.
@@ -312,7 +320,9 @@ namespace AgateLib.Input
         private void ApplyKeyMap(ref GamePadState padState, IInputState inputState)
         {
             if (KeyMap == null)
+            {
                 return;
+            }
 
             var keys = inputState.KeyboardState;
 

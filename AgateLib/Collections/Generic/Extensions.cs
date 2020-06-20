@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace AgateLib.Collections.Generic
 {
@@ -13,7 +11,10 @@ namespace AgateLib.Collections.Generic
             foreach (T element in self)
             {
                 if (EqualityComparer<T>.Default.Equals(element, elementToFind))
+                {
                     return i;
+                }
+
                 i++;
             }
 

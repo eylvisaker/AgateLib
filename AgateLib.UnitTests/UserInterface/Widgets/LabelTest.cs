@@ -1,13 +1,10 @@
 ﻿using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
-using AgateLib.Tests;
 using AgateLib.Tests.Fakes;
-using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Moq;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -28,8 +25,10 @@ namespace AgateLib.UserInterface.Widgets
             fontCore = new FakeFontCore("default");
             font = new Font(fontCore);
 
-            fontProvider = new FontProvider();
-            fontProvider.Add("default", font);
+            fontProvider = new FontProvider
+            {
+                { "default", font }
+            };
 
             contentLayout = new ContentLayoutEngine(fontProvider);
             canvas = new Mock<ICanvas>();

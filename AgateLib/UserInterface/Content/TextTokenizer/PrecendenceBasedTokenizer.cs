@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.UserInterface.Content.TextTokenizer
 {
@@ -15,13 +13,14 @@ namespace AgateLib.UserInterface.Content.TextTokenizer
 
         public PrecendenceBasedTokenizer()
         {
-            tokenDefs = new List<TokenDefinition>();
-
-            tokenDefs.Add(new TokenDefinition(TokenType.Word, 
-                @"[\w\.,\!\?'""@#$%^&*\(\)_\+\=\[\]\{\};:\<\>/\\-]+", 1));
-            tokenDefs.Add(new TokenDefinition(TokenType.NewLine, @"\r?\n", 1));
-            tokenDefs.Add(new TokenDefinition(TokenType.WhiteSpace, @"[ \t]", 1));
-            tokenDefs.Add(new TokenDefinition(TokenType.NotDefined, @".+", 1));
+            tokenDefs = new List<TokenDefinition>
+            {
+                new TokenDefinition(TokenType.Word,
+                @"[\w\.,\!\?'""@#$%^&*\(\)_\+\=\[\]\{\};:\<\>/\\-]+", 1),
+                new TokenDefinition(TokenType.NewLine, @"\r?\n", 1),
+                new TokenDefinition(TokenType.WhiteSpace, @"[ \t]", 1),
+                new TokenDefinition(TokenType.NotDefined, @".+", 1)
+            };
         }
 
         public IEnumerable<TokenMatch> Tokenize(string text)
@@ -37,7 +36,9 @@ namespace AgateLib.UserInterface.Content.TextTokenizer
             {
                 var bestMatch = groupedByIndex[i].OrderBy(x => x.Precedence).First();
                 if (lastMatch != null && bestMatch.StartIndex < lastMatch.EndIndex)
+                {
                     continue;
+                }
 
                 yield return bestMatch;
 
@@ -50,7 +51,9 @@ namespace AgateLib.UserInterface.Content.TextTokenizer
             var tokenMatches = new List<TokenMatch>();
 
             foreach (var tokenDefinition in tokenDefs)
+            {
                 tokenMatches.AddRange(tokenDefinition.FindMatches(errorMessage).ToList());
+            }
 
             return tokenMatches;
         }

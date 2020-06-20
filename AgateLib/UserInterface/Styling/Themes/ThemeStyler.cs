@@ -20,11 +20,7 @@
 //    SOFTWARE.
 //
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-using AgateLib.Display;
-using AgateLib.UserInterface;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {
@@ -49,7 +45,9 @@ namespace AgateLib.UserInterface.Styling.Themes
                 theme.Apply(element, parentStack);
 
                 if (element.Children == null)
+                {
                     return;
+                }
 
                 try
                 {
@@ -85,7 +83,7 @@ namespace AgateLib.UserInterface.Styling.Themes
 
     public class RenderElementStack
     {
-        List<IRenderElement> parentStack = new List<IRenderElement>();
+        private List<IRenderElement> parentStack = new List<IRenderElement>();
 
         public IReadOnlyList<IRenderElement> ParentStack => parentStack;
 

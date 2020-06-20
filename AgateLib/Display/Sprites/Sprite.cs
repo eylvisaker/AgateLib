@@ -189,7 +189,7 @@ namespace AgateLib.Display.Sprites
             DisplayAlignment = copyFrom.DisplayAlignment;
             Visible = copyFrom.Visible;
 
-            foreach(var frame in copyFrom.Frames)
+            foreach (var frame in copyFrom.Frames)
             {
                 AddFrame(frame);
             }
@@ -203,7 +203,9 @@ namespace AgateLib.Display.Sprites
         public void AddFrame(SpriteFrame frame)
         {
             if (SpriteSize.IsZero)
+            {
                 SpriteSize = frame.SpriteSize;
+            }
 
             frame.SpriteSize = SpriteSize;
 
@@ -219,9 +221,11 @@ namespace AgateLib.Display.Sprites
         /// <param name="texture"></param>
         public void AddFrame(Texture2D texture)
         {
-            SpriteFrame frame = new SpriteFrame(texture);
-            frame.SourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
-            frame.Anchor = Point.Zero;
+            SpriteFrame frame = new SpriteFrame(texture)
+            {
+                SourceRect = new Rectangle(0, 0, texture.Width, texture.Height),
+                Anchor = Point.Zero
+            };
 
             AddFrame(frame);
         }
@@ -235,9 +239,11 @@ namespace AgateLib.Display.Sprites
         /// <param name="anchor">The offset within the sprite to the upperleft corner of where the frame is drawn.</param>
         public void AddFrame(Texture2D texture, bool ownSurface, Rectangle sourceRect, Point anchor)
         {
-            SpriteFrame frame = new SpriteFrame(texture);
-            frame.SourceRect = sourceRect;
-            frame.Anchor = anchor;
+            SpriteFrame frame = new SpriteFrame(texture)
+            {
+                SourceRect = sourceRect,
+                Anchor = anchor
+            };
 
             AddFrame(frame);
         }
@@ -263,11 +269,20 @@ namespace AgateLib.Display.Sprites
 
                 currentFrame.SourceRect = currentRect;
 
-                if (currentFrame.SourceRect.Right > texture.Width) skip = true;
-                if (currentFrame.SourceRect.Bottom > texture.Height) skip = true;
+                if (currentFrame.SourceRect.Right > texture.Width)
+                {
+                    skip = true;
+                }
+
+                if (currentFrame.SourceRect.Bottom > texture.Height)
+                {
+                    skip = true;
+                }
 
                 if (skip == false)
+                {
                     frames.Add(currentFrame);
+                }
 
                 location.X += size.Width + extraSpace.X;
 
@@ -415,7 +430,9 @@ namespace AgateLib.Display.Sprites
         public void Update(GameTime time)
         {
             if (IsAnimating == false)
+            {
                 return;
+            }
 
             frameTime -= time.ElapsedGameTime.TotalMilliseconds;
 
@@ -436,15 +453,21 @@ namespace AgateLib.Display.Sprites
             int newFrameIndex = CurrentFrameIndex;
 
             if (PlayReverse)
+            {
                 newFrameIndex--;
+            }
             else
+            {
                 newFrameIndex++;
+            }
 
             switch (AnimationType)
             {
                 case AnimationType.Looping:
                     while (newFrameIndex < 0)
+                    {
                         newFrameIndex += frames.Count;
+                    }
 
                     newFrameIndex = newFrameIndex % frames.Count;
 
@@ -507,7 +530,9 @@ namespace AgateLib.Display.Sprites
 					 * */
 
                     if (Frames.Count <= 1)
+                    {
                         break;
+                    }
 
                     // check for the ping-ponging.
                     if (PlayReverse && newFrameIndex == -1)
@@ -544,7 +569,9 @@ namespace AgateLib.Display.Sprites
             CurrentFrameIndex = newFrameIndex;
 
             if (currentFrameIndex < 0 || currentFrameIndex >= frames.Count)
+            {
                 throw new SpriteException("Error: Frame Index is in the wrong place!");
+            }
         }
 
         /// <summary>
@@ -600,7 +627,9 @@ namespace AgateLib.Display.Sprites
             {
                 bool doEvent = false;
                 if (value != mPlayReverse)
+                {
                     doEvent = true;
+                }
 
                 mPlayReverse = value;
 
@@ -631,7 +660,9 @@ namespace AgateLib.Display.Sprites
                 bool doEvent = false;
 
                 if (value != isAnimating)
+                {
                     doEvent = true;
+                }
 
                 isAnimating = value;
 
@@ -641,18 +672,25 @@ namespace AgateLib.Display.Sprites
                 {
 
                     if (this.PlayReverse && currentFrameIndex == 0)
+                    {
                         currentFrameIndex = frames.Count - 1;
+                    }
                     else if (currentFrameIndex == frames.Count - 1)
+                    {
                         currentFrameIndex = 0;
-
+                    }
                 }
 
                 if (doEvent)
                 {
                     if (isAnimating == true && AnimationStarted != null)
+                    {
                         AnimationStarted(this);
+                    }
                     else if (isAnimating == false && AnimationStopped != null)
+                    {
                         AnimationStopped(this);
+                    }
                 }
             }
         }
@@ -669,9 +707,13 @@ namespace AgateLib.Display.Sprites
         public void StartAnimation()
         {
             if (PlayReverse)
+            {
                 CurrentFrameIndex = frames.Count - 1;
+            }
             else
+            {
                 CurrentFrameIndex = 0;
+            }
 
             isAnimating = true;
             Visible = true;
@@ -740,9 +782,9 @@ namespace AgateLib.Display.Sprites
         }
 
         public void SetRotationCenter(OriginAlignment alignment)
-                {
-                    RotationCenter = Origin.CalcF(alignment, SpriteSize);
-                }
-            }
-
+        {
+            RotationCenter = Origin.CalcF(alignment, SpriteSize);
         }
+    }
+
+}

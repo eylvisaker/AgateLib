@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace AgateLib.Diagnostics
 {
@@ -39,7 +38,9 @@ namespace AgateLib.Diagnostics
         public void Step(string stepName)
         {
             if (!watch.IsRunning)
+            {
                 throw new InvalidOperationException("Scenario has completed and should not be further marked.");
+            }
 
             long time = watch.ElapsedMilliseconds;
             long delta = time - lastTime;

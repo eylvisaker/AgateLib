@@ -46,7 +46,9 @@ namespace AgateLib.Display
         public static FontResource ReadFont(IContentProvider content, string name)
         {
             if (deserializer == null)
+            {
                 deserializer = CreateDeserializer();
+            }
 
             string filename = name;
 

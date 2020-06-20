@@ -1,9 +1,4 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using YamlDotNet.Serialization;
 
@@ -36,7 +31,7 @@ namespace AgateLib.Randomizer
             result.Should().Be("s: " + yaml);
         }
 
-        class SerialStructure
+        private class SerialStructure
         {
             public Seed? s { get; set; }
         }

@@ -47,7 +47,7 @@ namespace AgateLib.Display
                 case ColorSpace.Hsv:
                 case ColorSpace.Yuv:
                     return InterpolateYuv(left, right, step);
-                
+
                 case ColorSpace.Rgb:
                     return InterpolateRgb(left, right, step);
 
@@ -67,11 +67,16 @@ namespace AgateLib.Display
         public static Color InterpolateYuv(Color left, Color right, double step)
         {
             if (step <= 0)
+            {
                 return left;
-            if (step >= 1)
-                return right;
+            }
 
-            left.ToYuv (out double Ly, out double Lu, out double Lv, out double La);
+            if (step >= 1)
+            {
+                return right;
+            }
+
+            left.ToYuv(out double Ly, out double Lu, out double Lv, out double La);
             right.ToYuv(out double Ry, out double Ru, out double Rv, out double Ra);
 
             double Lf = 1 - step;
@@ -94,9 +99,14 @@ namespace AgateLib.Display
         public static Color InterpolateRgb(Color left, Color right, double step)
         {
             if (step <= 0)
+            {
                 return left;
+            }
+
             if (step >= 1)
+            {
                 return right;
+            }
 
             double Lf = 1 - step;
             double Rf = step;
@@ -170,7 +180,9 @@ namespace AgateLib.Display
         public static bool TryParseFromArgb(string str, out Color result)
         {
             if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
                 str = str.Substring(2);
+            }
 
             if (str.Length == 6)
             {
@@ -239,9 +251,13 @@ namespace AgateLib.Display
         public static Color FromArgb(string str)
         {
             if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
                 str = str.Substring(2);
+            }
             else if (str.StartsWith("#", StringComparison.Ordinal))
+            {
                 str = str.Substring(1);
+            }
 
             if (str.Length == 6)
             {
@@ -261,7 +277,9 @@ namespace AgateLib.Display
                 return new Color(r, g, b, a);
             }
             else
+            {
                 throw new ArgumentException($"Argument \"{str}\" is not a valid Color string.");
+            }
         }
 
         /// <summary>
@@ -274,7 +292,9 @@ namespace AgateLib.Display
         public static Color FromAbgr(string str)
         {
             if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
                 str = str.Substring(2);
+            }
 
             if (str.Length == 6)
             {
@@ -294,8 +314,10 @@ namespace AgateLib.Display
                 return new Color(r, g, b, a);
             }
             else
+            {
                 throw new ArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
                     "Argument \"{0}\" is not a valid Color string.", str));
+            }
         }
 
         /// <summary>
@@ -314,7 +336,9 @@ namespace AgateLib.Display
                              out int ivalue))
             {
                 if (ivalue > 255 || ivalue < 0)
+                {
                     return false;
+                }
 
                 value = (byte)ivalue;
 
@@ -337,13 +361,17 @@ namespace AgateLib.Display
             if (int.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
                 if (value > 255 || value < 0)
+                {
                     throw new ArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
                         "Invalid result.  Input Hex number: {0}, Result: {1}", hex, value));
+                }
 
                 return (byte)value;
             }
             else
+            {
                 throw new ArgumentException("Not a hex number.");
+            }
         }
 
 
@@ -409,9 +437,14 @@ namespace AgateLib.Display
         public static Color FromHsv(double hue, double saturation, double value)
         {
             while (hue < 0)
+            {
                 hue += 360;
+            }
+
             if (hue >= 360)
+            {
                 hue = hue % 360;
+            }
 
             double hp = hue / 60;
             double chroma = value * saturation;

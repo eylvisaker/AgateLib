@@ -20,21 +20,31 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace AgateLib.UserInterface
 {
     public class FlexItemStyle
     {
         public static bool Equals(FlexItemStyle a, FlexItemStyle b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            if (a == null && b == null)
+            {
+                return true;
+            }
 
-            if (a.Grow != b.Grow) return false;
-            if (a.Align != b.Align) return false;
+            if (a == null || b == null)
+            {
+                return false;
+            }
+
+            if (a.Grow != b.Grow)
+            {
+                return false;
+            }
+
+            if (a.Align != b.Align)
+            {
+                return false;
+            }
 
             return true;
         }

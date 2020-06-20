@@ -75,9 +75,14 @@ namespace AgateLib.UserInterface
             do
             {
                 if (item == null)
+                {
                     throw new ArgumentNullException("Renderable is null.");
+                }
+
                 if (count > max)
+                {
                     throw new InvalidOperationException($"After {max} iterations, {renderable} failed to return a render element.");
+                }
 
                 item = item.Render();
                 item.AppContext = appContext;

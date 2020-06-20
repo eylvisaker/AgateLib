@@ -20,17 +20,16 @@
 //    SOFTWARE.
 //
 
-using System;
+using AgateLib.Display;
 using AgateLib.Input;
+using AgateLib.Quality;
 using AgateLib.UserInterface.InputMap;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AgateLib.UserInterface.Rendering.Animations;
-using AgateLib.Quality;
-using AgateLib.Display;
+using System;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface
@@ -60,10 +59,11 @@ namespace AgateLib.UserInterface
             this.renderContext = renderContext;
             this.ScreenArea = screenArea;
 
-            desktop = new Desktop(screenArea, renderContext, fonts, styles, animationFactory);
-
-            desktop.Scaling = scaling;
-            desktop.Audio = audio;
+            desktop = new Desktop(screenArea, renderContext, fonts, styles, animationFactory)
+            {
+                Scaling = scaling,
+                Audio = audio
+            };
             desktop.FocusChanged += Desktop_FocusChanged;
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
 

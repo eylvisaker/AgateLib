@@ -47,15 +47,17 @@ namespace AgateLib.UserInterface.Content
             List<string> result = new List<string>();
 
             if (text == null)
+            {
                 return result;
+            }
 
             int start = 0;
             var context = textContext;
 
             while (start < text.Length)
             {
-                context = textContext.TokenBreaks.Contains(text[start]) 
-                        ? commandContext 
+                context = textContext.TokenBreaks.Contains(text[start])
+                        ? commandContext
                         : textContext;
 
                 var nextTokenStart = NextTokenStart(text, start + 1, context);
@@ -77,11 +79,15 @@ namespace AgateLib.UserInterface.Content
                 var dist = Find(text, x, startIndex);
 
                 if (min > dist)
+                {
                     min = dist;
+                }
             }
 
             if (context.IncludeBreak && min < text.Length)
+            {
                 min++;
+            }
 
             return min;
         }
@@ -91,7 +97,9 @@ namespace AgateLib.UserInterface.Content
             var result = text.IndexOf(search, startIndex);
 
             if (result == -1)
+            {
                 return text.Length;
+            }
 
             return result;
         }

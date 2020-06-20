@@ -3,9 +3,6 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.UserInterface
 {

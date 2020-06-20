@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using AgateLib.Collections.Generic;
+﻿using AgateLib.Collections.Generic;
 using FluentAssertions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace AgateLib.UnitTests.Collections
@@ -17,7 +17,9 @@ namespace AgateLib.UnitTests.Collections
             li.InsertionSort();
 
             for (int i = 0; i < li.Count; i++)
+            {
                 li[i].Should().Be(i + 1);
+            }
         }
 
         [Fact]

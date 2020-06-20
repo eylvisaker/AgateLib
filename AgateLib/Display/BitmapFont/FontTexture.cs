@@ -25,29 +25,29 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace AgateLib.Display.BitmapFont
 {
-	/// <summary>
-	/// FontTexture interface
-	/// </summary>
-	public interface IFontTexture
-	{
-		/// <summary>
-		/// Gets the height of a single line of text.
-		/// </summary>
-		int FontHeight(FontState state);
-		
-		/// <summary>
-		/// Draws text to the screen using the specified SpriteBatch object.
-		/// </summary>
-		/// <param name="state"></param>
-		/// <param name="spriteBatch"></param>
-		void DrawText(FontState state, SpriteBatch spriteBatch);
-		
-		/// <summary>
-		/// Measures the size of the given string.
-		/// </summary>
-		/// <param name="state"></param>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		Size MeasureString(FontState state, string text);
-	}
+    /// <summary>
+    /// FontTexture interface
+    /// </summary>
+    public interface IFontTexture
+    {
+        /// <summary>
+        /// Gets the height of a single line of text.
+        /// </summary>
+        int FontHeight(FontState state);
+
+        /// <summary>
+        /// Draws text to the screen using the specified SpriteBatch object.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="spriteBatch"></param>
+        void DrawText(FontState state, SpriteBatch spriteBatch);
+
+        /// <summary>
+        /// Measures the size of the given string.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        Size MeasureString(FontState state, string text);
+    }
 }

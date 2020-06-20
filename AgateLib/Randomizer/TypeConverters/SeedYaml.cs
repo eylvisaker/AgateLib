@@ -21,12 +21,6 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Quality;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
@@ -72,12 +66,16 @@ namespace AgateLib.Randomizer.TypeConverters
             if (type == typeof(Seed?))
             {
                 if (value == null)
+                {
                     return;
+                }
 
                 seed = ((Seed?)value).Value;
             }
             else
+            {
                 seed = (Seed)value;
+            }
 
             string text = seed.ToString();
 

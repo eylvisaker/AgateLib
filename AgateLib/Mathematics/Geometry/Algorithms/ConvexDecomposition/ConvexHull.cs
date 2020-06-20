@@ -20,99 +20,106 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Quality;
 using System.Collections.Generic;
 using System.Linq;
-using AgateLib.Quality;
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.ConvexDecomposition
 {
-	/// <summary>
-	/// An algorithm for finding the convex hull of a polygon.
-	/// </summary>
-	/// <remarks>
-	/// QuickHull algorithm is implemented as described here:
-	/// https://en.wikipedia.org/wiki/Quickhull
-	/// </remarks>
-	public class QuickHull
-	{
-		private double tolerance = 1e-6;
+    /// <summary>
+    /// An algorithm for finding the convex hull of a polygon.
+    /// </summary>
+    /// <remarks>
+    /// QuickHull algorithm is implemented as described here:
+    /// https://en.wikipedia.org/wiki/Quickhull
+    /// </remarks>
+    public class QuickHull
+    {
+        private double tolerance = 1e-6;
 
-		public double Tolerance
-		{
-			get => tolerance;
-			set
-			{
-				Require.ArgumentInRange(value > 0, nameof(Tolerance),
-					"Value must be positive");
+        public double Tolerance
+        {
+            get => tolerance;
+            set
+            {
+                Require.ArgumentInRange(value > 0, nameof(Tolerance),
+                    "Value must be positive");
 
-				tolerance = value;
-			}
-		}
+                tolerance = value;
+            }
+        }
 
-		public Polygon FindConvexHull(Polygon polygon)
-		{
-			Polygon result = new Polygon();
+        public Polygon FindConvexHull(Polygon polygon)
+        {
+            Polygon result = new Polygon();
 
-			// Find left & right most points and add them to the hull.
-			Microsoft.Xna.Framework.Vector2 left = Microsoft.Xna.Framework.Vector2.UnitX * float.MaxValue;
-			Microsoft.Xna.Framework.Vector2 right = Microsoft.Xna.Framework.Vector2.UnitX * float.MinValue;
+            // Find left & right most points and add them to the hull.
+            Microsoft.Xna.Framework.Vector2 left = Microsoft.Xna.Framework.Vector2.UnitX * float.MaxValue;
+            Microsoft.Xna.Framework.Vector2 right = Microsoft.Xna.Framework.Vector2.UnitX * float.MinValue;
 
-			foreach (var point in polygon)
-			{
-				if (point.X < left.X)
-					left = point;
-				if (point.X > right.X)
-					right = point;
-			}
+            foreach (var point in polygon)
+            {
+                if (point.X < left.X)
+                {
+                    left = point;
+                }
 
-			result.Add(left);
-			result.Add(right);
+                if (point.X > right.X)
+                {
+                    right = point;
+                }
+            }
 
-			var leftSet = polygon.Where(v => LineAlgorithms.SideOf(left, right, v) < 0).ToList();
-			var rightSet = polygon.Where(v => LineAlgorithms.SideOf(left, right, v) > 0).ToList();
+            result.Add(left);
+            result.Add(right);
 
-			FindHull(result, rightSet, left, right);
-			FindHull(result, leftSet, right, left);
+            var leftSet = polygon.Where(v => LineAlgorithms.SideOf(left, right, v) < 0).ToList();
+            var rightSet = polygon.Where(v => LineAlgorithms.SideOf(left, right, v) > 0).ToList();
 
-			return result;
-		}
+            FindHull(result, rightSet, left, right);
+            FindHull(result, leftSet, right, left);
 
-		private void FindHull(Polygon result, List<Microsoft.Xna.Framework.Vector2> set, Microsoft.Xna.Framework.Vector2 P, Microsoft.Xna.Framework.Vector2 Q)
-		{
-			if (set.Count == 0)
-				return;
+            return result;
+        }
 
-			double max = double.MinValue;
-			Microsoft.Xna.Framework.Vector2 C = set.First();
+        private void FindHull(Polygon result, List<Microsoft.Xna.Framework.Vector2> set, Microsoft.Xna.Framework.Vector2 P, Microsoft.Xna.Framework.Vector2 Q)
+        {
+            if (set.Count == 0)
+            {
+                return;
+            }
 
-			foreach (var v in set)
-			{
-				var distance = LineAlgorithms.SideOf(P, Q, v);
+            double max = double.MinValue;
+            Microsoft.Xna.Framework.Vector2 C = set.First();
 
-				if (distance > max)
-				{
-					max = distance;
-					C = v;
-				}
-			}
+            foreach (var v in set)
+            {
+                var distance = LineAlgorithms.SideOf(P, Q, v);
 
-			var indexA = result.IndexOf(P);
-			var indexB = result.IndexOf(Q);
+                if (distance > max)
+                {
+                    max = distance;
+                    C = v;
+                }
+            }
 
-			if (indexB > indexA)
-			{
-				result.Insert(indexB, C);
-			}
-			else
-			{
-				result.Add(C);
-			}
+            var indexA = result.IndexOf(P);
+            var indexB = result.IndexOf(Q);
 
-			var S1 = set.FindAll(v => LineAlgorithms.SideOf(P, C, v) > tolerance);
-			var S2 = set.FindAll(v => LineAlgorithms.SideOf(C, Q, v) > tolerance);
+            if (indexB > indexA)
+            {
+                result.Insert(indexB, C);
+            }
+            else
+            {
+                result.Add(C);
+            }
 
-			FindHull(result, S1, P, C);
-			FindHull(result, S2, C, Q);
-		}
-	}
+            var S1 = set.FindAll(v => LineAlgorithms.SideOf(P, C, v) > tolerance);
+            var S2 = set.FindAll(v => LineAlgorithms.SideOf(C, Q, v) > tolerance);
+
+            FindHull(result, S1, P, C);
+            FindHull(result, S2, C, Q);
+        }
+    }
 }

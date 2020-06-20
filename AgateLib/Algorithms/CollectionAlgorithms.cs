@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.Algorithms
 {
@@ -32,7 +31,9 @@ namespace AgateLib.Algorithms
             }
 
             if (!any)
+            {
                 throw new ArgumentException($"No items in collection", nameof(items));
+            }
 
             return result;
         }

@@ -20,11 +20,7 @@
 //    SOFTWARE.
 //
 
-using AgateLib.Mathematics;
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.Randomizer
 {
@@ -50,7 +46,9 @@ namespace AgateLib.Randomizer
         public FastRandom(Seed seed)
         {
             if (seed == 0)
+            {
                 throw new ArgumentOutOfRangeException("Seed cannot be zero.");
+            }
 
             Seed = seed;
         }
@@ -62,8 +60,8 @@ namespace AgateLib.Randomizer
         /// <param name="random"></param>
         public FastRandom(IRandom random)
         {
-            var a = random.NextInteger(Int16.MaxValue);
-            var b = random.NextInteger(Int16.MaxValue);
+            var a = random.NextInteger(short.MaxValue);
+            var b = random.NextInteger(short.MaxValue);
             var c = random.NextInteger(1);
 
             var aa = a << 16;
@@ -104,7 +102,7 @@ namespace AgateLib.Randomizer
         /// <returns></returns>
         public double NextDouble() => NextSingle();
 
-        public uint NextUInt32MaxValue => (int)Int16.MaxValue;
+        public uint NextUInt32MaxValue => (int)short.MaxValue;
 
         /// <summary>
         /// Gets the next random integer value.
@@ -120,7 +118,7 @@ namespace AgateLib.Randomizer
         /// Gets the next random single value.
         /// </summary>
         /// <returns>A random single value between 0 and 1.</returns>
-        public float NextSingle() => NextUInt32() / (float)(Int16.MaxValue + 1);
+        public float NextSingle() => NextUInt32() / (float)(short.MaxValue + 1);
 
     }
 }

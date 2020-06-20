@@ -52,7 +52,10 @@ namespace AgateLib.UserInterface.Rendering
 
             blankSurface = new Texture2D(graphicsDevice, 10, 10);
             Color[] data = new Color[10 * 10];
-            for (int i = 0; i < data.Length; i++) data[i] = Color.White;
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.White;
+            }
 
             blankSurface.SetData(data);
         }
@@ -65,7 +68,9 @@ namespace AgateLib.UserInterface.Rendering
         public void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect)
         {
             if (background == null)
+            {
                 return;
+            }
 
             if (background.Color.A > 0)
             {
@@ -118,7 +123,9 @@ namespace AgateLib.UserInterface.Rendering
         public void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect)
         {
             if (border == null)
+            {
                 return;
+            }
 
             if (string.IsNullOrEmpty(border.Image?.File))
             {
@@ -270,16 +277,33 @@ namespace AgateLib.UserInterface.Rendering
             {
                 int lc = 0, tc = 0, rc = 0, bc = 0;
 
-                if (destRect.Left < clipRect.Left) lc = clipRect.Left - destRect.Left;
-                if (destRect.Top < clipRect.Top) tc = clipRect.Top - destRect.Top;
-                if (destRect.Right > clipRect.Right) rc = clipRect.Right - destRect.Right;
-                if (destRect.Bottom > clipRect.Bottom) bc = clipRect.Bottom - destRect.Bottom;
+                if (destRect.Left < clipRect.Left)
+                {
+                    lc = clipRect.Left - destRect.Left;
+                }
+
+                if (destRect.Top < clipRect.Top)
+                {
+                    tc = clipRect.Top - destRect.Top;
+                }
+
+                if (destRect.Right > clipRect.Right)
+                {
+                    rc = clipRect.Right - destRect.Right;
+                }
+
+                if (destRect.Bottom > clipRect.Bottom)
+                {
+                    bc = clipRect.Bottom - destRect.Bottom;
+                }
 
                 destRect = RectangleX.FromLTRB(destRect.Left + lc, destRect.Top + tc, destRect.Right + rc, destRect.Bottom + bc);
                 srcRect = RectangleX.FromLTRB(srcRect.Left + lc, srcRect.Top + tc, srcRect.Right + rc, srcRect.Bottom + bc);
 
                 if (destRect.Width == 0 || destRect.Height == 0)
+                {
                     return;
+                }
             }
 
             canvas.Draw(image, destRect, srcRect, Color.White);
@@ -290,27 +314,52 @@ namespace AgateLib.UserInterface.Rendering
             int countX = (int)Math.Ceiling(clipRect.Width / (double)srcRect.Width);
             int countY = (int)Math.Ceiling(clipRect.Height / (double)srcRect.Height);
 
-            if (repeatX && startPt.X != clipRect.X) startPt.X -= image.Width;
-            if (repeatY && startPt.Y != clipRect.Y) startPt.Y -= image.Height;
+            if (repeatX && startPt.X != clipRect.X)
+            {
+                startPt.X -= image.Width;
+            }
+
+            if (repeatY && startPt.Y != clipRect.Y)
+            {
+                startPt.Y -= image.Height;
+            }
 
             if (repeatX)
             {
                 // TODO: Optimize this with the power of MATH!.
                 while (startPt.X + image.Width < clipRect.X)
+                {
                     startPt.X += image.Width;
+                }
             }
 
             if (repeatY)
             {
                 while (startPt.Y + image.Height < clipRect.Y)
+                {
                     startPt.Y += image.Height;
+                }
             }
 
-            if (startPt.X + countX * image.Width < clipRect.Right) countX++;
-            if (startPt.Y + countY * image.Height < clipRect.Bottom) countY++;
+            if (startPt.X + countX * image.Width < clipRect.Right)
+            {
+                countX++;
+            }
 
-            if (repeatX == false) countX = 1;
-            if (repeatY == false) countY = 1;
+            if (startPt.Y + countY * image.Height < clipRect.Bottom)
+            {
+                countY++;
+            }
+
+            if (repeatX == false)
+            {
+                countX = 1;
+            }
+
+            if (repeatY == false)
+            {
+                countY = 1;
+            }
 
             for (int j = 0; j < countY; j++)
             {

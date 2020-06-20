@@ -1,8 +1,6 @@
 ﻿using AgateLib.Quality;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.Randomizer
 {
@@ -11,7 +9,7 @@ namespace AgateLib.Randomizer
     /// </summary>
     public struct Seed
     {
-        static readonly char[] delimiter = new char[] { ',' };
+        private static readonly char[] delimiter = new char[] { ',' };
 
         public Seed(ulong lowBits)
         {
@@ -72,18 +70,37 @@ namespace AgateLib.Randomizer
 
         public override bool Equals(object obj)
         {
-            if (obj is Seed s) return Equals(s);
-            if (obj is ulong ul) return Equals(ul);
-            if (obj is uint ui) return Equals((ulong)ui);
-            if (obj is int i) return Equals((ulong)i);
-            if (obj is long l) return Equals((ulong)l);
+            if (obj is Seed s)
+            {
+                return Equals(s);
+            }
+
+            if (obj is ulong ul)
+            {
+                return Equals(ul);
+            }
+
+            if (obj is uint ui)
+            {
+                return Equals((ulong)ui);
+            }
+
+            if (obj is int i)
+            {
+                return Equals((ulong)i);
+            }
+
+            if (obj is long l)
+            {
+                return Equals((ulong)l);
+            }
 
             return false;
         }
 
-        public bool Equals(Seed other) 
+        public bool Equals(Seed other)
         {
-            return this.HighBits == other.HighBits 
+            return this.HighBits == other.HighBits
                 && this.LowBits == other.LowBits;
         }
 

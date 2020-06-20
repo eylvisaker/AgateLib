@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Physics.TwoDimensions;
+﻿using AgateLib.Physics.TwoDimensions;
 using AgateLib.Physics.TwoDimensions.Constraints;
 using AgateLib.Physics.TwoDimensions.Solvers;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
-using Moq;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace AgateLib.Tests.PhysicsTests

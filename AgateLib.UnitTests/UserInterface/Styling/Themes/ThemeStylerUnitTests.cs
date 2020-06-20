@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AgateLib.UserInterface;
+using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using FluentAssertions;
-using Xunit;
 using Microsoft.Xna.Framework;
-using Moq;
-using AgateLib.UserInterface.Styling.Themes;
-using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
+using Xunit;
 
 namespace AgateLib.Tests.UserInterface.Styling.Themes
 {

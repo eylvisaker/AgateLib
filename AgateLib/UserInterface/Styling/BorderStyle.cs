@@ -21,7 +21,6 @@
 //
 
 using Microsoft.Xna.Framework;
-using System;
 
 namespace AgateLib.UserInterface
 {
@@ -73,16 +72,50 @@ namespace AgateLib.UserInterface
 
         public static bool Equals(BorderStyle a, BorderStyle b)
         {
-            if (a == null && b == null) return true;
-            if (a == null || b == null) return false;
+            if (a == null && b == null)
+            {
+                return true;
+            }
 
-            if (!ImageSource.Equals(a.Image, b.Image)) return false;
-            if (!LayoutBox.Equals(a.ImageSlice, b.ImageSlice)) return false;
-            if (!BorderSideStyle.Equals(a.Left, b.Left)) return false;
-            if (!BorderSideStyle.Equals(a.Right, b.Right)) return false;
-            if (!BorderSideStyle.Equals(a.Top, b.Top)) return false;
-            if (!BorderSideStyle.Equals(a.Bottom, b.Bottom)) return false;
-            if (a.ImageScale != b.ImageScale) return false;
+            if (a == null || b == null)
+            {
+                return false;
+            }
+
+            if (!ImageSource.Equals(a.Image, b.Image))
+            {
+                return false;
+            }
+
+            if (!LayoutBox.Equals(a.ImageSlice, b.ImageSlice))
+            {
+                return false;
+            }
+
+            if (!BorderSideStyle.Equals(a.Left, b.Left))
+            {
+                return false;
+            }
+
+            if (!BorderSideStyle.Equals(a.Right, b.Right))
+            {
+                return false;
+            }
+
+            if (!BorderSideStyle.Equals(a.Top, b.Top))
+            {
+                return false;
+            }
+
+            if (!BorderSideStyle.Equals(a.Bottom, b.Bottom))
+            {
+                return false;
+            }
+
+            if (a.ImageScale != b.ImageScale)
+            {
+                return false;
+            }
 
             return true;
         }

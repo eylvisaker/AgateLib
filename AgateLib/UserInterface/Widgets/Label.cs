@@ -81,7 +81,7 @@ namespace AgateLib.UserInterface
 
     public class LabelElement : RenderElement<LabelElementProps, LabelElementState>
     {
-        class LabelAnimationState : ILabelAnimationState
+        private class LabelAnimationState : ILabelAnimationState
         {
             private LabelElement label;
 
@@ -96,7 +96,9 @@ namespace AgateLib.UserInterface
                 set
                 {
                     if (label.content == null)
+                    {
                         return;
+                    }
 
                     label.content.Options.SlowReadRate = value;
                 }
@@ -175,7 +177,9 @@ namespace AgateLib.UserInterface
         public override Size CalcMinContentSize(int? widthConstraint, int? heightConstraint)
         {
             if (content == null)
+            {
                 return base.CalcMinContentSize(widthConstraint, heightConstraint);
+            }
 
             if (widthConstraint != null)
             {
@@ -218,7 +222,9 @@ namespace AgateLib.UserInterface
         private void RefreshContent(IUserInterfaceLayoutContext layoutContext)
         {
             if (Style.Font == null)
+            {
                 return;
+            }
 
             bool needsRefresh = Dirty;
 
@@ -229,7 +235,9 @@ namespace AgateLib.UserInterface
             needsRefresh |= LayoutOptions.Font?.Style != Style.Font.Style;
 
             if (!needsRefresh)
+            {
                 return;
+            }
 
             LayoutOptions.Font = new Font(Style.Font);
 

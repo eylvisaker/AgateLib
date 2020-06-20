@@ -21,7 +21,6 @@
 //
 
 using AgateLib.Input;
-using AgateLib.Mathematics.Geometry;
 using AgateLib.Scenes;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.InputMap;
@@ -50,7 +49,7 @@ namespace AgateLib.UserInterface
         /// exit when there are no workspaces left in the desktop.
         /// </summary>
         bool ExitWhenEmpty { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether the scene should automatically
         /// exit when the user pushes a key or button mapped to the exit command.
@@ -148,7 +147,9 @@ namespace AgateLib.UserInterface
             driver.Desktop.Empty += () =>
             {
                 if (ExitWhenEmpty)
+                {
                     IsFinished = true;
+                }
             };
 
             BlendState = new BlendState

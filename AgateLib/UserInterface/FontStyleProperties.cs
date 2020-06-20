@@ -20,11 +20,6 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Display;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using Microsoft.Xna.Framework;
@@ -40,10 +35,25 @@ namespace AgateLib.UserInterface
 
         public bool Equals(FontStyleProperties other)
         {
-            if (Family != other.Family) return false;
-            if (Size != other.Size) return false;
-            if (Style != other.Style) return false;
-            if (Color != other.Color) return false;
+            if (Family != other.Family)
+            {
+                return false;
+            }
+
+            if (Size != other.Size)
+            {
+                return false;
+            }
+
+            if (Style != other.Style)
+            {
+                return false;
+            }
+
+            if (Color != other.Color)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -69,9 +79,9 @@ namespace AgateLib.UserInterface
         public void CopyFrom(Font source)
         {
             Family = source.Name;
-            Color  = source.Color;
-            Size   = source.Size;
-            Style  = source.Style;
+            Color = source.Color;
+            Size = source.Size;
+            Style = source.Style;
         }
     }
 }

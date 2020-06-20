@@ -1,5 +1,4 @@
-﻿using AgateLib.UserInterface;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface
@@ -35,7 +34,7 @@ namespace AgateLib.UserInterface
                                 Children = props.Options.Select(option => new Button(new ButtonProps
                                 {
                                     Text = option,
-                                    OnAccept = e => 
+                                    OnAccept = e =>
                                     {
                                         e.System.PopWorkspace();
                                         taskCompletionSource.SetResult(option);

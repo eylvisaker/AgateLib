@@ -22,7 +22,6 @@
 
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -100,7 +99,7 @@ namespace AgateLib.UserInterface
 
             Children = new List<IRenderElement> { child };
         }
-        
+
         public bool IsChecked
         {
             get => isChecked;
@@ -124,10 +123,14 @@ namespace AgateLib.UserInterface
             var parent = Display.System.ParentOf(this);
 
             if (parent == null)
+            {
                 return;
+            }
 
             foreach (var child in parent.Children.OfType<RadioButtonElement>().Where(x => x != this))
+            {
                 child.IsChecked = false;
+            }
 
             IsChecked = true;
             args.Handled = true;

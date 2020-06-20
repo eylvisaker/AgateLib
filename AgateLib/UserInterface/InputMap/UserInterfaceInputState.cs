@@ -20,9 +20,7 @@
 //    SOFTWARE.
 //
 
-using AgateLib.Input;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.InputMap
@@ -111,11 +109,11 @@ namespace AgateLib.UserInterface.InputMap
 
         public void ActionsProcessed()
         {
-            foreach(var action in pressedActions)
+            foreach (var action in pressedActions)
             {
                 heldActions.Add(action);
             }
-            foreach(var action in releasedActions)
+            foreach (var action in releasedActions)
             {
                 heldActions.Remove(action);
             }

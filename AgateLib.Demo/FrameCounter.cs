@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests
 {
     public class FrameCounter
     {
-        const int MinimumSamples = 5;
+        private const int MinimumSamples = 5;
 
         private Queue<float> sampleBuffer = new Queue<float>();
 
@@ -36,7 +33,7 @@ namespace AgateLib.Tests
             }
 
             if (sampleBuffer.Count >= MinimumSamples)
-            { 
+            {
                 AverageFramesPerSecond = sampleBuffer.Average(i => i);
             }
             else

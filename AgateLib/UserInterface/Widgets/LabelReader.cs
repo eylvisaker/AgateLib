@@ -1,11 +1,5 @@
-﻿using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.Content;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
+﻿using AgateLib.UserInterface.Content;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.UserInterface
 {

@@ -26,17 +26,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using AgateLib.Mathematics;
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using NLog;
+using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.Rendering.Animations
 {
     public class FadeAnimation : IRenderElementAnimation
     {
         private readonly Logger log;
-
-        float transitionTime = 0.35f;
+        private float transitionTime = 0.35f;
 
         public FadeAnimation(IReadOnlyList<string> args)
         {

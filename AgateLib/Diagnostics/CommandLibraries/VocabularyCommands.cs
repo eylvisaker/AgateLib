@@ -88,7 +88,9 @@ namespace AgateLib.Diagnostics.CommandLibraries
             {
                 var info = commands[key];
                 if (info.CommandAttribute.Hidden)
+                {
                     continue;
+                }
 
                 builder.Append("    ");
                 i++;
@@ -116,7 +118,9 @@ namespace AgateLib.Diagnostics.CommandLibraries
         public bool Help(string command)
         {
             if (commands.ContainsKey(command) == false)
+            {
                 return false;
+            }
 
             var methodInfo = commands[command].Delegate.GetMethodInfo();
 
@@ -131,7 +135,9 @@ namespace AgateLib.Diagnostics.CommandLibraries
                 bool isOptional = parameter.IsOptional;
 
                 if (paramAttribute?.Required == true)
+                {
                     isOptional = false;
+                }
 
                 if (isOptional)
                 {
@@ -201,7 +207,9 @@ namespace AgateLib.Diagnostics.CommandLibraries
                 var name = ToDashConvention(method.Name);
 
                 if (!string.IsNullOrWhiteSpace(attrib.Name))
+                {
                     name = attrib.Name;
+                }
 
                 commands.Add(name, new CommandInfo
                 {
@@ -333,7 +341,9 @@ namespace AgateLib.Diagnostics.CommandLibraries
             for (int i = 0; i < methodName.Length; i++)
             {
                 if (i > 0 && methodName[i] >= 'A' && methodName[i] <= 'Z')
+                {
                     result.Append("-");
+                }
 
                 result.Append(lower[i]);
             }
@@ -343,10 +353,25 @@ namespace AgateLib.Diagnostics.CommandLibraries
 
         private string FriendlyTypeName(Type type)
         {
-            if (type == typeof(string)) return "string";
-            if (type == typeof(int) || type == typeof(short)) return "integer";
-            if (type == typeof(byte)) return "byte";
-            if (type == typeof(double) || type == typeof(float)) return "float";
+            if (type == typeof(string))
+            {
+                return "string";
+            }
+
+            if (type == typeof(int) || type == typeof(short))
+            {
+                return "integer";
+            }
+
+            if (type == typeof(byte))
+            {
+                return "byte";
+            }
+
+            if (type == typeof(double) || type == typeof(float))
+            {
+                return "float";
+            }
 
             return type.Name;
         }

@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Scenes;
-using AgateLib.UserInterface;
-using AgateLib.Tests;
-using Microsoft.Xna.Framework;
+﻿using AgateLib.UserInterface;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AgateLib.Tests.UserInterface.FF6

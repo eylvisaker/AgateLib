@@ -160,7 +160,9 @@ namespace AgateLib.Diagnostics
                 yield return emergencyVocab;
 
                 foreach (var library in commandLibraries)
+                {
                     yield return library;
+                }
             }
         }
 
@@ -263,10 +265,14 @@ namespace AgateLib.Diagnostics
         public void WriteMessage(ConsoleMessage message)
         {
             if (message.MessageType == ConsoleMessageType.Temporary)
+            {
                 ClearTemporaryMessage();
+            }
 
             while (Messages.Count > 100)
+            {
                 Messages.RemoveAt(0);
+            }
 
             Messages.Add(message);
         }
@@ -282,7 +288,9 @@ namespace AgateLib.Diagnostics
 
             // Hack because ContentLayout won't print a completely empty string.
             if (string.IsNullOrEmpty(text))
+            {
                 text = " ";
+            }
 
             string[] lines = text.Split('\n');
 
@@ -302,9 +310,14 @@ namespace AgateLib.Diagnostics
         public void Execute(string command)
         {
             if (string.IsNullOrEmpty(command))
+            {
                 return;
+            }
+
             if (command.Trim() == string.Empty)
+            {
                 return;
+            }
 
             bool isDebugCommand = IsDebugCommand(command);
 
@@ -363,10 +376,14 @@ namespace AgateLib.Diagnostics
                 var text = new StringBuilder();
 
                 foreach (var value in values.Take(maxDisplay))
+                {
                     text.AppendLine($"    {value}");
+                }
 
                 if (values.Count > maxDisplay)
+                {
                     text.AppendLine($"... and {values.Count - maxDisplay} more.");
+                }
 
                 var message = new ConsoleMessage
                 {
@@ -450,7 +467,9 @@ namespace AgateLib.Diagnostics
         private string EvaluateDots(string path)
         {
             if (!path.Contains("."))
+            {
                 return path;
+            }
 
             List<string> dirs = path.Split(pathSeparator, StringSplitOptions.RemoveEmptyEntries).ToList();
 
@@ -487,10 +506,14 @@ namespace AgateLib.Diagnostics
             var result = currentPath;
 
             if (!result.StartsWith("/"))
+            {
                 result = "/" + result;
+            }
 
             if (!result.EndsWith("/"))
+            {
                 result += "/";
+            }
 
             return result;
         }
@@ -501,7 +524,9 @@ namespace AgateLib.Diagnostics
         public void ProcessKeyDown(Keys keyCode, string keystring, IKeyModifiers modifiers)
         {
             if (State.ExecutingTask)
+            {
                 return;
+            }
 
             if (keyCode == Keys.C && modifiers.Control)
             {
@@ -510,16 +535,24 @@ namespace AgateLib.Diagnostics
             else if (keyCode == Keys.Up)
             {
                 if (modifiers.Shift)
+                {
                     ShiftViewUp();
+                }
                 else
+                {
                     IncrementHistoryIndex();
+                }
             }
             else if (keyCode == Keys.Down)
             {
                 if (modifiers.Shift)
+                {
                     ShiftViewDown();
+                }
                 else
+                {
                     DecrementHistoryIndex();
+                }
             }
             else if (keyCode == Keys.Left)
             {
@@ -569,7 +602,9 @@ namespace AgateLib.Diagnostics
             State.ViewShift--;
 
             if (State.ViewShift < 0)
+            {
                 State.ViewShift = 0;
+            }
         }
 
         private void IncrementHistoryIndex()
@@ -577,7 +612,9 @@ namespace AgateLib.Diagnostics
             historyIndex++;
 
             if (historyIndex > inputHistory.Count)
+            {
                 historyIndex = inputHistory.Count;
+            }
 
             LoadHistoryToInput();
         }
@@ -587,7 +624,9 @@ namespace AgateLib.Diagnostics
             historyIndex--;
 
             if (historyIndex < 0)
+            {
                 historyIndex = 0;
+            }
 
             LoadHistoryToInput();
         }
@@ -630,7 +669,9 @@ namespace AgateLib.Diagnostics
             InsertionPoint++;
 
             if (InsertionPoint > InputText.Length)
+            {
                 InsertionPoint = InputText.Length;
+            }
         }
 
         private void DecrementInsertionPoint()
@@ -638,7 +679,9 @@ namespace AgateLib.Diagnostics
             InsertionPoint--;
 
             if (InsertionPoint < 0)
+            {
                 InsertionPoint = 0;
+            }
         }
 
         private void Backspace()
@@ -675,7 +718,9 @@ namespace AgateLib.Diagnostics
             string insertString = keystring;
 
             if (keyCode == Keys.Tab)
+            {
                 insertString = " ";
+            }
 
             InsertText(insertString);
         }

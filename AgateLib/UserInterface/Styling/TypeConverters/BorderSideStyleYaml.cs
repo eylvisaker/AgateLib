@@ -20,15 +20,13 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Display;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using AgateLib.Display;
-using AgateLib.Quality;
-using Microsoft.Xna.Framework;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
@@ -58,8 +56,9 @@ namespace AgateLib.UserInterface.Styling.TypeConverters
                 .Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
                 .ToList();
 
-            Color? color = TryParseEachAndRemove<Color?>(values, 
-                x => {
+            Color? color = TryParseEachAndRemove<Color?>(values,
+                x =>
+                {
                     bool success = ColorX.TryParse(x, out Color c);
                     return (success, c);
                 });
@@ -81,7 +80,7 @@ namespace AgateLib.UserInterface.Styling.TypeConverters
 
         private T TryParseEachAndRemove<T>(List<string> values, Func<string, (bool, T)> parser)
         {
-            foreach(var value in values)
+            foreach (var value in values)
             {
                 (bool success, T parsedValue) = parser(value);
 

@@ -134,8 +134,15 @@ namespace AgateLib.UserInterface.Rendering
 
                 var size = display.MarginRect;
 
-                if (size.Width < 1) size.Width = 1;
-                if (size.Height < 1) size.Height = 1;
+                if (size.Width < 1)
+                {
+                    size.Width = 1;
+                }
+
+                if (size.Height < 1)
+                {
+                    size.Height = 1;
+                }
 
                 animation.RenderTarget = new RenderTarget2D(
                                graphicsDevice,

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace AgateLib.Algorithms.PathFinding
@@ -47,7 +45,9 @@ namespace AgateLib.Algorithms.PathFinding
                 for (int i = 0; i < nodes.Length; i++)
                 {
                     if (nodes[i] == null)
+                    {
                         nodes[i] = new DjikstraNode();
+                    }
 
                     nodes[i].Location = topLeft + new Point(i % gridWidth, i / gridWidth);
                     nodes[i].Visited = false;
@@ -64,7 +64,9 @@ namespace AgateLib.Algorithms.PathFinding
                 for (int i = 0; i < nodes.Length; i++)
                 {
                     if (nodes[i].Visited)
+                    {
                         continue;
+                    }
 
                     if (nodes[i].Distance < lowest)
                     {
@@ -74,23 +76,36 @@ namespace AgateLib.Algorithms.PathFinding
                 }
 
                 if (lowestIndex < 0)
+                {
                     return null;
+                }
 
                 return nodes[lowestIndex];
             }
-            
+
             public IEnumerable<Point> NeighborsOf(Point location)
             {
                 foreach (var pt in map.GetAvailableSteps(location))
                 {
                     if (pt.X < topLeft.X)
+                    {
                         continue;
+                    }
+
                     if (pt.Y < topLeft.Y)
+                    {
                         continue;
+                    }
+
                     if (pt.X >= topLeft.X + gridWidth)
+                    {
                         continue;
+                    }
+
                     if (pt.Y >= topLeft.Y + gridWidth)
+                    {
                         continue;
+                    }
 
                     if (this[pt].Enterable)
                     {
@@ -181,7 +196,7 @@ namespace AgateLib.Algorithms.PathFinding
         public override string ToString() => $"({Location.X},{Location.Y}) - V:{Visited} - E:{Enterable} - D:{Distance}";
 
         public IEnumerable<DjikstraNode> Path() => ReversePath().Reverse();
-        
+
         private IEnumerable<DjikstraNode> ReversePath()
         {
             DjikstraNode _this = this;

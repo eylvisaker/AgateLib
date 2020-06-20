@@ -22,24 +22,24 @@
 
 namespace AgateLib.Input
 {
-	/// <summary>
-	/// Enum for mapping keyboard keys to gamepad input.
-	/// </summary>
-	public enum KeyMapType
-	{
-		LeftStick,
-		RightStick,
-		Button,
-		LeftTrigger,
-		RightTrigger
-	}
+    /// <summary>
+    /// Enum for mapping keyboard keys to gamepad input.
+    /// </summary>
+    public enum KeyMapType
+    {
+        LeftStick,
+        RightStick,
+        Button,
+        LeftTrigger,
+        RightTrigger
+    }
 
-	/// <summary>
-	/// Axes for the gamepad sticks.
-	/// </summary>
-	public enum Axis
-	{
-		X,
-		Y,
-	}
+    /// <summary>
+    /// Axes for the gamepad sticks.
+    /// </summary>
+    public enum Axis
+    {
+        X,
+        Y,
+    }
 }

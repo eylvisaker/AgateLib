@@ -19,79 +19,81 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 //
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.Display.Sprites
 {
-	public class CollisionRegion
-	{
-		Polygon mPoly;
-		Polygon mTransformedPoly;
+    public class CollisionRegion
+    {
+        private Polygon mPoly;
+        private Polygon mTransformedPoly;
 
-		public CollisionRegion(Polygon poly)
-		{
-			mPoly = poly;
+        public CollisionRegion(Polygon poly)
+        {
+            mPoly = poly;
 
-			mTransformedPoly = mPoly.Clone();
-		}
+            mTransformedPoly = mPoly.Clone();
+        }
 
-		public CollisionRegion(Rectangle rect)
-		{
-			mPoly = rect.ToPolygon();
+        public CollisionRegion(Rectangle rect)
+        {
+            mPoly = rect.ToPolygon();
 
-			mTransformedPoly = mPoly.Clone();
-		}
+            mTransformedPoly = mPoly.Clone();
+        }
 
-		public Polygon Polygon
-		{
-			get { return mPoly; }
-		}
+        public Polygon Polygon
+        {
+            get { return mPoly; }
+        }
 
-		public void SetTransform(Vector2 translation, bool fliphorizontal, bool flipvertical)
-		{
-			for (int i = 0; i < mPoly.Points.Count; i++)
-			{
-				var pt = mPoly.Points[i];
+        public void SetTransform(Vector2 translation, bool fliphorizontal, bool flipvertical)
+        {
+            for (int i = 0; i < mPoly.Points.Count; i++)
+            {
+                var pt = mPoly.Points[i];
 
-				if (fliphorizontal) pt.X *= -1;
-				if (flipvertical) pt.Y *= -1;
+                if (fliphorizontal)
+                {
+                    pt.X *= -1;
+                }
 
-				pt.X += translation.X;
-				pt.Y += translation.Y;
+                if (flipvertical)
+                {
+                    pt.Y *= -1;
+                }
 
-				mTransformedPoly.Points[i] = pt;
-			}
-		}
+                pt.X += translation.X;
+                pt.Y += translation.Y;
 
-		public bool FlipHorizontal { get; set; }
-		public bool FlipVertical { get; set; }
+                mTransformedPoly.Points[i] = pt;
+            }
+        }
 
-		public RectangleF BoundingRect
-		{
-			get
-			{
-				var result = mTransformedPoly.BoundingRect;
+        public bool FlipHorizontal { get; set; }
+        public bool FlipVertical { get; set; }
 
-				return result;
-			}
-		}
+        public RectangleF BoundingRect
+        {
+            get
+            {
+                var result = mTransformedPoly.BoundingRect;
 
-		/// <summary>
-		/// Call this after calling SetTransformation.
-		/// </summary>
-		/// <param name="regionA"></param>
-		/// <param name="regionB"></param>
-		/// <returns></returns>
-		public static bool DoRegionsIntersect(CollisionRegion regionA, CollisionRegion regionB)
-		{
-			return new CollisionDetector().DoPolygonsIntersect(regionA.mTransformedPoly, regionB.mTransformedPoly);
-		}
-	}
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Call this after calling SetTransformation.
+        /// </summary>
+        /// <param name="regionA"></param>
+        /// <param name="regionB"></param>
+        /// <returns></returns>
+        public static bool DoRegionsIntersect(CollisionRegion regionA, CollisionRegion regionB)
+        {
+            return new CollisionDetector().DoPolygonsIntersect(regionA.mTransformedPoly, regionB.mTransformedPoly);
+        }
+    }
 }

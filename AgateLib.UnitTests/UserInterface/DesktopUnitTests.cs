@@ -14,17 +14,17 @@ namespace AgateLib.Tests.UserInterface
         [Fact]
         public void Desktop_InputIsSentToActiveWorkspaceOnly()
         {
-            Desktop desktop = new Desktop(new Rectangle(0, 0, 1280, 720), 
-                                          CommonMocks.RenderContext().Object, 
-                                          CommonMocks.FontProvider().Object, 
-                                          CommonMocks.StyleConfigurator().Object, 
+            Desktop desktop = new Desktop(new Rectangle(0, 0, 1280, 720),
+                                          CommonMocks.RenderContext().Object,
+                                          CommonMocks.FontProvider().Object,
+                                          CommonMocks.StyleConfigurator().Object,
                                           new AnimationFactory());
 
             (var w1, var e1) = CommonMocks.Widget("w1", elementCanHaveFocus: true);
             (var w2, var e2) = CommonMocks.Widget("w2", elementCanHaveFocus: true);
 
-            var workspace1 = new Workspace("a", new App(new AppProps { Children = { w1.Object } } ));
-            var workspace2 = new Workspace("b", new App(new AppProps { Children = { w2.Object } } ));
+            var workspace1 = new Workspace("a", new App(new AppProps { Children = { w1.Object } }));
+            var workspace2 = new Workspace("b", new App(new AppProps { Children = { w2.Object } }));
 
             desktop.PushWorkspace(workspace2);
             desktop.PushWorkspace(workspace1);

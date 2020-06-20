@@ -1,5 +1,4 @@
-﻿using AgateLib.UserInterface.Widgets;
-using FluentAssertions;
+﻿using FluentAssertions;
 using System.Linq;
 using Xunit;
 
@@ -13,7 +12,7 @@ namespace AgateLib.UserInterface
             {
                 SetState(new TestAppState { ItemCount = props.InitialItemCount });
             }
-            
+
             public override IRenderable Render()
             {
                 return new Window(new WindowProps

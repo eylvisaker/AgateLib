@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AgateLib.UserInterface.Styling.Themes.Model;
+using FluentAssertions;
+using Microsoft.Xna.Framework;
+using Moq;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using AgateLib.UserInterface.Styling.Themes.Model;
-using FluentAssertions;
 using Xunit;
-using Microsoft.Xna.Framework;
-using Moq;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {

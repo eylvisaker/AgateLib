@@ -119,12 +119,16 @@ namespace AgateLib.Physics.TwoDimensions
             unusedTime += dt;
 
             if (unusedTime < minimumTimeStep)
+            {
                 return;
+            }
 
             if (unusedTime > maximumTimeStep)
             {
                 if (unusedTime > maximumTimeStep * MaxStepsPerFrame)
+                {
                     unusedTime = maximumTimeStep * MaxStepsPerFrame;
+                }
 
                 int steps = (int)Math.Ceiling(unusedTime / maximumTimeStep);
 

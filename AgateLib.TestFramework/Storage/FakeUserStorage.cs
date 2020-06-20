@@ -31,7 +31,9 @@ namespace AgateLib.Storage
 
                 case FileMode.Open:
                     if (!files.TryGetValue(p, out MemoryStream existing))
+                    {
                         throw new FileNotFoundException("Could not find the file.", p);
+                    }
 
                     files[p] = new MemoryStream(existing.ToArray());
                     break;

@@ -20,10 +20,8 @@
 //    SOFTWARE.
 //
 
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using AgateLib.Mathematics.Geometry;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Content.LayoutItems
 {

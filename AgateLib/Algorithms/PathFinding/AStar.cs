@@ -139,7 +139,9 @@ namespace AgateLib.Algorithms.PathFinding
         public void FindPath()
         {
             if (EndPoints.Count == 0)
+            {
                 throw new InvalidOperationException($"There must be at least one end point.");
+            }
 
             Complete = false;
 
@@ -197,15 +199,21 @@ namespace AgateLib.Algorithms.PathFinding
 
                 steps++;
                 if (steps > MaxSteps)
+                {
                     break;
+                }
 
                 foreach (T test in map.AvailableStepsAt(node))
                 {
                     if (AbortOperation)
+                    {
                         return;
+                    }
 
                     if (LocationIn(closedNodes, test))
+                    {
                         continue;
+                    }
 
                     int deltaCost = map.StepCost(node, test);
 
@@ -244,7 +252,9 @@ namespace AgateLib.Algorithms.PathFinding
                     }
 
                     if (found)
+                    {
                         break;
+                    }
                 }
 
             } while (openNodes.Count > 0 && found == false);
@@ -255,9 +265,10 @@ namespace AgateLib.Algorithms.PathFinding
                 return;
             }
 
-            var resultPath = new List<T>();
-
-            resultPath.Add(node.Location);
+            var resultPath = new List<T>
+            {
+                node.Location
+            };
 
             while (node.Parent != null && node.Parent != node)
             {
@@ -274,7 +285,9 @@ namespace AgateLib.Algorithms.PathFinding
             for (int i = 0; i < openNodes.Count; i++)
             {
                 if (equals(openNodes[i].Location, location))
+                {
                     return i;
+                }
             }
 
             return -1;
@@ -291,7 +304,10 @@ namespace AgateLib.Algorithms.PathFinding
             {
                 int result = x.TotalCost.CompareTo(y.TotalCost);
                 if (result == 0)
+                {
                     result = -x.PaidCost.CompareTo(y.PaidCost);
+                }
+
                 return result;
             });
         }

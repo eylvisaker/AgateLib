@@ -1,11 +1,9 @@
-﻿using AgateLib.Display;
-using AgateLib.Mathematics.Geometry;
+﻿using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.Display
 {
@@ -15,7 +13,7 @@ namespace AgateLib.Display
         SpriteBatch SpriteBatch { get; }
 
         Rectangle Coordinates { get; }
-        
+
         Size Size { get; }
 
         int Width { get; }
@@ -81,7 +79,7 @@ namespace AgateLib.Display
 
     public class Canvas : ICanvas
     {
-        class SpriteBatchBeginArgs
+        private class SpriteBatchBeginArgs
         {
             public SpriteSortMode sortMode = SpriteSortMode.Deferred;
             public BlendState blendState = null;

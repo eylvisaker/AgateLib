@@ -132,7 +132,9 @@ namespace AgateLib.Input
             foreach (var key in newKeys)
             {
                 if (pressedKeys.Contains(key))
+                {
                     continue;
+                }
 
                 OnKeyDown(key, gameTime);
 
@@ -146,7 +148,9 @@ namespace AgateLib.Input
             foreach (var key in pressedKeys)
             {
                 if (newKeys.Contains(key))
+                {
                     continue;
+                }
 
                 OnKeyUp(key, gameTime);
 
@@ -195,7 +199,9 @@ namespace AgateLib.Input
         private void OnKeyPress(Keys key, GameTime gameTime)
         {
             if (KeyModifiers.ModifierKeys.Contains(key))
+            {
                 return;
+            }
 
             var str = KeyString(key);
 
@@ -213,7 +219,9 @@ namespace AgateLib.Input
             var table = modifiers.Shift ? upperCase : lowerCase;
 
             if (table.TryGetValue(key, out var result))
+            {
                 return result;
+            }
 
             return null;
         }

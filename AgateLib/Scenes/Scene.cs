@@ -20,13 +20,9 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Input;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.Scenes
 {
@@ -125,8 +121,8 @@ namespace AgateLib.Scenes
     /// </summary>
     public class Scene : IScene
     {
-        EventHandler start;
-        EventHandler end;
+        private EventHandler start;
+        private EventHandler end;
 
         /// <summary>
         /// Constructs a Scene object.

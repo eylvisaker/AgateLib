@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Xunit;
+﻿using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Xunit;
 
 namespace AgateLib.Collections.Generic
 {
@@ -21,7 +18,7 @@ namespace AgateLib.Collections.Generic
             public override string ToString() => Identity;
         }
 
-        class ComparableObj : IComparable<ComparableObj>
+        private class ComparableObj : IComparable<ComparableObj>
         {
             public ComparableObj(int rank)
             {
@@ -36,7 +33,7 @@ namespace AgateLib.Collections.Generic
             }
         }
 
-        class LooseComparableObj : IComparable
+        private class LooseComparableObj : IComparable
         {
             public LooseComparableObj(int rank)
             {
@@ -75,8 +72,10 @@ namespace AgateLib.Collections.Generic
         [Fact]
         public void InsertionSortRequiresComparison()
         {
-            List<Point> list = new List<Point>();
-            list.Add(new Point(3, 4));
+            List<Point> list = new List<Point>
+            {
+                new Point(3, 4)
+            };
 
             list.Invoking(x => x.InsertionSort()).Should().ThrowExactly<InvalidOperationException>(
                 "Sorting should require a comparison method.");
@@ -95,7 +94,7 @@ namespace AgateLib.Collections.Generic
         {
             List<SortObj> list1 = new List<SortObj>();
 
-            for(int i = 0; i < 20; i++)
+            for (int i = 0; i < 20; i++)
             {
                 list1.Add(new SortObj { Rank = i });
             }
@@ -112,10 +111,12 @@ namespace AgateLib.Collections.Generic
 
             int differentObjects = 0;
 
-            for(int i = 0; i < list1.Count; i++)
+            for (int i = 0; i < list1.Count; i++)
             {
                 if (!ReferenceEquals(list1[i], list2[i]))
+                {
                     differentObjects++;
+                }
             }
 
             differentObjects.Should().BeGreaterThan(1, "randomized lists should not be same order");

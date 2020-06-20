@@ -107,7 +107,9 @@ namespace AgateLib.UserInterface
         public override void OnAccept(UserInterfaceActionEventArgs args)
         {
             if (!Props.Enabled)
+            {
                 return;
+            }
 
             if (Props.OnAccept != null)
             {

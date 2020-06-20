@@ -20,12 +20,11 @@
 //    SOFTWARE.
 //
 
+using AgateLib.UserInterface.Styling.Themes.Model;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AgateLib.UserInterface.Styling.Themes.Model;
-using AgateLib.UserInterface;
-using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Styling.Themes
 {

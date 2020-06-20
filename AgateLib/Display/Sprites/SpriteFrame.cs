@@ -78,7 +78,7 @@ namespace AgateLib.Display.Sprites
 
             SpriteSize = SourceRect.Size;
         }
-        
+
         /// <summary>
         /// Gets the texture
         /// </summary>
@@ -125,7 +125,7 @@ namespace AgateLib.Display.Sprites
             //    scale.Y *= -1;
             //}
             //else
-                dest.Y -= anchor.Y * scale.Y;
+            dest.Y -= anchor.Y * scale.Y;
 
 
             var actualRotationCenter = new Vector2(rotationCenter.X + (anchor.X * Math.Abs(scale.X)),

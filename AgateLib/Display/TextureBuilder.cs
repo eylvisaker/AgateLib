@@ -46,7 +46,9 @@ namespace AgateLib.Display
 
             Color[] colors = new Color[width * height];
             for (int i = 0; i < colors.Length; i++)
+            {
                 colors[i] = color;
+            }
 
             result.SetData(colors);
 

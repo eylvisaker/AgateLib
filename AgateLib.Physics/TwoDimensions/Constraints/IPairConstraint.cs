@@ -24,15 +24,15 @@ using System;
 
 namespace AgateLib.Physics.TwoDimensions.Constraints
 {
-	public interface IPairConstraint
-	{
-		float MultiplierMin { get; }
-		float MultiplierMax { get; }
+    public interface IPairConstraint
+    {
+        float MultiplierMin { get; }
+        float MultiplierMax { get; }
 
-		ConstraintType ConstraintType { get; }
+        ConstraintType ConstraintType { get; }
 
-		float Value(Tuple<PhysicalParticle, PhysicalParticle> tuple);
+        float Value(Tuple<PhysicalParticle, PhysicalParticle> tuple);
 
-		ConstraintDerivative Derivative(PhysicalParticle particle, Tuple<PhysicalParticle, PhysicalParticle> pair);
-	}
+        ConstraintDerivative Derivative(PhysicalParticle particle, Tuple<PhysicalParticle, PhysicalParticle> pair);
+    }
 }

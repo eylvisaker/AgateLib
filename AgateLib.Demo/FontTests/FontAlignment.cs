@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AgateLib;
-using AgateLib.Display;
+﻿using AgateLib.Display;
 using AgateLib.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.Tests.FontTests
 {
-    class FontAlignment : ITest
+    internal class FontAlignment : ITest
     {
         private readonly KeyboardEvents keyboard = new KeyboardEvents();
 
-        private readonly int[] numbers = 
+        private readonly int[] numbers =
             { 0, 0, 1, 11, 22, 33, 44, 99, 100, 111, 222, 333, 444, 555, 666, 777, 888, 999 };
 
         private SpriteBatch spriteBatch;
@@ -28,7 +26,7 @@ namespace AgateLib.Tests.FontTests
         {
             keyboard.KeyDown += Keyboard_KeyDown;
         }
-        
+
         public string Name => "Font Alignment";
 
         public string Category => "Fonts";
@@ -53,12 +51,12 @@ namespace AgateLib.Tests.FontTests
         public void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            
+
             var firstLineFont = fonts.First();
             var firstLineHeight = firstLineFont.FontHeight;
 
             IFont f = fonts[fontIndex];
-            
+
             spriteBatch.Draw(blank, new Rectangle(0, firstLineHeight, 300, 600), Color.DarkSlateGray);
             spriteBatch.Draw(blank, new Rectangle(300, firstLineHeight, 300, 600), Color.DarkBlue);
 
@@ -85,20 +83,24 @@ namespace AgateLib.Tests.FontTests
 
             spriteBatch.End();
         }
-        
+
         public void Update(GameTime gameTime)
         {
             keyboard.Update(gameTime);
 
             if (fontIndex >= fonts.Count)
+            {
                 fontIndex = 0;
+            }
         }
 
 
         private void Keyboard_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Keys.Space)
+            {
                 fontIndex++;
+            }
         }
     }
 }

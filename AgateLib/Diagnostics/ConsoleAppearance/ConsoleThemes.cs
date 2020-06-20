@@ -126,7 +126,9 @@ namespace AgateLib.Diagnostics.ConsoleAppearance
         private static IConsoleTheme Validate(ConsoleTheme consoleTheme)
         {
             if (consoleTheme.IsComplete == false)
+            {
                 throw new InvalidOperationException("Console theme was incomplete.");
+            }
 
             return consoleTheme;
         }

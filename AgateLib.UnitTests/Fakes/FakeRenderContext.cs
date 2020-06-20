@@ -65,10 +65,14 @@ namespace AgateLib.Tests.Fakes
         public void UpdateAnimation(IRenderElement element)
         {
             if (element.Display.Animation.State == AnimationState.TransitionIn)
+            {
                 element.Display.Animation.State = AnimationState.Static;
+            }
 
             if (element.Display.Animation.State == AnimationState.TransitionOut)
+            {
                 element.Display.Animation.State = AnimationState.Dead;
+            }
         }
 
         public void Draw(Texture2D image, Rectangle destRect, Color color) { }

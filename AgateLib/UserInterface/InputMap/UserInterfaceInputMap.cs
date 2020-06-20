@@ -147,13 +147,17 @@ namespace AgateLib.UserInterface.InputMap
             foreach (var button in buttonMap.Keys)
             {
                 if (gamePad.IsButtonDown(button))
+                {
                     inputState.IgnoreNextButtonPress(button);
+                }
             }
 
             foreach (var key in keyMap.Keys)
             {
                 if (keyboard.IsKeyDown(key))
+                {
                     inputState.IgnoreNextKeyPress(key);
+                }
             }
         }
 
@@ -168,13 +172,17 @@ namespace AgateLib.UserInterface.InputMap
             foreach (var button in buttonMap.Where(x => x.Value == action).Select(x => x.Key))
             {
                 if (gamePad.IsButtonDown(button))
+                {
                     inputState.IgnoreNextButtonPress(button);
+                }
             }
 
             foreach (var key in keyMap.Where(x => x.Value == action).Select(x => x.Key))
             {
                 if (keyboard.IsKeyDown(key))
+                {
                     inputState.IgnoreNextKeyPress(key);
+                }
             }
         }
     }

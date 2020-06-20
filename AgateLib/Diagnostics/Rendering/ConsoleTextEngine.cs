@@ -23,7 +23,6 @@
 using AgateLib.Display;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 

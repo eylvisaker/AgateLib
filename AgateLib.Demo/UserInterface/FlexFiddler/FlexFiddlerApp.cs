@@ -1,5 +1,4 @@
-﻿using AgateLib.UserInterface.Styling;
-using AgateLib.UserInterface;
+﻿using AgateLib.UserInterface;
 
 namespace AgateLib.Tests.UserInterface.FlexFiddler
 {

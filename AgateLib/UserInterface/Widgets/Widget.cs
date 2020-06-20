@@ -100,7 +100,9 @@ namespace AgateLib.UserInterface
                 Require.ArgumentNotNull(value, nameof(AppContext));
 
                 if (this.appContext == value)
+                {
                     return;
+                }
 
                 this.appContext = value;
 

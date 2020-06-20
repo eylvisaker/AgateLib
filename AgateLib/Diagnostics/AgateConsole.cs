@@ -133,7 +133,9 @@ namespace AgateLib.Diagnostics
             set
             {
                 if (State.DisplayMode == ConsoleDisplayMode.None)
+                {
                     State.DisplayMode = ConsoleDisplayMode.RecentMessagesOnly;
+                }
             }
         }
 
@@ -205,7 +207,9 @@ namespace AgateLib.Diagnostics
             if (CapturingInput)
             {
                 if (e.Key == ToggleKey && suppressToggleKey)
+                {
                     return;
+                }
 
                 shell.ProcessKeyDown(e.Key, e.KeyString, e.Modifiers);
             }
@@ -229,7 +233,9 @@ namespace AgateLib.Diagnostics
         public void OpenIfToggleKeyPressed()
         {
             if (IsOpen)
+            {
                 return;
+            }
 
             var keys = Keyboard.GetState();
 

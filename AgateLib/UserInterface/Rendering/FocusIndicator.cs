@@ -20,16 +20,8 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AgateLib.Collections.Generic;
-using AgateLib.UserInterface.Layout;
-using AgateLib.UserInterface;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using AgateLib.Display;
+using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Rendering
 {
@@ -44,8 +36,8 @@ namespace AgateLib.UserInterface.Rendering
         /// <param name="focusElement">The element that has focus.</param>
         /// <param name="activeWorkspace">The workspace which is currently active.</param>
         /// <param name="focusContentRect">The screen coordinates of the content area of the focus element.</param>
-        void DrawFocus(ICanvas canvas, 
-                       IRenderElement focusElement, 
+        void DrawFocus(ICanvas canvas,
+                       IRenderElement focusElement,
                        Workspace activeWorkspace,
                        Rectangle focusContentRect);
     }

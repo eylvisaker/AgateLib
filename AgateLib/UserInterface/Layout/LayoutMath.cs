@@ -61,14 +61,24 @@ namespace AgateLib.UserInterface.Layout
             if (constraints != null)
             {
                 if (size.Width > constraints.MaxWidth)
+                {
                     size.Width = constraints.MaxWidth.Value;
+                }
+
                 if (size.Height > constraints.MaxHeight)
+                {
                     size.Height = constraints.MaxHeight.Value;
+                }
 
                 if (size.Width < constraints.MinWidth)
+                {
                     size.Width = constraints.MinWidth;
+                }
+
                 if (size.Height < constraints.MinHeight)
+                {
                     size.Height = constraints.MinHeight;
+                }
             }
 
             var minSize = item.CalcMinContentSize(size.Width, size.Height);
@@ -90,12 +100,19 @@ namespace AgateLib.UserInterface.Layout
         public static Size ConstrainMaxSize(Size maxSize, ISizeConstraints constraints)
         {
             if (constraints == null)
+            {
                 return maxSize;
+            }
 
             if (maxSize.Width > constraints.MaxWidth)
+            {
                 maxSize.Width = constraints.MaxWidth.Value;
+            }
+
             if (maxSize.Height > constraints.MaxHeight)
+            {
                 maxSize.Height = constraints.MaxHeight.Value;
+            }
 
             return maxSize;
         }

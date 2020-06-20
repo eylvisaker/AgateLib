@@ -20,15 +20,13 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace AgateLib.UserInterface.Styling.Themes.Model
 {
-    class PropertyDebugStringBuilder
+    internal class PropertyDebugStringBuilder
     {
-        StringBuilder builder = new StringBuilder();
+        private StringBuilder builder = new StringBuilder();
 
         public string Delimiter { get; set; } = "\n";
 
@@ -41,12 +39,16 @@ namespace AgateLib.UserInterface.Styling.Themes.Model
         public void Add(string name, object value)
         {
             if (value == null)
+            {
                 return;
+            }
 
             var valueString = value.ToString();
 
             if (string.IsNullOrEmpty(valueString))
+            {
                 return;
+            }
 
             builder.Append($"{name}: {value}");
             builder.Append(Delimiter);

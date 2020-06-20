@@ -21,11 +21,7 @@
 //
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Quality
 {
@@ -56,7 +52,9 @@ namespace AgateLib.Quality
         public static void ArgumentNotNull<T>(T param, string paramName, string message) where T : class
         {
             if (param != null)
+            {
                 return;
+            }
 
             throw new ArgumentNullException(paramName, message);
         }
@@ -86,7 +84,9 @@ namespace AgateLib.Quality
         public static void ArgumentNotNull<T>(T? param, string paramName, string message) where T : struct
         {
             if (param != null)
+            {
                 return;
+            }
 
             throw new ArgumentNullException(paramName, message);
         }
@@ -101,7 +101,9 @@ namespace AgateLib.Quality
         public static void ArgumentInRange(bool condition, string paramName, string message)
         {
             if (condition)
+            {
                 return;
+            }
 
             throw new ArgumentOutOfRangeException(paramName, message);
         }
@@ -117,7 +119,9 @@ namespace AgateLib.Quality
             where TE : Exception, new()
         {
             if (state)
+            {
                 return;
+            }
 
             var exception = (TE)Activator.CreateInstance(typeof(TE), message);
             throw exception;
@@ -147,7 +151,9 @@ namespace AgateLib.Quality
             where TE : Exception, new()
         {
             if (!state)
+            {
                 return;
+            }
 
             var exception = (TE)Activator.CreateInstance(typeof(TE), message);
             throw exception;
@@ -168,7 +174,9 @@ namespace AgateLib.Quality
         public static void Not(bool state, string message, Func<string, Exception> activator)
         {
             if (!state)
+            {
                 return;
+            }
 
             var exception = activator(message);
             throw exception;
@@ -177,9 +185,9 @@ namespace AgateLib.Quality
 
     public static class CommonException
     {
-        public static readonly Func<string, Exception> InvalidOperationException 
+        public static readonly Func<string, Exception> InvalidOperationException
             = message => new InvalidOperationException(message);
-        public static readonly Func<string, ArgumentException> ArgumentException 
+        public static readonly Func<string, ArgumentException> ArgumentException
             = message => new ArgumentException(message);
     }
 }

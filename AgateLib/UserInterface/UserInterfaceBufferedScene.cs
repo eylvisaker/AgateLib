@@ -21,7 +21,6 @@
 //
 
 using AgateLib.Input;
-using AgateLib.Mathematics.Geometry;
 using AgateLib.Scenes;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.InputMap;
@@ -82,14 +81,17 @@ namespace AgateLib.UserInterface
                                                   fontProvider,
                                                   Animations,
                                                   scaling,
-                                                  audio);
-
-            driver.ScreenArea = screenArea;
+                                                  audio)
+            {
+                ScreenArea = screenArea
+            };
 
             driver.Desktop.Empty += () =>
             {
                 if (ExitWhenEmpty)
+                {
                     IsFinished = true;
+                }
             };
 
             BlendState = new BlendState

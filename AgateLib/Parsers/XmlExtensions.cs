@@ -16,8 +16,11 @@ namespace AgateLib.Parsers
             var attrib = node.Attribute(name);
 
             if (attrib == null)
+            {
                 throw new InvalidOperationException("Attribute " + name + " does not exist in node "
                                                     + node.Name);
+            }
+
             return attrib;
         }
 
@@ -26,9 +29,13 @@ namespace AgateLib.Parsers
             var attrib = node.Attribute(name);
 
             if (attrib == null)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
 
         public static int AttributeToInt(this XElement node, string name)
@@ -39,13 +46,16 @@ namespace AgateLib.Parsers
 
             if (int.TryParse(attrib.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result))
                 return result;
+            }
 
             throw new InvalidOperationException("Attribute " + name + " does not contain an integer value.");
         }
         public static int AttributeToInt(this XElement node, string name, int defaultValue)
         {
             if (node.HasAttribute(name) == false)
+            {
                 return defaultValue;
+            }
 
             return AttributeToInt(node, name);
         }
@@ -57,14 +67,18 @@ namespace AgateLib.Parsers
             bool result;
 
             if (bool.TryParse(attrib.Value, out result))
+            {
                 return result;
+            }
 
             throw new InvalidOperationException("Attribute " + name + " does not contain a boolean value.");
         }
         public static bool AttributeToBool(this XElement node, string name, bool defaultValue)
         {
             if (node.HasAttribute(name) == false)
+            {
                 return defaultValue;
+            }
 
             return AttributeToBool(node, name);
         }
@@ -72,7 +86,9 @@ namespace AgateLib.Parsers
         public static float AttributeToFloat(this XElement node, string name, float defaultValue)
         {
             if (node.HasAttribute(name) == false)
+            {
                 return defaultValue;
+            }
 
             return AttributeToFloat(node, name);
         }
@@ -84,13 +100,16 @@ namespace AgateLib.Parsers
 
             if (float.TryParse(attrib.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
                 return result;
+            }
 
             throw new InvalidOperationException("Attribute " + name + " does not contain a boolean value.");
         }
         public static string AttributeToString(this XElement node, string name, string defaultValue)
         {
             if (node.HasAttribute(name) == false)
+            {
                 return defaultValue;
+            }
 
             return AttributeToString(node, name);
         }
@@ -153,7 +172,9 @@ namespace AgateLib.Parsers
         public static T AttributeToEnum<T>(this XElement node, string name, bool ignoreCase, T defaultValue)
         {
             if (node.HasAttribute(name) == false)
+            {
                 return defaultValue;
+            }
 
             return AttributeToEnum<T>(node, name, ignoreCase);
         }
@@ -161,7 +182,9 @@ namespace AgateLib.Parsers
         public static Color AttributeToColor(this XElement node, string name, Color defaultValue)
         {
             if (node.HasAttribute(name) == false)
+            {
                 return defaultValue;
+            }
 
             return AttributeToColor(node, name);
         }

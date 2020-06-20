@@ -1,5 +1,5 @@
-﻿using System;
-using AgateLib.UserInterface.InputMap;
+﻿using AgateLib.UserInterface.InputMap;
+using System;
 
 namespace AgateLib.UserInterface
 {

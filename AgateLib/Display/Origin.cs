@@ -62,9 +62,13 @@ namespace AgateLib.Display
             int height = Math.Abs(size.Height);
 
             if (lr == 0x01)
+            {
                 result.X = 0;
+            }
             else if (lr == 0x02)
+            {
                 result.X = width / 2;
+            }
             else if (lr == 0x03)
             {
                 result.X = width;
@@ -72,9 +76,13 @@ namespace AgateLib.Display
             }
 
             if (tb == 0x10)
+            {
                 result.Y = 0;
+            }
             else if (tb == 0x20)
+            {
                 result.Y = height / 2;
+            }
             else if (tb == 0x30)
             {
                 result.Y = height;
@@ -111,18 +119,30 @@ namespace AgateLib.Display
             int lr = ((int)origin) & 0x0f;
 
             if (lr == 0x01)
+            {
                 result.X = 0;
+            }
             else if (lr == 0x02)
+            {
                 result.X = size.Width / 2;
+            }
             else if (lr == 0x03)
+            {
                 result.X = size.Width;
+            }
 
             if (tb == 0x10)
+            {
                 result.Y = 0;
+            }
             else if (tb == 0x20)
+            {
                 result.Y = size.Height / 2;
+            }
             else if (tb == 0x30)
+            {
                 result.Y = size.Height;
+            }
 
             return result;
         }

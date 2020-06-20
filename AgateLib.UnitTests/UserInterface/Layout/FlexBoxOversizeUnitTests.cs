@@ -14,8 +14,10 @@ namespace AgateLib.UserInterface.Widgets
 
         public FlexBoxTest()
         {
-            var themes = new ThemeCollection();
-            themes["default"] = new Theme();
+            var themes = new ThemeCollection
+            {
+                ["default"] = new Theme()
+            };
 
             styleConfigurator = new ThemeStyler(themes);
         }

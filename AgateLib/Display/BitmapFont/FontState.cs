@@ -20,200 +20,212 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AgateLib.Mathematics;
-using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace AgateLib.Display.BitmapFont
 {
-	/// <summary>
-	/// Class which represents the state information used to draw texdt on the screen.
-	/// </summary>
-	public class FontState
-	{
-		private OriginAlignment alignment = OriginAlignment.TopLeft;
-		private Color color = Color.White;
-		private double scaleWidth = 1.0;
-		private double scaleHeight = 1.0;
-		private Vector2 location;
-		private string text = "";
-		private IFontStateCache cache;
-		private int size = 10;
-		private FontStyles style;
-		
-		/// <summary>
-		/// Gets or sets the text that is displayed when drawn.
-		/// </summary>
-		public string Text
-		{
-			get => text;
-			set
-			{
-				text = value;
+    /// <summary>
+    /// Class which represents the state information used to draw texdt on the screen.
+    /// </summary>
+    public class FontState
+    {
+        private OriginAlignment alignment = OriginAlignment.TopLeft;
+        private Color color = Color.White;
+        private double scaleWidth = 1.0;
+        private double scaleHeight = 1.0;
+        private Vector2 location;
+        private string text = "";
+        private IFontStateCache cache;
+        private int size = 10;
+        private FontStyles style;
 
-				if (Cache != null)
-					Cache.OnTextChanged(this);
-			}
-		}
+        /// <summary>
+        /// Gets or sets the text that is displayed when drawn.
+        /// </summary>
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value;
 
-		/// <summary>
-		/// Gets or sets the location where text is drawn.
-		/// </summary>
-		public Vector2 Location
-		{
-			get => location;
-			set
-			{
-				location = value;
+                if (Cache != null)
+                {
+                    Cache.OnTextChanged(this);
+                }
+            }
+        }
 
-				if (Cache != null)
-					Cache.OnLocationChanged(this);
-			}
-		}
-		/// <summary>
-		/// Sets how to interpret the point given to DrawText methods.
-		/// </summary>
-		public OriginAlignment TextAlignment
-		{
-			get => alignment;
-			set
-			{
-				alignment = value;
+        /// <summary>
+        /// Gets or sets the location where text is drawn.
+        /// </summary>
+        public Vector2 Location
+        {
+            get => location;
+            set
+            {
+                location = value;
 
-				Cache?.OnDisplayAlignmentChanged(this);
-			}
-		}
-		/// <summary>
-		/// Sets the color of the text to be drawn.
-		/// </summary>
-		public Color Color
-		{
-			get => color;
-			set
-			{
-				color = value;
+                if (Cache != null)
+                {
+                    Cache.OnLocationChanged(this);
+                }
+            }
+        }
+        /// <summary>
+        /// Sets how to interpret the point given to DrawText methods.
+        /// </summary>
+        public OriginAlignment TextAlignment
+        {
+            get => alignment;
+            set
+            {
+                alignment = value;
 
-				if (Cache != null)
-					Cache.OnColorChanged(this);
-			}
-		}
-		/// <summary>
-		/// Sets the alpha value of the text to be drawn.
-		/// </summary>
-		public double Alpha
-		{
-			get => color.A / 255.0;
-			set
-			{
-				if (value < 0) value = 0;
-				if (value > 1.0) value = 1.0;
+                Cache?.OnDisplayAlignmentChanged(this);
+            }
+        }
+        /// <summary>
+        /// Sets the color of the text to be drawn.
+        /// </summary>
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
 
-				color = new Color(color, (int)(value * 255));
+                if (Cache != null)
+                {
+                    Cache.OnColorChanged(this);
+                }
+            }
+        }
+        /// <summary>
+        /// Sets the alpha value of the text to be drawn.
+        /// </summary>
+        public double Alpha
+        {
+            get => color.A / 255.0;
+            set
+            {
+                if (value < 0)
+                {
+                    value = 0;
+                }
 
-				Cache?.OnColorChanged(this);
-			}
-		}
+                if (value > 1.0)
+                {
+                    value = 1.0;
+                }
 
-		/// <summary>
-		/// Gets or sets the size of the font.
-		/// </summary>
-		public int Size
-		{
-			get => size;
-			set
-			{
-				size = value;
+                color = new Color(color, (int)(value * 255));
 
-				Cache?.OnSizeChanged(this);
-			}
-		}
+                Cache?.OnColorChanged(this);
+            }
+        }
 
-		public FontStyles Style
-		{
-			get => style;
-			set
-			{
-				style = value;
+        /// <summary>
+        /// Gets or sets the size of the font.
+        /// </summary>
+        public int Size
+        {
+            get => size;
+            set
+            {
+                size = value;
 
-				Cache?.OnStyleChanged(this);
-			}
-		}
-		/// <summary>
-		/// Gets or sets the amount the width is scaled when the text is drawn.
-		/// 1.0 is no scaling.
-		/// </summary>
-		internal double ScaleWidth
-		{
-			get => scaleWidth;
-			set
-			{
-				scaleWidth = value;
+                Cache?.OnSizeChanged(this);
+            }
+        }
 
-				if (Cache != null)
-					Cache.OnScaleChanged(this);
-			}
-		}
-		/// <summary>
-		/// Gets or sets the amount the height is scaled when the text is drawn.
-		/// 1.0 is no scaling.
-		/// </summary>
-		internal double ScaleHeight
-		{
-			get => scaleHeight;
-			set
-			{
-				scaleHeight = value;
+        public FontStyles Style
+        {
+            get => style;
+            set
+            {
+                style = value;
 
-				if (Cache != null)
-					Cache.OnScaleChanged(this);
-			}
-		}
-		/// <summary>
-		/// This value is used by the implementation to optimize rendering this state object.
-		/// Do not set this value unless you know what you are doing, or writing an implementation
-		/// of FontSurfaceImpl.
-		/// </summary>
-		public IFontStateCache Cache
-		{
-			get => cache;
-			set => cache = value;
-		}
-		
-		public FontSettings Settings => new FontSettings(Size, style);
+                Cache?.OnStyleChanged(this);
+            }
+        }
+        /// <summary>
+        /// Gets or sets the amount the width is scaled when the text is drawn.
+        /// 1.0 is no scaling.
+        /// </summary>
+        internal double ScaleWidth
+        {
+            get => scaleWidth;
+            set
+            {
+                scaleWidth = value;
 
-		#region --- ICloneable Members ---
+                if (Cache != null)
+                {
+                    Cache.OnScaleChanged(this);
+                }
+            }
+        }
+        /// <summary>
+        /// Gets or sets the amount the height is scaled when the text is drawn.
+        /// 1.0 is no scaling.
+        /// </summary>
+        internal double ScaleHeight
+        {
+            get => scaleHeight;
+            set
+            {
+                scaleHeight = value;
 
-		/// <summary>
-		/// Returns a deep copy of the FontState object.
-		/// </summary>
-		/// <returns></returns>
-		public FontState Clone()
-		{
-			FontState result = new FontState();
+                if (Cache != null)
+                {
+                    Cache.OnScaleChanged(this);
+                }
+            }
+        }
+        /// <summary>
+        /// This value is used by the implementation to optimize rendering this state object.
+        /// Do not set this value unless you know what you are doing, or writing an implementation
+        /// of FontSurfaceImpl.
+        /// </summary>
+        public IFontStateCache Cache
+        {
+            get => cache;
+            set => cache = value;
+        }
 
-			result.alignment = alignment;
-			result.color = color;
-			result.scaleWidth = scaleWidth;
-			result.scaleHeight = scaleHeight;
-			result.location = location;
-			result.text = text;
-			result.Size = size;
-			result.Style = Style;
+        public FontSettings Settings => new FontSettings(Size, style);
 
-			if (cache != null)
-			{
-				result.cache = cache.Clone();
-			}
+        #region --- ICloneable Members ---
 
-			return result;
-		}
+        /// <summary>
+        /// Returns a deep copy of the FontState object.
+        /// </summary>
+        /// <returns></returns>
+        public FontState Clone()
+        {
+            FontState result = new FontState
+            {
+                alignment = alignment,
+                color = color,
+                scaleWidth = scaleWidth,
+                scaleHeight = scaleHeight,
+                location = location,
+                text = text,
+                Size = size,
+                Style = Style
+            };
 
-		#endregion
-	}
+            if (cache != null)
+            {
+                result.cache = cache.Clone();
+            }
+
+            return result;
+        }
+
+        #endregion
+    }
 
 }

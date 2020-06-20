@@ -37,9 +37,11 @@ namespace AgateLib.Tests.Console
             Random rnd = new Random();
 
             for (int i = 0; i < count; i++)
+            {
                 points.Add(new Point(
                     rnd.Next(1280),
                     rnd.Next(720)));
+            }
 
             Shell.WriteLine($"Added {count} new boxes.");
         }

@@ -120,7 +120,9 @@ namespace AgateLib.UserInterface.Styling.Themes
             foreach (var itemMatcher in matcher)
             {
                 if (!string.IsNullOrWhiteSpace(itemMatcher.TypeId) && itemMatcher.TypeId != "*")
+                {
                     result += 1;
+                }
 
                 result += itemMatcher.ClassNames.Count * 10;
                 result += itemMatcher.PseudoClasses.Count * 10;
@@ -140,7 +142,9 @@ namespace AgateLib.UserInterface.Styling.Themes
             void PushItemMatcher()
             {
                 if (!hasValue)
+                {
                     return;
+                }
 
                 matcher.Add(itemMatcher);
                 itemMatcher = new ItemMatcher { MatchType = MatcherType.Ancestor };
@@ -150,7 +154,9 @@ namespace AgateLib.UserInterface.Styling.Themes
             void PushMatcher()
             {
                 if (hasValue)
+                {
                     PushItemMatcher();
+                }
 
                 matchers.Add(matcher);
                 matcher = new Matcher();
@@ -207,7 +213,9 @@ namespace AgateLib.UserInterface.Styling.Themes
         private bool ValidateTokens()
         {
             if (tokens.Any(x => x.Type == TokenType.Invalid))
+            {
                 return false;
+            }
 
             switch (tokens.First().Type)
             {
@@ -220,7 +228,10 @@ namespace AgateLib.UserInterface.Styling.Themes
             {
                 case TokenType.Wildcard:
                     if (tokens.Count > 1)
+                    {
                         return false;
+                    }
+
                     break;
 
                 case TokenType.Child:
@@ -233,12 +244,16 @@ namespace AgateLib.UserInterface.Styling.Themes
                 if (tokens[i].Type == TokenType.Child)
                 {
                     if (foundChild)
+                    {
                         return false;
+                    }
 
                     foundChild = true;
                 }
                 else
+                {
                     foundChild = false;
+                }
             }
 
             return true;
@@ -298,11 +313,15 @@ namespace AgateLib.UserInterface.Styling.Themes
                              RenderElementStack stack)
         {
             if (!IsValid)
+            {
                 return false;
+            }
 
             // first check if the final token is a potential match to the actual element.
             if (!IsMatch(matcher.First(), element, elementClasses))
+            {
                 return false;
+            }
 
             int stackPtr = stack.ParentStack.Count - 1;
 
@@ -311,7 +330,9 @@ namespace AgateLib.UserInterface.Styling.Themes
                 var itemMatcher = matcher[i];
 
                 if (stackPtr < 0)
+                {
                     return false;
+                }
 
                 while (!IsMatch(itemMatcher, stack.ParentStack[stackPtr],
                                              ClassesOf(stack.ParentStack[stackPtr])))
@@ -321,10 +342,14 @@ namespace AgateLib.UserInterface.Styling.Themes
                         stackPtr--;
 
                         if (stackPtr < 0)
+                        {
                             return false;
+                        }
                     }
                     else
+                    {
                         return false;
+                    }
                 }
 
                 stackPtr--;
@@ -338,7 +363,9 @@ namespace AgateLib.UserInterface.Styling.Themes
                              IReadOnlyList<string> elementClasses)
         {
             if (matcher.TypeId == "*")
+            {
                 return true;
+            }
 
             if (!string.IsNullOrWhiteSpace(matcher.TypeId)
                 && !matcher.TypeId.Equals(element.StyleTypeId))
@@ -360,7 +387,9 @@ namespace AgateLib.UserInterface.Styling.Themes
                 }
 
                 if (!anyMatchToElement)
+                {
                     return false;
+                }
             }
 
             // TODO: Should I make match multiple identifiers on an element?

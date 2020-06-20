@@ -1,8 +1,6 @@
 ﻿using AgateLib.Mathematics.Geometry;
-using AgateLib.Tests;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
-using Moq;
 using Xunit;
 
 namespace AgateLib.UserInterface.Layout
@@ -33,7 +31,7 @@ namespace AgateLib.UserInterface.Layout
             grid.Display.System = displaySystem;
             grid.AppContext = new UserInterfaceAppContext();
 
-            foreach(var child in grid.Children)
+            foreach (var child in grid.Children)
             {
                 child.Display.System = displaySystem;
             }

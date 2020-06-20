@@ -61,7 +61,9 @@ namespace AgateLib.Display.Sprites
         private void OnAnimationStopped()
         {
             if (AnimationStopped != null)
+            {
                 AnimationStopped(this, EventArgs.Empty);
+            }
         }
 
         public event EventHandler AnimationStopped;
@@ -85,14 +87,18 @@ namespace AgateLib.Display.Sprites
             set
             {
                 if (mSprites.ContainsKey(value))
+                {
                     mCurrent = value;
+                }
             }
         }
 
         internal void SetCurrentSprite(TKey spriteKey, bool restartAnim)
         {
             if (Locked)
+            {
                 return;
+            }
 
             CurrentSpriteKey = spriteKey;
 

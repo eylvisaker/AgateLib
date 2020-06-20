@@ -25,7 +25,6 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Animations;
-using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -231,7 +230,9 @@ namespace AgateLib.UserInterface
             get
             {
                 if (parentRenderContext != null)
+                {
                     return parentRenderContext.WorkspaceIsActive;
+                }
 
                 return workspaceIsActive;
             }
@@ -259,8 +260,6 @@ namespace AgateLib.UserInterface
 
                 rtClientDest.X -= element.Display.ScrollPosition.X;
                 rtClientDest.Y -= element.Display.ScrollPosition.Y;
-
-                bool clip = false;
                 Rectangle oldClipRect = GraphicsDevice.ScissorRectangle;
 
                 if (element.Display.HasOverflow != HasOverflow.None
@@ -269,13 +268,11 @@ namespace AgateLib.UserInterface
                     DoubleBuffer.Flush(newContext);
 
                     Rectangle clipRect = new Rectangle(Point.Zero,
-                                                       element.Display.ContentRect.Size);
-
-                    clipRect.X = element.Display.Region.MarginToContentOffset.Left;
-                    clipRect.Y = element.Display.Region.MarginToContentOffset.Top;
-
-                    clip = true;
-
+                                                       element.Display.ContentRect.Size)
+                    {
+                        X = element.Display.Region.MarginToContentOffset.Left,
+                        Y = element.Display.Region.MarginToContentOffset.Top
+                    };
                     GraphicsDevice.ScissorRectangle = clipRect;
                 }
 
@@ -319,7 +316,7 @@ namespace AgateLib.UserInterface
                     element.Display.Animation.AnimatedContentRect.Height);
 
                 Rectangle oldScissor = GraphicsDevice.ScissorRectangle;
-                
+
                 element.DrawBackgroundAndBorder(this, dest);
 
                 element.Events.BeforeDraw?.Invoke(this, dest);

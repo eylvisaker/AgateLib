@@ -20,14 +20,13 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Mathematics.Geometry.Builders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NLog;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AgateLib.Display
 {
@@ -140,8 +139,8 @@ namespace AgateLib.Display
                 var vindex = i * 3;
 
                 vertices[vindex + 0] = new VertexPositionTexture(new Vector3(polygon[0].X, polygon[0].Y, 0), texCoords[0]);
-                vertices[vindex + 1] = new VertexPositionTexture(new Vector3(polygon[i + 2].X, polygon[i + 2].Y, 0), texCoords[i+2]);
-                vertices[vindex + 2] = new VertexPositionTexture(new Vector3(polygon[i + 1].X, polygon[i + 1].Y, 0), texCoords[i+1]);
+                vertices[vindex + 1] = new VertexPositionTexture(new Vector3(polygon[i + 2].X, polygon[i + 2].Y, 0), texCoords[i + 2]);
+                vertices[vindex + 2] = new VertexPositionTexture(new Vector3(polygon[i + 1].X, polygon[i + 1].Y, 0), texCoords[i + 1]);
             }
 
             foreach (EffectPass e in effect.CurrentTechnique.Passes)

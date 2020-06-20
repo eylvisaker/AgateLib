@@ -3,8 +3,6 @@ using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.Scenes
 {
@@ -36,8 +34,8 @@ namespace AgateLib.Scenes
         /// <param name="graphics"></param>
         /// <param name="bufferWidth"></param>
         /// <param name="bufferHeight"></param>
-        public BufferedScene(GraphicsDevice graphicsDevice, 
-                             int bufferWidth, 
+        public BufferedScene(GraphicsDevice graphicsDevice,
+                             int bufferWidth,
                              int bufferHeight)
         {
             this.graphicsDevice = graphicsDevice;

@@ -41,8 +41,8 @@ namespace AgateLib.UserInterface.Content.Commands
             if (Images.TryGetValue(arg, out image))
             {
                 var size = new Size(image.Width, image.Height);
-                var destSize = context.Options.ScaleImages 
-                    ? context.ScaleToLineHeight (size)
+                var destSize = context.Options.ScaleImages
+                    ? context.ScaleToLineHeight(size)
                     : size;
 
 

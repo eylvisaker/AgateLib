@@ -20,80 +20,85 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry.Algorithms.CollisionDetection;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace AgateLib.Physics.TwoDimensions.Constraints
 {
-	public class CollisionConstraint : IPairConstraint
-	{
-		private CollisionDetector collider = new CollisionDetector();
+    public class CollisionConstraint : IPairConstraint
+    {
+        private CollisionDetector collider = new CollisionDetector();
 
-		public float MultiplierMin => 0;
-		public float MultiplierMax => float.MaxValue;
-		
-		public ConstraintType ConstraintType => ConstraintType.Inequality;
+        public float MultiplierMin => 0;
+        public float MultiplierMax => float.MaxValue;
 
-		public float Value(Tuple<PhysicalParticle, PhysicalParticle> pair)
-		{
-			var contactPoint = collider.FindConvexContactPoint(pair.Item1.TransformedPolygon, pair.Item2.TransformedPolygon);
+        public ConstraintType ConstraintType => ConstraintType.Inequality;
 
-			if (contactPoint.Contact == false)
-				return 0;
+        public float Value(Tuple<PhysicalParticle, PhysicalParticle> pair)
+        {
+            var contactPoint = collider.FindConvexContactPoint(pair.Item1.TransformedPolygon, pair.Item2.TransformedPolygon);
 
-			var springConstant = 30;
+            if (contactPoint.Contact == false)
+            {
+                return 0;
+            }
 
-			var a = ((contactPoint.SecondPolygon.Centroid + contactPoint.SecondPolygonContactPoint) -
-			         (contactPoint.FirstPolygon.Centroid + contactPoint.FirstPolygonContactPoint));
-			var b = contactPoint.FirstPolygonNormal;
+            var springConstant = 30;
 
-			return springConstant * Vector2.Dot(a, b);
-		}
+            var a = ((contactPoint.SecondPolygon.Centroid + contactPoint.SecondPolygonContactPoint) -
+                     (contactPoint.FirstPolygon.Centroid + contactPoint.FirstPolygonContactPoint));
+            var b = contactPoint.FirstPolygonNormal;
 
-		public bool AppliesTo(PhysicalParticle particle)
-		{
-			throw new NotImplementedException();
-		}
+            return springConstant * Vector2.Dot(a, b);
+        }
 
-		public ConstraintDerivative Derivative(PhysicalParticle particle, Tuple<PhysicalParticle, PhysicalParticle> pair)
-		{
-			var contactPoint = collider.FindConvexContactPoint(pair.Item1.TransformedPolygon, pair.Item2.TransformedPolygon);
+        public bool AppliesTo(PhysicalParticle particle)
+        {
+            throw new NotImplementedException();
+        }
 
-			if (contactPoint.Contact == false)
-				return new ConstraintDerivative();
+        public ConstraintDerivative Derivative(PhysicalParticle particle, Tuple<PhysicalParticle, PhysicalParticle> pair)
+        {
+            var contactPoint = collider.FindConvexContactPoint(pair.Item1.TransformedPolygon, pair.Item2.TransformedPolygon);
 
-			var firstParticle = particle == pair.Item1;
+            if (contactPoint.Contact == false)
+            {
+                return new ConstraintDerivative();
+            }
 
-			var sign = firstParticle ? -1 : 1;
-			var force = sign * contactPoint.FirstPolygonNormal;
+            var firstParticle = particle == pair.Item1;
 
-			var r = firstParticle ? contactPoint.FirstPolygonContactPoint : contactPoint.SecondPolygonContactPoint;
-			var torque = -Vector2X.Cross(r, force); // minus sign because r points from the center to the contact point instead of the other way.
+            var sign = firstParticle ? -1 : 1;
+            var force = sign * contactPoint.FirstPolygonNormal;
 
-			return new ConstraintDerivative(force.X, force.Y, torque);
-		}
+            var r = firstParticle ? contactPoint.FirstPolygonContactPoint : contactPoint.SecondPolygonContactPoint;
+            var torque = -Vector2X.Cross(r, force); // minus sign because r points from the center to the contact point instead of the other way.
 
-		public IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system)
-		{
-			foreach (var p1 in system.Particles)
-			{
-				foreach (var p2 in system.Particles)
-				{
-					if (p2 == p1)
-						continue;
+            return new ConstraintDerivative(force.X, force.Y, torque);
+        }
 
-					if (collider.DoPolygonsIntersect(p1.TransformedPolygon, p2.TransformedPolygon) == false)
-						continue;
+        public IEnumerable<IReadOnlyList<PhysicalParticle>> ApplyTo(KinematicsSystem system)
+        {
+            foreach (var p1 in system.Particles)
+            {
+                foreach (var p2 in system.Particles)
+                {
+                    if (p2 == p1)
+                    {
+                        continue;
+                    }
 
-					yield return new List<PhysicalParticle> { p1, p2 };
-				}
-			}
-		}
-	}
+                    if (collider.DoPolygonsIntersect(p1.TransformedPolygon, p2.TransformedPolygon) == false)
+                    {
+                        continue;
+                    }
+
+                    yield return new List<PhysicalParticle> { p1, p2 };
+                }
+            }
+        }
+    }
 }

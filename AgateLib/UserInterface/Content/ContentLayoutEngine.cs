@@ -97,7 +97,9 @@ namespace AgateLib.UserInterface.Content
         private Font LookupFont(FontStyleProperties fontStyle)
         {
             if (fontStyle == null)
+            {
                 return new Font(fonts.Default);
+            }
 
             var font = fonts[fontStyle.Family];
 
@@ -136,7 +138,9 @@ namespace AgateLib.UserInterface.Content
         {
             int space = token.IndexOf(' ');
             if (space == -1)
+            {
                 space = token.Length;
+            }
 
             var command = token.Substring(0, space);
             var arg = token.Substring(space).Trim();
@@ -152,9 +156,11 @@ namespace AgateLib.UserInterface.Content
         private bool IsCommandToken(string token)
         {
             if (token == null)
+            {
                 return false;
+            }
 
-            return token[0] == CommandStart && token[token.Length-1] == CommandEnd;
+            return token[0] == CommandStart && token[token.Length - 1] == CommandEnd;
         }
 
         public void AddCommand(string name, IContentCommand command)

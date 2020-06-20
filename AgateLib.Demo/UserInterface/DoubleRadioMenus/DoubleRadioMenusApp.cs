@@ -65,7 +65,9 @@ namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
         private void UpdateFlags()
         {
             if (selectedLeft == null || selectedRight == null)
+            {
                 return;
+            }
 
             SetState(state => state.AcceptEnabled = true);
         }

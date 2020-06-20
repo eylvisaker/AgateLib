@@ -20,17 +20,15 @@
 //    SOFTWARE.
 //
 
-using Microsoft.Xna.Framework.Input;
-
 namespace AgateLib.Input
 {
-	public class GamepadButtonEventArgs
-	{
-		public GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons button)
-		{
-			this.Button = button;
-		}
+    public class GamepadButtonEventArgs
+    {
+        public GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons button)
+        {
+            this.Button = button;
+        }
 
-		public Microsoft.Xna.Framework.Input.Buttons Button { get; }
-	}
+        public Microsoft.Xna.Framework.Input.Buttons Button { get; }
+    }
 }

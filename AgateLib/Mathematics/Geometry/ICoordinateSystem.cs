@@ -24,19 +24,19 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.Mathematics.Geometry
 {
-	/// <summary>
-	/// Interface for classes which create a coordinate system for a given DisplayWindow size.
-	/// </summary>
-	public interface ICoordinateSystem
-	{
-		/// <summary>
-		/// Gets or sets size in pixels of the render target.
-		/// </summary>
-		Size RenderTargetSize { get; set; }
-		/// <summary>
-		/// Gets the coordinate system given the size of the display window. This is calculated when 
-		/// RenderTargetSize is set.
-		/// </summary>
-		Rectangle Coordinates { get; }
-	}
+    /// <summary>
+    /// Interface for classes which create a coordinate system for a given DisplayWindow size.
+    /// </summary>
+    public interface ICoordinateSystem
+    {
+        /// <summary>
+        /// Gets or sets size in pixels of the render target.
+        /// </summary>
+        Size RenderTargetSize { get; set; }
+        /// <summary>
+        /// Gets the coordinate system given the size of the display window. This is calculated when 
+        /// RenderTargetSize is set.
+        /// </summary>
+        Rectangle Coordinates { get; }
+    }
 }

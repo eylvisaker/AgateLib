@@ -1,16 +1,13 @@
 ﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AgateLib.Algorithms
 {
     public class CollectionAlgorithmUnitTests
     {
-        List<int> items = new List<int> { 4, 8, 12, 11, -9, 6, -4, 3 };
+        private List<int> items = new List<int> { 4, 8, 12, 11, -9, 6, -4, 3 };
 
         [Fact]
         public void MaximizeThrowsIfCollectionIsEmpty() => new Action(() => new List<int>().Maximize(x => x)).Should().Throw<ArgumentException>();

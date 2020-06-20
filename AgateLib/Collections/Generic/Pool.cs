@@ -20,11 +20,9 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Quality;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
-using AgateLib.Quality;
 
 namespace AgateLib.Collections.Generic
 {
@@ -42,7 +40,7 @@ namespace AgateLib.Collections.Generic
         private Func<T> generator;
 
         private int maxCreation;
-        
+
         public Pool(Func<T> generator, int maxSize = int.MaxValue)
         {
             Require.ArgumentNotNull(generator, nameof(generator));

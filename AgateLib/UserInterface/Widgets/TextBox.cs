@@ -20,7 +20,6 @@
 //    SOFTWARE.
 //
 
-using System;
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 
@@ -53,7 +52,9 @@ namespace AgateLib.UserInterface
             flashCycle += (float)renderContext.GameTime.ElapsedGameTime.TotalSeconds;
 
             if (flashCycle > flashTime)
+            {
                 flashCycle %= flashTime;
+            }
 
             base.Update(renderContext);
         }

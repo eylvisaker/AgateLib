@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AgateLib.Mathematics.Geometry;
+﻿using AgateLib.Mathematics.Geometry;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace AgateLib.Tests.MathematicsTests.Geometry

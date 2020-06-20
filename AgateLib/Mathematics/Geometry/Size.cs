@@ -200,9 +200,13 @@ namespace AgateLib.Mathematics.Geometry
         public override bool Equals(object obj)
         {
             if (obj is Size)
+            {
                 return Equals((Size)obj);
+            }
             else
+            {
                 return base.Equals(obj);
+            }
         }
         /// <summary>
         /// Equality test.
@@ -212,9 +216,13 @@ namespace AgateLib.Mathematics.Geometry
         public bool Equals(Size obj)
         {
             if (width == obj.width && height == obj.height)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
 
         #endregion
@@ -270,9 +278,14 @@ namespace AgateLib.Mathematics.Geometry
             Size result = new Size();
 
             if (values.Length == 1 && text.Contains("x") && text.Contains("=") == false)
+            {
                 values = text.Split('x');
+            }
+
             if (values.Length != 2)
+            {
                 throw new FormatException("Could not parse size data from text.");
+            }
 
             if (text.Contains("="))
             {

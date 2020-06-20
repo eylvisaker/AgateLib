@@ -1,6 +1,4 @@
-﻿using AgateLib.UserInterface;
-using System;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface

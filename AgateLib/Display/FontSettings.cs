@@ -58,9 +58,14 @@ namespace AgateLib.Display
         public bool Equals(FontSettings other)
         {
             if (Size != other.Size)
+            {
                 return false;
+            }
+
             if (Style != other.Style)
+            {
                 return false;
+            }
 
             return true;
         }
@@ -82,9 +87,13 @@ namespace AgateLib.Display
         public override string ToString()
         {
             if (Style != FontStyles.None)
+            {
                 return $"{Size}-{Style}";
+            }
             else
+            {
                 return Size.ToString();
+            }
         }
     }
 }

@@ -20,7 +20,6 @@
 //    SOFTWARE.
 //
 
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Rendering

@@ -20,173 +20,181 @@
 //    SOFTWARE.
 //
 
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.Mathematics.Geometry
 {
-	/// <summary>
-	/// SizeF structure.
-	/// </summary>
-	public struct SizeF  
-	{
-		float width, height;
+    /// <summary>
+    /// SizeF structure.
+    /// </summary>
+    public struct SizeF
+    {
+        private float width, height;
 
-		/// <summary>
-		/// Constructs a SizeF structure.
-		/// </summary>
-		/// <param name="pt"></param>
-		public SizeF(Vector2 pt)
-		{
-			width = pt.X;
-			height = pt.Y;
-		}
+        /// <summary>
+        /// Constructs a SizeF structure.
+        /// </summary>
+        /// <param name="pt"></param>
+        public SizeF(Vector2 pt)
+        {
+            width = pt.X;
+            height = pt.Y;
+        }
 
-		/// <summary>
-		/// Constructs a SizeF structure.
-		/// </summary>
-		/// <param name="height"></param>
-		/// <param name="width"></param>
-		public SizeF(float width, float height)
-		{
-			this.width = width;
-			this.height = height;
-		}
+        /// <summary>
+        /// Constructs a SizeF structure.
+        /// </summary>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
+        public SizeF(float width, float height)
+        {
+            this.width = width;
+            this.height = height;
+        }
 
-		/// <summary>
-		/// Gets or sets the width.
-		/// </summary>
-		public float Width
-		{
-			get => width;
-			set => width = value;
-		}
-		/// <summary>
-		/// Gets or sets the height.
-		/// </summary>
-		public float Height
-		{
-			get => height;
-			set => height = value;
-		}
+        /// <summary>
+        /// Gets or sets the width.
+        /// </summary>
+        public float Width
+        {
+            get => width;
+            set => width = value;
+        }
+        /// <summary>
+        /// Gets or sets the height.
+        /// </summary>
+        public float Height
+        {
+            get => height;
+            set => height = value;
+        }
 
-		/// <summary>
-		/// Gets the aspect ratio (width / height) of this Size object.
-		/// </summary>
-		[YamlIgnore]
-		public double AspectRatio => width / height;
+        /// <summary>
+        /// Gets the aspect ratio (width / height) of this Size object.
+        /// </summary>
+        [YamlIgnore]
+        public double AspectRatio => width / height;
 
-		/// <summary>
-		/// True if width and height are zero.
-		/// </summary>
-		[YamlIgnore]
-		public bool IsZero => width == 0 && height == 0;
+        /// <summary>
+        /// True if width and height are zero.
+        /// </summary>
+        [YamlIgnore]
+        public bool IsZero => width == 0 && height == 0;
 
-		[Obsolete("Use IsZero instead.")]
-		[YamlIgnore]
-		public bool IsEmpty => IsZero;
+        [Obsolete("Use IsZero instead.")]
+        [YamlIgnore]
+        public bool IsEmpty => IsZero;
 
-		/// <summary>
-		/// Empty SizeF structure.
-		/// </summary>
-		public static readonly SizeF Zero = new SizeF(0, 0);
+        /// <summary>
+        /// Empty SizeF structure.
+        /// </summary>
+        public static readonly SizeF Zero = new SizeF(0, 0);
 
-		/// <summary>
-		/// Empty SizeF structure.
-		/// </summary>
-		[Obsolete("Use Zero instead.")]
-		public static readonly SizeF Empty = new SizeF(0, 0);
+        /// <summary>
+        /// Empty SizeF structure.
+        /// </summary>
+        [Obsolete("Use Zero instead.")]
+        public static readonly SizeF Empty = new SizeF(0, 0);
 
-		/// <summary>
-		/// Conversion to Size casts height and width to integers.
-		/// </summary>
-		/// <param name="size"></param>
-		/// <returns></returns>
-		public static explicit operator Size(SizeF size)
-		{
-			return new Size((int)size.width, (int)size.height);
-		}
+        /// <summary>
+        /// Conversion to Size casts height and width to integers.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static explicit operator Size(SizeF size)
+        {
+            return new Size((int)size.width, (int)size.height);
+        }
 
-		#region --- Operator Overloads ---
+        #region --- Operator Overloads ---
 
-		/// <summary>
-		/// Equality comparison test.
-		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <returns></returns>
-		public static bool operator ==(SizeF a, SizeF b)
-		{
-			return a.Equals(b);
-		}
-		/// <summary>
-		/// Inequality comparison test.
-		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <returns></returns>
-		public static bool operator !=(SizeF a, SizeF b)
-		{
-			return !a.Equals(b);
-		}
-		/// <summary>
-		/// Converts a Size to a Vector2f.
-		/// </summary>
-		/// <param name="size"></param>
-		public static explicit operator Vector2(SizeF size)
-		{
-			return new Vector2(size.Width, size.Height);
-		}
+        /// <summary>
+        /// Equality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(SizeF a, SizeF b)
+        {
+            return a.Equals(b);
+        }
+        /// <summary>
+        /// Inequality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(SizeF a, SizeF b)
+        {
+            return !a.Equals(b);
+        }
+        /// <summary>
+        /// Converts a Size to a Vector2f.
+        /// </summary>
+        /// <param name="size"></param>
+        public static explicit operator Vector2(SizeF size)
+        {
+            return new Vector2(size.Width, size.Height);
+        }
 
 
-		#endregion
+        #endregion
 
-		#region --- Object Overrides ---
+        #region --- Object Overrides ---
 
-		/// <summary>
-		/// Converts to a string.
-		/// </summary>
-		/// <returns></returns>
-		public override string ToString()
-		{
-			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
-				"(Width={0},Height={1})", width, height);
-		}
-		/// <summary>
-		/// Gets a hash code.
-		/// </summary>
-		/// <returns></returns>
-		public override int GetHashCode()
-		{
-			return width.GetHashCode() ^ height.GetHashCode();
-		}
-		/// <summary>
-		/// Equality test.
-		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
-		public override bool Equals(object obj)
-		{
-			if (obj is SizeF)
-				return Equals((SizeF)obj);
-			else
-				return base.Equals(obj);
-		}
-		/// <summary>
-		/// Equality test.
-		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
-		public bool Equals(SizeF obj)
-		{
-			if (width == obj.width && height == obj.height)
-				return true;
-			else
-				return false;
-		}
+        /// <summary>
+        /// Converts to a string.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format(System.Globalization.CultureInfo.CurrentCulture,
+                "(Width={0},Height={1})", width, height);
+        }
+        /// <summary>
+        /// Gets a hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return width.GetHashCode() ^ height.GetHashCode();
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is SizeF)
+            {
+                return Equals((SizeF)obj);
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool Equals(SizeF obj)
+        {
+            if (width == obj.width && height == obj.height)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-		#endregion
+        #endregion
 
-	}
+    }
 }

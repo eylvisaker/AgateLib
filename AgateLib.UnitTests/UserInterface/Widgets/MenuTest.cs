@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.UserInterface;
-using AgateLib.UserInterface.Widgets;
+﻿using AgateLib.UserInterface;
 using FluentAssertions;
 using Microsoft.Xna.Framework.Input;
+using System;
 using Xunit;
 
 namespace AgateLib.Tests.UserInterface.Widgets
@@ -131,10 +126,7 @@ namespace AgateLib.Tests.UserInterface.Widgets
                     {
                         OnMenuItemDisabled = e =>
                         {
-                            if (disabledCount > 0)
-                                throw new InvalidOperationException("OnAccept triggered for disabled menu item.");
-
-                            disabledCount++;
+                            if (disabledCount > 0) { throw new InvalidOperationException("OnAccept triggered for disabled menu item."); } disabledCount++;
                         },
                     }),
                     new Window(new WindowProps

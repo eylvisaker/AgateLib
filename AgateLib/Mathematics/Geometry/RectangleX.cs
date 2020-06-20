@@ -40,10 +40,25 @@ namespace AgateLib.Mathematics.Geometry
         /// <returns></returns>
         public static bool Equals(Rectangle a, Rectangle b)
         {
-            if (a.X != b.X) return false;
-            if (a.Y != b.Y) return false;
-            if (a.Width != b.Width) return false;
-            if (a.Height != b.Height) return false;
+            if (a.X != b.X)
+            {
+                return false;
+            }
+
+            if (a.Y != b.Y)
+            {
+                return false;
+            }
+
+            if (a.Width != b.Width)
+            {
+                return false;
+            }
+
+            if (a.Height != b.Height)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -218,10 +233,25 @@ namespace AgateLib.Mathematics.Geometry
         [Obsolete]
         public static bool IntersectsWith(this Rectangle arct, Rectangle rect)
         {
-            if (arct.Left >= rect.Right) return false;
-            if (rect.Left >= arct.Right) return false;
-            if (arct.Top >= rect.Bottom) return false;
-            if (rect.Top >= arct.Bottom) return false;
+            if (arct.Left >= rect.Right)
+            {
+                return false;
+            }
+
+            if (rect.Left >= arct.Right)
+            {
+                return false;
+            }
+
+            if (arct.Top >= rect.Bottom)
+            {
+                return false;
+            }
+
+            if (rect.Top >= arct.Bottom)
+            {
+                return false;
+            }
 
             return true;
         }

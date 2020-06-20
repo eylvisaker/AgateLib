@@ -20,18 +20,12 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using AgateLib.Display.BitmapFont;
-using AgateLib.Mathematics;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace AgateLib.Display
 {
@@ -311,16 +305,24 @@ namespace AgateLib.Display
         public bool Equals(Font font)
         {
             if (!core.Equals(font.core))
+            {
                 return false;
+            }
 
             if (Size != font.Size)
+            {
                 return false;
+            }
 
             if (Color != font.Color)
+            {
                 return false;
+            }
 
             if (Style != font.Style)
+            {
                 return false;
+            }
 
             return true;
         }

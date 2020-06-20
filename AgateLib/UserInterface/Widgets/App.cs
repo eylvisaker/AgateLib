@@ -20,7 +20,6 @@
 //    SOFTWARE.
 //
 
-using AgateLib.UserInterface.Styling;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface

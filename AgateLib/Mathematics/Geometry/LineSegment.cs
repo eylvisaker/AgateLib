@@ -58,12 +58,12 @@ namespace AgateLib.Mathematics.Geometry
         /// <param name="x"></param>
         /// <returns></returns>
         public float Y(float x)
-		{
-			var slope = (End.Y - Start.Y) / (End.X - Start.X);
-			var run = x - Start.X;
-			var rise = Start.Y + run * slope;
+        {
+            var slope = (End.Y - Start.Y) / (End.X - Start.X);
+            var run = x - Start.X;
+            var rise = Start.Y + run * slope;
 
-			return rise;
-		}
-	}
+            return rise;
+        }
+    }
 }

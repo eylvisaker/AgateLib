@@ -21,9 +21,6 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AgateLib.Mathematics.Algorithms
 {
@@ -32,7 +29,7 @@ namespace AgateLib.Mathematics.Algorithms
     /// </summary>
     public static class Inverting
     {
-        struct Point<T>
+        private struct Point<T>
         {
             public Point(T x, T y)
             {
@@ -77,7 +74,9 @@ namespace AgateLib.Mathematics.Algorithms
                 sign = -1;
             }
             else
+            {
                 return initialPt;
+            }
 
             int step = 1 * sign;
 
@@ -97,14 +96,17 @@ namespace AgateLib.Mathematics.Algorithms
                     hasUpper = true;
                 }
                 else
+                {
                     return p1.X;
+                }
 
                 iter++;
                 step *= 2;
 
                 if (iter > itermax)
+                {
                     throw new InvalidOperationException("No solution found.");
-
+                }
             }
 
             while (Math.Abs(p1.Y - targetVal) > 1e-7)
@@ -124,15 +126,23 @@ namespace AgateLib.Mathematics.Algorithms
                 }
 
                 if (p1.Y < targetVal)
+                {
                     lowerVal = p1;
+                }
                 else if (p1.Y > targetVal)
+                {
                     upperVal = p1;
+                }
                 else
+                {
                     return p1.X;
+                }
 
                 iter++;
                 if (iter > itermax)
+                {
                     throw new InvalidOperationException("No solution found.");
+                }
             }
 
             return p1.X;

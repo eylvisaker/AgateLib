@@ -107,8 +107,15 @@ namespace AgateLib.Tests.UserInterface.FF6
                 int type = x.ItemType.CompareTo(y.ItemType);
                 int name = x.Name.CompareTo(y.Name);
 
-                if (type != 0) return type;
-                if (name != 0) return name;
+                if (type != 0)
+                {
+                    return type;
+                }
+
+                if (name != 0)
+                {
+                    return name;
+                }
 
                 return 0;
             });

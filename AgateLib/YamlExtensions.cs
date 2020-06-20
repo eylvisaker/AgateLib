@@ -20,7 +20,6 @@
 //    SOFTWARE.
 //
 
-using System;
 using AgateLib.Mathematics.TypeConverters;
 using AgateLib.Randomizer.TypeConverters;
 using AgateLib.UserInterface.Styling.Themes.Model.TypeConverters;

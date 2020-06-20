@@ -1,9 +1,5 @@
 ﻿using AgateLib.UserInterface;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.Tests.UserInterface.Scrolling
 {
@@ -18,7 +14,9 @@ namespace AgateLib.Tests.UserInterface.Scrolling
             List<IRenderable> buttons = new List<IRenderable>();
 
             for (int i = 0; i < 50; i++)
+            {
                 buttons.Add(new Button(new ButtonProps { Text = $"Item {i + 1}" }));
+            }
 
             return new Window(new WindowProps
             {

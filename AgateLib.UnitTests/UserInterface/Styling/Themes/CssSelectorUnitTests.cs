@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.UserInterface;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
+using System.Linq;
 using Xunit;
 
 namespace AgateLib.UserInterface.Styling.Themes
@@ -481,10 +476,14 @@ namespace AgateLib.UserInterface.Styling.Themes
             bool Search(IRenderElement node)
             {
                 if (node == renderElement)
+                {
                     return true;
+                }
 
                 if (node.Children == null)
+                {
                     return false;
+                }
 
                 foreach (var item in node.Children)
                 {
@@ -504,12 +503,14 @@ namespace AgateLib.UserInterface.Styling.Themes
             RenderElementStack result = new RenderElementStack();
 
             while (temp.Count > 0)
+            {
                 result.PushParent(temp.PopParent());
+            }
 
             return result;
         }
 
-        IRenderElement Element(
+        private IRenderElement Element(
             string typeId = "",
             string cls = "",
             string name = "",

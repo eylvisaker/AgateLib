@@ -139,7 +139,9 @@ namespace AgateLib.UserInterface
                 instructions = value;
 
                 foreach (var workspace in workspaces)
+                {
                     workspace.Instructions = instructions;
+                }
             }
         }
 
@@ -169,7 +171,9 @@ namespace AgateLib.UserInterface
             workspace.FocusChanged += Workspace_FocusChanged;
 
             if (string.IsNullOrWhiteSpace(workspace.DefaultTheme))
+            {
                 workspace.DefaultTheme = DefaultTheme;
+            }
 
             workspace.Render();
             workspace.VisualTree.DoLayout(layoutContext, ScreenArea);
@@ -232,7 +236,9 @@ namespace AgateLib.UserInterface
                 screenArea = value;
 
                 foreach (var w in workspaces)
+                {
                     w.ScreenArea = screenArea;
+                }
             }
         }
 
@@ -253,7 +259,9 @@ namespace AgateLib.UserInterface
             UserInterfaceAction?.Invoke(args);
 
             if (args.Handled)
+            {
                 return;
+            }
 
             if (ActiveWorkspace?.AnimationState == AnimationState.Static)
             {
@@ -261,7 +269,9 @@ namespace AgateLib.UserInterface
             }
 
             if (!args.Handled)
+            {
                 UnhandledEvent?.Invoke(args);
+            }
         }
 
         public void OnButtonDown(ButtonStateEventArgs args)
@@ -269,7 +279,9 @@ namespace AgateLib.UserInterface
             ButtonDown?.Invoke(args);
 
             if (args.Handled)
+            {
                 return;
+            }
 
             if (ActiveWorkspace?.AnimationState == AnimationState.Static)
             {
@@ -282,7 +294,9 @@ namespace AgateLib.UserInterface
             ButtonUp?.Invoke(args);
 
             if (args.Handled)
+            {
                 return;
+            }
 
             if (ActiveWorkspace?.AnimationState == AnimationState.Static)
             {
@@ -313,7 +327,9 @@ namespace AgateLib.UserInterface
             inactiveWorkspaceFadeColor.Update(renderContext.GameTime);
 
             foreach (var workspace in workspaces)
+            {
                 workspace.IsActive = workspace == ActiveWorkspace;
+            }
 
             if (workspaces.Count == 0)
             {

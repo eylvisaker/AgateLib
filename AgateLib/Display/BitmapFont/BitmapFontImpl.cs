@@ -54,10 +54,11 @@ namespace AgateLib.Display.BitmapFont
 
             public IFontStateCache Clone()
             {
-                BitmapFontCache cache = new BitmapFontCache();
-
-                cache.SrcRects = (Rectangle[])SrcRects.Clone();
-                cache.DestRects = (Rectangle[])DestRects.Clone();
+                BitmapFontCache cache = new BitmapFontCache
+                {
+                    SrcRects = (Rectangle[])SrcRects.Clone(),
+                    DestRects = (Rectangle[])DestRects.Clone()
+                };
 
                 return cache;
             }
@@ -111,7 +112,9 @@ namespace AgateLib.Display.BitmapFont
             foreach (var kvp in mFontMetrics)
             {
                 if (kvp.Value.SourceRect.Height > maxHeight)
+                {
                     maxHeight = kvp.Value.SourceRect.Height;
+                }
             }
 
             mCharHeight = (int)Math.Ceiling(maxHeight);
@@ -142,7 +145,9 @@ namespace AgateLib.Display.BitmapFont
         public Size MeasureString(FontState state, string text)
         {
             if (string.IsNullOrEmpty(text))
+            {
                 return Size.Empty;
+            }
 
             int carriageReturnCount = 0;
             int i = 0;
@@ -158,13 +163,17 @@ namespace AgateLib.Display.BitmapFont
                 for (int j = 0; j < line.Length; j++)
                 {
                     if (mFontMetrics.ContainsKey(line[j]) == false)
+                    {
                         continue;
+                    }
 
                     lineWidth += mFontMetrics[line[j]].LayoutWidth;
                 }
 
                 if (lineWidth > highestLineWidth)
+                {
                     highestLineWidth = lineWidth;
+                }
             }
 
             // measure height
@@ -174,14 +183,18 @@ namespace AgateLib.Display.BitmapFont
                 i = text.IndexOf('\n', i + 1);
 
                 if (i == -1)
+                {
                     break;
+                }
 
                 carriageReturnCount++;
 
             } while (i != -1);
 
             if (text[text.Length - 1] == '\n')
+            {
                 carriageReturnCount--;
+            }
 
             return new Size((int)Math.Ceiling(highestLineWidth * state.ScaleWidth),
                 (int)(mCharHeight * (carriageReturnCount + 1) * state.ScaleHeight));
@@ -281,7 +294,9 @@ namespace AgateLib.Display.BitmapFont
         public void DrawText(FontState state, SpriteBatch spriteBatch)
         {
             if (string.IsNullOrEmpty(state.Text))
+            {
                 return;
+            }
 
             BitmapFontCache cache = GetCache(state);
 
@@ -300,7 +315,9 @@ namespace AgateLib.Display.BitmapFont
         private void RefreshCache(FontState state, BitmapFontCache cache)
         {
             if (cache.NeedsRefresh == false)
+            {
                 return;
+            }
 
             // this variable counts the number of rectangles actually used to display text.
             // It may be less then text.Length because carriage return characters 

@@ -1,21 +1,15 @@
 ﻿using AgateLib.Display;
 using AgateLib.Quality;
-using AgateLib.UserInterface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface
 {
     public static class UserInterfaceFunctions
     {
-        public static void InitializeStyles(this IRenderElement root, 
+        public static void InitializeStyles(this IRenderElement root,
                                             IUserInterfaceRenderContext renderContext)
         {
             Require.ArgumentNotNull(root, nameof(root), "Root element cannot be null.");
-            Require.ArgumentNotNull(renderContext, nameof(renderContext), 
+            Require.ArgumentNotNull(renderContext, nameof(renderContext),
                 "Render Context should not be null.");
             Require.That(renderContext.Fonts != null,
                 "The render context's font collection should not be null.");
@@ -38,9 +32,11 @@ namespace AgateLib.UserInterface
             root.Style.Update(1);
 
             if (root.Children == null)
+            {
                 return;
+            }
 
-            foreach(var child in root.Children)
+            foreach (var child in root.Children)
             {
                 UpdateStyles(child);
             }

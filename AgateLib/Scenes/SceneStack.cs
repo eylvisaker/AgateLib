@@ -158,7 +158,9 @@ namespace AgateLib.Scenes
                     yield return scene;
 
                     if (scene.UpdateBelow == false)
+                    {
                         break;
+                    }
                 }
             }
         }
@@ -168,7 +170,9 @@ namespace AgateLib.Scenes
             get
             {
                 for (int i = scenes.Count - 1; i >= 0; i--)
+                {
                     yield return scenes[i];
+                }
             }
         }
 
@@ -236,7 +240,9 @@ namespace AgateLib.Scenes
             lock (updateLock)
             {
                 if (Contains(scene))
+                {
                     Remove(scene);
+                }
 
                 Add(scene);
             }
@@ -252,7 +258,7 @@ namespace AgateLib.Scenes
                 "Cannot remove a scene if it does not belong to the stack.");
 
             scene.SceneEnd();
-            
+
             lock (updateLock)
             {
                 scene.SceneStack = null;
@@ -280,13 +286,15 @@ namespace AgateLib.Scenes
         /// </summary>
         public void Clear()
         {
-            while(scenes.Count > 0)
+            while (scenes.Count > 0)
             {
                 Remove(scenes.Last());
             }
 
             foreach (var data in sceneData.Values)
+            {
                 data.Dispose();
+            }
         }
 
         public void Draw(GameTime time)
@@ -367,7 +375,9 @@ namespace AgateLib.Scenes
             var removal = scenes.Where(x => removeCondition(x)).ToList();
 
             foreach (var scene in removal)
+            {
                 Remove(scene);
+            }
         }
 
         public override string ToString() => $"SceneStack: {Count} scene{(Count != 1 ? "s" : "")}";
@@ -375,7 +385,9 @@ namespace AgateLib.Scenes
         private IEnumerable<IScene> ScenesAbove(Func<IScene, bool> pred)
         {
             if (scenes.Count == 0)
+            {
                 yield break;
+            }
 
             int bottomIndex = 0;
 
@@ -391,7 +403,9 @@ namespace AgateLib.Scenes
                 }
 
                 for (int i = bottomIndex; i < scenes.Count; i++)
+                {
                     yield return scenes[i];
+                }
             }
         }
 

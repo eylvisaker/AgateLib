@@ -20,11 +20,11 @@
 //    SOFTWARE.
 //
 
-using System.Collections;
-using System.Collections.Generic;
 using AgateLib.Quality;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace AgateLib.Input
 {

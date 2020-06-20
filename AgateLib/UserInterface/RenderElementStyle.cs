@@ -22,7 +22,6 @@
 
 using AgateLib.Display;
 using AgateLib.Quality;
-using AgateLib.UserInterface.Styling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -212,9 +211,20 @@ namespace AgateLib.UserInterface
                 result = true;
             }
 
-            if (font.Color != parentFont.Color) result = true;
-            if (font.Style != parentFont.Style) result = true;
-            if (font.Size != parentFont.Size) result = true;
+            if (font.Color != parentFont.Color)
+            {
+                result = true;
+            }
+
+            if (font.Style != parentFont.Style)
+            {
+                result = true;
+            }
+
+            if (font.Size != parentFont.Size)
+            {
+                result = true;
+            }
 
             font.Color = parentFont.Color;
             font.Style = parentFont.Style;
@@ -240,7 +250,9 @@ namespace AgateLib.UserInterface
                 T thisProp = property(prop);
 
                 if (thisProp == null)
+                {
                     continue;
+                }
 
                 result = thisProp;
             }
@@ -258,7 +270,9 @@ namespace AgateLib.UserInterface
                 var thisProp = property(prop);
 
                 if (thisProp == null)
+                {
                     continue;
+                }
 
                 result = thisProp;
             }
@@ -284,7 +298,9 @@ namespace AgateLib.UserInterface
             foreach (var property in display.ElementStyles)
             {
                 if (PropertyApplies(property))
+                {
                     testProperties.Add(property);
+                }
             }
 
             if (Inline != null)
@@ -297,7 +313,9 @@ namespace AgateLib.UserInterface
             bool sameProps = true;
 
             if (testProperties.Count != activeProperties.Count)
+            {
                 sameProps = false;
+            }
 
             if (sameProps)
             {
@@ -313,7 +331,9 @@ namespace AgateLib.UserInterface
             }
 
             if (sameProps)
+            {
                 return false;
+            }
 
             activeProperties.Clear();
             activeProperties.AddRange(testProperties);
@@ -334,12 +354,16 @@ namespace AgateLib.UserInterface
         private bool PropertyApplies(RenderElementStyleProperties property)
         {
             if (!property.PseudoClasses.Any())
+            {
                 return true;
+            }
 
             foreach (var propertyPseudoClass in property.PseudoClasses)
             {
                 if (!display.PseudoClasses.Contains(propertyPseudoClass))
+                {
                     return false;
+                }
             }
 
             return true;

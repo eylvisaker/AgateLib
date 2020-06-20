@@ -97,7 +97,9 @@ namespace AgateLib.Mathematics.TypeConverters
                 point = ((T?)value).Value;
             }
             else
+            {
                 point = (T)value;
+            }
 
             emitter.Emit(new YamlDotNet.Core.Events.Scalar(
                 null,

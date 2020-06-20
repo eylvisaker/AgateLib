@@ -22,13 +22,11 @@
 
 using AgateLib.Mathematics;
 using AgateLib.Quality;
-using AgateLib.Randomizer;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace AgateLib.Randomizer
 {
@@ -236,7 +234,9 @@ namespace AgateLib.Randomizer
                 val -= weightFunc(item);
 
                 if (val < 0)
+                {
                     return item;
+                }
             }
 
             return default(T);
@@ -258,7 +258,9 @@ namespace AgateLib.Randomizer
         public static IRandom Create(Seed seed)
         {
             if (RandomFactory == null)
+            {
                 return new Xoroshiro128pp(seed);
+            }
 
             return RandomFactory(seed);
         }

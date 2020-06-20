@@ -112,7 +112,9 @@ namespace AgateLib.UserInterface.Content
             set
             {
                 if (value == null)
+                {
                     throw new ArgumentNullException(nameof(RenderContext));
+                }
 
                 renderContext = value;
             }
@@ -130,12 +132,16 @@ namespace AgateLib.UserInterface.Content
             private set
             {
                 if (animationCompleted == value)
+                {
                     return;
+                }
 
                 animationCompleted = value;
 
                 if (value)
+                {
                     AnimationComplete?.Invoke();
+                }
             }
         }
 
@@ -147,7 +153,9 @@ namespace AgateLib.UserInterface.Content
             set
             {
                 if (value == maxWidth)
+                {
                     return;
+                }
 
                 maxWidth = value;
 
@@ -165,7 +173,9 @@ namespace AgateLib.UserInterface.Content
             set
             {
                 if (value == textAlign)
+                {
                     return;
+                }
 
                 textAlign = value;
 
@@ -189,7 +199,9 @@ namespace AgateLib.UserInterface.Content
             foreach (var item in items)
             {
                 if (renderContext.Complete)
+                {
                     return;
+                }
 
                 item.Draw(dest, renderContext);
             }
@@ -206,7 +218,9 @@ namespace AgateLib.UserInterface.Content
             renderContext.Update(time);
 
             foreach (var item in items)
+            {
                 item.Update(time);
+            }
 
             AnimationCompleted = renderContext.ItemsDisplayed >= items.Sum(x => x.Count);
         }
@@ -230,7 +244,9 @@ namespace AgateLib.UserInterface.Content
             void ApplyAlignment(int start, int end)
             {
                 if (end < start)
+                {
                     return;
+                }
 
                 IEnumerable<IContentLayoutItem> affectedItems
                     = items.Skip(start).Take(end - start + 1);
@@ -314,7 +330,9 @@ namespace AgateLib.UserInterface.Content
         private int CalcMaxWidth()
         {
             if (MaxWidth.HasValue)
+            {
                 return MaxWidth.Value;
+            }
 
             int currentLineWidth = 0;
             int maxLineWidth = 0;
@@ -333,7 +351,7 @@ namespace AgateLib.UserInterface.Content
                     currentLineWidth += item.ExtraWhiteSpace;
                 }
             }
-            
+
             maxLineWidth = Math.Max(maxLineWidth, currentLineWidth);
 
             return maxLineWidth;

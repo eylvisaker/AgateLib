@@ -57,7 +57,9 @@ namespace AgateLib.Diagnostics
         public void AddVocabulary(params IVocabulary[] vocabs)
         {
             foreach (IVocabulary vocab in vocabs)
+            {
                 console.AddCommands(vocab);
+            }
         }
 
         /// <summary>
@@ -67,7 +69,9 @@ namespace AgateLib.Diagnostics
         public void Update(GameTime gameTime)
         {
             if (sceneStack.Contains(consoleScene))
+            {
                 return;
+            }
 
             var keys = Keyboard.GetState();
 

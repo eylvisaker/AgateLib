@@ -20,52 +20,52 @@
 //    SOFTWARE.
 //
 
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace AgateLib.Display
 {
-	/// <summary>
-	/// Extensions for the IFont interface.
-	/// </summary>
-	public static class FontExtensions
-	{
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="font"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="text"></param>
-		public static void DrawText(this IFont font, SpriteBatch spriteBatch, float x, float y, string text)
-		{
-			font.DrawText(spriteBatch, new Vector2(x, y), text);
-		}
+    /// <summary>
+    /// Extensions for the IFont interface.
+    /// </summary>
+    public static class FontExtensions
+    {
+        /// <summary>
+        /// Draws text at the specified point.
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="text"></param>
+        public static void DrawText(this IFont font, SpriteBatch spriteBatch, float x, float y, string text)
+        {
+            font.DrawText(spriteBatch, new Vector2(x, y), text);
+        }
 
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="font"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="text"></param>
-		[Obsolete("Use explicit downcast to float.")]
-		public static void DrawText(this IFont font, SpriteBatch spriteBatch, double x, double y, string text)
-		{
-			font.DrawText(spriteBatch, new Vector2((float)x, (float)y), text);
-		}
+        /// <summary>
+        /// Draws text at the specified point.
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="text"></param>
+        [Obsolete("Use explicit downcast to float.")]
+        public static void DrawText(this IFont font, SpriteBatch spriteBatch, double x, double y, string text)
+        {
+            font.DrawText(spriteBatch, new Vector2((float)x, (float)y), text);
+        }
 
-		/// <summary>
-		/// Draws text at the specified point.
-		/// </summary>
-		/// <param name="font"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="text"></param>
-		public static void DrawText(this IFont font, SpriteBatch spriteBatch, int x, int y, string text)
-		{
-			font.DrawText(spriteBatch, new Vector2(x, y), text);
-		}
-	}
+        /// <summary>
+        /// Draws text at the specified point.
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="text"></param>
+        public static void DrawText(this IFont font, SpriteBatch spriteBatch, int x, int y, string text)
+        {
+            font.DrawText(spriteBatch, new Vector2(x, y), text);
+        }
+    }
 }

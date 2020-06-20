@@ -24,17 +24,17 @@ using System.Text;
 
 namespace AgateLib.Physics.TwoDimensions
 {
-	public interface IConstraintSolver
-	{
-		/// <summary>
-		/// Computes the constraint forces from the current state of the system.
-		/// </summary>
-		void ComputeConstraintForces(float dt);
+    public interface IConstraintSolver
+    {
+        /// <summary>
+        /// Computes the constraint forces from the current state of the system.
+        /// </summary>
+        void ComputeConstraintForces(float dt);
 
-		void ApplyConstraintForces();
+        void ApplyConstraintForces();
 
-		void DebugInfo(StringBuilder b, int debugPage, PhysicalParticle particle);
+        void DebugInfo(StringBuilder b, int debugPage, PhysicalParticle particle);
 
-		void IntegrateKinematicVariables(float dt);
-	}
+        void IntegrateKinematicVariables(float dt);
+    }
 }

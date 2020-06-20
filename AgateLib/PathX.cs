@@ -24,110 +24,120 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib
 {
-	/// <summary>
-	/// Provides some basic methods for manipulating paths.
-	/// </summary>
-	public static class PathX
-	{
-		/// <summary>
-		/// Returns the relative path from the origin to the destination.
-		/// </summary>
-		/// <param name="originDirectory"></param>
-		/// <param name="destinationPath"></param>
-		/// <returns></returns>
-		public static string MakeRelativePath(string originDirectory, string destinationPath, StringComparison comparisonType = StringComparison.Ordinal)
-		{
-			if (originDirectory == null)
-				throw new ArgumentNullException(nameof(originDirectory));
+    /// <summary>
+    /// Provides some basic methods for manipulating paths.
+    /// </summary>
+    public static class PathX
+    {
+        /// <summary>
+        /// Returns the relative path from the origin to the destination.
+        /// </summary>
+        /// <param name="originDirectory"></param>
+        /// <param name="destinationPath"></param>
+        /// <returns></returns>
+        public static string MakeRelativePath(string originDirectory, string destinationPath, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            if (originDirectory == null)
+            {
+                throw new ArgumentNullException(nameof(originDirectory));
+            }
 
-			if (destinationPath == null)
-				throw new ArgumentNullException(nameof(destinationPath));
+            if (destinationPath == null)
+            {
+                throw new ArgumentNullException(nameof(destinationPath));
+            }
 
-			bool isRooted = (Path.IsPathRooted(originDirectory) && Path.IsPathRooted(destinationPath));
+            bool isRooted = (Path.IsPathRooted(originDirectory) && Path.IsPathRooted(destinationPath));
 
-			originDirectory = originDirectory.Replace('\\', '/');
-			destinationPath = destinationPath.Replace('\\', '/');
+            originDirectory = originDirectory.Replace('\\', '/');
+            destinationPath = destinationPath.Replace('\\', '/');
 
-			if (isRooted)
-			{
-				bool isDifferentRoot = (string.Compare(Path.GetPathRoot(originDirectory), Path.GetPathRoot(destinationPath), comparisonType) != 0);
+            if (isRooted)
+            {
+                bool isDifferentRoot = (string.Compare(Path.GetPathRoot(originDirectory), Path.GetPathRoot(destinationPath), comparisonType) != 0);
 
-				if (isDifferentRoot)
-					return destinationPath;
-			}
+                if (isDifferentRoot)
+                {
+                    return destinationPath;
+                }
+            }
 
-			List<string> relativePath = new List<string>();
+            List<string> relativePath = new List<string>();
 
-			string[] fromDirectories = originDirectory.Split('/');
-			string[] toDirectories = destinationPath.Split('/');
+            string[] fromDirectories = originDirectory.Split('/');
+            string[] toDirectories = destinationPath.Split('/');
 
-			int length = Math.Min(fromDirectories.Length, toDirectories.Length);
+            int length = Math.Min(fromDirectories.Length, toDirectories.Length);
 
-			int lastCommonRoot = -1;
+            int lastCommonRoot = -1;
 
-			// find common root
-			for (int x = 0; x < length; x++)
-			{
-				if (string.Compare(fromDirectories[x], toDirectories[x], comparisonType) != 0)
-					break;
+            // find common root
+            for (int x = 0; x < length; x++)
+            {
+                if (string.Compare(fromDirectories[x], toDirectories[x], comparisonType) != 0)
+                {
+                    break;
+                }
 
-				lastCommonRoot = x;
-			}
+                lastCommonRoot = x;
+            }
 
-			if (lastCommonRoot == -1)
-				return destinationPath;
+            if (lastCommonRoot == -1)
+            {
+                return destinationPath;
+            }
 
-			// add relative folders in from path
-			for (int x = lastCommonRoot + 1; x < fromDirectories.Length; x++)
-			{
-				if (fromDirectories[x].Length > 0)
-					relativePath.Add("..");
-			}
+            // add relative folders in from path
+            for (int x = lastCommonRoot + 1; x < fromDirectories.Length; x++)
+            {
+                if (fromDirectories[x].Length > 0)
+                {
+                    relativePath.Add("..");
+                }
+            }
 
-			// add to folders to path
-			for (int x = lastCommonRoot + 1; x < toDirectories.Length; x++)
-			{
-				relativePath.Add(toDirectories[x]);
-			}
+            // add to folders to path
+            for (int x = lastCommonRoot + 1; x < toDirectories.Length; x++)
+            {
+                relativePath.Add(toDirectories[x]);
+            }
 
-			// create relative path
-			string[] relativeParts = new string[relativePath.Count];
-			relativePath.CopyTo(relativeParts, 0);
+            // create relative path
+            string[] relativeParts = new string[relativePath.Count];
+            relativePath.CopyTo(relativeParts, 0);
 
-			string newPath = string.Join("/", relativeParts);
+            string newPath = string.Join("/", relativeParts);
 
-			return newPath;
-		}
+            return newPath;
+        }
 
-		public static string GetDirectoryName(string path)
-		{
-			var result = Path.GetDirectoryName(path);
+        public static string GetDirectoryName(string path)
+        {
+            var result = Path.GetDirectoryName(path);
 
-			return NormalizePath(result);
-		}
+            return NormalizePath(result);
+        }
 
-		public static string NormalizePath(string path)
-		{
-			var result = path.Replace('\\', '/');
+        public static string NormalizePath(string path)
+        {
+            var result = path.Replace('\\', '/');
 
-			var elements = result.Split('/').ToList();
+            var elements = result.Split('/').ToList();
 
-			for (int i = 0; i < elements.Count; i++)
-			{
-				if (elements[i] == ".." && i > 0)
-				{
-					elements.RemoveAt(i);
-					elements.RemoveAt(i - 1);
-					i -= 2;
-				}
-			}
+            for (int i = 0; i < elements.Count; i++)
+            {
+                if (elements[i] == ".." && i > 0)
+                {
+                    elements.RemoveAt(i);
+                    elements.RemoveAt(i - 1);
+                    i -= 2;
+                }
+            }
 
-			return string.Join("/", elements);
-		}
-	}
+            return string.Join("/", elements);
+        }
+    }
 }

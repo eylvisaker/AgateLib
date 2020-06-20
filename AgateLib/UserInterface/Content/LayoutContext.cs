@@ -72,7 +72,9 @@ namespace AgateLib.UserInterface.Content
         public void ExpandLineHeight(int height)
         {
             if (LineHeight < height)
+            {
                 LineHeight = height;
+            }
         }
 
         private void ReserveWhiteSpace(string whiteSpace)
@@ -174,7 +176,9 @@ namespace AgateLib.UserInterface.Content
         public void AppendText(string text, int recursion = 0)
         {
             if (string.IsNullOrEmpty(text))
+            {
                 return;
+            }
 
             var tokens = tokenizer.Tokenize(text);
 

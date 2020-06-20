@@ -22,8 +22,8 @@
 
 namespace AgateLib.Mathematics.Geometry.Algorithms.ConvexDecomposition
 {
-	public interface IPolygonSimpleDetectionAlgorithm
-	{
-		bool IsSimple(Polygon polygon);
-	}
+    public interface IPolygonSimpleDetectionAlgorithm
+    {
+        bool IsSimple(Polygon polygon);
+    }
 }

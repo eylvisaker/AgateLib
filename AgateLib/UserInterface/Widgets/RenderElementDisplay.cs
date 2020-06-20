@@ -22,9 +22,7 @@
 
 using AgateLib.Display;
 using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface
@@ -127,15 +125,22 @@ namespace AgateLib.UserInterface
         {
             get
             {
-                if (!IsVisible) 
+                if (!IsVisible)
+                {
                     return false;
+                }
+
                 if (!Owner.ParticipateInLayout)
+                {
                     return false;
+                }
 
                 var positionType = Style.Layout?.PositionType ?? PositionType.Default;
 
                 if (positionType == PositionType.Absolute || positionType == PositionType.Fixed)
+                {
                     return false;
+                }
 
                 return true;
             }
@@ -234,7 +239,7 @@ namespace AgateLib.UserInterface
         /// <param name="pt"></param>
         /// <returns></returns>
         public Point ToScreen(Point pt)
-        { 
+        {
             RenderElementDisplay disp = this;
 
             Point result = pt;

@@ -20,32 +20,29 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AgateLib.UserInterface.Rendering
 {
-	public interface IUserInterfaceImageProvider
-	{
-		Texture2D GetImage(string name);
-	}
+    public interface IUserInterfaceImageProvider
+    {
+        Texture2D GetImage(string name);
+    }
 
-	[Transient]
-	public class UserInterfaceImageProvider : IUserInterfaceImageProvider
-	{
-		private readonly ContentManager content;
+    [Transient]
+    public class UserInterfaceImageProvider : IUserInterfaceImageProvider
+    {
+        private readonly ContentManager content;
 
-		public UserInterfaceImageProvider(ContentManager content)
-		{
-			this.content = content;
-		}
+        public UserInterfaceImageProvider(ContentManager content)
+        {
+            this.content = content;
+        }
 
-		public Texture2D GetImage(string name)
-		{
-			return content.Load<Texture2D>(name);
-		}
-	}
+        public Texture2D GetImage(string name)
+        {
+            return content.Load<Texture2D>(name);
+        }
+    }
 }

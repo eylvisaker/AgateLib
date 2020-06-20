@@ -20,14 +20,14 @@
 //    SOFTWARE.
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using AgateLib.Mathematics.Geometry.Algorithms;
 using AgateLib.Mathematics.Geometry.Algorithms.ConvexDecomposition;
 using AgateLib.Quality;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using YamlDotNet.Serialization;
 
 namespace AgateLib.Mathematics.Geometry
@@ -125,7 +125,9 @@ namespace AgateLib.Mathematics.Geometry
             get
             {
                 if (points.Dirty)
+                {
                     ComputeAllProperties();
+                }
 
                 return edges;
             }
@@ -141,10 +143,14 @@ namespace AgateLib.Mathematics.Geometry
             get
             {
                 if (points.Count == 0)
+                {
                     throw new InvalidOperationException();
+                }
 
                 if (points.Dirty)
+                {
                     ComputeAllProperties();
+                }
 
                 return boundingRect;
             }
@@ -159,7 +165,9 @@ namespace AgateLib.Mathematics.Geometry
             get
             {
                 if (Points.Dirty)
+                {
                     ComputeAllProperties();
+                }
 
                 return isConvex;
             }
@@ -176,7 +184,9 @@ namespace AgateLib.Mathematics.Geometry
             get
             {
                 if (Points.Dirty)
+                {
                     ComputeAllProperties();
+                }
 
                 if (IsConvex)
                 {
@@ -185,7 +195,9 @@ namespace AgateLib.Mathematics.Geometry
                 else
                 {
                     foreach (var convexPoly in convexDecomposition)
+                    {
                         yield return convexPoly;
+                    }
                 }
             }
         }
@@ -212,7 +224,9 @@ namespace AgateLib.Mathematics.Geometry
             get
             {
                 if (Points.Dirty)
+                {
                     ComputeAllProperties();
+                }
 
                 return winding;
             }
@@ -250,7 +264,9 @@ namespace AgateLib.Mathematics.Geometry
             get
             {
                 if (points.Dirty)
+                {
                     ComputeAllProperties();
+                }
 
                 return isSimple;
             }
@@ -270,7 +286,9 @@ namespace AgateLib.Mathematics.Geometry
             get
             {
                 if (points.Dirty)
+                {
                     ComputeAllProperties();
+                }
 
                 return centroid;
             }
@@ -326,7 +344,9 @@ namespace AgateLib.Mathematics.Geometry
             target.Points.Count = Count;
 
             for (int i = 0; i < Count; i++)
+            {
                 target[i] = this[i];
+            }
         }
 
         /// <summary>
@@ -401,12 +421,13 @@ namespace AgateLib.Mathematics.Geometry
         /// <returns></returns>
         public Polygon Clone()
         {
-            var result = new Polygon(points);
-
-            result.isSimple = isSimple;
-            result.isConvex = isConvex;
-            result.winding = winding;
-            result.boundingRect = boundingRect;
+            var result = new Polygon(points)
+            {
+                isSimple = isSimple,
+                isConvex = isConvex,
+                winding = winding,
+                boundingRect = boundingRect
+            };
 
             result.ComputeEdges();
 
@@ -440,7 +461,9 @@ namespace AgateLib.Mathematics.Geometry
             var dirty = Points.Dirty;
 
             for (int i = 0; i < Count; i++)
+            {
                 this[i] += amount;
+            }
 
             boundingRect.X += amount.X;
             boundingRect.Y += amount.Y;
@@ -469,7 +492,9 @@ namespace AgateLib.Mathematics.Geometry
             for (int i = 0, j = nvert - 1; i < nvert; j = i++)
             {
                 if (point == points[i])
+                {
                     return true;
+                }
 
                 // first check to see if it's on the edge.
                 var distance1 = (point - points[i]).Length();
@@ -477,7 +502,9 @@ namespace AgateLib.Mathematics.Geometry
                 var segmentLength = (points[i] - points[j]).Length();
 
                 if (Math.Abs(distance1 + distance2 - segmentLength) < 1e-6)
+                {
                     return true;
+                }
 
                 // Now do ray tracing with this edge.
                 if (points[i].Y >= point.Y != points[j].Y >= point.Y &&
@@ -552,7 +579,9 @@ namespace AgateLib.Mathematics.Geometry
         public void RotateSelf(float angle, Vector2? rotationCenter = null, float tolerance = 1e-4f)
         {
             if (angle < tolerance && angle > -tolerance)
+            {
                 return;
+            }
 
             var dirty = points.Dirty;
             var center = rotationCenter ?? Vector2.Zero;
@@ -597,10 +626,14 @@ namespace AgateLib.Mathematics.Geometry
             {
                 // C == 0 indicates the point is right on the edge, and thus inside the polygon.
                 if (c == 0)
+                {
                     return true;
+                }
 
                 if (last != null && last.Value * c < 0)
+                {
                     return false;
+                }
 
                 last = c;
             }
@@ -611,7 +644,9 @@ namespace AgateLib.Mathematics.Geometry
         private void ComputeAllProperties()
         {
             if (!Points.Dirty)
+            {
                 return;
+            }
 
             Points.Dirty = false;
 
@@ -634,10 +669,25 @@ namespace AgateLib.Mathematics.Geometry
 
             foreach (var pt in points)
             {
-                if (pt.X < left) left = pt.X;
-                if (pt.X > right) right = pt.X;
-                if (pt.Y < top) top = pt.Y;
-                if (pt.Y > bottom) bottom = pt.Y;
+                if (pt.X < left)
+                {
+                    left = pt.X;
+                }
+
+                if (pt.X > right)
+                {
+                    right = pt.X;
+                }
+
+                if (pt.Y < top)
+                {
+                    top = pt.Y;
+                }
+
+                if (pt.Y > bottom)
+                {
+                    bottom = pt.Y;
+                }
             }
 
             boundingRect = RectangleF.FromLTRB(left, top, right, bottom);
@@ -648,9 +698,14 @@ namespace AgateLib.Mathematics.Geometry
             lock (edges)
             {
                 while (edges.Count > Points.Count)
+                {
                     edges.RemoveAt(edges.Count - 1);
+                }
+
                 while (edges.Count < Points.Count)
+                {
                     edges.Add(new PolygonEdge(new LineSegment(), new Vector2()));
+                }
 
                 for (int i = 0, j = Points.Count - 1; i < Points.Count; j = i++)
                 {
@@ -659,7 +714,9 @@ namespace AgateLib.Mathematics.Geometry
                     normal.Normalize();
 
                     if (winding == PolygonWinding.Clockwise)
+                    {
                         normal *= -1;
+                    }
 
                     edges[i].SetValue(segment, normal);
                 }
@@ -699,10 +756,14 @@ namespace AgateLib.Mathematics.Geometry
                 var newSign = u.X * v.Y - u.Y * v.X + v.X * p.Y - p.X * v.Y;
 
                 if (Math.Abs(newSign) < tolerance)
+                {
                     continue;
+                }
 
                 if (sign == 0)
+                {
                     sign = newSign;
+                }
                 else if (newSign * sign < 0)
                 {
                     IsConvex = false;

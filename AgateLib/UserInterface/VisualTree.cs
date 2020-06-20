@@ -117,7 +117,9 @@ namespace AgateLib.UserInterface
         private void Reconcile(ref IRenderElement oldNode, IRenderElement newNode, ref bool anyUpdates)
         {
             if (oldNode == null && newNode == null)
+            {
                 return;
+            }
 
             if (oldNode == null)
             {
@@ -212,7 +214,9 @@ namespace AgateLib.UserInterface
             }
 
             if (newIndex >= newKids.Count)
+            {
                 return null;
+            }
 
             return newKids[newIndex];
         }
@@ -248,7 +252,9 @@ namespace AgateLib.UserInterface
         private void Mount(IRenderElement newNode)
         {
             if (newNode == null)
+            {
                 return;
+            }
 
             newNode.AppContext = AppContext;
             newNode.OnDidMount();
@@ -257,7 +263,9 @@ namespace AgateLib.UserInterface
         private void Unmount(IRenderElement oldNode)
         {
             if (oldNode == null)
+            {
                 return;
+            }
 
             oldNode.OnWillUnmount();
         }
@@ -335,17 +343,23 @@ namespace AgateLib.UserInterface
             bool cont = action(node, parent);
 
             if (!cont)
+            {
                 return false;
+            }
 
             if (node.Children == null)
+            {
                 return true;
+            }
 
             foreach (var child in node.Children)
             {
                 cont = Walk(child, node, action);
 
                 if (!cont)
+                {
                     return false;
+                }
             }
 
             return true;
@@ -413,7 +427,10 @@ namespace AgateLib.UserInterface
             Walk(e =>
             {
                 if (matcher(e))
+                {
                     results.Add(e);
+                }
+
                 return true;
             });
 
@@ -431,7 +448,9 @@ namespace AgateLib.UserInterface
             }
 
             if (setDebugFlag != null)
+            {
                 debugFlag = setDebugFlag.Value;
+            }
         }
     }
 }

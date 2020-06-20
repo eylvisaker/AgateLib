@@ -27,7 +27,7 @@ namespace AgateLib.UserInterface.Rendering.Animations
     public class AnimationFactory : IAnimationFactory
     {
         private readonly Logger log;
-        
+
         private Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>> activators
             = new Dictionary<string, Func<IReadOnlyList<string>, IRenderElementAnimation>>(StringComparer.OrdinalIgnoreCase);
 
@@ -77,8 +77,8 @@ namespace AgateLib.UserInterface.Rendering.Animations
             Configure(animationFactory, display.Animation, display.Style);
         }
 
-        private static void Configure(IAnimationFactory animationFactory, 
-                                      RenderElementAnimator animation, 
+        private static void Configure(IAnimationFactory animationFactory,
+                                      RenderElementAnimator animation,
                                       IRenderElementStyle style)
         {
             if (style.Animation == null)
