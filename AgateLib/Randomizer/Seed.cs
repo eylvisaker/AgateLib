@@ -1,6 +1,8 @@
 ﻿using AgateLib.Quality;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace AgateLib.Randomizer
 {
@@ -10,6 +12,44 @@ namespace AgateLib.Randomizer
     public struct Seed
     {
         private static readonly char[] delimiter = new char[] { ',' };
+        private static Dictionary<char, uint> base64encodingForward = new Dictionary<char, uint>();
+        private static Dictionary<uint, char> base64encodingBack = new Dictionary<uint, char>();
+
+        static Seed()
+        {
+            uint val = 0;
+
+            base64encodingForward.Add('_', val);
+            base64encodingBack.Add(val, '_');
+            val++;
+
+            for (char i = '0'; i <= '9'; i++)
+            {
+                base64encodingForward.Add(i, val);
+                base64encodingBack.Add(val, i);
+                val++;
+            }
+
+            for (char i = 'A'; i <= 'Z'; i++)
+            {
+                base64encodingForward.Add(i, val);
+                base64encodingBack.Add(val, i);
+                val++;
+            }
+
+            for (char i = 'a'; i <= 'z'; i++)
+            {
+                base64encodingForward.Add(i, val);
+                base64encodingBack.Add(val, i);
+                val++;
+            }
+
+            base64encodingForward.Add('-', val);
+            base64encodingBack.Add(val, '-');
+            val++;
+
+            Require.That(base64encodingForward.Count == 64, $"Should have 64 digit values but only have {base64encodingForward.Count}");
+        }
 
         public Seed(ulong lowBits)
         {
@@ -105,19 +145,109 @@ namespace AgateLib.Randomizer
         }
 
         public override string ToString()
-            => $"0x{HighBits:x}{delimiter[0]}0x{LowBits:x}";
+        {
+            StringBuilder result = new StringBuilder();
+
+            for (int charIndex = 0; charIndex < 22; charIndex++)
+            {
+                uint bits;
+
+                if (charIndex < 10)
+                {
+                    int bitIndex = charIndex * 6;
+                    bits = (uint)(LowBits >> bitIndex) & 0x3f; // lowest six bits is 0x3f
+                }
+                else if (charIndex == 10)
+                {
+                    // 4 bits from the lowbits and 2 bits from the high bits.
+                    bits = (uint)(LowBits >> 60) & 0x0f;
+                    bits |= (uint)((HighBits & 0x03) << 4);
+                }
+                else
+                {
+                    int bitIndex = (charIndex - 11) * 6 + 2;
+                    bits = (uint)(HighBits >> bitIndex) & 0x3f;
+                }
+
+                char c = base64encodingBack[bits];
+
+                result.Append(c.ToString());
+            }
+
+            return result.ToString().TrimEnd('_');
+        }
 
         public static Seed Parse(string value)
         {
-            ulong[] values = value
-                .Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => Convert.ToUInt64(s, 16))
-                .ToArray();
+            if (value.Contains(','))
+            {
+                ulong[] values = value
+                    .Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => Convert.ToUInt64(s, 16))
+                    .ToArray();
 
-            Require.ArgumentInRange(values.Length == 2, nameof(value),
-                $"Seed string must be in format of 0xabcd{delimiter[0]}0xabcd");
+                Require.ArgumentInRange(values.Length == 2, nameof(value),
+                    $"Seed string must be in format of 0xabcd{delimiter[0]}0xabcd");
 
-            return new Seed(values[0], values[1]);
+                return new Seed(values[0], values[1]);
+            }
+
+            return FromText(value);
+        }
+
+        public static Seed FromText(string text)
+        {
+            bool writingHighBits = false;
+            ulong lobits = 0;
+            ulong bits = 0;
+            int bitIndex = 0;
+            int textIndex = 0;
+
+            while (textIndex < text.Length)
+            {
+                char c = text[textIndex];
+
+                if (c == ' ') c = '_';
+                if (!base64encodingForward.ContainsKey(c))
+                    c = '-';
+
+                ulong bitval = base64encodingForward[c];
+
+                if (textIndex == 21)
+                {
+                    // only need the last two bits
+                    bits |= (bitval & 0x03) << 62;
+                    break;
+                }
+                if (textIndex == 10)
+                {
+                    bits |= (bitval & 0x0f) << 60;
+                    writingHighBits = true;
+                    lobits = bits;
+
+                    bitIndex = 2;
+                    
+                    bits = bitval >> 4;
+                }
+                else 
+                {
+                    bitval <<= bitIndex;
+
+                    bits |= bitval;
+
+                    bitIndex += 6;
+                }
+
+                textIndex ++;
+            }
+
+            if (!writingHighBits)
+            {
+                lobits = bits;
+                bits = 0;
+            }
+
+            return new Seed(bits, lobits);
         }
     }
 }
