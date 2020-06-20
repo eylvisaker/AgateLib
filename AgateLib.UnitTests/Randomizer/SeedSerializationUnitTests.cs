@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System;
 using Xunit;
 using YamlDotNet.Serialization;
 
@@ -6,6 +7,12 @@ namespace AgateLib.Randomizer
 {
     public class SeedSerializationUnitTests
     {
+        [Fact]
+        public void SeedWontParseNull()
+        {
+            new Action(() => Seed.Parse(null)).Should().ThrowExactly<ArgumentNullException>();
+        }
+
         [Theory]
         [InlineData("---------------------")]
         [InlineData("Nachos are awesome")]

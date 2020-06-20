@@ -144,6 +144,10 @@ namespace AgateLib.Randomizer
                 && this.LowBits == other.LowBits;
         }
 
+        /// <summary>
+        /// Converts the seed to a string representation that is 22 characters or less.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
