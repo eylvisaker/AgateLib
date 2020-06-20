@@ -257,7 +257,16 @@ namespace AgateLib.Mathematics.Geometry
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
+        [Obsolete("Use Size.Parse instead.")]
         public static Size FromString(string text)
+            => Parse(text);
+
+        /// <summary>
+        /// Parses a string into a size object.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static Size Parse(string text)
         {
             return FromString(text, CultureInfo.InvariantCulture);
         }
