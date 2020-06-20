@@ -266,6 +266,22 @@ namespace AgateLib.Randomizer
         }
 
         /// <summary>
+        /// Creates a new IRandom object with a specified seed.
+        /// </summary>
+        /// <returns></returns>
+        public static IRandom Create(string seedString)
+        {
+            var seed = Seed.Parse(seedString);
+
+            if (RandomFactory == null)
+            {
+                return new Xoroshiro128pp(seed);
+            }
+
+            return RandomFactory(seed);
+        }
+
+        /// <summary>
         /// Set to specify a custom random factory method.
         /// </summary>
         public static Func<Seed, IRandom> RandomFactory { get; set; }
