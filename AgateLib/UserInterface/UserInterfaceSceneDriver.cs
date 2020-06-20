@@ -92,7 +92,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets the object which handles rendering of the indicator.
         /// </summary>
-        public IFocusIndicator Indicator { get; set; }
+        public IPointer Indicator { get; set; }
 
         /// <summary>
         /// If true, the Exit event will be raised when the user

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace AgateLib.Tests.UserInterface.FF6
 {
-    public class PointerIndicator : IFocusIndicator
+    public class PointerIndicator : IPointer
     {
         private Texture2D texture;
 

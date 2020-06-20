@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AgateLib.Tests.Fakes
 {
-    public class FakeFocusIndicator : IFocusIndicator
+    public class FakeFocusIndicator : IPointer
     {
         private List<Rectangle> draws = new List<Rectangle>();
 

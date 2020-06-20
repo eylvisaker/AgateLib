@@ -74,7 +74,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets or sets the focus indicator.
         /// </summary>
-        IFocusIndicator Indicator { get; set; }
+        IPointer Pointer { get; set; }
 
         /// <summary>
         /// Creates a workspace for the specified widget or render element and
@@ -245,7 +245,7 @@ namespace AgateLib.UserInterface
         /// </summary>
         public Rectangle GraphicsDeviceViewportBounds => GraphicsDevice.Viewport.Bounds;
 
-        public IFocusIndicator Indicator
+        public IPointer Pointer
         {
             get => driver.Indicator;
             set => driver.Indicator = value;

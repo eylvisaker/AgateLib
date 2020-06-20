@@ -19,7 +19,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             menu.ExitMenu += () => Scene.Exit();
 
-            Scene.Indicator = new PointerIndicator(Content.Load<Texture2D>("UserInterface/Pointer"));
+            Scene.Pointer = new PointerIndicator(Content.Load<Texture2D>("UserInterface/Pointer"));
 
             return menu.InitializeUIRoot();
         }

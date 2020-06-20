@@ -25,7 +25,7 @@ using Microsoft.Xna.Framework;
 
 namespace AgateLib.UserInterface.Rendering
 {
-    public interface IFocusIndicator
+    public interface IPointer
     {
         IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
 

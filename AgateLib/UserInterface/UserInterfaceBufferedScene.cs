@@ -181,7 +181,7 @@ namespace AgateLib.UserInterface
         /// </summary>
         public Rectangle GraphicsDeviceViewportBounds => GraphicsDevice.Viewport.Bounds;
 
-        public IFocusIndicator Indicator
+        public IPointer Pointer
         {
             get => driver.Indicator;
             set => driver.Indicator = value;
