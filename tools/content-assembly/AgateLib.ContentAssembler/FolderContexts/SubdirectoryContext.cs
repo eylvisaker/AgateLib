@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace VermilionTower.ContentPipeline.FolderContexts
+namespace AgateLib.ContentAssembler.FolderContexts
 {
     public class InheritedFolderContext : FileAccessor, IFolderContext
     {

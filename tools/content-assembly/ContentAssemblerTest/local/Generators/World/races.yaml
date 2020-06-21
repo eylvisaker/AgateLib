@@ -1,0 +1,44 @@
+Human:
+    TerrainTownChance:
+        Coast: 0.9
+        Desert: 0.1
+        Dirt: 0.3
+        Forest: 0.6
+        Grass: 0.8
+        Jungle: 0.3
+        Savanna: 0.7
+        Snow: 0.15
+        SnowForest: 0.1
+        Swamp: 0.2
+    Precipitation: 1
+    Elevation: -0.3
+    ElevationStdDev: -0.2
+    Land: 3
+    Harshness: -1
+    Forest: -0.3
+    Mountain: -2
+    Snow: -4
+    Water: 1
+    Grass: 3
+Elf:
+    TerrainTownChance:
+        Coast: 0.3
+        Desert: 0.05
+        Dirt: 0.2
+        Forest: 0.7
+        Grass: 0.3
+        Jungle: 0.5
+        Savanna: 0.2
+        Snow: 0.25
+        SnowForest: 0.6
+        Swamp: 0.2
+    Precipitation: 1.5
+    Elevation: -0.3
+    ElevationStdDev: -0.2
+    Land: 3
+    Harshness: -1
+    Forest: 4
+    Mountain: -2
+    Snow: -1
+    Water: 1
+    Grass: 2

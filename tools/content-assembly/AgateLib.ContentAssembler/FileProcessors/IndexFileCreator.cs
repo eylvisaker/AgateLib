@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using AgateLib.ContentModel;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using VermilionTower.Content;
 
-namespace VermilionTower.ContentPipeline.FileProcessors
+namespace AgateLib.ContentAssembler.FileProcessors
 {
     class IndexFileCreator : FileAccessor, IFileSource
     {

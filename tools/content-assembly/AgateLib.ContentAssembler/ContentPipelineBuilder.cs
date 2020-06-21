@@ -5,7 +5,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class ContentPipelineBuilder : FileAccessor
     {

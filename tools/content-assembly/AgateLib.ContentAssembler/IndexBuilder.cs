@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using VermilionTower.ContentPipeline.FileProcessors;
-using VermilionTower.ContentPipeline.FolderContexts;
+using AgateLib.ContentAssembler.FileProcessors;
+using AgateLib.ContentAssembler.FolderContexts;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class IndexBuilder : FileAccessor
     {

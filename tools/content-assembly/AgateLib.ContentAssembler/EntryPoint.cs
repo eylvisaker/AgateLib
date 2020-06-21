@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using VermilionTower.ContentPipeline.Loggers;
+using AgateLib.ContentAssembler.Loggers;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class EntryPoint
     {

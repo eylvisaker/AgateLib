@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace VermilionTower.ContentPipeline.Shims
+namespace AgateLib.ContentAssembler.Shims
 {
     public interface IDirectory
     {

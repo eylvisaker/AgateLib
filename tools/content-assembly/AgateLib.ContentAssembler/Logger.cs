@@ -1,4 +1,4 @@
-﻿namespace VermilionTower.ContentPipeline
+﻿namespace AgateLib.ContentAssembler
 {
     public interface ILogger
     {

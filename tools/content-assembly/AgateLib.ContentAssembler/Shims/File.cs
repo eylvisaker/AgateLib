@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace VermilionTower.ContentPipeline.Shims
+namespace AgateLib.ContentAssembler.Shims
 {
     public interface IFile
     {

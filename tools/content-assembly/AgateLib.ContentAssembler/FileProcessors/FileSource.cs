@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VermilionTower.ContentPipeline.FileProcessors
+namespace AgateLib.ContentAssembler.FileProcessors
 {
 
     public interface IFileSource

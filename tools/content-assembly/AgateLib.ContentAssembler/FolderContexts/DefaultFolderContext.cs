@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace VermilionTower.ContentPipeline.FolderContexts
+namespace AgateLib.ContentAssembler.FolderContexts
 {
     public class DefaultFolderContext : IFolderContext
     {

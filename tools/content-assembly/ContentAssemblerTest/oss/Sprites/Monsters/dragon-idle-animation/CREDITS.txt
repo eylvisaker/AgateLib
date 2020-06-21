@@ -1,0 +1,3 @@
+license: CC-BY 3.0
+url: https://opengameart.org/content/dragon-idle-animation
+authors: Redshrike, Surt, Scribe

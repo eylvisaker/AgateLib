@@ -1,0 +1,15 @@
+# YamlDotNet doesn't seem to like object extensions "<<: *anchor". I should file a bug.
+
+Templates:
+            
+Resources:            
+    deer:
+        Requirements: 
+            Forest: 0.2 to 1
+        Food: "@v@ meat"
+        Trade:
+        -   Value: 1
+            Text: "@v@ meat"
+        -   Value: 2
+            Text: "@v@ pelt"
+         

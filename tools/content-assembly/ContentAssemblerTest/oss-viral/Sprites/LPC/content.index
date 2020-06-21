@@ -1,0 +1,6 @@
+credits: warn
+files:
+- pattern: .*\.pyxel
+  as: ignore
+exclude-folders:
+- SOURCE

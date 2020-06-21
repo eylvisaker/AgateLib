@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Build.Utilities;
 
-namespace VermilionTower.ContentPipeline.Loggers
+namespace AgateLib.ContentAssembler.Loggers
 {
     class TaskLogger : ILogger
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace VermilionTower.ContentPipeline.FolderContexts
+namespace AgateLib.ContentAssembler.FolderContexts
 {
     public interface IFolderContext
     {

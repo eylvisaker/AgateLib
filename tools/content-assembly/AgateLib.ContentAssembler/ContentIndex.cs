@@ -1,7 +1,7 @@
-﻿using VermilionTower.ContentPipeline.FileProcessors;
+﻿using AgateLib.ContentAssembler.FileProcessors;
 using System.Collections.Generic;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class ContentIndex
     {

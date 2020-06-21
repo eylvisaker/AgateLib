@@ -1,13 +1,13 @@
 using System;
-using VermilionTower.ContentPipeline.FileProcessors;
+using AgateLib.ContentAssembler.FileProcessors;
 using FluentAssertions;
 using Xunit;
 using Moq;
 using System.Collections.Generic;
-using VermilionTower.ContentPipeline.Mocks;
+using AgateLib.ContentAssembler.Mocks;
 using System.Linq;
 
-namespace VermilionTower.ContentPipeline.CreditsFileScenarios
+namespace AgateLib.ContentAssembler.CreditsFileScenarios
 {
     public class CreditsFileScenarioTests
     {

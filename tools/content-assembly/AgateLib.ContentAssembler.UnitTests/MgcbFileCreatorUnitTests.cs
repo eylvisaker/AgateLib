@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using VermilionTower.ContentPipeline.Mocks;
+using AgateLib.ContentAssembler.Mocks;
 using Xunit;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class MgcbFileCreatorUnitTests
     {

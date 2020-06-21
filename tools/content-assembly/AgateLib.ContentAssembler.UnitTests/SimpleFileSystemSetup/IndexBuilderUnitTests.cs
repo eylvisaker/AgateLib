@@ -1,10 +1,10 @@
 using System;
-using VermilionTower.ContentPipeline.FileProcessors;
+using AgateLib.ContentAssembler.FileProcessors;
 using FluentAssertions;
 using Xunit;
 using Moq;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public partial class SimpleFileSystemSetup
     {

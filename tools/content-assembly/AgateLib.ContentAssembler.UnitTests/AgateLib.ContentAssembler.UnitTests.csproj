@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <RootNamespace>VermilionTower.ContentPipeline</RootNamespace>
+    <RootNamespace>AgateLib.ContentAssembler</RootNamespace>
 
     <Configurations>Debug;Release</Configurations>
   

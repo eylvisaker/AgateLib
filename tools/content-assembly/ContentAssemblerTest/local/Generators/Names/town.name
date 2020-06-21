@@ -1,0 +1,277 @@
+﻿# Lines starting with a pound symbol (#) are comments.
+#
+# The order section defines how names are generated.
+# An entry is split up into two sections, separated by a pipe character.
+#
+# The first section contains the substitutions. 
+# The second section lists the arguments. Each substitution requires one argument.
+# Each substition character is interpreted as follows:
+#
+# 	'@' - Substitute a random word from the sections matching the argument. 
+#         The argument is a bit mask corresponding the the lower sections.
+#         Each section has a bit that identifies it, marked by a colon character. e.g. :0x1 is the 1 bit.
+#         A word is chosen at random from the sections that match the bit flag.passes the bit mask is 
+#
+#   '*' - Generate a name using the Markov chain algorithm. The argument specifies the template to use.
+#         Markov chains are loaded from .markov files.
+#
+#   ' ' - Insert a space character in the name.
+#
+#
+[Order]
+@ @ | 0x3 0x100
+@@ | 0x10 0x200
+@@ | 0x01 0x200
+@@ | 0x11 0x200
+* | human-town
+*@ | human-town 0x200
+@ @@ | 0x8 0x11 0x200
+@ *@ | 0x8 human-town 0x200
+* @ | human-town 0x100
+
+[Word]
+# Whole word starters that can be concatenated with other (partial-)words
+:0x1
+Cresent
+Crystal
+Dawn
+Eagle
+Granite
+Iron
+Isle
+Moon
+Oak
+River
+Rocky
+Rose
+Steel
+
+# Must be whole word starter
+:0x2
+Beggar's
+Peasant's
+Raven's
+Lost
+
+# Modifiers
+:0x8
+East
+Grand
+Holy
+New
+North
+South
+West
+
+# Whole word enders
+:0x100
+barrens
+bay
+beach
+bluff
+bridge
+creek
+crossing
+falls
+forge
+grotto
+heights
+hollow
+knoll
+lake
+ledge
+port
+ranch
+rapids
+ridge
+run
+summit
+vale
+village
+warrens
+water
+
+# Nounish Partial word prefix
+:0x10
+Aber
+Ash
+Bay
+Beach
+Black
+Blue
+Bright
+Cedar
+Dagger
+Deep
+Deer
+East
+Elm
+Elk
+Evening
+Garden
+Glas
+Ham
+Hawk
+Hedge
+Isle
+Lake
+Mallow
+Maple
+Marble
+Marsh
+Moon
+Oak
+River
+Rose
+Shadow
+Silver
+Thorn
+Trist
+Under
+Water
+West
+Winter
+Wood
+
+
+# Noun-ish partial word suffix
+:0x200
+bear
+burgh
+bridge
+brook
+brooke
+cliff
+creek
+crest
+dale
+falls
+flower
+field
+ford
+gold
+hall
+haven
+hill
+horn
+keep
+lake
+land
+lock
+loch
+gard
+guard
+moor
+mouth
+point
+pointe
+port
+rune
+shore
+side
+spring
+stone
+star
+ton
+vale
+way
+wood
+worth
+
+# Partial word prefix
+:0x4
+Ael
+Ar
+Bar
+Bel
+Bri
+Bur
+Cam
+Char
+Der
+Do
+Dun
+Ed
+Fair
+Fal
+Hal
+Ji
+Kar
+Kel
+Kla
+Lan
+Lei
+Lian
+Med
+Mid
+Mir
+Mor
+Mon
+Nar
+Old
+Par
+Ru
+San
+Sel
+Sun
+Sur
+Tem
+Val
+Whit
+Zah
+Zha
+Zod
+
+# Partial word suffix
+:0x400
+age
+an
+ania
+and
+aro
+asa
+ban
+by
+caster
+cia
+dar
+den
+dor
+dra
+eaux
+elle
+for
+gand
+gel
+han
+ham
+in
+ina
+garad
+gon
+gyll
+lane
+ley
+lin
+liz
+lom
+lope
+mas
+mit
+mont
+ness
+oa
+ory
+rud
+run
+sic
+sley
+som
+ston
+tlin
+ton
+tor
+vais
+ver
+ville
+wich

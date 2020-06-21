@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class MgcbFileCreator : FileAccessor
     {
@@ -24,7 +24,7 @@ namespace VermilionTower.ContentPipeline
 
             var names = assembly.GetManifestResourceNames();
 
-            using (Stream stream = assembly.GetManifestResourceStream("VermilionTower.ContentPipeline.Content-template.mgcb"))
+            using (Stream stream = assembly.GetManifestResourceStream("AgateLib.ContentAssembler.Content-template.mgcb"))
             using (var reader = new StreamReader(stream))
             {
                 contentTemplate = reader.ReadToEnd();

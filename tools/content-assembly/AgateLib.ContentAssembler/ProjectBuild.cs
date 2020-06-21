@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class ProjectBuild
     {

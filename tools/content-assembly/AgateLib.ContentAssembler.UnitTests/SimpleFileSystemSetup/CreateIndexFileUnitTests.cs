@@ -1,13 +1,13 @@
-﻿using FluentAssertions;
+﻿using AgateLib.ContentModel;
+using FluentAssertions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using VermilionTower.Content;
 using Xunit;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public partial class SimpleFileSystemSetup
     {

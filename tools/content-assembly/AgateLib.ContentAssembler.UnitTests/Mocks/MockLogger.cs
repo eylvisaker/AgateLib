@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VermilionTower.ContentPipeline.Mocks
+namespace AgateLib.ContentAssembler.Mocks
 {
     public class MockLogger
     {

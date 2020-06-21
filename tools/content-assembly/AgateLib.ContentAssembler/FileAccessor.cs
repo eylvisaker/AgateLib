@@ -1,9 +1,9 @@
-﻿using VermilionTower.ContentPipeline.Shims;
+﻿using AgateLib.ContentAssembler.Shims;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class FileAccessor
     {

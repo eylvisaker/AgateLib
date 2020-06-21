@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VermilionTower.ContentPipeline.Loggers
+namespace AgateLib.ContentAssembler.Loggers
 {
     public class ConsoleLogger : ILogger
     {

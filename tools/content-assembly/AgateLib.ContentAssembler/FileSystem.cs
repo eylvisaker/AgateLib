@@ -1,6 +1,6 @@
-﻿using VermilionTower.ContentPipeline.Shims;
+﻿using AgateLib.ContentAssembler.Shims;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public interface IFileSystem
     {

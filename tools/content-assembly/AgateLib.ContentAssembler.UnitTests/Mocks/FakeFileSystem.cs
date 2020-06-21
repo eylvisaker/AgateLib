@@ -1,11 +1,11 @@
-﻿using VermilionTower.ContentPipeline.Shims;
+﻿using AgateLib.ContentAssembler.Shims;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace VermilionTower.ContentPipeline.Mocks
+namespace AgateLib.ContentAssembler.Mocks
 {
     public class FakeFileSystem : IFileSystem
     {

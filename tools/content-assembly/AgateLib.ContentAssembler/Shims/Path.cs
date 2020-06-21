@@ -1,4 +1,4 @@
-﻿namespace VermilionTower.ContentPipeline.Shims
+﻿namespace AgateLib.ContentAssembler.Shims
 {
     public interface IPath
     {

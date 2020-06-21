@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace VermilionTower.ContentPipeline.FolderContexts
+namespace AgateLib.ContentAssembler.FolderContexts
 {
     [DebuggerDisplay("{Pattern} AS {As}")]
     public class FileInstruction

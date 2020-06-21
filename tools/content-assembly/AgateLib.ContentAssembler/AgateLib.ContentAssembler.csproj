@@ -1,13 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <StartupObject>VermilionTower.ContentPipeline.EntryPoint</StartupObject>
+    <StartupObject>AgateLib.ContentAssembler.EntryPoint</StartupObject>
     <Company>Vermilion Tower</Company>
     <Authors>Vermilion Tower</Authors>
-    <AssemblyName>VermilionTower.ContentPipeline</AssemblyName>
-    <RootNamespace>VermilionTower.ContentPipeline</RootNamespace>
+    <AssemblyName>AgateLib.ContentAssembler</AssemblyName>
+    <RootNamespace>AgateLib.ContentAssembler</RootNamespace>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Configurations>Debug;Release</Configurations>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

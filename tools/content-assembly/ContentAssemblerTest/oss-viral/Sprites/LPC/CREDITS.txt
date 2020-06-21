@@ -1,0 +1,3 @@
+license: CC-BY 3.0
+url: https://opengameart.org/content/dragon-idle-animation
+authors: Luke Mehl, Johannes Sjölund, Marcel van de Steeg, Manuel Riecke, Thane Brimhall, Matthew Krohn, Lori Angela Nagel, Lanea Zimmerman (AKA Sharm), Stephen Challener (AKA Redshrike), Daniel Eddeland, Shaun Williams, Joe White, Barbara Rivera, JRConway3, JaidynReiman, Nila122, neo4cat6

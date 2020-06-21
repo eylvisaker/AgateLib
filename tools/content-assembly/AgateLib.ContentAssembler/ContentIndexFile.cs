@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using VermilionTower.ContentPipeline.FolderContexts;
+using AgateLib.ContentAssembler.FolderContexts;
 
-namespace VermilionTower.ContentPipeline
+namespace AgateLib.ContentAssembler
 {
     public class ContentIndexFile
     {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace VermilionTower.Content
+namespace AgateLib.ContentModel
 {
     [DebuggerDisplay("IndexFile {Type}: {Path}")]
     public class IndexedFile

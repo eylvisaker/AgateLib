@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace VermilionTower.ContentPipeline.FileProcessors
+namespace AgateLib.ContentAssembler.FileProcessors
 {
     public class CreditsSource : FileAccessor, IFileSource
     {

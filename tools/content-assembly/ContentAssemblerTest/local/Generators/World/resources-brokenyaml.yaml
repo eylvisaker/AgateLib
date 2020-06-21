@@ -1,0 +1,141 @@
+# Not all the data from the original file has been transfered.
+
+Templates:
+    game: &game
+        Requirements: 
+            Forest: 0.2 to 1
+        Food: "@v@ meat"
+        Trade:
+        -   Value: 1
+            Text: "@v@ meat"
+        -   Value: 2
+            Text: "@v@ pelt"
+            
+    fish: &fish
+        Requirements:
+            Water: 0.1 to 1
+    
+    produce: &produce
+        Requirements:
+            Grass: 0.3 to 1
+            Precipitation: 2 to 1000
+            Temperature: 0 to 1000
+           
+    livestock: &livestock
+        Requirements: 
+            Grass: 0.2 to 1
+            Temperature: -5 to 100
+            
+    wood: &wood
+        Requirements:
+            Forest: 0.4 to 1
+            
+    ore: &ore
+        Requirements:
+            Mountain: 0.3 to 1
+            
+Resources:            
+    deer:
+        <<: *game
+        
+    duck:
+        <<: *game
+        
+    turkey:
+        <<: *game
+        
+    wolf:
+        <<: *game
+        MonsterType: wolf
+        Requirements:
+            Temperature: -30 to 5
+        
+    bear:
+        <<: *game
+        MonsterType: bear
+        Requirements:
+            Forest: 0.5 to 1
+            
+    buffalo:
+        <<: *game
+        Requirements:
+            Forest: 0 to 0.4
+            grass: 0.4 to 1
+            
+    tuna:
+        <<: *fish
+        
+    salmon:
+        <<: *fish
+        
+    cod:
+        <<: *fish
+        
+    corn: *produce
+    wheat: *produce
+    rye: *produce
+    oats: *produce
+    barley: *produce
+    apple: *produce
+    pear: *produce
+    peach: *produce
+    plum: *produce
+    orange: *produce
+    olive: *produce
+    fig: *produce
+    avocado:
+        <<: *produce
+        Requirements:
+            Temperature: 14 to 100
+    pineapple:
+        <<: *produce
+        Requirements:
+            Temperature: 13 to 100
+    peanut: *produce
+    walnut: *produce
+    pecan: *produce
+    almond: *produce
+    chestnut: *produce
+    tomato: *produce
+    lettuce: *produce
+    spinach: *produce
+    potato: *produce
+    broccoli: *produce
+    radish: *produce
+    grapes: *produce
+
+    cow: *livestock
+    chicken: *livestock
+    pig: *livestock
+    goat: *livestock
+    sheep: *livestock
+    alpaca: *livestock
+
+    ash: *wood
+    cedar: *wood
+    cherry: *wood
+    cypress: *wood
+    fir: *wood
+    pine: *wood
+    spruce: *wood
+    oak: *wood
+    yew: *wood
+    alder: *wood
+    aspen: *wood
+    birch: *wood
+    cherry: *wood
+    chestnut: *wood
+    elm: *wood
+    mahogany: *wood
+    maple: *wood
+    walnut: *wood
+    willow: *wood
+       
+    iron: *ore
+    copper: *ore
+    gold: *ore
+    silver: *ore
+    nickel: *ore
+    lead: *ore
+    mithril: *ore
+    cobalt: *ore
