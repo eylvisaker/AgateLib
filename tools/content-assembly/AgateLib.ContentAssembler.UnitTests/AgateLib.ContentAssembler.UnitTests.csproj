@@ -23,10 +23,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  
 
   <ItemGroup>
-    <ProjectReference Include="..\VermilionTower.ContentPipeline\AgateLib.ContentAssembler.csproj" />
-    <ProjectReference Include="..\VermilionTower.Content\AgateLib.ContentModel.csproj" />
+    <ProjectReference Include="..\AgateLib.ContentAssembler\AgateLib.ContentAssembler.csproj" />
+    <ProjectReference Include="..\AgateLib.ContentModel\AgateLib.ContentModel.csproj" />
   </ItemGroup>
 
 </Project>
