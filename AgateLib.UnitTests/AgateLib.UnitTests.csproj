@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <Configurations>Debug;Release;Release_DesktopGL;Release_WindowsDX;Test;Release_Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
