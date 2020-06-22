@@ -17,7 +17,7 @@
   <Import Project="..\AgateLib.ContentAssembler\bin\$(Configuration)\AgateLib.ContentAssembler.targets" />
 
   <Target Name="AssembleContent" BeforeTargets="CollectContentReferences">
-    <AgateLibContentAssembler Include="..\content.build" />
+    <AgateLibContentAssembler Include="content.build" />
   </Target>
 
 </Project>
