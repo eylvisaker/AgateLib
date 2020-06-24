@@ -31,9 +31,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AgateLib.Demo\AgateLib.Demo.csproj" />
-    <ProjectReference Include="..\AgateLib.Physics\AgateLib.Physics.csproj" />
-    <ProjectReference Include="..\AgateLib.TestFramework\AgateLib.TestFramework.csproj" />
-    <ProjectReference Include="..\AgateLib\AgateLib.csproj" />
+    <ProjectReference Include="..\..\src\AgateLib.TestFramework\AgateLib.TestFramework.csproj" />
+    <ProjectReference Include="..\..\src\AgateLib.Physics\AgateLib.Physics.csproj" />
+    <ProjectReference Include="..\..\src\AgateLib\AgateLib.csproj" />
   </ItemGroup>
 
 </Project>

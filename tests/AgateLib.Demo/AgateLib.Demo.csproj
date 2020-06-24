@@ -47,11 +47,11 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1375-develop" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgateLib.Physics\AgateLib.Physics.csproj" />
-    <ProjectReference Include="..\AgateLib\AgateLib.csproj" />
+    <ProjectReference Include="..\..\src\AgateLib.Physics\AgateLib.Physics.csproj" />
+    <ProjectReference Include="..\..\src\AgateLib\AgateLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <Import Project="..\AgateLib.Platform\AgateLib.Platform.projitems" Label="Shared" />
+  <Import Project="..\..\src\AgateLib.Platform\AgateLib.Platform.projitems" Label="Shared" />
 </Project>

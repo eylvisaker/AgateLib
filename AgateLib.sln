@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib", "AgateLib\AgateLib.csproj", "{30D1A19E-7DF1-494F-99EA-77AB764693D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib", "src\AgateLib\AgateLib.csproj", "{30D1A19E-7DF1-494F-99EA-77AB764693D5}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AgateLib.Platform", "AgateLib.Platform\AgateLib.Platform.shproj", "{477272D0-E4C7-44C2-80FA-773A2A364017}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AgateLib.Platform", "src\AgateLib.Platform\AgateLib.Platform.shproj", "{477272D0-E4C7-44C2-80FA-773A2A364017}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AgateLib.Content", "AgateLib.Content\AgateLib.Content.shproj", "{405FF3FA-EB1E-4BF3-82E3-B8356D223A9C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AgateLib.Content", "src\AgateLib.Content\AgateLib.Content.shproj", "{405FF3FA-EB1E-4BF3-82E3-B8356D223A9C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.Physics", "AgateLib.Physics\AgateLib.Physics.csproj", "{A5AF5511-078E-4BAB-9553-340AA2B5B342}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.Physics", "src\AgateLib.Physics\AgateLib.Physics.csproj", "{A5AF5511-078E-4BAB-9553-340AA2B5B342}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DD17D2DA-4B9F-41B4-89A9-5909CF580CED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.TestFramework", "AgateLib.TestFramework\AgateLib.TestFramework.csproj", "{B3093E61-6700-40C7-9C78-4D72AD907DBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.TestFramework", "src\AgateLib.TestFramework\AgateLib.TestFramework.csproj", "{B3093E61-6700-40C7-9C78-4D72AD907DBF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.Autofac", "AgateLib.Autofac\AgateLib.Autofac.csproj", "{75372BB4-35B2-40C6-B6D8-87F4D5DE4CFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.Autofac", "src\AgateLib.Autofac\AgateLib.Autofac.csproj", "{75372BB4-35B2-40C6-B6D8-87F4D5DE4CFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Demo", "AgateLib.Demo\AgateLib.Demo.csproj", "{8A25A710-9AB7-4B1A-B0CA-61E646EFF7C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Demo", "tests\AgateLib.Demo\AgateLib.Demo.csproj", "{8A25A710-9AB7-4B1A-B0CA-61E646EFF7C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.UnitTests", "AgateLib.UnitTests\AgateLib.UnitTests.csproj", "{E7DA0A34-53B8-4122-B048-175104871196}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.UnitTests", "tests\AgateLib.UnitTests\AgateLib.UnitTests.csproj", "{E7DA0A34-53B8-4122-B048-175104871196}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
