@@ -1,8 +1,0 @@
-﻿include:
-- oss-viral
-- oss
-- cc0
-- local
-output: Content
-create-mgcb: Content.mgcb
-create-credits: credits.txt

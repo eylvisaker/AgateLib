@@ -1,3 +1,0 @@
-create-index:
-  output: images.index
-  recurse: true
