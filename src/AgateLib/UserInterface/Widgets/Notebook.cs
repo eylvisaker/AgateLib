@@ -1,16 +1,15 @@
 ﻿using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 
-namespace AgateLib.Demo.Selector.Widgets
+namespace AgateLib.UserInterface
 {
     public class Notebook : RenderElement<NotebookProps, NotebookState>
     {
-        class NotebookLayout
+        private class NotebookLayout
         {
             public List<IRenderElement> Tabs = new List<IRenderElement>();
             public List<NotebookPage> Pages;
@@ -88,20 +87,20 @@ namespace AgateLib.Demo.Selector.Widgets
             }
         }
 
-        NotebookLayout layout = new NotebookLayout();
-        List<IRenderElement> children = new List<IRenderElement>();
+        private NotebookLayout layout = new NotebookLayout();
+        private List<IRenderElement> children = new List<IRenderElement>();
 
         public Notebook(NotebookProps props) : base(props)
         {
-            SetState(new NotebookState { ActivePage = props.InitialActivePage });
+            SetState(new NotebookState { ActivePageIndex = props.InitialActivePage });
 
             ReceiveNotebookProps();
         }
 
-        public override IList<IRenderElement> Children 
-        { 
-            get => children; 
-            protected set => children = value.ToList(); 
+        public override IList<IRenderElement> Children
+        {
+            get => children;
+            protected set => children = value.ToList();
         }
 
         public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
@@ -126,14 +125,14 @@ namespace AgateLib.Demo.Selector.Widgets
         {
             DrawChildren(renderContext, clientArea, layout.Tabs);
 
-            DrawChild(renderContext, clientArea, Props.Pages[State.ActivePage]);
+            DrawChild(renderContext, clientArea, Props.Pages[State.ActivePageIndex]);
         }
 
         public override bool CanHaveFocus => Props.Pages.Where(x => x.Props.Visible).Any();
 
         public override void OnFocus()
         {
-            Display.System.SetFocus(layout.Tabs[State.ActivePage]);
+            Display.System.SetFocus(layout.Tabs[State.ActivePageIndex]);
         }
 
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action)
@@ -155,9 +154,11 @@ namespace AgateLib.Demo.Selector.Widgets
             }
 
             if (focusIndex < 0 || focusIndex >= layout.Tabs.Count)
+            {
                 return;
+            }
 
-            SetState(s => s.ActivePage = focusIndex);
+            SetState(s => s.ActivePageIndex = focusIndex);
         }
 
         protected override void OnReceiveProps()
@@ -171,17 +172,10 @@ namespace AgateLib.Demo.Selector.Widgets
         {
             base.OnReceiveState();
 
-            if (State.ActivePage < layout.Tabs.Count)
+            if (State.ActivePageIndex < layout.Tabs.Count)
             {
-                Display.System.SetFocus(layout.Tabs[State.ActivePage]);
+                Display.System.SetFocus(layout.Tabs[State.ActivePageIndex]);
             }
-        }
-
-        protected override void OnReceivedAppContext()
-        {
-            base.OnReceivedAppContext();
-
-            FinalizeChildren();
         }
 
         private void ReceiveNotebookProps()
@@ -196,15 +190,10 @@ namespace AgateLib.Demo.Selector.Widgets
             }
 
             layout.Pages = Props.Pages;
-
-            FinalizeChildren();
         }
 
-        private void FinalizeChildren()
+        protected override void OnFinalizeChildren()
         {
-            if (AppContext == null)
-                return;
-
             children.Clear();
             children.AddRange(FinalizeRendering(layout.Tabs));
             children.AddRange(FinalizeRendering(Props.Pages));
@@ -220,16 +209,33 @@ namespace AgateLib.Demo.Selector.Widgets
             };
 
             if (page.Props.PageHeader != null)
+            {
                 btnProps.Children = new List<IRenderable> { page.Props.PageHeader };
+            }
             else
+            {
                 btnProps.Children = new List<IRenderable> { new LabelElement(new LabelElementProps { Text = page.Props.Title }) };
+            }
 
             return new ButtonElement(btnProps);
         }
 
         private void SetActivePage(NotebookPage page)
         {
-            SetState(s => s.ActivePage = Props.Pages.IndexOf(page));
+            int newIndex = Props.Pages.IndexOf(page);
+
+            if (State.ActivePageIndex == newIndex)
+                return;
+
+            SetState(s => s.ActivePageIndex = Props.Pages.IndexOf(page));
+        }
+
+        protected override ChildReconciliationMode ChildReconciliationMode
+            => ChildReconciliationMode.Self;
+
+        protected override void ReconcileChildren(IRenderElement other)
+        {
+            OnFinalizeChildren();
         }
     }
 
@@ -238,10 +244,18 @@ namespace AgateLib.Demo.Selector.Widgets
         public List<NotebookPage> Pages { get; set; }
 
         public int InitialActivePage { get; set; }
+
+        protected override bool CanDoValueComparison(PropertyInfo property)
+        {
+            if (property.Name == nameof(Pages))
+                return false;
+
+            return base.CanDoValueComparison(property);
+        }
     }
 
-    public class NotebookState : RenderElementState
+    public class NotebookState
     {
-        public int ActivePage { get; set; }
+        public int ActivePageIndex { get; set; }
     }
 }

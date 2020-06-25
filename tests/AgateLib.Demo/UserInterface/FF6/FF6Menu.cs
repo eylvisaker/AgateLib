@@ -60,44 +60,44 @@ namespace AgateLib.Demo.UserInterface.FF6
 
         private void EquipOptimum(UserInterfaceEvent<PlayerCharacter> e)
         {
-            Model.EquipPC(e.Data, BestItem("L-Hand"), "L-Hand");
-            Model.EquipPC(e.Data, BestItem("R-Hand"), "R-Hand");
-            Model.EquipPC(e.Data, BestItem("Head"), "Head");
-            Model.EquipPC(e.Data, BestItem("Body"), "Body");
+            Model.EquipPC(e.Arg1, BestItem("L-Hand"), "L-Hand");
+            Model.EquipPC(e.Arg1, BestItem("R-Hand"), "R-Hand");
+            Model.EquipPC(e.Arg1, BestItem("Head"), "Head");
+            Model.EquipPC(e.Arg1, BestItem("Body"), "Body");
         }
 
         private void EmptyEquipment(UserInterfaceEvent<PlayerCharacter> e)
         {
-            Model.EquipPC(e.Data, null, "L-Hand");
-            Model.EquipPC(e.Data, null, "R-Hand");
-            Model.EquipPC(e.Data, null, "Head");
-            Model.EquipPC(e.Data, null, "Body");
+            Model.EquipPC(e.Arg1, null, "L-Hand");
+            Model.EquipPC(e.Arg1, null, "R-Hand");
+            Model.EquipPC(e.Arg1, null, "Head");
+            Model.EquipPC(e.Arg1, null, "Body");
         }
 
         private void UnequipItem(UserInterfaceEvent<PlayerCharacter, string> e)
         {
-            var pc = e.Data1;
-            var slot = e.Data2;
+            var pc = e.Arg1;
+            var slot = e.Arg2;
 
             Model.EquipPC(pc, null, slot);
         }
 
         private void EquipItem(UserInterfaceEvent<PlayerCharacter, string, Item> e)
         {
-            var pc = e.Data1;
-            var slot = e.Data2;
-            var item = e.Data3;
+            var pc = e.Arg1;
+            var slot = e.Arg2;
+            var item = e.Arg3;
 
             Model.EquipPC(pc, item);
         }
 
         private void SwapItems(UserInterfaceEvent<Tuple<int, int>> e)
         {
-            var a = Model.Inventory[e.Data.Item1];
-            var b = Model.Inventory[e.Data.Item2];
+            var a = Model.Inventory[e.Arg1.Item1];
+            var b = Model.Inventory[e.Arg1.Item2];
 
-            Model.Inventory[e.Data.Item2] = a;
-            Model.Inventory[e.Data.Item1] = b;
+            Model.Inventory[e.Arg1.Item2] = a;
+            Model.Inventory[e.Arg1.Item1] = b;
         }
 
         private void ArrangeItems()
@@ -123,8 +123,8 @@ namespace AgateLib.Demo.UserInterface.FF6
 
         private void UseItem(UserInterfaceEvent<Tuple<Item, PlayerCharacter>> e)
         {
-            var item = e.Data.Item1;
-            var targetPc = e.Data.Item2;
+            var item = e.Arg1.Item1;
+            var targetPc = e.Arg1.Item2;
 
             switch (item.Effect)
             {

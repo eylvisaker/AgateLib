@@ -15,7 +15,7 @@ namespace AgateLib.Demo.FontTests
 
         public string Name => "Simple Text";
 
-        public string Category => "Font";
+        public string Category => "Fonts";
 
         public event Action OnExit;
 

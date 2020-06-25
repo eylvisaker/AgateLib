@@ -21,8 +21,21 @@ namespace AgateLib.UserInterface
 
         public override IList<IRenderElement> Children
         {
-            get => children; 
-            protected set => children = value.ToList();
+            get => children;
+            protected set
+            {
+                if (value.Count > 0)
+                {
+                    child = value[0];
+                    children.Clear();
+                    children.Add(child);
+                }
+                else
+                {
+                    child = null;
+                    children.Clear();
+                }
+            }
         }
 
         protected override void OnReceivedAppContext()

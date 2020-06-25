@@ -9,7 +9,7 @@ namespace AgateLib.Display
 {
     public interface ICanvas
     {
-        [Obsolete("Do not use this.")]
+        [Obsolete("Do not use this.", true)]
         SpriteBatch SpriteBatch { get; }
 
         Rectangle Coordinates { get; }

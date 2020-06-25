@@ -49,7 +49,8 @@ namespace AgateLib.UserInterface
         private bool inDraw;
 
         private FadeColor inactiveWorkspaceFadeColor = new FadeColor();
-        private float scaling;
+        private float visualScaling;
+        private string defaultTheme = "default";
 
         public Desktop(Rectangle screenArea,
                        IUserInterfaceLayoutContext layoutContext,
@@ -93,16 +94,30 @@ namespace AgateLib.UserInterface
 
         public IUserInterfaceAudio Audio { get; set; }
 
-        public float Scaling
+        public float VisualScaling
         {
-            get => scaling;
+            get => visualScaling;
             set
             {
-                scaling = value;
+                visualScaling = value;
 
                 foreach (Workspace workspace in workspaces)
                 {
-                    workspace.Scaling = value;
+                    workspace.VisualScaling = value;
+                }
+            }
+        }
+
+        public string DefaultTheme
+        {
+            get => defaultTheme;
+            set
+            {
+                defaultTheme = value;
+
+                foreach (Workspace workspace in workspaces)
+                {
+                    workspace.DefaultTheme = value;
                 }
             }
         }
@@ -126,8 +141,6 @@ namespace AgateLib.UserInterface
         /// </summary>
         public event Action Empty;
         public event Action<UserInterfaceActionEventArgs> UnhandledEvent;
-
-        public string DefaultTheme { get; set; } = "default";
 
         public IInstructions Instructions
         {
@@ -160,8 +173,7 @@ namespace AgateLib.UserInterface
 
             workspaces.Add(workspace);
 
-            workspace.Desktop = this;
-            workspace.Scaling = scaling;
+            workspace.VisualScaling = visualScaling;
             workspace.ScreenArea = ScreenArea;
             workspace.Style = Styles;
             workspace.Fonts = Fonts;
@@ -175,6 +187,7 @@ namespace AgateLib.UserInterface
                 workspace.DefaultTheme = DefaultTheme;
             }
 
+            workspace.Desktop = this;
             workspace.Render();
             workspace.VisualTree.DoLayout(layoutContext, ScreenArea);
             workspace.TransitionIn();

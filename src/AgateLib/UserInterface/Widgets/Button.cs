@@ -22,6 +22,7 @@
 
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -82,7 +83,7 @@ namespace AgateLib.UserInterface
         public ButtonElement(ButtonElementProps props) : base(props)
         { }
 
-        protected override void OnReceivedAppContext()
+        protected override void OnFinalizeChildren()
         {
             if (Props.Children.Count == 1)
             {
@@ -97,6 +98,9 @@ namespace AgateLib.UserInterface
                     Children = Props.Children
                 });
             }
+
+            AgateLib.Quality.Require.That<InvalidOperationException>(child != null,
+                "child must not be null");
 
             Children = new List<IRenderElement> { child };
         }

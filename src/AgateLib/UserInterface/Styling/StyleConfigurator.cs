@@ -20,13 +20,17 @@
 //    SOFTWARE.
 //
 
+using System.Collections.Generic;
+
 namespace AgateLib.UserInterface.Styling
 {
     /// <summary>
     /// Interface for an object which applies styling to widgets.
     /// </summary>
-	public interface IStyleConfigurator
+    public interface IStyleConfigurator
     {
+        IEnumerable<string> AvailableThemes { get; }
+
         /// <summary>
         /// Applies styling to a render element and its children.
         /// </summary>

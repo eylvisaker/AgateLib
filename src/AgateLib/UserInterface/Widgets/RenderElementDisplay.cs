@@ -221,6 +221,8 @@ namespace AgateLib.UserInterface
 
         public RenderElementDisplay Parent { get; internal set; }
 
+        public float VisualScaling => System.VisualScaling;
+
         public override string ToString() => $"Margin: {MarginRect}, Content: {ContentRect}";
 
         /// <summary>

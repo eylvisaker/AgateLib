@@ -72,7 +72,7 @@ namespace AgateLib.Demo.UserInterface.FF6.Widgets
         {
             e.System.SetFocus(selectPcRef.Current);
 
-            afterSelectPC = y => thenDo(y, y.Data);
+            afterSelectPC = y => thenDo(y, y.Arg1);
         }
 
         private void RunEquipMenu(UserInterfaceEvent evt, PlayerCharacter pc)
@@ -140,12 +140,12 @@ namespace AgateLib.Demo.UserInterface.FF6.Widgets
 
         private void UseItem(UserInterfaceEvent<Item> e)
         {
-            switch (e.Data.Effect)
+            switch (e.Arg1.Effect)
             {
                 case "heal":
                     SelectItemTarget(e, targetPc
                         => Props.OnUseItem?.Invoke(new UserInterfaceEvent<Tuple<Item, PlayerCharacter>>().Reset(e,
-                        new Tuple<Item, PlayerCharacter>(e.Data, targetPc))));
+                        new Tuple<Item, PlayerCharacter>(e.Arg1, targetPc))));
 
                     break;
             }
@@ -161,7 +161,7 @@ namespace AgateLib.Demo.UserInterface.FF6.Widgets
                 OnAccept = e =>
                 {
                     workspace.TransitionOut();
-                    afterSelection(e.Data);
+                    afterSelection(e.Arg1);
                 }
             }));
 

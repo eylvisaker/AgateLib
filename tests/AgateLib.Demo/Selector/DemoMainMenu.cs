@@ -53,7 +53,8 @@ namespace AgateLib.Demo.Selector
             var app = new DemoMainMenuApp(new DemoMainMenuAppProps
             {
                 Demos = demos.ToList(),
-                OnAcceptTest = demo => StartDemo?.Invoke(this, new DemoEventArgs(demo))
+                OnAcceptTest = demo => StartDemo?.Invoke(this, new DemoEventArgs(demo)),
+                AvailableThemes = resources.StyleConfigurator.AvailableThemes.ToList(),
             });
 
             var workspace = new Workspace("default", app);

@@ -125,6 +125,13 @@ namespace AgateLib.UserInterface.Styling.Themes
 
                 new ThemeStyle
                 {
+                    Selector = "valuespinner:focus",
+                    Background = new BackgroundStyle { Color = Color.White },
+                    Font = new FontStyleProperties { Color = Color.Black },
+                },
+
+                new ThemeStyle
+                {
                     Selector = "radiobutton:disabled",
                     Font = new FontStyleProperties { Color = Color.Gray }
                 },

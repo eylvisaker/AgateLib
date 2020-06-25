@@ -36,6 +36,15 @@ namespace AgateLib.Demo.Selector.Widgets
                 }).ToList()
             };
 
+            bookProps.Pages.Add(new NotebookPage(new NotebookPageProps
+            {
+                Title = "Options",
+                Child = new OptionsPage(new OptionsPageProps
+                {
+                    AvailableThemes = Props.AvailableThemes
+                })
+            }));
+
             return new App(new AppProps
             {
                 Children = {
@@ -54,5 +63,7 @@ namespace AgateLib.Demo.Selector.Widgets
         public List<IDemo> Demos { get; set; }
 
         public Action<IDemo> OnAcceptTest { get; set; }
+
+        public List<string> AvailableThemes { get; set; } = new List<string>();
     }
 }

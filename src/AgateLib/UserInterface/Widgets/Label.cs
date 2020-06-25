@@ -273,7 +273,7 @@ namespace AgateLib.UserInterface
         public UserInterfaceEventHandler AnimationComplete { get; set; }
     }
 
-    public class LabelElementState : RenderElementState
+    public class LabelElementState
     {
         public bool Dirty { get; set; }
 

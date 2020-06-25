@@ -47,6 +47,18 @@ namespace AgateLib.UserInterface
 
             public Desktop Desktop { get; set; }
 
+            public string DefaultTheme
+            {
+                get => Desktop.DefaultTheme;
+                set => Desktop.DefaultTheme = value;
+            }
+
+            public float VisualScaling
+            {
+                get => Desktop.VisualScaling;
+                set => Desktop.VisualScaling = value;
+            }
+
             public IFontProvider Fonts { get; set; }
 
             public IRenderElement Focus
@@ -123,21 +135,22 @@ namespace AgateLib.UserInterface
             this.app = root;
         }
 
-        internal void InitializeVisualTree(IAnimationFactory animationFactory)
-        {
-            displaySystem = new WorkspaceDisplaySystem(this);
+        public event Action<UserInterfaceActionEventArgs> UnhandledEvent;
+        public event Action BeforeTransitionOut;
+        public event Action FocusChanged;
 
-            visualTree = new VisualTree(animationFactory)
+        public float VisualScaling
+        {
+            get => visualTree.VisualScaling;
+            set
             {
-                DisplaySystem = displaySystem,
-                DefaultTheme = defaultTheme,
-            };
-        }
+                visualTree.VisualScaling = value;
 
-        public float Scaling
-        {
-            get => visualTree.Scaling;
-            set => visualTree.Scaling = value;
+                if (Desktop != null)
+                {
+                    Render();
+                }
+            }
         }
 
         public IRenderElement Focus
@@ -155,10 +168,6 @@ namespace AgateLib.UserInterface
                 FocusChanged?.Invoke();
             }
         }
-
-        public event Action<UserInterfaceActionEventArgs> UnhandledEvent;
-        public event Action BeforeTransitionOut;
-        public event Action FocusChanged;
 
         public IStyleConfigurator Style
         {
@@ -207,8 +216,19 @@ namespace AgateLib.UserInterface
                 if (visualTree != null)
                 {
                     visualTree.DefaultTheme = value;
+
+                    if (Desktop != null)
+                    {
+                        Render();
+                    }
                 }
             }
+        }
+
+        internal Desktop Desktop
+        {
+            get => this.displaySystem.Desktop;
+            set => this.displaySystem.Desktop = value;
         }
 
         public void HandleUIAction(UserInterfaceActionEventArgs args)
@@ -304,12 +324,6 @@ namespace AgateLib.UserInterface
 
         public VisualTree VisualTree => visualTree;
 
-        internal Desktop Desktop
-        {
-            get => this.displaySystem.Desktop;
-            set => this.displaySystem.Desktop = value;
-        }
-
         public UserInterfaceAppContext AppContext
         {
             get => visualTree.AppContext;
@@ -332,6 +346,17 @@ namespace AgateLib.UserInterface
 
             BeginTopLevelTransition(AnimationState.TransitionIn,
                                     visualTree.TreeRoot);
+        }
+
+        internal void InitializeVisualTree(IAnimationFactory animationFactory)
+        {
+            displaySystem = new WorkspaceDisplaySystem(this);
+
+            visualTree = new VisualTree(animationFactory)
+            {
+                DisplaySystem = displaySystem,
+                DefaultTheme = defaultTheme,
+            };
         }
 
         private void BeginTopLevelTransition(AnimationState state,

@@ -48,7 +48,7 @@ namespace AgateLib.UserInterface
             log = LogManager.GetCurrentClassLogger();
         }
 
-        public float Scaling { get; set; } = 1;
+        public float VisualScaling { get; set; } = 1;
 
         public void Render(IRenderable rootRenderable)
         {
@@ -106,7 +106,7 @@ namespace AgateLib.UserInterface
 
             Walk((element, parent) =>
             {
-                element.Style.Update(Scaling);
+                element.Style.Update(VisualScaling);
 
                 animationFactory.Configure(element.Display);
 
@@ -161,41 +161,49 @@ namespace AgateLib.UserInterface
                 return;
             }
 
-            bool childrenUpdated = false;
-
-            var children = new List<IRenderElement>();
-
-            newNode.AppContext = AppContext;
-
-            // Reorder the children in the old node so that they match the ones in the new node.
-            for (int newIndex = 0; newIndex < newNode.Children.Count; newIndex++)
+            if (oldNode.ChildReconciliationMode == ChildReconciliationMode.Self)
             {
-                var newItem = newNode.Children[newIndex];
-                var old = FindMatch(newItem, oldNode.Children, newIndex);
-
-                if (old != null)
-                {
-                    Reconcile(ref old, newItem, ref anyUpdates);
-                    children.Add(old);
-                }
-                else
-                {
-                    children.Add(newItem);
-                }
-
-                anyUpdates = childrenUpdated = true;
+                oldNode.ReconcileChildren(newNode);
             }
-
-            oldNode.Children.Clear();
-
-            foreach (var child in children)
+            else 
             {
-                oldNode.Children.Add(child);
-            }
+                bool childrenUpdated = false;
 
-            if (childrenUpdated)
-            {
-                oldNode.OnChildrenUpdated();
+                var children = new List<IRenderElement>();
+
+                newNode.AppContext = AppContext;
+
+                // Reorder the children in the old node so that they match the ones in the new node.
+                for (int newIndex = 0; newIndex < newNode.Children.Count; newIndex++)
+                {
+                    var newItem = newNode.Children[newIndex];
+                    var old = FindMatch(newItem, oldNode.Children, newIndex);
+
+                    if (old != null)
+                    {
+                        Reconcile(ref old, newItem, ref anyUpdates);
+                        children.Add(old);
+                    }
+                    else
+                    {
+                        anyUpdates = true;
+                        children.Add(newItem);
+                    }
+
+                    childrenUpdated |= anyUpdates;
+                }
+
+                oldNode.Children.Clear();
+
+                foreach (var child in children)
+                {
+                    oldNode.Children.Add(child);
+                }
+
+                if (childrenUpdated)
+                {
+                    oldNode.OnChildrenUpdated();
+                }
             }
         }
 
@@ -304,7 +312,7 @@ namespace AgateLib.UserInterface
             Walk(element =>
             {
                 element.Update(renderContext);
-                element.Style.Update(Scaling);
+                element.Style.Update(VisualScaling);
 
                 return true;
             });

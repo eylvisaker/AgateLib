@@ -433,7 +433,7 @@ namespace AgateLib.UserInterface
         {
         }
 
-        protected override void OnReceivedAppContext()
+        protected override void OnFinalizeChildren()
         {
             Children = FinalizeRendering(Props.Children).ToList();
             layoutChildren = Children.Where(x => x.Display.IsInLayout).ToList();

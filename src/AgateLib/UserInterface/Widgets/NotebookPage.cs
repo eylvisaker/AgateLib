@@ -1,12 +1,4 @@
-﻿using AgateLib.Mathematics.Geometry;
-using AgateLib.UserInterface;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AgateLib.Demo.Selector.Widgets
+﻿namespace AgateLib.UserInterface
 {
     public class NotebookPage : BinElement<NotebookPageProps>
     {

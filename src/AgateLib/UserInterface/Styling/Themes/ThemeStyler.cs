@@ -34,6 +34,8 @@ namespace AgateLib.UserInterface.Styling.Themes
             this.themes = themes;
         }
 
+        public IEnumerable<string> AvailableThemes => themes.Keys;
+
         public void Apply(IRenderElement rootElement, string defaultTheme)
         {
             RenderElementStack parentStack = new RenderElementStack();

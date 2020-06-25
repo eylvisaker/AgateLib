@@ -35,6 +35,10 @@ namespace AgateLib.UserInterface
 
         Rectangle ScreenArea { get; }
 
+        string DefaultTheme { get; set; }
+
+        float VisualScaling { get; set; }
+
         IRenderElement ParentOf(IRenderElement element);
 
         void SetFocus(IRenderElement newFocus);
