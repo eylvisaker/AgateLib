@@ -36,8 +36,6 @@ namespace AgateLib.Diagnostics
             pathStack.Push("/");
         }
 
-        public event Action PathChanged;
-
         public Action Quit { get; set; }
 
         public IConsoleTheme Theme { get; set; }
@@ -53,38 +51,6 @@ namespace AgateLib.Diagnostics
         public string InputText { get; set; } = "";
 
         public int InsertionPoint { get; set; }
-
-        public void WriteLine(string text)
-        {
-        }
-
-        public string CurrentPath
-        {
-            get => pathStack.Peek();
-            set
-            {
-                pathStack.Pop();
-                pathStack.Push(value);
-
-                PathChanged?.Invoke();
-            }
-        }
-
-        /// <summary>
-        /// Event to validate paths when set. 
-        /// Throw an exception to disallow the path.
-        /// </summary>
-        internal event Func<string, string> PathValidate;
-
-        public void SetCurrentPath(string path)
-        {
-            if (PathValidate != null)
-            {
-                path = PathValidate(path);
-            }
-
-            CurrentPath = path;
-        }
 
         public bool ExecutingTask
         {

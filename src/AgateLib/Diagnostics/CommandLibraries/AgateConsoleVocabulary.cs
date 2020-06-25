@@ -29,12 +29,10 @@ namespace AgateLib.Diagnostics.CommandLibraries
 {
     public class AgateConsoleVocabulary : Vocabulary
     {
-        public override string Path => "Agate";
-
         public override bool IsValid => true;
 
         [ConsoleCommand("Lists or sets the console theme.")]
-        private void Theme(string themeName = null)
+        private void ConsoleTheme(string themeName = null)
         {
             if (themeName == null)
             {

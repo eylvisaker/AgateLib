@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
+namespace AgateLib.Demo.UserInterface.DoubleRadioMenus
 {
     public class DoubleRadioMenusTest : UITest
     {

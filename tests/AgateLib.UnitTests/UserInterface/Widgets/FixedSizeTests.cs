@@ -1,4 +1,4 @@
-﻿using AgateLib.Tests.UserInterface.Content;
+﻿using AgateLib.Demo.UserInterface.Content;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Styling.Themes;
 using FluentAssertions;

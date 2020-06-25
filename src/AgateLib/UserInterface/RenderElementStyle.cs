@@ -161,6 +161,7 @@ namespace AgateLib.UserInterface
 
             if (compareFont.IsEmpty)
             {
+                Swap(ref fontProperties, ref compareFont);
                 return SetFont(display.ParentFont);
             }
             else if (!compareFont.Equals(fontProperties) || ParentFontChanged())

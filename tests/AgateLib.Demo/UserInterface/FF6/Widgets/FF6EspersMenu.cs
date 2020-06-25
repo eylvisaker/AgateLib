@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.UserInterface.FF6.Widgets
+namespace AgateLib.Demo.UserInterface.FF6.Widgets
 {
     public class FF6EspersMenu : Widget<FF6EspersMenuProps>
     {

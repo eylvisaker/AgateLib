@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.UserInterface.MultipleWorkspaces
+namespace AgateLib.Demo.UserInterface.MultipleWorkspaces
 {
     public class MultiWorkspaceTest : UITest
     {

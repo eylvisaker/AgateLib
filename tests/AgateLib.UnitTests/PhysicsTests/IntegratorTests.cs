@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace AgateLib.Tests.PhysicsTests
+namespace AgateLib.Demo.PhysicsTests
 {
     public class IntegratorTests
     {

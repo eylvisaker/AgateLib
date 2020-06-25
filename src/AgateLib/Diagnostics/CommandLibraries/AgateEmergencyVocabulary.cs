@@ -34,86 +34,33 @@ namespace AgateLib.Diagnostics.CommandLibraries
             this.agateConsoleCore = agateConsoleCore;
         }
 
-        public override string Path => "";
-
-        [Alias("dir")]
-        [ConsoleCommand("Lists commands and subdirectories.")]
-        public void Ls(/*string path = "" */)
+        private bool CallHelpOnCommandLibraries()
         {
-            ListDirectoryContents();
-        }
+            var commandLibraries = agateConsoleCore.CommandLibrarySet.ToList();
 
-        private bool ListDirectoryContents()
-        {
-            var paths = agateConsoleCore.AvailableSubPaths;
-            bool result = false;
+            if (!commandLibraries.Any())
+                return false;
 
-            if (paths.Any())
+            WriteLine("Available Commands:");
+
+            foreach (var commandLibrary in commandLibraries)
             {
-                WriteLine("Available Paths:");
-
-                foreach (var path in paths)
-                {
-                    WriteLine($"{path}/");
-                }
-
-                WriteLine();
-
-                result = true;
+                commandLibrary.Shell = Shell;
+                commandLibrary.Help();
             }
 
-            var commandLibraries = agateConsoleCore.AvailableCommandLibraries.ToList();
 
-            if (commandLibraries.Any())
-            {
-                WriteLine("Available Commands:");
-
-                foreach (var commandLibrary in commandLibraries)
-                {
-                    commandLibrary.Shell = Shell;
-                    commandLibrary.Help();
-                }
-
-                result = true;
-            }
-
-            return result;
-        }
-
-        [Alias("cd")]
-        [ConsoleCommand("Changes the current path for commands.")]
-        public void Cd(string path)
-        {
-            Shell.State.SetCurrentPath(path);
-        }
-
-        [ConsoleCommand("Prints the current working directory.")]
-        public void Pwd()
-        {
-            Shell.WriteLine(Shell.State.CurrentPath);
+            return true;
         }
 
         [ConsoleCommand("Provides help for commands. You can type 'help' or 'help <command>' to get more information.", Hidden = true)]
         public void Help([JoinArgs] string command = null)
         {
-            var commandLibraries = agateConsoleCore.AvailableCommandLibraries.ToList();
-
-            if (!commandLibraries.Any())
-            {
-                WriteLine("No command libraries installed.");
-                WriteLine("Available Commands:");
-                WriteLine("    cd - Set current path     pwd - Show current path");
-                WriteLine("    debug [on|off]");
-                WriteLine("    quit");
-                WriteLine("Use up / down arrow keys to navigate input history.");
-                WriteLine("Use shift+up / shift+down to view output history.");
-            }
-
             if (!string.IsNullOrEmpty(command))
             {
                 bool helped = false;
 
-                foreach (var commandLibrary in commandLibraries)
+                foreach (var commandLibrary in agateConsoleCore.CommandLibrarySet)
                 {
                     commandLibrary.Shell = Shell;
                     helped |= commandLibrary.Help(command);
@@ -122,19 +69,21 @@ namespace AgateLib.Diagnostics.CommandLibraries
                 if (!helped)
                 {
                     WriteLine("Command not found.");
-                    if (agateConsoleCore.State.CurrentPath.Length > 1)
-                    {
-                        WriteLine("Perhaps ");
-                    }
                 }
+
                 return;
             }
 
-            if (!ListDirectoryContents())
+            if (!CallHelpOnCommandLibraries())
             {
-                WriteLine("No commands at this path.");
+                WriteLine("No command libraries installed.");
                 WriteLine("Available Commands:");
+                WriteLine("    debug [on|off]");
+                WriteLine("    quit");
             }
+
+            WriteLine("Use up / down arrow keys to navigate input history.");
+            WriteLine("Use shift+up / shift+down to view output history.");
         }
 
         [ConsoleCommand("Quits the application. No option to save is given.", Hidden = true)]

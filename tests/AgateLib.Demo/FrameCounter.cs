@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests
+namespace AgateLib.Demo
 {
     public class FrameCounter
     {

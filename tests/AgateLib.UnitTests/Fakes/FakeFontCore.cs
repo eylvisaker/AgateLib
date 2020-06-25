@@ -28,7 +28,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.Fakes
+namespace AgateLib.Demo.Fakes
 {
     public class FakeFontCore : IFontCore
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests.UserInterface.FF6
+namespace AgateLib.Demo.UserInterface.FF6
 {
     public class FF6Model
     {

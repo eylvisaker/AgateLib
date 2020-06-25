@@ -435,7 +435,7 @@ namespace AgateLib.UserInterface
 
         protected override void OnReceivedAppContext()
         {
-            Children = Finalize(Props.Children).ToList();
+            Children = FinalizeRendering(Props.Children).ToList();
             layoutChildren = Children.Where(x => x.Display.IsInLayout).ToList();
             focusChildren = Children.Where(x => CanChildHaveFocus(x)).ToList();
 
@@ -458,11 +458,7 @@ namespace AgateLib.UserInterface
         public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
         {
             PerformLayout(layoutContext, size);
-
-            foreach (var item in Children.Where(x => x.Display.IsVisible))
-            {
-                item.DoLayout(layoutContext, item.Display.ContentRect.Size);
-            }
+            PerformLayoutForChildren(layoutContext);
         }
 
         public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
@@ -629,8 +625,7 @@ namespace AgateLib.UserInterface
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action)
         {
             bool moved = false;
-            int FocusIndex = focusChildren.IndexOf(child);
-            var button = action.Action;
+            UserInterfaceAction button = action.Action;
 
             if (Direction == FlexDirection.Column || Direction == FlexDirection.ColumnReverse)
             {

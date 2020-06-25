@@ -1,7 +1,7 @@
 ﻿using AgateLib.UserInterface;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.UserInterface.RadioButtons
+namespace AgateLib.Demo.UserInterface.RadioButtons
 {
     public class RadioButtonTest : UITest
     {

@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.UserInterface.TitleMenu
+namespace AgateLib.Demo.UserInterface.TitleMenu
 {
     public class TitleMenuTest : UITest
     {

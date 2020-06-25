@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using Xunit;
 
-namespace AgateLib.Tests.MathematicsTests.Geometry.AlgorithmTests
+namespace AgateLib.Demo.MathematicsTests.Geometry.AlgorithmTests
 {
     public class CollisionDetectorTests : PolygonUnitTest
     {

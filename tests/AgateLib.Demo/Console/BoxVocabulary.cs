@@ -3,13 +3,11 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.Console
+namespace AgateLib.Demo.Console
 {
     public class BoxVocabulary : Vocabulary
     {
         private List<Point> points;
-
-        public override string Path => "";
 
         public override bool IsValid => true;
 
@@ -35,6 +33,9 @@ namespace AgateLib.Tests.Console
         private void Add(int count = 250)
         {
             Random rnd = new Random();
+
+            if (count > 5000)
+                throw new InvalidOperationException("That's too many. 5000 is the max.");
 
             for (int i = 0; i < count; i++)
             {

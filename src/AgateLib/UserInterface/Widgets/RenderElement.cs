@@ -73,6 +73,10 @@ namespace AgateLib.UserInterface
         bool CanHaveFocus { get; }
 
         /// <summary>
+        /// Gets whether or not the element currently has input focus.
+        /// </summary>
+        bool HasFocus { get; }
+        /// <summary>
         /// Gets whether or not the element participates in layout.
         /// </summary>
         bool ParticipateInLayout { get; }
@@ -107,11 +111,11 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="renderContext"></param>
         /// <param name="clientDest"></param>
-        void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle clientDest);
+        void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle clientArea);
 
         /// <summary>
         /// Draws the content of the widget.
-        /// To draw children, call <c >renderContext.DrawChildren</c>.
+        /// To draw children, call <c>renderContext.DrawChildren</c>.
         /// </summary>
         /// <param name="renderContext"></param>
         /// <param name="offset"></param>
@@ -226,7 +230,6 @@ namespace AgateLib.UserInterface
     }
 
     public abstract class RenderElement<TProps, TState> : IRenderElement where TProps : RenderElementProps where TState : RenderElementState
-
     {
         public RenderElement(TProps props)
         {
@@ -270,12 +273,16 @@ namespace AgateLib.UserInterface
         {
             stateMutator(state);
 
+            OnReceiveState();
+
             //NeedsRender?.Invoke(this);
         }
 
         protected void SetState(TState newState)
         {
             this.state = newState;
+
+            OnReceiveState();
 
             //NeedsRender?.Invoke(this);
         }
@@ -342,7 +349,7 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="renderables"></param>
         /// <returns></returns>
-        protected IEnumerable<IRenderElement> Finalize(IEnumerable<IRenderable> renderables)
+        protected IEnumerable<IRenderElement> FinalizeRendering(IEnumerable<IRenderable> renderables)
         {
             Require.That(AppContext != null, "AppContext must not be null to finalize.");
 
@@ -358,9 +365,7 @@ namespace AgateLib.UserInterface
         protected IRenderElement FinalizeRendering(IRenderable renderable)
         {
             if (renderable == null)
-            {
                 return null;
-            }
 
             Require.That(AppContext != null, "AppContext must not be null to finalize.");
 
@@ -386,6 +391,7 @@ namespace AgateLib.UserInterface
         /// Gets or sets the children of the render element. This should only 
         /// be modified by the constructor of a render element.
         /// </summary>
+        [Obsolete("TODO: Remove setter!")]
         public virtual IList<IRenderElement> Children { get; protected set; }
 
         /// <summary>
@@ -431,17 +437,40 @@ namespace AgateLib.UserInterface
             Props.OnUpdate?.Invoke(renderContext);
         }
 
-        public virtual void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle rtClientDest)
+        public virtual void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
         {
-            renderContext.UserInterfaceRenderer.DrawBackground(renderContext, Display, rtClientDest);
-            renderContext.UserInterfaceRenderer.DrawFrame(renderContext, Display, rtClientDest);
+            renderContext.UserInterfaceRenderer.DrawBackground(renderContext, Display, clientArea);
+            renderContext.UserInterfaceRenderer.DrawFrame(renderContext, Display, clientArea);
         }
 
         public abstract void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea);
 
-        public void DrawChildren(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
+        /// <summary>
+        /// Draws the set of children.
+        /// </summary>
+        /// <param name="renderContext">The render context service.</param>
+        /// <param name="clientArea">The client area of the element which is the parent of the children to draw.</param>
+        /// <param name="children">The list of children to draw. If this is null, it will use the <c>Children</c> property.</param>
+        protected void DrawChildren(IUserInterfaceRenderContext renderContext,
+                                    Rectangle clientArea,
+                                    IEnumerable<IRenderElement> children = null)
         {
-            renderContext.DrawChildren(clientArea, Children);
+            children = children ?? Children;
+
+            renderContext.DrawChildren(clientArea, children);
+        }
+
+        /// <summary>
+        /// Draws a single child of the current element.
+        /// </summary>
+        /// <param name="renderContext">The render context service.</param>
+        /// <param name="clientArea">The client area of the element which is the parent of the child to draw.</param>
+        /// <param name="child">The child to draw.</param>
+        protected void DrawChild(IUserInterfaceRenderContext renderContext,
+                                 Rectangle clientArea,
+                                 IRenderElement child)
+        {
+            renderContext.DrawChild(clientArea, child);
         }
 
         public override string ToString()
@@ -494,13 +523,9 @@ namespace AgateLib.UserInterface
         /// <param name="args"></param>
         public virtual void OnButtonUp(ButtonStateEventArgs args) { }
 
-        public virtual void OnAccept(UserInterfaceActionEventArgs args)
-        {
-        }
+        public virtual void OnAccept(UserInterfaceActionEventArgs args) { }
 
-        public virtual void OnCancel(UserInterfaceActionEventArgs args)
-        {
-        }
+        public virtual void OnCancel(UserInterfaceActionEventArgs args) { }
 
         #region --- Focus Events ---
 
@@ -606,6 +631,23 @@ namespace AgateLib.UserInterface
             var contentSize = child.Display.ContentRect.Size;
 
             child.DoLayout(layoutContext, contentSize);
+        }
+
+        /// <summary>
+        /// Instructs each visible child to PerformLayout for its internals.
+        /// Call this method after setting the content/margin sizes for each child.
+        /// </summary>
+        /// <param name="layoutContext">The layout context service.</param>
+        /// <param name="children">The children to PerformLayout on. If this is null,
+        /// the <c>Children</c> collection will be used.</param>
+        protected void PerformLayoutForChildren(IUserInterfaceLayoutContext layoutContext, IEnumerable<IRenderElement> children = null)
+        {
+            children = children ?? Children;
+
+            foreach (var item in children.Where(x => x.Display.IsVisible))
+            {
+                item.DoLayout(layoutContext, item.Display.ContentRect.Size);
+            }
         }
 
         void IRenderable.OnRenderResult(IRenderElement result)

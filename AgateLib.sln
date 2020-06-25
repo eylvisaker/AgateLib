@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib", "src\AgateLib\Ag
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AgateLib.Platform", "src\AgateLib.Platform\AgateLib.Platform.shproj", "{477272D0-E4C7-44C2-80FA-773A2A364017}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AgateLib.Content", "src\AgateLib.Content\AgateLib.Content.shproj", "{405FF3FA-EB1E-4BF3-82E3-B8356D223A9C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.Physics", "src\AgateLib.Physics\AgateLib.Physics.csproj", "{A5AF5511-078E-4BAB-9553-340AA2B5B342}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DD17D2DA-4B9F-41B4-89A9-5909CF580CED}"
@@ -17,14 +15,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.TestFramework", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.Autofac", "src\AgateLib.Autofac\AgateLib.Autofac.csproj", "{75372BB4-35B2-40C6-B6D8-87F4D5DE4CFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Demo", "tests\AgateLib.Demo\AgateLib.Demo.csproj", "{8A25A710-9AB7-4B1A-B0CA-61E646EFF7C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.Demo", "tests\AgateLib.Demo\AgateLib.Demo.csproj", "{8A25A710-9AB7-4B1A-B0CA-61E646EFF7C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.UnitTests", "tests\AgateLib.UnitTests\AgateLib.UnitTests.csproj", "{E7DA0A34-53B8-4122-B048-175104871196}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.UnitTests", "tests\AgateLib.UnitTests\AgateLib.UnitTests.csproj", "{E7DA0A34-53B8-4122-B048-175104871196}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AgateLib.Fonts.Defaults", "themes\AgateLib.Fonts.Defaults\AgateLib.Fonts.Defaults.shproj", "{4157EE7F-E579-4F32-9CE3-B74BC6C6FC21}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		AgateLib.Platform\AgateLib.Platform.projitems*{477272d0-e4c7-44c2-80fa-773a2a364017}*SharedItemsImports = 13
-		AgateLib.Platform\AgateLib.Platform.projitems*{8a25a710-9ab7-4b1a-b0ca-61e646eff7c4}*SharedItemsImports = 5
+		themes\AgateLib.Fonts.Defaults\AgateLib.Fonts.Defaults.projitems*{4157ee7f-e579-4f32-9ce3-b74bc6c6fc21}*SharedItemsImports = 13
+		src\AgateLib.Platform\AgateLib.Platform.projitems*{477272d0-e4c7-44c2-80fa-773a2a364017}*SharedItemsImports = 13
+		src\AgateLib.Platform\AgateLib.Platform.projitems*{8a25a710-9ab7-4b1a-b0ca-61e646eff7c4}*SharedItemsImports = 5
+		themes\AgateLib.Fonts.Defaults\AgateLib.Fonts.Defaults.projitems*{8a25a710-9ab7-4b1a-b0ca-61e646eff7c4}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

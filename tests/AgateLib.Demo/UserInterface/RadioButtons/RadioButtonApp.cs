@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests.UserInterface.RadioButtons
+namespace AgateLib.Demo.UserInterface.RadioButtons
 {
     public class RadioButtonApp : Widget<RadioButtonAppProps>
     {

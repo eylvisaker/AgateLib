@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.UserInterface.TextAlignment
+namespace AgateLib.Demo.UserInterface.TextAlignment
 {
     public class TextAlignmentTest : UITest
     {

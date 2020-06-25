@@ -54,4 +54,5 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="..\..\src\AgateLib.Platform\AgateLib.Platform.projitems" Label="Shared" />
+  <Import Project="..\..\themes\AgateLib.Fonts.Defaults\AgateLib.Fonts.Defaults.projitems" Label="Shared" />
 </Project>

@@ -49,7 +49,7 @@ namespace AgateLib.UserInterface
 
         protected override void OnReceivedAppContext()
         {
-            Children = Finalize(Props.Children).ToList();
+            Children = FinalizeRendering(Props.Children).ToList();
 
             RecalcArrangement();
         }

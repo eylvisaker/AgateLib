@@ -1,5 +1,5 @@
 ﻿using AgateLib.Display;
-using AgateLib.Tests.Fakes;
+using AgateLib.Demo.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;

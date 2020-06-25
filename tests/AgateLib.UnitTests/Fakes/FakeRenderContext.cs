@@ -10,7 +10,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.Fakes
+namespace AgateLib.Demo.Fakes
 {
     public class FakeRenderContext : IUserInterfaceRenderContext
     {

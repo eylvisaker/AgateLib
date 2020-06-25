@@ -29,16 +29,6 @@ namespace AgateLib.Diagnostics
     public interface IVocabulary
     {
         /// <summary>
-        /// If this value is not empty, then commands must be prefixed by "namespace."
-        /// </summary>
-        string Path { get; }
-
-        /// <summary>
-        /// Gets whether this vocabulary should be available regardless of the current path.
-        /// </summary>
-        bool IsGlobal { get; }
-
-        /// <summary>
         /// If false, none of the commands in this vocabulary will be available to
         /// the user.
         /// </summary>
@@ -57,13 +47,9 @@ namespace AgateLib.Diagnostics
 
     public abstract class Vocabulary : IVocabulary
     {
-        public abstract string Path { get; }
-
         public IConsoleShell Shell { get; set; }
 
         public virtual bool IsValid => true;
-
-        public virtual bool IsGlobal => false;
 
         public bool IsEnabled { get; set; }
 

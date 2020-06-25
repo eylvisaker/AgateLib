@@ -1,5 +1,5 @@
 ﻿using AgateLib.Display;
-using AgateLib.Tests.Selector;
+using AgateLib.Demo.Selector;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
@@ -7,19 +7,20 @@ using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
-namespace AgateLib.Tests
+namespace AgateLib.Demo
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class AgateLibDemo : Game
     {
         private GraphicsDeviceManager graphics;
 
-        private ITest activeTest;
+        private IDemo activeTest;
         private TestResources resources = new TestResources();
-        private TestSelector testSelector;
+        private DemoMainMenu testSelector;
         private FrameCounter frameCounter = new FrameCounter();
 
         private SpriteBatch spriteBatch;
@@ -27,7 +28,7 @@ namespace AgateLib.Tests
         private int fontHeight;
         private bool escaped;
 
-        public Game1()
+        public AgateLibDemo()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreparingDeviceSettings += (sender, e) =>
@@ -36,17 +37,24 @@ namespace AgateLib.Tests
                 e.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
             };
 
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+
+            graphics.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000.0f / 60);
+
             Content.RootDirectory = "Content";
 
-            testSelector = new TestSelector();
+            testSelector = new DemoMainMenu();
 
-            testSelector.StartTest += (sender, e) =>
+            testSelector.StartDemo += (sender, e) =>
             {
-                ActiveTest = e.Test;
+                ActiveTest = e.Demo;
             };
         }
 
-        private ITest ActiveTest
+        private IDemo ActiveTest
         {
             get => activeTest;
             set
@@ -54,8 +62,8 @@ namespace AgateLib.Tests
                 activeTest = value;
                 activeTest.OnExit += ExitTest;
 
-                activeTest.Initialize(resources);
                 activeTest.ScreenArea = ScreenArea;
+                activeTest.Initialize(resources);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.UserInterface.JustifyContentTest
+namespace AgateLib.Demo.UserInterface.JustifyContentTest
 {
     public class JustifyContentTester : UITest
     {

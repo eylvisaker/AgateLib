@@ -4,7 +4,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.PhysicsTests.ConstraintTests
+namespace AgateLib.Demo.PhysicsTests.ConstraintTests
 {
     public class PointTouchConstraintTests
     {

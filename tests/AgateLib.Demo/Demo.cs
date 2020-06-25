@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace AgateLib.Tests
+namespace AgateLib.Demo
 {
-    public interface ITest
+    public interface IDemo
     {
         /// <summary>
         /// Event the test should raise when the user indicates they

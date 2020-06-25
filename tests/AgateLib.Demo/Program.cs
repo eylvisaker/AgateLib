@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AgateLib.Tests
+namespace AgateLib.Demo
 {
     /// <summary>
     /// The main class.
@@ -13,7 +13,7 @@ namespace AgateLib.Tests
         [STAThread]
         private static void Main()
         {
-            using (var game = new Game1())
+            using (var game = new AgateLibDemo())
             {
                 game.Run();
             }

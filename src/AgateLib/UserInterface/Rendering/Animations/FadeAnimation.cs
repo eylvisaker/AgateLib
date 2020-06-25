@@ -28,7 +28,6 @@ using System.Text;
 using AgateLib.Mathematics;
 using Microsoft.Xna.Framework;
 using NLog;
-using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.Rendering.Animations
 {

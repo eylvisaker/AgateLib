@@ -1,7 +1,7 @@
 ﻿using AgateLib.UserInterface;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.UserInterface.Scrolling
+namespace AgateLib.Demo.UserInterface.Scrolling
 {
     public class ScrollWindow1 : Widget<ScrollWindow1Props>
     {

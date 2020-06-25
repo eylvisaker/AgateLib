@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests.UserInterface.DoubleRadioMenus
+namespace AgateLib.Demo.UserInterface.DoubleRadioMenus
 {
     public class DoubleRadioMenusApp : Widget<DoubleRadioMenusProps, DoubleRadioMenusState>
     {

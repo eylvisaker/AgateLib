@@ -1,4 +1,4 @@
-﻿using AgateLib.Tests.Fakes;
+﻿using AgateLib.Demo.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering.Animations;
 using FluentAssertions;
@@ -7,7 +7,7 @@ using Moq;
 using System.Linq;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface
+namespace AgateLib.Demo.UserInterface
 {
     public class DesktopUnitTests
     {

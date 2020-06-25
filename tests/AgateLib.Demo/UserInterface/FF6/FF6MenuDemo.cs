@@ -1,9 +1,9 @@
 ﻿using AgateLib.UserInterface;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AgateLib.Tests.UserInterface.FF6
+namespace AgateLib.Demo.UserInterface.FF6
 {
-    public class FF6MenuTest : UITest
+    public class FF6MenuDemo : UITest
     {
         private FF6Menu menu;
 
@@ -19,7 +19,7 @@ namespace AgateLib.Tests.UserInterface.FF6
 
             menu.ExitMenu += () => Scene.Exit();
 
-            Scene.Pointer = new PointerIndicator(Content.Load<Texture2D>("UserInterface/Pointer"));
+            Scene.Pointer = new Pointer(Content.Load<Texture2D>("UserInterface/Pointer"));
 
             return menu.InitializeUIRoot();
         }

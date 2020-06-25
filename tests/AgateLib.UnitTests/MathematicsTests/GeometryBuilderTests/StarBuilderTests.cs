@@ -6,7 +6,7 @@ using System.Linq;
 using Xunit;
 using MathF = AgateLib.Mathematics.MathF;
 
-namespace AgateLib.Tests.MathematicsTests.GeometryBuilderTests
+namespace AgateLib.Demo.MathematicsTests.GeometryBuilderTests
 {
     public class StarBuilderTests
     {

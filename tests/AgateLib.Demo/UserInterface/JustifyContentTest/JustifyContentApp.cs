@@ -2,7 +2,7 @@
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.Tests.UserInterface.JustifyContentTest
+namespace AgateLib.Demo.UserInterface.JustifyContentTest
 {
     public class JustifyContentApp : Widget<JustifyContentAppProps, JustifyContentAppState>
     {

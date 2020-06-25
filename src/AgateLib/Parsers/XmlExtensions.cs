@@ -46,16 +46,13 @@ namespace AgateLib.Parsers
 
             if (int.TryParse(attrib.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result))
                 return result;
-            }
 
             throw new InvalidOperationException("Attribute " + name + " does not contain an integer value.");
         }
         public static int AttributeToInt(this XElement node, string name, int defaultValue)
         {
             if (node.HasAttribute(name) == false)
-            {
                 return defaultValue;
-            }
 
             return AttributeToInt(node, name);
         }
@@ -100,10 +97,10 @@ namespace AgateLib.Parsers
 
             if (float.TryParse(attrib.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
                 return result;
-            }
 
             throw new InvalidOperationException("Attribute " + name + " does not contain a boolean value.");
         }
+
         public static string AttributeToString(this XElement node, string name, string defaultValue)
         {
             if (node.HasAttribute(name) == false)
@@ -113,6 +110,7 @@ namespace AgateLib.Parsers
 
             return AttributeToString(node, name);
         }
+
         public static string AttributeToString(this XElement node, string name)
         {
             var attrib = GetAttribute(node, name);

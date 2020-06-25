@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.UserInterface.FlexFiddler
+namespace AgateLib.Demo.UserInterface.FlexFiddler
 {
     public class FlexFiddlerApp : Widget<FlexFiddlerAppProps, FlexFiddlerAppState>
     {

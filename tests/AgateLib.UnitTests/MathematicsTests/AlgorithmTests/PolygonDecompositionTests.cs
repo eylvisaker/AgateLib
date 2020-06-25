@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using Xunit;
 
-namespace AgateLib.Tests.MathematicsTests.AlgorithmTests
+namespace AgateLib.Demo.MathematicsTests.AlgorithmTests
 {
     public class PolygonDecompositionTests
     {

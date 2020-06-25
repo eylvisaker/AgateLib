@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace AgateLib.Tests
+namespace AgateLib.Demo
 {
     public interface ITestResources
     {

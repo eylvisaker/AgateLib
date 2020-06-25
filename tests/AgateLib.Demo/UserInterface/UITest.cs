@@ -1,13 +1,13 @@
 ﻿using AgateLib.Scenes;
-using AgateLib.Tests.UserInterface.FF6;
+using AgateLib.Demo.UserInterface.FF6;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace AgateLib.Tests.UserInterface
+namespace AgateLib.Demo.UserInterface
 {
-    public abstract class UITest : ITest
+    public abstract class UITest : IDemo
     {
         private UserInterfaceScene scene;
         private SceneStack stack;
@@ -23,11 +23,7 @@ namespace AgateLib.Tests.UserInterface
             scene.ExitThen(() => OnExit?.Invoke());
         }
 
-        public Rectangle ScreenArea
-        {
-            get => Scene.ScreenArea;
-            set => Scene.ScreenArea = value;
-        }
+        public Rectangle ScreenArea { get; set; }
 
         public UserInterfaceScene Scene => scene;
 
@@ -44,6 +40,7 @@ namespace AgateLib.Tests.UserInterface
                 resources.StyleConfigurator)
             {
                 DrawBelow = false,
+                ScreenArea = ScreenArea,
             };
 
             Content = resources.Content;
@@ -51,7 +48,7 @@ namespace AgateLib.Tests.UserInterface
             stack = new SceneStack();
             stack.Add(scene);
 
-            scene.Pointer = new PointerIndicator(
+            scene.Pointer = new Pointer(
                 resources.Content.Load<Texture2D>("UserInterface/Pointer"));
 
             scene.Desktop.PushWorkspace(InitializeWorkspace());

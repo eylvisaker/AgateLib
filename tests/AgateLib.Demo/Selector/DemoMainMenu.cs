@@ -1,30 +1,31 @@
 ﻿using AgateLib.Display;
 using AgateLib.Scenes;
-using AgateLib.Tests.FontTests;
-using AgateLib.Tests.Selector.Widgets;
+using AgateLib.Demo.FontTests;
+using AgateLib.Demo.Selector.Widgets;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
+using Microsoft.Xna.Framework.Input;
 
-namespace AgateLib.Tests.Selector
+namespace AgateLib.Demo.Selector
 {
-    public class TestSelector : ITest
+    public class DemoMainMenu : IDemo
     {
-        private static ITest[] tests;
+        private static IDemo[] demos;
 
-        private ITest activeTest = new SimpleTextTest();
+        private IDemo activeTest = new SimpleTextTest();
         private SceneStack sceneStack;
         private Font font;
         private SpriteBatch spriteBatch;
         private UserInterfaceScene scene;
 
-        public string Name => "Test Selector";
+        public string Name => "Demo Selector";
 
-        public string Category => "Tests";
+        public string Category => "Demos";
 
-        public event EventHandler<TestEventArgs> StartTest;
+        public event EventHandler<DemoEventArgs> StartDemo;
 
         public event Action OnExit;
 
@@ -49,10 +50,10 @@ namespace AgateLib.Tests.Selector
 
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);
 
-            var app = new TestSelectorApp(new TestSelectorProps
+            var app = new DemoMainMenuApp(new DemoMainMenuAppProps
             {
-                Tests = tests,
-                OnAcceptTest = test => StartTest?.Invoke(this, new TestEventArgs(test))
+                Demos = demos.ToList(),
+                OnAcceptTest = demo => StartDemo?.Invoke(this, new DemoEventArgs(demo))
             });
 
             var workspace = new Workspace("default", app);
@@ -64,15 +65,15 @@ namespace AgateLib.Tests.Selector
 
         private void InitializeTests()
         {
-            if (tests == null)
+            if (demos == null)
             {
                 var myType = GetType();
                 var testTypes = myType.Assembly.GetTypes()
-                    .Where(x => typeof(ITest).IsAssignableFrom(x)
+                    .Where(x => typeof(IDemo).IsAssignableFrom(x)
                                 && x != myType
                                 && !x.IsAbstract);
 
-                tests = testTypes.Select(type => (ITest)Activator.CreateInstance(type)).ToArray();
+                demos = testTypes.Select(type => (IDemo)Activator.CreateInstance(type)).ToArray();
             }
         }
 
@@ -84,16 +85,23 @@ namespace AgateLib.Tests.Selector
         public void Draw(GameTime gameTime)
         {
             sceneStack.Draw(gameTime);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                OnExit?.Invoke();
+
+            GamePadState gp = GamePad.GetState(PlayerIndex.One);
+            if (gp.IsButtonDown(Buttons.Back))
+                OnExit?.Invoke();
         }
     }
 
-    public class TestEventArgs : EventArgs
+    public class DemoEventArgs : EventArgs
     {
-        public TestEventArgs(ITest test)
+        public DemoEventArgs(IDemo demo)
         {
-            this.Test = test;
+            this.Demo = demo;
         }
 
-        public ITest Test { get; }
+        public IDemo Demo { get; }
     }
 }

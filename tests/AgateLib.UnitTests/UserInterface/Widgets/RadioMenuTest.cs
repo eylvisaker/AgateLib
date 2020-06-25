@@ -1,4 +1,4 @@
-﻿using AgateLib.Tests.UserInterface.RadioButtons;
+﻿using AgateLib.Demo.UserInterface.RadioButtons;
 using FluentAssertions;
 using Microsoft.Xna.Framework.Input;
 using Xunit;

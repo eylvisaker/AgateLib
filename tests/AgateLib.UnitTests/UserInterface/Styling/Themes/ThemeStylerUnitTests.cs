@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Styling.Themes
+namespace AgateLib.Demo.UserInterface.Styling.Themes
 {
     public class ThemeStylerUnitTests
     {

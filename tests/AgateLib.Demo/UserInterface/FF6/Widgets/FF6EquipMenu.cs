@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests.UserInterface.FF6.Widgets
+namespace AgateLib.Demo.UserInterface.FF6.Widgets
 {
     public class FF6EquipMenu : Widget<FF6EquipMenuProps, FF6EquipMenuState>
     {

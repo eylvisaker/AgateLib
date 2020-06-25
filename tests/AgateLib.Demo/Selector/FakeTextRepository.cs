@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.Selector
+namespace AgateLib.Demo.Selector
 {
     internal class FakeTextRepository : ITextRepository
     {

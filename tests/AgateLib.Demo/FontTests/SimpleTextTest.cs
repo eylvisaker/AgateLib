@@ -1,11 +1,12 @@
 ﻿using AgateLib.Display;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace AgateLib.Tests.FontTests
+namespace AgateLib.Demo.FontTests
 {
-    public class SimpleTextTest : ITest
+    public class SimpleTextTest : IDemo
 
     {
         private PaletteC64 palette = new PaletteC64();
@@ -47,6 +48,12 @@ namespace AgateLib.Tests.FontTests
 
         public void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                OnExit?.Invoke();
+
+            GamePadState gp = GamePad.GetState(PlayerIndex.One);
+            if (gp.IsButtonDown(Buttons.Back))
+                OnExit?.Invoke();
         }
     }
 }

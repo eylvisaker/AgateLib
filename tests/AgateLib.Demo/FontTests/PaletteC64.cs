@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.FontTests
+namespace AgateLib.Demo.FontTests
 {
     public class PaletteC64 : IEnumerable<Color>
     {

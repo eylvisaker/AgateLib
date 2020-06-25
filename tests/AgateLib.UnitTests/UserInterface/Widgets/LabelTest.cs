@@ -1,6 +1,6 @@
 ﻿using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
-using AgateLib.Tests.Fakes;
+using AgateLib.Demo.Fakes;
 using AgateLib.UserInterface.Content;
 using FluentAssertions;
 using Microsoft.Xna.Framework;

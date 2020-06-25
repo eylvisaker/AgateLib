@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests.UserInterface.FF6.Widgets
+namespace AgateLib.Demo.UserInterface.FF6.Widgets
 {
     public class PartyStatusWindow : Widget<PartyStatusWindowProps>
     {

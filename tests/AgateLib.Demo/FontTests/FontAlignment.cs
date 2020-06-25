@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests.FontTests
+namespace AgateLib.Demo.FontTests
 {
-    internal class FontAlignment : ITest
+    internal class FontAlignment : IDemo
     {
         private readonly KeyboardEvents keyboard = new KeyboardEvents();
 
@@ -92,6 +92,10 @@ namespace AgateLib.Tests.FontTests
             {
                 fontIndex = 0;
             }
+
+            GamePadState gp = GamePad.GetState(PlayerIndex.One);
+            if (gp.IsButtonDown(Buttons.Back))
+                OnExit?.Invoke();
         }
 
 
@@ -100,6 +104,11 @@ namespace AgateLib.Tests.FontTests
             if (e.Key == Keys.Space)
             {
                 fontIndex++;
+            }
+
+            if (e.Key == Keys.Escape)
+            {
+                OnExit?.Invoke();
             }
         }
     }

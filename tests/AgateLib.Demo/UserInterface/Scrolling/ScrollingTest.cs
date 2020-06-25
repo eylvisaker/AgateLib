@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface;
 
-namespace AgateLib.Tests.UserInterface.Scrolling
+namespace AgateLib.Demo.UserInterface.Scrolling
 {
     public class ScrollingTest : UITest
     {

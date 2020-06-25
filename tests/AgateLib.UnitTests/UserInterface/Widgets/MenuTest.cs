@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Widgets
+namespace AgateLib.Demo.UserInterface.Widgets
 {
     public class MenuTest
     {

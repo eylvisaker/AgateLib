@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.Tests.Selector.Widgets
+namespace AgateLib.Demo.Selector.Widgets
 {
-    public class TestDrawer : Widget<TestDrawerProps, TestDrawerState>
+    public class DemoDrawer : Widget<DemoDrawerProps>
     {
-        private Dictionary<string, ITest[]> categories;
+        private Dictionary<string, IDemo[]> categories;
 
-        public TestDrawer(TestDrawerProps props) : base(props)
+        public DemoDrawer(DemoDrawerProps props) : base(props)
         {
             categories = props.Tests.GroupBy(x => x.Category).ToDictionary(x => x.Key, x => x.ToArray());
         }
@@ -30,7 +30,7 @@ namespace AgateLib.Tests.Selector.Widgets
             //});
         }
 
-        private Window CreateMenu(ITest[] value)
+        private Window CreateMenu(IDemo[] value)
         {
             return new Window(new WindowProps
             {
@@ -38,7 +38,7 @@ namespace AgateLib.Tests.Selector.Widgets
             });
         }
 
-        private IRenderable CreateButton(ITest test)
+        private IRenderable CreateButton(IDemo test)
         {
             return new Button(new ButtonProps
             {
@@ -48,14 +48,10 @@ namespace AgateLib.Tests.Selector.Widgets
         }
     }
 
-    public class TestDrawerProps : WidgetProps
+    public class DemoDrawerProps : WidgetProps
     {
-        public ITest[] Tests { get; set; }
+        public List<IDemo> Tests { get; set; }
 
-        public Action<ITest> OnAcceptTest { get; set; }
-    }
-
-    public class TestDrawerState
-    {
+        public Action<IDemo> OnAcceptTest { get; set; }
     }
 }

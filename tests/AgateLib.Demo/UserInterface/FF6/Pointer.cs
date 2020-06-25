@@ -4,13 +4,13 @@ using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AgateLib.Tests.UserInterface.FF6
+namespace AgateLib.Demo.UserInterface.FF6
 {
-    public class PointerIndicator : IPointer
+    public class Pointer : IPointer
     {
         private Texture2D texture;
 
-        public PointerIndicator(Texture2D texture)
+        public Pointer(Texture2D texture)
         {
             this.texture = texture;
         }

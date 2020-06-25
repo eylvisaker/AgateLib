@@ -4,7 +4,7 @@ using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.Fakes
+namespace AgateLib.Demo.Fakes
 {
     public class FakeFocusIndicator : IPointer
     {

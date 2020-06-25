@@ -1,7 +1,7 @@
 ﻿using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.Tests.UserInterface.TextAlignment
+namespace AgateLib.Demo.UserInterface.TextAlignment
 {
     public class TextAlignmentApp : Widget<TextAlignmentAppProps, TextAlignmentAppState>
     {
