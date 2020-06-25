@@ -23,7 +23,7 @@ namespace AgateLib.Demo.Selector.Widgets
                     }),
                     new Label("Scaling"), new ValueSpinner<float>(new ValueSpinnerProps<float>
                     {
-                        Values = { 0.25f, 0.5f, 0.75f, 1, 1.5f, 2.0f, 3.0f },
+                        Values = { 0.6f, 0.8f, 0.9f, 1, 1.25f, 1.5f, 2.0f },
                         OnValueChanged = e => e.System.VisualScaling = e.Arg1,
                         InitialValueIndex = 3,
                     })

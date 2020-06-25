@@ -154,7 +154,7 @@ namespace AgateLib.UserInterface
         public List<RenderElementStyleProperties> ElementStyles { get; }
             = new List<RenderElementStyleProperties>();
 
-        public Font ParentFont => Parent?.Style.Font ?? Fonts.Default;
+        public Font ParentFont => Parent?.Style.Font ?? System.DefaultFont;
 
         public IFontProvider Fonts => System.Fonts;
 

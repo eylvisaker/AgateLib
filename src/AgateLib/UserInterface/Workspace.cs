@@ -21,6 +21,7 @@
 //
 #define __DEBUG_WORKSPACE
 
+using AgateLib.Display;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
@@ -58,6 +59,8 @@ namespace AgateLib.UserInterface
                 get => Desktop.VisualScaling;
                 set => Desktop.VisualScaling = value;
             }
+
+            public Font DefaultFont => Desktop.DefaultFont;
 
             public IFontProvider Fonts { get; set; }
 

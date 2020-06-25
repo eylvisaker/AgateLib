@@ -51,6 +51,7 @@ namespace AgateLib.UserInterface
         private FadeColor inactiveWorkspaceFadeColor = new FadeColor();
         private float visualScaling;
         private string defaultTheme = "default";
+        private Font defaultFont;
 
         public Desktop(Rectangle screenArea,
                        IUserInterfaceLayoutContext layoutContext,
@@ -64,6 +65,8 @@ namespace AgateLib.UserInterface
 
             Styles = styles;
             Fonts = fonts;
+
+            defaultFont = new Font(fonts.Default);
 
             inactiveWorkspaceFadeColor.FadeIn();
         }
@@ -105,6 +108,10 @@ namespace AgateLib.UserInterface
                 {
                     workspace.VisualScaling = value;
                 }
+
+                defaultFont = new Font(Fonts.Default);
+                
+                defaultFont.Size = (int)Math.Round(defaultFont.Size * VisualScaling);
             }
         }
 
@@ -264,6 +271,8 @@ namespace AgateLib.UserInterface
             get => inactiveWorkspaceFadeColor.ActiveColor;
             set => inactiveWorkspaceFadeColor.ActiveColor = value;
         }
+
+        public Font DefaultFont { get => defaultFont; private set => defaultFont = value; }
 
         #region --- Handling Input ---
 

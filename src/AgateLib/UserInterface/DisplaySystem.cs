@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Display;
 using Microsoft.Xna.Framework;
 using System;
 
@@ -38,6 +39,8 @@ namespace AgateLib.UserInterface
         string DefaultTheme { get; set; }
 
         float VisualScaling { get; set; }
+
+        Font DefaultFont { get; }
 
         IRenderElement ParentOf(IRenderElement element);
 
