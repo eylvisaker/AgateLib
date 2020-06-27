@@ -17,8 +17,6 @@ namespace AgateLib.Demo.Physics
         private readonly KinematicsHistory history;
         private readonly Font font;
 
-        private int debugParticleIndex;
-
         public KinematicsInfoDisplay(IKinematicsExample example,
                                      IConstraintSolver constraintSolver,
                                      KinematicsSystem system,
@@ -33,6 +31,7 @@ namespace AgateLib.Demo.Physics
         }
 
         public int DebugInfoPage { get; set; }
+        public int DebugParticleIndex { get; set; }
 
         private IReadOnlyList<PhysicalParticle> particles => system.Particles;
         private IReadOnlyList<IPhysicalConstraint> constraints => system.Constraints;
@@ -47,9 +46,9 @@ namespace AgateLib.Demo.Physics
             StringBuilder b = new StringBuilder();
 
             b.AppendLine($"Physics Step: {history.Index}");
-            b.AppendLine($"Particle {debugParticleIndex}");
+            b.AppendLine($"Particle {DebugParticleIndex}");
 
-            PrintStateOfBox(b, particles[debugParticleIndex]);
+            PrintStateOfBox(b, particles[DebugParticleIndex]);
 
             PrintEnergyState(b);
 
