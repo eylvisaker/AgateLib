@@ -77,7 +77,7 @@ namespace AgateLib.Display
 
             var path = fontModel.ImagePath;
 
-            Font result = new Font(name);
+            FontCore result = new FontCore(name);
 
             foreach (var fontSurfaceModel in fontModel)
             {
@@ -98,10 +98,10 @@ namespace AgateLib.Display
 
                 var fontSurface = new BitmapFontTexture(surface, metrics, name);
 
-                result.Core.AddFontSurface(new FontSettings(fontSurfaceModel.Size, fontSurfaceModel.Style), fontSurface);
+                result.AddFontTexture(new FontSettings(fontSurfaceModel.Size, fontSurfaceModel.Style), fontSurface);
             }
 
-            return result;
+            return new Font(result);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace AgateLib.Demo.Console
             }
         }
 
-        public void Initialize(ITestResources resources)
+        public void Initialize(IDemoResources resources)
         {
             whiteTexture = resources.WhiteTexture;
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);

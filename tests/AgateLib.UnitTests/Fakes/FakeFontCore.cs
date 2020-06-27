@@ -58,7 +58,7 @@ namespace AgateLib.Demo.Fakes
 
         public IReadOnlyDictionary<FontSettings, IFontTexture> FontItems => throw new NotImplementedException();
 
-        public void AddFontSurface(FontSettings settings, IFontTexture fontSurface)
+        public void AddFontTexture(FontSettings settings, IFontTexture fontSurface)
         {
             throw new NotImplementedException();
         }

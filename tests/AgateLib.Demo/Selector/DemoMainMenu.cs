@@ -31,7 +31,7 @@ namespace AgateLib.Demo.Selector
 
         public Rectangle ScreenArea { get; set; }
 
-        public void Initialize(ITestResources resources)
+        public void Initialize(IDemoResources resources)
         {
             InitializeTests();
 

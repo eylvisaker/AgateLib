@@ -35,7 +35,7 @@ namespace AgateLib.Demo.FontTests
 
         public Rectangle ScreenArea { get; set; }
 
-        public void Initialize(ITestResources resources)
+        public void Initialize(IDemoResources resources)
         {
             fonts = new List<Font>();
 

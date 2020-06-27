@@ -17,7 +17,7 @@ namespace AgateLib.Demo
 
         Rectangle ScreenArea { get; set; }
 
-        void Initialize(ITestResources resources);
+        void Initialize(IDemoResources resources);
 
         void Update(GameTime gameTime);
 

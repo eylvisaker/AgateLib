@@ -3,6 +3,7 @@ using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace AgateLib.UserInterface
 {
@@ -71,6 +72,10 @@ namespace AgateLib.UserInterface
         {
         }
 
+        public void DrawLines(LineType polygon, Color color, IEnumerable<Vector2> points)
+        {
+        }
+
         public void DrawRect(Color borderColor, Rectangle rectangle)
         {
         }
@@ -80,7 +85,15 @@ namespace AgateLib.UserInterface
             font.DrawText(null, position, text);
         }
 
+        public void DrawTexturedPolygon(Texture2D texture, IReadOnlyList<Vector2> polygon, IReadOnlyList<Vector2> texCoords)
+        {
+        }
+
         public void End()
+        {
+        }
+
+        public void FillConvexPolygon(Color color, IReadOnlyList<Vector2> polygon)
         {
         }
 

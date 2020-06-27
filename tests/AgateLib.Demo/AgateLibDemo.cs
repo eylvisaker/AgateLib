@@ -18,8 +18,8 @@ namespace AgateLib.Demo
     {
         private GraphicsDeviceManager graphics;
 
-        private IDemo activeTest;
-        private TestResources resources = new TestResources();
+        private IDemo activeDemo;
+        private DemoResources resources = new DemoResources();
         private DemoMainMenu testSelector;
         private FrameCounter frameCounter = new FrameCounter();
 
@@ -50,20 +50,20 @@ namespace AgateLib.Demo
 
             testSelector.StartDemo += (sender, e) =>
             {
-                ActiveTest = e.Demo;
+                ActiveDemo = e.Demo;
             };
         }
 
-        private IDemo ActiveTest
+        private IDemo ActiveDemo
         {
-            get => activeTest;
+            get => activeDemo;
             set
             {
-                activeTest = value;
-                activeTest.OnExit += ExitTest;
+                activeDemo = value;
+                activeDemo.OnExit += ExitTest;
 
-                activeTest.ScreenArea = ScreenArea;
-                activeTest.Initialize(resources);
+                activeDemo.ScreenArea = ScreenArea;
+                activeDemo.Initialize(resources);
             }
         }
 
@@ -103,7 +103,7 @@ namespace AgateLib.Demo
 
             resources.WhiteTexture = new TextureBuilder(graphics.GraphicsDevice).SolidColor(10, 10, Color.White);
 
-            ActiveTest = testSelector;
+            ActiveDemo = testSelector;
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
@@ -150,19 +150,19 @@ namespace AgateLib.Demo
                 escaped = false;
             }
 
-            ActiveTest.Update(gameTime);
+            ActiveDemo.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         private void ExitTest()
         {
-            if (ActiveTest == testSelector)
+            if (ActiveDemo == testSelector)
             {
                 Exit();
             }
 
-            ActiveTest = testSelector;
+            ActiveDemo = testSelector;
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace AgateLib.Demo
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            ActiveTest.Draw(gameTime);
+            ActiveDemo.Draw(gameTime);
 
             DrawStatusBar();
 
@@ -192,7 +192,7 @@ namespace AgateLib.Demo
             font.TextAlignment = OriginAlignment.BottomLeft;
             font.DrawText(spriteBatch,
                           new Vector2(0, GraphicsDevice.PresentationParameters.BackBufferHeight),
-                          ActiveTest.Name);
+                          ActiveDemo.Name);
 
             font.TextAlignment = OriginAlignment.BottomRight;
             font.DrawText(spriteBatch,

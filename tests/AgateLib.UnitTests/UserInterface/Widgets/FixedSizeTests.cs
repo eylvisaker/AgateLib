@@ -11,7 +11,6 @@ namespace AgateLib.UserInterface.Widgets
     {
         private ThemeStyler styleConfigurator;
         private ContentLayoutEngineLogger contentLayoutEngine;
-        private IUserInterfaceRenderContext renderContext;
 
         public FixedSizeTests()
         {

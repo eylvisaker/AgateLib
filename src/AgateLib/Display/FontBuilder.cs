@@ -31,11 +31,11 @@ namespace AgateLib.Display
     /// </summary>
     public class FontBuilder
     {
-        private Font font;
+        private FontCore fontCore;
 
         public FontBuilder(string name)
         {
-            font = new Font(name);
+            fontCore = new FontCore(name);
         }
 
         /// <summary>
@@ -46,10 +46,10 @@ namespace AgateLib.Display
         /// <returns></returns>
         public FontBuilder AddFontTexture(FontSettings settings, IFontTexture fontTexture)
         {
-            Require.That<InvalidOperationException>(font != null,
+            Require.That<InvalidOperationException>(fontCore != null,
                 "FontBuilder objects cannot be reused.");
 
-            font.AddFontTexture(settings, fontTexture);
+            fontCore.AddFontTexture(settings, fontTexture);
 
             return this;
         }
@@ -60,9 +60,9 @@ namespace AgateLib.Display
         /// <returns></returns>
         public Font Build()
         {
-            var result = font;
+            var result = new Font(fontCore);
 
-            font = null;
+            fontCore = null;
 
             return result;
         }

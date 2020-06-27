@@ -1,4 +1,5 @@
 ﻿using AgateLib.Mathematics.Geometry;
+using AgateLib.Mathematics.Geometry.Builders;
 using AgateLib.UserInterface.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,9 +10,6 @@ namespace AgateLib.Display
 {
     public interface ICanvas
     {
-        [Obsolete("Do not use this.", true)]
-        SpriteBatch SpriteBatch { get; }
-
         Rectangle Coordinates { get; }
 
         Size Size { get; }
@@ -44,10 +42,12 @@ namespace AgateLib.Display
 
         void Draw(IContentLayout view, Vector2 position);
         void Draw(IContentLayout view, Vector2 position, OriginAlignment destAlignment);
-
-        void DrawRect(Color borderColor, Rectangle rectangle);
+        void DrawLines(LineType lineType, Color color, IEnumerable<Vector2> points);
+        void DrawTexturedPolygon(Texture2D texture, IReadOnlyList<Vector2> polygon, IReadOnlyList<Vector2> texCoords);
 
         void DrawText(Font font, Vector2 position, string text);
+
+        void FillConvexPolygon(Color color, IReadOnlyList<Vector2> polygon);
 
         void End();
 
@@ -94,8 +94,10 @@ namespace AgateLib.Display
         private readonly SpriteBatch spriteBatch;
         private Rectangle coordinates;
         private Texture2D whiteTexture;
+        private PrimitiveRenderer primitives;
         private SpriteBatchBeginArgs spriteBatchBeginArgs = new SpriteBatchBeginArgs();
         private Stack<SpriteBatchBeginArgs> beginArgsStack = new Stack<SpriteBatchBeginArgs>();
+        private BasicEffect basicEffect;
 
         public Canvas(GraphicsDevice graphics)
         {
@@ -108,10 +110,10 @@ namespace AgateLib.Display
                                         graphics.PresentationParameters.BackBufferHeight);
 
             whiteTexture = new TextureBuilder(graphics).SolidColor(1, 1, Color.White);
-        }
 
-        [Obsolete("Avoid using this.")]
-        public SpriteBatch SpriteBatch => spriteBatch;
+            primitives = new PrimitiveRenderer(graphics);
+            basicEffect = new BasicEffect(graphics);
+        }
 
         public BlendState BlendState => spriteBatchBeginArgs.blendState;
 
@@ -176,8 +178,6 @@ namespace AgateLib.Display
         {
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, color, rotation, origin, effects, layerDepth);
         }
-
-        public void DrawRect(Color borderColor, Rectangle rectangle) => throw new NotImplementedException();
 
         public void DrawText(Font font, Vector2 position, string text)
         {
@@ -281,6 +281,46 @@ namespace AgateLib.Display
                               spriteBatchBeginArgs.effect,
                               spriteBatchBeginArgs.transformMatrix);
         }
+
+        public void DrawLines(LineType lineType, Color color, IEnumerable<Vector2> points)
+        {
+            PushState(true);
+
+            basicEffect.VertexColorEnabled = true;
+            basicEffect.TextureEnabled = false;
+            basicEffect.Projection = Matrix.CreateOrthographicOffCenter(coordinates, -1, 1);
+
+            primitives.DrawLines(basicEffect, lineType, color, points);
+
+            PopState();
+        }
+
+        public void DrawTexturedPolygon(Texture2D texture, IReadOnlyList<Vector2> polygon, IReadOnlyList<Vector2> texCoords)
+        {
+            PushState(true);
+
+            basicEffect.VertexColorEnabled = false;
+            basicEffect.TextureEnabled = true;
+            basicEffect.Projection = Matrix.CreateOrthographicOffCenter(coordinates, -1, 1);
+            basicEffect.Texture = texture;
+
+            primitives.DrawTexturedPolygon(basicEffect, polygon, texCoords);
+
+            PopState();
+        }
+
+        public void FillConvexPolygon(Color color, IReadOnlyList<Vector2> polygon)
+        {
+            PushState(true);
+
+            basicEffect.VertexColorEnabled = true;
+            basicEffect.TextureEnabled = false;
+            basicEffect.Projection = Matrix.CreateOrthographicOffCenter(coordinates, -1, 1);
+
+            primitives.FillConvexPolygon(basicEffect, color, polygon);
+
+            PopState();
+        }
     }
 
     public static class CanvasExtensions
@@ -288,6 +328,197 @@ namespace AgateLib.Display
         public static Matrix TransformMatrix(this ICanvas canvas)
         {
             return Matrix.CreateOrthographicOffCenter(canvas.Coordinates, -1, 1);
+        }
+
+        /// <summary>
+        /// Draws a set of lines. The lineType parameter controls how
+        /// lines are connected.
+        /// </summary>
+        /// <param name="lineType">The type of lines to draw.</param>
+        /// <param name="color">The color of lines to draw.</param>
+        /// <param name="points">The points that are used to 
+        /// build the individual line segments.</param>
+        public static void DrawLines(this ICanvas canvas, LineType lineType, Color color,
+            IEnumerable<Vector2> points)
+        {
+            canvas.DrawLines(lineType, color, points);
+        }
+
+        /// <summary>
+        /// Draws a filled convex polygon.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="points"></param>
+        public static void FillPolygon(this ICanvas canvas, Color color, IReadOnlyList<Vector2> points)
+        {
+            canvas.FillConvexPolygon(color, points);
+        }
+
+        /// <summary>
+        ///     Draws a line between the two points specified.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        public static void DrawLine(this ICanvas canvas, Color color, Vector2 a, Vector2 b)
+        {
+            canvas.DrawLines(LineType.LineSegments, color, new[] { a, b });
+        }
+
+        /// <summary>
+        /// Draws the outline of a rectangle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="rect"></param>
+        public static void DrawRect(this ICanvas canvas, Color color, Rectangle rect)
+        {
+            canvas.DrawRect(color, (RectangleF)rect);
+        }
+
+        /// <summary>
+        /// Draws the outline of a rectangle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="rect"></param>
+        public static void DrawRect(this ICanvas canvas, Color color, RectangleF rect)
+        {
+            canvas.DrawLines(LineType.Polygon, color,
+                new QuadrilateralBuilder().BuildRectangle(rect));
+        }
+        
+        /// <summary>
+        /// Draws the outline of an ellipse, inscribed inside a rectangle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="boundingRect">The rectangle the circle should be inscribed in.</param>
+        public static void DrawEllipse(this ICanvas canvas, Color color, Rectangle boundingRect)
+        {
+            canvas.DrawEllipse(color, (RectangleF)boundingRect);
+        }
+
+        /// <summary>
+        /// Draws the outline of an ellipse, inscribed inside a rectangle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="boundingRect">The rectangle the circle should be inscribed in.</param>
+        public static void DrawEllipse(this ICanvas canvas, Color color, RectangleF boundingRect)
+        {
+            canvas.DrawLines(LineType.Polygon, color,
+                new EllipseBuilder().BuildEllipse(boundingRect).Points);
+        }
+
+        /// <summary>
+        /// Draws an unfilled polygon.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="polygon"></param>
+        public static void DrawPolygon(this ICanvas canvas, Color color, Polygon polygon)
+        {
+            canvas.DrawLines(LineType.Polygon, color, polygon.Points);
+        }
+
+        /// <summary>
+        /// Draws a filled polygon.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="polygon"></param>
+        public static void FillPolygon(this ICanvas canvas, Color color, Polygon polygon)
+        {
+            if (polygon.IsConvex)
+            {
+                canvas.FillPolygon(color, polygon.Points);
+            }
+            else
+            {
+                foreach (var convexPoly in polygon.ConvexDecomposition)
+                {
+                    canvas.FillPolygon(color, convexPoly.Points);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draws a filled rectangle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="rect"></param>
+        public static void FillRect(this ICanvas canvas, Color color, Rectangle rect)
+        {
+            canvas.FillRect(color, (RectangleF)rect);
+        }
+
+        /// <summary>
+        /// Draws a filled rectangle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="rect"></param>
+        public static void FillRect(this ICanvas canvas, Color color, RectangleF rect)
+        {
+            canvas.FillPolygon(color, new QuadrilateralBuilder().BuildRectangle(rect));
+        }
+
+        /// <summary>
+        /// Draws a filled ellipse, inscribed inside a rectangle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="boundingRect"></param>
+        public static void FillEllipse(this ICanvas canvas, Color color, Rectangle boundingRect)
+        {
+            canvas.FillEllipse(color, (RectangleF)boundingRect);
+        }
+
+        /// <summary>
+        /// Draws a filled ellipse, inscribed inside a rectangle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="boundingRect"></param>
+        public static void FillEllipse(this ICanvas canvas, Color color, RectangleF boundingRect)
+        {
+            canvas.FillPolygon(color, new EllipseBuilder().BuildEllipse(boundingRect).Points);
+        }
+
+        /// <summary>
+        /// Draws a filled ellipse.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="center"></param>
+        /// <param name="majorAxisRadius"></param>
+        /// <param name="minorAxisRadius"></param>
+        /// <param name="rotationAngle"></param>
+        public static void FillEllipse(this ICanvas canvas,
+                                       Color color,
+                                       Vector2 center,
+                                       double majorAxisRadius,
+                                       double minorAxisRadius,
+                                       double rotationAngle)
+        {
+            canvas.FillPolygon(
+                color,
+                new EllipseBuilder().BuildEllipse(center, majorAxisRadius, minorAxisRadius, rotationAngle).Points);
+        }
+
+        /// <summary>
+        /// Draws a filled circle.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="color"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        public static void FillCircle(this ICanvas canvas, Color color, Vector2 center, double radius)
+        {
+            canvas.FillPolygon(color, new EllipseBuilder().BuildCircle(center, radius).Points);
         }
     }
 }

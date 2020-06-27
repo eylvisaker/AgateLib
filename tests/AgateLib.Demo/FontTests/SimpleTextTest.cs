@@ -40,7 +40,7 @@ namespace AgateLib.Demo.FontTests
             spriteBatch.End();
         }
 
-        public void Initialize(ITestResources resources)
+        public void Initialize(IDemoResources resources)
         {
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);
             font = new Font(resources.Fonts.Default);

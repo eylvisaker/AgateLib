@@ -29,7 +29,7 @@ namespace AgateLib.Demo.UserInterface
 
         protected IContentProvider Content { get; private set; }
 
-        public virtual void Initialize(ITestResources resources)
+        public virtual void Initialize(IDemoResources resources)
         {
             scene = new UserInterfaceScene(
                 resources.ScreenArea,

@@ -9,7 +9,7 @@ using System;
 
 namespace AgateLib.Demo
 {
-    public interface ITestResources
+    public interface IDemoResources
     {
         GraphicsDevice GraphicsDevice { get; }
 
@@ -33,7 +33,7 @@ namespace AgateLib.Demo
         Rectangle ScreenArea { get; }
     }
 
-    public class TestResources : ITestResources
+    public class DemoResources : IDemoResources
     {
         public GraphicsDevice GraphicsDevice { get; set; }
 
