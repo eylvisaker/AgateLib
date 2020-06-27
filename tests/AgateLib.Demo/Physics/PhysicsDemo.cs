@@ -12,28 +12,32 @@ using System.Text;
 
 namespace AgateLib.Demo.Physics
 {
-    public abstract class KinematicsDemo : IDemo
+    public abstract class PhysicsDemo : IDemo
     {
         IKinematicsExample example;
         private KinematicsHistory history;
         private KeyboardEvents keyboard;
+        private GamePadEvents gamepad;
         private Canvas canvas;
         private IFontProvider fonts;
         private KinematicsSystem system = new KinematicsSystem();
         private KinematicsIntegrator kinematics;
         private KinematicsInfoDisplay infoDisplay;
         private IConstraintSolver constraintSolver;
+        private InputState inputState = new InputState();
 
         private bool running = true;
 
-        protected KinematicsDemo(IKinematicsExample example)
+        protected PhysicsDemo(IKinematicsExample example)
         {
             this.example = example;
             this.history = new KinematicsHistory();
 
             this.keyboard = new KeyboardEvents();
+            this.gamepad = new GamePadEvents(PlayerIndex.One);
 
             keyboard.KeyDown += Keyboard_KeyDown;
+            gamepad.ButtonReleased += Gamepad_ButtonReleased;
         }
 
         public string Name => example.Name;
@@ -83,6 +87,53 @@ namespace AgateLib.Demo.Physics
             history.AdvanceAndStoreHistory(system.Particles);
         }
 
+        private void Gamepad_ButtonReleased(object sender, GamepadButtonEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case Buttons.Y:
+                    InitializeExample();
+                    break;
+
+                case Buttons.A:
+                    running = !running;
+                    break;
+
+                case Buttons.B:
+                    running = false;
+                    Advance();
+                    break;
+
+                case Buttons.X:
+                    infoDisplay.DebugInfoPage++;
+                    break;
+
+                case Buttons.LeftShoulder:
+                    example.RemoveParticle();
+                    InitializeExample();
+                    break;
+
+                case Buttons.RightShoulder:
+                    example.AddParticle();
+                    InitializeExample();
+                    break;
+
+                case Buttons.LeftTrigger:
+                    history.Index--;
+                    LoadHistory();
+                    break;
+
+                case Buttons.RightTrigger:
+                    history.Index++;
+                    LoadHistory();
+                    break;
+
+                case Buttons.Start:
+                    OnExit?.Invoke();
+                    break;
+            }
+        }
+
         private void Keyboard_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Keys.Z)
@@ -117,22 +168,6 @@ namespace AgateLib.Demo.Physics
 
                 LoadHistory();
             }
-            //if (e.Key == Keys.PageDown)
-            //{
-            //    exampleIndex++;
-            //    if (exampleIndex >= examples.Count)
-            //        exampleIndex = examples.Count - 1;
-
-            //    InitializeExample();
-            //}
-            //if (e.Key == Keys.PageUp)
-            //{
-            //    exampleIndex--;
-            //    if (exampleIndex < 0)
-            //        exampleIndex = 0;
-
-            //    InitializeExample();
-            //}
 
             if (e.Key >= Keys.D1 && e.Key <= Keys.D2)
             {
@@ -142,7 +177,10 @@ namespace AgateLib.Demo.Physics
 
         public void Update(GameTime gameTime)
         {
+            inputState.Update(gameTime);
+
             keyboard.Update(gameTime);
+            gamepad.Update(inputState);
 
             if (system.Particles.Any(p => double.IsNaN(p.Position.X)))
                 running = false;

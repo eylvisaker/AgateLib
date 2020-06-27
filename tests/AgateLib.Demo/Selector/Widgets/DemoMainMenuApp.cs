@@ -47,6 +47,15 @@ namespace AgateLib.Demo.Selector.Widgets
 
             return new App(new AppProps
             {
+                DefaultStyle = new InlineElementStyle
+                {
+                    Flex = new FlexStyle
+                    {
+                        Direction = FlexDirection.Row,
+                        AlignItems = AlignItems.Center,
+                        JustifyContent = JustifyContent.Start,
+                    }
+                },
                 Children = {
                     new Window(new WindowProps
                     {

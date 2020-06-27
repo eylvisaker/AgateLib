@@ -107,7 +107,7 @@ namespace AgateLib.Scenes
 
             internal void NewFrame(GameTime time)
             {
-                InputState.NewFrame(time);
+                InputState.Update(time);
             }
         }
 

@@ -69,18 +69,20 @@ namespace AgateLib.Demo.Selector.Widgets
 
         public override void OnUserInterfaceAction(UserInterfaceActionEventArgs args)
         {
-            base.OnUserInterfaceAction(args);
-
             switch (args.Action)
             {
                 case UserInterfaceAction.Left:
                     MovePrevious();
+                    args.Handled = true;
                     break;
 
                 case UserInterfaceAction.Right:
                     MoveNext();
+                    args.Handled = true;
                     break;
             }
+
+            base.OnUserInterfaceAction(args);
         }
 
         private void MoveNext()

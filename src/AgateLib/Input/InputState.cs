@@ -22,6 +22,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace AgateLib.Input
@@ -68,16 +69,23 @@ namespace AgateLib.Input
         }
 
         /// <summary>
-        /// Call to indicate that cached controller and keyboard configurations should be
-        /// discarded.
+        /// Updates the state of the 
         /// </summary>
         /// <param name="time"></param>
-        public void NewFrame(GameTime time)
+        public void Update(GameTime time)
         {
             Initialize();
 
             GameTime = time;
         }
+
+        /// <summary>
+        /// Call to indicate that cached controller and keyboard configurations should be
+        /// discarded.
+        /// </summary>
+        /// <param name="time"></param>
+        [Obsolete("Use Update(time) instead.")]
+        public void NewFrame(GameTime time) => Update(time);
 
         /// <summary>
         /// Gets the state of a player's gamepad.

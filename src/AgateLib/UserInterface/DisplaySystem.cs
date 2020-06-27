@@ -44,7 +44,7 @@ namespace AgateLib.UserInterface
 
         IRenderElement ParentOf(IRenderElement element);
 
-        void SetFocus(IRenderElement newFocus);
+        bool SetFocus(IRenderElement newFocus);
 
         /// <summary>
         /// Adds a workspace to the desktop.
@@ -67,9 +67,9 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="displaySystem"></param>
         /// <param name="reference"></param>
-        public static void SetFocus(this IDisplaySystem displaySystem, ElementReference reference)
+        public static bool SetFocus(this IDisplaySystem displaySystem, ElementReference reference)
         {
-            displaySystem.SetFocus(reference.Current);
+            return displaySystem.SetFocus(reference.Current);
         }
 
         /// <summary>

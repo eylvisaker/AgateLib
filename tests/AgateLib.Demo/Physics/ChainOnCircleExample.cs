@@ -108,7 +108,7 @@ namespace AgateLib.Demo.Physics
         }
     }
 
-    public class ChainOnCircleDemo : KinematicsDemo
+    public class ChainOnCircleDemo : PhysicsDemo
     {
         public ChainOnCircleDemo()
             : base(new ChainOnCircleExample())

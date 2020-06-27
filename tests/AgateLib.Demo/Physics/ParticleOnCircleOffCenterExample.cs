@@ -109,7 +109,7 @@ namespace AgateLib.Demo.Physics
         }
     }
 
-    public class ParticleCornerOnCircleDemo : KinematicsDemo
+    public class ParticleCornerOnCircleDemo : PhysicsDemo
     {
         public ParticleCornerOnCircleDemo()
             : base(new ParticleOnCircleOffCenterExample())

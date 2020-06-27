@@ -94,11 +94,11 @@ namespace AgateLib.UserInterface
             {
                 if (root.CanHaveFocus)
                 {
-                    Focus = root;
+                    SetFocus(root);
                 }
                 else
                 {
-                    Focus = null;
+                    SetFocus(null);
                 }
             }
 
@@ -165,7 +165,7 @@ namespace AgateLib.UserInterface
             {
                 oldNode.ReconcileChildren(newNode);
             }
-            else 
+            else
             {
                 bool childrenUpdated = false;
 
@@ -280,21 +280,24 @@ namespace AgateLib.UserInterface
 
         public IDisplaySystem DisplaySystem { get; set; }
 
-        public IRenderElement Focus
+        public IRenderElement Focus => focus;
+
+        public bool SetFocus(IRenderElement newFocus)
         {
-            get => focus;
-            set
-            {
-                focus?.Display.PseudoClasses.Remove("focus");
-                focus?.OnBlur();
+            if (focus == newFocus)
+                return false;
 
-                focus = value;
+            focus?.Display.PseudoClasses.Remove("focus");
+            focus?.OnBlur();
 
-                focus?.Parent?.Display.ScrollTo(focus.Display);
+            focus = newFocus;
 
-                focus?.Display.PseudoClasses.Add("focus");
-                focus?.OnFocus();
-            }
+            focus?.Parent?.Display.ScrollTo(focus.Display);
+
+            focus?.Display.PseudoClasses.Add("focus");
+            focus?.OnFocus();
+
+            return true;
         }
 
         public IRenderElement TreeRoot => root;

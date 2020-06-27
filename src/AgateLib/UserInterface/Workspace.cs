@@ -75,9 +75,9 @@ namespace AgateLib.UserInterface
 
             public Rectangle ScreenArea => Desktop.ScreenArea;
 
-            public void SetFocus(IRenderElement newFocus)
+            public bool SetFocus(IRenderElement newFocus)
             {
-                workspace.Focus = newFocus;
+                return workspace.SetFocus(newFocus);
             }
 
             public IRenderElement ParentOf(IRenderElement element)
@@ -156,20 +156,23 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public IRenderElement Focus
+        public IRenderElement Focus => visualTree.Focus;
+
+        public bool SetFocus(IRenderElement newFocus)
         {
-            get => visualTree.Focus;
-            set
+            if (visualTree.Focus == newFocus)
             {
-                if (visualTree.Focus == value)
-                {
-                    return;
-                }
+                return false;
+            }
 
-                visualTree.Focus = value;
+            bool result = visualTree.SetFocus(newFocus);
 
+            if (result)
+            {
                 FocusChanged?.Invoke();
             }
+
+            return result;
         }
 
         public IStyleConfigurator Style
@@ -409,7 +412,7 @@ namespace AgateLib.UserInterface
                 {
                     if (element.CanHaveFocus)
                     {
-                        Focus = element;
+                        SetFocus(element);
                         return false;
                     }
 

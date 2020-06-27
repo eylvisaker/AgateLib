@@ -139,26 +139,44 @@ namespace AgateLib.UserInterface
         {
             base.OnChildAction(child, action);
 
-            int focusIndex = children.IndexOf(child);
-            int oldFocusIndex = focusIndex;
-
             UserInterfaceAction button = action.Action;
 
-            if (button == UserInterfaceAction.Down)
+            if (layout.Tabs.Contains(child))
             {
-                focusIndex++;
-            }
-            if (button == UserInterfaceAction.Up)
-            {
-                focusIndex--;
-            }
+                int focusIndex = children.IndexOf(child);
 
-            if (focusIndex < 0 || focusIndex >= layout.Tabs.Count)
+                if (button == UserInterfaceAction.Down)
+                {
+                    ActivateTab(focusIndex + 1);
+                }
+                if (button == UserInterfaceAction.Up)
+                {
+                    ActivateTab(focusIndex - 1);
+                }
+
+                if (button == UserInterfaceAction.Right)
+                {
+                    Display.System.SetFocus(layout.Pages[State.ActivePageIndex]);
+                }
+            }
+            else if (layout.Pages.Contains(child))
+            {
+                if (button == UserInterfaceAction.Left)
+                {
+                    // hack to activate buttons.
+                    SetState(s => { });
+                }
+            }
+        }
+
+        private void ActivateTab(int tabIndex)
+        {
+            if (tabIndex < 0 || tabIndex >= layout.Tabs.Count)
             {
                 return;
             }
 
-            SetState(s => s.ActivePageIndex = focusIndex);
+            SetState(s => s.ActivePageIndex = tabIndex);
         }
 
         protected override void OnReceiveProps()

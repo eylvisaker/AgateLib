@@ -37,7 +37,7 @@ namespace AgateLib.Input
         /// <param name="axis"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static KeyMapItem ToLeftStick(IGamePad gamePad, Axis axis, double value)
+        public static KeyMapItem ToLeftStick(IGamePadEvents gamePad, Axis axis, double value)
         {
             return ToLeftStick(gamePad.PlayerIndex, axis, value);
         }
@@ -49,7 +49,7 @@ namespace AgateLib.Input
         /// <param name="axis"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static KeyMapItem ToRightStick(IGamePad gamePad, Axis axis, double value)
+        public static KeyMapItem ToRightStick(IGamePadEvents gamePad, Axis axis, double value)
         {
             return ToRightStick(gamePad.PlayerIndex, axis, value);
         }
@@ -60,7 +60,7 @@ namespace AgateLib.Input
         /// <param name="gamePad"></param>
         /// <param name="button"></param>
         /// <returns></returns>
-        public static KeyMapItem ToButton(IGamePad gamePad, Buttons button)
+        public static KeyMapItem ToButton(IGamePadEvents gamePad, Buttons button)
         {
             return ToButton(gamePad.PlayerIndex, button);
         }

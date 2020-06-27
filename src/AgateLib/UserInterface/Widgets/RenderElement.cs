@@ -552,6 +552,12 @@ namespace AgateLib.UserInterface
         #endregion
         #region --- Input ---
 
+        /// <summary>
+        /// Handles a user interface action.
+        /// When overriding this method, call the base method LAST to handle passing
+        /// unhandled events to the parent element.
+        /// </summary>
+        /// <param name="args"></param>
         public virtual void OnUserInterfaceAction(UserInterfaceActionEventArgs args)
         {
             if (args.Action == UserInterfaceAction.Accept)

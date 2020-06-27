@@ -23,6 +23,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace AgateLib.Input
 {
@@ -30,7 +31,7 @@ namespace AgateLib.Input
     /// Interface for a Game pad class which provides an 
     /// event based model for user input.
     /// </summary>
-    public interface IGamePad
+    public interface IGamePadEvents
     {
         /// <summary>
         /// Event raised when a button is pressed.
@@ -137,26 +138,25 @@ namespace AgateLib.Input
     /// Game pad class which provides an event based model for 
     /// user input.
     /// </summary>
-    public class GamePadInput : IGamePad
+    public class GamePadEvents : IGamePadEvents
     {
         private static Buttons[] ButtonNames = (Buttons[])Enum.GetValues(typeof(Buttons));
-
+        
         private GamePadState state;
 
         /// <summary>
         /// Constructs a Gamepad object and sets it to track a low-level joystick.
         /// </summary>
-        /// <param name="playerIndex"></param>
-        /// <param name="keyMap"></param>
-        /// <param name="gamePadGetState"></param>
-        /// <param name="keyboardGetState"></param>
-        public GamePadInput(PlayerIndex playerIndex, KeyboardGamepadMap keyMap)
+        /// <param name="playerIndex">Gamepad player index to read from.</param>
+        /// <param name="keyMap">Optional mapping of keyboard keys to gamepad events.</param>
+        public GamePadEvents(PlayerIndex playerIndex, KeyboardGamepadMap keyMap = null)
         {
             PlayerIndex = playerIndex;
             KeyMap = keyMap;
         }
 
         public bool InvertLeftStickY { get; set; } = false;
+
         public bool InvertRightStickY { get; set; } = false;
 
         public KeyboardGamepadMap KeyMap { get; set; }
@@ -279,12 +279,45 @@ namespace AgateLib.Input
                 new GamepadButtonEventArgs(button));
         }
 
+        public void Update(GameTime gameTime)
+        {
+            GamePadState gamePad = GamePad.GetState(PlayerIndex);
+            KeyboardState? keyboard = null;
+
+            if (KeyMap != null)
+            {
+                keyboard = Keyboard.GetState();
+            }
+
+            TriggerEvents(ref gamePad, ref keyboard);
+        }
+
+        public void Update(IInputState inputState)
+        {
+            GamePadState gamePad = inputState.GamePadStateOf(PlayerIndex);
+            KeyboardState? keyboard = null;
+
+            if (KeyMap != null)
+            {
+                keyboard = inputState.KeyboardState;
+            }
+
+            TriggerEvents(ref gamePad, ref keyboard);
+        }
+
+        [Obsolete("Use Update(inputState) instead.")]
         public void Poll(IInputState inputState)
+            => Update(inputState);
+
+        private void TriggerEvents(ref GamePadState newState, ref KeyboardState? keyboardState)
         {
             GamePadState oldState = state;
-            state = inputState.GamePadStateOf(PlayerIndex);
+            state = newState;
 
-            ApplyKeyMap(ref state, inputState);
+            if (keyboardState != null)
+            {
+                ApplyKeyMap(ref state, keyboardState.Value);
+            }
 
             foreach (var button in ButtonNames)
             {
@@ -317,15 +350,8 @@ namespace AgateLib.Input
 
         // Feature is disabled because it isn't working and has questionable value.
         // If enabled, be sure to enable the unit tests.
-        private void ApplyKeyMap(ref GamePadState padState, IInputState inputState)
+        private void ApplyKeyMap(ref GamePadState padState, KeyboardState keys)
         {
-            if (KeyMap == null)
-            {
-                return;
-            }
-
-            var keys = inputState.KeyboardState;
-
             Buttons buttons = 0;
 
             foreach (var button in ButtonNames)
@@ -362,6 +388,19 @@ namespace AgateLib.Input
         public bool IsButtonDown(Buttons button)
         {
             return state.IsButtonDown(button);
+        }
+    }
+
+
+    [Obsolete("Use IGamePadEvents instead.")]
+    public interface IGamePad : IGamePadEvents { }
+
+    [Obsolete("Use GamePadEvents instead.")]
+    public class GamePadInput : GamePadEvents, IGamePad
+    {
+        public GamePadInput(PlayerIndex playerIndex, KeyboardGamepadMap keyMap) 
+            : base(playerIndex, keyMap)
+        {
         }
     }
 }
