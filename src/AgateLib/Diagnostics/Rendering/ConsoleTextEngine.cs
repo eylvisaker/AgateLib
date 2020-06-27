@@ -44,7 +44,7 @@ namespace AgateLib.Diagnostics.Rendering
         {
             public ConsoleFontProvider(IContentProvider contentProvider)
             {
-                Default = Font.Load(contentProvider, Defaults.MonospaceFont);
+                Default = Font.Load(contentProvider, Defaults.Instance.MonospaceFont);
             }
 
             public ConsoleFontProvider(Font font)

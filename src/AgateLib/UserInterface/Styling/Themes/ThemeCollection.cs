@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -30,7 +31,11 @@ namespace AgateLib.UserInterface.Styling.Themes
     /// Implements the IReadOnlyDictionary&lt;string, ITheme&gt;
     /// interface.
     /// </summary>
-    public interface IThemeCollection : IReadOnlyDictionary<string, ITheme> { }
+    public interface IThemeCollection : IReadOnlyDictionary<string, ITheme>
+    {
+        string DefaultThemeKey { get; set; }
+        ITheme DefaultTheme { get; }
+    }
 
     /// <summary>
     /// Represents a collection of themes. 
@@ -40,6 +45,10 @@ namespace AgateLib.UserInterface.Styling.Themes
     public class ThemeCollection : IThemeCollection, IDictionary<string, ITheme>
     {
         private readonly Dictionary<string, ITheme> themes = new Dictionary<string, ITheme>();
+
+        public string DefaultThemeKey { get; set; }
+
+        public ITheme DefaultTheme => themes[DefaultThemeKey];
 
         public ITheme this[string key] { get => ((IDictionary<string, ITheme>)themes)[key]; set => ((IDictionary<string, ITheme>)themes)[key] = value; }
 
@@ -99,6 +108,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             return ((IDictionary<string, ITheme>)themes).Remove(item);
         }
+
 
         public bool TryGetValue(string key, out ITheme value)
         {

@@ -23,6 +23,7 @@
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Quality;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AgateLib.Physics.TwoDimensions
 {
@@ -55,9 +56,16 @@ namespace AgateLib.Physics.TwoDimensions
         public Vector2 ConstraintForce;
 
         /// <summary>
-        /// Particle rotation angle.
+        /// Particle rotation angle. (generally in radians unless you're using something else)
         /// </summary>
-        public float Angle;
+        public float Rotation;
+        
+        [Obsolete("Use RotationAngle instead.")]
+        public float Angle
+        {
+            get => Rotation;
+            set => Rotation = value;
+        }
 
         /// <summary>
         /// Particle angular velocity.
@@ -155,7 +163,7 @@ namespace AgateLib.Physics.TwoDimensions
             target.Force = Force;
             target.ConstraintForce = ConstraintForce;
 
-            target.Angle = Angle;
+            target.Rotation = Rotation;
             target.AngularVelocity = AngularVelocity;
             target.Torque = Torque;
             target.ConstraintTorque = ConstraintTorque;
@@ -178,13 +186,17 @@ namespace AgateLib.Physics.TwoDimensions
 
             // Cheap way to improve the integrator: use the average of the 
             // start & final velocities for the position integration.
-            Angle += dt * 0.5f * (AngularVelocity + oldAngularVelocity);
+            Rotation += dt * 0.5f * (AngularVelocity + oldAngularVelocity);
             Position += dt * 0.5f * (Velocity + oldVelocity);
 
             UpdatePolygonTransformation();
         }
 
-        internal void UpdatePolygonTransformation()
+        /// <summary>
+        /// Updates the transformed version of the polygon after the <c>rotation</c> angle
+        /// is changed.
+        /// </summary>
+        public void UpdatePolygonTransformation()
         {
             if (untransformed == null)
             {
@@ -198,7 +210,7 @@ namespace AgateLib.Physics.TwoDimensions
 
             untransformed.CopyTo(transformed);
 
-            transformed.RotateSelf(Angle);
+            transformed.RotateSelf(Rotation);
             transformed.TranslateSelf(Position);
         }
 
@@ -214,7 +226,7 @@ namespace AgateLib.Physics.TwoDimensions
             Velocity = Vector2.Zero;
             Force = Vector2.Zero;
 
-            Angle = 0;
+            Rotation = 0;
             AngularVelocity = 0;
             Torque = 0;
 

@@ -1,0 +1,276 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin
+/intermediateDir:obj
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin AgateLib.Themes.Papyrus/AgateLib.Themes.Papyrus.Credits.txt
+/copy:AgateLib.Themes.Papyrus/AgateLib.Themes.Papyrus.Credits.txt
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock.afont
+/copy:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock.afont
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-10.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-10.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-10-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-10-Bold.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-12.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-12.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-12-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-12-Bold.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-14.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-14.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-14-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-14-Bold.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-16.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-16.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-16-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-16-Bold.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-18.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-18.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-18-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-18-Bold.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-24.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-24.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-24-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-24-Bold.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-30.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-30.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-30-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-30-Bold.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-8.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-8.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-8-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-8-Bold.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-9.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-9.png
+
+#begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-9-Bold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock/KingthingsPetrock-9-Bold.png
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Papyrus.atheme
+/copy:AgateLib.Themes.Papyrus/UserInterface/Papyrus.atheme
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Papyrus/paper background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/UserInterface/Papyrus/paper background.png
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Papyrus/RPG_GUI_v1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/UserInterface/Papyrus/RPG_GUI_v1.png
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Papyrus/wood background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/UserInterface/Papyrus/wood background.png
+

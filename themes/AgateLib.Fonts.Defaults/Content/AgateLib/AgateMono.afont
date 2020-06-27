@@ -1,5 +1,7 @@
+image-path: AgateMono
+variations:
 - name: AgateMono
-  image: AgateMono/AgateMono-8.png
+  image: AgateMono-8.png
   size: 8
   metrics:
     32:
@@ -574,7 +576,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-8-Bold.png
+  image: AgateMono-8-Bold.png
   size: 8
   style: Bold
   metrics:
@@ -1150,7 +1152,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-9.png
+  image: AgateMono-9.png
   size: 9
   metrics:
     32:
@@ -1725,7 +1727,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-9-Bold.png
+  image: AgateMono-9-Bold.png
   size: 9
   style: Bold
   metrics:
@@ -2301,7 +2303,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-10.png
+  image: AgateMono-10.png
   size: 10
   metrics:
     32:
@@ -2876,7 +2878,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-10-Bold.png
+  image: AgateMono-10-Bold.png
   size: 10
   style: Bold
   metrics:
@@ -3452,7 +3454,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-12.png
+  image: AgateMono-12.png
   size: 12
   metrics:
     32:
@@ -4027,7 +4029,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-12-Bold.png
+  image: AgateMono-12-Bold.png
   size: 12
   style: Bold
   metrics:
@@ -4603,7 +4605,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-14.png
+  image: AgateMono-14.png
   size: 14
   metrics:
     32:
@@ -5178,7 +5180,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-14-Bold.png
+  image: AgateMono-14-Bold.png
   size: 14
   style: Bold
   metrics:
@@ -5754,7 +5756,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-16.png
+  image: AgateMono-16.png
   size: 16
   metrics:
     32:
@@ -6329,7 +6331,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-16-Bold.png
+  image: AgateMono-16-Bold.png
   size: 16
   style: Bold
   metrics:
@@ -6905,7 +6907,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-18.png
+  image: AgateMono-18.png
   size: 18
   metrics:
     32:
@@ -7480,7 +7482,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-18-Bold.png
+  image: AgateMono-18-Bold.png
   size: 18
   style: Bold
   metrics:
@@ -8056,7 +8058,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-24.png
+  image: AgateMono-24.png
   size: 24
   metrics:
     32:
@@ -8631,7 +8633,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-24-Bold.png
+  image: AgateMono-24-Bold.png
   size: 24
   style: Bold
   metrics:
@@ -9207,7 +9209,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-30.png
+  image: AgateMono-30.png
   size: 30
   metrics:
     32:
@@ -9782,7 +9784,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateMono
-  image: AgateMono/AgateMono-30-Bold.png
+  image: AgateMono-30-Bold.png
   size: 30
   style: Bold
   metrics:

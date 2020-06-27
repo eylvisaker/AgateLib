@@ -370,7 +370,7 @@ namespace AgateLib.Physics.TwoDimensions.Solvers
             foreach (var item in System.Particles)
             {
                 //item.AngularVelocity += dt * (item.Torque + item.ConstraintTorque) / item.InertialMoment;
-                item.Angle += dt * item.AngularVelocity;
+                item.Rotation += dt * item.AngularVelocity;
 
                 //item.Velocity += dt * (item.Force + item.ConstraintForce) / item.Mass;
                 item.Position += dt * item.Velocity;

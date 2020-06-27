@@ -40,13 +40,7 @@ namespace AgateLib.Demo.Selector
             font = new Font(resources.Fonts.Default);
             var fontProvider = resources.Fonts;
 
-            scene = new UserInterfaceScene(
-                resources.ScreenArea,
-                resources.GraphicsDevice,
-                resources.UserInterfaceRenderer,
-                resources.LocalizedContent,
-                resources.Fonts,
-                resources.StyleConfigurator);
+            scene = resources.CreateUserInterfaceScene();
 
             spriteBatch = new SpriteBatch(resources.GraphicsDevice);
 

@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using AgateLib.UserInterface.Styling.Themes;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.Styling
@@ -29,6 +30,8 @@ namespace AgateLib.UserInterface.Styling
     /// </summary>
     public interface IStyleConfigurator
     {
+        string DefaultThemeKey { get; set; }
+
         IEnumerable<string> AvailableThemes { get; }
 
         /// <summary>
@@ -36,6 +39,19 @@ namespace AgateLib.UserInterface.Styling
         /// </summary>
         /// <param name="root"></param>
         /// <param name="defaultTheme"></param>
-        void Apply(IRenderElement root, string defaultTheme);
+        void Apply(IRenderElement root, string defaultTheme = null);
+
+        /// <summary>
+        /// Gets a theme from its key
+        /// </summary>
+        /// <param name="themeKey"></param>
+        /// <returns></returns>
+        ITheme Theme(string themeKey);
+    }
+
+    public static class StyleConfiguratorExtensions
+    {
+        public static ITheme DefaultTheme(this IStyleConfigurator styleConfigurator)
+            => styleConfigurator.Theme(styleConfigurator.DefaultThemeKey);
     }
 }

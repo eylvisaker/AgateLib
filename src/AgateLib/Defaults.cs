@@ -1,17 +1,11 @@
 ﻿namespace AgateLib
 {
-    public static class Defaults
+    public class Defaults
     {
-        static Defaults()
-        {
-            Reset();
-        }
+        public static Defaults Instance { get; set; } = new Defaults();
 
-        public static string MonospaceFont { get; set; }
+        public string MonospaceFont { get; set; } = "AgateLib/AgateMono";
+        public string Cursor { get; set; } = "default";
 
-        public static void Reset()
-        {
-            MonospaceFont = "AgateLib/AgateMono";
-        }
     }
 }

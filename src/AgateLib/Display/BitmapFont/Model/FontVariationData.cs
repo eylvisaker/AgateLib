@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace AgateLib.Display.BitmapFont.Model
 {
-    public class FontSurfaceResource
+    public class FontVariationData
     {
         public string Name { get; set; }
         public string Image { get; set; }

@@ -1,9 +1,9 @@
 ﻿using AgateLib.Scenes;
-using AgateLib.Demo.UserInterface.FF6;
 using AgateLib.UserInterface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.Demo.UserInterface
 {
@@ -47,9 +47,6 @@ namespace AgateLib.Demo.UserInterface
 
             stack = new SceneStack();
             stack.Add(scene);
-
-            scene.Pointer = new Pointer(
-                resources.Content.Load<Texture2D>("UserInterface/Pointer"));
 
             scene.Desktop.PushWorkspace(InitializeWorkspace());
         }

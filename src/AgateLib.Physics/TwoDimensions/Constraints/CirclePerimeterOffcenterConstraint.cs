@@ -50,7 +50,7 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
 
         public ConstraintType ConstraintType => ConstraintType.Equality;
 
-        private Vector2 ConstrainedPointLocalPosition => offset.Rotate(particle.Angle);
+        private Vector2 ConstrainedPointLocalPosition => offset.Rotate(particle.Rotation);
 
         /// <summary>
         /// Returns the position of the constrained point on the particle, relative to the circle's center.
@@ -58,7 +58,7 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
         /// <remarks>\f$\vec{r}\f$ from the math.</remarks>
         private Vector2 ConstrainedPointPosition => particle.Position + ConstrainedPointLocalPosition - circlePosition;
 
-        private Vector2 OffsetDerivative => offset.Rotate(particle.Angle + (float)Math.PI * .5f);
+        private Vector2 OffsetDerivative => offset.Rotate(particle.Rotation + (float)Math.PI * .5f);
 
         public float Value(IReadOnlyList<PhysicalParticle> particles) => .5f * (ConstrainedPointPosition.LengthSquared() - circleRadius * circleRadius);
 

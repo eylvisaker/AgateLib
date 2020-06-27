@@ -73,7 +73,7 @@ namespace AgateLib.Demo.Physics
                     box.Position,
                     null,
                     Color.White,
-                    -box.Angle,
+                    -box.Rotation,
                     new Vector2(boxImage.Width / 2, boxImage.Height / 2),
                     boxScale,
                     SpriteEffects.None,

@@ -66,6 +66,8 @@ namespace AgateLib.UserInterface
             return true;
         }
 
+        public string Id { get; set; }
+
         public BackgroundClip Clip { get; set; }
 
         public Color Color { get; set; }

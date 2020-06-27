@@ -22,6 +22,7 @@
 
 using AgateLib.UserInterface.Styling.Themes.Model;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,16 @@ namespace AgateLib.UserInterface.Styling.Themes
 {
     public interface ITheme
     {
+        /// <summary>
+        /// Read-only please.
+        /// </summary>
+        ThemeModel Model { get; }
+
         IFontProvider Fonts { get; set; }
 
         void Apply(IRenderElement widget, RenderElementStack parentStack);
+
+        T LoadContent<T>(ThemePathTypes themePathTypes, string file);
     }
 
     [Obsolete]
@@ -46,6 +54,8 @@ namespace AgateLib.UserInterface.Styling.Themes
     /// </summary>
     public class Theme : ITheme
     {
+        #region --- Static Members ---
+
         /// <summary>
         /// Loads a theme. If you're loading
         /// multiple themes, it is more efficient
@@ -55,20 +65,26 @@ namespace AgateLib.UserInterface.Styling.Themes
         /// <param name="content"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static ITheme Load(IFontProvider fonts, IContentProvider content, params string[] paths)
+        [Obsolete("Use a ThemeLoader object instead.")]
+        public static ITheme Load(IFontProvider fonts, IContentProvider content, string mainThemeFile, params string[] additionalStyleFilenames)
         {
-            ThemeLoader themeLoader = new ThemeLoader(fonts);
+            if (fonts is FontProvider f)
+            {
+                ThemeLoader themeLoader = new ThemeLoader(f, content);
 
-            return themeLoader.LoadTheme(content, paths);
+                return themeLoader.LoadTheme(mainThemeFile, additionalStyleFilenames);
+            }
+
+            throw new NotSupportedException("Must use a ThemeLoader object instead.");
         }
 
         /// <summary>
         /// Creates the default AgateLib theme which requires no assets.
         /// </summary>
         /// <returns></returns>
-        public static Theme CreateDefaultTheme()
+        public static Theme CreateDefaultTheme(IContentProvider content)
         {
-            var data = new ThemeData
+            var stylePatterns = new ThemeStylePatternList
             {
                 new ThemeStyle
                 {
@@ -165,58 +181,98 @@ namespace AgateLib.UserInterface.Styling.Themes
                 }
             };
 
-            return new Theme { Data = data };
+            return new Theme(content, new ThemeModel { Styles = stylePatterns });
+
         }
 
-        public static Theme DefaultTheme { get; set; } = CreateDefaultTheme();
+        #endregion
+        #region --- privates. Don't touch my privates! ---
 
-        private ThemeData data;
+        private ThemeModel model;
         private List<ThemeStyle> themeMatches = new List<ThemeStyle>();
+        private string rootFolder;
+        private readonly IContentProvider content;
+
+        #endregion
 
         /// <summary>
         /// Initializes a Theme object with an empty ThemeData value.
         /// </summary>
-        public Theme() : this(new ThemeData()) { }
+        public Theme(IContentProvider content) : this(content, new ThemeModel())
+        {
+        }
 
         /// <summary>
         /// Initializes a Theme object.
         /// </summary>
-        /// <param name="data"></param>
-        public Theme(ThemeData data)
+        /// <param name="model"></param>
+        public Theme(IContentProvider content, ThemeModel model)
         {
-            this.Data = data;
+            AgateLib.Quality.Require.ArgumentNotNull(content, nameof(content));
+
+            this.content = content;
+            this.Model = model;
         }
+
+        public event EventHandler PathsChanged;
 
         /// <summary>
         /// Gets or sets the data for the theme. This cannot be null.
         /// </summary>
-        public ThemeData Data
+        public ThemeModel Model
         {
-            get => data;
+            get => model;
             set
             {
-                data = value ?? throw new ArgumentNullException(nameof(Data));
+                model = value ?? throw new ArgumentNullException(nameof(Model));
                 InitializeSelectors();
             }
         }
 
         public IFontProvider Fonts { get; set; }
 
+        /// <summary>
+        /// The root folder from which to load assets for the theme.
+        /// </summary>
+        public string RootFolder
+        {
+            get => rootFolder;
+            set
+            {
+                if (rootFolder == value)
+                    return;
+
+                rootFolder = value;
+
+                PathsChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
         public void Apply(IRenderElement element, RenderElementStack stack)
         {
             element.Display.ElementStyles.Clear();
 
             element.Display.ElementStyles.AddRange(
-                data.SelectMany(x => x.MatchElementStyle(element, stack)));
+                model.Styles.SelectMany(x => x.MatchElementStyle(element, stack)));
         }
 
         private void InitializeSelectors()
         {
-            foreach (var item in data)
+            foreach (var item in model.Styles)
             {
                 item.MatchExecutor = new CssWidgetSelector(item.Selector);
             }
         }
 
+        public T LoadContent<T>(ThemePathTypes themePathTypes, string file)
+        {
+            string root
+                = (themePathTypes.HasFlag(ThemePathTypes.Cursors) ? model.Paths.Cursors : null)
+                ?? (themePathTypes.HasFlag(ThemePathTypes.Images) ? model.Paths.Images : null);
+
+            root = System.IO.Path.Combine(RootFolder, root);
+
+            return content.Load<T>(System.IO.Path.Combine(root, file));
+        }
     }
 }

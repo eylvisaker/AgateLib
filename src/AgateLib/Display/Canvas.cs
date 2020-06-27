@@ -345,6 +345,17 @@ namespace AgateLib.Display
         }
 
         /// <summary>
+        /// Draws a set of lines. The lineType parameter controls how
+        /// lines are connected.
+        /// </summary>
+        /// <param name="lineType">The type of lines to draw.</param>
+        /// <param name="color">The color of lines to draw.</param>
+        /// <param name="points">The points that are used to 
+        /// build the individual line segments.</param>
+        public static void DrawLines(this ICanvas canvas, LineType lineType, Color color, params Vector2[] points)
+            => canvas.DrawLines(lineType, color, points);
+
+        /// <summary>
         /// Draws a filled convex polygon.
         /// </summary>
         /// <param name="color"></param>

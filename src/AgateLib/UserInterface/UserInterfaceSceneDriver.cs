@@ -27,6 +27,7 @@ using AgateLib.UserInterface.InputMap;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
+using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -51,7 +52,8 @@ namespace AgateLib.UserInterface
             IFontProvider fonts,
             IAnimationFactory animationFactory,
             float visualScaling = 1,
-            IUserInterfaceAudio audio = null)
+            IUserInterfaceAudio audio = null,
+            ICursor cursor = null)
         {
             Require.That(screenArea.Width > 0, "Screen area width must be positive.");
             Require.That(screenArea.Height > 0, "Screen area width must be positive.");
@@ -59,13 +61,19 @@ namespace AgateLib.UserInterface
             this.renderContext = renderContext;
             this.ScreenArea = screenArea;
 
+            ITheme defaultTheme = styles.DefaultTheme();
+
             desktop = new Desktop(screenArea, renderContext, fonts, styles, animationFactory)
             {
                 VisualScaling = visualScaling,
-                Audio = audio
+                Audio = audio,
+                DefaultTheme = styles.DefaultThemeKey
             };
+
             desktop.FocusChanged += Desktop_FocusChanged;
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
+
+            Cursor = cursor ?? new ThemedCursor(defaultTheme);
 
             uiInput.UIAction += desktop.OnUserInterfaceAction;
 
@@ -92,7 +100,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets the object which handles rendering of the indicator.
         /// </summary>
-        public IPointer Indicator { get; set; }
+        public ICursor Cursor { get; set; }
 
         /// <summary>
         /// If true, the Exit event will be raised when the user
@@ -158,6 +166,9 @@ namespace AgateLib.UserInterface
 
             desktop.Update(renderContext);
 
+            Cursor.UserInterfaceRenderer = renderContext.UserInterfaceRenderer;
+            Cursor.Update(time);
+
             if (desktop.Workspaces.Count == 0)
             {
                 ExitPressed?.Invoke();
@@ -170,15 +181,22 @@ namespace AgateLib.UserInterface
 
             desktop.Draw(renderContext);
 
-            if (desktop.ActiveWorkspace?.Focus != null && Indicator != null)
+            if (Cursor != null)
             {
-                Indicator.UserInterfaceRenderer = renderContext.UserInterfaceRenderer;
+                Cursor.UserInterfaceRenderer = renderContext.UserInterfaceRenderer;
 
-                Indicator.DrawFocus(renderContext.Canvas,
-                                    desktop.ActiveWorkspace.Focus,
-                                    desktop.ActiveWorkspace,
-                                    ScreenAreaOf(desktop.ActiveWorkspace.Focus));
+                if (desktop.ActiveWorkspace?.Focus != null)
+                {
+                    Rectangle animatedScreenArea = ScreenAreaOf(desktop.ActiveWorkspace.Focus);
+
+                    Cursor.MoveToFocus(desktop.ActiveWorkspace,
+                                        desktop.ActiveWorkspace.Focus,
+                                        animatedScreenArea,
+                                        animatedScreenArea);
+                }
             }
+
+            Cursor?.Draw(time, renderContext.Canvas, desktop.VisualScaling);
         }
 
         private Rectangle ScreenAreaOf(IRenderElement focus)

@@ -167,7 +167,7 @@ namespace AgateLib.UserInterface
             }
             else
             {
-                bool childrenUpdated = false;
+                bool childrenUpdated = newNode.Children.Count != oldNode.Children.Count;
 
                 var children = new List<IRenderElement>();
 

@@ -72,7 +72,7 @@ namespace AgateLib.Demo.Physics
 
             b.AppendLine($"   X: {box.Position.X}");
             b.AppendLine($"   Y: {box.Position.Y}");
-            b.AppendLine($"   A: {box.Angle}\n");
+            b.AppendLine($"   A: {box.Rotation}\n");
 
             if (DebugInfoPage == 0)
             {

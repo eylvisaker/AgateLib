@@ -32,6 +32,8 @@ namespace AgateLib.UserInterface.Rendering
     /// </summary>
     public interface IUserInterfaceRenderer
     {
+        Rectangle ScreenArea { get; }
+
         /// <summary>
         /// Updates the animation state of the widget.
         /// </summary>
@@ -85,10 +87,14 @@ namespace AgateLib.UserInterface.Rendering
         /// Constructs a UserInterfaceRenderer object.
         /// </summary>
         /// <param name="styleRenderer"></param>
-		public UserInterfaceRenderer(IComponentStyleRenderer styleRenderer)
+        public UserInterfaceRenderer(IComponentStyleRenderer styleRenderer, Rectangle screenArea)
         {
             this.styleRenderer = styleRenderer ?? throw new ArgumentNullException(nameof(styleRenderer));
+
+            this.ScreenArea = screenArea;
         }
+
+        public Rectangle ScreenArea { get; set; }
 
         public void Dispose()
         {

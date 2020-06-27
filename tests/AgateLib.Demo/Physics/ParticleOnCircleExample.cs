@@ -46,7 +46,7 @@ namespace AgateLib.Demo.Physics
             system.AddParticles(new PhysicalParticle
             {
                 Position = particlePosition,
-                Angle = 1.5f,
+                Rotation = 1.5f,
                 AngularVelocity = 20f,
             });
 
@@ -71,7 +71,7 @@ namespace AgateLib.Demo.Physics
                 box.Position,
                 null,
                 Color.White,
-                -box.Angle,
+                -box.Rotation,
                 new Vector2(boxImage.Width / 2, boxImage.Height / 2),
                 boxScale,
                 SpriteEffects.None,

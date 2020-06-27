@@ -25,6 +25,7 @@ using AgateLib.Display.BitmapFont.Model;
 using AgateLib.Display.BitmapFont.TypeConverters;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using System.Linq;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -43,7 +44,7 @@ namespace AgateLib.Display
                 .Build();
         }
 
-        public static FontResource ReadFont(IContentProvider content, string name)
+        public static FontModel ReadFont(IContentProvider content, string name)
         {
             if (deserializer == null)
             {
@@ -57,14 +58,31 @@ namespace AgateLib.Display
                 filename += ".afont";
             }
 
-            using (var file = new StreamReader(content.Open(filename)))
+            try
             {
-                var result = deserializer.Deserialize<FontResource>(file);
-                result.ImagePath = Path.GetDirectoryName(filename);
+                using (var file = new StreamReader(content.Open(filename)))
+                {
+                    // Try reading old format first.
+                    FontVariations variations = deserializer.Deserialize<FontVariations>(file);
 
-                return result;
+                    return new FontModel
+                    {
+                        ImagePath = Path.GetDirectoryName(filename),
+                        Variations = variations.ToList(),
+                    };
+                }
+            }
+            catch
+            {
+                using (var file = new StreamReader(content.Open(filename)))
+                {
+                    // If we failed to read old format, try reading new format. 
+                    // This way, any read exceptions will be reported with expectations for the new format.
+                    return deserializer.Deserialize<FontModel>(file);
+                }
             }
         }
+
 
         /// <summary>
         /// Loads a font from the ContentManager.
@@ -75,11 +93,11 @@ namespace AgateLib.Display
         {
             var fontModel = ReadFont(content, name);
 
-            var path = fontModel.ImagePath;
+            var imagePath = Path.Combine(Path.GetDirectoryName(name), fontModel.ImagePath);
 
             FontCore result = new FontCore(name);
 
-            foreach (var fontSurfaceModel in fontModel)
+            foreach (var fontSurfaceModel in fontModel.Variations)
             {
                 var image = fontSurfaceModel.Image;
 
@@ -88,7 +106,7 @@ namespace AgateLib.Display
                     image = image.Substring(0, image.Length - 4);
                 }
 
-                var surface = content.Load<Texture2D>(Path.Combine(path, image));
+                var surface = content.Load<Texture2D>(Path.Combine(imagePath, image));
 
                 FontMetrics metrics = new FontMetrics();
                 foreach (var glyph in fontSurfaceModel.Metrics)

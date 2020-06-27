@@ -7,6 +7,7 @@ using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Moq;
 using System;
 
 namespace AgateLib.UserInterface
@@ -30,7 +31,7 @@ namespace AgateLib.UserInterface
             uiDriver = new UserInterfaceSceneDriver(
                 new Rectangle(Point.Zero, Size),
                 renderContext,
-                styleConfigurator ?? new ThemeStyler(new ThemeCollection { ["default"] = Theme.CreateDefaultTheme() }),
+                styleConfigurator ?? new ThemeStyler(new ThemeCollection { ["default"] = Theme.CreateDefaultTheme(Mock.Of<IContentProvider>()) }),
                 fontProvider ?? CommonMocks.FontProvider().Object,
                 animationFactory ?? new AnimationFactory());
 

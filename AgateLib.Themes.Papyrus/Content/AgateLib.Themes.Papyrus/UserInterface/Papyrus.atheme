@@ -1,0 +1,112 @@
+paths:
+  images: Papyrus
+  cursors: Papyrus
+cursors:
+  default:
+    image:
+      filename: RPG_GUI_v1
+      source-rect: 454 250 48 48
+      angle: 90
+      anchor: 24 17
+      scale: 0.5
+    particles:
+    - frame-order: random
+      frames: 
+      - source-rect: 197 17 4 4
+      - source-rect: 209 17 4 4
+      - source-rect: 209 29 4 4
+      - source-rect: 152 17 4 4
+      - source-rect: 152 29 4 4
+      - source-rect: 264 29 4 4
+      - source-rect: 242 17 4 4
+      - source-rect: 264 29 4 4
+      - source-rect: 276 29 4 4
+backgrounds:
+  window: 
+    image: paper background
+    repeat: both
+borders:
+  double:
+    size-layout: 11
+    image: 
+      filename: RPG_GUI_v1
+      outer-corners: 
+        top-left: 860 193 11 11
+        top-right: 987 193 11 11
+        bottom-left: 860 303 11 11
+        bottom-right: 987 303 11 11
+      inner-corners:
+        top-left: 860 193 11 11
+        top-right: 987 193 11 11
+        bottom-left: 860 303 11 11
+        bottom-right: 987 303 11 11
+      edges:
+        image-scale: stretch
+        top: 893 193 73 11
+        left: 860 227 11 56
+        right: 987 227 11 55
+        bottom: 893 303 73 11
+  single:
+    size-layout: 8
+    image: 
+      filename: RPG_GUI_v1
+      outer-corners: 
+        top-left: 867 400 8 8 
+        top-right: 991 400 8 8
+        bottom-left: 867 507 8 8
+        bottom-right: 991 507 8 8
+      inner-corners:
+        top-left: 867 400 8 8 
+        top-right: 991 400 8 8
+        bottom-left: 867 507 8 8
+        bottom-right: 991 507 8 8
+      edges:
+        image-scale: stretch
+        top: 899 400 74 8
+        left: 867 428 8 59
+        right: 991 428 8 59
+        bottom: 899 507 74 8
+      ends:
+        top: 941 360 8 13
+        left: 847 365 13 8
+        right: 887 365 13 8
+        bottom: 997 362 8 13
+styles:
+- selector: window
+  animation:
+    entry: slide
+    exit: slide
+  border:
+    id: double
+  background: 
+    id: window
+  font: KingthingsPetrock
+  padding: 10
+  margin: 20
+  
+- selector: button
+  border:
+    left: 8
+    right: 8
+    top: 8
+    bottom: 8
+    
+- selector: button:focus
+  background:
+    color: "#8800bbbb"
+  border:
+    id: single
+    
+- selector: button:disabled
+  font: gray
+  
+- selector: .small-text
+  font: 16
+
+- selector: "separator"
+  margin: 0 8 0 8
+
+- selector: "separator.raised"
+  border:
+    id: single
+  margin: 0 5 0 5

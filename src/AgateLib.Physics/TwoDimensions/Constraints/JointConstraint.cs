@@ -125,7 +125,7 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
         /// <returns></returns>
         private Vector2 PointRelativePosition(PhysicalParticle particle, Vector2 point)
         {
-            return point.Rotate(particle.Angle);
+            return point.Rotate(particle.Rotation);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace AgateLib.Physics.TwoDimensions.Constraints
         /// <returns></returns>
         private Vector2 PointDerivativeAngle(PhysicalParticle particle, Vector2 point)
         {
-            var result = point.RotationDerivative(particle.Angle);
+            var result = point.RotationDerivative(particle.Rotation);
             return result;
         }
 

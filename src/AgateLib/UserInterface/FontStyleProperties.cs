@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Display;
+using AgateLib.Quality;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using Microsoft.Xna.Framework;
 
@@ -78,6 +79,8 @@ namespace AgateLib.UserInterface
 
         public void CopyFrom(Font source)
         {
+            Require.ArgumentNotNull(source, nameof(source));
+
             Family = source.Name;
             Color = source.Color;
             Size = source.Size;

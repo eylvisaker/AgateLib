@@ -19,8 +19,8 @@ namespace AgateLib.Demo
         private GraphicsDeviceManager graphics;
 
         private IDemo activeDemo;
-        private DemoResources resources = new DemoResources();
-        private DemoMainMenu testSelector;
+        private DemoResources resources;
+        private DemoMainMenu demoSelector;
         private FrameCounter frameCounter = new FrameCounter();
 
         private SpriteBatch spriteBatch;
@@ -46,9 +46,9 @@ namespace AgateLib.Demo
 
             Content.RootDirectory = "Content";
 
-            testSelector = new DemoMainMenu();
+            demoSelector = new DemoMainMenu();
 
-            testSelector.StartDemo += (sender, e) =>
+            demoSelector.StartDemo += (sender, e) =>
             {
                 ActiveDemo = e.Demo;
             };
@@ -78,48 +78,14 @@ namespace AgateLib.Demo
         /// </summary>
         protected override void LoadContent()
         {
-            resources.GraphicsDevice = graphics.GraphicsDevice;
-            resources.ScreenArea = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
-            resources.Content = new ContentProvider(Content);
-            resources.ServiceProvider = Services;
-            resources.Fonts = LoadFonts();
-            resources.ContentLayoutEngine = new ContentLayoutEngine(resources.Fonts);
-            resources.LocalizedContent = new LocalizedContentLayoutEngine(
-                resources.ContentLayoutEngine, new FakeTextRepository());
+            resources = new DemoResources(graphics.GraphicsDevice, Content, Services);
 
-            resources.ThemeLoader = new ThemeLoader(resources.Fonts);
-
-            resources.Themes = new ThemeCollection
-            {
-                ["default"] = Theme.DefaultTheme,
-                ["FF"] = resources.ThemeLoader.LoadTheme(resources.Content, "UserInterface/FF")
-            };
-
-            resources.StyleConfigurator = new ThemeStyler(resources.Themes);
-
-            resources.UserInterfaceRenderer = new UserInterfaceRenderer(
-                new ComponentStyleRenderer(resources.GraphicsDevice,
-                    resources.Content));
-
-            resources.WhiteTexture = new TextureBuilder(graphics.GraphicsDevice).SolidColor(10, 10, Color.White);
-
-            ActiveDemo = testSelector;
+            ActiveDemo = demoSelector;
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
             font = new Font(resources.Fonts.Default, FontStyles.Bold);
             fontHeight = font.MeasureString("M").Height;
-        }
-
-        private FontProvider LoadFonts()
-        {
-            var fonts = new FontProvider
-            {
-                { "AgateSans", Font.Load(resources.Content, "AgateLib/AgateSans") },
-                { "AgateMono", Font.Load(resources.Content, "AgateLib/AgateMono") }
-            };
-
-            return fonts;
         }
 
         /// <summary>
@@ -157,12 +123,12 @@ namespace AgateLib.Demo
 
         private void ExitTest()
         {
-            if (ActiveDemo == testSelector)
+            if (ActiveDemo == demoSelector)
             {
                 Exit();
             }
 
-            ActiveDemo = testSelector;
+            ActiveDemo = demoSelector;
         }
 
         /// <summary>

@@ -11,17 +11,16 @@ namespace AgateLib.UserInterface.Styling.Themes
 {
     public class ThemeDeserializationUnitTests
     {
-        private Mock<IFontProvider> fonts;
+        private FontProvider fonts;
         private Mock<IContentProvider> content;
         private ThemeLoader loader;
 
         public ThemeDeserializationUnitTests()
         {
-            fonts = new Mock<IFontProvider>();
-
-            loader = new ThemeLoader(fonts.Object);
-
+            fonts = new FontProvider();
             content = new Mock<IContentProvider>();
+
+            loader = new ThemeLoader(fonts, content.Object);
         }
 
         [Fact]
@@ -35,7 +34,7 @@ namespace AgateLib.UserInterface.Styling.Themes
     image: imageFile2  
 ");
 
-            var item = theme.First();
+            var item = theme.Styles.First();
 
             item.Border.Image.File.Should().Be("imageFile");
             item.Border.Image.SourceRect.Should().BeNull();
@@ -55,7 +54,7 @@ namespace AgateLib.UserInterface.Styling.Themes
     image: imageFile2:rect(10 12 40 50)
 ");
 
-            var item = theme.First();
+            var item = theme.Styles.First();
 
             item.Border.Image.File.Should().Be("imageFile");
             item.Border.Image.SourceRect.Should().Be(new Rectangle(2, 4, 8, 6));
@@ -64,12 +63,12 @@ namespace AgateLib.UserInterface.Styling.Themes
             item.Background.Image.SourceRect.Should().Be(new Rectangle(10, 12, 40, 50));
         }
 
-        private ThemeData Parse(string yamlTheme)
+        private ThemeModel Parse(string yamlTheme)
         {
             content.Setup(x => x.Open("default.atheme"))
                 .Returns(new MemoryStream(Encoding.UTF8.GetBytes(yamlTheme)));
 
-            return loader.LoadThemeData(content.Object, "default");
+            return loader.LoadTheme("default").Model;
         }
     }
 }

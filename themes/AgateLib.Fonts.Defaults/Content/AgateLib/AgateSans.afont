@@ -1,5 +1,7 @@
+image-path: AgateSans
+variations:
 - name: AgateSans
-  image: AgateSans/AgateSans-8
+  image: AgateSans-8
   size: 8
   metrics:
     32:
@@ -574,7 +576,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-8-Bold
+  image: AgateSans-8-Bold
   size: 8
   style: Bold
   metrics:
@@ -1150,7 +1152,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-9
+  image: AgateSans-9
   size: 9
   metrics:
     32:
@@ -1725,7 +1727,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-9-Bold
+  image: AgateSans-9-Bold
   size: 9
   style: Bold
   metrics:
@@ -2301,7 +2303,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-10
+  image: AgateSans-10
   size: 10
   metrics:
     32:
@@ -2876,7 +2878,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-10-Bold
+  image: AgateSans-10-Bold
   size: 10
   style: Bold
   metrics:
@@ -3452,7 +3454,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-12
+  image: AgateSans-12
   size: 12
   metrics:
     32:
@@ -4027,7 +4029,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-12-Bold
+  image: AgateSans-12-Bold
   size: 12
   style: Bold
   metrics:
@@ -4603,7 +4605,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-14
+  image: AgateSans-14
   size: 14
   metrics:
     32:
@@ -5178,7 +5180,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-14-Bold
+  image: AgateSans-14-Bold
   size: 14
   style: Bold
   metrics:
@@ -5754,7 +5756,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-16
+  image: AgateSans-16
   size: 16
   metrics:
     32:
@@ -6329,7 +6331,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-16-Bold
+  image: AgateSans-16-Bold
   size: 16
   style: Bold
   metrics:
@@ -6905,7 +6907,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-18
+  image: AgateSans-18
   size: 18
   metrics:
     32:
@@ -7480,7 +7482,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-18-Bold
+  image: AgateSans-18-Bold
   size: 18
   style: Bold
   metrics:
@@ -8056,7 +8058,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-24
+  image: AgateSans-24
   size: 24
   metrics:
     32:
@@ -8631,7 +8633,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-24-Bold
+  image: AgateSans-24-Bold
   size: 24
   style: Bold
   metrics:
@@ -9207,7 +9209,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-30
+  image: AgateSans-30
   size: 30
   metrics:
     32:
@@ -9782,7 +9784,7 @@
       kerning-pairs: {}
   kerning: []
 - name: AgateSans
-  image: AgateSans/AgateSans-30-Bold
+  image: AgateSans-30-Bold
   size: 30
   style: Bold
   metrics:

@@ -22,6 +22,7 @@
 
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -46,7 +47,8 @@ namespace AgateLib.UserInterface.Rendering
         private IContentProvider imageProvider;
 
         public ComponentStyleRenderer(GraphicsDevice graphicsDevice,
-                                      IContentProvider imageProvider)
+                                      IContentProvider imageProvider,
+                                      ITheme theme)
         {
             this.imageProvider = imageProvider;
 
@@ -59,6 +61,8 @@ namespace AgateLib.UserInterface.Rendering
 
             blankSurface.SetData(data);
         }
+
+        public ITheme Theme { get; set; }
 
         public void Dispose()
         {
@@ -82,7 +86,7 @@ namespace AgateLib.UserInterface.Rendering
 
             if (string.IsNullOrEmpty(background.Image?.File) == false)
             {
-                Texture2D backgroundImage = imageProvider.Load<Texture2D>(background.Image.File);
+                Texture2D backgroundImage = Theme.LoadContent<Texture2D>(ThemePathTypes.Images, background.Image.File);
                 Point origin = backgroundRect.Location;
                 Point backgroundPosition = background.Position;
                 Rectangle srcRect = background.Image.SourceRect ?? new Rectangle(0, 0, backgroundImage.Width, backgroundImage.Height);

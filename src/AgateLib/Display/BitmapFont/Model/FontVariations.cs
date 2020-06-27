@@ -25,70 +25,68 @@ using System.Collections.Generic;
 
 namespace AgateLib.Display.BitmapFont.Model
 {
-    public class FontResource : IList<FontSurfaceResource>
+    public class FontVariations : IList<FontVariationData>
     {
-        private List<FontSurfaceResource> fontSurfaces = new List<FontSurfaceResource>();
+        private List<FontVariationData> fontSurfaces = new List<FontVariationData>();
 
-        public FontSurfaceResource this[int index]
+        public FontVariationData this[int index]
         {
-            get => ((IList<FontSurfaceResource>)fontSurfaces)[index];
-            set => ((IList<FontSurfaceResource>)fontSurfaces)[index] = value;
+            get => ((IList<FontVariationData>)fontSurfaces)[index];
+            set => ((IList<FontVariationData>)fontSurfaces)[index] = value;
         }
 
-        public int Count => ((IList<FontSurfaceResource>)fontSurfaces).Count;
+        public int Count => ((IList<FontVariationData>)fontSurfaces).Count;
 
         public bool IsReadOnly => false;
 
-        public string ImagePath { get; internal set; }
-
-        public void Add(FontSurfaceResource item)
+        public void Add(FontVariationData item)
         {
-            ((IList<FontSurfaceResource>)fontSurfaces).Add(item);
+            ((IList<FontVariationData>)fontSurfaces).Add(item);
         }
 
         public void Clear()
         {
-            ((IList<FontSurfaceResource>)fontSurfaces).Clear();
+            ((IList<FontVariationData>)fontSurfaces).Clear();
         }
 
-        public bool Contains(FontSurfaceResource item)
+        public bool Contains(FontVariationData item)
         {
-            return ((IList<FontSurfaceResource>)fontSurfaces).Contains(item);
+            return ((IList<FontVariationData>)fontSurfaces).Contains(item);
         }
 
-        public void CopyTo(FontSurfaceResource[] array, int arrayIndex)
+        public void CopyTo(FontVariationData[] array, int arrayIndex)
         {
-            ((IList<FontSurfaceResource>)fontSurfaces).CopyTo(array, arrayIndex);
+            ((IList<FontVariationData>)fontSurfaces).CopyTo(array, arrayIndex);
         }
 
-        public IEnumerator<FontSurfaceResource> GetEnumerator()
+        public IEnumerator<FontVariationData> GetEnumerator()
         {
-            return ((IList<FontSurfaceResource>)fontSurfaces).GetEnumerator();
+            return ((IList<FontVariationData>)fontSurfaces).GetEnumerator();
         }
 
-        public int IndexOf(FontSurfaceResource item)
+        public int IndexOf(FontVariationData item)
         {
-            return ((IList<FontSurfaceResource>)fontSurfaces).IndexOf(item);
+            return ((IList<FontVariationData>)fontSurfaces).IndexOf(item);
         }
 
-        public void Insert(int index, FontSurfaceResource item)
+        public void Insert(int index, FontVariationData item)
         {
-            ((IList<FontSurfaceResource>)fontSurfaces).Insert(index, item);
+            ((IList<FontVariationData>)fontSurfaces).Insert(index, item);
         }
 
-        public bool Remove(FontSurfaceResource item)
+        public bool Remove(FontVariationData item)
         {
-            return ((IList<FontSurfaceResource>)fontSurfaces).Remove(item);
+            return ((IList<FontVariationData>)fontSurfaces).Remove(item);
         }
 
         public void RemoveAt(int index)
         {
-            ((IList<FontSurfaceResource>)fontSurfaces).RemoveAt(index);
+            ((IList<FontVariationData>)fontSurfaces).RemoveAt(index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IList<FontSurfaceResource>)fontSurfaces).GetEnumerator();
+            return ((IList<FontVariationData>)fontSurfaces).GetEnumerator();
         }
 
         internal void ApplyPath(string path)

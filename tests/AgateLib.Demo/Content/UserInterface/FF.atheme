@@ -1,3 +1,4 @@
+styles:
 - selector: menu, window
   animation:
     entry: fade

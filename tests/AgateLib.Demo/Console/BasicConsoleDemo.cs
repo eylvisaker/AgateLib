@@ -45,7 +45,7 @@ namespace AgateLib.Demo.Console
                              player.Position,
                              null,
                              Color.White,
-                             player.Angle,
+                             player.Rotation,
                              new Vector2(playerImage.Width, playerImage.Height) * 0.5f,
                              1,
                              SpriteEffects.None,

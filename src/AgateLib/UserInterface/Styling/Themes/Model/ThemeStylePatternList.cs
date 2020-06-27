@@ -20,25 +20,11 @@
 //    SOFTWARE.
 //
 
-using AgateLib.Display;
-using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
-namespace AgateLib.UserInterface.Rendering
+namespace AgateLib.UserInterface.Styling.Themes.Model
 {
-    public interface IPointer
+    public class ThemeStylePatternList : List<ThemeStyle>
     {
-        IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
-
-        /// <summary>
-        /// Draws the focus indicator.
-        /// </summary>
-        /// <param name="canvas">Canvas to use for drawing.</param>
-        /// <param name="focusElement">The element that has focus.</param>
-        /// <param name="activeWorkspace">The workspace which is currently active.</param>
-        /// <param name="focusContentRect">The screen coordinates of the content area of the focus element.</param>
-        void DrawFocus(ICanvas canvas,
-                       IRenderElement focusElement,
-                       Workspace activeWorkspace,
-                       Rectangle focusContentRect);
     }
 }

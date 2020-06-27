@@ -20,10 +20,13 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Quality;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using AgateLib.UserInterface.Styling.Themes.Model.TypeConverters;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -34,9 +37,9 @@ namespace AgateLib.UserInterface.Styling.Themes
     /// </summary>
     public interface IThemeLoader
     {
-        ThemeData LoadThemeData(IContentProvider content, params string[] filenames);
+        ThemeModel LoadThemeData(string filename);
 
-        Theme LoadTheme(IContentProvider content, params string[] filenames);
+        Theme LoadTheme(string mainThemeFilename, params string[] addiationalStyleFilenames);
     }
 
     /// <summary>
@@ -51,9 +54,10 @@ namespace AgateLib.UserInterface.Styling.Themes
         public const string Extension = ".atheme";
 
         private readonly IDeserializer deserializer;
-        private readonly IFontProvider fonts;
+        private readonly FontProvider fonts;
+        private readonly IContentProvider content;
 
-        public ThemeLoader(IFontProvider fonts)
+        public ThemeLoader(FontProvider fonts, IContentProvider content)
         {
             deserializer = new DeserializerBuilder()
                 .WithNamingConvention(new HyphenatedNamingConvention())
@@ -61,16 +65,53 @@ namespace AgateLib.UserInterface.Styling.Themes
                 .WithTypeConverter(new ImageSourceYamlConverter())
                 .Build();
             this.fonts = fonts;
+            this.content = content;
         }
 
-        public ThemeData LoadThemeData(IContentProvider content, params string[] filenames)
+        public ThemeModel LoadThemeData(string filename)
         {
-            if (filenames.Length == 0)
+            Require.ArgumentNotNull(filename, nameof(filename));
+
+            ThemeModel result;
+
+            string filecontent = null;
+
+            if (!filename.EndsWith(".atheme"))
             {
-                throw new ArgumentException("Must pass at least one filename to load.");
+                filecontent = filecontent ?? content.ReadAllTextOrNull(filename + Extension);
             }
 
-            ThemeData result = new ThemeData();
+            filecontent = filecontent ?? content.ReadAllTextOrNull(filename);
+
+            if (filecontent == null)
+            {
+                throw new FileNotFoundException(filename);
+            }
+
+            result = deserializer.Deserialize<ThemeModel>(filecontent);
+
+            // TODO: Load imports
+
+            //NormalizePaths(items, filename);
+
+            //foreach (var item in items)
+            //{
+            //    result.Add(item);
+            //}
+
+            return result;
+        }
+
+        [Obsolete("Use LoadAdditionalStyles instead.")]
+        public ThemeStylePatternList Old_LoadThemeData(params string[] filenames)
+            => LoadAdditionalStyles(filenames);
+
+        public ThemeStylePatternList LoadAdditionalStyles(params string[] filenames)
+        {
+            if (filenames.Length == 0)
+                return new ThemeStylePatternList();
+
+            ThemeStylePatternList result = new ThemeStylePatternList();
 
             foreach (string filename in filenames)
             {
@@ -88,7 +129,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                     throw new FileNotFoundException(filename);
                 }
 
-                var items = deserializer.Deserialize<ThemeData>(filecontent);
+                var items = deserializer.Deserialize<ThemeStylePatternList>(filecontent);
 
                 NormalizePaths(items, filename);
 
@@ -101,7 +142,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             return result;
         }
 
-        private void NormalizePaths(ThemeData result, string filename)
+        private void NormalizePaths(ThemeStylePatternList result, string filename)
         {
             string path = Path.GetDirectoryName(filename + Extension);
 
@@ -152,19 +193,44 @@ namespace AgateLib.UserInterface.Styling.Themes
             return a + "/" + b;
         }
 
-        public Theme LoadTheme(IContentProvider content, params string[] filenames)
+        public Theme LoadTheme(string mainThemeFile, params string[] additionalStyles)
         {
             try
             {
-                return new Theme
+                Theme result = new Theme(content)
                 {
-                    Data = LoadThemeData(content, filenames),
+                    Model = new ThemeModel
+                    {
+                        Styles = LoadAdditionalStyles(mainThemeFile)
+                    },
                     Fonts = fonts
                 };
+
+                result.Model.Styles.AddRange(LoadAdditionalStyles(additionalStyles));
+
+                return result;
+            }
+            catch
+            {
+                // Ignore exceptions when trying to load old format data.
+            }
+
+            try
+            {
+                Theme result = new Theme(content, LoadThemeData(mainThemeFile))
+                {
+                    Fonts = fonts,
+                    RootFolder = System.IO.Path.GetDirectoryName(mainThemeFile)
+                };
+
+                result.Model.Styles.AddRange(LoadAdditionalStyles(additionalStyles));
+
+                return result;
             }
             catch (Exception e)
             {
-                throw new UserInterfaceLoadException($"Loading '{string.Join(",", filenames)}' failed with {e.GetType().Name}",
+                throw new UserInterfaceLoadException(
+                    $"Loading {mainThemeFile} + '{string.Join(",", additionalStyles)}' failed with {e.GetType().Name}",
                     e);
             }
         }

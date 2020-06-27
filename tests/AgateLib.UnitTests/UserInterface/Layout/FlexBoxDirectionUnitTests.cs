@@ -1,6 +1,7 @@
 ﻿using AgateLib.UserInterface.Styling.Themes;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
+using Moq;
 using System.Linq;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace AgateLib.UserInterface.Widgets
         {
             var themes = new ThemeCollection
             {
-                ["default"] = new Theme()
+                ["default"] = new Theme(Mock.Of<IContentProvider>())
             };
 
             styleConfigurator = new ThemeStyler(themes);
