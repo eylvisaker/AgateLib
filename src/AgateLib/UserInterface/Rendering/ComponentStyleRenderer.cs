@@ -26,6 +26,7 @@ using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AgateLib.UserInterface.Rendering
 {
@@ -44,13 +45,11 @@ namespace AgateLib.UserInterface.Rendering
     public class ComponentStyleRenderer : IComponentStyleRenderer
     {
         private Texture2D blankSurface;
-        private IContentProvider imageProvider;
 
         public ComponentStyleRenderer(GraphicsDevice graphicsDevice,
-                                      IContentProvider imageProvider,
                                       ITheme theme)
         {
-            this.imageProvider = imageProvider;
+            Theme = theme;
 
             blankSurface = new Texture2D(graphicsDevice, 10, 10);
             Color[] data = new Color[10 * 10];
@@ -76,6 +75,18 @@ namespace AgateLib.UserInterface.Rendering
                 return;
             }
 
+            if (background.Id != null)
+            {
+                DrawBackgroundFromModel(canvas, Theme.Model.Backgrounds[background.Id], backgroundRect);
+            }
+            else
+            {
+                DrawBackgroundFromModel(canvas, background, backgroundRect);
+            }
+        }
+
+        public void DrawBackgroundFromModel(ICanvas canvas, BackgroundModel background, Rectangle backgroundRect)
+        {
             if (background.Color.A > 0)
             {
                 canvas.Draw(
@@ -143,7 +154,7 @@ namespace AgateLib.UserInterface.Rendering
 
         private void DrawImageFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect, Rectangle? maybeSrcRect)
         {
-            var image = imageProvider.Load<Texture2D>(border.Image.File);
+            var image = Theme.LoadContent<Texture2D>(ThemePathTypes.Images, border.Image.File);
 
             var slice = border.ImageSlice;
             Rectangle outerRect = maybeSrcRect ?? new Rectangle(0, 0, image.Width, image.Height);

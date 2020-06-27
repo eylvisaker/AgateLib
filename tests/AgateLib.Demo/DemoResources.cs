@@ -67,7 +67,7 @@ namespace AgateLib.Demo
             StyleConfigurator = new ThemeStyler(Themes);
 
             UserInterfaceRenderer = new UserInterfaceRenderer(
-                new ComponentStyleRenderer(graphics, Content, Themes.DefaultTheme),
+                new ComponentStyleRenderer(graphics, Themes.DefaultTheme),
                 ScreenArea);
 
             WhiteTexture = new TextureBuilder(graphics).SolidColor(10, 10, Color.White);
