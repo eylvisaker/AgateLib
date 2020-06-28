@@ -40,13 +40,14 @@ namespace AgateLib.UserInterface.Rendering
         private readonly ITheme theme;
         private readonly Dictionary<string, CursorTheme> cursorModels;
 
-        Vector2 targetPosition;
+        private Vector2 startPosition, targetPosition;
         private Rectangle targetFocusRect;
 
         private CursorTheme activeModel;
         private readonly CursorTheme defaultModel;
         private PhysicalParticle physics = new PhysicalParticle();
         private IRenderElement lastFocus;
+        private StepAnimator movementAnimator = new StepAnimator();
 
         public ThemedCursor(ITheme theme, string defaultCursor = null)
         {
@@ -131,6 +132,8 @@ namespace AgateLib.UserInterface.Rendering
             if (focusElement == lastFocus)
                 return;
 
+            startPosition = Position;
+
             if (texture == null)
             {
                 targetPosition = focusContentRect.CenterPointAsVector();
@@ -143,10 +146,19 @@ namespace AgateLib.UserInterface.Rendering
 
             targetFocusRect = focusAnimatedContentRect;
 
-            Velocity = DirectionToTarget * activeModel.Speed;
+            movementAnimator.InputValue = 0;
+            movementAnimator.Rate = activeModel.Speed * focusElement.Display.VisualScaling
+                                                      / DisplacementToTarget.Length();
+
+            movementAnimator.EasingFunction = Ease.Interpolate(Ease.SmoothStart2, Ease.SmoothStop4);
+
+            Velocity = Vector2.Zero;
         }
 
         private bool AtTarget => (Position - targetPosition).LengthSquared() < 1;
+
+        private Vector2 DisplacementToTarget
+            => targetPosition - Position;
 
         private Vector2 DirectionToTarget
         {
@@ -160,77 +172,12 @@ namespace AgateLib.UserInterface.Rendering
 
         public void Update(GameTime gameTime)
         {
-            Vector2 disp = Position - targetPosition;
-            Vector2 oldDir = DirectionToTarget;
-            float dist = disp.LengthSquared();
-            float speed = physics.Velocity.Length();
+            movementAnimator.Update(gameTime);
 
-            if (AtTarget)
-            {
-                physics.Velocity = Vector2.Zero;
-                physics.Force = Vector2.Zero;
-            }
-            else 
-            {
-                if (speed > 0)
-                {
-                    physics.Velocity = speed * DirectionToTarget;
-                }
+            const int bounce = 10;
 
-                if (speed < 1)
-                {
-                    physics.Velocity = activeModel.Speed * DirectionToTarget;
-                }
-
-                const float approachDist = 80;
-
-                if (dist < approachDist * approachDist && speed > 0.01)
-                {
-                    // here we use the fomula for air resistance
-                    float area = (activeModel.Image?.SourceRect.Area()) ?? (50 * 50 * 3.14f);
-
-                    float frictionCoefficient = physics.Mass / area;
-
-                    physics.Force = -physics.Velocity;
-                    physics.Force.Normalize();
-                    physics.Force *= physics.Velocity.LengthSquared() * frictionCoefficient;
-                }
-                else
-                {
-                    physics.Force = Vector2.Zero;
-                }
-
-            }
-
-            System.Diagnostics.Debug.Print($"BEFORE: D: {dist} T: {targetPosition} X: {Position}, V: {Velocity}, F: {physics.Force}");
-
-            physics.Integrate(gameTime.ElapsedInSeconds());
-
-            speed = physics.Velocity.Length();
-
-            if (speed > activeModel.Speed + 1)
-            {
-                physics.Velocity.Normalize();
-                physics.Velocity *= activeModel.Speed;
-            }
-
-            if (Vector2.Dot(DirectionToTarget, oldDir) < 0)
-            {
-                physics.Position = targetPosition;
-                physics.Velocity = Vector2.Zero;
-                physics.Force = Vector2.Zero;
-            }
-
-            System.Diagnostics.Debug.Print($" AFTER: D: {dist} T: {targetPosition} X: {Position}, V: {Velocity}, F: {physics.Force}");
-
-            if (float.IsNaN(physics.Position.X) ||
-                float.IsNaN(physics.Position.Y) ||
-                !UserInterfaceRenderer.ScreenArea.Contains(physics.Position))
-            {
-                physics = new PhysicalParticle();
-                physics.Position = new Vector2(100, 100);
-                physics.Velocity = new Vector2();
-            }
+            physics.Position = movementAnimator.T * (targetPosition - startPosition) + startPosition;
+            physics.Position.Y -= movementAnimator.S * bounce;
         }
 
         protected virtual void DrawPointer(ICanvas canvas,
