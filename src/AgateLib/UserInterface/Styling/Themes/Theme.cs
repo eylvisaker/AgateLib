@@ -250,8 +250,10 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public void Apply(IRenderElement element, RenderElementStack stack)
         {
+            element.Display.Theme = this;
+            
             element.Display.ElementStyles.Clear();
-
+            
             element.Display.ElementStyles.AddRange(
                 model.Styles.SelectMany(x => x.MatchElementStyle(element, stack)));
         }

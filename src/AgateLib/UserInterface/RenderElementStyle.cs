@@ -22,6 +22,7 @@
 
 using AgateLib.Display;
 using AgateLib.Quality;
+using AgateLib.UserInterface.Styling.Themes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +91,8 @@ namespace AgateLib.UserInterface
 
         public event Action FontChanged;
 
+        public ITheme Theme => display.Theme;
+
         public void SetProps(RenderElementProps props)
         {
             this.props = props;
@@ -139,6 +142,20 @@ namespace AgateLib.UserInterface
             Size = Aggregate(p => p.Size);
             Overflow = Aggregate(p => p.Overflow) ?? default(Overflow);
 
+            if (Border?.Id != null)
+            {
+                Border.Top = Border.Top ?? new BorderSideStyle();
+                Border.Left = Border.Left ?? new BorderSideStyle();
+                Border.Right = Border.Right ?? new BorderSideStyle();
+                Border.Bottom = Border.Bottom ?? new BorderSideStyle();
+
+                var themeBorder = Theme.Model.Borders[Border.Id];
+
+                Border.Top.Width = themeBorder.SizeLayout.Top;
+                Border.Left.Width = themeBorder.SizeLayout.Left;
+                Border.Right.Width = themeBorder.SizeLayout.Right;
+                Border.Bottom.Width = themeBorder.SizeLayout.Bottom;
+            }
             if (fontChanged)
             {
                 FontChanged?.Invoke();

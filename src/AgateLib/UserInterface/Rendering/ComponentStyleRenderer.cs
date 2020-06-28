@@ -22,6 +22,7 @@
 
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -45,6 +46,7 @@ namespace AgateLib.UserInterface.Rendering
     public class ComponentStyleRenderer : IComponentStyleRenderer
     {
         private Texture2D blankSurface;
+        private BorderModel styleModel = new BorderModel { Image = new BorderImageModel() };
 
         public ComponentStyleRenderer(GraphicsDevice graphicsDevice,
                                       ITheme theme)
@@ -138,10 +140,82 @@ namespace AgateLib.UserInterface.Rendering
         public void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect)
         {
             if (border == null)
-            {
                 return;
-            }
 
+            if (border.Id != null)
+            {
+                DrawFrameFromModel(canvas, Theme.Model.Borders[border.Id], borderRect);
+            }
+            else
+            {
+                DrawFrameFromStyle(canvas, border, borderRect);
+            }
+        }
+
+        private void DrawFrameFromModel(ICanvas canvas, BorderModel border, Rectangle borderRect)
+        {
+            Texture2D frameTexture = Theme.LoadContent<Texture2D>(ThemePathTypes.Images, border.Image.Filename);
+            Rectangle destOuterRect = borderRect;
+            Rectangle destInnerRect = destOuterRect;
+
+            destInnerRect.X += border.SizeLayout.Left;
+            destInnerRect.Y += border.SizeLayout.Top;
+            destInnerRect.Width -= border.SizeLayout.Width;
+            destInnerRect.Height -= border.SizeLayout.Height;
+
+            Rectangle src, dest;
+
+            // top left
+            src = border.Image.OuterCorners.TopLeft;
+            dest = RectangleX.FromLTRB(destOuterRect.Left, destOuterRect.Top, destInnerRect.Left, destInnerRect.Top);
+
+            canvas.Draw(frameTexture, dest, src, Color.White);
+
+            // top
+            src = border.Image.Edges.Top;
+            dest = RectangleX.FromLTRB(destInnerRect.Left, destOuterRect.Top, destInnerRect.Right, destInnerRect.Top);
+
+            ScaleSurface(canvas, frameTexture, src, dest, border.Image.Edges.ImageScale);
+
+            // top right
+            src = border.Image.OuterCorners.TopRight;
+            dest = RectangleX.FromLTRB(destInnerRect.Right, destOuterRect.Top, destOuterRect.Right, destInnerRect.Top);
+
+            canvas.Draw(frameTexture, dest, src, Color.White);
+
+            // left
+            src = border.Image.Edges.Left;
+            dest = RectangleX.FromLTRB(destOuterRect.Left, destInnerRect.Top, destInnerRect.Left, destInnerRect.Bottom);
+
+            ScaleSurface(canvas, frameTexture, src, dest, border.Image.Edges.ImageScale);
+
+            // right
+            src = border.Image.Edges.Right;
+            dest = RectangleX.FromLTRB(destInnerRect.Right, destInnerRect.Top, destOuterRect.Right, destInnerRect.Bottom);
+
+            ScaleSurface(canvas, frameTexture, src, dest, border.Image.Edges.ImageScale);
+
+            // bottom left
+            src = border.Image.OuterCorners.BottomLeft;
+            dest = RectangleX.FromLTRB(destOuterRect.Left, destInnerRect.Bottom, destInnerRect.Left, destOuterRect.Bottom);
+
+            canvas.Draw(frameTexture, dest, src, Color.White);
+
+            // bottom
+            src = border.Image.Edges.Bottom;
+            dest = RectangleX.FromLTRB(destInnerRect.Left, destInnerRect.Bottom, destInnerRect.Right, destOuterRect.Bottom);
+
+            ScaleSurface(canvas, frameTexture, src, dest, border.Image.Edges.ImageScale);
+
+            // bottom right
+            src = border.Image.OuterCorners.BottomRight;
+            dest = RectangleX.FromLTRB(destInnerRect.Right, destInnerRect.Bottom, destOuterRect.Right, destOuterRect.Bottom);
+
+            canvas.Draw(frameTexture, dest, src, Color.White);
+        }
+
+        public void DrawFrameFromStyle(ICanvas canvas, BorderStyle border, Rectangle borderRect)
+        {
             if (string.IsNullOrEmpty(border.Image?.File))
             {
                 DrawOrdinaryFrame(canvas, border, borderRect);

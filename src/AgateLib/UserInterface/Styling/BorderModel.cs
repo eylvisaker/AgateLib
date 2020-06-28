@@ -16,9 +16,23 @@ namespace AgateLib.UserInterface.Styling
     {
         public string Filename { get; set; }
 
+        /// <summary>
+        /// Source rectangles for outer corners.
+        /// </summary>
         public BorderImageCorners OuterCorners { get; set; }
+        /// <summary>
+        /// Source rectangles for inner corners.
+        /// </summary>
         public BorderImageCorners InnerCorners { get; set; }
+
+        /// <summary>
+        /// Source rectangles for straight edges.
+        /// </summary>
         public BorderEdges Edges { get; set; }
+
+        /// <summary>
+        /// Source rectangles for ends.
+        /// </summary>
         public BorderEdges Ends { get; set; }
     }
 

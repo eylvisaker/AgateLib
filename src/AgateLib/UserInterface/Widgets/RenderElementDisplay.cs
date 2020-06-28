@@ -22,6 +22,7 @@
 
 using AgateLib.Display;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
@@ -222,6 +223,8 @@ namespace AgateLib.UserInterface
         public RenderElementDisplay Parent { get; internal set; }
 
         public float VisualScaling => System.VisualScaling;
+
+        public ITheme Theme { get; set; }
 
         public override string ToString() => $"Margin: {MarginRect}, Content: {ContentRect}";
 
