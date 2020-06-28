@@ -6,6 +6,7 @@
 [subrepo]
 	remote = git@github.com:eylvisaker/AgateLib.Themes.Papyrus.git
 	branch = master
-	commit = 
+	commit = a7b7fbe0ef3b050b7041707a2384b68732381286
 	method = merge
 	cmdver = 0.4.1
+	parent = 3f4d6e0c1cb691e4fc6ea3de4ab8babeeb91c71b
