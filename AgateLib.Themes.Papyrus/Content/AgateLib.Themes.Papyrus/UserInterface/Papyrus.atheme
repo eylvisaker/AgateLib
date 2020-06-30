@@ -7,7 +7,7 @@ cursors:
       filename: RPG_GUI_v1
       source-rect: 454 250 48 48
       angle: 90
-      anchor: 24 17
+      anchor: 24 10
       scale: 0.5
     particles:
     - frame-order: random
@@ -42,10 +42,10 @@ borders:
         bottom-right: 987 303 11 11
       edges:
         image-scale: stretch
-        top: 893 193 73 11
-        left: 860 227 11 56
-        right: 987 227 11 55
-        bottom: 893 303 73 11
+        top: 895 193 69 11
+        left: 860 229 11 51
+        right: 987 229 11 51
+        bottom: 895 303 69 11
   single:
     size-layout: 8
     image: 
@@ -62,10 +62,10 @@ borders:
         bottom-right: 991 507 8 8
       edges:
         image-scale: stretch
-        top: 899 400 74 8
-        left: 867 428 8 59
-        right: 991 428 8 59
-        bottom: 899 507 74 8
+        top: 901 400 70 8
+        left: 867 430 8 55
+        right: 991 430 8 55
+        bottom: 901 507 70 8
       ends:
         top: 941 360 8 13
         left: 847 365 13 8
@@ -80,7 +80,7 @@ styles:
     id: double
   background: 
     id: window
-  font: KingthingsPetrock
+  font: KingthingsPetrock 10 black
   padding: 10
   margin: 20
   

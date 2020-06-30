@@ -223,37 +223,37 @@ namespace AgateLib.UserInterface
         /// and only create a new font object if they are different.
         /// Returns true if the font changed.
         /// </summary>
-        /// <param name="parentFont"></param>
-        private bool SetFont(Font parentFont)
+        /// <param name="newFont"></param>
+        private bool SetFont(Font newFont)
         {
-            Require.ArgumentNotNull(parentFont, nameof(parentFont));
+            Require.ArgumentNotNull(newFont, nameof(newFont));
             bool result = false;
 
-            if (font?.Core != parentFont.Core
-             || font?.Name != parentFont.Name)
+            if (font?.Core != newFont.Core
+             || font?.Name != newFont.Name)
             {
-                font = new Font(display.ParentFont);
+                font = new Font(newFont);
                 result = true;
             }
 
-            if (font.Color != parentFont.Color)
-            {
-                result = true;
-            }
-
-            if (font.Style != parentFont.Style)
+            if (font.Color != newFont.Color)
             {
                 result = true;
             }
 
-            if (font.Size != parentFont.Size)
+            if (font.Style != newFont.Style)
             {
                 result = true;
             }
 
-            font.Color = parentFont.Color;
-            font.Style = parentFont.Style;
-            font.Size = parentFont.Size;
+            if (font.Size != newFont.Size)
+            {
+                result = true;
+            }
+
+            font.Color = newFont.Color;
+            font.Style = newFont.Style;
+            font.Size = newFont.Size;
 
             return result;
         }

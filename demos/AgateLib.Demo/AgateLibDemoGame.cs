@@ -14,7 +14,7 @@ namespace AgateLib.Demo
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class AgateLibDemo : Game
+    public class AgateLibDemoGame : Game
     {
         private GraphicsDeviceManager graphics;
 
@@ -28,7 +28,7 @@ namespace AgateLib.Demo
         private int fontHeight;
         private bool escaped;
 
-        public AgateLibDemo()
+        public AgateLibDemoGame()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreparingDeviceSettings += (sender, e) =>
@@ -41,8 +41,6 @@ namespace AgateLib.Demo
             graphics.PreferredBackBufferHeight = 720;
 
             graphics.SynchronizeWithVerticalRetrace = false;
-            IsFixedTimeStep = true;
-            TargetElapsedTime = TimeSpan.FromMilliseconds(1000.0f / 60);
 
             Content.RootDirectory = "Content";
 

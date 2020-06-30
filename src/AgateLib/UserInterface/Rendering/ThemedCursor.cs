@@ -48,6 +48,7 @@ namespace AgateLib.UserInterface.Rendering
         private PhysicalParticle physics = new PhysicalParticle();
         private IRenderElement lastFocus;
         private StepAnimator movementAnimator = new StepAnimator();
+        private StepAnimator hopAnimator = new StepAnimator();
 
         public ThemedCursor(ITheme theme, string defaultCursor = null)
         {
@@ -63,6 +64,9 @@ namespace AgateLib.UserInterface.Rendering
                 defaultModel = cursorModels[defaultCursor];
             else
                 defaultModel = cursorModels.FirstOrDefault().Value;
+
+            movementAnimator.EasingFunction = Ease.Interpolate(Ease.SmoothStart2, Ease.SmoothStop4);
+            hopAnimator.EasingFunction = Ease.SmoothStop4;
 
             ActivateModel(defaultModel);
         }
@@ -150,7 +154,8 @@ namespace AgateLib.UserInterface.Rendering
             movementAnimator.Rate = activeModel.Speed * focusElement.Display.VisualScaling
                                                       / DisplacementToTarget.Length();
 
-            movementAnimator.EasingFunction = Ease.Interpolate(Ease.SmoothStart2, Ease.SmoothStop4);
+            hopAnimator.InputValue = 0;
+            hopAnimator.Rate = movementAnimator.Rate;
 
             Velocity = Vector2.Zero;
         }
@@ -173,11 +178,12 @@ namespace AgateLib.UserInterface.Rendering
         public void Update(GameTime gameTime)
         {
             movementAnimator.Update(gameTime);
+            hopAnimator.Update(gameTime);
 
-            const int bounce = 10;
+            const int bounce = 4;
 
             physics.Position = movementAnimator.T * (targetPosition - startPosition) + startPosition;
-            physics.Position.Y -= movementAnimator.S * bounce;
+            physics.Position.Y -= hopAnimator.S * bounce;
         }
 
         protected virtual void DrawPointer(ICanvas canvas,

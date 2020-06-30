@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1375-develop" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1375-develop" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AgateLib.Physics\AgateLib.Physics.csproj" />
+    <ProjectReference Include="..\..\src\AgateLib\AgateLib.csproj" />
+    <ProjectReference Include="..\AgateLib.Demo\AgateLib.Demo.csproj" />
+  </ItemGroup>
+  <Import Project="..\AgateLib.Demo.Content\AgateLib.Demo.Content.projitems" Label="Shared" />
+  <Import Project="..\..\themes\AgateLib.Fonts.Defaults\AgateLib.Fonts.Defaults.projitems" Label="Shared" />
+  <Import Project="..\..\AgateLib.Themes.Papyrus\AgateLib.Themes.Papyrus.projitems" Label="Shared" />
+</Project>

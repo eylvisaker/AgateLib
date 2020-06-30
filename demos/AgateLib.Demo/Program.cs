@@ -13,7 +13,7 @@ namespace AgateLib.Demo
         [STAThread]
         private static void Main()
         {
-            using (var game = new AgateLibDemo())
+            using (var game = new AgateLibDemoGame())
             {
                 game.Run();
             }

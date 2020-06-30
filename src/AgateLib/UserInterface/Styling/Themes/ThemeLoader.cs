@@ -195,9 +195,12 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public Theme LoadTheme(string mainThemeFile, params string[] additionalStyles)
         {
+            // Try to load the old format themes first.
+            // If there is any exception, ignore it and try to load the new format.
+            // This way we only report exceptions for the new format.
             try
             {
-                Theme result = new Theme(content)
+                Theme oldThemeType = new Theme(content)
                 {
                     Model = new ThemeModel
                     {
@@ -206,23 +209,36 @@ namespace AgateLib.UserInterface.Styling.Themes
                     Fonts = fonts
                 };
 
-                result.Model.Styles.AddRange(LoadAdditionalStyles(additionalStyles));
+                oldThemeType.Model.Styles.AddRange(LoadAdditionalStyles(additionalStyles));
 
-                return result;
+                return oldThemeType;
             }
             catch
             {
                 // Ignore exceptions when trying to load old format data.
             }
 
+            ThemeModel themeData;
+
             try
             {
-                Theme result = new Theme(content, LoadThemeData(mainThemeFile))
-                {
-                    Fonts = fonts,
-                    RootFolder = System.IO.Path.GetDirectoryName(mainThemeFile)
-                };
+                themeData = LoadThemeData(mainThemeFile);
+            }
+            catch (Exception e)
+            {
+                throw new UserInterfaceLoadException(
+                    $"Loading {mainThemeFile}.atheme failed with {e.GetType().Name}",
+                    e);
+            }
 
+            Theme result = new Theme(content, themeData)
+            {
+                Fonts = fonts,
+                RootFolder = System.IO.Path.GetDirectoryName(mainThemeFile)
+            };
+
+            try
+            {
                 result.Model.Styles.AddRange(LoadAdditionalStyles(additionalStyles));
 
                 return result;
@@ -230,7 +246,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             catch (Exception e)
             {
                 throw new UserInterfaceLoadException(
-                    $"Loading {mainThemeFile} + '{string.Join(",", additionalStyles)}' failed with {e.GetType().Name}",
+                    $"Loading additional styles for {mainThemeFile} failed with {e.GetType().Name}",
                     e);
             }
         }
