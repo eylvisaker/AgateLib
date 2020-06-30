@@ -49,44 +49,44 @@ namespace AgateLib.UserInterface.Layout
         }
 
         /// <summary>
-        /// Constrains the content size of a render element.
+        /// Calculates and returns the constrained content size of a render element.
         /// </summary>
         /// <param name="item">The item who's size is to be constrained.</param>
-        /// <param name="size">The desired content size of the item.</param>
+        /// <param name="contentSize">The desired content size of the item.</param>
         /// <returns></returns>
-        public static Size ConstrainSize(IRenderElement item, Size size)
+        public static Size ConstrainSize(IRenderElement item, Size contentSize)
         {
             ISizeConstraints constraints = item.Style.Size;
 
             if (constraints != null)
             {
-                if (size.Width > constraints.MaxWidth)
+                if (contentSize.Width > constraints.MaxWidth)
                 {
-                    size.Width = constraints.MaxWidth.Value;
+                    contentSize.Width = constraints.MaxWidth.Value;
                 }
 
-                if (size.Height > constraints.MaxHeight)
+                if (contentSize.Height > constraints.MaxHeight)
                 {
-                    size.Height = constraints.MaxHeight.Value;
+                    contentSize.Height = constraints.MaxHeight.Value;
                 }
 
-                if (size.Width < constraints.MinWidth)
+                if (contentSize.Width < constraints.MinWidth)
                 {
-                    size.Width = constraints.MinWidth;
+                    contentSize.Width = constraints.MinWidth;
                 }
 
-                if (size.Height < constraints.MinHeight)
+                if (contentSize.Height < constraints.MinHeight)
                 {
-                    size.Height = constraints.MinHeight;
+                    contentSize.Height = constraints.MinHeight;
                 }
             }
 
-            var minSize = item.CalcMinContentSize(size.Width, size.Height);
+            var minSize = item.CalcMinContentSize(contentSize.Width, contentSize.Height);
 
-            size.Width = Math.Max(size.Width, minSize.Width);
-            size.Height = Math.Max(size.Height, minSize.Height);
+            contentSize.Width = Math.Max(contentSize.Width, minSize.Width);
+            contentSize.Height = Math.Max(contentSize.Height, minSize.Height);
 
-            return size;
+            return contentSize;
         }
 
         /// <summary>
@@ -146,5 +146,18 @@ namespace AgateLib.UserInterface.Layout
         /// <returns></returns>
         public static int Scale(int value, float amount)
             => (int)(value * amount);
+
+        /// <summary>
+        /// Computes the margin size the element would have with the given content size.
+        /// </summary>
+        /// <param name="contentSize"></param>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static Size ContentToMargin(Size contentSize, IRenderElement element)
+        {
+            return new Size(
+                element.Display.Region.MarginToContentOffset.Width + contentSize.Width,
+                element.Display.Region.MarginToContentOffset.Height + contentSize.Height);
+        }
     }
 }

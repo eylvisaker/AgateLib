@@ -1,4 +1,5 @@
 ﻿using AgateLib.Mathematics.Geometry;
+using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -16,27 +17,30 @@ namespace AgateLib.UserInterface
 
             public void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
             {
-                Size tabAreaIdealSize = CalcIdealTabAreaSize(layoutContext, size);
+                Size tabAreaSize = CalcIdealTabAreaSize(layoutContext, size);
 
                 Point loc = new Point();
 
                 foreach (IRenderElement tab in Tabs)
                 {
-                    Size tabSize = tab.CalcIdealContentSize(layoutContext, size);
+                    Size idealContentSize = tab.CalcIdealContentSize(layoutContext, size);
+                    Size marginSize = LayoutMath.ContentToMargin(idealContentSize, tab);
 
-                    tab.Display.Region.SetContentSize(new Size(tabAreaIdealSize.Width, tabSize.Height));
+                    marginSize.Width = tabAreaSize.Width;
+
+                    tab.Display.Region.SetMarginSize(marginSize);
 
                     tab.Display.Region.SetMarginPosition(loc);
 
                     loc.Y += tab.Display.MarginRect.Height;
                 }
 
-                Size pageSize = new Size(size.Width - tabAreaIdealSize.Width, size.Height);
+                Size pageSize = new Size(size.Width - tabAreaSize.Width, size.Height);
 
                 foreach (IRenderElement page in Pages)
                 {
                     page.Display.MarginRect = new Rectangle(
-                        tabAreaIdealSize.Width,
+                        tabAreaSize.Width,
                         0,
                         pageSize.Width,
                         pageSize.Height);
