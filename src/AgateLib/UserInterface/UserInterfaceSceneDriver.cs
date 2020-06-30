@@ -56,7 +56,7 @@ namespace AgateLib.UserInterface
             ICursor cursor = null)
         {
             Require.That(screenArea.Width > 0, "Screen area width must be positive.");
-            Require.That(screenArea.Height > 0, "Screen area width must be positive.");
+            Require.That(screenArea.Height > 0, "Screen area height must be positive.");
 
             this.renderContext = renderContext;
             this.ScreenArea = screenArea;
