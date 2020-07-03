@@ -2,7 +2,7 @@
 
 namespace AgateLib.Demo.UserInterface.DoubleRadioMenus
 {
-    public class DoubleRadioMenusTest : UITest
+    public class DoubleRadioMenusTest : UIDemo
     {
         public override string Name => "Double Radio Buttons";
 

@@ -41,23 +41,22 @@ namespace AgateLib.UserInterface
     public class UserInterfaceBufferedScene : BufferedScene, IUserInterfaceScene
     {
         private readonly UserInterfaceRenderContext renderContext;
-        private readonly UserInterfaceSceneDriver driver;
+        private readonly UserInterfaceDriver driver;
         private readonly List<Action> actionsToInvoke = new List<Action>();
 
         private TaskCompletionSource<bool> exitTask;
 
-        public UserInterfaceBufferedScene(Rectangle screenArea,
+        public UserInterfaceBufferedScene(UserInterfaceConfig config,
                                           GraphicsDevice graphicsDevice,
                                           IUserInterfaceRenderer userInterfaceRenderer,
                                           IContentLayoutEngine contentLayoutEngine,
                                           IFontProvider fontProvider,
                                           IStyleConfigurator styleConfigurator,
-                                          float scaling = 1,
                                           IAnimationFactory animationFactory = null,
                                           IUserInterfaceAudio audio = null,
                                           IDoubleBuffer doubleBuffer = null,
                                           RenderTarget2D renderTarget = null)
-            : base(graphicsDevice, screenArea.Size)
+            : base(graphicsDevice, config.ScreenSize)
         {
             DrawBelow = true;
             UpdateBelow = false;
@@ -75,16 +74,12 @@ namespace AgateLib.UserInterface
                                                            null,
                                                            doubleBuffer);
 
-            driver = new UserInterfaceSceneDriver(screenArea,
-                                                  renderContext,
-                                                  styleConfigurator,
-                                                  fontProvider,
-                                                  Animations,
-                                                  scaling,
-                                                  audio)
-            {
-                ScreenArea = screenArea
-            };
+            driver = new UserInterfaceDriver(config,
+                                             renderContext,
+                                             styleConfigurator,
+                                             fontProvider,
+                                             Animations,
+                                             audio);
 
             driver.Desktop.Empty += () =>
             {
@@ -185,15 +180,6 @@ namespace AgateLib.UserInterface
         {
             get => driver.Cursor;
             set => driver.Cursor = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the default theme for widgets in the scene.
-        /// </summary>
-        public string Theme
-        {
-            get => Desktop.DefaultTheme;
-            set => Desktop.DefaultTheme = value;
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib
 {
@@ -93,8 +94,9 @@ namespace AgateLib
         {
             canvas = canvas ?? new FakeCanvas();
 
+            var config = new UserInterfaceConfig { ScreenArea = canvas.Coordinates };
             var styleRenderer = new Mock<IComponentStyleRenderer>();
-            var uiRenderer = new UserInterfaceRenderer(styleRenderer.Object, canvas.Coordinates);
+            var uiRenderer = new UserInterfaceRenderer(styleRenderer.Object, config);
             var result = new Mock<IUserInterfaceRenderContext>();
 
             result.SetupGet(x => x.UserInterfaceRenderer)

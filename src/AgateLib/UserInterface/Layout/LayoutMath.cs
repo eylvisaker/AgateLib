@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Mathematics.Geometry;
+using Microsoft.Xna.Framework;
 using System;
 
 namespace AgateLib.UserInterface.Layout
@@ -158,6 +159,17 @@ namespace AgateLib.UserInterface.Layout
             return new Size(
                 element.Display.Region.MarginToContentOffset.Width + contentSize.Width,
                 element.Display.Region.MarginToContentOffset.Height + contentSize.Height);
+        }
+        
+        /// <summary>
+        /// Computes the content rect the element would have at the given margin rect.
+        /// </summary>
+        /// <param name="area"></param>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static Rectangle MarginToContent(Rectangle area, IRenderElement element)
+        {
+            return element.Display.Region.MarginToContentOffset.Contract(area);
         }
     }
 }

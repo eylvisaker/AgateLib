@@ -289,11 +289,11 @@ namespace AgateLib.UserInterface
 
         public override bool CanHaveFocus => Children.Any(x => x.CanHaveFocus);
 
-        public override void OnFocus()
+        public override bool OnFocus()
         {
             SetGlobalFocus();
 
-            base.OnFocus();
+            return base.OnFocus();
         }
 
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs args)

@@ -164,16 +164,13 @@ namespace AgateLib.UserInterface
 
         private bool ParentFontChanged()
         {
-            if (display.ParentFont == null)
-            {
-                parentCompareFont.CopyFrom(display.System.DefaultFont);
-            }
-            else
-            {
-                parentCompareFont.CopyFrom(display.ParentFont);
-            }
+            parentCompareFont.CopyFrom(display.ParentFont);
 
-            return !parentCompareFont.Equals(parentFontProperties);
+            bool result = !parentCompareFont.Equals(parentFontProperties);
+
+            Swap(ref parentFontProperties, ref parentCompareFont);
+
+            return result;
         }
 
         private bool AggregateFont()

@@ -134,9 +134,9 @@ namespace AgateLib.UserInterface
 
         public override bool CanHaveFocus => Props.Pages.Where(x => x.Props.Visible).Any();
 
-        public override void OnFocus()
+        public override bool OnFocus()
         {
-            Display.System.SetFocus(layout.Tabs[State.ActivePageIndex]);
+            return Display.System.SetFocus(layout.Tabs[State.ActivePageIndex]);
         }
 
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action)

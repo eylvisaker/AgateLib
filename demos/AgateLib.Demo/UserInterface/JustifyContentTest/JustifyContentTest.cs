@@ -2,7 +2,7 @@
 
 namespace AgateLib.Demo.UserInterface.JustifyContentTest
 {
-    public class JustifyContentTester : UITest
+    public class JustifyContentTester : UIDemo
     {
         public override string Name => "Justify Content";
 

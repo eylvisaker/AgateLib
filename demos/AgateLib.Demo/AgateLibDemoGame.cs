@@ -28,8 +28,10 @@ namespace AgateLib.Demo
         private int fontHeight;
         private bool escaped;
 
-        public AgateLibDemoGame()
+        public AgateLibDemoGame(float desktopScaling = 1)
         {
+            this.DesktopScaling = desktopScaling;
+
             graphics = new GraphicsDeviceManager(this);
             graphics.PreparingDeviceSettings += (sender, e) =>
             {
@@ -37,10 +39,10 @@ namespace AgateLib.Demo
                 e.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
             };
 
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = (int)(1280 * desktopScaling);
+            graphics.PreferredBackBufferHeight = (int)(720 * desktopScaling);
 
-            graphics.SynchronizeWithVerticalRetrace = false;
+            Window.AllowUserResizing = true;
 
             Content.RootDirectory = "Content";
 
@@ -52,6 +54,8 @@ namespace AgateLib.Demo
             };
         }
 
+        public float DesktopScaling { get; set; }
+
         private IDemo ActiveDemo
         {
             get => activeDemo;
@@ -60,15 +64,15 @@ namespace AgateLib.Demo
                 activeDemo = value;
                 activeDemo.OnExit += ExitTest;
 
-                activeDemo.ScreenArea = ScreenArea;
                 activeDemo.Initialize(resources);
             }
         }
 
-        private Rectangle ScreenArea => new Rectangle(0, 0,
+        private Rectangle DemoScreenArea => new Rectangle(0, 0,
                     GraphicsDevice.PresentationParameters.BackBufferWidth,
                     GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight);
 
+        //private Rectangle ScreenArea => GraphicsDevice.Adapter.CurrentDisplayMode.TitleSafeArea;
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -76,7 +80,8 @@ namespace AgateLib.Demo
         /// </summary>
         protected override void LoadContent()
         {
-            resources = new DemoResources(graphics.GraphicsDevice, Content, Services);
+            resources = new DemoResources(graphics.GraphicsDevice, Content, DemoScreenArea);
+            resources.UserInterfaceFactory.Config.SystemScaling = DesktopScaling;
 
             ActiveDemo = demoSelector;
 
@@ -114,6 +119,7 @@ namespace AgateLib.Demo
                 escaped = false;
             }
 
+            ActiveDemo.ScreenArea = DemoScreenArea;
             ActiveDemo.Update(gameTime);
 
             base.Update(gameTime);
@@ -151,17 +157,17 @@ namespace AgateLib.Demo
             spriteBatch.Begin();
 
             spriteBatch.Draw(resources.WhiteTexture,
-                new Rectangle(0, GraphicsDevice.PresentationParameters.BackBufferHeight - fontHeight, GraphicsDevice.PresentationParameters.BackBufferWidth, fontHeight), Color.Black);
+                new Rectangle(0, DemoScreenArea.Height, DemoScreenArea.Width, fontHeight), Color.Black);
 
-            font.TextAlignment = OriginAlignment.BottomLeft;
+            font.TextAlignment = OriginAlignment.TopLeft;
             font.DrawText(spriteBatch,
-                          new Vector2(0, GraphicsDevice.PresentationParameters.BackBufferHeight),
+                          new Vector2(0, DemoScreenArea.Height),
                           ActiveDemo.Name);
 
-            font.TextAlignment = OriginAlignment.BottomRight;
+            font.TextAlignment = OriginAlignment.TopRight;
             font.DrawText(spriteBatch,
-                          new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth,
-                                      GraphicsDevice.PresentationParameters.BackBufferHeight),
+                          new Vector2(DemoScreenArea.Width,
+                                      DemoScreenArea.Height),
                           $"{frameCounter.AverageFramesPerSecond:0.000} FPS");
 
             spriteBatch.End();

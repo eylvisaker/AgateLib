@@ -86,7 +86,6 @@
   <ItemGroup>
     <Folder Include="Content\" />
   </ItemGroup>
-  <Import Project="..\..\themes\AgateLib.Fonts.Defaults\AgateLib.Fonts.Defaults.projitems" Label="Shared" />
   <Import Project="..\..\AgateLib.Themes.Papyrus\AgateLib.Themes.Papyrus.projitems" Label="Shared" />
   <Import Project="..\AgateLib.Demo.Content\AgateLib.Demo.Content.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

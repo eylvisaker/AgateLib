@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace AgateLib.Demo.UserInterface.FF6
 {
-    public class FF6MenuDemo : UITest
+    public class FF6MenuDemo : UIDemo
     {
         private FF6Menu menu;
 
@@ -14,8 +14,6 @@ namespace AgateLib.Demo.UserInterface.FF6
 
         protected override IRenderable CreateUIRoot()
         {
-            Scene.Theme = "FF";
-
             menu = new FF6Menu(InitializeTestData());
 
             menu.ExitMenu += () => Scene.Exit();

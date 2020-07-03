@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AgateLib.Demo.UserInterface.RadioButtons
 {
-    public class RadioButtonTest : UITest
+    public class RadioButtonTest : UIDemo
     {
         public override string Name => "Radio Buttons";
 

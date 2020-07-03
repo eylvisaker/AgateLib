@@ -7,14 +7,16 @@ using Moq;
 using System.Linq;
 using Xunit;
 
-namespace AgateLib.Demo.UserInterface
+namespace AgateLib.UserInterface
 {
     public class DesktopUnitTests
     {
+        UserInterfaceConfig config = new UserInterfaceConfig();
+
         [Fact]
         public void Desktop_InputIsSentToActiveWorkspaceOnly()
         {
-            Desktop desktop = new Desktop(new Rectangle(0, 0, 1280, 720),
+            Desktop desktop = new Desktop(config,
                                           CommonMocks.RenderContext().Object,
                                           CommonMocks.FontProvider().Object,
                                           CommonMocks.StyleConfigurator().Object,
@@ -52,7 +54,7 @@ namespace AgateLib.Demo.UserInterface
         [Fact]
         public void Desktop_MultipleWorkspaces()
         {
-            Desktop desktop = new Desktop(new Rectangle(0, 0, 1280, 720),
+            Desktop desktop = new Desktop(config,
                                           CommonMocks.RenderContext().Object,
                                           CommonMocks.FontProvider().Object,
                                           CommonMocks.StyleConfigurator().Object,
@@ -103,7 +105,7 @@ namespace AgateLib.Demo.UserInterface
         {
             var renderContext = new FakeRenderContext();
 
-            Desktop desktop = new Desktop(new Rectangle(0, 0, 1280, 720),
+            Desktop desktop = new Desktop(config,
                                           CommonMocks.RenderContext().Object,
                                           CommonMocks.FontProvider().Object,
                                           CommonMocks.StyleConfigurator().Object,

@@ -12,6 +12,8 @@ namespace AgateLib.Demo.Selector.Widgets
 
         public override IRenderable Render()
         {
+            List<float> scaleValues = new List<float> { 0.7f, 0.8f, 0.9f, 1, 1.25f, 1.5f, 1.75f, 2.0f, 2.2f, 2.4f };
+
             return new Grid(new GridProps
             {
                 Columns = 2,
@@ -19,16 +21,20 @@ namespace AgateLib.Demo.Selector.Widgets
                     new Label("Theme"), new ValueSpinner<string>(new ValueSpinnerProps<string>
                     {
                         Values = Props.AvailableThemes.Select(x => new SpinnerValue<string>(x)).ToList(),
-                        OnValueChanged = e => e.System.DefaultTheme = e.Arg1,
+                        OnValueChanged = e => e.System.Theme = e.System.Config.DefaultTheme = e.Arg1,
                     }),
                     new Label("Scaling"), new ValueSpinner<float>(new ValueSpinnerProps<float>
                     {
-                        Values = { 0.6f, 0.8f, 0.9f, 1, 1.25f, 1.5f, 2.0f },
-                        OnValueChanged = e => e.System.VisualScaling = e.Arg1,
-                        InitialValueIndex = 3,
+                        Values = scaleValues.Select(x => new SpinnerValue<float>(x)).ToList(),
+                        OnValueChanged = e => {
+                            e.System.Config.UserScaling = e.Arg1;
+                            e.System.VisualScaling = e.System.Config.VisualScaling;
+                        },
+
+                        InitialValueIndex = scaleValues.IndexOf(AppContext.Config.UserScaling),
                     })
                 },
-            });;
+            }); ;
         }
     }
 

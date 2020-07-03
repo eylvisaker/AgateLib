@@ -74,6 +74,7 @@ namespace AgateLib.Demo.Selector
 
         public void Update(GameTime gameTime)
         {
+            scene.ScreenArea = ScreenArea;
             sceneStack.Update(gameTime);
         }
 

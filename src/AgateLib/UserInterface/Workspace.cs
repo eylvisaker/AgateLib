@@ -25,6 +25,7 @@ using AgateLib.Display;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
+using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using NLog;
 using System;
@@ -40,6 +41,8 @@ namespace AgateLib.UserInterface
         private class WorkspaceDisplaySystem : IDisplaySystem
         {
             private readonly Workspace workspace;
+            private string theme;
+            private float visualScaling = 1;
 
             public WorkspaceDisplaySystem(Workspace workspace)
             {
@@ -48,21 +51,23 @@ namespace AgateLib.UserInterface
 
             public Desktop Desktop { get; set; }
 
-            public string DefaultTheme
-            {
-                get => Desktop.DefaultTheme;
-                set => Desktop.DefaultTheme = value;
-            }
+            public UserInterfaceConfig Config => Desktop.Config;
 
-            public float VisualScaling
-            {
-                get => Desktop.VisualScaling;
-                set => Desktop.VisualScaling = value;
-            }
-
-            public Font DefaultFont => Desktop.DefaultFont;
+            public Font DefaultFont => workspace.DefaultFont;
 
             public IFontProvider Fonts { get; set; }
+
+            public string Theme
+            {
+                get => theme;
+                set
+                {
+                    theme = value;
+                    workspace.RenderPending = true;
+                }
+            }
+
+            public bool RenderPending { get; internal set; }
 
             public IRenderElement Focus
             {
@@ -73,7 +78,19 @@ namespace AgateLib.UserInterface
 
             public IUserInterfaceAudio Audio { get; set; }
 
-            public Rectangle ScreenArea => Desktop.ScreenArea;
+            public Rectangle ScreenArea => workspace.Config.ScreenArea;
+
+            public float VisualScaling
+            {
+                get => visualScaling;
+                set
+                {
+                    visualScaling = value;
+
+                    workspace.RenderPending = true;
+                    workspace.OnVisualScalingChanged();
+                }
+            }
 
             public bool SetFocus(IRenderElement newFocus)
             {
@@ -124,8 +141,6 @@ namespace AgateLib.UserInterface
         private VisualTree visualTree;
         private WorkspaceDisplaySystem displaySystem;
 
-        private string defaultTheme;
-
         /// <summary>
         /// Initializes a workspace object.
         /// </summary>
@@ -142,37 +157,23 @@ namespace AgateLib.UserInterface
         public event Action BeforeTransitionOut;
         public event Action FocusChanged;
 
-        public float VisualScaling
-        {
-            get => visualTree.VisualScaling;
-            set
-            {
-                visualTree.VisualScaling = value;
-
-                if (Desktop != null)
-                {
-                    Render();
-                }
-            }
-        }
-
         public IRenderElement Focus => visualTree.Focus;
 
-        public bool SetFocus(IRenderElement newFocus)
+        public bool SetFocus(IRenderElement newFocus, bool playSoundIfInvalid = true)
         {
             if (visualTree.Focus == newFocus)
+                return false;
+
+            bool success = visualTree.SetFocus(newFocus);
+
+            if (!success)
             {
+                Audio?.PlaySound(newFocus, UserInterfaceSound.Invalid);
                 return false;
             }
-
-            bool result = visualTree.SetFocus(newFocus);
-
-            if (result)
-            {
-                FocusChanged?.Invoke();
-            }
-
-            return result;
+            
+            FocusChanged?.Invoke();
+            return true;
         }
 
         public IStyleConfigurator Style
@@ -199,37 +200,16 @@ namespace AgateLib.UserInterface
             set => displaySystem.Audio = value;
         }
 
-        /// <summary>
-        /// The area of the screen area where the UI controls will be layed out.
-        /// </summary>
-        public Rectangle ScreenArea { get; internal set; }
-
         public string Name { get; private set; }
 
+        public Font DefaultFont { get; private set; }
 
         /// <summary>
         /// Gets whether the workspace is the active workspace.
         /// </summary>
         public bool IsActive { get; internal set; }
 
-        public string DefaultTheme
-        {
-            get => defaultTheme;
-            set
-            {
-                defaultTheme = value;
-
-                if (visualTree != null)
-                {
-                    visualTree.DefaultTheme = value;
-
-                    if (Desktop != null)
-                    {
-                        Render();
-                    }
-                }
-            }
-        }
+        internal bool RenderPending { get; set; }
 
         internal Desktop Desktop
         {
@@ -271,7 +251,12 @@ namespace AgateLib.UserInterface
 
         public void Update(IUserInterfaceRenderContext renderContext)
         {
-            visualTree.Update(renderContext, ScreenArea);
+            if (RenderPending)
+            {
+                Render();
+            }
+
+            visualTree.Update(renderContext);
 
             EnsureFocus();
         }
@@ -284,11 +269,13 @@ namespace AgateLib.UserInterface
             }
 
             visualTree.Render(app);
+
+            RenderPending = false;
         }
 
         public void Draw(IUserInterfaceRenderContext renderContext)
         {
-            visualTree.Draw(renderContext, ScreenArea);
+            visualTree.Draw(renderContext);
         }
 
         /// <summary>
@@ -336,6 +323,17 @@ namespace AgateLib.UserInterface
             internal set => visualTree.AppContext = value;
         }
 
+        public UserInterfaceConfig Config { get; internal set; }
+
+        /// <summary>
+        /// Gets or sets the theme for this workspace.
+        /// </summary>
+        public string Theme
+        {
+            get => displaySystem.Theme;
+            set => displaySystem.Theme = value;
+        }
+
         public void TransitionOut()
         {
             BeforeTransitionOut?.Invoke();
@@ -346,8 +344,12 @@ namespace AgateLib.UserInterface
                                     visualTree.TreeRoot);
         }
 
-        public void TransitionIn()
+        public void TransitionIn(IUserInterfaceLayoutContext layoutContext)
         {
+            GenerateDefaultFont();
+            Render();
+            VisualTree.DoLayout(layoutContext);
+
             displaySystem.Audio?.PlaySound(this, UserInterfaceSound.WorkspaceAdded);
 
             BeginTopLevelTransition(AnimationState.TransitionIn,
@@ -358,10 +360,9 @@ namespace AgateLib.UserInterface
         {
             displaySystem = new WorkspaceDisplaySystem(this);
 
-            visualTree = new VisualTree(animationFactory)
+            visualTree = new VisualTree(Config, animationFactory)
             {
                 DisplaySystem = displaySystem,
-                DefaultTheme = defaultTheme,
             };
         }
 
@@ -419,6 +420,18 @@ namespace AgateLib.UserInterface
                     return true;
                 });
             }
+        }
+
+        private void OnVisualScalingChanged()
+        {
+            GenerateDefaultFont();
+        }
+
+        private void GenerateDefaultFont()
+        {
+            DefaultFont = Fonts.GetOrDefault(Config.DefaultFont);
+
+            DefaultFont.Size = (int)(DefaultFont.Size * Config.VisualScaling);
         }
 
         [Conditional("__DEBUG_WORKSPACE")]

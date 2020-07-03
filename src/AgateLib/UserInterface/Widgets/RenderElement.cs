@@ -155,9 +155,9 @@ namespace AgateLib.UserInterface
         void OnBlur();
 
         /// <summary>
-        /// Called when the element gains focus.
+        /// Called when the element gains focus. If this method returns false, then the element has refused focus.
         /// </summary>
-        void OnFocus();
+        bool OnFocus();
 
         /// <summary>
         /// Called when the widget receives an input event.
@@ -491,13 +491,19 @@ namespace AgateLib.UserInterface
         /// Called when the element gains focus.
         /// </summary>
         /// <remarks>
-        /// If overriding this, be sure to call base.OnFocus() so HasFocus and the Props.OnFocus event get called correctly.
+        /// When overriding OnFocus the element may choose to reject focus by returning false.
+        /// If the element accepts focus, then you must make sure to call either base.OnFocus() 
+        /// so HasFocus and the Props.OnFocus event get called correctly, or call Display.System.SetFocus
+        /// to shift the focus to a child control.
         /// </remarks>
-        public virtual void OnFocus()
+        public virtual bool OnFocus()
         {
             HasFocus = true;
             Props.OnFocus?.Invoke(EventData);
+
+            return true;
         }
+
         #endregion
         #region --- Layout ---
 

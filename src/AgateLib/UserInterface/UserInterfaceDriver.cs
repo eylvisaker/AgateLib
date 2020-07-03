@@ -35,7 +35,7 @@ using System.Collections.Generic;
 
 namespace AgateLib.UserInterface
 {
-    public class UserInterfaceSceneDriver
+    public class UserInterfaceDriver
     {
         private IUserInterfaceRenderContext renderContext;
         private Desktop desktop;
@@ -45,40 +45,34 @@ namespace AgateLib.UserInterface
         private bool setIgnoreInput;
         private List<UserInterfaceAction> ignoreInputsFor = new List<UserInterfaceAction>();
 
-        public UserInterfaceSceneDriver(
-            Rectangle screenArea,
-            IUserInterfaceRenderContext renderContext,
-            IStyleConfigurator styles,
-            IFontProvider fonts,
-            IAnimationFactory animationFactory,
-            float visualScaling = 1,
-            IUserInterfaceAudio audio = null,
-            ICursor cursor = null)
+        public UserInterfaceDriver(UserInterfaceConfig config,
+                                   IUserInterfaceRenderContext renderContext,
+                                   IStyleConfigurator styles,
+                                   IFontProvider fonts,
+                                   IAnimationFactory animationFactory,
+                                   IUserInterfaceAudio audio = null,
+                                   ICursor cursor = null)
         {
-            Require.That(screenArea.Width > 0, "Screen area width must be positive.");
-            Require.That(screenArea.Height > 0, "Screen area height must be positive.");
-
+            Config = config;
             this.renderContext = renderContext;
-            this.ScreenArea = screenArea;
 
-            ITheme defaultTheme = styles.DefaultTheme();
+            Require.That(config.ScreenArea.Width > 0, "Screen area width must be positive.");
+            Require.That(config.ScreenArea.Height > 0, "Screen area height must be positive.");
 
-            desktop = new Desktop(screenArea, renderContext, fonts, styles, animationFactory)
+            desktop = new Desktop(config, renderContext, fonts, styles, animationFactory)
             {
-                VisualScaling = visualScaling,
                 Audio = audio,
-                DefaultTheme = styles.DefaultThemeKey
             };
 
             desktop.FocusChanged += Desktop_FocusChanged;
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;
 
-            Cursor = cursor ?? new ThemedCursor(defaultTheme);
-
             uiInput.UIAction += desktop.OnUserInterfaceAction;
 
             uiInput.ButtonDown += desktop.OnButtonDown;
             uiInput.ButtonUp += desktop.OnButtonUp;
+
+            Cursor = cursor ?? new ThemedCursor(styles);
         }
 
         public event Action ExitPressed;
@@ -96,6 +90,7 @@ namespace AgateLib.UserInterface
             get => uiInput.InputMap;
             set => uiInput.InputMap = value;
         }
+        public UserInterfaceConfig Config { get; }
 
         /// <summary>
         /// Gets the object which handles rendering of the indicator.
@@ -111,7 +106,11 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets or sets the screen area the user interface will draw to.
         /// </summary>
-        public Rectangle ScreenArea { get; set; }
+        public Rectangle ScreenArea
+        {
+            get => Config.ScreenArea;
+            set => Config.ScreenArea = value;
+        }
 
         public void Initialize()
         {
@@ -161,8 +160,6 @@ namespace AgateLib.UserInterface
             uiInput.TriggerEvents(time);
 
             renderContext.InitializeUpdate(time);
-
-            desktop.ScreenArea = ScreenArea;
 
             desktop.Update(renderContext);
 

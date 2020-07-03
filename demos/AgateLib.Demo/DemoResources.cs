@@ -27,12 +27,14 @@ namespace AgateLib.Demo
 
         IStyleConfigurator StyleConfigurator { get; }
 
+        UserInterfaceFactory UserInterfaceFactory { get; }
+
         /// <summary>
         /// A purely white texture.
         /// </summary>
         Texture2D WhiteTexture { get; }
 
-        UserInterfaceRenderer UserInterfaceRenderer { get; set; }
+        UserInterfaceRenderer UserInterfaceRenderer { get; }
 
         Rectangle ScreenArea { get; }
 
@@ -41,86 +43,60 @@ namespace AgateLib.Demo
 
     public class DemoResources : IDemoResources
     {
-        public DemoResources(GraphicsDevice graphics, ContentManager content, GameServiceContainer Services)
+        public DemoResources(GraphicsDevice graphics, ContentManager content, Rectangle screenArea)
         {
             GraphicsDevice = graphics;
-            ScreenArea = new Rectangle(0, 0, graphics.Viewport.Width, graphics.Viewport.Height);
             Content = new ContentProvider(content);
-            ServiceProvider = Services;
-            Fonts = LoadFonts();
-            ContentLayoutEngine = new ContentLayoutEngine(Fonts);
-            LocalizedContent = new LocalizedContentLayoutEngine(
+
+            UserInterfaceFactory = new UserInterfaceFactory(graphics, Content);
+
+            UserInterfaceFactory.LocalizedContent = new LocalizedContentLayoutEngine(
                 ContentLayoutEngine, new FakeTextRepository());
 
-            ThemeLoader = new ThemeLoader(Fonts, Content);
-
-            Themes = new ThemeCollection
-            {
-                ["default"] = Theme.CreateDefaultTheme(Content),
-                ["FF"] = ThemeLoader.LoadTheme("UserInterface/FF")
-            };
+            ScreenArea = screenArea;
 
             PapyrusTheme.Register(Themes, Fonts, Content, ThemeLoader);
 
-            Themes.DefaultThemeKey = "Papyrus";
-
-            StyleConfigurator = new ThemeStyler(Themes);
-
-            UserInterfaceRenderer = new UserInterfaceRenderer(
-                new ComponentStyleRenderer(graphics, Themes.DefaultTheme),
-                ScreenArea);
+            UserInterfaceFactory.DefaultThemeKey = "Papyrus";
 
             WhiteTexture = new TextureBuilder(graphics).SolidColor(10, 10, Color.White);
         }
 
-        private FontProvider LoadFonts()
-        {
-            var fonts = new FontProvider
-            {
-                { "AgateSans", Font.Load(Content, "AgateLib/AgateSans") },
-                { "AgateMono", Font.Load(Content, "AgateLib/AgateMono") }
-            };
-
-            return fonts;
-        }
-
         public ResoucesConfiguration Config { get; set; } = new ResoucesConfiguration();
 
+        public UserInterfaceFactory UserInterfaceFactory { get; set; }
+
         public UserInterfaceScene CreateUserInterfaceScene()
-        {
-            var result = new UserInterfaceScene(
-                   ScreenArea,
-                   GraphicsDevice,
-                   UserInterfaceRenderer,
-                   LocalizedContent,
-                   Fonts,
-                   StyleConfigurator);
-
-            result.Theme = Config.DefaultTheme;
-
-            return result;
-        }
+            => UserInterfaceFactory.CreateUserInterfaceScene();
 
         public GraphicsDevice GraphicsDevice { get; set; }
 
-        public Rectangle ScreenArea { get; set; }
-
         public IContentProvider Content { get; set; }
-
-        public FontProvider Fonts { get; set; }
-        IFontProvider IDemoResources.Fonts => Fonts;
 
         public IServiceProvider ServiceProvider { get; set; }
 
         public Texture2D WhiteTexture { get; set; }
-        public ContentLayoutEngine ContentLayoutEngine { get; set; }
 
-        public IContentLayoutEngine LocalizedContent { get; set; }
-        public ThemeCollection Themes { get; set; }
+        public Rectangle ScreenArea
+        {
+            get => UserInterfaceFactory.Config.ScreenArea;
+            set => UserInterfaceFactory.Config.ScreenArea = value;
+        }
 
-        public UserInterfaceRenderer UserInterfaceRenderer { get; set; }
-        public IStyleConfigurator StyleConfigurator { get; set; }
-        public ThemeLoader ThemeLoader { get; internal set; }
+        public FontProvider Fonts => UserInterfaceFactory.Fonts;
+
+        IFontProvider IDemoResources.Fonts => Fonts;
+
+        public ContentLayoutEngine ContentLayoutEngine => UserInterfaceFactory.ContentLayoutEngine;
+
+        public IContentLayoutEngine LocalizedContent => UserInterfaceFactory.LocalizedContent;
+        public ThemeCollection Themes => UserInterfaceFactory.Themes;
+
+        public UserInterfaceRenderer UserInterfaceRenderer => UserInterfaceFactory.Renderer;
+
+        public IStyleConfigurator StyleConfigurator => UserInterfaceFactory.StyleConfigurator;
+
+        public ThemeLoader ThemeLoader => UserInterfaceFactory.ThemeLoader;
     }
 
     public class ResoucesConfiguration

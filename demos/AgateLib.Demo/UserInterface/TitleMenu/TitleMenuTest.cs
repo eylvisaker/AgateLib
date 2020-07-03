@@ -2,7 +2,7 @@
 
 namespace AgateLib.Demo.UserInterface.TitleMenu
 {
-    public class TitleMenuTest : UITest
+    public class TitleMenuTest : UIDemo
     {
         public override string Name => "Example Title Menu";
 

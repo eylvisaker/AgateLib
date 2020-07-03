@@ -269,8 +269,9 @@ namespace AgateLib.UserInterface.Styling.Themes
         public T LoadContent<T>(ThemePathTypes themePathTypes, string file)
         {
             string root
-                = (themePathTypes.HasFlag(ThemePathTypes.Cursors) ? model.Paths.Cursors : null)
-                ?? (themePathTypes.HasFlag(ThemePathTypes.Images) ? model.Paths.Images : null);
+                = (themePathTypes.HasFlag(ThemePathTypes.Cursors) ? model.Paths?.Cursors : null)
+                ?? (themePathTypes.HasFlag(ThemePathTypes.Images) ? model.Paths?.Images : null)
+                ?? "";
 
             root = System.IO.Path.Combine(RootFolder, root);
 

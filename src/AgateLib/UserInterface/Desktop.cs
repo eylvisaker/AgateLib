@@ -41,32 +41,26 @@ namespace AgateLib.UserInterface
 
         private readonly WorkspaceExitEventArgs workspaceExitEventArgs = new WorkspaceExitEventArgs();
         private readonly UserInterfaceAppContext appContext = new UserInterfaceAppContext();
-
-        private Rectangle screenArea;
-
         private IInstructions instructions = new Instructions();
 
         private bool inDraw;
 
         private FadeColor inactiveWorkspaceFadeColor = new FadeColor();
-        private float visualScaling;
-        private string defaultTheme = "default";
-        private Font defaultFont;
 
-        public Desktop(Rectangle screenArea,
+        public Desktop(UserInterfaceConfig config,
                        IUserInterfaceLayoutContext layoutContext,
                        IFontProvider fonts,
                        IStyleConfigurator styles,
                        IAnimationFactory animationFactory)
         {
-            this.screenArea = screenArea;
+            this.Config = config;
             this.animationFactory = animationFactory;
             this.layoutContext = layoutContext;
 
+            appContext.Config = config;
+
             Styles = styles;
             Fonts = fonts;
-
-            defaultFont = new Font(fonts.Default);
 
             inactiveWorkspaceFadeColor.FadeIn();
         }
@@ -91,43 +85,15 @@ namespace AgateLib.UserInterface
         /// </summary>
         public event Action FocusChanged;
 
+        public UserInterfaceConfig Config { get; }
+
         public IStyleConfigurator Styles { get; }
 
         public IFontProvider Fonts { get; }
 
         public IUserInterfaceAudio Audio { get; set; }
 
-        public float VisualScaling
-        {
-            get => visualScaling;
-            set
-            {
-                visualScaling = value;
-
-                foreach (Workspace workspace in workspaces)
-                {
-                    workspace.VisualScaling = value;
-                }
-
-                defaultFont = new Font(Fonts.Default);
-                
-                defaultFont.Size = (int)Math.Round(defaultFont.Size * VisualScaling);
-            }
-        }
-
-        public string DefaultTheme
-        {
-            get => defaultTheme;
-            set
-            {
-                defaultTheme = value;
-
-                foreach (Workspace workspace in workspaces)
-                {
-                    workspace.DefaultTheme = value;
-                }
-            }
-        }
+        public float VisualScaling => Config.VisualScaling;
 
         public UserInterfaceAppContext AppContext => appContext;
 
@@ -176,12 +142,13 @@ namespace AgateLib.UserInterface
             Require.Not(inDraw, "Cannot add workspace while drawing.");
             Require.Not(workspaces.Contains(workspace), "Cannot add same workspace twice.", CommonException.ArgumentException);
 
+            workspace.Config = Config;
+
             workspace.InitializeVisualTree(animationFactory);
 
             workspaces.Add(workspace);
 
-            workspace.VisualScaling = visualScaling;
-            workspace.ScreenArea = ScreenArea;
+            workspace.Theme = workspace.Theme ?? Theme ?? Config.DefaultTheme;
             workspace.Style = Styles;
             workspace.Fonts = Fonts;
             workspace.Instructions = Instructions;
@@ -189,15 +156,8 @@ namespace AgateLib.UserInterface
             workspace.AppContext = AppContext;
             workspace.FocusChanged += Workspace_FocusChanged;
 
-            if (string.IsNullOrWhiteSpace(workspace.DefaultTheme))
-            {
-                workspace.DefaultTheme = DefaultTheme;
-            }
-
             workspace.Desktop = this;
-            workspace.Render();
-            workspace.VisualTree.DoLayout(layoutContext, ScreenArea);
-            workspace.TransitionIn();
+            workspace.TransitionIn(layoutContext);
 
             FocusChanged?.Invoke();
         }
@@ -244,24 +204,6 @@ namespace AgateLib.UserInterface
             inactiveWorkspaceFadeColor.FadeOut();
         }
 
-        /// <summary>
-        /// Gets or sets the size of the desktop. Should match the size of the
-        /// render area of the graphics device.
-        /// </summary>
-        public Rectangle ScreenArea
-        {
-            get => screenArea;
-            set
-            {
-                screenArea = value;
-
-                foreach (var w in workspaces)
-                {
-                    w.ScreenArea = screenArea;
-                }
-            }
-        }
-
         public Workspace ActiveWorkspace => workspaces.LastOrDefault();
 
         public IReadOnlyList<Workspace> Workspaces => workspaces;
@@ -272,7 +214,11 @@ namespace AgateLib.UserInterface
             set => inactiveWorkspaceFadeColor.ActiveColor = value;
         }
 
-        public Font DefaultFont { get => defaultFont; private set => defaultFont = value; }
+        /// <summary>
+        /// Gets or sets the default theme for the desktop. New workspaces added to this desktop
+        /// will inherit this theme, unless they have their theme overriden.
+        /// </summary>
+        public string Theme { get; set; }
 
         #region --- Handling Input ---
 
@@ -391,7 +337,7 @@ namespace AgateLib.UserInterface
                 {
                     if (w == ActiveWorkspace && inactiveWorkspaceFadeColor.CurrentColor.A > 0)
                     {
-                        renderContext.Canvas.FillRect(ScreenArea, inactiveWorkspaceFadeColor.CurrentColor);
+                        renderContext.Canvas.FillRect(Config.ScreenArea, inactiveWorkspaceFadeColor.CurrentColor);
                     }
 
                     w.Draw(renderContext);

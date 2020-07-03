@@ -102,12 +102,12 @@ namespace AgateLib.UserInterface
     public class UserInterfaceScene : Scene, IUserInterfaceScene
     {
         private readonly UserInterfaceRenderContext renderContext;
-        private readonly UserInterfaceSceneDriver driver;
+        private readonly UserInterfaceDriver driver;
         private readonly List<Action> actionsToInvoke = new List<Action>();
-
+        private readonly UserInterfaceConfig config;
         private TaskCompletionSource<bool> exitTask;
 
-        public UserInterfaceScene(Rectangle screenArea,
+        public UserInterfaceScene(UserInterfaceConfig config,
                                   GraphicsDevice graphicsDevice,
                                   IUserInterfaceRenderer userInterfaceRenderer,
                                   IContentLayoutEngine contentLayoutEngine,
@@ -123,6 +123,7 @@ namespace AgateLib.UserInterface
             UpdateBelow = false;
 
             Animations = animationFactory ?? new AnimationFactory();
+            this.config = config;
             GraphicsDevice = graphicsDevice;
 
             renderContext = new UserInterfaceRenderContext(graphicsDevice,
@@ -135,13 +136,12 @@ namespace AgateLib.UserInterface
                                                            null,
                                                            doubleBuffer);
 
-            driver = new UserInterfaceSceneDriver(
-                screenArea,
+            driver = new UserInterfaceDriver(
+                config,
                 renderContext,
                 styleConfigurator,
                 fontProvider,
                 Animations,
-                visualScaling,
                 audio);
 
             driver.Desktop.Empty += () =>
@@ -256,8 +256,8 @@ namespace AgateLib.UserInterface
         /// </summary>
         public string Theme
         {
-            get => Desktop.DefaultTheme;
-            set => Desktop.DefaultTheme = value;
+            get => Desktop.Theme;
+            set => Desktop.Theme = value;
         }
 
         /// <summary>

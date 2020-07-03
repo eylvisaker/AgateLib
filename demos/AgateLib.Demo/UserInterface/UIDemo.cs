@@ -7,8 +7,9 @@ using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.Demo.UserInterface
 {
-    public abstract class UITest : IDemo
+    public abstract class UIDemo : IDemo
     {
+        private UserInterfaceConfig config;
         private UserInterfaceScene scene;
         private SceneStack stack;
 
@@ -23,7 +24,11 @@ namespace AgateLib.Demo.UserInterface
             scene.ExitThen(() => OnExit?.Invoke());
         }
 
-        public Rectangle ScreenArea { get; set; }
+        public Rectangle ScreenArea 
+        { 
+            get => config.ScreenArea; 
+            set => config.ScreenArea = value; 
+        }
 
         public UserInterfaceScene Scene => scene;
 
@@ -31,17 +36,9 @@ namespace AgateLib.Demo.UserInterface
 
         public virtual void Initialize(IDemoResources resources)
         {
-            scene = new UserInterfaceScene(
-                resources.ScreenArea,
-                resources.GraphicsDevice,
-                resources.UserInterfaceRenderer,
-                resources.LocalizedContent,
-                resources.Fonts,
-                resources.StyleConfigurator)
-            {
-                DrawBelow = false,
-                ScreenArea = ScreenArea,
-            };
+            this.config = resources.UserInterfaceFactory.Config;
+
+            scene = resources.CreateUserInterfaceScene();
 
             Content = resources.Content;
 

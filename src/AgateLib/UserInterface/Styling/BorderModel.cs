@@ -9,6 +9,8 @@ namespace AgateLib.UserInterface.Styling
     {
         public LayoutBox SizeLayout { get; set; }
 
+        public LayoutBox Overhang { get; set; }
+
         public BorderImageModel Image { get; set; }
     }
 

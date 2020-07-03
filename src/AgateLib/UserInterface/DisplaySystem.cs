@@ -34,13 +34,21 @@ namespace AgateLib.UserInterface
 
         IInstructions Instructions { get; }
 
+        Font DefaultFont { get; }
+
         Rectangle ScreenArea { get; }
 
-        string DefaultTheme { get; set; }
+        UserInterfaceConfig Config { get; }
 
+        /// <summary>
+        /// Gets or sets the default theme.
+        /// </summary>
+        string Theme { get; set; }
+
+        /// <summary>
+        /// Gets or sets the visual scaling for the workspace.
+        /// </summary>
         float VisualScaling { get; set; }
-
-        Font DefaultFont { get; }
 
         IRenderElement ParentOf(IRenderElement element);
 

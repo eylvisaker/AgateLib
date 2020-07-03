@@ -11,10 +11,11 @@ namespace AgateLib.UserInterface.Widgets
     {
         private ThemeStyler styleConfigurator;
         private IUserInterfaceRenderContext renderContext = CommonMocks.RenderContext().Object;
+        private UserInterfaceConfig config = new UserInterfaceConfig();
 
         public FlexBoxDirectionUnitTests()
         {
-            var themes = new ThemeCollection
+            var themes = new ThemeCollection(config)
             {
                 ["default"] = new Theme(Mock.Of<IContentProvider>())
             };

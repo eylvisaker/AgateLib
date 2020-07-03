@@ -23,6 +23,7 @@
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -428,9 +429,11 @@ namespace AgateLib.UserInterface
         private List<IRenderElement> layoutChildren;
         private List<IRenderElement> focusChildren;
         private bool currentLayoutIsReversed;
+        private Logger log;
 
         public FlexBox(FlexBoxProps props) : base(props)
         {
+            log = LogManager.GetCurrentClassLogger();
         }
 
         protected override void OnFinalizeChildren()
@@ -527,11 +530,12 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public override void OnFocus()
+        public override bool OnFocus()
         {
             if (focusChildren.Count == 0)
             {
-                throw new InvalidOperationException("Cannot set focus to FlexBox with no focusable children.");
+                log.Warn($"{Name}: Cannot set focus to FlexBox with no focusable children.");
+                return false;
             }
 
             if (FocusIndex >= focusChildren.Count)
@@ -540,6 +544,8 @@ namespace AgateLib.UserInterface
             }
 
             Display.System.SetFocus(focusChildren[FocusIndex]);
+
+            return true;
         }
 
         public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)

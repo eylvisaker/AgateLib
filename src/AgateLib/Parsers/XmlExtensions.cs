@@ -70,6 +70,7 @@ namespace AgateLib.Parsers
 
             throw new InvalidOperationException("Attribute " + name + " does not contain a boolean value.");
         }
+
         public static bool AttributeToBool(this XElement node, string name, bool defaultValue)
         {
             if (node.HasAttribute(name) == false)
@@ -89,6 +90,7 @@ namespace AgateLib.Parsers
 
             return AttributeToFloat(node, name);
         }
+
         public static float AttributeToFloat(this XElement node, string name)
         {
             var attrib = GetAttribute(node, name);

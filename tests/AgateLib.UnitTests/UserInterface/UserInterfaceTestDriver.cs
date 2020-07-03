@@ -14,24 +14,24 @@ namespace AgateLib.UserInterface
 {
     public class UserInterfaceTestDriver
     {
-        private readonly UserInterfaceSceneDriver uiDriver;
+        private readonly UserInterfaceDriver uiDriver;
         private readonly Workspace defaultWorkspace;
         private readonly ManualInputState input;
 
         public UserInterfaceTestDriver(IRenderable app,
-                            Size? screenSize = null,
-                            IStyleConfigurator styleConfigurator = null,
-                            IFontProvider fontProvider = null,
-                            IContentLayoutEngine contentLayoutEngine = null,
-                            IAnimationFactory animationFactory = null)
+                                       Size? screenSize = null,
+                                       IStyleConfigurator styleConfigurator = null,
+                                       IFontProvider fontProvider = null,
+                                       IContentLayoutEngine contentLayoutEngine = null,
+                                       IAnimationFactory animationFactory = null)
         {
             var renderContext = CommonMocks.RenderContext(contentLayoutEngine).Object;
-            Size = screenSize ?? new Size(1280, 720);
+            Config = new UserInterfaceConfig { ScreenArea = new Rectangle(Point.Zero, screenSize ?? new Size(1280, 720)) };
 
-            uiDriver = new UserInterfaceSceneDriver(
-                new Rectangle(Point.Zero, Size),
+            uiDriver = new UserInterfaceDriver(
+                Config,
                 renderContext,
-                styleConfigurator ?? new ThemeStyler(new ThemeCollection { ["default"] = Theme.CreateDefaultTheme(Mock.Of<IContentProvider>()) }),
+                styleConfigurator ?? new ThemeStyler(new ThemeCollection(Config) { ["default"] = Theme.CreateDefaultTheme(Mock.Of<IContentProvider>()) }),
                 fontProvider ?? CommonMocks.FontProvider().Object,
                 animationFactory ?? new AnimationFactory());
 
@@ -57,7 +57,9 @@ namespace AgateLib.UserInterface
             uiDriver.Update(new GameTime());
         }
 
-        public Size Size { get; set; }
+        public Size Size => Config.ScreenArea.Size;
+
+        public UserInterfaceConfig Config { get; }
 
         public Desktop Desktop => uiDriver.Desktop;
 
@@ -73,7 +75,7 @@ namespace AgateLib.UserInterface
 
             foreach (var workspace in Desktop.Workspaces)
             {
-                workspace.VisualTree.DoLayout(uiDriver.RenderContext, uiDriver.ScreenArea);
+                workspace.VisualTree.DoLayout(uiDriver.RenderContext);
             }
         }
 

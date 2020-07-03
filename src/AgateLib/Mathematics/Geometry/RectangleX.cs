@@ -101,9 +101,47 @@ namespace AgateLib.Mathematics.Geometry
             result[3] = new Vector2(r.Right, r.Top);
         }
 
+        /// <summary>
+        /// Computes a rectangle with the specified top, left, right and bottom edges.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        /// <returns></returns>
         public static Rectangle FromLTRB(int left, int top, int right, int bottom)
         {
             return new Rectangle(left, top, right - left, bottom - top);
+        }
+
+        /// <summary>
+        /// Computes a floating point rectangle with the specified top, left, right and bottom edges.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        /// <returns></returns>
+        public static RectangleF FromLTRB(float left, float top, float right, float bottom)
+        {
+            return new RectangleF(left, top, right - left, bottom - top);
+        }
+
+        /// <summary>
+        /// Computes a rectangle with the specified top, left, right and bottom edges. Rounds each floating
+        /// point value to the nearest integer.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        /// <returns></returns>
+        public static Rectangle FromLTRBRounded(float left, float top, float right, float bottom)
+        {
+            return FromLTRB((int)Math.Round(left),
+                            (int)Math.Round(top),
+                            (int)Math.Round(right),
+                            (int)Math.Round(bottom));
         }
 
         /// <summary>

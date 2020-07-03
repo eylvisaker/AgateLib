@@ -12,10 +12,11 @@ namespace AgateLib.UserInterface.Widgets
     {
         private ThemeStyler styleConfigurator;
         private ContentLayoutEngineLogger contentLayoutEngine;
+        private UserInterfaceConfig config = new UserInterfaceConfig();
 
         public FixedSizeTests()
         {
-            var themes = new ThemeCollection
+            var themes = new ThemeCollection(config)
             {
                 ["default"] = new Theme(Mock.Of<IContentProvider>())
             };

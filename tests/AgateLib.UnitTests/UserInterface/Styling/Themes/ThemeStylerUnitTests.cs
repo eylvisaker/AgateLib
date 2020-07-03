@@ -10,10 +10,12 @@ namespace AgateLib.Demo.UserInterface.Styling.Themes
 {
     public class ThemeStylerUnitTests
     {
+        private UserInterfaceConfig config = new UserInterfaceConfig();
+
         [Fact]
         public void ApplyDefaultTheme()
         {
-            ThemeCollection themes = new ThemeCollection
+            ThemeCollection themes = new ThemeCollection(config)
             {
                 ["default"] = Theme.CreateDefaultTheme(Mock.Of<IContentProvider>()),
                 ["xyz"] = CreateTestTheme(),

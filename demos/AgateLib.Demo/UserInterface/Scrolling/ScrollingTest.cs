@@ -2,7 +2,7 @@
 
 namespace AgateLib.Demo.UserInterface.Scrolling
 {
-    public class ScrollingTest : UITest
+    public class ScrollingTest : UIDemo
     {
         public override string Name => "Scrolling";
 

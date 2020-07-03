@@ -6,18 +6,13 @@ using System.Collections.Generic;
 
 namespace AgateLib.Demo.Fakes
 {
-    public class FakePointer : ThemedCursor
+    public class FakeCursor : ThemedCursor
     {
-        public FakePointer() : base(null) { }
+        public FakeCursor() : base(null) { }
 
         private List<Rectangle> draws = new List<Rectangle>();
 
         public List<Rectangle> Draws => Draws;
-
-        public IUserInterfaceRenderer UserInterfaceRenderer { get; set; }
-        public Vector2 Velocity { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public Vector2 Position { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public bool AllowInput { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public void Draw(ICanvas canvas, IRenderElement focusElement, Workspace activeWorkspace, Rectangle focusContentArea)
         {

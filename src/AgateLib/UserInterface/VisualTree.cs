@@ -22,6 +22,7 @@
 
 //#define __DEBUG_RENDER
 
+using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
@@ -42,13 +43,26 @@ namespace AgateLib.UserInterface
 
         private int debugFlag;
 
-        public VisualTree(IAnimationFactory animationFactory)
+        public VisualTree(UserInterfaceConfig config, IAnimationFactory animationFactory)
         {
+            Config = config;
             this.animationFactory = animationFactory;
             log = LogManager.GetCurrentClassLogger();
         }
 
-        public float VisualScaling { get; set; } = 1;
+        public IDisplaySystem DisplaySystem { get; set; }
+
+        public IRenderElement Focus => focus;
+
+        public IRenderElement TreeRoot => root;
+
+        public IStyleConfigurator Style { get; set; }
+
+        public UserInterfaceAppContext AppContext { get; internal set; }
+
+        public UserInterfaceConfig Config { get; internal set; }
+
+        public float VisualScaling => Config.VisualScaling;
 
         public void Render(IRenderable rootRenderable)
         {
@@ -102,7 +116,7 @@ namespace AgateLib.UserInterface
                 }
             }
 
-            Style.Apply(root, DefaultTheme);
+            Style.Apply(root, DisplaySystem.Theme);
 
             Walk((element, parent) =>
             {
@@ -278,37 +292,33 @@ namespace AgateLib.UserInterface
             oldNode.OnWillUnmount();
         }
 
-        public IDisplaySystem DisplaySystem { get; set; }
-
-        public IRenderElement Focus => focus;
-
         public bool SetFocus(IRenderElement newFocus)
         {
-            if (focus == newFocus)
-                return false;
+            if (focus == newFocus) return false;
+            if (!newFocus.CanHaveFocus) return false;
 
-            focus?.Display.PseudoClasses.Remove("focus");
-            focus?.OnBlur();
+            IRenderElement oldFocus = focus;
 
             focus = newFocus;
 
-            focus?.Parent?.Display.ScrollTo(focus.Display);
+            bool accepted = focus?.OnFocus() ?? true;
 
-            focus?.Display.PseudoClasses.Add("focus");
-            focus?.OnFocus();
+            if (!accepted)
+            {
+                focus = oldFocus;
+                return false;
+            }
+
+            newFocus?.Parent?.Display.ScrollTo(focus.Display);
+            newFocus?.Display.PseudoClasses.Add("focus");
+
+            oldFocus?.Display.PseudoClasses.Remove("focus");
+            oldFocus?.OnBlur();
 
             return true;
         }
 
-        public IRenderElement TreeRoot => root;
-
-        public IStyleConfigurator Style { get; set; }
-
-        public string DefaultTheme { get; set; }
-
-        public UserInterfaceAppContext AppContext { get; internal set; }
-
-        public void Update(IUserInterfaceRenderContext renderContext, Rectangle area)
+        public void Update(IUserInterfaceRenderContext renderContext)
         {
             DebugMsg("Updating all widgets", ifDebugFlagAtLeast: 1);
 
@@ -320,7 +330,7 @@ namespace AgateLib.UserInterface
                 return true;
             });
 
-            DoLayout(renderContext, area);
+            DoLayout(renderContext);
 
             Walk(element =>
             {
@@ -376,17 +386,19 @@ namespace AgateLib.UserInterface
             return true;
         }
 
-        public void Draw(IUserInterfaceRenderContext renderContext, Rectangle area)
+        public void Draw(IUserInterfaceRenderContext renderContext)
         {
             DebugMsg("Drawing all widgets", ifDebugFlagAtLeast: 1, setDebugFlag: 0);
 
-            renderContext.DrawChild(area, TreeRoot);
+            renderContext.DrawChild(Config.ScreenArea, TreeRoot);
         }
 
-        public void DoLayout(IUserInterfaceLayoutContext layoutContext, Rectangle area)
+        public void DoLayout(IUserInterfaceLayoutContext layoutContext)
         {
+            Rectangle area = Config.ScreenArea;
+
             TreeRoot.Display.MarginRect = area;
-            TreeRoot.DoLayout(layoutContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);
+            TreeRoot.DoLayout(layoutContext, LayoutMath.MarginToContent(area, TreeRoot).Size);
 
             CheckForOverflow();
         }

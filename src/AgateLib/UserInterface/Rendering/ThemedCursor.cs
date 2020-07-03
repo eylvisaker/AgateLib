@@ -23,6 +23,7 @@
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics.TwoDimensions;
+using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using Microsoft.Xna.Framework;
@@ -37,7 +38,6 @@ namespace AgateLib.UserInterface.Rendering
     public class ThemedCursor : ICursor
     {
         private Texture2D texture;
-        private readonly ITheme theme;
         private readonly Dictionary<string, CursorTheme> cursorModels;
 
         private Vector2 startPosition, targetPosition;
@@ -47,12 +47,16 @@ namespace AgateLib.UserInterface.Rendering
         private readonly CursorTheme defaultModel;
         private PhysicalParticle physics = new PhysicalParticle();
         private IRenderElement lastFocus;
+        private Rectangle lastFocusAnimatedContentRect;
         private StepAnimator movementAnimator = new StepAnimator();
         private StepAnimator hopAnimator = new StepAnimator();
+        private IStyleConfigurator styles;
 
-        public ThemedCursor(ITheme theme, string defaultCursor = null)
+        public ThemedCursor(IStyleConfigurator styles, string defaultCursor = null)
         {
-            this.theme = theme;
+            this.styles = styles;
+
+            var theme = styles.DefaultTheme();
 
             this.cursorModels = theme.Model.Cursors ?? new Dictionary<string, CursorTheme>();
 
@@ -81,7 +85,7 @@ namespace AgateLib.UserInterface.Rendering
             }
             else
             {
-                texture = theme.LoadContent<Texture2D>(ThemePathTypes.Cursors | ThemePathTypes.Images,
+                texture = styles.DefaultTheme().LoadContent<Texture2D>(ThemePathTypes.Cursors | ThemePathTypes.Images,
                                     activeModel.Image.Filename);
             }
         }
@@ -133,7 +137,7 @@ namespace AgateLib.UserInterface.Rendering
         {
             const int overlap = 1;
 
-            if (focusElement == lastFocus)
+            if (focusElement == lastFocus && focusAnimatedContentRect == lastFocusAnimatedContentRect)
                 return;
 
             startPosition = Position;
@@ -158,22 +162,15 @@ namespace AgateLib.UserInterface.Rendering
             hopAnimator.Rate = movementAnimator.Rate;
 
             Velocity = Vector2.Zero;
-        }
 
-        private bool AtTarget => (Position - targetPosition).LengthSquared() < 1;
+            lastFocus = focusElement;
+            lastFocusAnimatedContentRect = focusAnimatedContentRect;
+        }
 
         private Vector2 DisplacementToTarget
             => targetPosition - Position;
 
-        private Vector2 DirectionToTarget
-        {
-            get
-            {
-                Vector2 dir = targetPosition - Position;
-                dir.Normalize();
-                return dir;
-            }
-        }
+        public ITheme Theme { get; set; }
 
         public void Update(GameTime gameTime)
         {

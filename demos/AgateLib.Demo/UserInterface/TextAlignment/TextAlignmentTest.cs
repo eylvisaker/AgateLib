@@ -2,7 +2,7 @@
 
 namespace AgateLib.Demo.UserInterface.TextAlignment
 {
-    public class TextAlignmentTest : UITest
+    public class TextAlignmentTest : UIDemo
     {
         public override string Name => "Text Alignment";
 

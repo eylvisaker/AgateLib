@@ -22,6 +22,7 @@
 
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
+using AgateLib.Quality;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Animations;
@@ -174,6 +175,8 @@ namespace AgateLib.UserInterface
                                           ICanvas canvas = null,
                                           IDoubleBuffer doubleBuffer = null)
         {
+            Require.ArgumentNotNull(contentLayoutEngine, nameof(contentLayoutEngine));
+
             this.GraphicsDevice = graphicsDevice;
             this.contentLayoutEngine = contentLayoutEngine;
             this.UserInterfaceRenderer = uiRenderer;

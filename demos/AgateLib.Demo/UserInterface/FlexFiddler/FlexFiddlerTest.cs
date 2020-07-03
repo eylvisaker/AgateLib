@@ -2,7 +2,7 @@
 
 namespace AgateLib.Demo.UserInterface.FlexFiddler
 {
-    public class FlexFiddlerTest : UITest
+    public class FlexFiddlerTest : UIDemo
     {
         public override string Name => "Flex Fiddler";
 

@@ -6,6 +6,8 @@
         {
         }
 
+        public override bool CanHaveFocus => Child.CanHaveFocus;
+
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action)
         {
             base.OnChildAction(child, action);
@@ -16,12 +18,14 @@
             }
         }
 
-        public override void OnFocus()
+        public override bool OnFocus()
         {
             if (Child.CanHaveFocus)
             {
-                Display.System.SetFocus(Child);
+                return Display.System.SetFocus(Child);
             }
+
+            return false;
         }
 
         //public override string ToString()

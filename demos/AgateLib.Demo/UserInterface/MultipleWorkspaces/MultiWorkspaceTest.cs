@@ -2,7 +2,7 @@
 
 namespace AgateLib.Demo.UserInterface.MultipleWorkspaces
 {
-    public class MultiWorkspaceTest : UITest
+    public class MultiWorkspaceTest : UIDemo
     {
         public override string Name => "Multiple Workspaces";
 

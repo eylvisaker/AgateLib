@@ -33,13 +33,16 @@ namespace AgateLib.UserInterface.Rendering
 {
     public interface IComponentStyleRenderer : IDisposable
     {
-        void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect);
+        void DrawBackground(ICanvas canvas, ITheme theme, BackgroundStyle background, Rectangle backgroundRect);
 
-        void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect);
+        void DrawFrame(ICanvas canvas, ITheme theme, BorderStyle border, Rectangle borderRect, float visualScaling);
 
-        void DrawFrame(ICanvas canvas, Rectangle destOuterRect, Texture2D frameTexture,
-            Rectangle frameSourceInner, Rectangle frameSourceOuter,
-            ImageScale borderScale);
+        void DrawFrame(ICanvas canvas,
+                       Rectangle destOuterRect,
+                       Texture2D frameTexture,
+                       Rectangle frameSourceInner,
+                       Rectangle frameSourceOuter,
+                       ImageScale borderScale);
     }
 
     [Transient]
@@ -48,11 +51,8 @@ namespace AgateLib.UserInterface.Rendering
         private Texture2D blankSurface;
         private BorderModel styleModel = new BorderModel { Image = new BorderImageModel() };
 
-        public ComponentStyleRenderer(GraphicsDevice graphicsDevice,
-                                      ITheme theme)
+        public ComponentStyleRenderer(GraphicsDevice graphicsDevice)
         {
-            Theme = theme;
-
             blankSurface = new Texture2D(graphicsDevice, 10, 10);
             Color[] data = new Color[10 * 10];
             for (int i = 0; i < data.Length; i++)
@@ -63,14 +63,14 @@ namespace AgateLib.UserInterface.Rendering
             blankSurface.SetData(data);
         }
 
-        public ITheme Theme { get; set; }
-
         public void Dispose()
         {
             blankSurface.Dispose();
         }
 
-        public void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect)
+        #region --- Drawing backgrounds ---
+
+        public void DrawBackground(ICanvas canvas, ITheme theme, BackgroundStyle background, Rectangle backgroundRect)
         {
             if (background == null)
             {
@@ -79,15 +79,15 @@ namespace AgateLib.UserInterface.Rendering
 
             if (background.Id != null)
             {
-                DrawBackgroundFromModel(canvas, Theme.Model.Backgrounds[background.Id], backgroundRect);
+                DrawBackgroundFromModel(canvas, theme, theme.Model.Backgrounds[background.Id], backgroundRect);
             }
             else
             {
-                DrawBackgroundFromModel(canvas, background, backgroundRect);
+                DrawBackgroundFromModel(canvas, theme, background, backgroundRect);
             }
         }
 
-        public void DrawBackgroundFromModel(ICanvas canvas, BackgroundModel background, Rectangle backgroundRect)
+        public void DrawBackgroundFromModel(ICanvas canvas, ITheme theme, BackgroundModel background, Rectangle backgroundRect)
         {
             if (background.Color.A > 0)
             {
@@ -99,7 +99,7 @@ namespace AgateLib.UserInterface.Rendering
 
             if (string.IsNullOrEmpty(background.Image?.File) == false)
             {
-                Texture2D backgroundImage = Theme.LoadContent<Texture2D>(ThemePathTypes.Images, background.Image.File);
+                Texture2D backgroundImage = theme.LoadContent<Texture2D>(ThemePathTypes.Images, background.Image.File);
                 Point origin = backgroundRect.Location;
                 Point backgroundPosition = background.Position;
                 Rectangle srcRect = background.Image.SourceRect ?? new Rectangle(0, 0, backgroundImage.Width, backgroundImage.Height);
@@ -137,84 +137,83 @@ namespace AgateLib.UserInterface.Rendering
             }
         }
 
-        public void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect)
+        #endregion
+        #region --- Drawing frames and borders ---
+
+        public void DrawFrame(ICanvas canvas, ITheme theme, BorderStyle border, Rectangle borderRect, float visualScaling)
         {
             if (border == null)
                 return;
 
             if (border.Id != null)
             {
-                DrawFrameFromModel(canvas, Theme.Model.Borders[border.Id], borderRect);
+                DrawFrameFromModel(canvas, theme, theme.Model.Borders[border.Id], borderRect, visualScaling);
             }
             else
             {
-                DrawFrameFromStyle(canvas, border, borderRect);
+                DrawFrameFromStyle(canvas, theme, border, borderRect, visualScaling);
             }
         }
 
-        private void DrawFrameFromModel(ICanvas canvas, BorderModel border, Rectangle borderRect)
+        private void DrawFrameFromModel(ICanvas canvas, ITheme theme, BorderModel border, Rectangle borderRect, float visualScaling)
         {
-            Texture2D frameTexture = Theme.LoadContent<Texture2D>(ThemePathTypes.Images, border.Image.Filename);
-            Rectangle destOuterRect = borderRect;
-            Rectangle destInnerRect = destOuterRect;
+            Texture2D frameTexture = theme.LoadContent<Texture2D>(ThemePathTypes.Images, border.Image.Filename);
 
-            destInnerRect.X += border.SizeLayout.Left;
-            destInnerRect.Y += border.SizeLayout.Top;
-            destInnerRect.Width -= border.SizeLayout.Width;
-            destInnerRect.Height -= border.SizeLayout.Height;
+            RectangleF destOuterRect = borderRect.Expand(border.Overhang, visualScaling);
+            RectangleF destInnerRect = borderRect.Contract(border.SizeLayout, visualScaling);
 
             Rectangle src, dest;
 
             // top left
             src = border.Image.OuterCorners.TopLeft;
-            dest = RectangleX.FromLTRB(destOuterRect.Left, destOuterRect.Top, destInnerRect.Left, destInnerRect.Top);
+            dest = RectangleX.FromLTRBRounded(destOuterRect.Left, destOuterRect.Top, destInnerRect.Left, destInnerRect.Top);
 
             canvas.Draw(frameTexture, dest, src, Color.White);
 
             // top
             src = border.Image.Edges.Top;
-            dest = RectangleX.FromLTRB(destInnerRect.Left, destOuterRect.Top, destInnerRect.Right, destInnerRect.Top);
+            dest = RectangleX.FromLTRBRounded(destInnerRect.Left, destOuterRect.Top, destInnerRect.Right, destInnerRect.Top);
 
             ScaleSurface(canvas, frameTexture, src, dest, border.Image.Edges.ImageScale);
 
             // top right
             src = border.Image.OuterCorners.TopRight;
-            dest = RectangleX.FromLTRB(destInnerRect.Right, destOuterRect.Top, destOuterRect.Right, destInnerRect.Top);
+            dest = RectangleX.FromLTRBRounded(destInnerRect.Right, destOuterRect.Top, destOuterRect.Right, destInnerRect.Top);
 
             canvas.Draw(frameTexture, dest, src, Color.White);
 
             // left
             src = border.Image.Edges.Left;
-            dest = RectangleX.FromLTRB(destOuterRect.Left, destInnerRect.Top, destInnerRect.Left, destInnerRect.Bottom);
+            dest = RectangleX.FromLTRBRounded(destOuterRect.Left, destInnerRect.Top, destInnerRect.Left, destInnerRect.Bottom);
 
             ScaleSurface(canvas, frameTexture, src, dest, border.Image.Edges.ImageScale);
 
             // right
             src = border.Image.Edges.Right;
-            dest = RectangleX.FromLTRB(destInnerRect.Right, destInnerRect.Top, destOuterRect.Right, destInnerRect.Bottom);
+            dest = RectangleX.FromLTRBRounded(destInnerRect.Right, destInnerRect.Top, destOuterRect.Right, destInnerRect.Bottom);
 
             ScaleSurface(canvas, frameTexture, src, dest, border.Image.Edges.ImageScale);
 
             // bottom left
             src = border.Image.OuterCorners.BottomLeft;
-            dest = RectangleX.FromLTRB(destOuterRect.Left, destInnerRect.Bottom, destInnerRect.Left, destOuterRect.Bottom);
+            dest = RectangleX.FromLTRBRounded(destOuterRect.Left, destInnerRect.Bottom, destInnerRect.Left, destOuterRect.Bottom);
 
             canvas.Draw(frameTexture, dest, src, Color.White);
 
             // bottom
             src = border.Image.Edges.Bottom;
-            dest = RectangleX.FromLTRB(destInnerRect.Left, destInnerRect.Bottom, destInnerRect.Right, destOuterRect.Bottom);
+            dest = RectangleX.FromLTRBRounded(destInnerRect.Left, destInnerRect.Bottom, destInnerRect.Right, destOuterRect.Bottom);
 
             ScaleSurface(canvas, frameTexture, src, dest, border.Image.Edges.ImageScale);
 
             // bottom right
             src = border.Image.OuterCorners.BottomRight;
-            dest = RectangleX.FromLTRB(destInnerRect.Right, destInnerRect.Bottom, destOuterRect.Right, destOuterRect.Bottom);
+            dest = RectangleX.FromLTRBRounded(destInnerRect.Right, destInnerRect.Bottom, destOuterRect.Right, destOuterRect.Bottom);
 
             canvas.Draw(frameTexture, dest, src, Color.White);
         }
 
-        public void DrawFrameFromStyle(ICanvas canvas, BorderStyle border, Rectangle borderRect)
+        public void DrawFrameFromStyle(ICanvas canvas, ITheme theme, BorderStyle border, Rectangle borderRect, float visualScaling)
         {
             if (string.IsNullOrEmpty(border.Image?.File))
             {
@@ -222,13 +221,13 @@ namespace AgateLib.UserInterface.Rendering
             }
             else
             {
-                DrawImageFrame(canvas, border, borderRect, border.Image.SourceRect);
+                DrawImageFrame(canvas, theme, border, borderRect, border.Image.SourceRect);
             }
         }
 
-        private void DrawImageFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect, Rectangle? maybeSrcRect)
+        private void DrawImageFrame(ICanvas canvas, ITheme theme, BorderStyle border, Rectangle borderRect, Rectangle? maybeSrcRect)
         {
-            var image = Theme.LoadContent<Texture2D>(ThemePathTypes.Images, border.Image.File);
+            var image = theme.LoadContent<Texture2D>(ThemePathTypes.Images, border.Image.File);
 
             var slice = border.ImageSlice;
             Rectangle outerRect = maybeSrcRect ?? new Rectangle(0, 0, image.Width, image.Height);
@@ -241,9 +240,12 @@ namespace AgateLib.UserInterface.Rendering
             DrawFrame(canvas, borderRect, image, innerRect, outerRect, border.ImageScale);
         }
 
-        public void DrawFrame(ICanvas canvas, Rectangle destOuterRect, Texture2D frameTexture,
-            Rectangle frameSourceInner, Rectangle frameSourceOuter,
-            ImageScale borderScale)
+        public void DrawFrame(ICanvas canvas,
+                              Rectangle destOuterRect,
+                              Texture2D frameTexture,
+                              Rectangle frameSourceInner,
+                              Rectangle frameSourceOuter,
+                              ImageScale borderScale)
         {
             Rectangle destInnerRect = destOuterRect;
             Size topLeftDelta = new Size(frameSourceInner.X - frameSourceOuter.X, frameSourceInner.Y - frameSourceOuter.Y);
@@ -337,6 +339,9 @@ namespace AgateLib.UserInterface.Rendering
             canvas.Draw(blankSurface, rect, border.Right.Color);
         }
 
+        #endregion
+        #region --- Surface drawing routines ---
+
         private void ScaleSurface(ICanvas canvas, Texture2D texture, Rectangle src, Rectangle dest, ImageScale scale)
         {
             if (scale == ImageScale.Tile)
@@ -354,6 +359,7 @@ namespace AgateLib.UserInterface.Rendering
             canvas.DrawRepeatedClipped(frameTexture, dest.Location, dest, true, true, src);
         }
 
+        #endregion
     }
 
     public static class CanvasExtensions
