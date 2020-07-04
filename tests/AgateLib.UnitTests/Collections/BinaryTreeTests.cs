@@ -159,7 +159,7 @@ namespace AgateLib.UnitTests.Collections
 
                 while (node != null)
                 {
-                    Console.WriteLine(node.ToString());
+                    //Console.WriteLine(node.ToString());
 
                     node.Value.Should().Be(expected);
 
@@ -185,7 +185,7 @@ namespace AgateLib.UnitTests.Collections
 
                 while (node != null)
                 {
-                    Console.WriteLine(node.ToString());
+                    //Console.WriteLine(node.ToString());
 
                     node.Value.Should().Be(expected);
 

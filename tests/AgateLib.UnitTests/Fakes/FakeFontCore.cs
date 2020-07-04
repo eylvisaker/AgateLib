@@ -42,6 +42,8 @@ namespace AgateLib.Demo.Fakes
         /// </summary>
         public List<FontDrawCall> DrawCalls { get; } = new List<FontDrawCall>();
 
+        public bool LogCalls { get; set; }
+
         public string Name { get; set; }
 
         public int FontHeight { get; set; } = 10;
@@ -139,6 +141,9 @@ namespace AgateLib.Demo.Fakes
 
         private void LogParameters(object[] parameters)
         {
+            if (!LogCalls)
+                return;
+
             foreach (var p in parameters)
             {
                 System.Console.WriteLine("    " + p);

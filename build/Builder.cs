@@ -15,7 +15,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
-class Build : NukeBuild
+class Builder : NukeBuild
 {
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper
@@ -23,7 +23,7 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main () => Execute<Builder>(x => x.Build);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly AgateLibConfiguration Configuration = AgateLibConfiguration.Debug;
@@ -62,18 +62,39 @@ class Build : NukeBuild
                 .EnableNoRestore());
         });
 
-    Target Compile => _ => _
-        .DependsOn(Restore)
+    Target Build => _ => _
+        .DependsOn(Build_WindowsDX)
+        .DependsOn(Build_DesktopGL);
+
+    Target Build_WindowsDX => _ => _
+        .DependsOn(Test)
         .Executes(() =>
         {
-            if (Configuration == AgateLibConfiguration.Debug)
-                throw new InvalidOperationException("For Compile  target, configuration must be a release configuration.");
-
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration(Configuration.ToString())
+                .SetConfiguration("Release_WindowsDX")
                 .EnableNoRestore());
         });
+        
+    Target Build_DesktopGL => _ => _
+        .DependsOn(Test)
+        .Executes(() =>
+        {
+            DotNetBuild(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration("Release_DesktopGL")
+                .EnableNoRestore());
+        });
+        
+    // Target Build_Android => _ => _
+    //     .DependsOn(Test)
+    //     .Executes(() =>
+    //     {
+    //         MsBuild(s => s
+    //             .SetProjectFile(Solution)
+    //             .SetConfiguration("Release_Android")
+    //             .EnableNoRestore());
+    //     });
 }
 
 
