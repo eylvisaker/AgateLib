@@ -227,7 +227,7 @@ namespace AgateLib.UserInterface.Styling.Themes
             catch (Exception e)
             {
                 throw new UserInterfaceLoadException(
-                    $"Loading {mainThemeFile}.atheme failed with {e.GetType().Name}",
+                    $"Loading {mainThemeFile} failed with {e.GetType().Name}",
                     e);
             }
 

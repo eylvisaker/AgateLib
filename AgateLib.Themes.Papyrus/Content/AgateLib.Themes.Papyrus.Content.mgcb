@@ -16,6 +16,36 @@
 #begin AgateLib.Themes.Papyrus/AgateLib.Themes.Papyrus.Credits.txt
 /copy:AgateLib.Themes.Papyrus/AgateLib.Themes.Papyrus.Credits.txt
 
+#begin AgateLib.Themes.Papyrus/UserInterface/Audio/invalid.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:AgateLib.Themes.Papyrus/UserInterface/Audio/invalid.ogg
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Audio/menuin.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:AgateLib.Themes.Papyrus/UserInterface/Audio/menuin.ogg
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Audio/menunav.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:AgateLib.Themes.Papyrus/UserInterface/Audio/menunav.ogg
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Audio/menuout.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:AgateLib.Themes.Papyrus/UserInterface/Audio/menuout.ogg
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Audio/menu-select.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:AgateLib.Themes.Papyrus/UserInterface/Audio/menu-select.ogg
+
 #begin AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock.afont
 /copy:AgateLib.Themes.Papyrus/Fonts/KingthingsPetrock.afont
 
@@ -250,18 +280,6 @@
 /processorParam:TextureFormat=Color
 /build:AgateLib.Themes.Papyrus/UserInterface/Papyrus/paper background.png
 
-#begin AgateLib.Themes.Papyrus/UserInterface/Papyrus/RPG_GUI_v1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:AgateLib.Themes.Papyrus/UserInterface/Papyrus/RPG_GUI_v1.png
-
 #begin AgateLib.Themes.Papyrus/UserInterface/Papyrus/render-elements.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -273,6 +291,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:AgateLib.Themes.Papyrus/UserInterface/Papyrus/render-elements.png
+
+#begin AgateLib.Themes.Papyrus/UserInterface/Papyrus/RPG_GUI_v1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AgateLib.Themes.Papyrus/UserInterface/Papyrus/RPG_GUI_v1.png
 
 #begin AgateLib.Themes.Papyrus/UserInterface/Papyrus/wood background.png
 /importer:TextureImporter

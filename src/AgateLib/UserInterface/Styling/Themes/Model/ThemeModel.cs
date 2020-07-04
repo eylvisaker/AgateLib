@@ -1,8 +1,5 @@
-﻿using AgateLib.Display.Sprites;
-using Microsoft.Xna.Framework;
-using System;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AgateLib.UserInterface.Styling.Themes.Model
 {
@@ -14,6 +11,8 @@ namespace AgateLib.UserInterface.Styling.Themes.Model
         public ThemeBackgrounds Backgrounds { get; set; }
         public ThemeBorders Borders { get; set; }
 
+        public Dictionary<UserInterfaceSound, string> Sounds { get; set; } = new Dictionary<UserInterfaceSound, string>();
+
         public ThemeStylePatternList Styles { get; set; } = new ThemeStylePatternList();
 
 
@@ -21,6 +20,7 @@ namespace AgateLib.UserInterface.Styling.Themes.Model
         {
             public string Images { get; set; }
             public string Cursors { get; set; }
+            public string Sounds { get; set; }
         }
 
         public class ThemeBackgrounds : Dictionary<string, BackgroundStyle>

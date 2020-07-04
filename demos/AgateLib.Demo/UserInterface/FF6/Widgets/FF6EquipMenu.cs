@@ -158,8 +158,7 @@ namespace AgateLib.Demo.UserInterface.FF6.Widgets
 
         private void EquipItem(UserInterfaceEvent e)
         {
-            e.System.SetFocus(itemsMenuRef);
-
+            e.PlayUserInterfaceSound = e.System.SetFocus(itemsMenuRef);
         }
 
         private void RemoveItem(UserInterfaceEvent e)

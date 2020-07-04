@@ -270,10 +270,18 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             string root
                 = (themePathTypes.HasFlag(ThemePathTypes.Cursors) ? model.Paths?.Cursors : null)
+                ?? (themePathTypes.HasFlag(ThemePathTypes.Sounds) ? model.Paths?.Sounds : null)
                 ?? (themePathTypes.HasFlag(ThemePathTypes.Images) ? model.Paths?.Images : null)
                 ?? "";
 
-            root = System.IO.Path.Combine(RootFolder, root);
+            if (string.IsNullOrWhiteSpace(root))
+            {
+                root = RootFolder;
+            }
+            else
+            {
+                root = System.IO.Path.Combine(RootFolder, root);
+            }
 
             return content.Load<T>(System.IO.Path.Combine(root, file));
         }

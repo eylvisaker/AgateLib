@@ -35,8 +35,16 @@ namespace AgateLib.UserInterface
         public UserInterfaceEvent Reset(IRenderElement sender)
         {
             Sender = sender;
+            PlayUserInterfaceSound = true;
+
             return this;
         }
+
+        /// <summary>
+        /// Gets or sets whether the UI should play any standard audio sound 
+        /// that arose from this event.
+        /// </summary>
+        public bool PlayUserInterfaceSound { get; set; } = true;
 
         public IRenderElement Sender { get; private set; }
 

@@ -51,11 +51,13 @@ namespace AgateLib.UserInterface
                        IUserInterfaceLayoutContext layoutContext,
                        IFontProvider fonts,
                        IStyleConfigurator styles,
-                       IAnimationFactory animationFactory)
+                       IAnimationFactory animationFactory, 
+                       IUserInterfaceAudio audio)
         {
             this.Config = config;
             this.animationFactory = animationFactory;
             this.layoutContext = layoutContext;
+            this.Audio = audio;
 
             appContext.Config = config;
 
@@ -63,6 +65,11 @@ namespace AgateLib.UserInterface
             Fonts = fonts;
 
             inactiveWorkspaceFadeColor.FadeIn();
+
+            if (Audio != null)
+            {
+                Audio.ActiveDesktop = this;
+            }
         }
 
         /// <summary>

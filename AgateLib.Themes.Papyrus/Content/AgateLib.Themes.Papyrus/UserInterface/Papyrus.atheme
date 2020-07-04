@@ -1,6 +1,7 @@
 paths:
   images: Papyrus
   cursors: Papyrus
+  sounds: Audio
 cursors:
   default:
     image:
@@ -16,6 +17,13 @@ cursors:
       - source-rect: 432 13 4 4
       - source-rect: 432 17 4 4
       - source-rect: 432 21 4 4
+sounds:
+  navigate: menunav
+  accept: menu-select
+  cancel: menu-select
+  invalid: invalid
+  workspaceAdded: menuin
+  workspaceRemoved: menuout
 backgrounds:
   window: 
     image: paper background

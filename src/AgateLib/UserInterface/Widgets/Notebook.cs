@@ -181,6 +181,11 @@ namespace AgateLib.UserInterface
             }
 
             SetState(s => s.ActivePageIndex = tabIndex);
+
+            if (Props.PlaySounds)
+            {
+                Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            }
         }
 
         protected override void OnReceiveProps()

@@ -23,6 +23,7 @@
 using AgateLib.Display;
 using AgateLib.Mathematics.Geometry;
 using AgateLib.Physics.TwoDimensions;
+using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Styling;
 using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Styling.Themes.Model;
@@ -33,7 +34,7 @@ using System.Collections.Generic;
 using System.Linq;
 using YamlDotNet.Core;
 
-namespace AgateLib.UserInterface.Rendering
+namespace AgateLib.UserInterface
 {
     public class ThemedCursor : ICursor
     {

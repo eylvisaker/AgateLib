@@ -113,7 +113,6 @@ namespace AgateLib.UserInterface
                                   IContentLayoutEngine contentLayoutEngine,
                                   IFontProvider fontProvider,
                                   IStyleConfigurator styleConfigurator,
-                                  float visualScaling = 1,
                                   IAnimationFactory animationFactory = null,
                                   IUserInterfaceAudio audio = null,
                                   IDoubleBuffer doubleBuffer = null,

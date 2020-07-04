@@ -778,6 +778,12 @@ namespace AgateLib.UserInterface
         public bool Enabled { get; set; } = true;
 
         /// <summary>
+        /// Gets or sets whether UI sounds play when the user interacts with the element or navigates
+        /// within it.
+        /// </summary>
+        public bool PlaySounds { get; set; } = true;
+
+        /// <summary>
         /// Used by the PropertiesEqual method to determine which properties to skip
         /// when comparing.
         /// </summary>
@@ -892,6 +898,7 @@ namespace AgateLib.UserInterface
                 elementProps.StyleClass = props.StyleClass ?? elementProps.StyleClass;
                 elementProps.DefaultStyle = props.DefaultStyle ?? elementProps.DefaultStyle;
                 elementProps.Visible = props.Visible;
+                elementProps.PlaySounds = props.PlaySounds;
             }
             else
             {

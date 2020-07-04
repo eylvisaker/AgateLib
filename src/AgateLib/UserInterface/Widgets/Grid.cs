@@ -327,7 +327,7 @@ namespace AgateLib.UserInterface
                     break;
             }
 
-            if (moved)
+            if (moved && Props.PlaySounds)
             {
                 Display.System.PlaySound(this, UserInterfaceSound.Navigate);
             }

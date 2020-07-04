@@ -590,7 +590,11 @@ namespace AgateLib.UserInterface
 
             FocusIndex = newIndex;
 
-            Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            if (Props.PlaySounds)
+            {
+                Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            }
+
             Display.System.SetFocus(focusChildren[newIndex]);
 
             return true;
@@ -613,7 +617,11 @@ namespace AgateLib.UserInterface
 
             FocusIndex = newIndex;
 
-            Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            if (Props.PlaySounds)
+            {
+                Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            }
+
             Display.System.SetFocus(focusChildren[newIndex]);
 
             return true;

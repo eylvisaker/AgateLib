@@ -86,6 +86,8 @@ namespace AgateLib
             }
 
             fontProvider.SetupGet(x => x.Default).Returns(defaultFont);
+            fontProvider.Setup(x => x.GetOrDefault(It.IsAny<string>()))
+                .Returns<string>(s => fontProvider.Object[s] ?? defaultFont);
 
             return fontProvider;
         }

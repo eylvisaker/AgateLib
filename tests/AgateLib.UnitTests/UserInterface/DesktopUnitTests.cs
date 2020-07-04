@@ -20,7 +20,8 @@ namespace AgateLib.UserInterface
                                           CommonMocks.RenderContext().Object,
                                           CommonMocks.FontProvider().Object,
                                           CommonMocks.StyleConfigurator().Object,
-                                          new AnimationFactory());
+                                          new AnimationFactory(),
+                                          Mock.Of<IUserInterfaceAudio>());
 
             (var w1, var e1) = CommonMocks.Widget("w1", elementCanHaveFocus: true);
             (var w2, var e2) = CommonMocks.Widget("w2", elementCanHaveFocus: true);
@@ -58,7 +59,8 @@ namespace AgateLib.UserInterface
                                           CommonMocks.RenderContext().Object,
                                           CommonMocks.FontProvider().Object,
                                           CommonMocks.StyleConfigurator().Object,
-                                          new AnimationFactory());
+                                          new AnimationFactory(),
+                                          Mock.Of<IUserInterfaceAudio>());
 
             bool exited = false;
 
@@ -109,7 +111,8 @@ namespace AgateLib.UserInterface
                                           CommonMocks.RenderContext().Object,
                                           CommonMocks.FontProvider().Object,
                                           CommonMocks.StyleConfigurator().Object,
-                                          new AnimationFactory());
+                                          new AnimationFactory(),
+                                          Mock.Of<IUserInterfaceAudio>());
 
             (var widget, var element) = CommonMocks.Widget("happy");
 

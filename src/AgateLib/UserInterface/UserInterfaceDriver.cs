@@ -59,10 +59,7 @@ namespace AgateLib.UserInterface
             Require.That(config.ScreenArea.Width > 0, "Screen area width must be positive.");
             Require.That(config.ScreenArea.Height > 0, "Screen area height must be positive.");
 
-            desktop = new Desktop(config, renderContext, fonts, styles, animationFactory)
-            {
-                Audio = audio,
-            };
+            desktop = new Desktop(config, renderContext, fonts, styles, animationFactory, audio);
 
             desktop.FocusChanged += Desktop_FocusChanged;
             Desktop.UnhandledEvent += Desktop_UnhandledEvent;

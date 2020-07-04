@@ -36,6 +36,8 @@ namespace AgateLib.Demo
 
             StyleConfigurator = new ThemeStyler(Themes);
 
+            Audio = new ThemedAudio();
+
             Renderer = new UserInterfaceRenderer(
                 new ComponentStyleRenderer(graphics),
                 Config);
@@ -55,6 +57,8 @@ namespace AgateLib.Demo
         public ThemeLoader ThemeLoader { get; }
         public ThemeCollection Themes { get; }
         public ThemeStyler StyleConfigurator { get; }
+        public ThemedAudio Audio { get; }
+
         public UserInterfaceRenderer Renderer { get; }
         public IContentLayoutEngine LocalizedContent { get; set; }
 
@@ -79,7 +83,8 @@ namespace AgateLib.Demo
                    Renderer,
                    LocalizedContent ?? ContentLayoutEngine,
                    Fonts,
-                   StyleConfigurator);
+                   StyleConfigurator,
+                   audio: Audio);
 
             result.Theme = DefaultThemeKey;
 

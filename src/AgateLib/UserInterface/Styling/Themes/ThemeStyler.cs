@@ -79,7 +79,7 @@ namespace AgateLib.UserInterface.Styling.Themes
                 }
             }
 
-            var initialTheme = ThemeOf(rootElement, themes[themeOverride]);
+            var initialTheme = ThemeOf(rootElement, themes[startTheme]);
 
             ApplyRecurse(rootElement, initialTheme);
         }
