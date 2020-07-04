@@ -5,7 +5,7 @@ using MathNet.Numerics.LinearAlgebra.Single;
 using System.Linq;
 using Xunit;
 
-namespace AgateLib.Tests.PhysicsTests.LinearAlgebraTests
+namespace AgateLib.Demo.PhysicsTests.LinearAlgebraTests
 {
     public class GaussSeidelTests
     {

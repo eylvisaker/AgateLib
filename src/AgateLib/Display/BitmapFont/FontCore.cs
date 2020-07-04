@@ -43,15 +43,12 @@ namespace AgateLib.Display.BitmapFont
 
         Size MeasureString(FontState state, string text);
 
-        [Obsolete("This should not be part of the interface.")]
-        void AddFontSurface(FontSettings settings, IFontTexture fontSurface);
-
         FontSettings GetClosestFontSettings(FontSettings settings);
 
         IFontTexture FontSurface(FontState fontState);
     }
 
-    internal class FontCore : IFontCore
+    public class FontCore : IFontCore
     {
         private Dictionary<FontSettings, IFontTexture> fontTextures = new Dictionary<FontSettings, IFontTexture>();
 
@@ -64,7 +61,7 @@ namespace AgateLib.Display.BitmapFont
 
         public IReadOnlyDictionary<FontSettings, IFontTexture> FontItems => fontTextures;
 
-        public void AddFontSurface(FontSettings settings, IFontTexture fontSurface)
+        public void AddFontTexture(FontSettings settings, IFontTexture fontSurface)
         {
             Require.ArgumentNotNull(fontSurface, nameof(fontSurface));
 

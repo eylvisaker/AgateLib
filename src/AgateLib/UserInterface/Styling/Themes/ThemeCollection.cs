@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -30,7 +31,11 @@ namespace AgateLib.UserInterface.Styling.Themes
     /// Implements the IReadOnlyDictionary&lt;string, ITheme&gt;
     /// interface.
     /// </summary>
-    public interface IThemeCollection : IReadOnlyDictionary<string, ITheme> { }
+    public interface IThemeCollection : IReadOnlyDictionary<string, ITheme>
+    {
+        string DefaultThemeKey { get; set; }
+        ITheme DefaultTheme { get; }
+    }
 
     /// <summary>
     /// Represents a collection of themes. 
@@ -40,8 +45,30 @@ namespace AgateLib.UserInterface.Styling.Themes
     public class ThemeCollection : IThemeCollection, IDictionary<string, ITheme>
     {
         private readonly Dictionary<string, ITheme> themes = new Dictionary<string, ITheme>();
+        private readonly UserInterfaceConfig config;
 
-        public ITheme this[string key] { get => ((IDictionary<string, ITheme>)themes)[key]; set => ((IDictionary<string, ITheme>)themes)[key] = value; }
+        public ThemeCollection(UserInterfaceConfig config)
+        {
+            this.config = config;
+        }
+
+        public string DefaultThemeKey
+        {
+            get => config.DefaultTheme;
+            set => config.DefaultTheme = value;
+        }
+
+        public ITheme DefaultTheme => themes[DefaultThemeKey];
+
+        public ITheme this[string key]
+        {
+            get => ((IDictionary<string, ITheme>)themes)[key]; 
+            set
+            {
+                DefaultThemeKey = DefaultThemeKey ?? key;
+                ((IDictionary<string, ITheme>)themes)[key] = value;
+            }
+        }
 
         public ICollection<string> Keys => ((IDictionary<string, ITheme>)themes).Keys;
 
@@ -57,16 +84,20 @@ namespace AgateLib.UserInterface.Styling.Themes
 
         public void Add(string key, ITheme value)
         {
+            DefaultThemeKey = DefaultThemeKey ?? key;
+
             ((IDictionary<string, ITheme>)themes).Add(key, value);
         }
 
         public void Add(KeyValuePair<string, ITheme> item)
         {
+            DefaultThemeKey = DefaultThemeKey ?? item.Key;
             ((IDictionary<string, ITheme>)themes).Add(item);
         }
 
         public void Clear()
         {
+            DefaultThemeKey = null;
             ((IDictionary<string, ITheme>)themes).Clear();
         }
 
@@ -99,6 +130,7 @@ namespace AgateLib.UserInterface.Styling.Themes
         {
             return ((IDictionary<string, ITheme>)themes).Remove(item);
         }
+
 
         public bool TryGetValue(string key, out ITheme value)
         {

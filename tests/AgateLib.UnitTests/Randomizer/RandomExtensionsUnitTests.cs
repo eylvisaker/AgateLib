@@ -14,7 +14,7 @@ namespace AgateLib.Randomizer
 
         public RandomExtensionsUnitTests()
         {
-            rnd = new Xoroshiro128pp(45);
+            rnd = new Xoroshiro128pp(Seed.Parse("45"));
         }
 
         [Fact]

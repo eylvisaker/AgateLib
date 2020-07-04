@@ -34,7 +34,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets the default font.
         /// </summary>
-		Font Default { get; }
+        Font Default { get; }
 
         /// <summary>
         /// Creates a font object for the specified font family.
@@ -143,7 +143,7 @@ namespace AgateLib.UserInterface
             {
                 if (int.TryParse(param, NumberStyles.Integer, CultureInfo.InvariantCulture, out int size))
                     result.Size = size;
-                }
+                
                 else if (Enum.TryParse<FontStyles>(param, out FontStyles fontStyles))
                 {
                     result.Style = fontStyles;

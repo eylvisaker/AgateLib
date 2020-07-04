@@ -6,7 +6,7 @@ using System.Linq;
 using Xunit;
 using YamlDotNet.Serialization;
 
-namespace AgateLib.Tests.MathematicsTests
+namespace AgateLib.Demo.MathematicsTests
 {
     public class PolygonTests : PolygonUnitTest
     {

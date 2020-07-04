@@ -1,7 +1,7 @@
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
 
-namespace AgateLib.Tests.MathematicsTests
+namespace AgateLib.Demo.MathematicsTests
 {
     public class PolygonUnitTest
     {

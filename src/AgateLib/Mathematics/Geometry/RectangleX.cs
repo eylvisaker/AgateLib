@@ -101,9 +101,47 @@ namespace AgateLib.Mathematics.Geometry
             result[3] = new Vector2(r.Right, r.Top);
         }
 
+        /// <summary>
+        /// Computes a rectangle with the specified top, left, right and bottom edges.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        /// <returns></returns>
         public static Rectangle FromLTRB(int left, int top, int right, int bottom)
         {
             return new Rectangle(left, top, right - left, bottom - top);
+        }
+
+        /// <summary>
+        /// Computes a floating point rectangle with the specified top, left, right and bottom edges.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        /// <returns></returns>
+        public static RectangleF FromLTRB(float left, float top, float right, float bottom)
+        {
+            return new RectangleF(left, top, right - left, bottom - top);
+        }
+
+        /// <summary>
+        /// Computes a rectangle with the specified top, left, right and bottom edges. Rounds each floating
+        /// point value to the nearest integer.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        /// <returns></returns>
+        public static Rectangle FromLTRBRounded(float left, float top, float right, float bottom)
+        {
+            return FromLTRB((int)Math.Round(left),
+                            (int)Math.Round(top),
+                            (int)Math.Round(right),
+                            (int)Math.Round(bottom));
         }
 
         /// <summary>
@@ -183,14 +221,14 @@ namespace AgateLib.Mathematics.Geometry
         }
 
         /// <summary>
-		/// Creates a new rectangle which contains all the area of the two passed in rectangles.
-		/// </summary>
-		/// <param name="a">A rectangle to add to the union.</param>
-		/// <param name="a">Another rectangle to add to the union.</param>
-		/// <returns></returns>
+        /// Creates a new rectangle which contains all the area of the two passed in rectangles.
+        /// </summary>
+        /// <param name="a">A rectangle to add to the union.</param>
+        /// <param name="a">Another rectangle to add to the union.</param>
+        /// <returns></returns>
         /// <remarks>This method exists to allow the user to avoid creating garbage
         /// when doing a union operation on a small number of rectangles. </remarks>
-		public static Rectangle Union(this Rectangle a, Rectangle b)
+        public static Rectangle Union(this Rectangle a, Rectangle b)
         {
             return FromLTRB(
                 Math.Min(a.Left, b.Left),
@@ -259,8 +297,23 @@ namespace AgateLib.Mathematics.Geometry
         /// <summary>
         /// Gets the center point of the rectangle.
         /// </summary>
-        public static Vector2 CenterPoint(this Rectangle rect)
+        public static Vector2 CenterPointAsVector(this Rectangle rect)
             => new Vector2(rect.Location.X + rect.Size.X * 0.5f, rect.Location.Y + rect.Size.Y * 0.5f);
 
+
+        /// <summary>
+        /// Gets the center point of the rectangle.
+        /// </summary>
+        [Obsolete("Use CenterPointAsVector instead.")]
+        public static Vector2 CenterPoint(this Rectangle rect)
+            => CenterPointAsVector(rect);
+
+        /// <summary>
+        /// Computes height * width for the rectangle
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public static float Area(this Rectangle rect)
+            => rect.Width * rect.Height;
     }
 }

@@ -1,0 +1,9 @@
+ <Project>
+  <PropertyGroup>
+    <Company>Vermilion Tower</Company>
+    <Authors>The Vermilion Wizard</Authors>
+    <RepositoryUrl>https://github.com/eylvisaker/AgateLib</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/eylvisaker/AgateLib</PackageProjectUrl>
+    <PackageLicense>https://raw.githubusercontent.com/eylvisaker/AgateLib/master/Jenkinsfile/License.txt</PackageLicense>
+  </PropertyGroup>
+</Project>

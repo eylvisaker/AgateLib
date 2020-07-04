@@ -287,11 +287,6 @@ namespace AgateLib.Display
             return $"{core.Name} {Size} Style:{Style}";
         }
 
-        internal void AddFontTexture(FontSettings settings, IFontTexture fontSurface)
-        {
-            core.AddFontSurface(settings, fontSurface);
-        }
-
         public override bool Equals(object obj)
         {
             if (obj is Font font)

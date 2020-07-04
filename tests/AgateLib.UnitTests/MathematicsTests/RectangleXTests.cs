@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.MathematicsTests
+namespace AgateLib.Demo.MathematicsTests
 {
     public class RectangleXTests
     {
@@ -44,7 +44,7 @@ namespace AgateLib.Tests.MathematicsTests
         {
             var rect = new Rectangle(10, 10, 40, 30);
 
-            rect.CenterPoint().Should().Be(rect.Center.ToVector2());
+            rect.CenterPointAsVector().Should().Be(rect.Center.ToVector2());
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace AgateLib.Tests.MathematicsTests
         {
             var rect = new Rectangle(10, 12, 5, 3);
 
-            rect.CenterPoint().Should().Be(new Vector2(12.5f, 13.5f));
+            rect.CenterPointAsVector().Should().Be(new Vector2(12.5f, 13.5f));
         }
     }
 }

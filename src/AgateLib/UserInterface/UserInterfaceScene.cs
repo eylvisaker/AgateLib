@@ -74,7 +74,7 @@ namespace AgateLib.UserInterface
         /// <summary>
         /// Gets or sets the focus indicator.
         /// </summary>
-        IPointer Pointer { get; set; }
+        ICursor Pointer { get; set; }
 
         /// <summary>
         /// Creates a workspace for the specified widget or render element and
@@ -102,18 +102,17 @@ namespace AgateLib.UserInterface
     public class UserInterfaceScene : Scene, IUserInterfaceScene
     {
         private readonly UserInterfaceRenderContext renderContext;
-        private readonly UserInterfaceSceneDriver driver;
+        private readonly UserInterfaceDriver driver;
         private readonly List<Action> actionsToInvoke = new List<Action>();
-
+        private readonly UserInterfaceConfig config;
         private TaskCompletionSource<bool> exitTask;
 
-        public UserInterfaceScene(Rectangle screenArea,
+        public UserInterfaceScene(UserInterfaceConfig config,
                                   GraphicsDevice graphicsDevice,
                                   IUserInterfaceRenderer userInterfaceRenderer,
                                   IContentLayoutEngine contentLayoutEngine,
                                   IFontProvider fontProvider,
                                   IStyleConfigurator styleConfigurator,
-                                  float scaling = 1,
                                   IAnimationFactory animationFactory = null,
                                   IUserInterfaceAudio audio = null,
                                   IDoubleBuffer doubleBuffer = null,
@@ -123,6 +122,7 @@ namespace AgateLib.UserInterface
             UpdateBelow = false;
 
             Animations = animationFactory ?? new AnimationFactory();
+            this.config = config;
             GraphicsDevice = graphicsDevice;
 
             renderContext = new UserInterfaceRenderContext(graphicsDevice,
@@ -135,13 +135,12 @@ namespace AgateLib.UserInterface
                                                            null,
                                                            doubleBuffer);
 
-            driver = new UserInterfaceSceneDriver(
-                screenArea,
+            driver = new UserInterfaceDriver(
+                config,
                 renderContext,
                 styleConfigurator,
                 fontProvider,
                 Animations,
-                scaling,
                 audio);
 
             driver.Desktop.Empty += () =>
@@ -245,10 +244,10 @@ namespace AgateLib.UserInterface
         /// </summary>
         public Rectangle GraphicsDeviceViewportBounds => GraphicsDevice.Viewport.Bounds;
 
-        public IPointer Pointer
+        public ICursor Pointer
         {
-            get => driver.Indicator;
-            set => driver.Indicator = value;
+            get => driver.Cursor;
+            set => driver.Cursor = value;
         }
 
         /// <summary>
@@ -256,8 +255,8 @@ namespace AgateLib.UserInterface
         /// </summary>
         public string Theme
         {
-            get => Desktop.DefaultTheme;
-            set => Desktop.DefaultTheme = value;
+            get => Desktop.Theme;
+            set => Desktop.Theme = value;
         }
 
         /// <summary>

@@ -73,4 +73,15 @@ namespace AgateLib
     public class InjectPropertiesAttribute : Attribute
     {
     }
+
+    /// <summary>
+    /// This attribute is to mark types that are meant to only be initialized
+    /// by the serialization system. These are data model types that
+    /// serialize directly to JSON or YAML, and as such all their properties 
+    /// are serializable and public read/write.
+    /// 
+    /// TODO: Write a roslyn rule that enforces this.
+    /// </summary>
+    public class SerializationTypeAttribute : Attribute
+    { }
 }

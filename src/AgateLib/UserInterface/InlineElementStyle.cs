@@ -9,6 +9,8 @@ namespace AgateLib.UserInterface
     {
         private int? fontSize;
 
+        #region --- Equality Comparison ---
+
         public static bool Equals(InlineElementStyle a, InlineElementStyle b)
         {
             if (a == null && b == null)
@@ -99,6 +101,35 @@ namespace AgateLib.UserInterface
             return true;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is InlineElementStyle other))
+            {
+                return false;
+            }
+
+            return Equals(this, other);
+        }
+
+        public override int GetHashCode()
+            => (FontFace?.GetHashCode() ?? 0)
+            ^ TextColor.GetHashCode()
+            ^ FontSize.GetHashCode()
+            ^ FontStyle.GetHashCode()
+            ^ TextAlign.GetHashCode()
+            ^ Overflow.GetHashCode()
+            ^ Background.GetHashCode()
+            ^ Border.GetHashCode()
+            ^ Flex.GetHashCode()
+            ^ FlexItem.GetHashCode()
+            ^ Padding.GetHashCode()
+            ^ Margin.GetHashCode()
+            ^ Layout.GetHashCode()
+            ^ Size.GetHashCode()
+            ;
+
+        #endregion
+
         public float Scaling { get; set; } = 1;
 
         public string FontFace { get; set; }
@@ -149,16 +180,6 @@ namespace AgateLib.UserInterface
         public int Specificity { get; set; }
 
         IReadOnlyCollection<string> IRenderElementStyleProperties.PseudoClasses => null;
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is InlineElementStyle other))
-            {
-                return false;
-            }
-
-            return Equals(this, other);
-        }
 
         public override string ToString() => $"Inline Style: {BuildStyleDescription()}";
 

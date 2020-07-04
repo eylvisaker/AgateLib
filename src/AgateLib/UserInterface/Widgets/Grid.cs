@@ -49,7 +49,7 @@ namespace AgateLib.UserInterface
 
         protected override void OnReceivedAppContext()
         {
-            Children = Finalize(Props.Children).ToList();
+            Children = FinalizeRendering(Props.Children).ToList();
 
             RecalcArrangement();
         }
@@ -289,11 +289,11 @@ namespace AgateLib.UserInterface
 
         public override bool CanHaveFocus => Children.Any(x => x.CanHaveFocus);
 
-        public override void OnFocus()
+        public override bool OnFocus()
         {
             SetGlobalFocus();
 
-            base.OnFocus();
+            return base.OnFocus();
         }
 
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs args)
@@ -327,7 +327,7 @@ namespace AgateLib.UserInterface
                     break;
             }
 
-            if (moved)
+            if (moved && Props.PlaySounds)
             {
                 Display.System.PlaySound(this, UserInterfaceSound.Navigate);
             }

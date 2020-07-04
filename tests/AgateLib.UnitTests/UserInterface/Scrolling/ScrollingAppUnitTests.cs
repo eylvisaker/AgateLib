@@ -1,4 +1,4 @@
-﻿using AgateLib.Tests.UserInterface.Scrolling;
+﻿using AgateLib.Demo.UserInterface.Scrolling;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;

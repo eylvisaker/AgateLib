@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.MathematicsTests
+namespace AgateLib.Demo.MathematicsTests
 {
     public class SizeFTests
     {

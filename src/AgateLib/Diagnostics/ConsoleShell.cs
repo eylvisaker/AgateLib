@@ -90,9 +90,6 @@ namespace AgateLib.Diagnostics
 
         private List<ICommandLibrary> commandLibraries = new List<ICommandLibrary>();
 
-        private HashSet<string> paths = new HashSet<string>(StringComparer.CurrentCultureIgnoreCase);
-        private List<string> availablePaths = new List<string>();
-
         private VocabularyCommands emergencyVocab;
         private GameTime lastTime = new GameTime();
         private long CurrentTime;
@@ -104,9 +101,6 @@ namespace AgateLib.Diagnostics
             emergencyVocab = new VocabularyCommands(new AgateEmergencyVocabulary(this));
 
             commandLibraries.Add(new VocabularyCommands(new AgateConsoleVocabulary()));
-
-            State.PathValidate += EvaluatePath;
-            State.PathChanged += UpdateAvailablePaths;
         }
 
         public ConsoleState State { get; } = new ConsoleState();
@@ -157,35 +151,17 @@ namespace AgateLib.Diagnostics
         {
             get
             {
-                yield return emergencyVocab;
-
-                foreach (var library in commandLibraries)
+                foreach (ICommandLibrary library in commandLibraries)
                 {
                     yield return library;
                 }
+
+                yield return emergencyVocab;
             }
         }
 
         /// <summary>
-        /// Returns the list of command libraries, which match the current path.
-        /// </summary>
-        internal IEnumerable<ICommandLibrary> AvailableCommandLibraries
-        {
-            get
-            {
-                yield return emergencyVocab;
-
-                foreach (var library in commandLibraries.Where(
-                         x => x.IsGlobal
-                           || NormalizeAbsolutePath(x.Path).Equals(State.CurrentPath, StringComparison.OrdinalIgnoreCase)))
-                {
-                    yield return library;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the list of command libraries for the application has
+        /// Gets the list of command libraries for the application has
         /// installed.
         /// </summary>
         public IReadOnlyList<ICommandLibrary> CommandLibraries
@@ -193,64 +169,9 @@ namespace AgateLib.Diagnostics
             get => commandLibraries;
         }
 
-        public IEnumerable<string> AvailableSubPaths => availablePaths;
-
         public void AddCommands(ICommandLibrary commands)
         {
             commandLibraries.Add(commands);
-
-            UpdatePaths();
-        }
-
-        private void UpdatePaths()
-        {
-            paths.Clear();
-
-            foreach (var commandLibrary in commandLibraries)
-            {
-                if (!string.IsNullOrWhiteSpace(commandLibrary.Path))
-                {
-                    var path = commandLibrary.Path;
-
-                    path = path.StartsWith("/") ? path : "/" + path;
-
-                    paths.Add(path);
-                }
-            }
-
-            UpdateAvailablePaths();
-        }
-
-        private void UpdateAvailablePaths()
-        {
-            availablePaths.Clear();
-
-            if (State.CurrentPath.Length > 1)
-            {
-                availablePaths.Add("..");
-            }
-
-            string pathRoot = State.CurrentPath.Length > 1 ? State.CurrentPath + "/" : "/";
-            int start = pathRoot.Length;
-
-            foreach (var path in paths)
-            {
-                if (path.StartsWith(pathRoot, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    var nextBreak = path.IndexOf('/', start);
-
-                    if (nextBreak == -1)
-                    {
-                        availablePaths.Add(path.Substring(start));
-                    }
-                    else
-                    {
-                        int length = nextBreak - start;
-
-                        availablePaths.Add(path.Substring(start, length + 1));
-                    }
-                }
-            }
         }
 
         public void Update(GameTime time)
@@ -321,7 +242,7 @@ namespace AgateLib.Diagnostics
 
             bool isDebugCommand = IsDebugCommand(command);
 
-            foreach (var commandProcessor in AvailableCommandLibraries)
+            foreach (var commandProcessor in CommandLibrarySet)
             {
                 try
                 {
@@ -428,97 +349,6 @@ namespace AgateLib.Diagnostics
             return command == "debug" || command.StartsWith("debug ");
         }
 
-        #region --- Path Handling ---
-
-        /// <summary>
-        /// Evaluates a local path into an absolute one.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        private string EvaluatePath(string path)
-        {
-            var targetPath = path;
-
-            if (!path.StartsWith("/"))
-            {
-                targetPath = State.CurrentPath + $"{path}";
-            }
-
-            targetPath = NormalizeAbsolutePath(EvaluateDots(targetPath));
-
-            if (AnyCommandsAt(targetPath))
-            {
-                return targetPath;
-            }
-            else
-            {
-                throw new AgateConsoleException("Invalid path.");
-            }
-        }
-
-        private bool AnyCommandsAt(string targetPath)
-        {
-            return CommandLibrarySet.Any(x => NormalizeAbsolutePath(x.Path)
-                                     .Equals(targetPath, StringComparison.CurrentCultureIgnoreCase));
-        }
-
-        private static readonly string[] pathSeparator = new[] { "/" };
-
-        private string EvaluateDots(string path)
-        {
-            if (!path.Contains("."))
-            {
-                return path;
-            }
-
-            List<string> dirs = path.Split(pathSeparator, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            for (int i = 0; i < dirs.Count; i++)
-            {
-                if (dirs[i] == "" || dirs[i] == ".")
-                {
-                    dirs.RemoveAt(i);
-                    i--;
-                }
-                if (dirs[i] == "..")
-                {
-                    dirs.RemoveAt(i);
-
-                    if (0 < i && i < dirs.Count)
-                    {
-                        dirs.RemoveAt(i - 1);
-                        i--;
-                    }
-                    i--;
-                }
-            }
-
-            return string.Join(pathSeparator[0], dirs);
-        }
-
-        /// <summary>
-        /// Normalizes an absolute path for comparison.
-        /// </summary>
-        /// <param name="currentPath"></param>
-        /// <returns></returns>
-        private string NormalizeAbsolutePath(string currentPath)
-        {
-            var result = currentPath;
-
-            if (!result.StartsWith("/"))
-            {
-                result = "/" + result;
-            }
-
-            if (!result.EndsWith("/"))
-            {
-                result += "/";
-            }
-
-            return result;
-        }
-
-        #endregion
         #region --- Input Handling ---
 
         public void ProcessKeyDown(Keys keyCode, string keystring, IKeyModifiers modifiers)

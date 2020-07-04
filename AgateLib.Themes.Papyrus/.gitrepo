@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:eylvisaker/AgateLib.Themes.Papyrus.git
+	branch = main
+	commit = a7b7fbe0ef3b050b7041707a2384b68732381286
+	method = merge
+	cmdver = 0.4.1
+	parent = 7978d509736cd6c8bc90bbcbd7bf9a570cb68db0

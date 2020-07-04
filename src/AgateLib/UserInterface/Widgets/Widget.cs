@@ -163,6 +163,8 @@ namespace AgateLib.UserInterface
         /// when this widget is rendered.
         /// </summary>
         public ElementReference Ref { get; set; }
+
+        public bool PlaySounds { get; set; } = true;
     }
 
     [Obsolete("This class serves no purpose.", true)]

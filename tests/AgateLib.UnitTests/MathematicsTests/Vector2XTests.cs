@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Xunit;
 using MathF = AgateLib.Mathematics.MathF;
 
-namespace AgateLib.Tests.MathematicsTests
+namespace AgateLib.Demo.MathematicsTests
 {
     public class Vector2Tests
     {

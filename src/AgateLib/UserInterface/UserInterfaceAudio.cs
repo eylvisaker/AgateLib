@@ -1,4 +1,6 @@
-﻿namespace AgateLib.UserInterface
+﻿using YamlDotNet.Serialization;
+
+namespace AgateLib.UserInterface
 {
     /// <summary>
     /// Interface for an object which plays sounds when the user performs actions in the
@@ -6,6 +8,8 @@
     /// </summary>
     public interface IUserInterfaceAudio
     {
+        Desktop ActiveDesktop { get; set; }
+
         /// <summary>
         /// Plays a particular UI sound. Returns true if the sound was successfully played.
         /// </summary>

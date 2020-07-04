@@ -1,4 +1,4 @@
-﻿using AgateLib.Tests.UserInterface.MultipleWorkspaces;
+﻿using AgateLib.Demo.UserInterface.MultipleWorkspaces;
 using FluentAssertions;
 using Microsoft.Xna.Framework.Input;
 using Xunit;

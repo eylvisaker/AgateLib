@@ -93,6 +93,8 @@ namespace AgateLib.Randomizer
             return new Seed(0, unchecked((ulong)value));
         }
 
+        #region --- Equality Testing ---
+
         public static bool operator ==(Seed a, ulong b)
         {
             return a.Equals(b);
@@ -143,6 +145,13 @@ namespace AgateLib.Randomizer
             return this.HighBits == other.HighBits
                 && this.LowBits == other.LowBits;
         }
+
+        public override int GetHashCode()
+        {
+            return this.HighBits.GetHashCode() ^ this.LowBits.GetHashCode();
+        }
+
+        #endregion
 
         /// <summary>
         /// Converts the seed to a string representation that is 22 characters or less.

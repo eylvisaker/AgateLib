@@ -22,6 +22,7 @@
 
 using AgateLib.Quality;
 using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 
 namespace AgateLib.Mathematics.TypeConverters
@@ -39,9 +40,9 @@ namespace AgateLib.Mathematics.TypeConverters
             return new Vector3(values[0], values[1], values[2]);
         }
 
-		protected override string Serialize(Vector3 value)
-		{
+        protected override string Serialize(Vector3 value)
+        {
             return FormattableString.Invariant($"{value.X} {value.Y} {value.Z}");
-		}
-	}
+        }
+    }
 }

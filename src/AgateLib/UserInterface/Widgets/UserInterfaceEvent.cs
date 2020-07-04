@@ -20,6 +20,8 @@
 //    SOFTWARE.
 //
 
+using System;
+
 namespace AgateLib.UserInterface
 {
     public class UserInterfaceEvent
@@ -33,8 +35,16 @@ namespace AgateLib.UserInterface
         public UserInterfaceEvent Reset(IRenderElement sender)
         {
             Sender = sender;
+            PlayUserInterfaceSound = true;
+
             return this;
         }
+
+        /// <summary>
+        /// Gets or sets whether the UI should play any standard audio sound 
+        /// that arose from this event.
+        /// </summary>
+        public bool PlayUserInterfaceSound { get; set; } = true;
 
         public IRenderElement Sender { get; private set; }
 
@@ -46,7 +56,7 @@ namespace AgateLib.UserInterface
         public UserInterfaceEvent<T> Reset(IRenderElement sender, T data)
         {
             base.Reset(sender);
-            Data = data;
+            Arg1 = data;
 
             return this;
         }
@@ -54,12 +64,16 @@ namespace AgateLib.UserInterface
         public UserInterfaceEvent<T> Reset(UserInterfaceEvent baseEvent, T data)
         {
             base.Reset(baseEvent.Sender);
-            Data = data;
+            Arg1 = data;
 
             return this;
         }
 
-        public T Data { get; private set; }
+        public T Arg1 { get; private set; }
+
+        [Obsolete("Use Arg1 instead.")]
+        public T Data => Arg1;
+
     }
 
     public class UserInterfaceEvent<T1, T2> : UserInterfaceEvent
@@ -68,8 +82,8 @@ namespace AgateLib.UserInterface
         {
             base.Reset(sender);
 
-            Data1 = data1;
-            Data2 = data2;
+            Arg1 = data1;
+            Arg2 = data2;
 
             return this;
         }
@@ -78,15 +92,21 @@ namespace AgateLib.UserInterface
         {
             base.Reset(baseEvent.Sender);
 
-            Data1 = data1;
-            Data2 = data2;
+            Arg1 = data1;
+            Arg2 = data2;
 
             return this;
         }
 
-        public T1 Data1 { get; private set; }
+        public T1 Arg1 { get; private set; }
 
-        public T2 Data2 { get; private set; }
+        public T2 Arg2 { get; private set; }
+
+        [Obsolete("Use Arg1 instead.")]
+        public T1 Data1 => Arg1;
+
+        [Obsolete("Use Arg1 instead.")]
+        public T2 Data2 => Arg2;
     }
 
     public class UserInterfaceEvent<T1, T2, T3> : UserInterfaceEvent
@@ -95,9 +115,9 @@ namespace AgateLib.UserInterface
         {
             base.Reset(sender);
 
-            Data1 = data1;
-            Data2 = data2;
-            Data3 = data3;
+            Arg1 = data1;
+            Arg2 = data2;
+            Arg3 = data3;
 
             return this;
         }
@@ -106,18 +126,27 @@ namespace AgateLib.UserInterface
         {
             base.Reset(baseEvent.Sender);
 
-            Data1 = data1;
-            Data2 = data2;
-            Data3 = data3;
+            Arg1 = data1;
+            Arg2 = data2;
+            Arg3 = data3;
 
             return this;
         }
 
-        public T1 Data1 { get; private set; }
+        public T1 Arg1 { get; private set; }
 
-        public T2 Data2 { get; private set; }
+        public T2 Arg2 { get; private set; }
 
-        public T3 Data3 { get; private set; }
+        public T3 Arg3 { get; private set; }
+
+        [Obsolete("Use Arg1 instead.")]
+        public T1 Data1 => Arg1;
+
+        [Obsolete("Use Arg1 instead.")]
+        public T2 Data2 => Arg2;
+
+        [Obsolete("Use Arg1 instead.")]
+        public T3 Data3 => Arg3;
     }
 
     public delegate void UserInterfaceEventHandler(UserInterfaceEvent e);

@@ -4,7 +4,7 @@ using AgateLib.UserInterface.Layout;
 using FluentAssertions;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Layout
+namespace AgateLib.Demo.UserInterface.Layout
 {
     public class LayoutMathTests
     {

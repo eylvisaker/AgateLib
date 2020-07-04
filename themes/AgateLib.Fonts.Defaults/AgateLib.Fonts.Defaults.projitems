@@ -11,4 +11,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Fonts.Defaults.mgcb" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\Fonts.Defaults.mgcb" />
+  </ItemGroup>
 </Project>

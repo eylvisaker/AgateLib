@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <Configurations>Debug;Release;Release_DesktopGL;Release_WindowsDX;Test;Release_Test</Configurations>
+    <Configurations>Debug;Release_DesktopGL;Release_WindowsDX;Release_Android</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AgateLib.Demo\AgateLib.Demo.csproj" />
+    <ProjectReference Include="..\..\demos\AgateLib.Demo\AgateLib.Demo.csproj" />
     <ProjectReference Include="..\..\src\AgateLib.TestFramework\AgateLib.TestFramework.csproj" />
     <ProjectReference Include="..\..\src\AgateLib.Physics\AgateLib.Physics.csproj" />
     <ProjectReference Include="..\..\src\AgateLib\AgateLib.csproj" />

@@ -21,6 +21,7 @@
 //
 
 using AgateLib.Display;
+using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -55,14 +56,7 @@ namespace AgateLib.UserInterface.Rendering
         /// <param name="dest"></param>
         void DrawFrame(IUserInterfaceRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest);
 
-
-        void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect);
-
-        void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect);
-
-        void DrawFrame(ICanvas canvas, Rectangle destOuterRect, Texture2D frameTexture,
-            Rectangle frameSourceInner, Rectangle frameSourceOuter,
-            ImageScale borderScale);
+        void DrawBackground(ICanvas canvas, ITheme theme, BackgroundStyle background, Rectangle backgroundRect);
     }
 
     [Transient]
@@ -85,10 +79,14 @@ namespace AgateLib.UserInterface.Rendering
         /// Constructs a UserInterfaceRenderer object.
         /// </summary>
         /// <param name="styleRenderer"></param>
-		public UserInterfaceRenderer(IComponentStyleRenderer styleRenderer)
+        public UserInterfaceRenderer(IComponentStyleRenderer styleRenderer, UserInterfaceConfig config)
         {
             this.styleRenderer = styleRenderer ?? throw new ArgumentNullException(nameof(styleRenderer));
+
+            this.Config = config;
         }
+
+        public UserInterfaceConfig Config { get; set; }
 
         public void Dispose()
         {
@@ -120,40 +118,27 @@ namespace AgateLib.UserInterface.Rendering
 
             styleRenderer.DrawBackground(
                 renderContext.Canvas,
+                display.Theme,
                 display.Style.Background,
                 backgroundRect);
         }
 
-        public void DrawBackground(ICanvas canvas, BackgroundStyle background, Rectangle backgroundRect)
+        public void DrawBackground(ICanvas canvas, ITheme theme, BackgroundStyle background, Rectangle backgroundRect)
         {
-            styleRenderer.DrawBackground(canvas, background, backgroundRect);
+            styleRenderer.DrawBackground(canvas, theme, background, backgroundRect);
         }
 
         public void DrawFrame(IUserInterfaceRenderContext renderContext, RenderElementDisplay display, Rectangle clientDest)
         {
             styleRenderer.DrawFrame(
                 renderContext.Canvas,
+                display.Theme,
                 display.Style.Border,
                 new Rectangle(
                     new Point(clientDest.X - display.Region.BorderToContentOffset.Left,
                               clientDest.Y - display.Region.BorderToContentOffset.Top),
-                    display.BorderRect.Size));
-        }
-
-        public void DrawFrame(ICanvas canvas, BorderStyle border, Rectangle borderRect)
-        {
-            styleRenderer.DrawFrame(canvas, border, borderRect);
-        }
-
-        public void DrawFrame(ICanvas canvas, Rectangle destOuterRect, Texture2D frameTexture, Rectangle frameSourceInner, Rectangle frameSourceOuter, ImageScale borderScale)
-        {
-            styleRenderer.DrawFrame(
-                canvas,
-                destOuterRect,
-                frameTexture,
-                frameSourceInner,
-                frameSourceOuter,
-                borderScale);
+                    display.BorderRect.Size),
+                Config.VisualScaling);
         }
 
         public void UpdateAnimation(IUserInterfaceRenderContext renderContext, IRenderElement element)

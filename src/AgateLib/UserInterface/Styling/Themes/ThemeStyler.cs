@@ -34,8 +34,23 @@ namespace AgateLib.UserInterface.Styling.Themes
             this.themes = themes;
         }
 
-        public void Apply(IRenderElement rootElement, string defaultTheme)
+        public string DefaultThemeKey
         {
+            get => themes.DefaultThemeKey;
+            set => themes.DefaultThemeKey = value;
+        }
+
+        public IEnumerable<string> AvailableThemes => themes.Keys;
+
+        /// <summary>
+        /// Applys the styling to the whole visual tree starting from this element.
+        /// </summary>
+        /// <param name="rootElement"></param>
+        /// <param name="theme">Optional override of the theme</param>
+        public void Apply(IRenderElement rootElement, string themeOverride = null)
+        {
+            string startTheme = themeOverride ?? DefaultThemeKey;
+
             RenderElementStack parentStack = new RenderElementStack();
 
             void ApplyRecurse(IRenderElement element, ITheme theme)
@@ -64,11 +79,22 @@ namespace AgateLib.UserInterface.Styling.Themes
                 }
             }
 
-            var initialTheme = ThemeOf(rootElement, themes[defaultTheme]);
+            var initialTheme = ThemeOf(rootElement, themes[startTheme]);
 
             ApplyRecurse(rootElement, initialTheme);
         }
 
+        public ITheme Theme(string themeKey)
+        {
+            return themes[themeKey];
+        }
+
+        /// <summary>
+        /// Returns `theme` or the theme specified for that element.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="theme"></param>
+        /// <returns></returns>
         private ITheme ThemeOf(IRenderElement element, ITheme theme)
         {
             if (!string.IsNullOrWhiteSpace(element.Props.Theme)

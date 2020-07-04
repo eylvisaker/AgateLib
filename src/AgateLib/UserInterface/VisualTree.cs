@@ -22,6 +22,7 @@
 
 //#define __DEBUG_RENDER
 
+using AgateLib.UserInterface.Layout;
 using AgateLib.UserInterface.Rendering.Animations;
 using AgateLib.UserInterface.Styling;
 using Microsoft.Xna.Framework;
@@ -42,13 +43,26 @@ namespace AgateLib.UserInterface
 
         private int debugFlag;
 
-        public VisualTree(IAnimationFactory animationFactory)
+        public VisualTree(UserInterfaceConfig config, IAnimationFactory animationFactory)
         {
+            Config = config;
             this.animationFactory = animationFactory;
             log = LogManager.GetCurrentClassLogger();
         }
 
-        public float Scaling { get; set; } = 1;
+        public IDisplaySystem DisplaySystem { get; set; }
+
+        public IRenderElement Focus => focus;
+
+        public IRenderElement TreeRoot => root;
+
+        public IStyleConfigurator Style { get; set; }
+
+        public UserInterfaceAppContext AppContext { get; internal set; }
+
+        public UserInterfaceConfig Config { get; internal set; }
+
+        public float VisualScaling => Config.VisualScaling;
 
         public void Render(IRenderable rootRenderable)
         {
@@ -94,19 +108,19 @@ namespace AgateLib.UserInterface
             {
                 if (root.CanHaveFocus)
                 {
-                    Focus = root;
+                    SetFocus(root);
                 }
                 else
                 {
-                    Focus = null;
+                    SetFocus(null);
                 }
             }
 
-            Style.Apply(root, DefaultTheme);
+            Style.Apply(root, DisplaySystem.Theme);
 
             Walk((element, parent) =>
             {
-                element.Style.Update(Scaling);
+                element.Style.Update(VisualScaling);
 
                 animationFactory.Configure(element.Display);
 
@@ -161,41 +175,49 @@ namespace AgateLib.UserInterface
                 return;
             }
 
-            bool childrenUpdated = false;
-
-            var children = new List<IRenderElement>();
-
-            newNode.AppContext = AppContext;
-
-            // Reorder the children in the old node so that they match the ones in the new node.
-            for (int newIndex = 0; newIndex < newNode.Children.Count; newIndex++)
+            if (oldNode.ChildReconciliationMode == ChildReconciliationMode.Self)
             {
-                var newItem = newNode.Children[newIndex];
-                var old = FindMatch(newItem, oldNode.Children, newIndex);
-
-                if (old != null)
-                {
-                    Reconcile(ref old, newItem, ref anyUpdates);
-                    children.Add(old);
-                }
-                else
-                {
-                    children.Add(newItem);
-                }
-
-                anyUpdates = childrenUpdated = true;
+                oldNode.ReconcileChildren(newNode);
             }
-
-            oldNode.Children.Clear();
-
-            foreach (var child in children)
+            else
             {
-                oldNode.Children.Add(child);
-            }
+                bool childrenUpdated = newNode.Children.Count != oldNode.Children.Count;
 
-            if (childrenUpdated)
-            {
-                oldNode.OnChildrenUpdated();
+                var children = new List<IRenderElement>();
+
+                newNode.AppContext = AppContext;
+
+                // Reorder the children in the old node so that they match the ones in the new node.
+                for (int newIndex = 0; newIndex < newNode.Children.Count; newIndex++)
+                {
+                    var newItem = newNode.Children[newIndex];
+                    var old = FindMatch(newItem, oldNode.Children, newIndex);
+
+                    if (old != null)
+                    {
+                        Reconcile(ref old, newItem, ref anyUpdates);
+                        children.Add(old);
+                    }
+                    else
+                    {
+                        anyUpdates = true;
+                        children.Add(newItem);
+                    }
+
+                    childrenUpdated |= anyUpdates;
+                }
+
+                oldNode.Children.Clear();
+
+                foreach (var child in children)
+                {
+                    oldNode.Children.Add(child);
+                }
+
+                if (childrenUpdated)
+                {
+                    oldNode.OnChildrenUpdated();
+                }
             }
         }
 
@@ -270,46 +292,45 @@ namespace AgateLib.UserInterface
             oldNode.OnWillUnmount();
         }
 
-        public IDisplaySystem DisplaySystem { get; set; }
-
-        public IRenderElement Focus
+        public bool SetFocus(IRenderElement newFocus)
         {
-            get => focus;
-            set
+            if (focus == newFocus) return false;
+            if (!newFocus.CanHaveFocus) return false;
+
+            IRenderElement oldFocus = focus;
+
+            focus = newFocus;
+
+            bool accepted = focus?.OnFocus() ?? true;
+
+            if (!accepted)
             {
-                focus?.Display.PseudoClasses.Remove("focus");
-                focus?.OnBlur();
-
-                focus = value;
-
-                focus?.Parent?.Display.ScrollTo(focus.Display);
-
-                focus?.Display.PseudoClasses.Add("focus");
-                focus?.OnFocus();
+                focus = oldFocus;
+                return false;
             }
+
+            newFocus?.Parent?.Display.ScrollTo(focus.Display);
+            newFocus?.Display.PseudoClasses.Add("focus");
+
+            oldFocus?.Display.PseudoClasses.Remove("focus");
+            oldFocus?.OnBlur();
+
+            return true;
         }
 
-        public IRenderElement TreeRoot => root;
-
-        public IStyleConfigurator Style { get; set; }
-
-        public string DefaultTheme { get; set; }
-
-        public UserInterfaceAppContext AppContext { get; internal set; }
-
-        public void Update(IUserInterfaceRenderContext renderContext, Rectangle area)
+        public void Update(IUserInterfaceRenderContext renderContext)
         {
             DebugMsg("Updating all widgets", ifDebugFlagAtLeast: 1);
 
             Walk(element =>
             {
                 element.Update(renderContext);
-                element.Style.Update(Scaling);
+                element.Style.Update(VisualScaling);
 
                 return true;
             });
 
-            DoLayout(renderContext, area);
+            DoLayout(renderContext);
 
             Walk(element =>
             {
@@ -365,17 +386,19 @@ namespace AgateLib.UserInterface
             return true;
         }
 
-        public void Draw(IUserInterfaceRenderContext renderContext, Rectangle area)
+        public void Draw(IUserInterfaceRenderContext renderContext)
         {
             DebugMsg("Drawing all widgets", ifDebugFlagAtLeast: 1, setDebugFlag: 0);
 
-            renderContext.DrawChild(area, TreeRoot);
+            renderContext.DrawChild(Config.ScreenArea, TreeRoot);
         }
 
-        public void DoLayout(IUserInterfaceLayoutContext layoutContext, Rectangle area)
+        public void DoLayout(IUserInterfaceLayoutContext layoutContext)
         {
+            Rectangle area = Config.ScreenArea;
+
             TreeRoot.Display.MarginRect = area;
-            TreeRoot.DoLayout(layoutContext, TreeRoot.Display.Region.MarginToContentOffset.Contract(area).Size);
+            TreeRoot.DoLayout(layoutContext, LayoutMath.MarginToContent(area, TreeRoot).Size);
 
             CheckForOverflow();
         }

@@ -3,7 +3,7 @@ using FluentAssertions;
 using System;
 using Xunit;
 
-namespace AgateLib.Tests.MathematicsTests.Geometry
+namespace AgateLib.Demo.MathematicsTests.Geometry
 {
     public class ColorTests
     {

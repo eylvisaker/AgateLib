@@ -72,10 +72,6 @@ namespace AgateLib.Diagnostics.CommandLibraries
             }
         }
 
-        public string Path => vocabulary.Path;
-
-        public bool IsGlobal => vocabulary.IsGlobal;
-
         /// <summary>
         /// Shows help for this library.
         /// </summary>

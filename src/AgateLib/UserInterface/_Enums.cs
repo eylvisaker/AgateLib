@@ -50,4 +50,10 @@ namespace AgateLib.UserInterface
         Y = 0x2,
         Both = 0x3,
     }
+
+    public enum ChildReconciliationMode
+    {
+        System,
+        Self,
+    }
 }

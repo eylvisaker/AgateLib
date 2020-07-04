@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using Xunit;
 
-namespace AgateLib.Tests.MathematicsTests.Geometry
+namespace AgateLib.Demo.MathematicsTests.Geometry
 {
     public class PolygonEdgeTests : PolygonUnitTest
     {

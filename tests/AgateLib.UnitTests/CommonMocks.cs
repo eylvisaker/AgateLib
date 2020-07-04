@@ -1,5 +1,5 @@
 ﻿using AgateLib.Display;
-using AgateLib.Tests.Fakes;
+using AgateLib.Demo.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Rendering;
@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using AgateLib.Mathematics.Geometry;
 
 namespace AgateLib
 {
@@ -53,6 +54,7 @@ namespace AgateLib
             var result = new Mock<IDisplaySystem>();
 
             result.Setup(x => x.Fonts).Returns(fontProvider);
+            result.Setup(x => x.DefaultFont).Returns(fontProvider.Default);
 
             return result;
         }
@@ -84,17 +86,20 @@ namespace AgateLib
             }
 
             fontProvider.SetupGet(x => x.Default).Returns(defaultFont);
+            fontProvider.Setup(x => x.GetOrDefault(It.IsAny<string>()))
+                .Returns<string>(s => fontProvider.Object[s] ?? defaultFont);
 
             return fontProvider;
         }
 
         public static Mock<IUserInterfaceRenderContext> RenderContext(IContentLayoutEngine contentLayoutEngine = null, ICanvas canvas = null)
         {
-            var styleRenderer = new Mock<IComponentStyleRenderer>();
-            var uiRenderer = new UserInterfaceRenderer(styleRenderer.Object);
-            var result = new Mock<IUserInterfaceRenderContext>();
-
             canvas = canvas ?? new FakeCanvas();
+
+            var config = new UserInterfaceConfig { ScreenArea = canvas.Coordinates };
+            var styleRenderer = new Mock<IComponentStyleRenderer>();
+            var uiRenderer = new UserInterfaceRenderer(styleRenderer.Object, config);
+            var result = new Mock<IUserInterfaceRenderContext>();
 
             result.SetupGet(x => x.UserInterfaceRenderer)
                 .Returns(uiRenderer);

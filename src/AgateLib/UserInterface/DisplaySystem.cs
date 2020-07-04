@@ -20,6 +20,7 @@
 //    SOFTWARE.
 //
 
+using AgateLib.Display;
 using Microsoft.Xna.Framework;
 using System;
 
@@ -33,11 +34,25 @@ namespace AgateLib.UserInterface
 
         IInstructions Instructions { get; }
 
+        Font DefaultFont { get; }
+
         Rectangle ScreenArea { get; }
+
+        UserInterfaceConfig Config { get; }
+
+        /// <summary>
+        /// Gets or sets the default theme.
+        /// </summary>
+        string Theme { get; set; }
+
+        /// <summary>
+        /// Gets or sets the visual scaling for the workspace.
+        /// </summary>
+        float VisualScaling { get; set; }
 
         IRenderElement ParentOf(IRenderElement element);
 
-        void SetFocus(IRenderElement newFocus);
+        bool SetFocus(IRenderElement newFocus);
 
         /// <summary>
         /// Adds a workspace to the desktop.
@@ -60,9 +75,9 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="displaySystem"></param>
         /// <param name="reference"></param>
-        public static void SetFocus(this IDisplaySystem displaySystem, ElementReference reference)
+        public static bool SetFocus(this IDisplaySystem displaySystem, ElementReference reference)
         {
-            displaySystem.SetFocus(reference.Current);
+            return displaySystem.SetFocus(reference.Current);
         }
 
         /// <summary>

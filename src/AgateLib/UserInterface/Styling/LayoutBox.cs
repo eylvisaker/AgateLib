@@ -23,6 +23,7 @@
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
+using System.Runtime.CompilerServices;
 
 namespace AgateLib.UserInterface
 {
@@ -74,6 +75,20 @@ namespace AgateLib.UserInterface
         }
 
         /// <summary>
+        /// Expands a rectangle by the layout box multiplied by the scaling factor.
+        /// </summary>
+        /// <param name="targetRect"></param>
+        /// <returns></returns>
+        public RectangleF Expand(Rectangle targetRect, float scaling)
+        {
+            return new RectangleF(
+                targetRect.X - Left * scaling,
+                targetRect.Y - Top * scaling,
+                targetRect.Width + Width * scaling,
+                targetRect.Height + Height * scaling);
+        }
+
+        /// <summary>
         /// Expands a rectangle by the layout box.
         /// </summary>
         /// <param name="targetRect"></param>
@@ -97,6 +112,20 @@ namespace AgateLib.UserInterface
                 targetRect.Y + Top,
                 targetRect.Width - Width,
                 targetRect.Height - Height);
+        }
+
+        /// <summary>
+        /// Contracts a rectangle by the layout box.
+        /// </summary>
+        /// <param name="targetRect"></param>
+        /// <returns></returns>
+        public RectangleF Contract(Rectangle targetRect, float scaling)
+        {
+            return new RectangleF(
+                targetRect.X + Left * scaling,
+                targetRect.Y + Top * scaling,
+                targetRect.Width - Width * scaling,
+                targetRect.Height - Height * scaling);
         }
 
         /// <summary>
@@ -160,5 +189,40 @@ namespace AgateLib.UserInterface
                 Bottom = topBottom,
             };
         }
+    }
+
+    public static class LayoutBoxExtensions
+    {
+        /// <summary>
+        /// Expands a rectangle by the values in the layout box.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Rectangle Expand(this Rectangle r, LayoutBox b) => b.Expand(r);
+
+        /// <summary>
+        /// Expands a rectangle by the values in the layout box.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static RectangleF Expand(this Rectangle r, LayoutBox b, float scaling) => b.Expand(r, scaling);
+
+        /// <summary>
+        /// Contracts a rectangle by the values in the layout box.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Rectangle Contract(this Rectangle r, LayoutBox b) => b.Contract(r);
+
+        /// <summary>
+        /// Contracts a rectangle by the values in the layout box.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static RectangleF Contract(this Rectangle r, LayoutBox b, float scaling) => b.Contract(r, scaling);
     }
 }

@@ -114,6 +114,15 @@ namespace AgateLib.Diagnostics
 
         public event Action ConsoleClosed;
 
+        /// <summary>
+        /// Event raised when the user types quit at the console.
+        /// </summary>
+        public event Action Quit
+        {
+            add => shell.State.Quit += value;
+            remove => shell.State.Quit -= value;
+        }
+
         public ConsoleState State => shell.State;
 
         public Keys ToggleKey { get; set; } = Keys.OemTilde;

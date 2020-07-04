@@ -68,16 +68,16 @@ namespace AgateLib.UserInterface
 
             if (Props.SourceRect != null)
             {
-                renderContext.Draw(Props.Image,
-                                   destRect,
-                                   Props.SourceRect.Value,
-                                   Props.Color);
+                renderContext.Canvas.Draw(Props.Image,
+                                          destRect,
+                                          Props.SourceRect.Value,
+                                          Props.Color);
             }
             else
             {
-                renderContext.Draw(Props.Image,
-                                   destRect,
-                                   Props.Color);
+                renderContext.Canvas.Draw(Props.Image,
+                                          destRect,
+                                          Props.Color);
             }
         }
     }

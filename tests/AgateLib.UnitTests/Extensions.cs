@@ -1,4 +1,4 @@
-﻿using AgateLib.Tests.Fakes;
+﻿using AgateLib.Demo.Fakes;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.Xna.Framework;

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Xunit;
 using MathF = AgateLib.Mathematics.MathF;
 
-namespace AgateLib.Tests.MathematicsTests.AlgorithmTests
+namespace AgateLib.Demo.MathematicsTests.AlgorithmTests
 {
     public class LineAlgorithmTests
     {

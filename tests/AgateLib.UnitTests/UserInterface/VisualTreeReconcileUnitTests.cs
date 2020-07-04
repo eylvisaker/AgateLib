@@ -126,6 +126,8 @@ namespace AgateLib.UserInterface
             var buttonB = new ElementReference();
             var buttonC = new ElementReference();
 
+            // Setup two initial windows, B and C.
+            // B will have initial focus because it is the first widget in the window that can have focus.
             var appWidget = new App(new AppProps
             {
                 Children = {
@@ -141,6 +143,7 @@ namespace AgateLib.UserInterface
             app.Current.Children.Count.Should().Be(3);
             driver.Focus.Should().Be(buttonB.Current);
 
+            // Now update the props so that B is removed. Focus should switch to C.
             appWidget.SetProps(new AppProps
             {
                 Children = {
@@ -154,8 +157,8 @@ namespace AgateLib.UserInterface
 
             b.Current.Should().NotBeNull();
 
-            app.Current.Children[1].Should().Be(c.Current, $"c should be at end, but found {app.Current.Children[1].Props.Key}");
-            driver.Focus.Should().Be(buttonC.Current, $"focus should be C, but found {driver.Focus.Props.Name}");
+            app.Current.Children[1].Should().Be(c.Current, $"c should be at end not {app.Current.Children[1].Props.Key}");
+            driver.Focus.Should().Be(buttonC.Current, $"focus should be C not {driver.Focus.Props.Name}");
         }
     }
 }

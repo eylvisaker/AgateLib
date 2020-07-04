@@ -28,7 +28,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.Fakes
+namespace AgateLib.Demo.Fakes
 {
     public class FakeFontCore : IFontCore
     {
@@ -41,6 +41,8 @@ namespace AgateLib.Tests.Fakes
         /// Gets the list of arguments passed for each call to IFontCore.DrawText.
         /// </summary>
         public List<FontDrawCall> DrawCalls { get; } = new List<FontDrawCall>();
+
+        public bool LogCalls { get; set; }
 
         public string Name { get; set; }
 
@@ -58,7 +60,7 @@ namespace AgateLib.Tests.Fakes
 
         public IReadOnlyDictionary<FontSettings, IFontTexture> FontItems => throw new NotImplementedException();
 
-        public void AddFontSurface(FontSettings settings, IFontTexture fontSurface)
+        public void AddFontTexture(FontSettings settings, IFontTexture fontSurface)
         {
             throw new NotImplementedException();
         }
@@ -139,6 +141,9 @@ namespace AgateLib.Tests.Fakes
 
         private void LogParameters(object[] parameters)
         {
+            if (!LogCalls)
+                return;
+
             foreach (var p in parameters)
             {
                 System.Console.WriteLine("    " + p);

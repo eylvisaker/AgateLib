@@ -22,6 +22,7 @@
 
 using AgateLib.Display;
 using AgateLib.Quality;
+using AgateLib.UserInterface.Styling.Themes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +91,8 @@ namespace AgateLib.UserInterface
 
         public event Action FontChanged;
 
+        public ITheme Theme => display.Theme;
+
         public void SetProps(RenderElementProps props)
         {
             this.props = props;
@@ -139,6 +142,20 @@ namespace AgateLib.UserInterface
             Size = Aggregate(p => p.Size);
             Overflow = Aggregate(p => p.Overflow) ?? default(Overflow);
 
+            if (Border?.Id != null)
+            {
+                Border.Top = Border.Top ?? new BorderSideStyle();
+                Border.Left = Border.Left ?? new BorderSideStyle();
+                Border.Right = Border.Right ?? new BorderSideStyle();
+                Border.Bottom = Border.Bottom ?? new BorderSideStyle();
+
+                var themeBorder = Theme.Model.Borders[Border.Id];
+
+                Border.Top.Width = themeBorder.SizeLayout.Top;
+                Border.Left.Width = themeBorder.SizeLayout.Left;
+                Border.Right.Width = themeBorder.SizeLayout.Right;
+                Border.Bottom.Width = themeBorder.SizeLayout.Bottom;
+            }
             if (fontChanged)
             {
                 FontChanged?.Invoke();
@@ -149,7 +166,11 @@ namespace AgateLib.UserInterface
         {
             parentCompareFont.CopyFrom(display.ParentFont);
 
-            return !parentCompareFont.Equals(parentFontProperties);
+            bool result = !parentCompareFont.Equals(parentFontProperties);
+
+            Swap(ref parentFontProperties, ref parentCompareFont);
+
+            return result;
         }
 
         private bool AggregateFont()
@@ -161,6 +182,7 @@ namespace AgateLib.UserInterface
 
             if (compareFont.IsEmpty)
             {
+                Swap(ref fontProperties, ref compareFont);
                 return SetFont(display.ParentFont);
             }
             else if (!compareFont.Equals(fontProperties) || ParentFontChanged())
@@ -198,37 +220,37 @@ namespace AgateLib.UserInterface
         /// and only create a new font object if they are different.
         /// Returns true if the font changed.
         /// </summary>
-        /// <param name="parentFont"></param>
-        private bool SetFont(Font parentFont)
+        /// <param name="newFont"></param>
+        private bool SetFont(Font newFont)
         {
-            Require.ArgumentNotNull(parentFont, nameof(parentFont));
+            Require.ArgumentNotNull(newFont, nameof(newFont));
             bool result = false;
 
-            if (font?.Core != parentFont.Core
-             || font?.Name != parentFont.Name)
+            if (font?.Core != newFont.Core
+             || font?.Name != newFont.Name)
             {
-                font = new Font(display.ParentFont);
+                font = new Font(newFont);
                 result = true;
             }
 
-            if (font.Color != parentFont.Color)
-            {
-                result = true;
-            }
-
-            if (font.Style != parentFont.Style)
+            if (font.Color != newFont.Color)
             {
                 result = true;
             }
 
-            if (font.Size != parentFont.Size)
+            if (font.Style != newFont.Style)
             {
                 result = true;
             }
 
-            font.Color = parentFont.Color;
-            font.Style = parentFont.Style;
-            font.Size = parentFont.Size;
+            if (font.Size != newFont.Size)
+            {
+                result = true;
+            }
+
+            font.Color = newFont.Color;
+            font.Style = newFont.Style;
+            font.Size = newFont.Size;
 
             return result;
         }

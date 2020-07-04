@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.MathematicsTests.Geometry.AlgorithmTests
+namespace AgateLib.Demo.MathematicsTests.Geometry.AlgorithmTests
 {
     public class LineAlgorithmTests
     {

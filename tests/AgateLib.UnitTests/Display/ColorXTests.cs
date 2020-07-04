@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.Display
+namespace AgateLib.Demo.Display
 {
     public class ColorXTests
     {

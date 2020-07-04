@@ -46,6 +46,12 @@ namespace AgateLib.UserInterface
             };
         }
 
+        /// <summary>
+        /// The Id value for a theme border. If this is specified, a theme border is used
+        /// and the rest of the properties in this object are ignored.
+        /// </summary>
+        public string Id { get; set; }
+
         public ImageSource Image { get; set; }
 
         public LayoutBox ImageSlice { get; set; }

@@ -112,11 +112,17 @@ namespace AgateLib.Display
                     break;
             }
 
-
-            foreach (EffectPass e in effect.CurrentTechnique.Passes)
+            if (effect != null)
             {
-                e.Apply();
+                foreach (EffectPass e in effect.CurrentTechnique.Passes)
+                {
+                    e.Apply();
 
+                    graphics.DrawUserPrimitives(primitiveType, vertices, 0, primitives);
+                }
+            }
+            else
+            {
                 graphics.DrawUserPrimitives(primitiveType, vertices, 0, primitives);
             }
         }
@@ -143,10 +149,17 @@ namespace AgateLib.Display
                 vertices[vindex + 2] = new VertexPositionTexture(new Vector3(polygon[i + 1].X, polygon[i + 1].Y, 0), texCoords[i + 1]);
             }
 
-            foreach (EffectPass e in effect.CurrentTechnique.Passes)
+            if (effect != null)
             {
-                e.Apply();
+                foreach (EffectPass e in effect.CurrentTechnique.Passes)
+                {
+                    e.Apply();
 
+                    graphics.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, triangles);
+                }
+            }
+            else
+            {
                 graphics.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, triangles);
             }
         }
@@ -174,11 +187,18 @@ namespace AgateLib.Display
             //	ScissorTestEnable = true,
             //};
 
-            foreach (EffectPass e in effect.CurrentTechnique.Passes)
+            if (effect != null)
             {
-                e.Apply();
+                foreach (EffectPass e in effect.CurrentTechnique.Passes)
+                {
+                    e.Apply();
 
-                //graphics.RasterizerState = state;
+                    //graphics.RasterizerState = state;
+                    graphics.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, triangles);
+                }
+            }
+            else
+            {
                 graphics.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, triangles);
             }
         }

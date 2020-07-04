@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>e96bc9ec-8f95-4965-8ffb-efd7b58c5c4a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AgateLib.Demo.Content</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\agatelogo.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\bg-bricks.png" />
+    <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\FF.atheme" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-10-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-10.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-12-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-12.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-14-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-14.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-16-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-16.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-18-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-18.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-24-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-24.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-30-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-30.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-8-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-8.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-9-Bold.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Fonts\KingthingsPetrock-9.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\KingthingsPetrock.afont" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\MessageBoxes.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Pointer.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\UserInterface\Pointer.pyxel" />
+  </ItemGroup>
+</Project>

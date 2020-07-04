@@ -6,7 +6,7 @@ using Xunit;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace AgateLib.Tests.MathematicsTests.Geometry.TypeConverters
+namespace AgateLib.Demo.MathematicsTests.Geometry.TypeConverters
 {
     public class GeometryConverterTests
     {

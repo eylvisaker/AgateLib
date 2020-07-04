@@ -1,4 +1,4 @@
-﻿using AgateLib.Tests.UserInterface.DoubleRadioMenus;
+﻿using AgateLib.Demo.UserInterface.DoubleRadioMenus;
 using FluentAssertions;
 using Microsoft.Xna.Framework.Input;
 using Xunit;

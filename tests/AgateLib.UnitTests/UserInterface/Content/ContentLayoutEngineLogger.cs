@@ -1,7 +1,7 @@
 ﻿using AgateLib.UserInterface.Content;
 using System.Collections.Generic;
 
-namespace AgateLib.Tests.UserInterface.Content
+namespace AgateLib.Demo.UserInterface.Content
 {
     public class ContentLayoutEngineLogger : IContentLayoutEngine
     {

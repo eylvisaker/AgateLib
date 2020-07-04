@@ -32,16 +32,6 @@ namespace AgateLib.Diagnostics
         IConsoleShell Shell { get; set; }
 
         /// <summary>
-        /// The path which contains the commands in this library.
-        /// </summary>
-        string Path { get; }
-
-        /// <summary>
-        /// Gets whether this library is global and can be accessed anywhere regardless of the path.
-        /// </summary>
-        bool IsGlobal { get; }
-
-        /// <summary>
         /// Called when the user enters "help" on the console. This method should
         /// write a list of commands to the console.
         /// </summary>

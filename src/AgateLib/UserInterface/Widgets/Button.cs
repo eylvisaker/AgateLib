@@ -22,6 +22,7 @@
 
 using AgateLib.Mathematics.Geometry;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -73,6 +74,8 @@ namespace AgateLib.UserInterface
         /// Adds children to the menu item. If any child components are added, the Text property is ignored.
         /// </summary>
         public List<IRenderable> Children { get; set; } = new List<IRenderable>();
+
+        public bool PlaySounds { get; set; } = true;
     }
 
     public class ButtonElement : RenderElement<ButtonElementProps>
@@ -82,7 +85,7 @@ namespace AgateLib.UserInterface
         public ButtonElement(ButtonElementProps props) : base(props)
         { }
 
-        protected override void OnReceivedAppContext()
+        protected override void OnFinalizeChildren()
         {
             if (Props.Children.Count == 1)
             {
@@ -98,6 +101,9 @@ namespace AgateLib.UserInterface
                 });
             }
 
+            AgateLib.Quality.Require.That<InvalidOperationException>(child != null,
+                "child must not be null");
+
             Children = new List<IRenderElement> { child };
         }
 
@@ -107,14 +113,21 @@ namespace AgateLib.UserInterface
         public override void OnAccept(UserInterfaceActionEventArgs args)
         {
             if (!Props.Enabled)
-            {
                 return;
-            }
 
             if (Props.OnAccept != null)
             {
-                Props.OnAccept.Invoke(EventData);
+                Props.OnAccept.Invoke(EventData.Reset(this));
                 args.Handled = true;
+
+                if (Props.PlaySounds && EventData.PlayUserInterfaceSound)
+                {
+                    Display.System.PlaySound(this, UserInterfaceSound.Accept);
+                }
+            }
+            else if (Props.PlaySounds)
+            {
+                Display.System.PlaySound(this, UserInterfaceSound.Invalid);
             }
         }
 

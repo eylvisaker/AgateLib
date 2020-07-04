@@ -27,7 +27,6 @@ namespace AgateLib.UserInterface.Rendering.Animations
         private Vector2 onParentPos;
         private float currentTime;
         private int timeSign = 1;
-        private bool initialized = false;
 
         public SlideAnimation(IReadOnlyList<string> args)
         {

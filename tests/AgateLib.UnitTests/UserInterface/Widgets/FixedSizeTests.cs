@@ -1,8 +1,9 @@
-﻿using AgateLib.Tests.UserInterface.Content;
+﻿using AgateLib.Demo.UserInterface.Content;
 using AgateLib.UserInterface.Content;
 using AgateLib.UserInterface.Styling.Themes;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
+using Moq;
 using Xunit;
 
 namespace AgateLib.UserInterface.Widgets
@@ -11,13 +12,13 @@ namespace AgateLib.UserInterface.Widgets
     {
         private ThemeStyler styleConfigurator;
         private ContentLayoutEngineLogger contentLayoutEngine;
-        private IUserInterfaceRenderContext renderContext;
+        private UserInterfaceConfig config = new UserInterfaceConfig();
 
         public FixedSizeTests()
         {
-            var themes = new ThemeCollection
+            var themes = new ThemeCollection(config)
             {
-                ["default"] = new Theme()
+                ["default"] = new Theme(Mock.Of<IContentProvider>())
             };
 
             styleConfigurator = new ThemeStyler(themes);

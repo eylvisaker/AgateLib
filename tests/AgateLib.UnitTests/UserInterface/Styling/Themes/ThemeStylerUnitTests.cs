@@ -3,18 +3,21 @@ using AgateLib.UserInterface.Styling.Themes;
 using AgateLib.UserInterface.Styling.Themes.Model;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
+using Moq;
 using Xunit;
 
-namespace AgateLib.Tests.UserInterface.Styling.Themes
+namespace AgateLib.Demo.UserInterface.Styling.Themes
 {
     public class ThemeStylerUnitTests
     {
+        private UserInterfaceConfig config = new UserInterfaceConfig();
+
         [Fact]
         public void ApplyDefaultTheme()
         {
-            ThemeCollection themes = new ThemeCollection
+            ThemeCollection themes = new ThemeCollection(config)
             {
-                ["default"] = Theme.CreateDefaultTheme(),
+                ["default"] = Theme.CreateDefaultTheme(Mock.Of<IContentProvider>()),
                 ["xyz"] = CreateTestTheme(),
             };
 
@@ -31,7 +34,7 @@ namespace AgateLib.Tests.UserInterface.Styling.Themes
 
         private ITheme CreateTestTheme()
         {
-            var data = new ThemeData
+            var stylePatterns = new ThemeStylePatternList
             {
                 new ThemeStyle
                 {
@@ -56,7 +59,7 @@ namespace AgateLib.Tests.UserInterface.Styling.Themes
                 }
             };
 
-            return new Theme(data);
+            return new Theme(Mock.Of<IContentProvider>(), new ThemeModel { Styles = stylePatterns });
         }
     }
 }

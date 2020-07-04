@@ -26,6 +26,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace AgateLib.UserInterface
@@ -73,6 +74,10 @@ namespace AgateLib.UserInterface
         bool CanHaveFocus { get; }
 
         /// <summary>
+        /// Gets whether or not the element currently has input focus.
+        /// </summary>
+        bool HasFocus { get; }
+        /// <summary>
         /// Gets whether or not the element participates in layout.
         /// </summary>
         bool ParticipateInLayout { get; }
@@ -88,11 +93,6 @@ namespace AgateLib.UserInterface
         RenderElementProps Props { get; }
 
         /// <summary>
-        /// Gets the state object for the render element.
-        /// </summary>
-        RenderElementState State { get; }
-
-        /// <summary>
         /// Used to track references by the display system.
         /// </summary>
         ElementReference Ref { get; set; }
@@ -102,16 +102,18 @@ namespace AgateLib.UserInterface
         /// </summary>
         RenderElementEvents Events { get; }
 
+        ChildReconciliationMode ChildReconciliationMode { get; }
+
         /// <summary>
         /// Draws the background and border of the element.
         /// </summary>
         /// <param name="renderContext"></param>
         /// <param name="clientDest"></param>
-        void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle clientDest);
+        void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle clientArea);
 
         /// <summary>
         /// Draws the content of the widget.
-        /// To draw children, call <c >renderContext.DrawChildren</c>.
+        /// To draw children, call <c>renderContext.DrawChildren</c>.
         /// </summary>
         /// <param name="renderContext"></param>
         /// <param name="offset"></param>
@@ -153,9 +155,9 @@ namespace AgateLib.UserInterface
         void OnBlur();
 
         /// <summary>
-        /// Called when the element gains focus.
+        /// Called when the element gains focus. If this method returns false, then the element has refused focus.
         /// </summary>
-        void OnFocus();
+        bool OnFocus();
 
         /// <summary>
         /// Called when the widget receives an input event.
@@ -187,6 +189,7 @@ namespace AgateLib.UserInterface
         /// Called by the rendering system when the collection of children is updated.
         /// </summary>
         void OnChildrenUpdated();
+        void ReconcileChildren(IRenderElement newNode);
 
         /// <summary>
         /// Called by the rendering system right before the component is removed from
@@ -210,23 +213,16 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="props"></param>
         void SetProps(RenderElementProps props);
-
-        /// <summary>
-        /// Sets the state of the render element. This must match the state type used by the render element.
-        /// </summary>
-        /// <param name="state"></param>
-        void SetState(RenderElementState state);
     }
 
-    public abstract class RenderElement<TProps> : RenderElement<TProps, RenderElementState> where TProps : RenderElementProps
+    public abstract class RenderElement<TProps> : RenderElement<TProps, object> where TProps : RenderElementProps
     {
         public RenderElement(TProps props) : base(props)
         {
         }
     }
 
-    public abstract class RenderElement<TProps, TState> : IRenderElement where TProps : RenderElementProps where TState : RenderElementState
-
+    public abstract class RenderElement<TProps, TState> : IRenderElement where TProps : RenderElementProps
     {
         public RenderElement(TProps props)
         {
@@ -250,6 +246,7 @@ namespace AgateLib.UserInterface
             Display.SetProps(props);
 
             OnReceiveProps();
+            TryFinalizeChildren();
         }
 
         #endregion
@@ -259,7 +256,6 @@ namespace AgateLib.UserInterface
         private IUserInterfaceAppContext appContext;
 
         public TState State => state;
-        RenderElementState IRenderElement.State => State;
 
         protected void ReplaceState(Func<TState, TState> stateMutator)
         {
@@ -270,6 +266,8 @@ namespace AgateLib.UserInterface
         {
             stateMutator(state);
 
+            OnReceiveState();
+
             //NeedsRender?.Invoke(this);
         }
 
@@ -277,30 +275,9 @@ namespace AgateLib.UserInterface
         {
             this.state = newState;
 
+            OnReceiveState();
+
             //NeedsRender?.Invoke(this);
-        }
-
-        void IRenderElement.SetState(RenderElementState newState)
-        {
-            if (State == null && newState == null)
-            {
-                return;
-            }
-
-            if (newState == null)
-            {
-                throw new ArgumentNullException("State should not be set to null after it has been set to a value.");
-            }
-
-            if (newState is TState typedState)
-            {
-                SetState(typedState);
-                OnReceiveState();
-            }
-            else
-            {
-                throw new ArgumentException("NewState is not correct type");
-            }
         }
 
         #endregion
@@ -319,6 +296,8 @@ namespace AgateLib.UserInterface
                 }
 
                 appContext = value;
+
+                TryFinalizeChildren();
                 OnReceivedAppContext();
             }
         }
@@ -329,12 +308,73 @@ namespace AgateLib.UserInterface
         }
 
         #endregion
-        #region --- Rendering Widgets ---
+        #region --- Rendering ---
 
         Action<IRenderable> IRenderable.NeedsRender { get => NeedsRender; set => NeedsRender = value; }
         protected Action<IRenderable> NeedsRender { get; private set; }
 
         public IRenderElement Parent => Display.System?.ParentOf(this);
+
+        public virtual void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
+        {
+            renderContext.UserInterfaceRenderer.DrawBackground(renderContext, Display, clientArea);
+            renderContext.UserInterfaceRenderer.DrawFrame(renderContext, Display, clientArea);
+        }
+
+        public abstract void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea);
+
+        /// <summary>
+        /// Draws the set of children.
+        /// </summary>
+        /// <param name="renderContext">The render context service.</param>
+        /// <param name="clientArea">The client area of the element which is the parent of the children to draw.</param>
+        /// <param name="children">The list of children to draw. If this is null, it will use the <c>Children</c> property.</param>
+        protected void DrawChildren(IUserInterfaceRenderContext renderContext,
+                                    Rectangle clientArea,
+                                    IEnumerable<IRenderElement> children = null)
+        {
+            children = children ?? Children;
+
+            renderContext.DrawChildren(clientArea, children);
+        }
+
+        /// <summary>
+        /// Draws a single child of the current element.
+        /// </summary>
+        /// <param name="renderContext">The render context service.</param>
+        /// <param name="clientArea">The client area of the element which is the parent of the child to draw.</param>
+        /// <param name="child">The child to draw.</param>
+        protected void DrawChild(IUserInterfaceRenderContext renderContext,
+                                 Rectangle clientArea,
+                                 IRenderElement child)
+        {
+            renderContext.DrawChild(clientArea, child);
+        }
+
+        #endregion
+        #region --- Handling Children ---
+
+        /// <summary>
+        /// Gets or sets the children of the render element. This should only 
+        /// be modified by the constructor of a render element.
+        /// </summary>
+        public virtual IList<IRenderElement> Children { get; protected set; }
+
+        protected virtual ChildReconciliationMode ChildReconciliationMode => ChildReconciliationMode.System;
+        ChildReconciliationMode IRenderElement.ChildReconciliationMode => ChildReconciliationMode;
+
+        protected void TryFinalizeChildren()
+        {
+            if (AppContext == null)
+                return;
+
+            OnFinalizeChildren();
+        }
+
+        /// <summary>
+        /// Called when the render element is ready to have its children finalized.
+        /// </summary>
+        protected virtual void OnFinalizeChildren() { }
 
         /// <summary>
         /// Finalizes rendering of a set of child widgets. This must not be called in the constructor
@@ -342,7 +382,7 @@ namespace AgateLib.UserInterface
         /// </summary>
         /// <param name="renderables"></param>
         /// <returns></returns>
-        protected IEnumerable<IRenderElement> Finalize(IEnumerable<IRenderable> renderables)
+        protected IEnumerable<IRenderElement> FinalizeRendering(IEnumerable<IRenderable> renderables)
         {
             Require.That(AppContext != null, "AppContext must not be null to finalize.");
 
@@ -358,9 +398,7 @@ namespace AgateLib.UserInterface
         protected IRenderElement FinalizeRendering(IRenderable renderable)
         {
             if (renderable == null)
-            {
                 return null;
-            }
 
             Require.That(AppContext != null, "AppContext must not be null to finalize.");
 
@@ -370,11 +408,17 @@ namespace AgateLib.UserInterface
         }
 
         #endregion
+        #region --- Events ---
 
         /// <summary>
         /// Gets the event container for the render element.
         /// </summary>
         public virtual RenderElementEvents Events { get; } = new RenderElementEvents();
+
+        protected UserInterfaceEvent EventData { get; }
+
+        #endregion
+        #region --- Services ---
 
         /// <summary>
         /// Gets the display object for the render element. This contains everything the
@@ -383,16 +427,13 @@ namespace AgateLib.UserInterface
         public RenderElementDisplay Display { get; }
 
         /// <summary>
-        /// Gets or sets the children of the render element. This should only 
-        /// be modified by the constructor of a render element.
-        /// </summary>
-        public virtual IList<IRenderElement> Children { get; protected set; }
-
-        /// <summary>
         /// Gets the style of the render element. This contains things like the default font for
         /// the render element.
         /// </summary>
         public IRenderElementStyle Style => Display.Style;
+
+        #endregion
+        #region --- Identification Properties ---
 
         /// <summary>
         /// Gets the type identifier of this render element.
@@ -403,46 +444,7 @@ namespace AgateLib.UserInterface
 
         public string Name => Props.Name;
 
-        /// <summary>
-        /// Gets whether or not the render element can hold input focus.
-        /// </summary>
-        public virtual bool CanHaveFocus => false;
-
-        /// <summary>
-        /// Gets whether or not the element participates in layout.
-        /// </summary>
-        public virtual bool ParticipateInLayout => true;
-
         public ElementReference Ref { get; set; }
-
-        protected UserInterfaceEvent EventData { get; }
-
-        public virtual Size CalcMinContentSize(int? widthConstraint, int? heightConstraint)
-        {
-            return new Size(1, 1);
-        }
-
-        public abstract Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize);
-
-        public abstract void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size);
-
-        public virtual void Update(IUserInterfaceRenderContext renderContext)
-        {
-            Props.OnUpdate?.Invoke(renderContext);
-        }
-
-        public virtual void DrawBackgroundAndBorder(IUserInterfaceRenderContext renderContext, Rectangle rtClientDest)
-        {
-            renderContext.UserInterfaceRenderer.DrawBackground(renderContext, Display, rtClientDest);
-            renderContext.UserInterfaceRenderer.DrawFrame(renderContext, Display, rtClientDest);
-        }
-
-        public abstract void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea);
-
-        public void DrawChildren(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
-        {
-            renderContext.DrawChildren(clientArea, Children);
-        }
 
         public override string ToString()
         {
@@ -463,8 +465,105 @@ namespace AgateLib.UserInterface
             return result.ToString();
         }
 
-        IRenderable IRenderable.Render() => this;
+        #endregion
+        #region --- Focus ---
 
+        /// <summary>
+        /// Gets whether or not the render element can hold input focus.
+        /// </summary>
+        public virtual bool CanHaveFocus => false;
+
+        public bool HasFocus { get; private set; }
+
+        /// <summary>
+        /// Called when the element loses focus.
+        /// </summary>
+        /// <remarks>
+        /// If overriding this, be sure to call base.OnBlur() so HasFocus and the Props.OnFocus event get called correctly.
+        /// </remarks>
+        public virtual void OnBlur()
+        {
+            HasFocus = false;
+            Props.OnBlur?.Invoke(EventData);
+        }
+
+        /// <summary>
+        /// Called when the element gains focus.
+        /// </summary>
+        /// <remarks>
+        /// When overriding OnFocus the element may choose to reject focus by returning false.
+        /// If the element accepts focus, then you must make sure to call either base.OnFocus() 
+        /// so HasFocus and the Props.OnFocus event get called correctly, or call Display.System.SetFocus
+        /// to shift the focus to a child control.
+        /// </remarks>
+        public virtual bool OnFocus()
+        {
+            HasFocus = true;
+            Props.OnFocus?.Invoke(EventData);
+
+            return true;
+        }
+
+        #endregion
+        #region --- Layout ---
+
+        /// <summary>
+        /// Gets whether or not the element participates in layout.
+        /// </summary>
+        public virtual bool ParticipateInLayout => true;
+
+        public virtual Size CalcMinContentSize(int? widthConstraint, int? heightConstraint)
+        {
+            return new Size(1, 1);
+        }
+
+        public abstract Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize);
+
+        public abstract void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size);
+
+        protected void DoLayoutForSingleChild(IUserInterfaceLayoutContext layoutContext, Size size, IRenderElement child)
+        {
+            child.Display.MarginRect = new Rectangle(Point.Zero, size);
+
+            var contentSize = child.Display.ContentRect.Size;
+
+            child.DoLayout(layoutContext, contentSize);
+        }
+
+        /// <summary>
+        /// Instructs each visible child to PerformLayout for its internals.
+        /// Call this method after setting the content/margin sizes for each child.
+        /// </summary>
+        /// <param name="layoutContext">The layout context service.</param>
+        /// <param name="children">The children to PerformLayout on. If this is null,
+        /// the <c>Children</c> collection will be used.</param>
+        protected void PerformLayoutForChildren(IUserInterfaceLayoutContext layoutContext, IEnumerable<IRenderElement> children = null)
+        {
+            children = children ?? Children;
+
+            foreach (var item in children.Where(x => x.Display.IsVisible))
+            {
+                item.DoLayout(layoutContext, item.Display.ContentRect.Size);
+            }
+        }
+
+        #endregion
+        #region --- Updates ---
+
+        public virtual void Update(IUserInterfaceRenderContext renderContext)
+        {
+            Props.OnUpdate?.Invoke(renderContext);
+        }
+
+        #endregion
+        #region --- Input ---
+
+        /// <summary>
+        /// Handles a user interface action.
+        /// When overriding this method, call the base method LAST to handle passing
+        /// unhandled events to the parent element.
+        /// </summary>
+        /// <param name="args"></param>
         public virtual void OnUserInterfaceAction(UserInterfaceActionEventArgs args)
         {
             if (args.Action == UserInterfaceAction.Accept)
@@ -494,43 +593,9 @@ namespace AgateLib.UserInterface
         /// <param name="args"></param>
         public virtual void OnButtonUp(ButtonStateEventArgs args) { }
 
-        public virtual void OnAccept(UserInterfaceActionEventArgs args)
-        {
-        }
+        public virtual void OnAccept(UserInterfaceActionEventArgs args) { }
 
-        public virtual void OnCancel(UserInterfaceActionEventArgs args)
-        {
-        }
-
-        #region --- Focus Events ---
-
-        public bool HasFocus { get; private set; }
-
-        /// <summary>
-        /// Called when the element loses focus.
-        /// </summary>
-        /// <remarks>
-        /// If overriding this, be sure to call base.OnBlur() so HasFocus and the Props.OnFocus event get called correctly.
-        /// </remarks>
-        public virtual void OnBlur()
-        {
-            HasFocus = false;
-            Props.OnBlur?.Invoke(EventData);
-        }
-
-        /// <summary>
-        /// Called when the element gains focus.
-        /// </summary>
-        /// <remarks>
-        /// If overriding this, be sure to call base.OnFocus() so HasFocus and the Props.OnFocus event get called correctly.
-        /// </remarks>
-        public virtual void OnFocus()
-        {
-            HasFocus = true;
-            Props.OnFocus?.Invoke(EventData);
-        }
-
-        #endregion
+        public virtual void OnCancel(UserInterfaceActionEventArgs args) { }
 
         /// <summary>
         /// Event called when a child component receives an input event it can't handle.
@@ -546,6 +611,11 @@ namespace AgateLib.UserInterface
                 Parent?.OnChildAction(this, action);
             }
         }
+
+        #endregion
+        #region --- System Events ---
+
+        IRenderable IRenderable.Render() => this;
 
         public virtual void OnWillUnmount()
         {
@@ -568,6 +638,8 @@ namespace AgateLib.UserInterface
         protected virtual void OnReceiveProps()
         {
             ReceiveRenderElementProps();
+
+            TryFinalizeChildren();
         }
 
         protected virtual void OnReceiveState()
@@ -599,18 +671,14 @@ namespace AgateLib.UserInterface
             return null;
         }
 
-        protected void DoLayoutForSingleChild(IUserInterfaceLayoutContext layoutContext, Size size, IRenderElement child)
-        {
-            child.Display.MarginRect = new Rectangle(Point.Zero, size);
-
-            var contentSize = child.Display.ContentRect.Size;
-
-            child.DoLayout(layoutContext, contentSize);
-        }
-
         void IRenderable.OnRenderResult(IRenderElement result)
         {
         }
+
+        protected virtual void ReconcileChildren(IRenderElement other) { }
+        void IRenderElement.ReconcileChildren(IRenderElement other) => ReconcileChildren(other);
+
+        #endregion
     }
 
     public class RenderElementProps
@@ -710,6 +778,23 @@ namespace AgateLib.UserInterface
         public bool Enabled { get; set; } = true;
 
         /// <summary>
+        /// Gets or sets whether UI sounds play when the user interacts with the element or navigates
+        /// within it.
+        /// </summary>
+        public bool PlaySounds { get; set; } = true;
+
+        /// <summary>
+        /// Used by the PropertiesEqual method to determine which properties to skip
+        /// when comparing.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        protected virtual bool CanDoValueComparison(PropertyInfo property)
+        {
+            return property.Name != "Children";
+        }
+
+        /// <summary>
         /// Compares two props objects to see if their property values are equal.
         /// By default, this uses reflection to check each individual property, except
         /// properties named "Children".
@@ -723,9 +808,9 @@ namespace AgateLib.UserInterface
                 return false;
             }
 
-            var properties = GetType().GetProperties();
+            PropertyInfo[] properties = GetType().GetProperties();
 
-            foreach (var prop in properties.Where(x => x.Name != "Children"))
+            foreach (PropertyInfo prop in properties.Where(x => CanDoValueComparison(x)))
             {
                 object myValue = prop.GetValue(this);
                 object otherValue = prop.GetValue(other);
@@ -750,6 +835,7 @@ namespace AgateLib.UserInterface
         }
     }
 
+    [Obsolete("This class does nothing, references to it are useless.", true)]
     public class RenderElementState
     {
 
@@ -812,6 +898,7 @@ namespace AgateLib.UserInterface
                 elementProps.StyleClass = props.StyleClass ?? elementProps.StyleClass;
                 elementProps.DefaultStyle = props.DefaultStyle ?? elementProps.DefaultStyle;
                 elementProps.Visible = props.Visible;
+                elementProps.PlaySounds = props.PlaySounds;
             }
             else
             {

@@ -23,6 +23,7 @@
 using AgateLib.Mathematics.Geometry;
 using AgateLib.UserInterface.Layout;
 using Microsoft.Xna.Framework;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -428,14 +429,16 @@ namespace AgateLib.UserInterface
         private List<IRenderElement> layoutChildren;
         private List<IRenderElement> focusChildren;
         private bool currentLayoutIsReversed;
+        private Logger log;
 
         public FlexBox(FlexBoxProps props) : base(props)
         {
+            log = LogManager.GetCurrentClassLogger();
         }
 
-        protected override void OnReceivedAppContext()
+        protected override void OnFinalizeChildren()
         {
-            Children = Finalize(Props.Children).ToList();
+            Children = FinalizeRendering(Props.Children).ToList();
             layoutChildren = Children.Where(x => x.Display.IsInLayout).ToList();
             focusChildren = Children.Where(x => CanChildHaveFocus(x)).ToList();
 
@@ -458,11 +461,7 @@ namespace AgateLib.UserInterface
         public override void DoLayout(IUserInterfaceLayoutContext layoutContext, Size size)
         {
             PerformLayout(layoutContext, size);
-
-            foreach (var item in Children.Where(x => x.Display.IsVisible))
-            {
-                item.DoLayout(layoutContext, item.Display.ContentRect.Size);
-            }
+            PerformLayoutForChildren(layoutContext);
         }
 
         public override Size CalcIdealContentSize(IUserInterfaceLayoutContext layoutContext, Size maxSize)
@@ -531,11 +530,12 @@ namespace AgateLib.UserInterface
             }
         }
 
-        public override void OnFocus()
+        public override bool OnFocus()
         {
             if (focusChildren.Count == 0)
             {
-                throw new InvalidOperationException("Cannot set focus to FlexBox with no focusable children.");
+                log.Warn($"{Name}: Cannot set focus to FlexBox with no focusable children.");
+                return false;
             }
 
             if (FocusIndex >= focusChildren.Count)
@@ -544,6 +544,8 @@ namespace AgateLib.UserInterface
             }
 
             Display.System.SetFocus(focusChildren[FocusIndex]);
+
+            return true;
         }
 
         public override void Draw(IUserInterfaceRenderContext renderContext, Rectangle clientArea)
@@ -588,7 +590,11 @@ namespace AgateLib.UserInterface
 
             FocusIndex = newIndex;
 
-            Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            if (Props.PlaySounds)
+            {
+                Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            }
+
             Display.System.SetFocus(focusChildren[newIndex]);
 
             return true;
@@ -611,7 +617,11 @@ namespace AgateLib.UserInterface
 
             FocusIndex = newIndex;
 
-            Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            if (Props.PlaySounds)
+            {
+                Display.System.PlaySound(this, UserInterfaceSound.Navigate);
+            }
+
             Display.System.SetFocus(focusChildren[newIndex]);
 
             return true;
@@ -629,8 +639,7 @@ namespace AgateLib.UserInterface
         public override void OnChildAction(IRenderElement child, UserInterfaceActionEventArgs action)
         {
             bool moved = false;
-            int FocusIndex = focusChildren.IndexOf(child);
-            var button = action.Action;
+            UserInterfaceAction button = action.Action;
 
             if (Direction == FlexDirection.Column || Direction == FlexDirection.ColumnReverse)
             {

@@ -22,6 +22,7 @@
 
 using AgateLib.Display;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Styling.Themes;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
@@ -154,7 +155,7 @@ namespace AgateLib.UserInterface
         public List<RenderElementStyleProperties> ElementStyles { get; }
             = new List<RenderElementStyleProperties>();
 
-        public Font ParentFont => Parent?.Style.Font ?? Fonts.Default;
+        public Font ParentFont => Parent?.Style.Font ?? System.DefaultFont;
 
         public IFontProvider Fonts => System.Fonts;
 
@@ -220,6 +221,10 @@ namespace AgateLib.UserInterface
                                          && Style.Overflow != Overflow.Visible);
 
         public RenderElementDisplay Parent { get; internal set; }
+
+        public float VisualScaling => System.VisualScaling;
+
+        public ITheme Theme { get; set; }
 
         public override string ToString() => $"Margin: {MarginRect}, Content: {ContentRect}";
 

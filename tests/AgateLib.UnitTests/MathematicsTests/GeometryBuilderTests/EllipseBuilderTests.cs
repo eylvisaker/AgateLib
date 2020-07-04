@@ -4,7 +4,7 @@ using FluentAssertions;
 using Microsoft.Xna.Framework;
 using Xunit;
 
-namespace AgateLib.Tests.MathematicsTests.GeometryBuilderTests
+namespace AgateLib.Demo.MathematicsTests.GeometryBuilderTests
 {
     public class EllipseBuilderTests
     {

@@ -1,6 +1,7 @@
 ﻿using AgateLib.UserInterface.Styling.Themes;
 using FluentAssertions;
 using Microsoft.Xna.Framework;
+using Moq;
 using System;
 using System.Linq;
 using Xunit;
@@ -11,12 +12,15 @@ namespace AgateLib.UserInterface.Widgets
     {
         private ThemeStyler styleConfigurator;
         private IUserInterfaceRenderContext renderContext = CommonMocks.RenderContext().Object;
+        private UserInterfaceConfig config = new UserInterfaceConfig();
 
         public FlexBoxTest()
         {
-            var themes = new ThemeCollection
+            var content = Mock.Of<IContentProvider>();
+
+            var themes = new ThemeCollection(config)
             {
-                ["default"] = new Theme()
+                ["default"] = new Theme(content)
             };
 
             styleConfigurator = new ThemeStyler(themes);
