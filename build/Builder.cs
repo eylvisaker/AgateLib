@@ -82,6 +82,7 @@ class Builder : NukeBuild
             DotNetTest(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration("Test")
+                .SetLogger("nunit;LogFilePath=" + ArtifactsDirectory / $"tests/UnitTests-{Version}.xml")
                 .EnableNoRestore());
         });
 
