@@ -40,7 +40,7 @@ class Builder : NukeBuild
             string version = System.IO.File.ReadAllText("version.info");
             version += "." + BuildNumber.ToString();
 
-            if (!string.IsNullOrWhiteSpace(BranchName) && BranchName != "master")
+            if (!string.IsNullOrWhiteSpace(BranchName) && BranchName != "main")
             {
                 version += "-" + BranchName.Replace("/", "-");
             }
@@ -122,6 +122,11 @@ class Builder : NukeBuild
                 .SetVersion(Version)
                 .SetConfiguration("Release_WindowsDX")
                 .SetProject("src/AgateLib/AgateLib.csproj"));
+                
+            DotNetPack(s => s
+                .SetVersion(Version)
+                .SetConfiguration("Release_Android")
+                .SetProject("src/AgateLib/AgateLib.csproj"));
         });
 
     #region --- Publish ---
@@ -155,7 +160,7 @@ class Builder : NukeBuild
     readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
 
     #endregion
-    
+
     // Target Build_Android => _ => _
     //     .DependsOn(Test)
     //     .Executes(() =>

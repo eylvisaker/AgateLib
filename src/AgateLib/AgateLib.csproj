@@ -2,6 +2,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Configurations>Debug;Release_DesktopGL;Release_WindowsDX;Release_Android</Configurations>
+    <VersionPrefix>3.0.0</VersionPrefix>
+    <VersionSuffix>debug</VersionSuffix>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration) == 'Release_DesktopGL'" >
+    <PackageId>AgateLib.DesktopGL</PackageId>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration) == 'Release_WindowsDX'" >
+    <PackageId>AgateLib.WindowsDX</PackageId>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration) == 'Release_Android'" >
+    <PackageId>AgateLib.Android</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1375-develop">

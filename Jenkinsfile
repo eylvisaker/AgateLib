@@ -33,6 +33,11 @@ pipeline {
                 powershell './build.ps1 Pack -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
             }
         }
+        stage('Publish') {
+            steps {
+                powershell './build.ps1 Publish -nugetapikey $env:NUGET_APIKEY -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
+            }
+        }
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: 'artifacts/**'
