@@ -1,16 +1,16 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9E095F03-BA3F-4EAD-A905-2A2647CE4405}</ProjectGuid>
+    <ProjectGuid>{00C7FA95-98F4-43D9-9B63-34122B1DB003}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>AgateOTK</AssemblyName>
+    <AssemblyName>AgateSDL</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -19,11 +19,14 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>AgateOTK</RootNamespace>
+    <RootNamespace>AgateSDL</RootNamespace>
     <StartupObject>
     </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -102,139 +105,78 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK">
-      <Name>OpenTK</Name>
-      <HintPath>.\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
     <Reference Include="System.Core">
       <Name>System.Core</Name>
     </Reference>
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
-    </Reference>
     <Reference Include="System.Xml">
       <Name>System.Xml</Name>
-    </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
       <Name>AgateLib.WinForms</Name>
+      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenTK.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <Compile Include="AL_Audio.cs">
+    <Compile Include="Reporter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GL3\FrameBuffer.cs" />
-    <Compile Include="GL3\DrawBuffer.cs" />
-    <Compile Include="GL3\GLVertexBuffer.cs" />
-    <Compile Include="GL3\GLPrimitiveRenderer.cs" />
-    <Compile Include="GL3\Shaders\IGL3Shader.cs" />
-    <Compile Include="GL3\Shaders\ShaderSources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShaderSources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="ContextFB.cs" />
-    <Compile Include="frmFullScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmFullScreen.Designer.cs">
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
+    <Compile Include="Audio\SDL_Audio.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GeoHelper.cs" />
-    <Compile Include="GLDrawBuffer.cs">
+    <Compile Include="Audio\SDL_Music.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Legacy\LegacyDrawBuffer.cs" />
-    <Compile Include="Legacy\LegacyPrimitiveRenderer.cs" />
-    <Compile Include="PrimitiveRenderer.cs" />
-    <Compile Include="GL3\Shaders\ShaderFactory3.cs" />
-    <Compile Include="GL3\Shaders\GL3_Basic2DShader.cs" />
-    <Compile Include="GL3\Shaders\GlslFragmentProgram.cs">
+    <Compile Include="Audio\SDL_SoundBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GL3\Shaders\GlslShader.cs">
+    <Compile Include="Audio\SDL_SoundBufferSession.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GL3\Shaders\GlslShaderCompiler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GL3\Shaders\GlslVertexProgram.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GL_Display.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GL_DisplayControl.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Legacy\FrameBufferExt.cs" />
-    <Compile Include="GL_GameWindow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GL_IndexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GL_Surface.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Legacy\LegacyVertexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Legacy\FrameBufferReadPixels.cs" />
-    <Compile Include="Otk_Reporter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GL_FrameBuffer.cs" />
-    <Compile Include="Legacy\FixedFunction\FixedFunctionShaderFactory.cs" />
-    <Compile Include="Legacy\FixedFunction\OTK_FF_Basic2DShader.cs" />
-    <Compile Include="Legacy\FixedFunction\OTK_FF_Lighting3D.cs" />
-    <Compile Include="Legacy\FixedFunction\OTK_FF_Lighting2D.cs" />
-    <Compile Include="ShaderFactory.cs" />
-    <Compile Include="TextureCoordinates.cs">
+    <Compile Include="Input\SDL_Input.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="frmFullScreen.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GL3\Shaders\ShaderSources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>ShaderSources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="OpenTK.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="OpenTK.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Resources\Basic2D_pixel.txt" />
-    <None Include="Resources\Basic2D_vert.txt" />
+    <Compile Include="Tao.Sdl\Sdl.cs" />
+    <Compile Include="Tao.Sdl\SdlGfx.cs" />
+    <Compile Include="Tao.Sdl\SdlMixer.cs" />
+    <Compile Include="Tao.Sdl\Smpeg.cs" />
+    <None Include="AgateSDL.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SDL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SDL_mixer.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="libogg-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="libvorbis-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="libvorbisfile-3.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Readme-SDL.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Tao.Sdl\AUTHORS" />
+    <None Include="Tao.Sdl\COPYING" />
+    <None Include="Tao.Sdl\README" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
